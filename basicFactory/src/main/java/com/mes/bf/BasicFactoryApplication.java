@@ -15,7 +15,7 @@ public class BasicFactoryApplication {
 	
 	@RequestMapping("/")
 	String home() {
-		//dev
+		//master
 		return "Hello World!";
 	}
 	@RequestMapping("/test")
