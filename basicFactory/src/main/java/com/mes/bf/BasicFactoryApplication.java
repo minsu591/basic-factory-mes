@@ -18,5 +18,10 @@ public class BasicFactoryApplication {
 		//master
 		return "Hello World!";
 	}
+	
+	@RequestMapping("/test")
+	String test() {
+		return "future test";
+	}
 
 }
