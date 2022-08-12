@@ -15,6 +15,7 @@ public class BasicFactoryApplication {
 	
 	@RequestMapping("/")
 	String home() {
+		//hihi
 		return "Hello World!";
 	}
 
