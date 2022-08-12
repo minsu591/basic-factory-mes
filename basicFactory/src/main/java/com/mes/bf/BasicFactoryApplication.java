@@ -18,5 +18,9 @@ public class BasicFactoryApplication {
 		//dev
 		return "Hello World!";
 	}
+	@RequestMapping("/test")
+	String test() {
+		return "future test";
+	}
 
 }
