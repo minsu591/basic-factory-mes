@@ -7,7 +7,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class ProcController {
 
-	
 	//공정실적 조회페이지 이동
 	@RequestMapping("/proc")
 	public ModelAndView proc() {

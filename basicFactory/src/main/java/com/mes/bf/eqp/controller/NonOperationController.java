@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class NonOperationController {
 
+	
 	//비가동조회페이지 이동
 	@RequestMapping("/nonOperation")
 	public ModelAndView nonOperation() {
