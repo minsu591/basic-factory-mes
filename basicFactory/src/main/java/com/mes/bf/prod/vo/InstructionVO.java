@@ -6,7 +6,6 @@ import lombok.Data;
 //생산지시
 @Data
 public class InstructionVO {
-
 	private Integer instNo; //생산지시번
 	private String empId; //직원아이디 
 	private String instName; //생산지시명 

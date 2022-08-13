@@ -5,7 +5,6 @@ import lombok.Data;
 //공정
 @Data
 public class ProcessVO {
-
 	private Integer processNo;
 	private Integer instProdNo;
 	private Integer processOrder;

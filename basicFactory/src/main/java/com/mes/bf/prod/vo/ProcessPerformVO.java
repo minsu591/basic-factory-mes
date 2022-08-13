@@ -7,7 +7,6 @@ import lombok.Data;
 //공정실적
 @Data
 public class ProcessPerformVO {
-
 	private Integer processPerformNo;
 	private Integer processNo;
 	private Integer prodVol;
