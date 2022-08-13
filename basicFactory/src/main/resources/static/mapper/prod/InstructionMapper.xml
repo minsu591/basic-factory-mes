@@ -4,4 +4,11 @@
 
 
 
+<select id="getInst" resultType="com.mes.bf.prod.vo.InstructionVO">
+	
+SELECT * FROM BF_PROD_INSTRUCTION
+
+</select>
+
+
 </mapper>

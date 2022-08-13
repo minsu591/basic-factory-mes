@@ -12,7 +12,7 @@ public class InstructionController {
 
 	
 	@Autowired
-	private InstructionService service;
+	//private InstructionService service;
 	
 	//생산 지시 조회페이지 이동
 	@RequestMapping("/inst")
