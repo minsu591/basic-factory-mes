@@ -7,9 +7,78 @@
 <meta charset="UTF-8">
 </head>  
 <body>
+<script type="text/javascript" th:src="@{/js/prod/Instruction.js}"></script>
+<link th:href="@{/css/prod/Instruction.css}" rel="stylesheet" />
 
   <div class="pcoded-main-container">
   	<h1>생산 지시 조회 </h1>
+  	<hr>
+  	<div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        
+                        <form class="form-inline">
+                            <div class="form-group mt-3">
+                                <label for="instdate">지시일자</label>
+                                <input type="date" id="instsdate" class="form-control mx-sm-3"> ~
+                                <input type="date" id="instedate" class="form-control mx-sm-3">
+                            </div>
+                            <br><br>
+                             <div class="form-group mt-3">
+                                <label for="instdate">거래처</label>
+                                <input type="text" id="instsdate" class="form-control mx-sm-3">
+                                <label for="instdate">거래처명</label>
+                                <input type="text" id="instedate" class="form-control mx-sm-3" readonly>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="product">제품명</label>
+                                <input type="text" id="product" class="form-control mx-sm-3">                       
+                            </div>
+                            <button type="submit" class="btn  btn-primary">조회</button>
+                        </form>
+            
+                    </div>
+                    <div class="card-body table-border-style">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>지시일자</th>
+                                        <th>지시번호</th>
+                                        <th>거래처명</th>
+                                        <th>제품명</th>
+                                        <th>주문코드</th>
+                                        <th>납기일자</th>
+                                        <th>주문량</th>
+                                        <th>지시량</th>
+                                        <th>작업구분</th>
+                                        <th>공정작업일자</th>
+                                        <th>비고</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2022-07-25</td>
+                                        <td>JISI001</td>
+                                        <td>emart</td>
+                                        <td>PRODUCT</td>
+                                        <td>짜파게티</td>
+                                        <td>2022-07-02</td>
+                                        
+                                        <td>10,000</td>
+                                        <td>3,000</td>
+                                        <td>진행전</td>
+                                        <td>2022-07-22</td>
+                                        <td> </td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+  	
   </div>
   </body>
 </html>
