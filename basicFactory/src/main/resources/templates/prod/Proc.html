@@ -7,10 +7,161 @@
 <meta charset="UTF-8">
 </head>  
 <body>
+<script type="text/javascript" th:src="@{/js/prod/Proc.js}"></script>
+<link th:href="@{/css/prod/Proc.css}" rel="stylesheet" />
   
   
   <div class="pcoded-main-container">
   	<h1>공정 실적 조회</h1>
+  	<hr>
+  	<div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        
+                        <form class="form-inline">
+                            <div class="form-group mt-3">
+                                <label for="instdate">작업일자</label>
+                                <input type="date" id="worksdate" class="form-control mx-sm-3"> ~
+                                <input type="date" id="workedate" class="form-control mx-sm-3">
+                            </div>
+                            <br><br>
+                             <div class="form-group mt-3">
+                                <label for="proccdname">공정명</label>
+                                <input type="text" id="proccdname" class="form-control mx-sm-3"
+                                 data-toggle="modal" data-target=".bd-example-modal-lg">
+                                <label for="mchnname">설비명</label>
+                                <input type="text" id="mchnname" class="form-control mx-sm-3">
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="worker">작업자</label>
+                                <input type="text" id="worker" class="form-control mx-sm-3">                       
+                            </div>
+                            <button type="submit" class="btn  btn-primary">조회</button>
+                        </form>
+            
+                    </div>
+                    <div class="card-body table-border-style">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th th:text="생산지시번호"></th>
+                                        <th th:text="작업번호"></th>
+                                        <th th:text="제품코드"></th>
+                                        <th th:text="제품명"></th>
+                                        <th th:text="공정명"></th>
+                                        <th th:text="설비명"></th>
+                                        <th th:text="작업자"></th>
+                                        <th th:text="작업량"></th>
+                                        <th th:text="불량량"></th>
+                                        <th th:text="비고"></th>                               
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td th:text="JISI01"></td>
+                                        <td th:text="work01"></td>
+                                        <td th:text="PROUCT1"></td>
+                                        <td th:text="짜파게티"></td>
+                                        <td th:text="반죽공정"></td>
+                                        <td th:text="반죽기1호"></td>                                      
+                                        <td th:text="김종혁"></td>
+                                        <td th:text="500"></td>
+                                        <td th:text="10"></td>
+                                        <td th:text="비고"></td>
+                                        
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
   </div>
+  
+  
+   <!-- Modal -->
+<div class="modal fade" id="findProcCdNameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="findProcCdNameModalLabel">공정 검색</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <th:block th:replace="~{/fragments/modal/findProcCdName :: findProcCdName}"></th:block>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+  
+     <!-- Modal -->
+<div class="modal fade" id="findMchnNameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="findMchnNameModalLabel">설비 검색</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <th:block th:replace="~{/fragments/modal/findMchnName :: findMchnName}"></th:block>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+  
+  
+  
+  
+  
+  
+    <!-- Modal -->
+<div class="modal fade" id="findempModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="findempModalLabel">담당자 검색</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   </body>
 </html>
