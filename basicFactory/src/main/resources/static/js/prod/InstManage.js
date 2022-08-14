@@ -1,13 +1,13 @@
 $(document).ready(function(){
 	
-	
+	console.log("ㅓㄴ?");
 
 
-$('#vendor').click(function(e){
+$('#empid').click(function(e){
 console.log('클릭');
 e.preventDefault();
 
-$('#exampleModal').modal("show");
+$('#findempModal').modal("show");
 });
 	
 	

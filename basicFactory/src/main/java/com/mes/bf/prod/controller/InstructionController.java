@@ -29,7 +29,12 @@ public class InstructionController {
 	
 	
 	
-	
+	//모달테스이동
+		@RequestMapping("/modal")
+		public ModelAndView modal() {
+			ModelAndView mav = new ModelAndView("prod/modaltest");
+			return mav;
+		}
 	
 	
 	
