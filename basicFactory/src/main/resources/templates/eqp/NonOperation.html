@@ -7,9 +7,76 @@
 <meta charset="UTF-8">
 </head>  
 <body>
-
+<script type="text/javascript" th:src="@{/js/eqp/NonOperation.js}"></script>
+<link th:href="@{/css/eqp/NonOperation.css}" rel="stylesheet" />
   <div class="pcoded-main-container">
   	<h1>설비 비가동 조회</h1>
+  	
+  	<hr>
+  	<div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        
+                        <form class="form-inline">
+                            <div class="form-group mt-3">
+                                <label for="instdate">해당일자</label>
+                                <input type="date" id="sdate" class="form-control mx-sm-3"> ~
+                                <input type="date" id="edate" class="form-control mx-sm-3">
+                            </div>
+                            <br><br>
+                             <div class="form-group mt-3">
+                                <label for="mchnCode">설비코드</label>
+                                <input type="text" id="mchnCode" class="form-control mx-sm-3"
+                                 data-toggle="modal" data-target=".bd-example-modal-lg">
+                                <label for="nonOpCode">비가동코드</label>
+                                <input type="text" id="nonOpCode" class="form-control mx-sm-3" readonly>
+                            </div>
+                            <button type="submit" class="btn  btn-primary">조회</button>
+                        </form>
+            
+                    </div>
+                    <div class="card-body table-border-style">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th th:text="설비코드"></th>
+                                        <th th:text="설비명"></th>
+                                        <th th:text="해당일자"></th>
+                                        <th th:text="비가동명"></th>
+                                        <th th:text="작업내용"></th>
+                                        <th th:text="비가동시간(MIN)"></th>
+                                        <th th:text="시작시간"></th>
+                                        <th th:text="종료시간"></th>
+                                        <th th:text="비고"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td th:text="eqp01"></td>
+                                        <td th:text="반죽기1호기"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>2022-07-22</td>
+                                        <td> </td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+  			</div>
+  	
+  	
+  	
+  	
+  	
   </div>
   </body>
 </html>
