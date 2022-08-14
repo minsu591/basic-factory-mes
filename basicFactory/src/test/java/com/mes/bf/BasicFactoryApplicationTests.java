@@ -13,7 +13,6 @@ import com.mes.bf.prod.vo.EmpTestVO;
 class BasicFactoryApplicationTests {
 
 	@Autowired EmpTestService service;
-	
 	@Test
 	void contextLoads() {
 		List<EmpTestVO> list = service.findAll();
