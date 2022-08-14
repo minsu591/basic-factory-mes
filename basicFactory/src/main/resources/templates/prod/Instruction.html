@@ -25,15 +25,15 @@
                             </div>
                             <br><br>
                              <div class="form-group mt-3">
-                                <label for="instdate">거래처</label>
+                                <label for="vendor">거래처</label>
                                 <input type="text" id="vendor" class="form-control mx-sm-3"
                                  data-toggle="modal" data-target=".bd-example-modal-lg">
-                                <label for="instdate">거래처명</label>
+                                <label for="vendername">거래처명</label>
                                 <input type="text" id="vendorname" class="form-control mx-sm-3" readonly>
                             </div>
                             <div class="form-group mt-3">
-                                <label for="product">제품명</label>
-                                <input type="text" id="product" class="form-control mx-sm-3">                       
+                                <label for="productname">제품명</label>
+                                <input type="text" id="productname" class="form-control mx-sm-3">                       
                             </div>
                             <button type="submit" class="btn  btn-primary">조회</button>
                         </form>
@@ -83,11 +83,11 @@
   
   
   <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="findvendorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">거래처 코드 검색</h5>
+        <h5 class="modal-title" id="findvendorModalLabel">거래처 코드 검색</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -103,7 +103,26 @@
   </div>
 </div>
   
-  
+  <!-- Modal -->
+  <div class="modal fade" id="findproductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="findproductModalLabel">제품코드 검색</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
   
   
   
