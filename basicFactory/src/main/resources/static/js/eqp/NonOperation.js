@@ -1,10 +1,19 @@
 $(document).ready(function() {
 
-	$('#vendor').click(function(e) {
+	$('#nonOpCode').click(function(e) {
 		console.log('클릭');
 		e.preventDefault();
 
-		$('#findvendorModal').modal("show");
+		$('#findnonOpCodeModal').modal("show");
 	});
 
+	$('#mchnCode').click(function(e) {
+		console.log('클릭');
+		e.preventDefault();
+
+		$('#findMchnNameModal').modal("show");
+	});
+	
+	
+	
 });
