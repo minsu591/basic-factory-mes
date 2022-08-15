@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.prod.mapper.InstructionMapper">
+
+
+
+<select id="getInst" resultType="com.mes.bf.prod.vo.InstructionVO">
+	
+SELECT * FROM BF_PROD_INSTRUCTION
+
+</select>
+
+
+</mapper>

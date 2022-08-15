@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+</head>  
+<body>
+<script type="text/javascript" th:src="@{/js/prod/Packing.js}"></script>
+<link th:href="@{/css/prod/Packing.css}" rel="stylesheet" /> 
+    
+  
+  <div class="pcoded-main-container">
+  	<h1>포장 관리</h1>
+  	<hr>
+  	<div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        
+                        <form class="form-inline">
+                            <div class="form-group mt-3">
+                                <label for="instdate">작업일자</label>
+                                <input type="date" id="worksdate" class="form-control mx-sm-3">                                
+                            </div>
+                            <br><br>                        
+                            <div class="form-group mt-3">
+                                <label for="finprdcdcode">제품코드</label>
+                                <input type="text" id="finprdcdcode" class="form-control mx-sm-3">                       
+                            </div>
+                            <button type="submit" class="btn  btn-primary">조회</button>
+                        </form>
+            
+                    </div>
+                    <div class="card-body table-border-style">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox"></th>
+                                        <th th:text="제품코드"></th>
+                                        <th th:text="제품명"></th>
+                                        <th th:text="입고량"></th>
+                                        <th th:text="단위"></th>
+                                        <th th:text="생산일시"></th>
+                                        <th th:text="비고"></th>                                      
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                    	<th><input type="checkbox"></th>
+                                        <td th:text="PROUCT1"></td>
+                                        <td th:text="짜파게티"></td>
+                                        <td th:text="500"></td>
+                                        <td th:text="EA"></td>                                      
+                                        <td th:text="2022-08-14"></td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+  </div>
+  
+   <!-- Modal -->
+<div class="modal fade" id="findproductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="findproductModalLabel">제품 코드 검색</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+  
+  
+</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </body>
+</html>
