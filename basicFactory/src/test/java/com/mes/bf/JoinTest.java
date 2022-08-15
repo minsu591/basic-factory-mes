@@ -6,23 +6,25 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mes.bf.prod.service.EmpTestService;
+import com.mes.bf.prod.service.InstManageService;
 import com.mes.bf.prod.vo.FindEmpVO;
 
 @SpringBootTest
-class BasicFactoryApplicationTests {
+public class JoinTest {
 
 	
-	@Autowired EmpTestService service;
+	@Autowired InstManageService service;
+	
+	
 	@Test
-	void contextLoads() {
-		List<FindEmpVO> list = service.findAll();
+	void findEmp() {
+		
+		List<FindEmpVO> list = service.findEmp();
 		
 		for(int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i));
+			System.out.println(list.get(i).toString());
 		}
+		
 	}
 	
-	
-
 }

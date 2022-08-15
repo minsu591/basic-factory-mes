@@ -1,4 +1,4 @@
-package com.mes.bf.prod.vo;
+package com.mes.bf.cmn.vo;
 
 import org.apache.ibatis.type.Alias;
 
@@ -6,14 +6,15 @@ import lombok.Data;
 
 @Data
 @Alias("emp")
-public class EmpTestVO {
+public class EmpVO {
 
 	private String empId;
-	private Integer deptNo;
+	private int deptNo;
 	private String empPw;
 	private String empName;
 	private String empEmail;
-	private String empPhone;
-	private String auth;
+	private String phone;
+	private String empAuth;
+	
 	
 }
