@@ -12,6 +12,7 @@ import com.mes.bf.prod.vo.EmpTestVO;
 @SpringBootTest
 class BasicFactoryApplicationTests {
 
+	
 	@Autowired EmpTestService service;
 	@Test
 	void contextLoads() {
