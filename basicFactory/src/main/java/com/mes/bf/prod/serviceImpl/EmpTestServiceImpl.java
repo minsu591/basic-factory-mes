@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.mes.bf.prod.mapper.EmpTestMapper;
 import com.mes.bf.prod.service.EmpTestService;
-import com.mes.bf.prod.vo.EmpTestVO;
+import com.mes.bf.prod.vo.FindEmpVO;
 @Service
 public class EmpTestServiceImpl implements EmpTestService {
 
 	@Autowired EmpTestMapper mapper;
 	
 	@Override
-	public List<EmpTestVO> findAll() {
+	public List<FindEmpVO> findAll() {
 		return mapper.findAll();
 	}
 

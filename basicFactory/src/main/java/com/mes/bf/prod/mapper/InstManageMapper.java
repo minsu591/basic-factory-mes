@@ -7,7 +7,9 @@ import org.apache.ibatis.annotations.Mapper;
 import com.mes.bf.prod.vo.FindEmpVO;
 
 @Mapper
-public interface EmpTestMapper {
+public interface InstManageMapper {
 
-	List<FindEmpVO> findAll();
+	//담당자 검색
+	List<FindEmpVO> findEmp();
+	
 }
