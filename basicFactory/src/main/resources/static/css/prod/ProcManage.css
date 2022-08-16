@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+h1 {
+	margin-top : 2%;
+	margin-left : 2%;
+	margin-bottom : 2%;
+}
+
+button {
+	margin-top: 1%;
+}
+
+.modal-fullsize {
+  width: 90%;
+  height: 90%;
+ /* margin: 0; */
+  padding: 0;
+}
+
+.modal-fullsize {
+	height: auto;
+	min-height: 100%;
+	border-radius: 0;
+}
+
+.headerbtn {
+	justify-content:flex-end;
+	
+}
+
+
+
+
+@media (min-width: 576px) {
+	.modal-fullsize {
+	max-width: 300%;
+	margin: 1.75rem auto;
+	}
+}
+
+.time {
+	width:10% !important;
+}
+
+#workStateTable th {
+	
+	background : #f6f6f6;
+}
+
+
+#fltyCnt {
+	padding: 0;
+	text-align: center;
+}

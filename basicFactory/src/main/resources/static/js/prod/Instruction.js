@@ -25,6 +25,7 @@ $(document).ready(function () {
           console.log(data);
 
           let index = 0;
+          $("#findProducttbody tr").remove();
           for (obj of data) {
             index += 1;
             makeRow(obj, index);
@@ -72,7 +73,7 @@ $(document).ready(function () {
             let index = 0;
             index += 1;
             $("#findProducttbody tr").remove();
-            makeRow(obj, index);
+            makeRow(data, index);
           },
         });
       }
@@ -80,7 +81,7 @@ $(document).ready(function () {
       //코드만 검색
       function findProductCode(code) {
         $.ajax({
-          url: `findProduct/${code}`,
+          url: `findProduct/code/${code}`,
           method: "GET",
           contentType: "application/json;charset=utf-8",
           dataType: "json",
@@ -93,7 +94,7 @@ $(document).ready(function () {
             let index = 0;
             index += 1;
             $("#findProducttbody tr").remove();
-            makeRow(obj, index);
+            makeRow(data, index);
           },
         });
       }
