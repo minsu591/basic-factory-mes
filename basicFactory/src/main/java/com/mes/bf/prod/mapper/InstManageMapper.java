@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.mes.bf.cmn.vo.EmpVO;
 import com.mes.bf.prod.vo.FindEmpVO;
 
 @Mapper
@@ -11,5 +12,7 @@ public interface InstManageMapper {
 
 	//담당자 검색
 	List<FindEmpVO> findEmp();
+	//이름으로 검색
+	FindEmpVO findEmpName(String empName);
 	
 }
