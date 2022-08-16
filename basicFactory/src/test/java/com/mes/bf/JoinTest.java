@@ -16,7 +16,7 @@ public class JoinTest {
 	@Autowired InstManageService service;
 	
 	
-	@Test
+	//@Test
 	void findEmp() {
 		
 		List<FindEmpVO> list = service.findEmp();
@@ -26,5 +26,14 @@ public class JoinTest {
 		}
 		
 	}
+	
+	@Test
+	void findEmpName() {
+		
+	System.out.println(service.findEmpName("defty"));
+	}
+	
+	
+	
 	
 }

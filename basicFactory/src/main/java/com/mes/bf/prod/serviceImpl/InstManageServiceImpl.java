@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mes.bf.cmn.vo.EmpVO;
 import com.mes.bf.prod.mapper.InstManageMapper;
 import com.mes.bf.prod.service.InstManageService;
 import com.mes.bf.prod.vo.FindEmpVO;
@@ -18,6 +19,11 @@ public class InstManageServiceImpl implements InstManageService {
 	@Override
 	public List<FindEmpVO> findEmp() {
 		return mapper.findEmp();
+	}
+
+	@Override
+	public FindEmpVO findEmpName(String empName) {
+		return mapper.findEmpName(empName);
 	}
 
 }

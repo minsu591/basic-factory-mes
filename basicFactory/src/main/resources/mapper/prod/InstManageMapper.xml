@@ -35,6 +35,14 @@ SELECT *
 </select>
 
 
+<select id="findEmpName" resultMap="FindEmpVO">
+
+SELECT *
+  FROM BF_CMN_EMP e JOIN bf_cmn_dept d
+    ON e.dept_no = d.dept_no
+WHERE LOWER(e.emp_name) like '%' ||#{empName}||'%'
+
+</select>
 
 
 

@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 @Alias("findemp")
 public class FindEmpVO {
-
+	
 	private EmpVO empvo;
 	private DeptVO deptvo;
 	
