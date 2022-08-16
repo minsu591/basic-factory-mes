@@ -8,7 +8,7 @@
 </head>  
 <body>
 <script type="text/javascript" th:src="@{/js/prod/ProcManage.js}"></script>
-<link th:href="@{/css/prod/Proc.css}" rel="stylesheet" />  
+<link th:href="@{/css/prod/ProcManage.css}" rel="stylesheet" />  
   
   <div class="pcoded-main-container">
   	<h1>공정 실적 관리</h1>
@@ -21,12 +21,12 @@
 				<div class="card-header">
 					<form class="form-inline">
 						<div class="form-group mt-3">
-							<label for="instdate">작업일자</label> <input type="date"
+							<label for="instdate" th:text="작업일자"></label> <input type="date"
 								id="instdate" class="form-control mx-sm-3">
 						</div>
 						<br> <br>
 						<div class="form-group mt-3">
-							<label for="productname">제품명</label> <input type="text" id="productname"
+							<label for="productname" th:text="제품명"></label> <input type="text" id="productname"
 								class="form-control mx-sm-3" data-toggle="modal"
 								data-target=".bd-example-modal-lg"> <label
 								for="line">라인</label> <input type="text" id="line"
@@ -107,7 +107,7 @@
 				</div>
 				        <div class="card-body table-border-style">
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-hover" id="workInsertTable">
                                 <thead>
                                     <tr>
                                         <th th:text="순서"></th>
@@ -156,10 +156,10 @@
   	
   	<!-- Modal -->
   <div class="modal fade" id="findproductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="findproductModalLabel">제품코드 검색</h5>
+        <h3 class="modal-title" id="findproductModalLabel" th:text="제품검색"></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -175,7 +175,26 @@
   </div>
 </div>
   	
-  	
+  		<!-- Modal -->
+  <div class="modal fade" id="workInsertModal" tabindex="-1" role="dialog" aria-labelledby="workInsertModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullsize" role="document">
+    <div class="modal-content modal-fullsize">
+      <div class="modal-header">
+        <h3 class="modal-title" id="workInsertModalLabel" th:text="작업등록"></h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <th:block th:replace="~{/fragments/modal/workInsert :: workInsert}"></th:block>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
   	
   	
   </div>

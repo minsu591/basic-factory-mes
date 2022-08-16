@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mes.bf.cmn.vo.EmpVO;
 import com.mes.bf.prod.service.InstManageService;
 import com.mes.bf.prod.vo.FindEmpVO;
 

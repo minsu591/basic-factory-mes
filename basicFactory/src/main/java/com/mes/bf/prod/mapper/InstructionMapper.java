@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mes.bf.cmn.vo.ProductCodeVO;
-import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.InstructionVO;
 
 @Mapper

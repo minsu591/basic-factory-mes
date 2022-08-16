@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<th:block th:fragment="workInsert">
+		<div class="row headerbtn">
+			<button type="submit" class="btn  btn-primary m-r-10" th:text="저장"></button>
+			<button type="submit" class="btn  btn-primary m-r-10" th:text="닫기"></button>
+		</div>
+
+		<hr>
+		<div class="col-xl-12">
+			<div class="card">
+				<div class="card-header">
+
+					<div class="form-inline">
+						<div class="form-group mt-3">
+							<label for="instdate" th:text="작업일자"></label> <input type="date"
+								id="instsdate" class="form-control mx-sm-3"> <label
+								for="vendor" th:text="공정명"></label> <input type="text"
+								id="vendor" class="form-control mx-sm-3" data-toggle="modal"
+								data-target=".bd-example-modal-lg"> <label
+								for="vendername" th:text="작업자"></label> <input type="text"
+								id="vendorname" class="form-control mx-sm-3" readonly>
+						</div>
+
+
+					</div>
+					<div class="form-inline">
+						<div class="form-group mt-3">
+							<label for="productname" th:text="지시번호"></label> <input
+								type="text" id="productname" class="form-control mx-sm-3">
+							<label for="productname" th:text="작업번호"></label> <input
+								type="text" id="productname" class="form-control mx-sm-3">
+							<label for="productname" th:text="설비"></label> <input type="text"
+								id="productname" class="form-control mx-sm-3">
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 col-lg-4">
+						<div class="card">
+
+							<div class="card-header">
+								<h3 th:text="설비상태"></h3>
+							</div>
+							<div class="card-body">
+								<div class="form-inline">
+									<button type="button" class="btn m-r-20 btn-outline-primary"
+										th:text="반죽기1호"></button>
+									<button type="button" class="btn  btn-outline-primary"
+										th:text="진행전"></button>
+								</div>
+
+
+							</div>
+						</div>
+
+					</div>
+
+					<div class="col-md-8">
+						<div class="card">
+
+							<div class="card-header">
+								<div class="form-inline">
+
+									<input type="text" class="form-control mx-sm-3 time">
+									<h4 class="f-20">시</h4>
+									<input type="text" class="form-control mx-sm-3 time">
+									<h4 class="f-20">분</h4>
+									<button type="submit" class="btn  btn-primary m-l-20 m-r-20 m-b-5">시작</button>
+									<input type="text" class="form-control mx-sm-3 time">
+									<h4 class="f-20">시</h4>
+									<input type="text" class="form-control mx-sm-3 time">
+									<h4 class="f-20">분</h4>
+									<button type="submit" class="btn  btn-primary m-l-20 m-b-5">종료</button>
+								</div>
+								<hr>
+							</div>
+							<div class="card-body">
+
+								<div class="table-responsive">
+									<table class="table table-inverse" id="workStateTable">
+										<thead>
+											<tr>
+												<th th:text="제품명"></th>
+												<td th:text="짜파게티"></td>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<th th:text="소재LotNo"></th>
+												<td th:text="milgaru001"></td>
+											</tr>
+											<tr>
+												<th th:text="입고량"></th>
+												<td th:text="500"></td>																						
+											</tr>
+											<tr>
+												<th th:text="기실적량"></th>
+												<td th:text="198"></td>																								
+											</tr>
+											<tr>
+												<th th:text="실적량"></th>
+												<td th:text="300"></td>																								
+											</tr>
+											<tr>
+												<th th:text="불량량"></th>
+												<td th:text="2"></td>																								
+											</tr>
+											<tr>
+												<th th:text="달성률"></th>
+												<td th:text="45"></td>																								
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								
+									<div class="form-inline">
+									<button type="submit" class="btn  btn-primary m-l-20 m-r-20 m-b-5" id="addFlty" th:text="불량등록"></button>
+									<input type="number" class="form-control mx-sm-3 time" id="fltyCnt">
+									<button type="submit" class="btn  btn-primary m-l-20 m-b-5" id="fltyUp">불량등록(+)</button>
+									<button type="submit" class="btn  btn-primary m-l-10 m-r-20 m-b-5" id="fltyDown">불량등록(-)</button>
+									
+									</div>
+								
+								
+								
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+
+
+
+
+			</div>
+		</div>
+
+
+
+	</th:block>
+
+
+</body>
+</html>

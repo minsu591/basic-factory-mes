@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.cmn.vo.ProductCodeVO;
 import com.mes.bf.prod.service.InstructionService;
-import com.mes.bf.prod.vo.FindEmpVO;
 
 @RestController
 public class InstructionController {
@@ -47,7 +46,7 @@ public class InstructionController {
 	//완제품 단건 검색
 	// 단건조회 => GET
 		@GetMapping(value ={"/findProduct/{prdCdCode}/{prdCdName}",
-							"/findProduct/{proCdCode}",
+							"/findProduct/code/{prdCdCode}",
 							"/findProduct/name/{prdCdName}"
 		})
 		public ProductCodeVO findProduct(@PathVariable(required = false) String prdCdCode,
