@@ -10,5 +10,34 @@ SELECT * FROM BF_PROD_INSTRUCTION
 
 </select>
 
+<!-- 완제품 전체 조회 -->
+
+<select id="findAllProduct" resultType="prodCode">
+
+SELECT * FROM BF_CMN_FINISH_PRODUCT_CODE
+ORDER BY ROWNUM
+
+</select>
+
+<!-- 완제품 단건 조회 -->
+
+<select id="findProduct" resultType="prodCode">
+
+SELECT * FROM BF_CMN_FINISH_PRODUCT_CODE 
+<where>
+	<if test="prdCdCode != null and prdCdCode !=''">
+	 AND LOWER(fin_prd_cd_code) LIKE '%'||#{prdCdCode}||'%'
+	</if>
+	
+	<if test="prdCdName != null and prdCdName !=''">
+		AND fin_prd_cd_name LIKE '%'||#{prdCdName}||'%'	
+	</if>
+</where>
+
+
+</select>
+
+
+
 
 </mapper>
