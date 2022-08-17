@@ -7,9 +7,36 @@
 
 
 <th:block th:fragment="findnonOpCode">
-<h1>비가동코드검색</h1>
+<div class="form-inline">
+			<div class="form-group mt-3">
+				<label for="nonOpCode" th:text="비가동코드"></label> <input type="text"
+					id="nonOpCode" name="nonOpCode" class="form-control mx-sm-3">
+				<label for="nonOpName" th:text="비가동명"></label> <input type="text"
+					id="nonOpName" name="nonOpName" class="form-control mx-sm-3">
+				<button type="button" class="btn btn-primary"
+				 id="findNonOpCodebtn"th:text="검색"></button>
+			</div>
+
+		</div>
 
 
+		<div class="card-body table-border-style">
+			<div class="table-responsive">
+				<table class="table table-hover" id="findNonOpTable">
+					<thead>
+						<tr>
+							<th></th>
+							<th th:text="설비코드"></th>
+							<th th:text="설비명"></th>
+							<th th:text="사용공정"></th>
+							<th th:text="상태"></th>
+						</tr>
+					</thead>
+					<tbody id="findNonOptbody">
 
+					</tbody>
+				</table>
+			</div>
+		</div>
 </body>
 </html>
