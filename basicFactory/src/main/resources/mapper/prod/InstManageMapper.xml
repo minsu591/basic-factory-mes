@@ -44,7 +44,15 @@ WHERE LOWER(e.emp_name) like '%' ||#{empName}||'%'
 
 </select>
 
+<!-- 완제품코드 검색 -->
 
+<select id="findProdName" resultType="prodCode">
+
+SELECT * FROM 
+BF_CMN_FINISH_PRODUCT_CODE
+WHERE fin_prd_cd_code LIKE '%'||#{prodCode}||'%'
+
+</select>
 
 
 </mapper>
