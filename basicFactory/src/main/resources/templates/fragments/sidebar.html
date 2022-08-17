@@ -4,8 +4,8 @@
 <meta charset="UTF-8"> 
 </head>
   <div th:fragment="sidebarFragment">
-    <nav class="pcoded-navbar  ">
-		<div class="navbar-wrapper  ">
+    <nav class="pcoded-navbar">
+		<div class="navbar-wrapper">
 			<div class="navbar-content scroll-div " >
 				
 				<div class="">
@@ -25,28 +25,20 @@
 					</div>
 				</div>
 				
-				<ul class="nav pcoded-inner-navbar ">
-					<li class="nav-item pcoded-menu-caption">
-						<label class="f-30">생산</label>
-					</li>
-					<li class="nav-item">
-					    <a th:href="@{/prod/inst}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext f-20" th:text="생산지시조회"></span></a>
-					</li>
-					<li class="nav-item">
-					    <a th:href="@{/prod/instmanagement}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext f-20" th:text="생산지시관리"></span></a>
-					</li>
-					<li class="nav-item">
-					    <a th:href="@{/prod/proc}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext f-20" th:text="공정실적조회"></span></a>
-					</li>
-					<li class="nav-item">
-					    <a th:href="@{/prod/procManage}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext f-20" th:text="공정실적관리"></span></a>
-					</li>
-					<li class="nav-item">
-					    <a th:href="@{/prod/monitoring}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext f-20" th:text="공정모니터링"></span></a>
-					</li>
-					<li class="nav-item">
-					    <a th:href="@{/prod/packing}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext f-20" th:text="포장관리"></span></a>
-					</li>
+				<ul class="nav pcoded-inner-navbar">
+					
+					<li class="nav-item pcoded-hasmenu active pcoded-trigger">
+						<a href="#!" class="nav-link">
+						<span class="pcoded-mtext f-30">생산</span></a>
+						<ul class="pcoded-submenu">
+							<li><a th:href="@{/prod/inst}" class="f-20" th:text="생산지시조회"></a></li>
+							<li><a th:href="@{/prod/instmanagement}" class="f-20" th:text="생산지시관리"></a></li>
+							<li><a th:href="@{/prod/proc}" class="f-20" th:text="공정실적조회"></a></li>
+							<li><a th:href="@{/prod/procManage}" class="f-20" th:text="공정실적관리"></a></li>
+							<li><a th:href="@{/prod/monitoring}" class="f-20" th:text="공정모니터링"></a></li>
+							<li><a th:href="@{/prod/packing}" class="f-20" th:text="포장관리"></a></li>
+						</ul>
+					
 				
 					<li class="nav-item pcoded-menu-caption">
 						<label class="f-30">자재</label>
