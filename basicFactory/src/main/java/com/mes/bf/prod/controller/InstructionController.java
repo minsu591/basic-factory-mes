@@ -16,6 +16,7 @@ import com.mes.bf.cmn.vo.ProductCodeVO;
 import com.mes.bf.prod.service.InstructionService;
 
 @RestController
+@RequestMapping("/prod")
 public class InstructionController {
 
 	@Autowired

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
+@RequestMapping("/prod")
 public class ProcController {
 
 	//공정실적 조회페이지 이동

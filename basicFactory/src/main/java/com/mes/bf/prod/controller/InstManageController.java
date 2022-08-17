@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mes.bf.cmn.vo.ProductCodeVO;
@@ -15,6 +16,7 @@ import com.mes.bf.prod.service.InstManageService;
 import com.mes.bf.prod.vo.FindEmpVO;
 
 @RestController
+@RequestMapping("/prod")
 public class InstManageController {
 
 	@Autowired
