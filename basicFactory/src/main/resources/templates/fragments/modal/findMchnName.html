@@ -7,9 +7,37 @@
 
 
 <th:block th:fragment="findMchnName">
-<h1>설비 검색</h1>
+	<div class="form-inline">
+			<div class="form-group mt-3">
+				<label for="mchnCode" th:text="설비코드"></label> <input type="text"
+					id="mchnCode" name="mchnCode" class="form-control mx-sm-3">
+				<label for="mchnName" th:text="설비명"></label> <input type="text"
+					id="mchnName" name="mchnName" class="form-control mx-sm-3">
+				<button type="submit" class="btn btn-primary"
+				 id="findMchnbtn"th:text="검색"></button>
+			</div>
+
+		</div>
 
 
+		<div class="card-body table-border-style">
+			<div class="table-responsive">
+				<table class="table table-hover" id="findMchnTable">
+					<thead>
+						<tr>
+							<th></th>
+							<th th:text="설비코드"></th>
+							<th th:text="설비명"></th>
+							<th th:text="사용공정"></th>
+							<th th:text="상태"></th>
+						</tr>
+					</thead>
+					<tbody id="findMchntbody">
+
+					</tbody>
+				</table>
+			</div>
+		</div>
 
 </body>
 </html>

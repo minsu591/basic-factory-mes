@@ -6,41 +6,37 @@
 <body>
 
 
-<th:block th:fragment="findproduct">
+	<th:block th:fragment="findproduct">
 
-<div class="form-inline">
+		<div class="form-inline">
 			<div class="form-group mt-3">
-				<label for="prdCdCode" th:text="제품코드"></label>
-				 <input type="text" id="prdCdCode" name="prdCdCode" class="form-control mx-sm-3">
-				 <label for="prdCdName" th:text="제품명"></label>
-				 <input type="text" id="prdCdName" name="prdCdName" class="form-control mx-sm-3">
-				 <button type="submit" class="btn  btn-primary" id="findProductbtn" th:text="검색"></button>
+				<label for="prdCdCode" th:text="제품코드"></label> <input type="text"
+					id="prdCdCode" name="prdCdCode" class="form-control mx-sm-3">
+				<label for="prdCdName" th:text="제품명"></label> <input type="text"
+					id="prdCdName" name="prdCdName" class="form-control mx-sm-3">
+				<button type="submit" class="btn  btn-primary" id="findProductbtn"
+					th:text="검색"></button>
 			</div>
-			
+
 		</div>
-		
-		
-		  <div class="card-body table-border-style">
-                        <div class="table-responsive">
-                            <table class="table table-hover" id="findProductTable">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th th:text="완제품코드"></th>
-                                        <th th:text="완제품명"></th>
-                                        <th th:text="단위"></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="findProducttbody">
-                                	
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-		
 
 
+		<div class="card-body table-border-style">
+			<div class="table-responsive">
+				<table class="table table-hover" id="findProductTable">
+					<thead>
+						<tr>
+							<th></th>
+							<th th:text="완제품코드"></th>
+							<th th:text="완제품명"></th>
+							<th th:text="단위"></th>
+						</tr>
+					</thead>
+					<tbody id="findProducttbody">
 
-
+					</tbody>
+				</table>
+			</div>
+		</div>
 </body>
 </html>

@@ -10,3 +10,7 @@ h1 {
 button {
 	margin-top: 1%;
 }
+
+#findNonOpCodebtn {
+	margin-top: 0;
+}
