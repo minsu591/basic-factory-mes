@@ -12,8 +12,8 @@ import com.mes.bf.prod.vo.FindEmpVO;
 @SpringBootTest
 class BasicFactoryApplicationTests {
 
-	@Autowired EmpTestService service;
 	
+	@Autowired EmpTestService service;
 	@Test
 	void contextLoads() {
 		List<FindEmpVO> list = service.findAll();
