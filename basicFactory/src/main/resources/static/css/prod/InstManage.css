@@ -12,3 +12,23 @@ h1 {
 	margin-left : 0;
 	margin-right : 0;
 }
+
+
+input[type=text]:read-only {
+	background: #f6f6f6 !important;
+	width:100% !important
+	
+}
+#planDetailTable input[type=text] {
+	text-align: center;
+	border: 0;
+	width: 100%;
+	background:rgba(241, 196, 15, 0.1)
+}
+
+#planDetailTable td {
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+}
+
+

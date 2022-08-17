@@ -28,6 +28,9 @@ button {
 	
 }
 
+.content-center {
+	justify-content: center;
+}
 
 
 
@@ -40,6 +43,8 @@ button {
 
 .time {
 	width:10% !important;
+	padding: 0;
+	text-align: center;
 }
 
 #workStateTable th {
