@@ -33,71 +33,34 @@ $(document).ready(function () {
         },
       });
 
-      //검색버튼 이벤트
+      //제품검색버튼 이벤트
       $("#findProductbtn").click(function () {
         let code = $("#prdCdCode").val();
         let name = $("#prdCdName").val();
-        console.log(code);
-        console.log(name);
+        console.log("code -> " + code + " name->" + name);
 
-        if (code == "" && name != "") {
-          //이름만 검색
-          console.log("code null");
-          findProductName(name);
-        } else if (code != "" && name == "") {
-          //코드로만 검색
-          console.log("name null");
-          findProductCode(code);
-        } else if (code != "" && name != "") {
-          // 둘다 검색
-          console.log("complete");
-        } else if (code == "" && name == "") {
-          // 둘다 없을 경우
-          console.log("dulda null");
-        }
+        $.ajax({
+          url: `getProduct`,
+          method: "GET",
+          contentType: "application/json;charset=utf-8",
+          dataType: "json",
+          data: {
+            prdCdCode: code,
+            prdCdName: name,
+          },
+          error: function (error, status, msg) {
+            alert("상태코드 " + status + "에러메시지" + msg);
+          },
+          success: function (data) {
+            console.log(data);
+
+            let index = 0;
+            index += 1;
+            $("#findProducttbody tr").remove();
+            makeRow(data, index);
+          },
+        });
       });
-
-      //이름만 검색
-      function findProductName(name) {
-        $.ajax({
-          url: `findProduct/name/${name}`,
-          method: "GET",
-          contentType: "application/json;charset=utf-8",
-          dataType: "json",
-          error: function (error, status, msg) {
-            alert("상태코드 " + status + "에러메시지" + msg);
-          },
-          success: function (data) {
-            console.log(data);
-
-            let index = 0;
-            index += 1;
-            $("#findProducttbody tr").remove();
-            makeRow(data, index);
-          },
-        });
-      }
-
-      //코드만 검색
-      function findProductCode(code) {
-        $.ajax({
-          url: `findProduct/code/${code}`,
-          method: "GET",
-          contentType: "application/json;charset=utf-8",
-          dataType: "json",
-          error: function (error, status, msg) {
-            alert("상태코드 " + status + "에러메시지" + msg);
-          },
-          success: function (data) {
-            console.log(data);
-
-            let index = 0;
-            index += 1;
-            $("#findProducttbody tr").remove();
-            makeRow(data, index);
-          },
-        });
-      }
 
       //테이블 클릭 이벤트
       $("#findProductTable").on("click", "tr", function () {
@@ -120,4 +83,50 @@ $(document).ready(function () {
       }
     }
   });
+
+  //거래처코드 검색 테이블 클릭이벤트
+  $("#findVendorTable").on("click", "tr", function () {
+    let vendCode = $(this).find("td:eq(1)").text();
+    let vendName = $(this).find("td:eq(2)").text();
+
+    $("#vendor").val(vendCode);
+    $("#vendorName").val(vendName);
+
+    $("#findvendorModal").modal("hide");
+  });
+
+  //생산지시테이블 초기데이터 입력
+  instTableInsert();
+
+  function instTableInsert() {
+    $.ajax({
+      url: "findvInst",
+      method: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        console.log(data);
+
+        for (obj of data) {
+          let node = `<tr>
+					<td>${obj.instDate}</td>
+					<td>${obj.instNo}</td>
+					<td>${obj.vendCdNm}</td>
+					<td>${obj.finPrdCdCode}</td>
+					<td>${obj.finPrdCdName}</td>
+					<td>${obj.slsOrdHdNo}</td>
+					<td>${obj.slsOrdDtlDlvDate}</td>
+					<td>${obj.slsOrdDtlVol}</td>
+					<td>${obj.instProdIndicaVol}</td>
+					<td>${obj.workScope}</td>
+					<td>${obj.workDate}</td>
+				</tr>`;
+          $("#instTable tbody").append(node);
+        }
+      },
+    });
+  }
 });

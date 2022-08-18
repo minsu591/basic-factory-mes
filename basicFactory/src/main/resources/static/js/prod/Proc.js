@@ -1,27 +1,26 @@
 $(document).ready(function () {
   $("#worker").click(function (e) {
-    console.log("클릭");
     e.preventDefault();
 
     $("#findempModal").modal("show");
   });
 
   $("#proccdname").click(function (e) {
-    console.log("클릭");
     e.preventDefault();
 
     $("#findProcCdNameModal").modal("show");
   });
 
   $("#mchnname").click(function (e) {
-    console.log("클릭");
     e.preventDefault();
 
     $("#findMchnNameModal").modal("show");
   });
 
+  //직원검색
   findEmp();
-
+  //설비명검색
+  findMchnName();
   function findEmp() {
     $.ajax({
       url: "findemp",
@@ -47,6 +46,37 @@ $(document).ready(function () {
         }
       },
     });
+  }
+
+  //설비검색
+  function findMchnName() {
+    $.ajax({
+      url: "findallmchn",
+      method: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        let index = 0;
+        for (obj of data) {
+          index += 1;
+          mchnMakeRow(obj, index);
+        }
+      },
+    });
+  }
+
+  function mchnMakeRow(obj, index) {
+    let node = `<tr>
+                 <td>${index}</td>
+                 <td>${obj.mchnCode}</td>
+                 <td>${obj.mchnName}</td>
+                 <td>${obj.procCdName}</td>
+                 <td>${obj.mchnStts}</td>
+                </tr>`;
+    $("#findMchnTable").append(node);
   }
 
   //초기데이터

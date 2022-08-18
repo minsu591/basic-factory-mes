@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.mes.bf.cmn.vo.ProductCodeVO;
 import com.mes.bf.prod.vo.InstructionVO;
+import com.mes.bf.prod.vo.VInstructionVO;
 
 @Mapper
 public interface InstructionMapper {
@@ -16,4 +17,7 @@ public interface InstructionMapper {
 	 List<ProductCodeVO> findAllProduct();
 	//완제품코드,명으로 검색
 	 ProductCodeVO findProduct(String prdCdCode,String prdCdName);
+	 
+	//생산지시조회
+	 List<VInstructionVO> findAllvInstruction();
 }
