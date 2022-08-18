@@ -45,10 +45,16 @@ public class JoinTest {
 		System.out.println(service2.findProduct(prdCdCode,""));
 	}
 	
-	@Test
+	//@Test
 	void findProdName() {
 		String prodCode = "FIN1";
 		System.out.println(service.findProdName(prodCode));
 	}
+	
+	@Test
+	void findVinst() {
+		System.out.println(service2.findAllvInstruction());
+	}
+	
 	
 }

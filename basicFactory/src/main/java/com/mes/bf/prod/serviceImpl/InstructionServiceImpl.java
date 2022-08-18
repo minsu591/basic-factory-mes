@@ -9,6 +9,7 @@ import com.mes.bf.cmn.vo.ProductCodeVO;
 import com.mes.bf.prod.mapper.InstructionMapper;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.vo.InstructionVO;
+import com.mes.bf.prod.vo.VInstructionVO;
 
 @Service 
 public class InstructionServiceImpl implements InstructionService {
@@ -28,6 +29,11 @@ public class InstructionServiceImpl implements InstructionService {
 	@Override
 	public ProductCodeVO findProduct(String prdCdCode, String prdCdName) {
 		return instmapper.findProduct(prdCdCode, prdCdName);
+	}
+
+	@Override
+	public List<VInstructionVO> findAllvInstruction() {
+		return instmapper.findAllvInstruction();
 	}
 
 }

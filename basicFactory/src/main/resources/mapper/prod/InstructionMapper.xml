@@ -37,6 +37,13 @@ where rownum > 0
 
 </select>
 
+<!--생산지시조회 -->
+<select id="findAllvInstruction" resultType="vinst">
+
+SELECT * FROM v_instruction
+</select>
+
+
 
 
 

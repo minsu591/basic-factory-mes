@@ -13,6 +13,13 @@ h1 {
 	margin-right : 0;
 }
 
+button {
+	margin-top: 1rem;
+}
+
+#findempbtn {
+	margin-top: 0;
+}
 
 input[type=text]:read-only {
 	background: #f6f6f6 !important;
@@ -29,6 +36,11 @@ input[type=text]:read-only {
 
 #planDetailTable td {
 	padding: 0;
+	
+}
+
+.flex-end {
+	justify-content: end;
 	
 }
 

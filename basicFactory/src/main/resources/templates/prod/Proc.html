@@ -47,6 +47,7 @@
                                     <tr>
                                         <th th:text="생산지시번호"></th>
                                         <th th:text="작업번호"></th>
+                                        <th th:text="작업일자"></th>
                                         <th th:text="제품코드"></th>
                                         <th th:text="제품명"></th>
                                         <th th:text="공정명"></th>
@@ -61,6 +62,7 @@
                                     <tr>
                                         <td th:text="JISI01"></td>
                                         <td th:text="work01"></td>
+                                        <td th:text="2022-08-22"></td>
                                         <td th:text="PROUCT1"></td>
                                         <td th:text="짜파게티"></td>
                                         <td th:text="반죽공정"></td>
@@ -82,11 +84,11 @@
   
   
    <!-- Modal -->
-<div class="modal fade" id="findProcCdNameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="findProcCdNameModal" tabindex="-1" role="dialog" aria-labelledby="findProcCdNameModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="findProcCdNameModalLabel">공정 검색</h5>
+        <h3 class="modal-title" id="findProcCdNameModalLabel">공정 검색</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -105,11 +107,11 @@
   
   
      <!-- Modal -->
-<div class="modal fade" id="findMchnNameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade" id="findMchnNameModal" tabindex="-1" role="dialog" aria-labelledby="findMchnNameModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="findMchnNameModalLabel">설비 검색</h5>
+        <h3 class="modal-title" id="findMchnNameModalLabel">설비 검색</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
