@@ -20,6 +20,7 @@ input[type=text]:read-only {
 	
 }
 #planDetailTable input[type=text] {
+	height: 2rem;
 	text-align: center;
 	border: 0;
 	width: 100%;
@@ -27,8 +28,8 @@ input[type=text]:read-only {
 }
 
 #planDetailTable td {
-	padding-top: 0.5rem;
-	padding-bottom: 0.5rem;
+	padding: 0;
+	
 }
 
 

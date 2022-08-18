@@ -6,6 +6,10 @@ $(document).ready(function () {
     $("#findempModal").modal("show");
   });
 
+  $("#findPlan").click(function (e) {
+    e.preventDefault();
+    $("#findPlanModal").modal("show");
+  });
   //모달창 확인 버튼
   $("#selectbtn").click(function () {
     $("#findempModal").modal("hide");
@@ -105,7 +109,11 @@ $(document).ready(function () {
 		<td><input type="text" name="prodCode"></td>
 		<td><input type="text" readonly></td>
 		<td><input type="text" readonly></td>
-		<td><input type="text"></td>
+		<td><input type="text" readonly></td>
+		<td><input type="text" readonly></td>
+		<td><input type="text" readonly></td>
+		<td><input type="text" readonly></td>
+		<td><input type="text" readonly></td>
 		<td><input type="text"></td>
 		<td><input type="text" readonly></td>
 		<td><input type="text" readonly></td>

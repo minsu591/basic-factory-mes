@@ -18,7 +18,7 @@ $(document).ready(function () {
     let mchnCode = $(this).find("td:eq(1)").text();
     let mchnName = $(this).find("td:eq(2)").text();
 
-    $("#mchnCode").val(mchnCode);
-    $("#mchnName").val(mchnName);
+    $("#mchnCode").val(mchnCode).prop("readonly", true);
+    $("#mchnName").val(mchnName).prop("readonly", true);
   });
 });
