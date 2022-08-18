@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/prod")
 public class PlanController {
 	
-	@RequestMapping("/content")
-	public String test() {
-		return "prod/content";
+	@RequestMapping("/planView")
+	public String planViewPage() {
+		return "prod/PlanView";
 	}
 	
-	@RequestMapping("/prod")
-	public String test2() {
-		return "prod/prod";
+	@RequestMapping("/planManage")
+	public String planManagePage() {
+		return "prod/PlanManage";
 	}
 }

@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 @Alias("dept")
 public class DeptVO {
-
 	private int deptNo;
 	private String deptName;
 	

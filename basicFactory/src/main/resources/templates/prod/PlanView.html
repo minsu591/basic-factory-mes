@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production PlanView</title>
+    <style>
+        h1 {
+            padding-top : 2%;
+            padding-left : 2%;
+            padding-bottom : 2%;
+        }
+
+        button {
+            margin-top: 1%;
+        }
+    </style>
+</head>
+<body>
+    <div class="pcoded-main-container">
+        <h1>생산 계획 조회 </h1>
+        <hr>
+        <div class="col-xl-12">
+                  <div class="card">
+                      <div class="card-header">
+                          
+                          <form class="form-inline">
+                              <div class="form-group mt-3">
+                                  <label for="planSdate" th:text="'생산 계획 일자'"></label>
+                                  <input type="date" id="planSdate" class="form-control mx-sm-3"> ~
+                                  <input type="date" id="planEdate" class="form-control mx-sm-3">
+                              </div>
+                              <br>
+                               <div class="form-group mt-3">
+                                  <label for="vendor" th:text="거래처"></label>
+                                  <input type="text" id="vendor" class="form-control mx-sm-3"
+                                   data-toggle="modal" data-target=".bd-example-modal-lg">
+                                  <label for="vendorName" th:text="거래처명"></label>
+                                  <input type="text" id="vendorName" class="form-control mx-sm-3" readonly>
+                              </div>
+                              
+                              <button type="submit" class="btn  btn-primary">조회</button>
+                          </form>
+              
+                      </div>
+                      <div class="card-body table-border-style">
+                          <div class="table-responsive">
+                              <table class="table table-striped">
+                                  <thead>
+                                      <tr>
+                                          <th th:text="'생산계획 일자'"></th>
+                                          <th th:text="'생산계획 번호'"></th>
+                                          <th th:text="생산계획명"></th>
+                                          <th th:text="거래처명"></th>
+                                          <th th:text="담당자명"></th>
+                                          <th th:text="제품코드"></th>
+                                          <th th:text="제품명"></th>
+                                          <th th:text="규격"></th>
+                                          <th th:text="주문코드"></th>
+                                          <th th:text="납기일자"></th>
+                                          <th th:text="'작업계획 시작일자'"></th>
+                                          <th th:text="'작업계획 종료일자'"></th>
+                                          <th th:text="주문량"></th>
+                                          <th th:text="기계획량"></th>
+                                          <th th:text="계획량"></th>
+                                          <th th:text="미계획량"></th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr>
+                                          <td>2022-07-30</td>
+                                          <td>PLAN001</td>
+                                          <td>짜파게티 100개</td>
+                                          <td>이마트</td>
+                                          <td>김민서</td>
+                                          <td>FIN002</td>
+                                          <td>짜파게티</td>
+                                          <td>120g</td>
+                                          <td>TEST20220805</td>
+                                          <td>2022-08-05</td>
+                                          <td>2022-08-01</td>
+                                          <td>2022-08-03</td>
+                                          <td>10,000</td>
+                                          <td>1,000</td>
+                                          <td>5,000</td>
+                                          <td>4,000</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+    </div>
+</body>
+</html>
