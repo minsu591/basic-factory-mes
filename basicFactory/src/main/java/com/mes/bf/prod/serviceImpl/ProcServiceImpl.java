@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mes.bf.cmn.vo.ProcCodeVO;
+import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.mapper.ProcMapper;
 import com.mes.bf.prod.service.ProcService;
-import com.mes.bf.prod.vo.VfindMchnVO;
 
 @Service
 public class ProcServiceImpl implements ProcService {

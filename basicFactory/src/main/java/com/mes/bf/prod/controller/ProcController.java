@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.cmn.vo.ProcCodeVO;
+import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.service.ProcService;
-import com.mes.bf.prod.vo.VfindMchnVO;
 
 @RestController
 @RequestMapping("/prod")

@@ -3,7 +3,7 @@ package com.mes.bf.prod.service;
 import java.util.List;
 
 import com.mes.bf.cmn.vo.ProcCodeVO;
-import com.mes.bf.prod.vo.VfindMchnVO;
+import com.mes.bf.eqp.vo.VfindMchnVO;
 
 public interface ProcService {
 

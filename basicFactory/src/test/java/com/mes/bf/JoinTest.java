@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mes.bf.prod.service.InstManageService;
+import com.mes.bf.eqp.service.NonOperationService;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.service.ProcService;
 import com.mes.bf.prod.vo.FindEmpVO;
@@ -15,26 +15,11 @@ import com.mes.bf.prod.vo.FindEmpVO;
 public class JoinTest {
 
 	
-	@Autowired InstManageService service;
+	
 	@Autowired InstructionService service2;
 	@Autowired ProcService service3;
+	@Autowired NonOperationService service;
 	
-	//@Test
-	void findEmp() {
-		
-		List<FindEmpVO> list = service.findEmp();
-		
-		for(int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i).toString());
-		}
-		
-	}
-	
-	//@Test
-	void findEmpName() {
-		
-	System.out.println(service.findEmpName("defty"));
-	}
 	
 	//@Test
 	void findAllProduct() {
@@ -48,19 +33,22 @@ public class JoinTest {
 	}
 	
 	//@Test
-	void findProdName() {
-		String prodCode = "FIN1";
-		System.out.println(service.findProdName(prodCode));
-	}
-	
-	//@Test
 	void findVinst() {
 		System.out.println(service2.findAllvInstruction());
 	}
 	
-	@Test
+	//@Test
 	void ProcCode() {
 		System.out.println(service3.findAllProcCode());
+	}
+	
+	//@Test
+	void findAllVendorCode() {
+		System.out.println(service2.findAllVendorCode());
+	}
+	@Test
+	void findMchn() {
+		System.out.println(service.findMchn("유탕"));
 	}
 	
 	

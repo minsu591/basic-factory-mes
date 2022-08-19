@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mes.bf.cmn.vo.ProcCodeVO;
-import com.mes.bf.prod.vo.VfindMchnVO;
+import com.mes.bf.eqp.vo.VfindMchnVO;
 
 @Mapper
 public interface ProcMapper {

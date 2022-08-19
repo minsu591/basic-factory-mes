@@ -3,6 +3,57 @@
 <mapper namespace="com.mes.bf.prod.mapper.InstructionMapper">
 
 
+<resultMap type="com.mes.bf.cmn.vo.EmpVO" id="EmpMap">
+<id property="deptNo" column="dept_no" />
+<id property="empName" column="emp_name" />
+<id property="empAuth" column="emp_auth" />
+<id property="empEmail" column="emp_email" />
+<id property="empId" column="emp_id" />
+<id property="empPw" column="emp_pw" />
+<id property="phone" column="phone" />
+</resultMap>
+
+
+<resultMap type="com.mes.bf.cmn.vo.DeptVO" id="DeptMap">
+<id property="deptNo" column="dept_no" />
+<id property="deptName" column="dept_name" />
+</resultMap>
+
+<resultMap type="com.mes.bf.prod.vo.FindEmpVO" id="FindEmpVO">
+	<collection property="empvo" resultMap="EmpMap" />
+	<collection property="deptvo" resultMap="DeptMap" />
+	
+</resultMap>
+
+
+
+<select id="findEmp" resultMap="FindEmpVO">
+
+SELECT *
+  FROM BF_CMN_EMP e JOIN bf_cmn_dept d
+    ON e.dept_no = d.dept_no
+	
+</select>
+
+
+<select id="findEmpName" resultMap="FindEmpVO">
+
+SELECT *
+  FROM BF_CMN_EMP e JOIN bf_cmn_dept d
+    ON e.dept_no = d.dept_no
+WHERE LOWER(e.emp_name) like '%' ||#{empName}||'%'
+
+</select>
+
+<!-- 완제품코드 검색 -->
+
+<select id="findProdName" resultType="prodCode">
+
+SELECT * FROM 
+BF_CMN_FINISH_PRODUCT_CODE
+WHERE fin_prd_cd_code LIKE '%'||#{prodCode}||'%'
+
+</select>
 
 <select id="getInst" resultType="com.mes.bf.prod.vo.InstructionVO">
 	
@@ -43,7 +94,10 @@ where rownum > 0
 SELECT * FROM v_instruction
 </select>
 
-
+<!-- 거래처조회 -->
+<select id="findAllVendorCode" resultType="vendorCodeVO">
+SELECT * FROM BF_CMN_VENDOR_CODE
+</select>
 
 
 

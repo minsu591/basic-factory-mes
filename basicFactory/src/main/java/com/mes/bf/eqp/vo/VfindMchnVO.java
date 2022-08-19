@@ -1,4 +1,4 @@
-package com.mes.bf.prod.vo;
+package com.mes.bf.eqp.vo;
 
 import org.apache.ibatis.type.Alias;
 
