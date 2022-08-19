@@ -19,6 +19,8 @@ $(document).ready(function () {
 
   //직원검색
   findEmp();
+  //공정명 검색
+  findAllProcCode();
   //설비명검색
   findMchnName();
   function findEmp() {
@@ -48,6 +50,40 @@ $(document).ready(function () {
     });
   }
 
+  //공정검색
+  function findAllProcCode() {
+    $.ajax({
+      url: "findallproccode",
+      method: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        let index = 0;
+        for (obj of data) {
+          index += 1;
+          makeProcCodeRow(obj, index);
+        }
+      },
+    });
+  }
+  function makeProcCodeRow(obj, index) {
+    let node = `<tr>
+    <td>${index}</td>
+    <td>${obj.procCdCode}</td>
+    <td>${obj.procCdName}</td>
+    <td>${obj.procCdRemk}</td>
+   </tr>`;
+    $("#findProcCdNameTable").append(node);
+  }
+  //공정테이블 클릭이벤트
+  $("#findProcCdNameTable").on("click", "tr", function () {
+    let procCdName = $(this).find("td:eq(2)").text();
+    $("#proccdname").val(procCdName);
+    $("#findProcCdNameModal").modal("hide");
+  });
   //설비검색
   function findMchnName() {
     $.ajax({
@@ -67,6 +103,13 @@ $(document).ready(function () {
       },
     });
   }
+
+  //설비테이블 클릭이벤트
+  $("#findMchnTable").on("click", "tr", function () {
+    let mchnName = $(this).find("td:eq(2)").text();
+    $("#mchnname").val(mchnName);
+    $("#findMchnNameModal").modal("hide");
+  });
 
   function mchnMakeRow(obj, index) {
     let node = `<tr>

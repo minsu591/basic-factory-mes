@@ -1,19 +1,55 @@
-$(document).ready(function() {
+$(document).ready(function () {
+  $("#nonOpCode").click(function (e) {
+    e.preventDefault();
+    $("#findnonOpCodeModal").modal("show");
+  });
 
-	$('#nonOpCode').click(function(e) {
-		console.log('클릭');
-		e.preventDefault();
+  $("#mchnCode").click(function (e) {
+    e.preventDefault();
+    $("#findMchnNameModal").modal("show");
+  });
 
-		$('#findnonOpCodeModal').modal("show");
-	});
+  //설비검색
+  function findMchnName() {
+    $.ajax({
+      url: "findallmchn",
+      method: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        let index = 0;
+        for (obj of data) {
+          index += 1;
+          mchnMakeRow(obj, index);
+        }
+      },
+    });
+  }
+  function mchnMakeRow(obj, index) {
+    let node = `<tr>
+							 <td>${index}</td>
+							 <td>${obj.mchnCode}</td>
+							 <td>${obj.mchnName}</td>
+							 <td>${obj.procCdName}</td>
+							 <td>${obj.mchnStts}</td>
+							</tr>`;
+    $("#findMchnTable").append(node);
+  }
 
-	$('#mchnCode').click(function(e) {
-		console.log('클릭');
-		e.preventDefault();
+  //설비테이블 클릭 이벤트
+  $("#findMchnTable").on("click", "tr", function () {
+    let mchnCode = $(this).find("td:eq(1)").text();
+    $("#mchnCode").val(mchnCode);
+    $("#findMchnNameModal").modal("hide");
+  });
 
-		$('#findMchnNameModal').modal("show");
-	});
-	
-	
-	
+  //비가동코드테이블 클릭이벤트
+  $("#findNonOpTable").on("click", "tr", function () {
+    let nonOpCode = $(this).find("td:eq(1)").text();
+    $("#nonOpCode").val(nonOpCode);
+    $("#findnonOpCodeModal").modal("hide");
+  });
 });

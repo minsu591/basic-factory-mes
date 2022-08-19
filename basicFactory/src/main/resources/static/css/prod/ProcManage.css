@@ -10,14 +10,10 @@ h1 {
 	margin-top: 1rem;
 }
 
-#findProductbtn {
+#findProductbtn,#findMchnBtn,#workStartBtn,#workEndBtn,
+#addFlty,#fltyUp,#fltyDown{
 	margin-top: 0;
 }
-
-#findMchnBtn {
-	margin-top: 0;
-}
-
 
 .modal-fullsize {
 	width: 90%;

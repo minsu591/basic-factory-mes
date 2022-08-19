@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.mes.bf.prod.service.InstManageService;
 import com.mes.bf.prod.service.InstructionService;
+import com.mes.bf.prod.service.ProcService;
 import com.mes.bf.prod.vo.FindEmpVO;
 
 @SpringBootTest
@@ -16,6 +17,7 @@ public class JoinTest {
 	
 	@Autowired InstManageService service;
 	@Autowired InstructionService service2;
+	@Autowired ProcService service3;
 	
 	//@Test
 	void findEmp() {
@@ -51,9 +53,14 @@ public class JoinTest {
 		System.out.println(service.findProdName(prodCode));
 	}
 	
-	@Test
+	//@Test
 	void findVinst() {
 		System.out.println(service2.findAllvInstruction());
+	}
+	
+	@Test
+	void ProcCode() {
+		System.out.println(service3.findAllProcCode());
 	}
 	
 	

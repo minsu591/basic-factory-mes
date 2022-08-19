@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mes.bf.cmn.vo.ProcCodeVO;
 import com.mes.bf.prod.service.ProcService;
 import com.mes.bf.prod.vo.VfindMchnVO;
 
@@ -54,5 +55,15 @@ public class ProcController {
 		List<VfindMchnVO> list = service.findAllMchn();
 		return new ResponseEntity<List<VfindMchnVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
+	
+	//공정명 전체조회
+	@GetMapping(value = "/findallproccode", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<ProcCodeVO>> findAllProcCode(ProcCodeVO vo) {
+		List<ProcCodeVO> list = service.findAllProcCode();
+		return new ResponseEntity<List<ProcCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
+	
+	
+	
 
 }
