@@ -44,8 +44,7 @@ $(document).ready(function () {
         alert("상태코드 " + status + "에러메시지" + msg);
       },
       success: function (data) {
-        console.log(data);
-
+        $("#findVendortbody tr").remove();
         let index = 0;
         for (obj of data) {
           index += 1;
