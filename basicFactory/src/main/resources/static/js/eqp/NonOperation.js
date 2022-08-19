@@ -6,6 +6,7 @@ $(document).ready(function () {
 
   $("#mchnCode").click(function (e) {
     e.preventDefault();
+    findMchnName();
     $("#findMchnNameModal").modal("show");
   });
 
@@ -21,6 +22,7 @@ $(document).ready(function () {
       },
       success: function (data) {
         let index = 0;
+        $("#findMchntbody tr").remove();
         for (obj of data) {
           index += 1;
           mchnMakeRow(obj, index);
@@ -36,7 +38,7 @@ $(document).ready(function () {
 							 <td>${obj.procCdName}</td>
 							 <td>${obj.mchnStts}</td>
 							</tr>`;
-    $("#findMchnTable").append(node);
+    $("#findMchntbody").append(node);
   }
 
   //설비테이블 클릭 이벤트

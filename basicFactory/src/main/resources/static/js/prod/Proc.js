@@ -1,28 +1,25 @@
 $(document).ready(function () {
   $("#worker").click(function (e) {
     e.preventDefault();
-
+    //직원검색
+    findEmp();
     $("#findempModal").modal("show");
   });
 
   $("#proccdname").click(function (e) {
     e.preventDefault();
-
+    //공정명 검색
+    findAllProcCode();
     $("#findProcCdNameModal").modal("show");
   });
 
   $("#mchnname").click(function (e) {
     e.preventDefault();
-
+    //설비명검색
+    findMchnName();
     $("#findMchnNameModal").modal("show");
   });
 
-  //직원검색
-  findEmp();
-  //공정명 검색
-  findAllProcCode();
-  //설비명검색
-  findMchnName();
   function findEmp() {
     $.ajax({
       url: "findemp",
@@ -33,15 +30,8 @@ $(document).ready(function () {
         alert("상태코드 " + status + "에러메시지" + msg);
       },
       success: function (data) {
-        console.log(data);
-        $.each(data, function (index, item) {
-          // console.log("length -> " + data.length);
-          // console.log(index);
-          // console.log(item.deptvo.deptName);
-          // console.log(item.empvo.empName);
-        });
-
         let index = 0;
+        $("#findemptbody tr").remove();
         for (obj of data) {
           index += 1;
           makeRow(obj, index);
@@ -62,6 +52,7 @@ $(document).ready(function () {
       },
       success: function (data) {
         let index = 0;
+        $("#findProcCdNameTable tbody tr").remove();
         for (obj of data) {
           index += 1;
           makeProcCodeRow(obj, index);
@@ -96,6 +87,7 @@ $(document).ready(function () {
       },
       success: function (data) {
         let index = 0;
+        $("#findMchntbody tr").remove();
         for (obj of data) {
           index += 1;
           mchnMakeRow(obj, index);

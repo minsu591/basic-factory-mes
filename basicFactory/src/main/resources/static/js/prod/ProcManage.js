@@ -1,12 +1,10 @@
 $(document).ready(function () {
   $("#productname").click(function (e) {
-    console.log("클릭");
     e.preventDefault();
-
+    findProduct();
     $("#findproductModal").modal("show");
   });
 
-  findProduct();
   function findProduct() {
     $.ajax({
       url: "findProduct",
@@ -17,8 +15,6 @@ $(document).ready(function () {
         alert("상태코드 " + status + "에러메시지" + msg);
       },
       success: function (data) {
-        console.log(data);
-
         let index = 0;
         $("#findProducttbody tr").remove();
         for (obj of data) {

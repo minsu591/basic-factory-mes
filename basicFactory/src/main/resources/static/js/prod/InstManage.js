@@ -3,6 +3,7 @@
 $(document).ready(function () {
   $("#empid").click(function (e) {
     e.preventDefault();
+    findEmp();
     $("#findempModal").modal("show");
   });
 
@@ -15,8 +16,6 @@ $(document).ready(function () {
     $("#findempModal").modal("hide");
   });
 
-  findEmp();
-
   function findEmp() {
     $.ajax({
       url: "findemp",
@@ -27,31 +26,14 @@ $(document).ready(function () {
         alert("상태코드 " + status + "에러메시지" + msg);
       },
       success: function (data) {
-        console.log(data);
-        $.each(data, function (index, item) {
-          // console.log("length -> " + data.length);
-          // console.log(index);
-          // console.log(item.deptvo.deptName);
-          // console.log(item.empvo.empName);
-        });
-
         let index = 0;
+        $("#findemptbody tr").remove();
         for (obj of data) {
           index += 1;
-          modalMakeRow(obj, index);
+          empMakeRow(obj, index);
         }
       },
     });
-  }
-
-  //초기데이터
-  function modalMakeRow(obj, index) {
-    let node = `<tr>
-								<td>${index}</td>
-								<td>${obj.empvo.empName}</td>
-								<td>${obj.deptvo.deptName}</td>
-							</tr>`;
-    $("#findemptbody").append(node);
   }
 
   //모달테이블 클릭 이벤트
@@ -64,7 +46,6 @@ $(document).ready(function () {
   });
 
   //검색버튼 클릭 이벤트
-
   $("#findempbtn").click(function () {
     console.log("버튼클릭");
     console.log($("#empName").val());
@@ -76,12 +57,10 @@ $(document).ready(function () {
       dataType: "json",
       success: function (data) {
         //console.log(data);
-
         $("#findemptbody tr").remove();
-
         let index = 1;
         let obj = data;
-        makeRow(obj, index);
+        empMakeRow(obj, index);
       },
     });
   });
@@ -151,4 +130,14 @@ $(document).ready(function () {
       });
     });
   });
+
+  //초기데이터
+  function empMakeRow(obj, index) {
+    let node = `<tr>
+									<td>${index}</td>
+									<td>${obj.empvo.empName}</td>
+									<td>${obj.deptvo.deptName}</td>
+								</tr>`;
+    $("#findemptbody").append(node);
+  }
 });

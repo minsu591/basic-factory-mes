@@ -1,88 +1,120 @@
 $(document).ready(function () {
   $("#vendor").click(function (e) {
-    console.log("클릭");
     e.preventDefault();
-
+    //거래처조회
+    findVendorCode();
     $("#findvendorModal").modal("show");
   });
 
   $("#productname").click(function (e) {
     e.preventDefault();
-    $("#findproductModal").modal("show");
-
+    //제품 조회
     findProduct();
+    $("#findproductModal").modal("show");
+  });
 
-    function findProduct() {
-      $.ajax({
-        url: "findProduct",
-        method: "GET",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        error: function (error, status, msg) {
-          alert("상태코드 " + status + "에러메시지" + msg);
-        },
-        success: function (data) {
-          console.log(data);
+  function findProduct() {
+    $.ajax({
+      url: "findProduct",
+      method: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        console.log(data);
 
-          let index = 0;
-          $("#findProducttbody tr").remove();
-          for (obj of data) {
-            index += 1;
-            makeRow(obj, index);
-          }
-        },
-      });
+        let index = 0;
+        $("#findProducttbody tr").remove();
+        for (obj of data) {
+          index += 1;
+          makeRow(obj, index);
+        }
+      },
+    });
+  }
+  function findVendorCode() {
+    $.ajax({
+      url: "findvendorcode",
+      method: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        console.log(data);
 
-      //제품검색버튼 이벤트
-      $("#findProductbtn").click(function () {
-        let code = $("#prdCdCode").val();
-        let name = $("#prdCdName").val();
-        console.log("code -> " + code + " name->" + name);
+        let index = 0;
+        for (obj of data) {
+          index += 1;
+          makeVendorCodeRow(obj, index);
+        }
+      },
+    });
+  }
 
-        $.ajax({
-          url: `getProduct`,
-          method: "GET",
-          contentType: "application/json;charset=utf-8",
-          dataType: "json",
-          data: {
-            prdCdCode: code,
-            prdCdName: name,
-          },
-          error: function (error, status, msg) {
-            alert("상태코드 " + status + "에러메시지" + msg);
-          },
-          success: function (data) {
-            console.log(data);
+  //거래처조회 행생성
+  function makeVendorCodeRow(obj, index) {
+    let node = `<tr>
+								<td>${index}</td>
+								<td>${obj.vendCdCode}</td>
+								<td>${obj.vendCdNm}</td>
+								<td>${obj.vendCdClfy}</td>
+								<td>${obj.empId}</td>
+							</tr>`;
+    $("#findVendortbody").append(node);
+  }
 
-            let index = 0;
-            index += 1;
-            $("#findProducttbody tr").remove();
-            makeRow(data, index);
-          },
-        });
-      });
+  //제품검색버튼 이벤트
+  $("#findProductbtn").click(function () {
+    let code = $("#prdCdCode").val();
+    let name = $("#prdCdName").val();
+    console.log("code -> " + code + " name->" + name);
 
-      //테이블 클릭 이벤트
-      $("#findProductTable").on("click", "tr", function () {
-        console.log($(this).find("td:eq(2)").text());
-        let name = $(this).find("td:eq(2)").text();
+    $.ajax({
+      url: `getProduct`,
+      method: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      data: {
+        prdCdCode: code,
+        prdCdName: name,
+      },
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        console.log(data);
 
-        $("#productname").val(name);
-        $("#findproductModal").modal("hide");
-      });
+        let index = 0;
+        index += 1;
+        $("#findProducttbody tr").remove();
+        makeRow(data, index);
+      },
+    });
+  });
 
-      //초기데이터
-      function makeRow(obj, index) {
-        let node = `<tr>
+  //테이블 클릭 이벤트
+  $("#findProductTable").on("click", "tr", function () {
+    console.log($(this).find("td:eq(2)").text());
+    let name = $(this).find("td:eq(2)").text();
+
+    $("#productname").val(name);
+    $("#findproductModal").modal("hide");
+  });
+
+  //초기데이터
+  function makeRow(obj, index) {
+    let node = `<tr>
 								<td>${index}</td>
 								<td>${obj.finPrdCdCode}</td>
 								<td>${obj.finPrdCdName}</td>
 								<td>${obj.finPrdCdUnit}</td>
 							</tr>`;
-        $("#findProducttbody").append(node);
-      }
-    }
-  });
+    $("#findProducttbody").append(node);
+  }
 
   //거래처코드 검색 테이블 클릭이벤트
   $("#findVendorTable").on("click", "tr", function () {
