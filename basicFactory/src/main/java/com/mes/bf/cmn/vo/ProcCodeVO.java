@@ -5,7 +5,7 @@ import org.apache.ibatis.type.Alias;
 import lombok.Data;
 
 @Data
-@Alias("procCodeVO")
+@Alias("procCode")
 public class ProcCodeVO {
 	private String procCdCode;
 	private String procCdName;

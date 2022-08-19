@@ -5,7 +5,7 @@ import org.apache.ibatis.type.Alias;
 import lombok.Data;
 
 @Data
-@Alias("LineCodeHdVO")
+@Alias("lineCodeHd")
 public class LineCodeHdVO {
 	private String lineCdHdCode;
 	private String lineCdHdName;

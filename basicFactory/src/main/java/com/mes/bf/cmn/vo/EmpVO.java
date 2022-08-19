@@ -13,8 +13,10 @@ public class EmpVO {
 	private String empPw;
 	private String empName;
 	private String empEmail;
-	private String phone;
+	private String empPhone;
 	private String empAuth;
+	private String empPos;
+	private String empRemk;
 	
 	
 }

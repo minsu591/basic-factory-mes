@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.mes.bf.cmn.vo.ProductCodeVO;
+import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.prod.vo.FindEmpVO;
 
 @Mapper
@@ -16,6 +16,6 @@ public interface InstManageMapper {
 	FindEmpVO findEmpName(String empName);
 	
 	//완제품코드 검색
-	ProductCodeVO findProdName(String ProdCode);
+	FinProdCodeVO findProdName(String ProdCode);
 	
 }

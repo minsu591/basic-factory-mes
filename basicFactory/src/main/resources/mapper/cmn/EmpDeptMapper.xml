@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.cmn.mapper.EmpDeptMapper">
+	
+	<resultMap type="com.mes.bf.cmn.vo.EmpVO" id="empMap">
+		<id property="empId" column="emp_id"/>
+		<result property="empId" column="emp_id"/>
+		<result property="empPw" column="emp_pw"/>
+		<result property="empName" column="emp_name"/>
+		<result property="empEmail" column="emp_email"/>
+		<result property="empPhone" column="emp_phone"/>
+		<result property="empAuth" column="emp_auth"/>
+		<result property="empPos" column="emp_pos"/>
+		<result property="empRemk" column="emp_remk"/>
+	</resultMap>
+	
+	<resultMap type="com.mes.bf.cmn.vo.DeptVO" id="deptMap">
+		<id property="deptNo" column="dept_no"/>
+		<result property="deptNo" column="dept_no"/>
+		<result property="deptName" column="dept_name"/>
+	</resultMap>
+	
+	<resultMap type="empDept" id="empDeptMap">
+		<collection property="empVO" resultMap="empMap"/>
+		<collection property="deptVO" resultMap="deptMap"/>
+	</resultMap>
+	
+	<select id="listEmpDept" resultMap="empDeptMap">
+		select *
+		from BF_CMN_EMP INNER JOIN BF_CMN_DEPT
+		USING(DEPT_NO)
+	</select>
+	
+</mapper>

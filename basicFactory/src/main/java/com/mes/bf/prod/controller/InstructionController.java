@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mes.bf.cmn.vo.ProductCodeVO;
+import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.prod.service.InstructionService;
 
 @RestController
@@ -39,9 +39,9 @@ public class InstructionController {
 	// 완제품전체 조회
 	// 조회 => Get
 	@GetMapping(value = "/findProduct", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<ProductCodeVO>> findAllProduct(ProductCodeVO vo) {
-		List<ProductCodeVO> list = service.findAllProduct();
-		return new ResponseEntity<List<ProductCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	public ResponseEntity<List<FinProdCodeVO>> findAllProduct(FinProdCodeVO vo) {
+		List<FinProdCodeVO> list = service.findAllProduct();
+		return new ResponseEntity<List<FinProdCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 	
 	//완제품 단건 검색
@@ -50,7 +50,7 @@ public class InstructionController {
 							"/findProduct/code/{prdCdCode}",
 							"/findProduct/name/{prdCdName}"
 		})
-		public ProductCodeVO findProduct(@PathVariable(required = false) String prdCdCode,
+		public FinProdCodeVO findProduct(@PathVariable(required = false) String prdCdCode,
 										@PathVariable(required = false) String prdCdName) {
 
 			if(prdCdCode == null) prdCdCode = null;
