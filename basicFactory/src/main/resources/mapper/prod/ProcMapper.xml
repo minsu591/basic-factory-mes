@@ -8,7 +8,7 @@ SELECT * FROM v_findmchn
 </select>
 
 <!-- 공정코드전체조회 -->
-<select id="findAllProcCode" resultType="procCodeVO">
+<select id="findAllProcCode" resultType="procCode">
 
 SELECT * FROM BF_CMN_PROC_CODE
 

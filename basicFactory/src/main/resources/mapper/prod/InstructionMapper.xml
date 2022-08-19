@@ -95,7 +95,7 @@ SELECT * FROM v_instruction
 </select>
 
 <!-- 거래처조회 -->
-<select id="findAllVendorCode" resultType="vendorCodeVO">
+<select id="findAllVendorCode" resultType="vendorCode">
 SELECT * FROM BF_CMN_VENDOR_CODE
 </select>
 
