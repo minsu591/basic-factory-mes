@@ -8,26 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Production PlanManage</title>
-    <style>
-        .btn {
-            margin-left : 1%;
-            margin-bottom : 1%;
-        }
-        h1 {
-            padding-top : 2%;
-            padding-left : 2%;
-            padding-bottom : 2%;
-        }
-        .rightBtn {
-            float : right;
-        }
-        
-        .form-inline {
-            width : 100%;
-            margin : auto;
-        }
-        
-    </style>
+    <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
     
 </head>
 <body>
@@ -38,7 +19,9 @@
                   <div class="card">
                       <div class="card-header">
                         <!--해당 사용자가 작성한 생산 계획 조회 버튼-->
-                        <button type="button" class="btn  btn-primary rightBtn">생산계획 조회</button>
+                        <div class="rightBtn">
+                            <button type="button" class="btn  btn-primary">생산계획 조회</button>
+                        </div>
                         <br>
                         <!--새로운 생산계획 만들 때 사용할 정보-->
                           <form class="form-inline">
@@ -65,22 +48,27 @@
                       </div>
                       <div class="card-body table-border-style">
                         <button type="button" class="btn btn-primary">미생산 주문내역 조회</button>
-                        <button type="button" class="btn btn-primary rightBtn">저장</button>
-                        <button type="button" class="btn btn-primary rightBtn">추가</button>
-                        <button type="button" class="btn btn-primary rightBtn">선택 삭제</button>
+                        <div class="rightBtn">
+                            <button type="button" class="btn btn-primary">저장</button>
+                            <button type="button" class="btn btn-primary">추가</button>
+                            <button type="button" class="btn btn-primary">선택 삭제</button>
+                        </div>
                           <div class="table-responsive">
                               <table class="table table-striped">
                                   <thead>
                                       <tr>
                                           <th><input type="checkbox"></th>
+                                          <!-- readonly option, 미생산 주문내역 조회 버튼을 통해 가져옴-->
                                           <th th:text="주문코드"></th>
                                           <th th:text="제품코드"></th>
                                           <th th:text="제품명"></th>
                                           <th th:text="규격"></th>
                                           <th th:text="단위"></th>
                                           <th th:text="주문량"></th>
+                                          <!-- if 주문코드를 가져오면 기존 계획에 해당 주문코드가 존재하는지-->
                                           <th th:text="기계획량"></th>
                                           <th th:text="미계획량"></th>
+                                          <!--input창-->
                                           <th th:text="계획량"></th>
                                           <th th:text="'작업계획 시작일자'"></th>
                                           <th th:text="'작업계획 종료일자'"></th>

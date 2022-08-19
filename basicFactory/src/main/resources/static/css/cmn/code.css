@@ -1,0 +1,24 @@
+.btn {
+	margin-top : 1%;
+    margin-left : 1%;
+    margin-bottom : 1%;
+}
+h1 {
+    padding-top : 2%;
+    padding-left : 2%;
+    padding-bottom : 1.5%;
+}
+h3 {
+    padding-top : 1%;
+    padding-left : 2%;
+    padding-bottom : 1%;
+}
+.rightBtn {
+    float : right;
+    width : 30%;
+    text-align : right;
+}
+.form-inline {
+    width : 100%;
+    margin : auto;
+}

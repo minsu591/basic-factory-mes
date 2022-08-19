@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mes.bf.cmn.vo.ProductCodeVO;
+import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.vo.FindEmpVO;
@@ -56,16 +56,16 @@ public class InstructionController {
 	}
 
 	@GetMapping("/findProdName/{prodCode}")
-	public ProductCodeVO findProdName(@PathVariable String prodCode) {
+	public FinProdCodeVO findProdName(@PathVariable String prodCode) {
 		return service.findProdName(prodCode);
 	}
 
 	// 완제품전체 조회
 	// 조회 => Get
 	@GetMapping(value = "/findProduct", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<ProductCodeVO>> findAllProduct(ProductCodeVO vo) {
-		List<ProductCodeVO> list = service.findAllProduct();
-		return new ResponseEntity<List<ProductCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	public ResponseEntity<List<FinProdCodeVO>> findAllProduct(FinProdCodeVO vo) {
+		List<FinProdCodeVO> list = service.findAllProduct();
+		return new ResponseEntity<List<FinProdCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
 	// 생산지시조회
@@ -79,7 +79,7 @@ public class InstructionController {
 	// 완제품 단건 검색
 	// 단건조회 => GET
 	@GetMapping(value = { "/getProduct" })
-	public ProductCodeVO findProduct(@RequestParam Map<String, String> QueryParameters) {
+	public FinProdCodeVO findProduct(@RequestParam Map<String, String> QueryParameters) {
 		System.out.println(QueryParameters.get("prdCdCode"));
 		System.out.println(QueryParameters.get("prdCdName"));
 		return service.findProduct(QueryParameters.get("prdCdCode"), QueryParameters.get("prdCdName"));

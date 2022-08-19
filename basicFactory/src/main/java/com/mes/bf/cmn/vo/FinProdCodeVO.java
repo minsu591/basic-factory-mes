@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Alias("prodCode")
-public class ProductCodeVO {
+public class FinProdCodeVO {
 
 	private String finPrdCdCode;
 	private String finPrdCdName;

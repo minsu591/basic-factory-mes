@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.cmn.mapper.LineMapper">
+	
+	<select id="listLineCodeHd" resultType="lineCodeHd">
+		select *
+		from bf_cmn_line_code_hd
+		order by line_cd_hd_code
+	</select>
+	
+</mapper>

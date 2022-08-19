@@ -8,10 +8,67 @@ xmlns:th="http://www.thymeleaf.org"
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Common VendorCode</title>
+    <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
 </head>
 <body>
     <div class="pcoded-main-container">
-        <h1>Vendor Code</h1>
+        <h1>거래처 코드 관리</h1>
+        <hr>
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    
+                    <form class="form-inline">
+                         <div class="form-group mt-3">
+                            <label for="vendorName" th:text="거래처명"></label>
+                            <input type="text" id="vendorName" class="form-control mx-sm-3">
+                        </div>
+                        
+                        <button type="submit" class="btn  btn-primary">조회</button>
+                    </form>
+                    <div class="rightBtn">
+                        <button type="button" class="btn  btn-primary">추가</button>
+                        <button type="button" class="btn  btn-primary">저장</button>
+                        <button type="button" class="btn  btn-primary">선택 삭제</button>
+                    </div>
+                </div>
+                <div class="card-body table-border-style">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox"></th>
+                                    <th th:text="거래처코드"></th>
+                                    <th th:text="'담당자 아이디'"></th>
+                                    <th th:text="거래처분류"></th>
+                                    <th th:text="거래처명"></th>
+                                    <th th:text="'사업자 등록 번호'"></th>
+                                    <th th:text="'거래처 연락처'"></th>
+                                    <th th:text="주소"></th>
+                                    <th th:text="비고"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="vend : ${vendors}">
+                                    <td><input type="checkbox"></td>
+                                    <td th:text="${vend.vendCdCode}">VEND001</td>
+                                    <td th:text="${vend.empId}">mia</td>
+                                    <td th:text="${vend.vendCdClfy}">판매</td>
+                                    <td th:text="${vend.vendCdNm}">농심</td>
+                                    <td th:text="${vend.vendCdRegNo}">111-2222-343554</td>
+                                    <td th:text="${vend.vendCdPhone}">888-9999-5555</td>
+                                    <td th:text="${vend.vendCdAdr}">대구 광역시</td>
+                                    <td th:text="${vend.vendCdRemk}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="rightBtn">
+                        <button type="button" class="btn  btn-primary">초기화</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     
 </body>

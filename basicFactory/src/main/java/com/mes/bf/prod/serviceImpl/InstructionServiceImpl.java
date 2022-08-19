@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mes.bf.cmn.vo.ProductCodeVO;
+import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.mapper.InstructionMapper;
 import com.mes.bf.prod.service.InstructionService;
@@ -24,12 +24,12 @@ public class InstructionServiceImpl implements InstructionService {
 	}
 
 	@Override
-	public List<ProductCodeVO> findAllProduct() {		
+	public List<FinProdCodeVO> findAllProduct() {		
 		return mapper.findAllProduct();
 	}
 
 	@Override
-	public ProductCodeVO findProduct(String prdCdCode, String prdCdName) {
+	public FinProdCodeVO findProduct(String prdCdCode, String prdCdName) {
 		return mapper.findProduct(prdCdCode, prdCdName);
 	}
 
@@ -49,7 +49,7 @@ public class InstructionServiceImpl implements InstructionService {
 	}
 
 	@Override
-	public ProductCodeVO findProdName(String ProdCode) {
+	public FinProdCodeVO findProdName(String ProdCode) {
 
 		return mapper.findProdName(ProdCode);
 	}

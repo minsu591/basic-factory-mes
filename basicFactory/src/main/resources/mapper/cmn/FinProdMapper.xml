@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.cmn.mapper.FinProdMapper">
+	
+	<select id="listFinProd" resultType="prodCode">
+		select *
+		from bf_cmn_finish_product_code
+		ORDER BY FIN_PRD_CD_CODE
+	</select>
+	
+</mapper>

@@ -8,17 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Production PlanView</title>
-    <style>
-        h1 {
-            padding-top : 2%;
-            padding-left : 2%;
-            padding-bottom : 2%;
-        }
-
-        button {
-            margin-top: 1%;
-        }
-    </style>
+    <link th:href="@{/css/cmn/code.css}" rel="stylesheet"/>
 </head>
 <body>
     <div class="pcoded-main-container">
@@ -52,22 +42,32 @@
                               <table class="table table-striped">
                                   <thead>
                                       <tr>
+                                            <!-- 생산 계획 헤더-->
+                                            <th th:text="'생산계획 코드'"></th>
+                                            <th th:text="생산계획명"></th>
                                           <th th:text="'생산계획 일자'"></th>
-                                          <th th:text="'생산계획 번호'"></th>
-                                          <th th:text="생산계획명"></th>
-                                          <th th:text="거래처명"></th>
+                                          <!-- 직원 아이디 -->
                                           <th th:text="담당자명"></th>
-                                          <th th:text="제품코드"></th>
-                                          <th th:text="제품명"></th>
-                                          <th th:text="규격"></th>
+                                          <!-- if 주문번호 존재시 -->
                                           <th th:text="주문코드"></th>
+                                          <!-- 거래처 코드 -> 거래처 명 -->
+                                          <th th:text="거래처명"></th>
+                                          <!-- 주문내역 헤더 -> 주문내역 -->
                                           <th th:text="납기일자"></th>
-                                          <th th:text="'작업계획 시작일자'"></th>
-                                          <th th:text="'작업계획 종료일자'"></th>
+                                          <!--생산계획 테이블-->
+                                          <th th:text="제품코드"></th>
+                                          <!-- 생산계획 테이블 -> 완제품 코드 -->
+                                          <th th:text="제품명"></th>
+                                          <!--if 주문번호 존재시-->
                                           <th th:text="주문량"></th>
+                                          <!-- if 생산 지시에 해당하는 생산계획 코드가 있고 제품이 동일할 때-->
+                                          <!-- **** 기계획량, 미계획량 삭제?? -> 이유 : 해당 제품을 계획할 당시의 계획에 대한 미계획량, 기계획량인지 아님 실시간으로 업데이트 해야되는지?-->
                                           <th th:text="기계획량"></th>
                                           <th th:text="계획량"></th>
                                           <th th:text="미계획량"></th>
+                                          <!-- 생산계획-->
+                                          <th th:text="'작업계획 시작일자'"></th>
+                                          <th th:text="'작업계획 종료일자'"></th>
                                       </tr>
                                   </thead>
                                   <tbody>
