@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalesOrderHistory</title>
+    <style>
+        h1 {
+            padding-top : 2%;
+            padding-left : 2%;
+            padding-bottom : 2%;
+        }
+
+        button {
+            margin-top: 1%;
+        }
+    </style>
+</head>
+<body>
+    <div class="pcoded-main-container">
+        <h1>주문 조회</h1>
+        <hr>
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <form class="form-inline">
+                        <div class="form-group mt-3">
+                                  <label for="slsOrdHdNo" th:text="주문일자"></label>
+                                  <input type="date" id="orderSdate" class="form-control mx-sm-3"> ~
+                                  <input type="date" id="orderEdate" class="form-control mx-sm-3">
+                        </div>
+                        <br>
+                        <div class="form-group mt-3">
+                            <label for="vendor" th:text="거래처"></label>
+                            <input type="text" id="vendor" class="form-control mx-sm-3"
+                                   data-toggle="modal" data-target=".bd-example-modal-lg">
+                            <label for="vendorName" th:text="거래처명"></label>
+                            <input type="text" id="vendorName" class="form-control mx-sm-3" readonly>
+                        </div>
+                        <button type="submit" class="btn  btn-primary">조회</button>
+                    </form>
+                </div>
+                <div class="card-body table-border-style">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th th:text="주문일자"></th>
+                                    <th th:text="주문번호"></th>
+                                    <th th:text="거래처"></th>
+                                    <th th:text="제품코드"></th>
+                                    <th th:text="제품명"></th>
+                                    <th th:text="납기일자"></th>
+                                    <th th:text="주문량"></th>
+                                    <th th:text="출고량"></th>
+                                    <th th:text="미출고량"></th>
+                                    <th th:text="담당자"></th>
+                                    <th th:text="비고"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="order : ${ordList}">
+                                    <td th:text="${#dates.format(order.slsOrdHdDate, 'yyyy-MM-dd')}"></td>
+                                    <td th:text="${order.slsOrdHdNo}"></td>
+                                    <td th:text="${order.vendCdNm}"></td>
+                                    <td th:text="${order.finPrdCdCode}"></td>
+                                    <td th:text="${order.finPrdCdName}"></td>
+                                    <td th:text="${#dates.format(order.slsOrdDtlDlvDate, 'yyyy-MM-dd')}"></td>
+                                    <td th:text="${order.slsOrdDtlVol}"></td>
+                                    <td th:text="${order.slsOrdDtlOutVol}"></td>
+                                    <td th:text="${order.slsNonOutDtlVol}"></td>
+                                    <td th:text="${order.empId}"></td>
+                                    <td th:text="${order.slsOrdHdRemk}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
