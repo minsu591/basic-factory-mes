@@ -180,48 +180,11 @@
 	</div>
 	
 	
-	  <!-- Modal -->
-<div class="modal fade" id="findempModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" id="findempModalLabel">담당자 검색</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="취소"></button>
-        <button type="button" class="btn btn-primary" th:text="선택" id="selectbtn"></button>
-      </div>
-    </div>
-  </div>
-</div>
-  
-	
-	  <!-- Modal -->
-<div class="modal fade" id="findPlanModal" tabindex="-1" role="dialog" aria-labelledby="findPlanModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" id="findPlanModalLabel">미지시 생산계획 조회</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <th:block th:replace="~{/fragments/modal/findPlan :: findPlan}"></th:block>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="취소"></button>
-        <button type="button" class="btn btn-primary" th:text="선택" id="selectbtn"></button>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- 담당자검색 Modal -->
+<th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
+<!-- Modal -->
+<th:block th:replace="~{/fragments/modal/findPlan :: findPlan}"></th:block>
+
 	
 	
 	

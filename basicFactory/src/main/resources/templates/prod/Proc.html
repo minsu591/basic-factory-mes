@@ -83,86 +83,12 @@
   </div>
   
   
-   <!-- Modal -->
-<div class="modal fade" id="findProcCdNameModal" tabindex="-1" role="dialog" aria-labelledby="findProcCdNameModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" id="findProcCdNameModalLabel">공정 검색</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <th:block th:replace="~{/fragments/modal/findProcCdName :: findProcCdName}"></th:block>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-  
-  
-  
-     <!-- Modal -->
-<div class="modal fade" id="findMchnNameModal" tabindex="-1" role="dialog" aria-labelledby="findMchnNameModal" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" id="findMchnNameModalLabel">설비 검색</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <th:block th:replace="~{/fragments/modal/findMchnName :: findMchnName}"></th:block>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-  
-  
-  
-  
-  
-  
-  
-  
-    <!-- Modal -->
-<div class="modal fade" id="findempModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="findempModalLabel">담당자 검색</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
+<!-- 공정 검색 Modal -->
+<th:block th:replace="~{/fragments/modal/findProcCdName :: findProcCdName}"></th:block>
+<!--  설비검색 Modal -->
+<th:block th:replace="~{/fragments/modal/findMchnName :: findMchnName}"></th:block>
+<!-- 담당자검색 Modal -->    
+<th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
   
   
   </body>
