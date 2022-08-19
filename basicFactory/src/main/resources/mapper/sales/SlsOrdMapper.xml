@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.sales.mapper.SlsOrdMapper">
+
+<!-- 주문내역 전체조회 -->
+<select id="findAllOrder" resultType="ordHist">
+SELECT ordhd.sls_ord_hd_date,
+            UPPER(ordhd.sls_ord_hd_no) AS slsOrdHdNo,
+            (SELECT vend_cd_nm 
+            FROM BF_CMN_VENDOR_CODE
+            WHERE vend_cd_code = ordhd.vend_cd_code) AS vendCdNm,
+            orddt.fin_prd_cd_code,
+            (SELECT fin_prd_cd_name
+            FROM bf_cmn_finish_product_code
+            WHERE fin_prd_cd_code=orddt.fin_prd_cd_code) AS finPrdCdName,
+            orddt.sls_ord_dtl_dlv_date,
+            orddt.sls_ord_dtl_vol,
+            orddt.sls_ord_dtl_out_vol,
+            (SELECT sls_ord_dtl_vol - sls_ord_dtl_out_vol
+            FROM bf_sales_ord_dtl
+            WHERE sls_ord_hd_no = orddt.sls_ord_hd_no and
+            fin_prd_cd_code = orddt.fin_prd_cd_code) AS slsNonOutDtlVol,
+            ordhd.emp_Id,
+            ordhd.sls_ord_hd_remk
+FROM BF_SALES_ORD_HD ordhd JOIN BF_SALES_ORD_DTL orddt
+    ON ordhd.sls_ord_hd_no = orddt.sls_ord_hd_no
+</select>
+
+</mapper>
