@@ -5,6 +5,35 @@ $("document").ready(function () {
     findVendorCode();
     $("#findvendorModal").modal("show");
   });
+
+  //거래처코드 검색 버튼 클릭 이벤트
+  $("#findVendorBtn").click(function () {
+    let vendCdClfy = $("#vendCdClfy option:selected").text();
+    let vendorCode = $("#vendorCode").val();
+    $.ajax({
+      url: `findvendorcode`,
+      method: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      data: {
+        vendorCode: vendorCode,
+        vendCdClfy: vendCdClfy,
+      },
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        console.log("검색조건 데이타 _ >" + data);
+        let index = 0;
+        $("#findVendortbody tr").remove();
+        for (obj of data) {
+          index += 1;
+          makeVendorCodeRow(obj, index);
+        }
+      },
+    });
+  });
+
   //거래처코드 검색 테이블 클릭이벤트
   $("#findVendorTable").on("click", "tr", function () {
     let vendCode = $(this).find("td:eq(1)").text();

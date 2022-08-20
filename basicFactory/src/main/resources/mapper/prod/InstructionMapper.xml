@@ -96,6 +96,15 @@ SELECT * FROM v_instruction
 <!-- 거래처조회 -->
 <select id="findAllVendorCode" resultType="vendorCode">
 SELECT * FROM BF_CMN_VENDOR_CODE
+<where>
+	<if test="vendorCode != null and vendorCode != ''">
+		AND vend_cd_code LIKE #{vendorCode}
+	</if>
+	<if test="vendCdClfy != null and vendCdClfy != '' and vendCdClfy != '전체'">
+		AND vend_cd_clfy LIKE #{vendCdClfy}
+	</if>
+
+</where>
 </select>
 
 <!-- 공정상태조회 -->

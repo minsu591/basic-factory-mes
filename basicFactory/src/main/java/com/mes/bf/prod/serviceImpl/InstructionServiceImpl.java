@@ -57,8 +57,8 @@ public class InstructionServiceImpl implements InstructionService {
 	}
 
 	@Override
-	public List<VendorCodeVO> findAllVendorCode() {
-		return mapper.findAllVendorCode();
+	public List<VendorCodeVO> findAllVendorCode(String vendorCode,String vendCdClfy) {
+		return mapper.findAllVendorCode(vendorCode,vendCdClfy);
 	}
 
 	@Override

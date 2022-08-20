@@ -42,9 +42,10 @@ public class JoinTest {
 		System.out.println(service3.findAllProcCode());
 	}
 	
-	//@Test
-	void findAllVendorCode() {
-		System.out.println(service2.findAllVendorCode());
+	@Test 
+	void findVendor() {
+		System.out.println(service2.findAllVendorCode(null, null));
+		
 	}
 	//@Test
 //	void findMchn() {
@@ -61,7 +62,7 @@ public class JoinTest {
 		System.out.println(service3.findMchn("MCHN001", null));
 	}
 	
-	@Test
+	//@Test
 	void findProcStatus() {
 		System.out.println(service2.findProcStatus("1라인"));
 	}

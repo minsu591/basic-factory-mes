@@ -71,7 +71,6 @@ $(document).ready(function () {
   }
 
   //공정셀렉티드 검색
-
   $("#selectProcCdName").bind("input", function () {
     let procCdName = $("#selectProcCdName option:selected").text();
     $.ajax({

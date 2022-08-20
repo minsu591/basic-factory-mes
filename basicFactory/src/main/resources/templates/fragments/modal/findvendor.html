@@ -23,16 +23,16 @@
 					<div class="modal-body">
 						<div class="form-inline">
 							<div class="form-group mt-3">
-								<label for="findVendorCode" th:text="거래처코드"></label> <input
-									type="text" id="findVendorCode" name="findVendorCode"
+								<label for="vendorCode" th:text="거래처코드"></label> <input
+									type="text" id="vendorCode" name="vendorCode"
 									class="form-control mx-sm-3">
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 										<label class="input-group-text hei-45 wid-50 p-0"
-											for="inputGroupSelect01">분류</label>
+											for="vendCdClfy">분류</label>
 									</div>
 									<select class="custom-select hei-45 m-r-10"
-										id="inputGroupSelect01">
+										id="vendCdClfy">
 										<option selected>전체</option>
 										<option th:value="구매" th:text="구매"></option>
 										<option th:value="판매" th:text="판매"></option>

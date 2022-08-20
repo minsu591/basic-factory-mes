@@ -36,7 +36,7 @@ public interface InstructionMapper {
 	VFindProdAndLineVO findProdName(String ProdCode);
 	
 	//거래처 조회
-	List<VendorCodeVO> findAllVendorCode();
+	List<VendorCodeVO> findAllVendorCode(String vendorCode,String vendCdClfy);
 	
 	//공정 상태 조회
 	List<FindProcStatusVO> findProcStatus(String lineName);
