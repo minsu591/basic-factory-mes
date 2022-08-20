@@ -29,28 +29,31 @@ $(document).ready(function () {
     let code = $("#prdCdCode").val();
     let name = $("#prdCdName").val();
     console.log("code -> " + code + " name->" + name);
+    if (code == "" && name == "") {
+      findProduct();
+    } else {
+      $.ajax({
+        url: `getProduct`,
+        method: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        data: {
+          prdCdCode: code,
+          prdCdName: name,
+        },
+        error: function (error, status, msg) {
+          alert("상태코드 " + status + "에러메시지" + msg);
+        },
+        success: function (data) {
+          console.log(data);
 
-    $.ajax({
-      url: `getProduct`,
-      method: "GET",
-      contentType: "application/json;charset=utf-8",
-      dataType: "json",
-      data: {
-        prdCdCode: code,
-        prdCdName: name,
-      },
-      error: function (error, status, msg) {
-        alert("상태코드 " + status + "에러메시지" + msg);
-      },
-      success: function (data) {
-        console.log(data);
-
-        let index = 0;
-        index += 1;
-        $("#findProducttbody tr").remove();
-        makeRow(data, index);
-      },
-    });
+          let index = 0;
+          index += 1;
+          $("#findProducttbody tr").remove();
+          makeRow(data, index);
+        },
+      });
+    }
   });
 
   //테이블 클릭 이벤트
