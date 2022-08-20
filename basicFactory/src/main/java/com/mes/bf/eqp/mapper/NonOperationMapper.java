@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mes.bf.cmn.vo.NonOpVO;
+import com.mes.bf.eqp.vo.FindNonOpHIstoryVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 
 @Mapper
@@ -18,4 +19,7 @@ public interface NonOperationMapper {
 
 	// 비가동코드, 비가동명 검색
 	NonOpVO findNonOp(String nonOpCode, String NonOpName);
+
+	// 설비 비가동 조회
+	List<FindNonOpHIstoryVO> findAllNonOpHistory();
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.mes.bf.cmn.vo.NonOpVO;
 import com.mes.bf.eqp.mapper.NonOperationMapper;
 import com.mes.bf.eqp.service.NonOperationService;
+import com.mes.bf.eqp.vo.FindNonOpHIstoryVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 
 @Service
@@ -30,6 +31,11 @@ public class NonOperationServiceImpl implements NonOperationService {
 	@Override
 	public NonOpVO findNonOp(String nonOpCode, String NonOpName) {
 		return mapper.findNonOp(nonOpCode, NonOpName);
+	}
+
+	@Override
+	public List<FindNonOpHIstoryVO> findAllNonOpHistory() {
+		return mapper.findAllNonOpHistory();
 	}
 
 }

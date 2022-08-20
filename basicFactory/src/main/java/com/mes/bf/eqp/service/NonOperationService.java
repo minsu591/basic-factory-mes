@@ -3,6 +3,7 @@ package com.mes.bf.eqp.service;
 import java.util.List;
 
 import com.mes.bf.cmn.vo.NonOpVO;
+import com.mes.bf.eqp.vo.FindNonOpHIstoryVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 
 public interface NonOperationService {
@@ -14,4 +15,7 @@ public interface NonOperationService {
 
 	// 비가동코드, 비가동명 검색
 	NonOpVO findNonOp(String nonOpCode, String NonOpName);
+
+	// 설비 비가동 조회
+	List<FindNonOpHIstoryVO> findAllNonOpHistory();
 }

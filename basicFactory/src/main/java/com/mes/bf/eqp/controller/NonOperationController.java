@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mes.bf.cmn.vo.NonOpVO;
 import com.mes.bf.cmn.vo.ProcCodeVO;
 import com.mes.bf.eqp.service.NonOperationService;
+import com.mes.bf.eqp.vo.FindNonOpHIstoryVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.service.ProcService;
 
@@ -24,8 +25,11 @@ import com.mes.bf.prod.service.ProcService;
 @RequestMapping("/eqp")
 public class NonOperationController {
 
-	@Autowired ProcService procService;
-	@Autowired NonOperationService service;
+	@Autowired
+	ProcService procService;
+	@Autowired
+	NonOperationService service;
+
 	// 비가동조회페이지 이동
 	@RequestMapping("/nonOperation")
 	public ModelAndView nonOperation() {
@@ -60,25 +64,31 @@ public class NonOperationController {
 		List<VfindMchnVO> list = service.findMchn(procCdName);
 		return new ResponseEntity<List<VfindMchnVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
+
 	// 설비명 단건 검색
 	@GetMapping(value = { "/getmchn" })
 	public VfindMchnVO findMchn(@RequestParam Map<String, String> QueryParameters) {
 		return procService.findMchn(QueryParameters.get("mchnCode"), QueryParameters.get("mchnName"));
 	}
-	
-	//비가동코드 전체 조회 
+
+	// 비가동코드 전체 조회
 	@GetMapping(value = "/findallnonop", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<NonOpVO>> findAllNonOp(NonOpVO vo) {
 		List<NonOpVO> list = service.findAllNonOp();
 		return new ResponseEntity<List<NonOpVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
-	
-	//비가동코드 단건 검색
+
+	// 비가동코드 단건 검색
 	@GetMapping(value = { "/getnonop" })
 	public NonOpVO findNonOp(@RequestParam Map<String, String> QueryParameters) {
 		return service.findNonOp(QueryParameters.get("nonOpCode"), QueryParameters.get("noneOpName"));
 	}
-	
-	
+
+	// 설비 비가동 조회
+	@GetMapping(value = "findallnonophistory", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<FindNonOpHIstoryVO>> findAllNonOpHistory(FindNonOpHIstoryVO vo) {
+		List<FindNonOpHIstoryVO> list = service.findAllNonOpHistory();
+		return new ResponseEntity<List<FindNonOpHIstoryVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
 
 }

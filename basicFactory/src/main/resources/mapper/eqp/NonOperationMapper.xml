@@ -4,7 +4,13 @@
 
 <select id="findMchn" resultType="vmchn">
 
-SELECT * FROM v_findmchn WHERE proc_cd_name LIKE '%'||#{procCdName}||'%'
+SELECT * FROM v_findmchn 
+<where>
+	<if test="procCdName != '전체'">
+		AND proc_cd_name LIKE '%'||#{procCdName}||'%'	
+	</if>
+</where>
+
 
 </select>
 
@@ -30,6 +36,25 @@ SELECT * FROM BF_CMN_NON_OP
 </where>
 
 </select>
+
+<!-- 설비 비가동 조회 -->
+<select id="findAllNonOpHistory" resultType="NonOpHistoryVO">
+SELECT eqp.mchn_code AS mchnCode,
+       eqp.mchn_name AS mchnName,
+       nonophistory.input_date AS inputDate,
+       nonop.non_op_name AS nonOpName,
+       nonophistory.non_op_rsn AS nonOpRsn,
+       nonophistory.non_op_min AS nonOpMin,
+       nonophistory.non_op_start_time AS nonOpStartTime,
+       nonophistory.non_op_end_time AS nonOpEndTime
+FROM BF_EQP_MCHN eqp,
+    BF_EQP_NON_OP_HISTORY nonophistory,
+    BF_CMN_NON_OP nonop
+WHERE eqp.mchn_code = nonophistory.mchn_code AND
+        nonophistory.non_op_code = nonop.non_op_code
+
+</select>
+
 
 
 </mapper>
