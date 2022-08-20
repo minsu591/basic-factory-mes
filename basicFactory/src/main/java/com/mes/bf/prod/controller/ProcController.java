@@ -1,6 +1,7 @@
 package com.mes.bf.prod.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,9 +9,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.ProcCodeVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.service.ProcService;
@@ -66,11 +69,22 @@ public class ProcController {
 	}
 
 	// 공정실적 전체조회
-	// 공정명 전체조회
 	@GetMapping(value = "/findallprocperform", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<VFindProcPerformVO>> findAllProcPerform(VFindProcPerformVO vo) {
 		List<VFindProcPerformVO> list = service.findAllProcPerform();
 		return new ResponseEntity<List<VFindProcPerformVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
+
+	// 공정명 단건 검색
+	@GetMapping(value = { "/getproccode" })
+	public ProcCodeVO findProduct(@RequestParam Map<String, String> QueryParameters) {
+		return service.findProcCode(QueryParameters.get("procCdCode"), QueryParameters.get("procCdName"));
+	}
+
+	// 설비명 단건 검색
+	@GetMapping(value = { "/getmchn" })
+	public VfindMchnVO findMchn(@RequestParam Map<String, String> QueryParameters) {
+		return service.findMchn(QueryParameters.get("mchnCode"), QueryParameters.get("mchnName"));
 	}
 
 }

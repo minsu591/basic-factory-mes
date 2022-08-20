@@ -21,5 +21,33 @@ SELECT * FROM BF_CMN_PROC_CODE
 SELECT * FROM v_findprocperform
 </select>
 
+<!-- 공정코드,공정명 검색 -->
+<select id="findProcCode" resultType="procCode">
+SELECT * FROM BF_CMN_PROC_CODE
+<where>
+	<if test="procCdCode != null and procCdCode != ''">
+		AND proc_cd_code  LIKE #{procCdCode}
+	</if>
+	<if test="procCdName != null and procCdName != ''">
+		AND proc_cd_name  LIKE #{procCdName}
+	</if>
+
+</where>
+</select>
+
+<select id="findMchn" resultType="vmchn">
+SELECT * FROM v_findmchn
+<where>
+	<if test="mchnCode != null and mchnCode != ''">
+		AND mchn_code LIKE #{mchnCode}
+	</if>
+	
+	<if test="mchnName != null and mchnName != ''">
+		AND mchn_name LIKE #{mchnName}
+	</if>
+	
+</where>
+
+</select>
 
 </mapper>

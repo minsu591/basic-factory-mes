@@ -109,6 +109,38 @@ $(document).ready(function () {
    </tr>`;
     $("#findProcCdNameTable").append(node);
   }
+
+  //공정검색버튼 클릭 이벤트
+  $("#findCdNameBtn").on("click", function () {
+    let code = $("#procCdCode").val();
+    let name = $("#procCdName").val();
+    console.log("code -> " + code + " name->" + name);
+    if (name == "" && code == "") {
+      findAllProcCode();
+    } else {
+      $.ajax({
+        url: `getproccode`,
+        method: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        data: {
+          procCdCode: code,
+          procCdName: name,
+        },
+        error: function (error, status, msg) {
+          alert("상태코드 " + status + "에러메시지" + msg);
+        },
+        success: function (data) {
+          console.log(data);
+          let index = 0;
+          index += 1;
+          $("#findProcCdNameTable tbody tr").remove();
+          makeProcCodeRow(data, index);
+        },
+      });
+    }
+  });
+
   //공정테이블 클릭이벤트
   $("#findProcCdNameTable").on("click", "tr", function () {
     let procCdName = $(this).find("td:eq(2)").text();
@@ -135,6 +167,37 @@ $(document).ready(function () {
       },
     });
   }
+
+  //설비테이블 검색버튼 클릭 이벤트
+  $("#findMchnBtn").click(function () {
+    let code = $("#mchnCode").val();
+    let name = $("#mchnName").val();
+    console.log("code->" + code + " name->" + name);
+    if (name == "" && code == "") {
+      findMchnName();
+    } else {
+      $.ajax({
+        url: `getmchn`,
+        method: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        data: {
+          mchnCode: code,
+          mchnName: name,
+        },
+        error: function (error, status, msg) {
+          alert("상태코드 " + status + "에러메시지" + msg);
+        },
+        success: function (data) {
+          console.log(data);
+          let index = 0;
+          index += 1;
+          $("#findMchntbody tr").remove();
+          mchnMakeRow(data, index);
+        },
+      });
+    }
+  });
 
   //설비테이블 클릭이벤트
   $("#findMchnTable").on("click", "tr", function () {

@@ -31,4 +31,14 @@ public class ProcServiceImpl implements ProcService {
 		return mapper.findAllProcPerform();
 	}
 
+	@Override
+	public ProcCodeVO findProcCode(String procCdCode, String procCdName) {
+		return mapper.findProcCode(procCdCode, procCdName);
+	}
+
+	@Override
+	public VfindMchnVO findMchn(String mchnCode, String mchnName) {
+		return mapper.findMchn(mchnCode, mchnName);
+	}
+
 }

@@ -75,7 +75,7 @@ ORDER BY ROWNUM
 <select id="findProduct" resultType="prodCode">
 
 SELECT * FROM BF_CMN_FINISH_PRODUCT_CODE 
-where rownum > 0
+WHERE rownum > 0
 	<if test="prdCdCode != null and prdCdCode !=''">
 	 AND fin_prd_cd_code LIKE #{prdCdCode}
 	</if>
