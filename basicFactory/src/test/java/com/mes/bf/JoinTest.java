@@ -36,10 +36,6 @@ public class JoinTest {
 		System.out.println(service2.findAllvInstruction());
 	}
 	
-	//@Test
-	void ProcCode() {
-		System.out.println(service3.findAllProcCode());
-	}
 	
 	//@Test 
 	void findVendor() {
