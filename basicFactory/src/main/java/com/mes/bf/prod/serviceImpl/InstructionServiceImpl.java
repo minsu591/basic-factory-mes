@@ -1,20 +1,69 @@
 package com.mes.bf.prod.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mes.bf.cmn.vo.FinProdCodeVO;
+import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.mapper.InstructionMapper;
 import com.mes.bf.prod.service.InstructionService;
+import com.mes.bf.prod.vo.FindEmpVO;
+import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.InstructionVO;
+import com.mes.bf.prod.vo.VFindProdAndLineVO;
+import com.mes.bf.prod.vo.VInstructionVO;
 
 @Service 
 public class InstructionServiceImpl implements InstructionService {
 
-	InstructionMapper instmapper;
+	@Autowired InstructionMapper mapper;
 	
 	@Override
 	public InstructionVO getInst() {
-		return instmapper.getInst();
+		return mapper.getInst();
+	}
+
+	@Override
+	public List<FinProdCodeVO> findAllProduct() {		
+		return mapper.findAllProduct();
+	}
+
+	@Override
+	public FinProdCodeVO findProduct(String prdCdCode, String prdCdName) {
+		return mapper.findProduct(prdCdCode, prdCdName);
+	}
+
+	@Override
+	public List<VInstructionVO> findAllvInstruction() {
+		return mapper.findAllvInstruction();
+	}
+	
+	@Override
+	public List<FindEmpVO> findEmp() {
+		return mapper.findEmp();
+	}
+
+	@Override
+	public FindEmpVO findEmpName(String empName) {
+		return mapper.findEmpName(empName);
+	}
+
+	@Override
+	public VFindProdAndLineVO findProdName(String ProdCode) {
+
+		return mapper.findProdName(ProdCode);
+	}
+
+	@Override
+	public List<VendorCodeVO> findAllVendorCode(String vendorCode,String vendCdClfy) {
+		return mapper.findAllVendorCode(vendorCode,vendCdClfy);
+	}
+
+	@Override
+	public List<FindProcStatusVO> findProcStatus(String lineName) {
+		return mapper.findProcStatus(lineName);
 	}
 
 }

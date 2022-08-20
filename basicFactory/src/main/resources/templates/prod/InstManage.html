@@ -7,6 +7,7 @@
 </head>
 <body>
 <script type="text/javascript" th:src="@{/js/prod/InstManage.js}"></script>
+<script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
 	<link th:href="@{/css/prod/InstManage.css}" rel="stylesheet" />
 
 	<div class="pcoded-main-container">
@@ -16,6 +17,12 @@
 		<div class="col-xl-12">
 			<div class="card">
 				<div class="card-header">
+					<div class="form-inline flex-end">
+					<button type="button" class="btn  btn-primary m-t-0 m-r-10">조회</button>
+					<button type="button" class="btn  btn-primary m-t-0">저장</button>
+					</div>
+				</div>
+				<div class="card-body">
 					<form class="form-inline">
 						<div class="form-group mt-3">
 							<label for="instdate">지시작성일자</label> <input type="date"
@@ -34,11 +41,10 @@
 							 <input type="text" id="empid"
 								class="form-control mx-sm-3">
 						</div>
-						<button type="submit" class="btn  btn-primary">조회</button>
+						
 					</form>
-
+				
 				</div>
-
 
 			</div>
 		</div>
@@ -48,35 +54,43 @@
 			<div class="card">
 				<div class="card-header">
 					<h3>생산계획 상세내역</h3>
-					<button type="button" class="btn  btn-primary">미실시 생산계획 조회</button>
-					<button type="button" class="btn  btn-primary">추가</button>
-					<button type="button" class="btn  btn-primary">삭제</button>
+					<button type="button" class="btn  btn-primary" id="findPlan">미지시 생산계획 조회</button>
+					<button type="button" class="btn  btn-primary" id="addRowBtn">추가</button>
+					<button type="button" class="btn  btn-primary" id="delRowBtn">삭제</button>
 				</div>
 				        <div class="card-body table-border-style">
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-hover" id="planDetailTable">
                                 <thead>
                                     <tr>
-                                        <th><input type="checkbox"></th>
-                                        <th>제품코드</th>
-                                        <th>제품명</th>
-                                        <th>규격</th>
-                                        <th>작업량</th>
-                                        <th>지시량</th>
-                                        <th>기존 일생산량</th>
-                                        <th>작업 라인</th>
-                                        <th>공정작업일자</th>
+                                        <th th:text="선택"></th>
+                                        <th th:text="제품코드"></th>
+                                        <th th:text="제품명"></th>
+                                        <th th:text="규격"></th>
+                                        <th th:text="주문번호"></th>
+                                        <th th:text="납기일자"></th>
+                                        <th th:text="주문량"></th>
+                                        <th th:text="미지시량"></th>
+                                        <th th:text="작업량"></th>
+                                        <th th:text="지시량"></th>
+                                        <th th:text="기존일작업량"></th>
+                                        <th th:text="작업라인"></th>
+                                        <th th:text="공정작업일자"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td><input type="checkbox"></td>
-                                        <td th:text="PRODUCT"></td>                                        
-                                        <td th:text="짜파게티"></td>
+                                        <td><input type="text" th:value="PRODUCT" style=""></td>                                        
+                                        <td th:text="짜파게티"> <input type="text" th:value="짜파게티" readonly></td>
                                         <td th:text="120g"></td>
+                                        <td><input type="text" readonly></td>
+                                        <td><input type="text" readonly></td>
+                                        <td><input type="text" readonly></td>
+                                        <td><input type="text" readonly></td>
                                         <td th:text="${#numbers.formatInteger(9000, 0, 'COMMA')}"></td>                                     
                                         <td th:text="${#numbers.formatInteger(1000, 0, 'COMMA')}"></td>
-                                        <td th:text="0"></td>
+                                        <td><input type="text" th:value="0" readonly></td>
                                         <td th:text="1라인"></td>
                                         <td th:text="2022-08-01"></td>                                    
                                     </tr>
@@ -101,7 +115,7 @@
                     </div>
                     <div class="card-body table-border-style">
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table" id="procStatusTable">
                                 <thead>
                                     <tr>
                                         <th>순번</th>
@@ -167,28 +181,11 @@
 	</div>
 	
 	
-	  <!-- Modal -->
-<div class="modal fade" id="findempModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="findempModalLabel">담당자 검색</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-  
-	
+<!-- 담당자검색 Modal -->
+<th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
+<!-- Modal -->
+<th:block th:replace="~{/fragments/modal/findPlan :: findPlan}"></th:block>
+
 	
 	
 	

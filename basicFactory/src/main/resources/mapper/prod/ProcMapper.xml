@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.prod.mapper.ProcMapper">
+
+<select id="findAllMchn" resultType="vmchn">
+SELECT * FROM v_findmchn
+
+</select>
+
+<!-- 공정코드전체조회 -->
+<select id="findAllProcCode" resultType="procCode">
+
+SELECT * FROM BF_CMN_PROC_CODE
+
+</select>
+
+
+<!-- 공정실적전체조회 -->
+<select id="findAllProcPerform" resultType="vfindprocperformVO">
+
+SELECT * FROM v_findprocperform
+</select>
+
+<!-- 공정코드,공정명 검색 -->
+<select id="findProcCode" resultType="procCode">
+SELECT * FROM BF_CMN_PROC_CODE
+<where>
+	<if test="procCdCode != null and procCdCode != ''">
+		AND proc_cd_code  LIKE #{procCdCode}
+	</if>
+	<if test="procCdName != null and procCdName != ''">
+		AND proc_cd_name  LIKE #{procCdName}
+	</if>
+
+</where>
+</select>
+
+<select id="findMchn" resultType="vmchn">
+SELECT * FROM v_findmchn
+<where>
+	<if test="mchnCode != null and mchnCode != ''">
+		AND mchn_code LIKE #{mchnCode}
+	</if>
+	
+	<if test="mchnName != null and mchnName != ''">
+		AND mchn_name LIKE #{mchnName}
+	</if>
+	
+</where>
+
+</select>
+
+</mapper>

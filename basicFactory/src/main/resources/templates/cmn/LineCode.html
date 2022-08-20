@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html 
+xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common LineCode</title>
+    <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
+</head>
+<body>
+    <div class="pcoded-main-container">
+        
+        <div class="rightBtn">
+            <button type="button" class="btn  btn-primary">저장</button>
+        </div>
+        <h1>라인 및 공정 관리</h1>
+        <hr>
+        <h3>라인 관리</h3>
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    
+                    <form class="form-inline">
+                         <div class="form-group mt-3">
+                            <label for="lineName" th:text="라인명"></label>
+                            <input type="text" id="lineName" class="form-control mx-sm-3">
+                        </div>
+                        <button type="submit" class="btn  btn-primary">조회</button>
+                    </form>
+                    <div class="rightBtn">
+                        <button type="button" class="btn  btn-primary">BOM 추가</button>
+                        <button type="button" class="btn  btn-primary">BOM 선택 삭제</button>
+                    </div>
+        
+                </div>
+                <div class="card-body table-border-style">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox"></th>
+                                    <th th:text="'라인 코드'"></th>
+                                    <th th:text="라인명"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="line : ${lines}">
+                                    <td><input type="checkbox"></td>
+                                    <td th:text="${line.lineCdHdCode}">LINE001</td>
+                                    <td th:text="${line.lineCdHdName}">1라인</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="rightBtn">
+                        <button type="button" class="btn  btn-primary">라인 초기화</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3>공정 관리</h3>
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    
+                    <form class="form-inline">
+                        <div class="form-group mt-3">
+                           <label for="lineNameView" th:text="라인명"></label>
+                           <input type="text" id="lineNameView" class="form-control mx-sm-3" readonly>
+                       </div>
+                   </form>
+                   <div class="rightBtn">
+                        <button type="button" class="btn  btn-primary">추가</button>
+                        <button type="button" class="btn  btn-primary">선택 삭제</button>
+                   </div>
+                </div>
+                <div class="card-body table-border-style">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox"></th>
+                                    <th th:text="공정순서"></th>
+                                    <th th:text="공정코드"></th>
+                                    <th th:text="공정명"></th>
+                                    <th th:text="설비코드"></th>
+                                    <th th:text="설비명"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>1</td>
+                                    <td>PROC001</td>
+                                    <td>배합</td>
+                                    <td>MCHN001</td>
+                                    <td>배합 1호기</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="rightBtn">
+                        <button type="button" class="btn  btn-primary">공정 초기화</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

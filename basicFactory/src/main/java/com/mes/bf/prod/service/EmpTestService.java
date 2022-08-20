@@ -2,9 +2,9 @@ package com.mes.bf.prod.service;
 
 import java.util.List;
 
-import com.mes.bf.prod.vo.EmpTestVO;
+import com.mes.bf.prod.vo.FindEmpVO;
 
 public interface EmpTestService {
 
-	List<EmpTestVO> findAll();
+	List<FindEmpVO> findAll();
 }

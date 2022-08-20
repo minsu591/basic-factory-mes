@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production PlanManage</title>
+    <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
+    
+</head>
+<body>
+    <div class="pcoded-main-container">
+        <h1>생산 계획 관리</h1>
+        <hr>
+        <div class="col-xl-12">
+                  <div class="card">
+                      <div class="card-header">
+                        <!--해당 사용자가 작성한 생산 계획 조회 버튼-->
+                        <div class="rightBtn">
+                            <button type="button" class="btn  btn-primary">생산계획 조회</button>
+                        </div>
+                        <br>
+                        <!--새로운 생산계획 만들 때 사용할 정보-->
+                          <form class="form-inline">
+                              <div class="form-group mt-3 leftBtn">
+                                  <label for="planDate" th:text="'생산 계획 일자'"></label>
+                                  <input type="date" id="planDate" class="form-control mx-sm-3">
+                              </div>
+                              <br><br>
+                              <div class="form-group mt-3 rightBtn">
+                                <label for="planName" th:text="생산계획명"></label>
+                                <input type="text" id="planName" class="form-control mx-sm-3">                       
+                             </div>
+                             <div class="form-group mt-3 leftBtn">
+                                <label for="planRemk" th:text="특이사항"></label>
+                                <input type="text" id="planRemk" class="form-control mx-sm-3">                       
+                             </div>
+                               <div class="form-group mt-3">
+                                  <label for="vendor" th:text="담당자"></label>
+                                  <input type="text" id="planEmp" class="form-control mx-sm-3"
+                                   data-toggle="modal" data-target=".bd-example-modal-lg">
+                              </div>
+                          </form>
+                                
+                      </div>
+                      <div class="card-body table-border-style">
+                        <button type="button" class="btn btn-primary">미생산 주문내역 조회</button>
+                        <div class="rightBtn">
+                            <button type="button" class="btn btn-primary">저장</button>
+                            <button type="button" class="btn btn-primary">추가</button>
+                            <button type="button" class="btn btn-primary">선택 삭제</button>
+                        </div>
+                          <div class="table-responsive">
+                              <table class="table table-striped">
+                                  <thead>
+                                      <tr>
+                                          <th><input type="checkbox"></th>
+                                          <!-- readonly option, 미생산 주문내역 조회 버튼을 통해 가져옴-->
+                                          <th th:text="주문코드"></th>
+                                          <th th:text="제품코드"></th>
+                                          <th th:text="제품명"></th>
+                                          <th th:text="규격"></th>
+                                          <th th:text="단위"></th>
+                                          <th th:text="주문량"></th>
+                                          <!-- if 주문코드를 가져오면 기존 계획에 해당 주문코드가 존재하는지-->
+                                          <th th:text="기계획량"></th>
+                                          <th th:text="미계획량"></th>
+                                          <!--input창-->
+                                          <th th:text="계획량"></th>
+                                          <th th:text="'작업계획 시작일자'"></th>
+                                          <th th:text="'작업계획 종료일자'"></th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr>
+                                          <td><input type="checkbox"></td>
+                                          <td>TEST001</td>
+                                          <td>FIN002</td>
+                                          <td>짜파게티</td>
+                                          <td>120</td>
+                                          <td>g</td>
+                                          
+                                          <td>10,000</td>
+                                          <td>1,000</td>
+                                          <td>9,000</td>
+                                          <td><input type="text"></td>
+                                          <td><input type="date"></td>
+                                          <td><input type="date"></td>
+                                      </tr>
+                                      
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+    </div>
+</body>
+</html>

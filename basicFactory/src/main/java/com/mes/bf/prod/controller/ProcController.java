@@ -1,41 +1,90 @@
 package com.mes.bf.prod.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mes.bf.cmn.vo.FinProdCodeVO;
+import com.mes.bf.cmn.vo.ProcCodeVO;
+import com.mes.bf.eqp.vo.VfindMchnVO;
+import com.mes.bf.prod.service.ProcService;
+import com.mes.bf.prod.vo.VFindProcPerformVO;
+
 @RestController
+@RequestMapping("/prod")
 public class ProcController {
 
-	//공정실적 조회페이지 이동
+	@Autowired
+	ProcService service;
+
+	// 공정실적 조회페이지 이동
 	@RequestMapping("/proc")
 	public ModelAndView proc() {
 		ModelAndView mav = new ModelAndView("prod/Proc");
 		return mav;
 	}
-	
-	//공정실적 관리페이지 이동
+
+	// 공정실적 관리페이지 이동
 	@RequestMapping("/procManage")
 	public ModelAndView procManage() {
 		ModelAndView mav = new ModelAndView("prod/ProcManage");
 		return mav;
 	}
-	
-	//공정모니터링 페이지 이동
+
+	// 공정모니터링 페이지 이동
 	@RequestMapping("/monitoring")
 	public ModelAndView monitoring() {
 		ModelAndView mav = new ModelAndView("prod/Monitoring");
 		return mav;
 	}
-	
-	//포장관리 페이지 이동
+
+	// 포장관리 페이지 이동
 	@RequestMapping("/packing")
 	public ModelAndView packing() {
 		ModelAndView mav = new ModelAndView("prod/PackingManage");
 		return mav;
 	}
-	
-	
-	
-	
+
+	// 설비명 전체조회
+	@GetMapping(value = "/findallmchn", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<VfindMchnVO>> findEmp(VfindMchnVO vo) {
+		List<VfindMchnVO> list = service.findAllMchn();
+		return new ResponseEntity<List<VfindMchnVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
+
+	// 공정명 전체조회
+	@GetMapping(value = "/findallproccode", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<ProcCodeVO>> findAllProcCode(ProcCodeVO vo) {
+		List<ProcCodeVO> list = service.findAllProcCode();
+		return new ResponseEntity<List<ProcCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
+
+	// 공정실적 전체조회
+	@GetMapping(value = "/findallprocperform", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<VFindProcPerformVO>> findAllProcPerform(VFindProcPerformVO vo) {
+		List<VFindProcPerformVO> list = service.findAllProcPerform();
+		return new ResponseEntity<List<VFindProcPerformVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
+
+	// 공정명 단건 검색
+	@GetMapping(value = { "/getproccode" })
+	public ProcCodeVO findProduct(@RequestParam Map<String, String> QueryParameters) {
+		return service.findProcCode(QueryParameters.get("procCdCode"), QueryParameters.get("procCdName"));
+	}
+
+	// 설비명 단건 검색
+	@GetMapping(value = { "/getmchn" })
+	public VfindMchnVO findMchn(@RequestParam Map<String, String> QueryParameters) {
+		return service.findMchn(QueryParameters.get("mchnCode"), QueryParameters.get("mchnName"));
+	}
+
 }

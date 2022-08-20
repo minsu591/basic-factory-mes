@@ -8,6 +8,8 @@
 </head>  
 <body>
 <script type="text/javascript" th:src="@{/js/eqp/NonOperation.js}"></script>
+<script type="text/javascript" th:src="@{/js/modal/eqp/findnonopcode.js}"></script>
+<script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
 <link th:href="@{/css/eqp/NonOperation.css}" rel="stylesheet" />
   <div class="pcoded-main-container">
   	<h1>설비 비가동 조회</h1>
@@ -24,8 +26,8 @@
                             </div>
                             <br><br>
                              <div class="form-group mt-3">
-                                <label for="mchnCode">설비코드</label>
-                                <input type="text" id="mchnCode" class="form-control mx-sm-3"
+                                <label for="mchnname">설비명</label>
+                                <input type="text" id="mchnname" class="form-control mx-sm-3"
                                  data-toggle="modal" data-target=".bd-example-modal-lg">
                                 <label for="nonOpCode">비가동코드</label>
                                 <input type="text" id="nonOpCode" class="form-control mx-sm-3">
@@ -36,7 +38,7 @@
                     </div>
                     <div class="card-body table-border-style">
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-hover" id="nonOpHistoryTable">
                                 <thead>
                                     <tr>
                                         <th th:text="설비코드"></th>
@@ -73,48 +75,10 @@
   	
   	
 <!-- Modal -->
-<div class="modal fade" id="findMchnNameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="findMchnNameModalLabel">설비 검색</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <th:block th:replace="~{/fragments/modal/findMchnName :: findMchnName}"></th:block>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-  	
-  	
+ <th:block th:replace="~{/fragments/modal/findMchnName :: findMchnName}"></th:block>
 <!-- Modal -->
-<div class="modal fade" id="findnonOpCodeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="findnonOpCodeModalLabel">비가동코드 검색</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <th:block th:replace="~{/fragments/modal/findnonOpCode :: findnonOpCode}"></th:block>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-  	
+
+ <th:block th:replace="~{/fragments/modal/findnonOpCode :: findnonOpCode}"></th:block>
   	
   </div>
   </body>

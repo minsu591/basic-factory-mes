@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html 
+xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Emp</title>
+    <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
+</head>
+<body>
+    <div class="pcoded-main-container">
+        <h1>직원 관리</h1>
+        <hr>
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    
+                    <form class="form-inline">
+                        <div class="form-group mt-3">
+                            <label for="deptName" th:text="부서명"></label>
+                            <input type="text" id="deptName" class="form-control mx-sm-3">
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="empId" th:text="ID"></label>
+                            <input type="text" id="empId" class="form-control mx-sm-3">
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="empName" th:text="직원명"></label>
+                            <input type="text" id="empName" class="form-control mx-sm-3">
+                        </div>
+                        
+                        <button type="submit" class="btn  btn-primary">조회</button>
+                    </form>
+                    <div class="rightBtn">
+                        <button type="button" class="btn  btn-primary">추가</button>
+                        <button type="button" class="btn  btn-primary">저장</button>
+                        <button type="button" class="btn  btn-primary">선택 삭제</button>
+                    </div>
+                    
+        
+                </div>
+                <div class="card-body table-border-style">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox"></th>
+                                    <th th:text="아이디"></th>
+                                    <th th:text="비밀번호"></th>
+                                    <th th:text="부서명"></th>
+                                    <th th:text="직책"></th>
+                                    <th th:text="직원명"></th>
+                                    <th th:text="이메일"></th>
+                                    <th th:text="연락처"></th>
+                                    <th th:text="계정상태"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="emp : ${emps}">
+                                    <td><input type="checkbox"></td>
+                                    <td th:text="${emp.empVO.empId}">mia</td>
+                                    <td th:text="${emp.empVO.empPw}">asdf</td>
+                                    <td th:text="${emp.deptVO.deptName}">연구개발</td>
+                                    <td th:text="${emp.empVO.empPos}">관리자</td>
+                                    <td th:text="${emp.empVO.empName}">김민서</td>
+                                    <td th:text="${emp.empVO.empEmail}">mia@yedam.co.kr</td>
+                                    <td th:text="${emp.empVO.empPhone}">011-1111-2222</td>
+                                    <td><input type="checkbox" th:checked="${emp.empVO.empAuth eq '1'}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="rightBtn">
+                        <button type="button" class="btn  btn-primary">초기화</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
