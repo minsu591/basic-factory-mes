@@ -8,6 +8,8 @@
 </head>  
 <body>
 <script type="text/javascript" th:src="@{/js/eqp/NonOperation.js}"></script>
+<script type="text/javascript" th:src="@{/js/modal/eqp/findnonopcode.js}"></script>
+<script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
 <link th:href="@{/css/eqp/NonOperation.css}" rel="stylesheet" />
   <div class="pcoded-main-container">
   	<h1>설비 비가동 조회</h1>
@@ -24,8 +26,8 @@
                             </div>
                             <br><br>
                              <div class="form-group mt-3">
-                                <label for="mchnCode">설비코드</label>
-                                <input type="text" id="mchnCode" class="form-control mx-sm-3"
+                                <label for="mchnname">설비명</label>
+                                <input type="text" id="mchnname" class="form-control mx-sm-3"
                                  data-toggle="modal" data-target=".bd-example-modal-lg">
                                 <label for="nonOpCode">비가동코드</label>
                                 <input type="text" id="nonOpCode" class="form-control mx-sm-3">
