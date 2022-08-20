@@ -22,7 +22,7 @@ $("document").ready(function () {
       findProduct();
     } else {
       $.ajax({
-        url: `getProduct`,
+        url: `findproduct`,
         method: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -37,9 +37,11 @@ $("document").ready(function () {
           console.log(data);
 
           let index = 0;
-          index += 1;
           $("#findProducttbody tr").remove();
-          productMakeRow(data, index);
+          for (obj of data) {
+            index += 1;
+            productMakeRow(obj, index);
+          }
         },
       });
     }
@@ -48,7 +50,7 @@ $("document").ready(function () {
 //제품조회
 function findProduct() {
   $.ajax({
-    url: "findProduct",
+    url: "findproduct",
     method: "GET",
     contentType: "application/json;charset=utf-8",
     dataType: "json",

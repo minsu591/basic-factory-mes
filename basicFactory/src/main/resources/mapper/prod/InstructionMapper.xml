@@ -32,17 +32,12 @@
 SELECT *
   FROM BF_CMN_EMP e JOIN bf_cmn_dept d
     ON e.dept_no = d.dept_no
+    <where>
+    	<if test="empName != null and empName !=''">
+    		AND LOWER(e.emp_name) LIKE '%'||#{empName}||'%'
+    	</if>
+    </where>
 	
-</select>
-
-
-<select id="findEmpName" resultMap="FindEmpVO">
-
-SELECT *
-  FROM BF_CMN_EMP e JOIN bf_cmn_dept d
-    ON e.dept_no = d.dept_no
-WHERE LOWER(e.emp_name) like '%' ||#{empName}||'%'
-
 </select>
 
 <!-- 완제품코드 검색 -->
@@ -54,22 +49,7 @@ WHERE fin_prd_cd_code LIKE '%'||#{prodCode}||'%'
 
 </select>
 
-<select id="getInst" resultType="com.mes.bf.prod.vo.InstructionVO">
-	
-SELECT * FROM BF_PROD_INSTRUCTION
-
-</select>
-
-<!-- 완제품 전체 조회 -->
-
-<select id="findAllProduct" resultType="prodCode">
-
-SELECT * FROM BF_CMN_FINISH_PRODUCT_CODE
-ORDER BY ROWNUM
-
-</select>
-
-<!-- 완제품 단건 조회 -->
+<!-- 완제품 조회 -->
 
 <select id="findProduct" resultType="prodCode">
 

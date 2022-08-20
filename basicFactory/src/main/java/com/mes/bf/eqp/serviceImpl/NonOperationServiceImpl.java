@@ -24,14 +24,10 @@ public class NonOperationServiceImpl implements NonOperationService {
 	}
 
 	@Override
-	public List<NonOpVO> findAllNonOp() {
-		return mapper.findAllNonOp();
+	public List<NonOpVO> findNonOp(String nonOpCode, String nonOpName) {
+		return mapper.findNonOp(nonOpCode, nonOpName);
 	}
 
-	@Override
-	public NonOpVO findNonOp(String nonOpCode, String NonOpName) {
-		return mapper.findNonOp(nonOpCode, NonOpName);
-	}
 
 	@Override
 	public List<FindNonOpHIstoryVO> findAllNonOpHistory() {

@@ -45,16 +45,9 @@ public class InstructionController {
 
 	// 조회 => Get
 	@GetMapping(value = "/findemp", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<FindEmpVO>> findEmp(FindEmpVO vo) {
-		List<FindEmpVO> list = service.findEmp();
+	public ResponseEntity<List<FindEmpVO>> findEmp(@RequestParam Map<String, String> QueryParameters) {
+		List<FindEmpVO> list = service.findEmp(QueryParameters.get("empName"));
 		return new ResponseEntity<List<FindEmpVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
-	}
-
-	// 단건조회 => GET
-	@GetMapping("/findemp/{empName}")
-	public FindEmpVO findEmpName(@PathVariable String empName) {
-
-		return service.findEmpName(empName);
 	}
 
 	@GetMapping("/findProdName/{prodCode}")
@@ -62,11 +55,10 @@ public class InstructionController {
 		return service.findProdName(prodCode);
 	}
 
-	// 완제품전체 조회
-	// 조회 => Get
-	@GetMapping(value = "/findProduct", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<FinProdCodeVO>> findAllProduct(FinProdCodeVO vo) {
-		List<FinProdCodeVO> list = service.findAllProduct();
+	// 완제품 조회
+	@GetMapping(value = "/findproduct", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<FinProdCodeVO>> findProduct(@RequestParam Map<String, String> QueryParameters) {
+		List<FinProdCodeVO> list = service.findProduct(QueryParameters.get("prdCdCode"), QueryParameters.get("prdCdName"));
 		return new ResponseEntity<List<FinProdCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
@@ -77,23 +69,13 @@ public class InstructionController {
 		List<VInstructionVO> list = service.findAllvInstruction();
 		return new ResponseEntity<List<VInstructionVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
-
-	// 완제품 단건 검색
-	// 단건조회 => GET
-	@GetMapping(value = { "/getProduct" })
-	public FinProdCodeVO findProduct(@RequestParam Map<String, String> QueryParameters) {
-		System.out.println(QueryParameters.get("prdCdCode"));
-		System.out.println(QueryParameters.get("prdCdName"));
-		return service.findProduct(QueryParameters.get("prdCdCode"), QueryParameters.get("prdCdName"));
-	}
 	
-	//거래처 전체조회
+	//거래처 조회
 	@GetMapping(value = "/findvendorcode", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<VendorCodeVO>> findAllVInstruction(@RequestParam Map<String,String> queryParameters) {
 		List<VendorCodeVO> list = service.findAllVendorCode(queryParameters.get("vendorCode"),queryParameters.get("vendCdClfy"));
 		return new ResponseEntity<List<VendorCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
-	
 	
 	
 	@GetMapping(value = "/findprocstatus/{lineName}", produces = { MediaType.APPLICATION_JSON_VALUE })

@@ -21,17 +21,7 @@ public class InstructionServiceImpl implements InstructionService {
 	@Autowired InstructionMapper mapper;
 	
 	@Override
-	public InstructionVO getInst() {
-		return mapper.getInst();
-	}
-
-	@Override
-	public List<FinProdCodeVO> findAllProduct() {		
-		return mapper.findAllProduct();
-	}
-
-	@Override
-	public FinProdCodeVO findProduct(String prdCdCode, String prdCdName) {
+	public List<FinProdCodeVO> findProduct(String prdCdCode, String prdCdName) {		
 		return mapper.findProduct(prdCdCode, prdCdName);
 	}
 
@@ -41,13 +31,8 @@ public class InstructionServiceImpl implements InstructionService {
 	}
 	
 	@Override
-	public List<FindEmpVO> findEmp() {
-		return mapper.findEmp();
-	}
-
-	@Override
-	public FindEmpVO findEmpName(String empName) {
-		return mapper.findEmpName(empName);
+	public List<FindEmpVO> findEmp(String empName) {
+		return mapper.findEmp(empName);
 	}
 
 	@Override

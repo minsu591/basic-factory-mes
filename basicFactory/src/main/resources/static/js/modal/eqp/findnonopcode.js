@@ -1,24 +1,26 @@
 $("document").ready(function () {
-  $("#nonOpCode").click(function (e) {
+  $("#nonopcode").click(function (e) {
     e.preventDefault();
-    findAllNonOp();
+    findNonOp();
     $("#findnonOpCodeModal").modal("show");
   });
 
   $("#findNonOpCodebtn").click(function () {
     let code = $("#nonOpCode").val();
+    console.log("nonOpCode-> " + code);
     let name = $("#nonOpName").val();
+    console.log("nonOpName ->" + name);
     if (code == "" && name == "") {
-      findAllNonOp();
+      findNonOp();
     } else {
       $.ajax({
-        url: `getnonop`,
+        url: "findnonop",
         method: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         data: {
           nonOpCode: code,
-          noneOpName: name,
+          nonOpName: name,
         },
         error: function (error, status, msg) {
           alert("상태코드 " + status + "에러메시지" + msg);
@@ -26,18 +28,27 @@ $("document").ready(function () {
         success: function (data) {
           console.log(data);
           let index = 0;
-          index += 1;
+
           $("#findNonOptbody tr").remove();
-          nonOpMakeRow(data, index);
+          for (obj of data) {
+            index += 1;
+            nonOpMakeRow(obj, index);
+          }
         },
       });
     }
   });
+  //비가동코드테이블 클릭이벤트
+  $("#findNonOpTable").on("click", "tr", function () {
+    let nonOpCode = $(this).find("td:eq(1)").text();
+    $("#nonopcode").val(nonOpCode);
+    $("#findnonOpCodeModal").modal("hide");
+  });
 });
 
-function findAllNonOp() {
+function findNonOp() {
   $.ajax({
-    url: "findallnonop",
+    url: "findnonop",
     method: "GET",
     contentType: "application/json;charset=utf-8",
     dataType: "json",
@@ -45,6 +56,7 @@ function findAllNonOp() {
       alert("상태코드 " + status + "에러메시지" + msg);
     },
     success: function (data) {
+      console.log("findnonop->" + data);
       let index = 0;
       $("#findNonOptbody tr").remove();
       for (obj of data) {

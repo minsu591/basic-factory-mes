@@ -44,17 +44,17 @@ public class NonOperationController {
 		return mav;
 	}
 
-	// 설비명 전체조회
-	@GetMapping(value = "/findallmchn", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<VfindMchnVO>> findEmp(VfindMchnVO vo) {
-		List<VfindMchnVO> list = procService.findAllMchn();
+	// 설비명 조회
+	@GetMapping(value = "/findmchn", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<VfindMchnVO>> findAllMchn(@RequestParam Map<String, String> QueryParameters) {
+		List<VfindMchnVO> list = procService.findMchn(QueryParameters.get("mchnCode"), QueryParameters.get("mchnName"));
 		return new ResponseEntity<List<VfindMchnVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
-	// 공정명 전체조회
-	@GetMapping(value = "/findallproccode", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<ProcCodeVO>> findAllProcCode(ProcCodeVO vo) {
-		List<ProcCodeVO> list = procService.findAllProcCode();
+	// 공정명 조회
+	@GetMapping(value = "/findproccode", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<ProcCodeVO>> findProcCode(@RequestParam Map<String, String> QueryParameters) {
+		List<ProcCodeVO> list = procService.findProcCode(QueryParameters.get("procCdCode"), QueryParameters.get("procCdName"));
 		return new ResponseEntity<List<ProcCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
@@ -65,23 +65,11 @@ public class NonOperationController {
 		return new ResponseEntity<List<VfindMchnVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
-	// 설비명 단건 검색
-	@GetMapping(value = { "/getmchn" })
-	public VfindMchnVO findMchn(@RequestParam Map<String, String> QueryParameters) {
-		return procService.findMchn(QueryParameters.get("mchnCode"), QueryParameters.get("mchnName"));
-	}
-
-	// 비가동코드 전체 조회
-	@GetMapping(value = "/findallnonop", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<NonOpVO>> findAllNonOp(NonOpVO vo) {
-		List<NonOpVO> list = service.findAllNonOp();
+	// 비가동코드  조회
+	@GetMapping(value = "/findnonop", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<NonOpVO>> findNonOp(@RequestParam Map<String, String> QueryParameters) {
+		List<NonOpVO> list = service.findNonOp(QueryParameters.get("nonOpCode"), QueryParameters.get("nonOpName"));
 		return new ResponseEntity<List<NonOpVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
-	}
-
-	// 비가동코드 단건 검색
-	@GetMapping(value = { "/getnonop" })
-	public NonOpVO findNonOp(@RequestParam Map<String, String> QueryParameters) {
-		return service.findNonOp(QueryParameters.get("nonOpCode"), QueryParameters.get("noneOpName"));
 	}
 
 	// 설비 비가동 조회

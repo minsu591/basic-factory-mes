@@ -21,7 +21,7 @@ $("document").ready(function () {
       findAllProcCode();
     } else {
       $.ajax({
-        url: `getproccode`,
+        url: `findproccode`,
         method: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -37,7 +37,10 @@ $("document").ready(function () {
           let index = 0;
           index += 1;
           $("#findProcCdNameTable tbody tr").remove();
-          makeProcCodeRow(data, index);
+          for (obj of data) {
+            index += 1;
+            makeProcCodeRow(obj, index);
+          }
         },
       });
     }
@@ -46,7 +49,7 @@ $("document").ready(function () {
 //공정검색
 function findAllProcCode() {
   $.ajax({
-    url: "findallproccode",
+    url: "findproccode",
     method: "GET",
     contentType: "application/json;charset=utf-8",
     dataType: "json",

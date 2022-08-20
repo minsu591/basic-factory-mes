@@ -21,15 +21,18 @@ $("document").ready(function () {
       findEmp();
     } else {
       $.ajax({
-        url: `findemp/${empname}`,
+        url: `findemp`,
         method: "GET",
         dataType: "json",
+        data: { empName: empname },
         success: function (data) {
-          //console.log(data);
+          console.log(data);
           $("#findemptbody tr").remove();
-          let index = 1;
-          let obj = data;
-          empMakeRow(obj, index);
+          let index = 0;
+          for (obj of data) {
+            index += 1;
+            empMakeRow(obj, index);
+          }
         },
       });
     }
