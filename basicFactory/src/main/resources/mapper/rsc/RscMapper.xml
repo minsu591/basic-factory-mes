@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.rsc.mapper.RscMapper">
+
+	<select id="StockList" resultType="com.mes.bf.rsc.vo.RscStockVO">
+		SELECT cd.rsc_cd_code, cd.rsc_cd_name, cd.rsc_cd_clfy, st.rsc_lot_no, st.rsc_in_vol, 
+				nvl(rscout.vol,0) as rsc_out_vol,st.rsc_stock
+		FROM bf_rsc_stock st LEFT JOIN bf_cmn_rsc_code cd 
+        ON cd.rsc_cd_code = st.rsc_cd_code
+        LEFT JOIN (SELECT NVL(SUM(rsc_out_vol),0) AS vol, rsc_lot_no
+                    FROM bf_rsc_out
+                    GROUP BY rsc_lot_no) rscout
+        ON st.rsc_lot_no =  rscout.rsc_lot_no
+        ORDER BY rsc_lot_no DESC
+	</select>
+
+</mapper>

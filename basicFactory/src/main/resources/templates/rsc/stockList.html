@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>자재재고조회</title>
+</head>
+<body>
+	<link th:href="@{/css/prod/Proc.css}" rel="stylesheet" />
+	<div class="pcoded-main-container">
+		<h1>자재 재고 조회</h1>
+		<hr>
+		<div class="col-xl-12">
+			<div class="card">
+				<div class="card-header">
+					<form class="form-inline">
+						<div class="form-group mt-3">
+							<label for="rsccode" th:text="자재코드"></label> <input
+								type="text" id="rsccode" class="form-control mx-sm-3">
+							<!-- 자재코드-자재명 Modal창 출력 -->
+						</div>
+						<div class="form-group mt-3">
+							<label for="rsclotno" th:text="자재LOT번호"></label> <input
+								type="text" id="rsclotno" class="form-control mx-sm-3">
+						</div>
+						<button type="submit" class="btn  btn-primary">조회</button>
+					</form>
+
+				</div>
+				<div class="card-body table-border-style">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th th:text="자재코드"></th>
+									<th th:text="자재명"></th>
+									<th th:text="자재구분"></th>
+									<th th:text="자재LOT번호"></th>
+									<th th:text="입고수량"></th>
+									<th th:text="출고수량"></th>
+									<th th:text="재고수량"></th>
+									<th th:text="사용여부"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
