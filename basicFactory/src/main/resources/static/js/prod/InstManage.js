@@ -127,6 +127,10 @@ $(document).ready(function () {
           prodName.val(data.finPrdCdName);
           prodUnit.val(data.finPrdCdVol + data.finPrdCdUnit);
         },
+        error: function (error, status, msg) {
+          prodName.val("");
+          prodUnit.val("");
+        },
       });
     });
   });
