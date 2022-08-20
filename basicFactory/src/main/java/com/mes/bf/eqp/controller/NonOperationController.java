@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mes.bf.cmn.vo.NonOpVO;
 import com.mes.bf.cmn.vo.ProcCodeVO;
 import com.mes.bf.eqp.service.NonOperationService;
 import com.mes.bf.eqp.vo.VfindMchnVO;
@@ -64,5 +65,20 @@ public class NonOperationController {
 	public VfindMchnVO findMchn(@RequestParam Map<String, String> QueryParameters) {
 		return procService.findMchn(QueryParameters.get("mchnCode"), QueryParameters.get("mchnName"));
 	}
+	
+	//비가동코드 전체 조회 
+	@GetMapping(value = "/findallnonop", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<NonOpVO>> findAllNonOp(NonOpVO vo) {
+		List<NonOpVO> list = service.findAllNonOp();
+		return new ResponseEntity<List<NonOpVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
+	
+	//비가동코드 단건 검색
+	@GetMapping(value = { "/getnonop" })
+	public NonOpVO findNonOp(@RequestParam Map<String, String> QueryParameters) {
+		return service.findNonOp(QueryParameters.get("nonOpCode"), QueryParameters.get("noneOpName"));
+	}
+	
+	
 
 }
