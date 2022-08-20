@@ -5,7 +5,9 @@ import java.util.List;
 import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.vo.FindEmpVO;
+import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.InstructionVO;
+import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 
 public interface InstructionService {
@@ -20,7 +22,7 @@ public interface InstructionService {
 
 	// 생산지시조회
 	List<VInstructionVO> findAllvInstruction();
-	
+
 	// 담당자 검색
 	List<FindEmpVO> findEmp();
 
@@ -28,8 +30,11 @@ public interface InstructionService {
 	FindEmpVO findEmpName(String empName);
 
 	// 완제품코드 검색
-	FinProdCodeVO findProdName(String ProdCode);
+	VFindProdAndLineVO findProdName(String ProdCode);
 
-	//거래처 조회
+	// 거래처 조회
 	List<VendorCodeVO> findAllVendorCode();
+
+	// 공정 상태 조회
+	List<FindProcStatusVO> findProcStatus(String lineName);
 }

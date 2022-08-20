@@ -56,9 +56,14 @@ public class JoinTest {
 		System.out.println(service3.findAllProcPerform());
 	}
 
-	@Test
+	//@Test
 	void findMchn() {
 		System.out.println(service3.findMchn("MCHN001", null));
+	}
+	
+	@Test
+	void findProcStatus() {
+		System.out.println(service2.findProcStatus("1라인"));
 	}
 	
 }

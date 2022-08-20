@@ -10,7 +10,9 @@ import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.mapper.InstructionMapper;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.vo.FindEmpVO;
+import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.InstructionVO;
+import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 
 @Service 
@@ -49,7 +51,7 @@ public class InstructionServiceImpl implements InstructionService {
 	}
 
 	@Override
-	public FinProdCodeVO findProdName(String ProdCode) {
+	public VFindProdAndLineVO findProdName(String ProdCode) {
 
 		return mapper.findProdName(ProdCode);
 	}
@@ -57,6 +59,11 @@ public class InstructionServiceImpl implements InstructionService {
 	@Override
 	public List<VendorCodeVO> findAllVendorCode() {
 		return mapper.findAllVendorCode();
+	}
+
+	@Override
+	public List<FindProcStatusVO> findProcStatus(String lineName) {
+		return mapper.findProcStatus(lineName);
 	}
 
 }

@@ -18,6 +18,8 @@ import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.vo.FindEmpVO;
+import com.mes.bf.prod.vo.FindProcStatusVO;
+import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 
 @RestController
@@ -56,7 +58,7 @@ public class InstructionController {
 	}
 
 	@GetMapping("/findProdName/{prodCode}")
-	public FinProdCodeVO findProdName(@PathVariable String prodCode) {
+	public VFindProdAndLineVO findProdName(@PathVariable String prodCode) {
 		return service.findProdName(prodCode);
 	}
 
@@ -91,5 +93,14 @@ public class InstructionController {
 		List<VendorCodeVO> list = service.findAllVendorCode();
 		return new ResponseEntity<List<VendorCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
+	
+	
+	
+	@GetMapping(value = "/findprocstatus/{lineName}", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<FindProcStatusVO>> findProcStatus(@PathVariable String lineName) {
+		List<FindProcStatusVO> list = service.findProcStatus(lineName);
+		return new ResponseEntity<List<FindProcStatusVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
+	
 
 }

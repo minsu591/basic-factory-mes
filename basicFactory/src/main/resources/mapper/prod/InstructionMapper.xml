@@ -47,10 +47,9 @@ WHERE LOWER(e.emp_name) like '%' ||#{empName}||'%'
 
 <!-- 완제품코드 검색 -->
 
-<select id="findProdName" resultType="prodCode">
+<select id="findProdName" resultType="VFindProdANdLineVO">
 
-SELECT * FROM 
-BF_CMN_FINISH_PRODUCT_CODE
+SELECT * FROM v_findprodandline
 WHERE fin_prd_cd_code LIKE '%'||#{prodCode}||'%'
 
 </select>
@@ -97,6 +96,25 @@ SELECT * FROM v_instruction
 <!-- 거래처조회 -->
 <select id="findAllVendorCode" resultType="vendorCode">
 SELECT * FROM BF_CMN_VENDOR_CODE
+</select>
+
+<!-- 공정상태조회 -->
+<select id="findProcStatus" resultType="findProcStatusVO">
+
+SELECT linecode.line_cd_ord AS lineCdOrd,
+proccode.proc_cd_name AS procCdName,
+eqp.mchn_name AS mchnName,
+eqp.mchn_stts AS mchnStts
+FROM 
+BF_CMN_LINE_CODE linecode,
+BF_CMN_PROC_CODE proccode,
+BF_EQP_MCHN eqp,
+BF_CMN_LINE_CODE_HD linecodehd
+WHERE linecode.proc_cd_code = proccode.proc_cd_code AND
+linecode.mchn_code = eqp.mchn_code AND linecode.line_cd_hd_code = linecodehd.line_cd_hd_code
+AND line_cd_hd_name LIKE #{lineName}
+ORDER BY line_cd_ord
+
 </select>
 
 
