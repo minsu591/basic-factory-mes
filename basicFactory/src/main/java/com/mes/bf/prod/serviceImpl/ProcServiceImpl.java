@@ -9,6 +9,7 @@ import com.mes.bf.cmn.vo.ProcCodeVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.mapper.ProcMapper;
 import com.mes.bf.prod.service.ProcService;
+import com.mes.bf.prod.vo.VFindProcPerformVO;
 
 @Service
 public class ProcServiceImpl implements ProcService {
@@ -23,6 +24,11 @@ public class ProcServiceImpl implements ProcService {
 	@Override
 	public List<ProcCodeVO> findAllProcCode() {
 		return mapper.findAllProcCode();
+	}
+
+	@Override
+	public List<VFindProcPerformVO> findAllProcPerform() {
+		return mapper.findAllProcPerform();
 	}
 
 }

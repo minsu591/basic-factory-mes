@@ -46,9 +46,14 @@ public class JoinTest {
 	void findAllVendorCode() {
 		System.out.println(service2.findAllVendorCode());
 	}
-	@Test
+	//@Test
 	void findMchn() {
 		System.out.println(service.findMchn("유탕"));
+	}
+	
+	@Test 
+	void findAllProcPerform() {
+		System.out.println(service3.findAllProcPerform());
 	}
 	
 	

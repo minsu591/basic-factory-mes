@@ -15,4 +15,11 @@ SELECT * FROM BF_CMN_PROC_CODE
 </select>
 
 
+<!-- 공정실적전체조회 -->
+<select id="findAllProcPerform" resultType="vfindprocperformVO">
+
+SELECT * FROM v_findprocperform
+</select>
+
+
 </mapper>
