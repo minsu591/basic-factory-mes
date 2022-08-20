@@ -54,17 +54,17 @@ public class ProcController {
 		return mav;
 	}
 
-	// 설비명 전체조회
-	@GetMapping(value = "/findallmchn", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<VfindMchnVO>> findEmp(VfindMchnVO vo) {
-		List<VfindMchnVO> list = service.findAllMchn();
+	// 설비명 조회
+	@GetMapping(value = "/findmchn", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<VfindMchnVO>> findEmp(@RequestParam Map<String, String> QueryParameters) {
+		List<VfindMchnVO> list = service.findMchn(QueryParameters.get("mchnCode"), QueryParameters.get("mchnName"));
 		return new ResponseEntity<List<VfindMchnVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
-	// 공정명 전체조회
-	@GetMapping(value = "/findallproccode", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<ProcCodeVO>> findAllProcCode(ProcCodeVO vo) {
-		List<ProcCodeVO> list = service.findAllProcCode();
+	// 공정명 조회
+	@GetMapping(value = "/findproccode", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<ProcCodeVO>> findProcCode(@RequestParam Map<String, String> QueryParameters) {
+		List<ProcCodeVO> list = service.findProcCode(QueryParameters.get("procCdCode"), QueryParameters.get("procCdName"));
 		return new ResponseEntity<List<ProcCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
@@ -76,15 +76,15 @@ public class ProcController {
 	}
 
 	// 공정명 단건 검색
-	@GetMapping(value = { "/getproccode" })
-	public ProcCodeVO findProduct(@RequestParam Map<String, String> QueryParameters) {
-		return service.findProcCode(QueryParameters.get("procCdCode"), QueryParameters.get("procCdName"));
-	}
+//	@GetMapping(value = { "/getproccode" })
+//	public ProcCodeVO findProduct(@RequestParam Map<String, String> QueryParameters) {
+//		return service.findProcCode(QueryParameters.get("procCdCode"), QueryParameters.get("procCdName"));
+//	}
 
 	// 설비명 단건 검색
-	@GetMapping(value = { "/getmchn" })
-	public VfindMchnVO findMchn(@RequestParam Map<String, String> QueryParameters) {
-		return service.findMchn(QueryParameters.get("mchnCode"), QueryParameters.get("mchnName"));
-	}
+//	@GetMapping(value = { "/mchn" })
+//	public VfindMchnVO findMchn(@RequestParam Map<String, String> QueryParameters) {
+//		return service.findMchn(QueryParameters.get("mchnCode"), QueryParameters.get("mchnName"));
+//	}
 
 }

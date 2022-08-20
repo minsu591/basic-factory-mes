@@ -20,7 +20,7 @@ $("document").ready(function () {
       findMchnName();
     } else {
       $.ajax({
-        url: `getmchn`,
+        url: `findmchn`,
         method: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -34,9 +34,12 @@ $("document").ready(function () {
         success: function (data) {
           console.log(data);
           let index = 0;
-          index += 1;
+
           $("#findMchntbody tr").remove();
-          mchnMakeRow(data, index);
+          for (obj of data) {
+            index += 1;
+            mchnMakeRow(obj, index);
+          }
         },
       });
     }
@@ -45,7 +48,7 @@ $("document").ready(function () {
 //설비검색
 function findMchnName() {
   $.ajax({
-    url: "findallmchn",
+    url: "findmchn",
     method: "GET",
     contentType: "application/json;charset=utf-8",
     dataType: "json",

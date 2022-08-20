@@ -11,10 +11,7 @@ public interface NonOperationService {
 	List<VfindMchnVO> findMchn(String procCdName);
 
 	// 비가동코드전체 조회
-	List<NonOpVO> findAllNonOp();
-
-	// 비가동코드, 비가동명 검색
-	NonOpVO findNonOp(String nonOpCode, String NonOpName);
+	List<NonOpVO> findNonOp(String nonOpCode, String nonOpName);
 
 	// 설비 비가동 조회
 	List<FindNonOpHIstoryVO> findAllNonOpHistory();

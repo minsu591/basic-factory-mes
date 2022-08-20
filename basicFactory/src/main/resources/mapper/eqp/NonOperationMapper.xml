@@ -14,23 +14,17 @@ SELECT * FROM v_findmchn
 
 </select>
 
-<!-- 비가동코드 전체 조 -->
-<select id="findAllNonOp" resultType="nonOpVO">
 
-SELECT * FROM BF_CMN_NON_OP
-
-</select>
-
-<!-- 비가동코드 단건 검색 -->
+<!-- 비가동코드 검색 -->
 
 <select id="findNonOp" resultType="nonOpVO">
 SELECT * FROM BF_CMN_NON_OP
 <where>
 	<if test="nonOpCode != null and nonOpCode != ''">
-		AND WHERE non_op_code LIKE #{nonOpCOde}
+		AND non_op_code LIKE '%'||#{nonOpCode}||'%'
 	</if>
 	<if test="nonOpName != null and nonOpName != ''">
-		AND WHERE non_op_name LIKE #{nonOpName}
+		AND non_op_name LIKE '%'||#{nonOpName}||'%'
 	</if>
 
 </where>

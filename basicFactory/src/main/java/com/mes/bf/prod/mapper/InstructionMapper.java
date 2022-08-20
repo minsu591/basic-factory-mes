@@ -15,22 +15,14 @@ import com.mes.bf.prod.vo.VInstructionVO;
 @Mapper
 public interface InstructionMapper {
 
-	InstructionVO getInst();
-
-	// 완제품코드 전체조회
-	List<FinProdCodeVO> findAllProduct();
-
-	// 완제품코드,명으로 검색
-	FinProdCodeVO findProduct(String prdCdCode, String prdCdName);
+	// 완제품조회
+	List<FinProdCodeVO> findProduct(String prdCdCode, String prdCdName);
 
 	// 생산지시조회
 	List<VInstructionVO> findAllvInstruction();
 
 	// 담당자 검색
-	List<FindEmpVO> findEmp();
-
-	// 이름으로 검색
-	FindEmpVO findEmpName(String empName);
+	List<FindEmpVO> findEmp(String empName);
 
 	// 완제품코드 검색
 	VFindProdAndLineVO findProdName(String ProdCode);
