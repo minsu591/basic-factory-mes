@@ -74,7 +74,7 @@ SELECT * FROM v_instruction
 </select>
 
 <!-- 거래처조회 -->
-<select id="findAllVendorCode" resultType="vendorCode">
+<select id="findVendorCode" resultType="vendorCode">
 SELECT * FROM BF_CMN_VENDOR_CODE
 <where>
 	<if test="vendorCode != null and vendorCode != ''">

@@ -73,7 +73,7 @@ public class InstructionController {
 	//거래처 조회
 	@GetMapping(value = "/findvendorcode", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<VendorCodeVO>> findAllVInstruction(@RequestParam Map<String,String> queryParameters) {
-		List<VendorCodeVO> list = service.findAllVendorCode(queryParameters.get("vendorCode"),queryParameters.get("vendCdClfy"));
+		List<VendorCodeVO> list = service.findVendorCode(queryParameters.get("vendorCode"),queryParameters.get("vendCdClfy"));
 		return new ResponseEntity<List<VendorCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 	
