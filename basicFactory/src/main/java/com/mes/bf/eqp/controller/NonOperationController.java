@@ -54,7 +54,8 @@ public class NonOperationController {
 	// 공정명 조회
 	@GetMapping(value = "/findproccode", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<ProcCodeVO>> findProcCode(@RequestParam Map<String, String> QueryParameters) {
-		List<ProcCodeVO> list = procService.findProcCode(QueryParameters.get("procCdCode"), QueryParameters.get("procCdName"));
+		List<ProcCodeVO> list = procService.findProcCode(QueryParameters.get("procCdCode"),
+				QueryParameters.get("procCdName"));
 		return new ResponseEntity<List<ProcCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
@@ -65,7 +66,7 @@ public class NonOperationController {
 		return new ResponseEntity<List<VfindMchnVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
-	// 비가동코드  조회
+	// 비가동코드 조회
 	@GetMapping(value = "/findnonop", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<NonOpVO>> findNonOp(@RequestParam Map<String, String> QueryParameters) {
 		List<NonOpVO> list = service.findNonOp(QueryParameters.get("nonOpCode"), QueryParameters.get("nonOpName"));
