@@ -37,11 +37,7 @@ public class JoinTest {
 	}
 	
 	
-	//@Test 
-	void findVendor() {
-		System.out.println(service2.findAllVendorCode(null, null));
-		
-	}
+
 	//@Test
 //	void findMchn() {
 //		System.out.println(service.findMchn("유탕"));
