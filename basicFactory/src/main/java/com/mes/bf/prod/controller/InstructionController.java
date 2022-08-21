@@ -64,9 +64,12 @@ public class InstructionController {
 
 	// 생산지시조회
 	// 조회 => Get
-	@GetMapping(value = "/findvInst", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<VInstructionVO>> findAllVInstruction(VInstructionVO vo) {
-		List<VInstructionVO> list = service.findAllvInstruction();
+	@GetMapping(value = "/findvinst", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<VInstructionVO>> findVInstruction(@RequestParam Map<String,String> queryParameters) {
+		List<VInstructionVO> list = service.findVInstruction(queryParameters.get("instSdate"),
+															queryParameters.get("instEdate"),
+															queryParameters.get("vendorName"),
+															queryParameters.get("productName"));
 		return new ResponseEntity<List<VInstructionVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 	

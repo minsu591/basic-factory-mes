@@ -56,6 +56,8 @@ $(document).ready(function () {
     let lineName = $(this).find("td:eq(11)").children();
     if ($(this).find("td:eq(0)").children().prop("checked")) {
       findProcStatus(lineName.val());
+    } else {
+      $("#procStatusTable tbody tr").remove();
     }
     //제품코드에 값이 입력됐을 때 실행
     prodCode.bind("input", function () {

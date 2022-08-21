@@ -8,7 +8,6 @@ import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.FindProcStatusVO;
-import com.mes.bf.prod.vo.InstructionVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 
@@ -19,7 +18,7 @@ public interface InstructionMapper {
 	List<FinProdCodeVO> findProduct(String prdCdCode, String prdCdName);
 
 	// 생산지시조회
-	List<VInstructionVO> findAllvInstruction();
+	List<VInstructionVO> findVInstruction(String instSdate,String instEdate,String vendorName,String productName);
 
 	// 담당자 검색
 	List<FindEmpVO> findEmp(String empName);

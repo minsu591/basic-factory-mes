@@ -26,8 +26,8 @@ public class InstructionServiceImpl implements InstructionService {
 	}
 
 	@Override
-	public List<VInstructionVO> findAllvInstruction() {
-		return mapper.findAllvInstruction();
+	public List<VInstructionVO> findVInstruction(String instSdate,String instEdate,String vendorName,String productName) {
+		return mapper.findVInstruction(instSdate,instEdate,vendorName,productName);
 	}
 	
 	@Override

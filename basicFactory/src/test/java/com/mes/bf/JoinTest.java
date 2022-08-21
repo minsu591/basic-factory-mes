@@ -20,7 +20,7 @@ public class JoinTest {
 	@Autowired ProcService service3;
 	@Autowired NonOperationService service;
 	
-	@Test
+	//@Test
 	void findNonOp() {
 		System.out.println(service.findNonOp("aaa", null));
 	}
@@ -31,13 +31,11 @@ public class JoinTest {
 		System.out.println(service2.findProduct(prdCdCode,""));
 	}
 	
-	//@Test
+	@Test
 	void findVinst() {
-		System.out.println(service2.findAllvInstruction());
+		System.out.println(service2.findVInstruction(null,null,null,null));
 	}
 	
-	
-
 	//@Test
 //	void findMchn() {
 //		System.out.println(service.findMchn("유탕"));
