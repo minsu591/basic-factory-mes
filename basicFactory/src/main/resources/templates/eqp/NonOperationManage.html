@@ -8,6 +8,7 @@
 <body>
 	<script type="text/javascript"
 		th:src="@{/js/eqp/NonOperationManage.js}"></script>
+		<script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
 	<link th:href="@{/css/eqp/NonOperationManage.css}" rel="stylesheet" />
 	<div class="pcoded-main-container">
 		<h1>설비 비가동 관리</h1>
@@ -63,6 +64,7 @@
 							<input type="text" id="mchnCode" class="form-control mx-sm-3" readonly>
 							<label for="mchnName">설비명</label> 
 							<input type="text" id="mchnName" class="form-control mx-sm-3" readonly>
+							<input type="hidden" id="mchnStatus">
 							<button type="submit" class="btn  btn-primary">저장</button>
 						</div>
 
@@ -71,10 +73,10 @@
 						<div class="form-inline">
 						<label for="inputDate">입력일자</label> 
 							<input type="date" id="inputDate" class="form-control mx-sm-3">
-							<label for="mchnName">입력번호</label> 
-							<input type="text" id="mchnName" class="form-control mx-sm-3" readonly>
-							<label for="worker">작업자</label> 
-							<input type="text" id="worker" class="form-control mx-sm-3">
+							<label for="inputNo">입력번호</label> 
+							<input type="text" id="inputNo" class="form-control mx-sm-3" readonly>
+							<label for="empid">작업자</label> 
+							<input type="text" id="empid" class="form-control mx-sm-3">
 													
 						</div>
 						
@@ -84,18 +86,18 @@
 							<h4 class="f-20">시</h4>
 							<input type="text" class="form-control mx-sm-3 time" id="sMinutes">
 							<h4 class="f-20">분</h4>
-							<button type="submit" class="btn  btn-primary m-l-20 m-r-20" id="workStartBtn">시작</button>
+							<button type="button" class="btn  btn-primary m-l-20 m-r-20" id="workStartBtn">시작</button>
 							<input type="text" class="form-control mx-sm-3 time" id="eHours">
 							<h4 class="f-20">시</h4>
 							<input type="text" class="form-control mx-sm-3 time" id="eMinutes">
 							<h4 class="f-20">분</h4>
-							<button type="submit" class="btn  btn-primary m-l-20" id="workEndBtn">종료</button>
+							<button type="button" class="btn  btn-primary m-l-20" id="workEndBtn">종료</button>
 						</div>
 						
 						<hr>
 						<div class="card-body table-border-style">
 							<div class="table-responsive">
-								<table class="table table-hover">
+								<table class="table table-hover" id="nonOpTable">
 									<thead>
 										<tr>
 											<th>비가동코드</th>
@@ -125,5 +127,8 @@
 		
 		
 	</div>
+	
+	<!-- 담당자검색 Modal -->
+<th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
 </body>
 </html>

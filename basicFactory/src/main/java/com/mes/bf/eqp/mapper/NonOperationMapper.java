@@ -19,4 +19,13 @@ public interface NonOperationMapper {
 
 	// 설비 비가동 조회
 	List<FindNonOpHIstoryVO> findAllNonOpHistory();
+	
+	//시작 설비상태업데이트
+	int startMchnStatusUpdate(String mchnCode);
+	
+	//종료 설비상태업데이트 
+	int endMchnStatusUpdate(String mchnCode);
+	
+	//입력번호 찾기
+	int findInputNo();
 }
