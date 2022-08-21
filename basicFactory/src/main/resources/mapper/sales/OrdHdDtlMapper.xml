@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.sales.mapper.SlsOrdMapper">
+	
+	<resultMap type="slsOrdHdVO" id="ordHdMap">
+		<id property="slsOrdHdNo" column="sls_ord_hd_no"/>
+		<result property="slsOrdHdDate" column="sls_ord_hd_date"/>
+		<result property="vendCdCode" column="vend_cd_code"/>
+		<result property="vendCdNm" column="vend_cd_nm"/>
+		<result property="empId" column="emp_id"/>
+		<result property="empName" column="emp_name"/>
+		<result property="slsOrdHdRemk" column="sls_ord_hd_remk"/>
+	</resultMap>
+	
+	<resultMap type="slsOrdDtlVO" id="ordDtlMap">
+		<id property="slsOrdDtlNo" column="sls_ord_dtl_no"/>
+		<result property="slsOrdHdNo" column="sls_ord_hd_no"/>
+		<result property="finPrdCdCode" column="fin_prd_cd_code"/>
+		<result property="finPrdCdName" column="fin_prd_cd_name"/>
+		<result property="slsOrdDtlDlvDate" column="sls_ord_dtl_dlv_date"/>
+		<result property="slsOrdDtlVol" column="sls_ord_dtl_vol"/>
+		<result property="slsOrdDtlOutVol" column="sls_ord_dtl_out_vol"/>
+		<result property="slsOrdDtlNotOutVol" column="sls_ord_dtl_not_out_vol"/>
+		<result property="slsOrdDtlPrgCls" column="sls_ord_dtl_prg_cls"/>
+	</resultMap>
+	
+	<resultMap type="ordHdDtl" id="ordHdDtlMap">
+		<collection property="slsOrdHdVO" resultMap="ordHdMap"/>
+		<collection property="slsOrdDtlVO" resultMap="ordDtlMap"/>
+	</resultMap>
+
+	<select id="findAllOrder" resultMap="ordHdDtlMap">
+		SELECT ordhd.sls_ord_hd_date, ordhd.sls_ord_hd_no, vend.vend_cd_nm, 
+                    fnsprd.fin_prd_cd_code, fnsprd.fin_prd_cd_name, 
+                    orddtl.sls_ord_dtl_dlv_date, orddtl.sls_ord_dtl_vol,
+                    orddtl.sls_ord_dtl_out_vol, orddtl.sls_ord_dtl_not_out_vol,
+                    emp.emp_name, ordhd.sls_ord_hd_remk
+		FROM bf_sales_ord_hd ordhd JOIN bf_sales_ord_dtl orddtl
+			ON ordhd.sls_ord_hd_no = orddtl.sls_ord_hd_no
+        JOIN BF_CMN_EMP emp
+            ON emp.emp_id = ordhd.emp_id
+		JOIN BF_CMN_VENDOR_CODE vend
+			ON vend.vend_cd_code = ordhd.vend_cd_code
+        JOIN BF_CMN_FINISH_PRODUCT_CODE fnsprd
+            ON fnsprd.fin_prd_cd_code = orddtl.fin_prd_cd_code
+	</select>
+	
+	<select id="findOrder" resultMap="ordHdDtlMap">
+		SELECT ordhd.sls_ord_hd_date, ordhd.sls_ord_hd_no, vend.vend_cd_nm, 
+                    fnsprd.fin_prd_cd_code, fnsprd.fin_prd_cd_name, 
+                    orddtl.sls_ord_dtl_dlv_date, orddtl.sls_ord_dtl_vol,
+                    orddtl.sls_ord_dtl_out_vol, orddtl.sls_ord_dtl_not_out_vol,
+                    emp.emp_name, ordhd.sls_ord_hd_remk
+		FROM bf_sales_ord_hd ordhd JOIN bf_sales_ord_dtl orddtl
+			ON ordhd.sls_ord_hd_no = orddtl.sls_ord_hd_no
+        JOIN BF_CMN_EMP emp
+            ON emp.emp_id = ordhd.emp_id
+		JOIN BF_CMN_VENDOR_CODE vend
+			ON vend.vend_cd_code = ordhd.vend_cd_code
+        JOIN BF_CMN_FINISH_PRODUCT_CODE fnsprd
+            ON fnsprd.fin_prd_cd_code = orddtl.fin_prd_cd_code
+        WHERE fnsprd.fin_prd_cd_code = #{vendor} AND
+        	  sls_ord_hd_date BETWEEN #{orderSdate} AND #{orderEdate}
+	</select>
+</mapper>
