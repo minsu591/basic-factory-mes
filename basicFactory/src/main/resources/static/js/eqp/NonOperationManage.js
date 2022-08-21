@@ -1,28 +1,81 @@
 $(document).ready(function () {
   findAllProcCode();
   findMchnName();
-  var date = new Date();
-  var hours = date.getHours();
-  var minutes = date.getMinutes();
-  //작업시작시간 입력
-  $("#workStartBtn").click(function () {
-    $("#sHours").val(hours).prop("readonly", true);
-    $("#sMinutes").val(minutes).prop("readonly", true);
-  });
 
+  //작업 종료 버튼
   $("#workEndBtn").click(function () {
+    let date = new Date();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
     $("#eHours").val(hours).prop("readonly", true);
     $("#eMinutes").val(minutes).prop("readonly", true);
-  });
 
+    let mchnCode = $("#mchnCode").val();
+    $.ajax({
+      url: `endmchnstatusupdate/${mchnCode}`,
+      method: "POST",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        // console.log(data);
+      },
+    });
+  });
+  //작업시작시간 입력
+  $("#workStartBtn").click(function () {
+    let mchnCode = $("#mchnCode").val();
+    let mchnStatus = $("#mchnStatus").val();
+
+    if (mchnStatus == "비가동") {
+      alert("비가동중입니다.");
+    } else {
+      let date = new Date();
+      let hours = date.getHours();
+      let minutes = date.getMinutes();
+      $("#sHours").val(hours).prop("readonly", true);
+      $("#sMinutes").val(minutes).prop("readonly", true);
+      $.ajax({
+        url: `startmchnstatusupdate/${mchnCode}`,
+        method: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        error: function (error, status, msg) {
+          alert("상태코드 " + status + "에러메시지" + msg);
+        },
+        success: function (data) {
+          // console.log(data);
+        },
+      });
+      $.ajax({
+        url: `findinputno`,
+        method: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        error: function (error, status, msg) {
+          alert("상태코드 " + status + "에러메시지" + msg);
+        },
+        success: function (data) {
+          // console.log("inputno-> " + data);
+          $("#inputNo").val(data);
+        },
+      });
+
+      nonOpTableMakeRow();
+    }
+  });
   //설비테이블 클릭 이벤트
   $("#equipTable").on("click", "tr", function () {
     let mchnCode = $(this).find("td:eq(0)").text();
     let mchnName = $(this).find("td:eq(1)").text();
-
+    let mchnStatus = $(this).find("td:eq(3)").text();
     $("#mchnCode").val(mchnCode).prop("readonly", true);
     $("#mchnName").val(mchnName).prop("readonly", true);
+    $("#mchnStatus").val(mchnStatus);
   });
+
   //공정셀렉티드 검색
   $("#selectProcCdName").bind("input", function () {
     let procCdName = $("#selectProcCdName option:selected").text();
@@ -42,7 +95,40 @@ $(document).ready(function () {
       },
     });
   });
+
+  //비가동테이블 ㅡㄹ릭 이벤트
+  $("#nonOpTable").on("click", "tr", function () {
+    let nonOpCode = $(this).find("td:eq(0)").children();
+    let nonOpName = $(this).find("td:eq(1)").children();
+    console.log(nonOpName);
+    nonOpCode.bind("input", function () {
+      console.log($(this).val());
+      let nonOpCode = $(this).val();
+      $.ajax({
+        url: "findnonop",
+        method: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        data: {
+          nonOpCode: nonOpCode,
+          nonOpName: null,
+        },
+        error: function (error, status, msg) {
+          alert("상태코드 " + status + "에러메시지" + msg);
+        },
+        success: function (data) {
+          console.log(data);
+
+          for (obj of data) {
+            console.log(obj.nonOpName);
+            nonOpName.val(obj.nonOpName);
+          }
+        },
+      });
+    });
+  });
 });
+
 //설비테이블
 function findMchnName() {
   $.ajax({
@@ -94,4 +180,15 @@ function mchnMakeRow(obj) {
                    <td>${obj.mchnStts}</td>
                   </tr>`;
   $("#equiptbody").append(node);
+}
+//비가동 입력 테이블 행 추가
+function nonOpTableMakeRow() {
+  let node = `<tr>
+		            <td><input type="text"></td>
+                <td><input type="text" readonly></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+              </tr>`;
+
+  $($("#nonOpTable tbody")).append(node);
 }

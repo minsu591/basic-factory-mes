@@ -31,9 +31,14 @@ public class JoinTest {
 		System.out.println(service2.findProduct(prdCdCode,""));
 	}
 	
-	@Test
+	//@Test
 	void findVinst() {
 		System.out.println(service2.findVInstruction(null,null,null,null));
+	}
+	
+	//@Test
+	void findinputno() {
+		System.out.println(service.findInputNo());
 	}
 	
 	//@Test

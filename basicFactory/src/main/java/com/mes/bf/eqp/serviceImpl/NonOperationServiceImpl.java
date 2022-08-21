@@ -9,6 +9,7 @@ import com.mes.bf.cmn.vo.NonOpVO;
 import com.mes.bf.eqp.mapper.NonOperationMapper;
 import com.mes.bf.eqp.service.NonOperationService;
 import com.mes.bf.eqp.vo.FindNonOpHIstoryVO;
+import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 
 @Service
@@ -32,6 +33,22 @@ public class NonOperationServiceImpl implements NonOperationService {
 	@Override
 	public List<FindNonOpHIstoryVO> findAllNonOpHistory() {
 		return mapper.findAllNonOpHistory();
+	}
+
+	@Override
+	public int startMchnStatusUpdate(String mchnCode) {
+		//mapper.mchnStatusUpdate(mchnCode);
+		return mapper.startMchnStatusUpdate(mchnCode);
+	}
+
+	@Override
+	public int endMchnStatusUpdate(String mchnCode) {
+		return mapper.endMchnStatusUpdate(mchnCode);
+	}
+
+	@Override
+	public int findInputNo() {
+		return mapper.findInputNo();
 	}
 
 }
