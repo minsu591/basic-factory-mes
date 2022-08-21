@@ -31,8 +31,12 @@ $(document).ready(function () {
 
     if (mchnStatus == "비가동") {
       alert("비가동중입니다.");
+    } else if (mchnCode == "") {
+      alert("설비를 선택하세요");
     } else {
+      findMchnName();
       let date = new Date();
+
       let hours = date.getHours();
       let minutes = date.getMinutes();
       $("#sHours").val(hours).prop("readonly", true);
@@ -45,9 +49,7 @@ $(document).ready(function () {
         error: function (error, status, msg) {
           alert("상태코드 " + status + "에러메시지" + msg);
         },
-        success: function (data) {
-          // console.log(data);
-        },
+        success: function (data) {},
       });
       $.ajax({
         url: `findinputno`,
@@ -114,18 +116,40 @@ $(document).ready(function () {
           nonOpName: null,
         },
         error: function (error, status, msg) {
-          alert("상태코드 " + status + "에러메시지" + msg);
+          nonOpName.val("");
         },
         success: function (data) {
           console.log(data);
-
-          for (obj of data) {
-            console.log(obj.nonOpName);
-            nonOpName.val(obj.nonOpName);
+          if (data.length == 0) {
+            nonOpName.val("");
+          } else {
+            for (obj of data) {
+              console.log(obj.nonOpName);
+              nonOpName.val(obj.nonOpName);
+            }
           }
         },
       });
     });
+  });
+
+  $("#saveBtn").click(function () {
+    let date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    console.log(year + "-" + month + "-" + day);
+    $("#inputNo").val(); //입력번호
+    $("#mchnCode").val(); //설비코드
+    console.log($("#nonOpTable tbody tr").find("td:eq(0)").children().val()); //비가동코드
+    $("#empid").val(); //작업자
+    $("inputDate").val(); //입력일자
+    $("#sHours").val(); //시작시간
+    $("#sMinutes").val(); //시작분
+    $("#eHours").val(); //종료시간
+    $("#eMinutes").val(); //종료분
+    console.log($("#nonOpTable tbody tr").find("td:eq(2)").children().val()); //작업내용
+    console.log($("#nonOpTable tbody tr").find("td:eq(3)").children().val()); //비고
   });
 });
 
