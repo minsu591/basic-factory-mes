@@ -68,9 +68,27 @@ WHERE rownum > 0
 </select>
 
 <!--생산지시조회 -->
-<select id="findAllvInstruction" resultType="vinst">
+<select id="findVInstruction" resultType="vinst">
 
 SELECT * FROM v_instruction
+
+<where>
+	<if test="instSdate != null and instSdate !=''">
+	<![CDATA[ AND inst_date >= #{instSdate} ]]>
+	</if>
+
+	<if test="instEdate != null and instEdate !='' ">
+	 <![CDATA[ AND inst_date <= #{instEdate} ]]>
+	</if>
+	
+	<if test="vendorName != null and vendorName != ''">
+		AND vend_cd_nm LIKE #{vendorName}
+	 </if>
+	 <if test="productName != null and productName != ''">
+	 	AND fin_prd_cd_name LIKE #{productName}
+	 </if>
+</where>
+
 </select>
 
 <!-- 거래처조회 -->
