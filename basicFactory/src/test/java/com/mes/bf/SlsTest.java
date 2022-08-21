@@ -7,19 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.mes.bf.sales.service.SlsOrdService;
-import com.mes.bf.sales.vo.SalesOrderHistoryVO;
+import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
 
 @SpringBootTest
 public class SlsTest {
-
+	
 	@Autowired SlsOrdService service;
 	
 	@Test
-	void finAllOrder() {
-		List<SalesOrderHistoryVO> list = service.findAllOrder();
-		
-		for(int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i).toString());
+	void findAllOrd() {
+		List<SlsOrdHdDtlVO> list1 = service.findAllOrder();
+		for(int i = 0; i < list1.size(); i++) {
+			System.out.println(list1.get(i).toString());
 		}
 	}
 }

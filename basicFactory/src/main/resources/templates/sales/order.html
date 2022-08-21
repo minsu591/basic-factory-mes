@@ -5,33 +5,22 @@
     layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SalesOrderHistory</title>
-    <style>
-        h1 {
-            padding-top : 2%;
-            padding-left : 2%;
-            padding-bottom : 2%;
-        }
-
-        button {
-            margin-top: 1%;
-        }
-    </style>
 </head>
 <body>
+    <script type="text/javascript" th:src="@{/js/sales/order.js}"></script>
+    <link th:href="@{/css/sales/order.css}" rel="stylesheet" />
+
     <div class="pcoded-main-container">
         <h1>주문 조회</h1>
         <hr>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <form class="form-inline">
+                    <form class="form-inline" id="ordSelectForm">
                         <div class="form-group mt-3">
-                                  <label for="slsOrdHdNo" th:text="주문일자"></label>
-                                  <input type="date" id="orderSdate" class="form-control mx-sm-3"> ~
-                                  <input type="date" id="orderEdate" class="form-control mx-sm-3">
+                            <label for="slsOrdHdDate" th:text="주문일자"></label>
+                            <input type="date" id="orderSdate" class="form-control mx-sm-3"> ~
+                            <input type="date" id="orderEdate" class="form-control mx-sm-3">
                         </div>
                         <br>
                         <div class="form-group mt-3">
@@ -41,12 +30,12 @@
                             <label for="vendorName" th:text="거래처명"></label>
                             <input type="text" id="vendorName" class="form-control mx-sm-3" readonly>
                         </div>
-                        <button type="submit" class="btn  btn-primary">조회</button>
+                        <button type="submit" class="btn  btn-primary" id="ordBtn">조회</button>
                     </form>
                 </div>
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="orderTable">
                             <thead>
                                 <tr>
                                     <th th:text="주문일자"></th>
@@ -63,25 +52,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="order : ${ordList}">
-                                    <td th:text="${#dates.format(order.slsOrdHdDate, 'yyyy-MM-dd')}"></td>
-                                    <td th:text="${order.slsOrdHdNo}"></td>
-                                    <td th:text="${order.vendCdNm}"></td>
-                                    <td th:text="${order.finPrdCdCode}"></td>
-                                    <td th:text="${order.finPrdCdName}"></td>
-                                    <td th:text="${#dates.format(order.slsOrdDtlDlvDate, 'yyyy-MM-dd')}"></td>
-                                    <td th:text="${order.slsOrdDtlVol}"></td>
-                                    <td th:text="${order.slsOrdDtlOutVol}"></td>
-                                    <td th:text="${order.slsNonOutDtlVol}"></td>
-                                    <td th:text="${order.empId}"></td>
-                                    <td th:text="${order.slsOrdHdRemk}"></td>
-                                </tr>
-                            </tbody>
+
+                            </tbody>    
                         </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- 거래처조회 Modal -->
+    <th:block th:replace="~{/fragments/modal/findvendor :: findvendor}"></th:block>
 </body>
 </html>

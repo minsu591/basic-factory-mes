@@ -13,5 +13,6 @@ public class SlsOutHdVO {
 	private String slsOrdHdNo;	//주문번호
 	private Date slsOutHdDate;	//출고일자
 	private String empId;		//담당자
+	private String empName;		//담당자이름
 	private String slsOutHdRemk;//비고
 }
