@@ -5,6 +5,7 @@ import java.util.List;
 import com.mes.bf.cmn.vo.NonOpVO;
 import com.mes.bf.eqp.vo.FindNonOpHIstoryVO;
 import com.mes.bf.eqp.vo.MchnVO;
+import com.mes.bf.eqp.vo.NonOpHistoryVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 
 public interface NonOperationService {
@@ -25,4 +26,7 @@ public interface NonOperationService {
 
 	// 입력번호 찾기
 	int findInputNo();
+
+	// 설비 비가동 관리 입력
+	void insertNonOpHistory(NonOpHistoryVO vo);
 }

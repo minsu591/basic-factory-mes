@@ -21,7 +21,7 @@ import com.mes.bf.cmn.vo.NonOpVO;
 import com.mes.bf.cmn.vo.ProcCodeVO;
 import com.mes.bf.eqp.service.NonOperationService;
 import com.mes.bf.eqp.vo.FindNonOpHIstoryVO;
-import com.mes.bf.eqp.vo.MchnVO;
+import com.mes.bf.eqp.vo.NonOpHistoryVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.service.ProcService;
@@ -113,4 +113,14 @@ public class NonOperationController {
 	public int findInputNo(){
 		return service.findInputNo();
 	}
+	
+	//비가동내역 입력
+	@PostMapping("/insertnonophistory")
+	public NonOpHistoryVO insertNonOpHistory(@RequestBody NonOpHistoryVO vo) {
+		System.out.println(vo);
+		service.insertNonOpHistory(vo);
+		return vo;
+	}
+
+	
 }

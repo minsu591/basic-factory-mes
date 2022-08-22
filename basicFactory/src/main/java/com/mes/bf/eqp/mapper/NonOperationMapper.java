@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.mes.bf.cmn.vo.NonOpVO;
 import com.mes.bf.eqp.vo.FindNonOpHIstoryVO;
+import com.mes.bf.eqp.vo.NonOpHistoryVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 
 @Mapper
@@ -28,4 +29,8 @@ public interface NonOperationMapper {
 	
 	//입력번호 찾기
 	int findInputNo();
+	
+	//설비 비가동 관리 입력
+	void insertNonOpHistory(NonOpHistoryVO vo);
+	
 }
