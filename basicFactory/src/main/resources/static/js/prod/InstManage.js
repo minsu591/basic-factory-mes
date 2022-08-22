@@ -29,7 +29,12 @@ $(document).ready(function () {
     console.log($("#instdate").val()); //지시작성일자
     console.log($("#instremk").val()); //특기사항
     console.log($("#instname").val()); //생산지시명
-    console.log($("empid").val()); //작업자명
+    console.log($("#empid").val()); //작업자명
+
+    let instDate = $("#instdate").val();
+    let empId = $("#empid").val();
+    let instName = $("#instname").val();
+    let instRemk = $("#instRemk").val();
 
     let checkbox = $("input:checkbox:checked");
     checkbox.each(function (i) {
@@ -41,6 +46,17 @@ $(document).ready(function () {
       console.log("prodCode ->" + prodCode);
       console.log("지시량 ->" + prodIndicaVol);
       console.log("workDate->" + workDate);
+
+      instobj = {
+        empId: empId,
+        instName: instName,
+        instDate: instDate,
+        instRemk: instRemk,
+        finPrdCdCode: prodCode,
+        instProdIndicaVol: prodIndicaVol,
+        workDate: workDate,
+      };
+      console.log(instobj);
     });
   });
 

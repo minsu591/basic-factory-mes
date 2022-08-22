@@ -132,4 +132,48 @@ SELECT * FROM V_RSC_NEED_QTY WHERE lineCdHdName = #{lineCdHdName}
 
 </select>
 
+
+<!-- 생산지시 헤더 입력 -->
+
+ <insert id="insertInstruction">
+
+INSERT INTO 
+BF_PROD_INSTRUCTION(inst_no,
+					emp_id,
+					inst_name,
+					inst_date,
+					inst_remk,
+					plan_hd_code)
+VALUES(BF_PROD_INSTRUCTION_SEQ.nextval,
+		(SELECT emp_id FROM BF_CMN_EMP WHERE emp_name = #{empId}),
+		#{instName},
+		#{instDate},
+		#{instRemk},
+		#{planHdCode}
+		)
+
+</insert>
+
+
+<!-- 생산지시 상세 입력 -->
+<insert id="insertInstructionDetail">
+INSERT INTO
+BF_PROD_INST_DETAIL(inst_prod_no,
+					fin_prd_cd_code,
+					inst_no,
+					inst_prod_indica_vol,
+					work_scope,
+					work_date)
+VALUES(BF_PROD_INST_DETAIL_SEQ.nextval,
+	   #{detailvo.finPrdCdCode},
+	   #{instNo},
+	   #{detailvo.instProdIndicaVol},
+	   #{detailvo.workScope},
+	   #{detailvo.workDate}
+)
+
+
+)
+</insert>
+
 </mapper>

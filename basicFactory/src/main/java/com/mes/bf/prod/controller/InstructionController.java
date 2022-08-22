@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -93,5 +94,15 @@ public class InstructionController {
 		List<VRscNeedQtyVO> list = service.findVRscNeedQty(lineCdHdName);
 		return new ResponseEntity<List<VRscNeedQtyVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
+	
+	//생산지시 등록
+	@PostMapping("/insertinstruction")
+	public void insertInstruction() {
+		service.insertInstruction(null, 0, null);
+	}
+	
+	
+	
+	
 
 }
