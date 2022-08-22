@@ -13,10 +13,15 @@ import com.mes.bf.rsc.vo.RscOutVO;
 public class RscOutServiceImpl implements RscOutService {
 
 	@Autowired RscOutMapper rscOutMapper;
-	
+
 	@Override
-	public List<RscOutVO> outList() {
-		return rscOutMapper.outList();
+	public List<RscOutVO> normalOutList() {
+		return rscOutMapper.normalOutList();
+	}
+
+	@Override
+	public List<RscOutVO> exceptOutList() {
+		return rscOutMapper.exceptOutList();
 	}
 
 }
