@@ -7,7 +7,7 @@
 <title>자재재고조회</title>
 </head>
 <body>
-	<link th:href="@{/css/prod/Proc.css}" rel="stylesheet" />
+	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
 	<div class="pcoded-main-container">
 		<h1>자재 재고 조회</h1>
 		<hr>
@@ -16,13 +16,17 @@
 				<div class="card-header">
 					<form class="form-inline">
 						<div class="form-group mt-3">
-							<label for="rsccode" th:text="자재코드"></label> <input
-								type="text" id="rsccode" class="form-control mx-sm-3">
+							<label for="rsccode" th:text="자재코드"></label> 
+							<input type="text" id="rsccode" class="form-control mx-sm-3">
 							<!-- 자재코드-자재명 Modal창 출력 -->
 						</div>
 						<div class="form-group mt-3">
-							<label for="rsclotno" th:text="자재LOT번호"></label> <input
-								type="text" id="rsclotno" class="form-control mx-sm-3">
+							<label for="rscname" th:text="자재명"></label> 
+							<input type="text" id="rscname" class="form-control mx-sm-3" readonly>
+						</div>
+						<div class="form-group mt-3">
+							<label for="rsclotno" th:text="자재LOT번호"></label> 
+							<input type="text" id="rsclotno" class="form-control mx-sm-3">
 						</div>
 						<button type="submit" class="btn  btn-primary">조회</button>
 					</form>
@@ -40,21 +44,22 @@
 									<th th:text="입고수량"></th>
 									<th th:text="출고수량"></th>
 									<th th:text="재고수량"></th>
-									<th th:text="사용여부"></th>
+									<th th:text="단위"></th>
+									<th th:text="가용여부"></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
+								<tr th:each="stock : ${stock}">
+									<td th:text="${stock.rscCdCode}"></td>
+									<td th:text="${stock.rscCdName}"></td>
+									<td th:text="${stock.rscCdClfy}"></td>
+									<td th:text="${stock.rscLotNo}"></td>
+									<td th:text="${stock.rscInVol}"></td>
+									<td th:text="${stock.rscOutVol}"></td>
+									<td th:text="${stock.rscStock}"></td>
+									<td th:text="${stock.rscCdUnit}"></td>
+									<td ><input type="checkbox" th:checked="#{stock.rscStockUse eq '1'}" checked onClick="return false;"></td>
 								</tr>
-
 							</tbody>
 						</table>
 					</div>
