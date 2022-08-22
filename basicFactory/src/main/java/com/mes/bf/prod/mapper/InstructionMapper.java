@@ -42,6 +42,6 @@ public interface InstructionMapper {
 	//생산지시 헤더 입려
 	boolean insertInstruction(InstructionVO vo);
 	//생산지시 상세 입력 
-	boolean insertInstructionDetail(@Param("instNo") int instNo,@Param("detailvo") InstructionDetailVO detailvo);
+	boolean insertInstructionDetail(InstructionDetailVO detailvo);
 
 }

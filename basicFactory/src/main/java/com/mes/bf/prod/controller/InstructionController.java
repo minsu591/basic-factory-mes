@@ -98,7 +98,7 @@ public class InstructionController {
 	//생산지시 등록
 	@PostMapping("/insertinstruction")
 	public void insertInstruction() {
-		service.insertInstruction(null, 0, null);
+		service.insertInstruction(null, null);
 	}
 	
 	

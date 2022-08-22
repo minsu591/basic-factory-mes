@@ -64,9 +64,9 @@ public class InstructionServiceImpl implements InstructionService {
 
 	@Override
 	@Transactional
-	public void insertInstruction(InstructionVO vo, int instNo, InstructionDetailVO detailvo) {
+	public void insertInstruction(InstructionVO vo,InstructionDetailVO detailvo) {
 		mapper.insertInstruction(vo);
-		mapper.insertInstructionDetail(instNo, detailvo);
+		mapper.insertInstructionDetail(detailvo);
 
 	}
 

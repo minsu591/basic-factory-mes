@@ -38,6 +38,6 @@ public interface InstructionService {
 	List<VRscNeedQtyVO> findVRscNeedQty (String lineCdHdName);
 	
 	//생산지시 입력
-	void insertInstruction(@Param("vo") InstructionVO vo,@Param("instNo") int instNo,@Param("detailvo") InstructionDetailVO detailvo);
+	void insertInstruction(InstructionVO vo,InstructionDetailVO detailvo);
 	
 }
