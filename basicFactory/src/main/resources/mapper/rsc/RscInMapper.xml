@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.rsc.mapper.RscInMapper">
+	<select id="inList" resultType="com.mes.bf.rsc.vo.RscInVO">
+		SELECT rscin.rsc_in_code, rscin.rsc_in_date, rscinsp.rsc_insp_date, rsccode.rsc_cd_code, rsccode.rsc_cd_name,
+            rscin.rsc_in_vol, stock.rsc_lot_no,rscinsp.rsc_insp_st
+		FROM BF_RSC_IN rscin LEFT JOIN BF_CMN_RSC_CODE rsccode
+		        ON rscin.rsc_cd_code = rsccode.rsc_cd_code
+		        LEFT JOIN BF_RSC_STOCK stock
+		        ON rscin.rsc_in_code = stock.rsc_in_code
+		        LEFT JOIN BF_RSC_INSP rscinsp
+		        ON rscin.rsc_insp_code = rscinsp.rsc_insp_code
+		ORDER BY rscin.rsc_cd_code DESC
+	</select>
+</mapper>

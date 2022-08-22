@@ -1,6 +1,5 @@
 package com.mes.bf.sales.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,20 +36,16 @@ public class SlsOrdController {
 	@GetMapping("/findAllOrder")
 	public List<SlsOrdHdDtlVO> findAllOrder() {
 		List<SlsOrdHdDtlVO> list = service.findAllOrder();
+		
 		return list;
 	}
 	
 	//주문내역 단건 조회
-	@PostMapping(value = "/findOrder", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public List<SlsOrdHdDtlVO> findOrder(@RequestParam Map<String, Object> params) {
-		System.out.println(params.get("orderSdate"));
-		System.out.println(params.get("orderEdate"));
-		System.out.println(params.get("vendor"));
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("orderState", params.get("orderSdate"));
-		map.put("orderEdate", params.get("orderEdate"));
-		map.put("vendor", params.get("vendor"));
-		List<SlsOrdHdDtlVO> list = service.findOrder(map);
+	@GetMapping(value = "/findOrder")
+	public List<SlsOrdHdDtlVO> findOrder(@RequestParam Map<String, String> param) {
+		List<SlsOrdHdDtlVO> list = service.findOrder(param.get("ordSdate"),
+													 param.get("ordEdate"),
+													 param.get("vendorName"));
 		return list;
 	}
 	

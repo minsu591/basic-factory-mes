@@ -5,10 +5,11 @@ $(document).ready(function () {
   //작업 종료 버튼
   $("#workEndBtn").click(function () {
     let date = new Date();
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
+    let hours = ('0' + date.getHours()).slice(-2);
+    let minutes = ('0' + date.getMinutes()).slice(-2);
     $("#eHours").val(hours).prop("readonly", true);
     $("#eMinutes").val(minutes).prop("readonly", true);
+
 
     let mchnCode = $("#mchnCode").val();
     $.ajax({
@@ -37,8 +38,9 @@ $(document).ready(function () {
       findMchnName();
       let date = new Date();
 
-      let hours = date.getHours();
-      let minutes = date.getMinutes();
+      let hours = ('0' + date.getHours()).slice(-2);
+      let minutes = ('0' + date.getMinutes()).slice(-2);
+
       $("#sHours").val(hours).prop("readonly", true);
       $("#sMinutes").val(minutes).prop("readonly", true);
       $.ajax({
@@ -49,7 +51,7 @@ $(document).ready(function () {
         error: function (error, status, msg) {
           alert("상태코드 " + status + "에러메시지" + msg);
         },
-        success: function (data) {},
+        success: function (data) { },
       });
       $.ajax({
         url: `findinputno`,
@@ -134,22 +136,57 @@ $(document).ready(function () {
   });
 
   $("#saveBtn").click(function () {
-    let date = new Date();
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    console.log(year + "-" + month + "-" + day);
-    $("#inputNo").val(); //입력번호
-    $("#mchnCode").val(); //설비코드
-    console.log($("#nonOpTable tbody tr").find("td:eq(0)").children().val()); //비가동코드
-    $("#empid").val(); //작업자
-    $("inputDate").val(); //입력일자
-    $("#sHours").val(); //시작시간
-    $("#sMinutes").val(); //시작분
-    $("#eHours").val(); //종료시간
-    $("#eMinutes").val(); //종료분
-    console.log($("#nonOpTable tbody tr").find("td:eq(2)").children().val()); //작업내용
-    console.log($("#nonOpTable tbody tr").find("td:eq(3)").children().val()); //비고
+    let sHours = $("#sHours").val();
+
+    let sMinutes = $("#sMinutes").val();
+
+    let eHours = $("#eHours").val();
+
+    let eMinutes = $("#eMinutes").val();
+
+    console.log(sMinutes);
+    let inputNo = $("#inputNo").val();
+    let mchnCode = $("#mchnCode").val();
+    let nonOpCode = $("#nonOpTable tbody tr").find("td:eq(0)").children().val();
+    let empId = $("#empid").val();
+    let inputDate = $("#inputDate").val();
+    let startTime = inputDate + sHours + ":" + sMinutes;
+    let endTime = inputDate + eHours + ":" + eMinutes;
+    let nonOpRsn = $("#nonOpTable tbody tr").find("td:eq(2)").children().val();
+    let remk = $("#nonOpTable tbody tr").find("td:eq(3)").children().val();
+    let nonOpMin = (eMinutes - sMinutes);
+
+
+    let nonOpHistory = {
+      inputNo: inputNo,
+      mchnCode: mchnCode,
+      nonOpCode: nonOpCode,
+      empId: empId,
+      inputDate: inputDate,
+      nonOpMin: nonOpMin,
+      nonOpStartTime: startTime,
+      nonOpEndTime: endTime,
+      nonOpRemk: remk,
+      nonOpRsn: nonOpRsn
+    }
+
+    console.log(nonOpHistory);
+
+    $.ajax({
+      url: "insertnonophistory",
+      method: "POST",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify(nonOpHistory),
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        console.log('success');
+
+      },
+    });
+
   });
 });
 
@@ -186,7 +223,7 @@ function findAllProcCode() {
       console.log(data);
       let index = 0;
       for (obj of data) {
-        console.log("어팬드");
+        // console.log("어팬드");
         $("#selectProcCdName").append(
           "<option value='" + (index += 1) + "'>" + obj.procCdName + "</option>"
         );

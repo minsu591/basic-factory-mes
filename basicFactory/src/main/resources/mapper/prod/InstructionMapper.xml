@@ -124,6 +124,12 @@ ORDER BY line_cd_ord
 
 </select>
 
+<!-- 라인별 자재 소요 예상량 조회 -->
 
+<select id="findVRscNeedQty" resultType="com.mes.bf.prod.vo.VRscNeedQtyVO">
+
+SELECT * FROM V_RSC_NEED_QTY WHERE lineCdHdName = #{lineCdHdName}
+
+</select>
 
 </mapper>

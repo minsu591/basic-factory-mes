@@ -14,11 +14,12 @@ import com.mes.bf.prod.vo.VFindProcPerformVO;
 @Service
 public class ProcServiceImpl implements ProcService {
 
-	@Autowired ProcMapper mapper;
-	
+	@Autowired
+	ProcMapper mapper;
+
 	@Override
 	public List<VfindMchnVO> findMchn(String mchnCode, String mchnName) {
-		return mapper.findMchn(mchnCode,mchnName);
+		return mapper.findMchn(mchnCode, mchnName);
 	}
 
 	@Override
@@ -27,14 +28,9 @@ public class ProcServiceImpl implements ProcService {
 	}
 
 	@Override
-	public List<VFindProcPerformVO> findAllProcPerform() {
-		return mapper.findAllProcPerform();
+	public List<VFindProcPerformVO> findProcPerform(String workSdate, String workEdate, String procCdName,
+			String mchnName, String empId) {
+		return mapper.findProcPerform(workSdate, workEdate, procCdName, mchnName, empId);
 	}
-
-//	@Override
-//	public ProcCodeVO findProcCode(String procCdCode, String procCdName) {
-//		return mapper.findProcCode(procCdCode, procCdName);
-//	}
-
 
 }

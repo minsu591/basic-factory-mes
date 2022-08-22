@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.rsc.mapper.RscOrderMapper">
+	<select id="orderTitle" resultType="com.mes.bf.rsc.vo.RscOrderVO">
+		select * from bf_rsc_order
+	</select>
+	<select id="orderList" resultType="com.mes.bf.rsc.vo.RscOrderVO">
+		select * from BF_RSC_ORDER_DETAILS
+	</select>
+	
+</mapper>

@@ -1,7 +1,6 @@
 package com.mes.bf.sales.serviceImpl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,9 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 	public List<SlsOrdHdDtlVO> findAllOrder() {
 		return mapper.findAllOrder();
 	}
-
+	
 	@Override
-	public List<SlsOrdHdDtlVO> findOrder(Map<String, Object> params) {
-		return mapper.findOrder(params);
+	public List<SlsOrdHdDtlVO> findOrder(String ordSdate, String ordEdate, String vendorName) {
+		return mapper.findOrder(ordSdate, ordEdate, vendorName);
 	}
 }

@@ -7,6 +7,75 @@
 <title>자재입고조회</title>
 </head>
 <body>
+	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
+	<div class="pcoded-main-container">
+		<h1>자재 입고 조회</h1>
+		<hr>
+		<div class="col-xl-12">
+			<div class="card">
+				<div class="card-header">
+					<form>
+						<div class="form-inline">
+							<div class="form-group mt-3">
+								<label for="rscInCode" th:text="입고코드"></label>
+								<input type="text" id="rscInCode" class="form-control mx-sm-3">
+							</div>
+							<div class="form-group mt-3">
+								<label for="rsccode" th:text="자재코드"></label> 
+								<input type="text" id="rsccode" class="form-control mx-sm-3">
+								<!-- 자재코드-자재명 Modal창 출력 -->
+							</div>
+							<div class="form-group mt-3">
+								<label for="rscname" th:text="자재명"></label> 
+								<input type="text" id="rscname" class="form-control mx-sm-3" readonly>
+							</div>
+						</div>
+						<div class="form-inline">
+							<div class="form-group mt-3">
+								<label for="rscInDate" th:text="입고일자"></label> 
+								<input type="date" id="rscInSDate" class="form-control mx-sm-3">~
+								<input type="date" id="rscInEDate" class="form-control mx-sm-3">
+							</div>
+							<button type="submit" class="btn  btn-primary">조회</button>
+						</div>
+					</form>
 
+				</div>
+				<div class="card-body table-border-style">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th th:text="입고코드"></th>
+									<th th:text="입고일자"></th>
+									<th th:text="검사일자"></th>
+									<th th:text="자재코드"></th>
+									<th th:text="자재명"></th>
+									<th th:text="입고수량"></th>
+									<th th:text="자재LOT번호"></th>
+									<th th:text="상태"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="inList : ${inList}">
+									<td th:text="${inList.rscInCode}"></td>
+									<td th:text="${inList.rscInDate}"></td>
+									<td th:text="${inList.rscInspDate}"></td>
+									<td th:text="${inList.rscCdCode}"></td>
+									<td th:text="${inList.rscCdName}"></td>
+									<td th:text="${inList.rscInVol}"></td>
+									<td th:text="${inList.rscLotNo}"></td>
+									<td>
+										<span th:if="${inList.rscInspSt == 0}">입고대기</span>
+										<span th:if="${inList.rscInspSt == 1}">입고완료</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
