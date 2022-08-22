@@ -15,9 +15,7 @@ public interface ProcService {
 	List<ProcCodeVO> findProcCode(String procCdCode, String procCdName);
 
 	// 공정실적 전체조회
-	List<VFindProcPerformVO> findAllProcPerform();
-	
-	//공정코드, 공정명 검색
-	///ProcCodeVO findProcCode(String procCdCode,String procCdName);
+	List<VFindProcPerformVO> findProcPerform(String workSdate,String workEdate,String procCdName,String mchnName,String empId);
+
 
 }

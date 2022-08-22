@@ -63,7 +63,6 @@ public class InstructionController {
 	}
 
 	// 생산지시조회
-	// 조회 => Get
 	@GetMapping(value = "/findvinst", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<VInstructionVO>> findVInstruction(@RequestParam Map<String,String> queryParameters) {
 		List<VInstructionVO> list = service.findVInstruction(queryParameters.get("instSdate"),

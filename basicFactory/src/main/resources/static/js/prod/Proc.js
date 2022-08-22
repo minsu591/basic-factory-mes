@@ -1,11 +1,46 @@
 $(document).ready(function () {
   //실적조회테이블
   findAllProcPerform();
+
+  $("#findProcBtn").click(function () {
+
+    let workSdate = $("#worksdate").val();
+    let workEdate = $("#workedate").val();
+    let procCdName = $("#proccdname").val();
+    let mchnName = $("#mchnname").val();
+    let empId = $("#empid").val();
+
+    $.ajax({
+      url: "findprocperform",
+      method: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      data: {
+        workSdate: workSdate,
+        workEdate: workEdate,
+        procCdName: procCdName,
+        mchnName: mchnName,
+        empId: empId
+      },
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        console.log(data);
+        $("#procPerfomTable tbody tr").remove();
+        for (obj of data) {
+          ProcPerformMakeRow(obj);
+        }
+      },
+    });
+
+  });
+
 });
 
 function findAllProcPerform() {
   $.ajax({
-    url: "findallprocperform",
+    url: "findprocperform",
     method: "GET",
     contentType: "application/json;charset=utf-8",
     dataType: "json",
