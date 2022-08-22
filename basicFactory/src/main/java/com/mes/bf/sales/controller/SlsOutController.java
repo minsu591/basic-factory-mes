@@ -15,42 +15,41 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.service.InstructionService;
-import com.mes.bf.sales.service.SlsOrdService;
-import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
+import com.mes.bf.sales.service.SlsOutService;
+import com.mes.bf.sales.vo.SlsOutHdDtlVO;
 
 @RestController
-@RequestMapping("/sls")
-public class SlsOrdController {
-	
-	@Autowired SlsOrdService service;
+@RequestMapping("sls")
+public class SlsOutController {
+
+	@Autowired SlsOutService service;
 	@Autowired InstructionService instService;
 	
-	//주문조회 페이지 이동
-	@RequestMapping("/ord")
-	public ModelAndView order() {
-		ModelAndView mav = new ModelAndView("sales/order");
+	//완제품 촐고조회 페이지 이동
+	@RequestMapping("out")
+	public ModelAndView out() {
+		ModelAndView mav = new ModelAndView("sales/out");
 		return mav;
 	}
-
-	//주문내역 전체 조회
-	@GetMapping("/findAllOrder")
-	public List<SlsOrdHdDtlVO> findAllOrder() {
-		List<SlsOrdHdDtlVO> list = service.findAllOrder();
-		
+	
+	//완제품 출고내역 전체 조회
+	//@GetMapping("/findAllOut")
+	public List<SlsOutHdDtlVO> findAllOut() {
+		List<SlsOutHdDtlVO> list = service.findAllOut();
 		return list;
 	}
 	
-	//주문내역 단건 조회
-	@GetMapping(value = "/findOrder")
-	public List<SlsOrdHdDtlVO> findOrder(@RequestParam Map<String, String> param) {
-		List<SlsOrdHdDtlVO> list = service.findOrder(param.get("ordSdate"),
-													 param.get("ordEdate"),
-													 param.get("vendorName"));
+	//완제품 출고내역 단건 조회
+	//@GetMapping(value = "/findOut")
+	public List<SlsOutHdDtlVO> finOut(@RequestParam Map<String, String> param){
+		List<SlsOutHdDtlVO> list = service.findOut(param.get("outSdate"),
+				 								   param.get("outEdate"),
+				 								   param.get("vendorName"));
 		return list;
 	}
 	
 	//거래처 전체조회
-	@GetMapping(value = "/findvendorcode", produces = { MediaType.APPLICATION_JSON_VALUE })
+	//@GetMapping(value = "/findvendorcode", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<VendorCodeVO>> findAllVInstruction(@RequestParam Map<String,String> queryParameters) {
 		List<VendorCodeVO> list = instService.findVendorCode(queryParameters.get("vendorCode"),queryParameters.get("vendCdClfy"));
 		return new ResponseEntity<List<VendorCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
