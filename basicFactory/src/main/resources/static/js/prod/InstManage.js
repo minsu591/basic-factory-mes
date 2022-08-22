@@ -25,31 +25,30 @@ $(document).ready(function () {
     });
   });
 
-  function detailTableMakeRow() {
-    let node = `<tr>
-		<td><input type="checkbox"></td>
-		<td><input type="text" name="prodCode"></td>
-		<td><input type="text" readonly></td>
-		<td><input type="text" readonly></td>
-		<td><input type="text" readonly></td>
-		<td><input type="text" readonly></td>
-		<td><input type="text" readonly></td>
-		<td><input type="text" readonly></td>
-		<td><input type="text" readonly></td>
-		<td><input type="text"></td>
-		<td><input type="text" readonly></td>
-		<td><input type="text" readonly></td>
-		<td><input type="text"></td>
-	</tr>`;
-    $("#planDetailTable tbody").append(node);
-  }
+  $("#instSaveBtn").click(function () {
+    console.log($("#instdate").val()); //지시작성일자
+    console.log($("#instremk").val()); //특기사항
+    console.log($("#instname").val());//생산지시명
+    console.log($("empid").val());//작업자명
+
+    let checkbox = $("input:checkbox:checked");
+    checkbox.each(function (i) {
+      let tr = checkbox.parent().parent().eq(i);
+      let td = tr.children();
+      let prodCode = td.children().eq(1).val(); //제품코드
+      let prodIndicaVol = td.children().eq(9).val(); //지시량
+      let workDate = td.children().eq(12).val(); //작업날짜
+      console.log('prodCode ->' + prodCode)
+      console.log('지시량 ->' + prodIndicaVol)
+      console.log("workDate->" + workDate)
+    })
+
+  });
+
 
   //지시테이블 클릭 이벤트
   $("#planDetailTable").on("click", "tr", function () {
-    let focusEle = document.activeElement;
-    if ($(this).find("td:eq(1)") == focusEle) {
-      console.log("포커스");
-    }
+
     let prodCode = $(this).find("td:eq(1)").children();
     let prodName = $(this).find("td:eq(2)").children();
     let prodUnit = $(this).find("td:eq(3)").children();
@@ -82,29 +81,52 @@ $(document).ready(function () {
     });
   });
 
-  function findProcStatus(lineName) {
-    console.log(lineName);
-    console.log("findprocstatus");
-    $.ajax({
-      url: `findprocstatus/${lineName}`,
-      method: "GET",
-      dataType: "json",
-      success: function (data) {
-        console.log(data);
-        $("#procStatusTable tbody tr").remove();
-        for (obj of data) {
-          procStatusMakeRow(obj);
-        }
-      },
-    });
-  }
-  function procStatusMakeRow(obj) {
-    let node = `<tr>
-                <td>${obj.lineCdOrd}</td>
-                <td>${obj.procCdName}</td>
-                <td>${obj.mchnName}</td>
-                <td>${obj.mchnStts}</td>
-                </tr>`;
-    $("#procStatusTable tbody").append(node);
-  }
+
 });
+
+
+function findProcStatus(lineName) {
+  //console.log(lineName);
+  console.log("findprocstatus");
+  $.ajax({
+    url: `findprocstatus/${lineName}`,
+    method: "GET",
+    dataType: "json",
+    success: function (data) {
+      //console.log(data);
+      $("#procStatusTable tbody tr").remove();
+      for (obj of data) {
+        procStatusMakeRow(obj);
+      }
+    },
+  });
+}
+
+function detailTableMakeRow() {
+  let node = `<tr>
+  <td><input type="checkbox"></td>
+  <td><input type="text" name="prodCode"></td>
+  <td><input type="text" readonly></td>
+  <td><input type="text" readonly></td>
+  <td><input type="text" readonly></td>
+  <td><input type="text" readonly></td>
+  <td><input type="text" readonly></td>
+  <td><input type="text" readonly></td>
+  <td><input type="text" readonly></td>
+  <td><input type="text"></td>
+  <td><input type="text" readonly></td>
+  <td><input type="text" readonly></td>
+  <td><input type="text"></td>
+</tr>`;
+  $("#planDetailTable tbody").append(node);
+}
+
+function procStatusMakeRow(obj) {
+  let node = `<tr>
+              <td>${obj.lineCdOrd}</td>
+              <td>${obj.procCdName}</td>
+              <td>${obj.mchnName}</td>
+              <td>${obj.mchnStts}</td>
+              </tr>`;
+  $("#procStatusTable tbody").append(node);
+}
