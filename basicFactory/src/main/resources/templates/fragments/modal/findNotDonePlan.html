@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<th:block th:fragment="findNotDonePlan">
+
+		<div class="modal fade" id="findNotDonePlanModal" tabindex="-1" role="dialog"
+			aria-labelledby="findPlanModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="findPlanModalLabel">미지시 생산계획 조회</h3>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-inline">
+							<div class="form-group mt-3">
+								<label for="planDate" th:text="생산계획일자"></label>
+								<input type="date" id="plansdate" name="plansdate" class="form-control mx-sm-3">
+								<input type="date" id="planedate" name="planedate" class="form-control mx-sm-3">
+								<button type="button" class="btn  btn-primary" id="findNotDonePlanBtn" th:text="조회"></button>
+							</div>
+						</div>
+						<hr>
+						<div class="card-body table-border-style">
+							<div class="table-responsive">
+								<table class="table table-hover" id="findNotDonePlanTable">
+									<thead>
+										<tr>
+											<th th:text="No."></th>
+											<th th:text="생산계획코드"></th>
+											<th th:text="생산계획일자"></th>
+											<th th:text="생산계획명"></th>
+											<th th:text="담당자명"></th>
+											<th th:text="'작업계획 시작일자'"></th>
+											<th th:text="'작업계획 종료일자'"></th>
+											<th th:text="완제품명"></th>
+											<th th:text="계획량"></th>
+											<th th:text="미계획량"></th>
+										</tr>
+									</thead>
+									<tbody id="findNotDonePlantbody">
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal" th:text="취소"></button>
+						<button type="button" class="btn btn-primary" th:text="선택"
+							id="selectbtn"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+</body>
+</html>
