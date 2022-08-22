@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.mes.bf.rsc.vo.RscStockVO;
 
-public interface RscService {
+public interface RscStockService {
 
 	//재고
 	List<RscStockVO> StockList();
