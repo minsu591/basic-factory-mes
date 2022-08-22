@@ -57,8 +57,8 @@ public class SlsOrdController {
 	
 	//거래처 전체조회
 	@GetMapping(value = "/findvendorcode", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<VendorCodeVO>> findAllVInstruction(VendorCodeVO vo) {
-		List<VendorCodeVO> list = instService.findAllVendorCode();
+	public ResponseEntity<List<VendorCodeVO>> findAllVInstruction(@RequestParam Map<String,String> queryParameters) {
+		List<VendorCodeVO> list = instService.findVendorCode(queryParameters.get("vendorCode"),queryParameters.get("vendCdClfy"));
 		return new ResponseEntity<List<VendorCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 }
