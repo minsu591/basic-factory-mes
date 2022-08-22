@@ -46,7 +46,7 @@
 	</select>
 	
 	<select id="findOrder" resultMap="ordHdDtlMap">
-		SELECT ordhd.sls_ord_hd_date, ordhd.sls_ord_hd_no, vend.vend_cd_nm, 
+   		SELECT ordhd.sls_ord_hd_date, ordhd.sls_ord_hd_no, vend.vend_cd_nm, 
                     fnsprd.fin_prd_cd_code, fnsprd.fin_prd_cd_name, 
                     orddtl.sls_ord_dtl_dlv_date, orddtl.sls_ord_dtl_vol,
                     orddtl.sls_ord_dtl_out_vol, orddtl.sls_ord_dtl_not_out_vol,
@@ -59,7 +59,7 @@
 			ON vend.vend_cd_code = ordhd.vend_cd_code
         JOIN BF_CMN_FINISH_PRODUCT_CODE fnsprd
             ON fnsprd.fin_prd_cd_code = orddtl.fin_prd_cd_code
-        WHERE fnsprd.fin_prd_cd_code = #{vendor} AND
-        	  sls_ord_hd_date BETWEEN #{orderSdate} AND #{orderEdate}
-	</select>
+        WHERE vend.vend_cd_nm = #{vendorName} AND
+        	  ordhd.sls_ord_hd_date BETWEEN  TO_DATE(#{ordSdate}, 'YY/MM/DD') AND TO_DATE(#{ordEdate}, 'YY/MM/DD') +0.9999
+   	</select>
 </mapper>

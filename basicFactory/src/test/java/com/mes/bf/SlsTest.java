@@ -21,4 +21,12 @@ public class SlsTest {
 			System.out.println(list1.get(i).toString());
 		}
 	}
+
+	//@Test
+	void findOrder() {
+		List<SlsOrdHdDtlVO> list1 = service.findOrder("2022-08-18","2022-08-18","예담");
+		for(int i = 0; i < list1.size(); i++) {
+			System.out.println(list1.get(i).toString());
+		}
+	}
 }

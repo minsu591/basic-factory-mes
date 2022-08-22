@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.sales.mapper.SlsOutMapper">
+	
+	<resultMap type="slsOutHdVO" id="outHdMap">
+		<id property="slsOutHdNo" column="sls_out_hd_no"/>
+		<result property="slsOrdHdNo" column=""/>
+		<result property="slsOutHdDate" column=""/>
+		<result property="empId" column=""/>
+		<result property="empName" column=""/>
+		<result property="slsOutHdRemk" column=""/>
+	</resultMap>
+	
+	<resultMap type="slsOutDtlVO" id="outDtlMap">
+		<id property="slsOutDtlNo" column="sls_out_dtl_no"/>
+		<result property="slsOutHdNo" column="sls_out_hd_no"/>
+		<result property="vendCdCode" column="vend_cd_code"/>
+		<result property="vendCdNm" column="vend_cd_nm"/>
+		<result property="finPrdCdCode" column="fin_prd_cd_code"/>
+		<result property="finPrdCdName" column="fin_prd_cd_name"/>
+		<result property="fnsPrdStkLotNo" column="fns_prd_stk_lot_no"/>
+		<result property="slsOrdDtlVol" column="sls_ord_dtl_vol"/>
+		<result property="slsOutDtlVol" column="sls_ord_dtl_out_vol"/>
+		<result property="finPrdCdPrice" column="fin_prd_cd_price"/>
+		<result property="slsOutDtlPrice" column="sls_out_dtl_price"/>
+		<result property="fnsPrdStkVol" column="fns_prd_stk_vol"/>
+	</resultMap>
+	
+	<resultMap type="outHdDtl" id="outHdDtlMap">
+		<collection property="slsOutHdVO" resultMap="outHdMap"/>
+		<collection property="slsOutDtlVO" resultMap="outDtlMap"/>
+	</resultMap>
+	
+
+</mapper>

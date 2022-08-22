@@ -1,11 +1,11 @@
 $(document).ready(function () {
 
-  //주문테이블 초기데이터 입력
-  orderTableInsert();
+  //출고 테이블 초기데이터 입력
+  outTableInsert();
 
-  function orderTableInsert() {
+  function outTableInsert() {
     $.ajax({
-      url: "findAllOrder",
+      url: "findAllOut",
       method: "GET",
       contentType: "application/json;charset=utf-8",
       dataType: "json",
@@ -16,13 +16,13 @@ $(document).ready(function () {
         console.log(data);
         for (obj of data) {
           console.log(obj);
-          orderMakeRow(obj);
+          outMakeRow(obj);
         }
       }
     });
   }
   
-  function orderMakeRow(obj) {
+  function outMakeRow(obj) {
     let node = `<tr>
                     <td>${obj.slsOrdHdVO.slsOrdHdDate}</td>
                     <td>${obj.slsOrdHdVO.slsOrdHdNo}</td>
@@ -34,30 +34,30 @@ $(document).ready(function () {
                     <td>${obj.slsOrdDtlVO.slsOrdDtlOutVol}</td>
                     <td>${obj.slsOrdDtlVO.slsOrdDtlNotOutVol}</td>
                     <td>${obj.slsOrdHdVO.empName}</td>
-					<td>${obj.slsOrdHdVO.slsOrdHdRemk}</td>
+					          <td>${obj.slsOrdHdVO.slsOrdHdRemk}</td>
                 </tr>`;
-    $("#orderTable tbody").append(node);
+    $("#outTable tbody").append(node);
   }
 
-  //조건에 맞는 주문내역 조회
-  $("#ordBtn").click(function() {
-    findOrder();
+  //조건에 맞는 출고내역 조회
+  $("#outBtn").click(function() {
+    findOut();
   });
 
-  function findOrder() {
-    let ordSdate = $("#orderSdate").val();
-    let ordEdate = $("#orderEdate").val();
+  function findOut() {
+    let outSdate = $("#outSdate").val();
+    let outEdate = $("#outEdate").val();
     let vendorName = $("#vendorName").val();
 
     console.log(ordSdate);
     $.ajax({
-      url: "findOrder",
+      url: "findOut",
       method: "GET",
       contentType: "application/json;charset=utf-8",
       dataType : "json",
       data: {
-        ordSdate: ordSdate,
-        ordEdate: ordEdate,
+        outSdate: outSdate,
+        outEdate: outEdate,
         vendorName: vendorName
       },
       error: function(error) {
@@ -65,10 +65,10 @@ $(document).ready(function () {
       },
       success: function (data) {
         console.log(data);
-        $('#orderTable tbody tr').remove();
+        $('#outTable tbody tr').remove();
         
         for (obj of data) {
-          orderMakeRow(obj);
+          outMakeRow(obj);
         }
       }
     });
