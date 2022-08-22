@@ -5,5 +5,6 @@ import java.util.List;
 import com.mes.bf.rsc.vo.RscOutVO;
 
 public interface RscOutService {
-	List<RscOutVO> outList();
+	List<RscOutVO> normalOutList();
+	List<RscOutVO> exceptOutList();
 }
