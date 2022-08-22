@@ -14,6 +14,7 @@ import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.InstructionVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
+import com.mes.bf.prod.vo.VRscNeedQtyVO;
 
 @Service 
 public class InstructionServiceImpl implements InstructionService {
@@ -49,6 +50,12 @@ public class InstructionServiceImpl implements InstructionService {
 	@Override
 	public List<FindProcStatusVO> findProcStatus(String lineName) {
 		return mapper.findProcStatus(lineName);
+	}
+
+	@Override
+	public List<VRscNeedQtyVO> findVRscNeedQty(String lineCdHdName) {
+		
+		return mapper.findVRscNeedQty(lineCdHdName);
 	}
 
 }

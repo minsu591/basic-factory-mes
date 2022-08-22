@@ -19,7 +19,7 @@
 				<div class="card-header">
 					<div class="form-inline flex-end">
 					<button type="button" class="btn  btn-primary m-t-0 m-r-10">조회</button>
-					<button type="button" class="btn  btn-primary m-t-0">저장</button>
+					<button type="button" class="btn  btn-primary m-t-0" id="instSaveBtn">저장</button>
 					</div>
 				</div>
 				<div class="card-body">
@@ -30,16 +30,15 @@
 						</div>
 						<br> <br>
 						<div class="form-group mt-3">
-							<label for="instdate">특기사항</label> <input type="text" id="vendor"
-								class="form-control mx-sm-3" data-toggle="modal"
-								data-target=".bd-example-modal-lg"> <label
-								for="instdate">작업지시명</label> <input type="text" id="vendorname"
-								class="form-control mx-sm-3">
+							<label for="instremk">특기사항</label>
+							 <input type="text" id="instremk" class="form-control mx-sm-3" data-toggle="modal"
+								data-target=".bd-example-modal-lg">
+								 <label for="instname">생산지시명</label> 
+								 <input type="text" id="instname" class="form-control mx-sm-3">
 						</div>
 						<div class="form-group mt-3">
 							<label for="empid">담당자</label>
-							 <input type="text" id="empid"
-								class="form-control mx-sm-3">
+							 <input type="text" id="empid" class="form-control mx-sm-3">
 						</div>
 						
 					</form>
@@ -79,7 +78,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+        <!--                             <tr>
                                         <td><input type="checkbox"></td>
                                         <td><input type="text" th:value="PRODUCT" style=""></td>                                        
                                         <td th:text="짜파게티"> <input type="text" th:value="짜파게티" readonly></td>
@@ -94,7 +93,7 @@
                                         <td th:text="1라인"></td>
                                         <td th:text="2022-08-01"></td>                                    
                                     </tr>
-                                    
+                                     -->
                                 </tbody>
                             </table>
                         </div>
@@ -125,13 +124,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    
+                              
                                 </tbody>
                             </table>
                         </div>
@@ -149,7 +142,7 @@
                     </div>
                     <div class="card-body table-border-style">
                         <div class="table-responsive">
-                            <table class="table table-inverse">
+                            <table class="table table-hover" id="rscStockTable">
                                 <thead>
                                     <tr>
                                         <th>순번</th>
@@ -158,16 +151,10 @@
                                         <th>재고수량</th>
                                         <th>단위</th>
                                         <th>소요 예상량</th>
-                                        <th>비고</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>                
+                                              
                                 </tbody>
                             </table>
                         </div>

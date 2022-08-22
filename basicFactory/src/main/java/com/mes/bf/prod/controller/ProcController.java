@@ -69,22 +69,16 @@ public class ProcController {
 	}
 
 	// 공정실적 전체조회
-	@GetMapping(value = "/findallprocperform", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<VFindProcPerformVO>> findAllProcPerform(VFindProcPerformVO vo) {
-		List<VFindProcPerformVO> list = service.findAllProcPerform();
+	@GetMapping(value = "/findprocperform", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<VFindProcPerformVO>> findProcPerform(@RequestParam Map<String, String> QueryParameters) {
+		List<VFindProcPerformVO> list = service.findProcPerform(QueryParameters.get("workSdate"),
+																QueryParameters.get("workEdate"),
+																QueryParameters.get("procCdName"),
+																QueryParameters.get("mchnName"),
+																QueryParameters.get("empId"));
 		return new ResponseEntity<List<VFindProcPerformVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
-	// 공정명 단건 검색
-//	@GetMapping(value = { "/getproccode" })
-//	public ProcCodeVO findProduct(@RequestParam Map<String, String> QueryParameters) {
-//		return service.findProcCode(QueryParameters.get("procCdCode"), QueryParameters.get("procCdName"));
-//	}
 
-	// 설비명 단건 검색
-//	@GetMapping(value = { "/mchn" })
-//	public VfindMchnVO findMchn(@RequestParam Map<String, String> QueryParameters) {
-//		return service.findMchn(QueryParameters.get("mchnCode"), QueryParameters.get("mchnName"));
-//	}
 
 }

@@ -10,6 +10,7 @@ import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
+import com.mes.bf.prod.vo.VRscNeedQtyVO;
 
 @Mapper
 public interface InstructionMapper {
@@ -31,5 +32,8 @@ public interface InstructionMapper {
 	
 	//공정 상태 조회
 	List<FindProcStatusVO> findProcStatus(String lineName);
+	
+	//자재 소요 예상량 조회
+	List<VRscNeedQtyVO> findVRscNeedQty (String lineCdHdName);
 
 }

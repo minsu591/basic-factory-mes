@@ -21,6 +21,7 @@ import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
+import com.mes.bf.prod.vo.VRscNeedQtyVO;
 
 @RestController
 @RequestMapping("/prod")
@@ -58,34 +59,39 @@ public class InstructionController {
 	// 완제품 조회
 	@GetMapping(value = "/findproduct", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<FinProdCodeVO>> findProduct(@RequestParam Map<String, String> QueryParameters) {
-		List<FinProdCodeVO> list = service.findProduct(QueryParameters.get("prdCdCode"), QueryParameters.get("prdCdName"));
+		List<FinProdCodeVO> list = service.findProduct(QueryParameters.get("prdCdCode"),
+				QueryParameters.get("prdCdName"));
 		return new ResponseEntity<List<FinProdCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
 	// 생산지시조회
-	// 조회 => Get
 	@GetMapping(value = "/findvinst", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<VInstructionVO>> findVInstruction(@RequestParam Map<String,String> queryParameters) {
+	public ResponseEntity<List<VInstructionVO>> findVInstruction(@RequestParam Map<String, String> queryParameters) {
 		List<VInstructionVO> list = service.findVInstruction(queryParameters.get("instSdate"),
-															queryParameters.get("instEdate"),
-															queryParameters.get("vendorName"),
-															queryParameters.get("productName"));
+				queryParameters.get("instEdate"), queryParameters.get("vendorName"),
+				queryParameters.get("productName"));
 		return new ResponseEntity<List<VInstructionVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
-	
-	//거래처 조회
+
+	// 거래처 조회
 	@GetMapping(value = "/findvendorcode", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<VendorCodeVO>> findAllVInstruction(@RequestParam Map<String,String> queryParameters) {
-		List<VendorCodeVO> list = service.findVendorCode(queryParameters.get("vendorCode"),queryParameters.get("vendCdClfy"));
+	public ResponseEntity<List<VendorCodeVO>> findAllVInstruction(@RequestParam Map<String, String> queryParameters) {
+		List<VendorCodeVO> list = service.findVendorCode(queryParameters.get("vendorCode"),
+				queryParameters.get("vendCdClfy"));
 		return new ResponseEntity<List<VendorCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
-	
-	
+
 	@GetMapping(value = "/findprocstatus/{lineName}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<FindProcStatusVO>> findProcStatus(@PathVariable String lineName) {
 		List<FindProcStatusVO> list = service.findProcStatus(lineName);
 		return new ResponseEntity<List<FindProcStatusVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
-	
+
+	// 라인별 자재 소요 예상량 조회
+	@GetMapping("/findvrscneedqty/{lineCdHdName}")
+	public ResponseEntity<List<VRscNeedQtyVO>> findVRscNeedQty(@PathVariable String lineCdHdName) {
+		List<VRscNeedQtyVO> list = service.findVRscNeedQty(lineCdHdName);
+		return new ResponseEntity<List<VRscNeedQtyVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
 
 }
