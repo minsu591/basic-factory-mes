@@ -1,10 +1,7 @@
 //InstManage.js
 
 $(document).ready(function () {
-  $("#findPlan").click(function (e) {
-    e.preventDefault();
-    $("#findPlanModal").modal("show");
-  });
+	
   //모달창 확인 버튼
   $("#selectbtn").click(function () {
     $("#findempModal").modal("hide");
@@ -82,7 +79,31 @@ $(document).ready(function () {
   });
 
 
-});
+  function findProcStatus(lineName) {
+    console.log(lineName);
+    console.log("findprocstatus");
+    $.ajax({
+      url: `findprocstatus/${lineName}`,
+      method: "GET",
+      dataType: "json",
+      success: function (data) {
+        console.log(data);
+        $("#procStatusTable tbody tr").remove();
+        for (obj of data) {
+          procStatusMakeRow(obj);
+        }
+      },
+    });
+  }
+  function procStatusMakeRow(obj) {
+    let node = `<tr>
+                <td>${obj.lineCdOrd}</td>
+                <td>${obj.procCdName}</td>
+                <td>${obj.mchnName}</td>
+                <td>${obj.mchnStts}</td>
+                </tr>`;
+    $("#procStatusTable tbody").append(node);
+  }
 
 
 function findProcStatus(lineName) {
