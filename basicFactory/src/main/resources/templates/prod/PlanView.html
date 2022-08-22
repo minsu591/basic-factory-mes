@@ -11,6 +11,8 @@
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet"/>
 </head>
 <body>
+    
+    <script type="text/javascript" th:src="@{/js/prod/PlanView.js}"></script>
     <div class="pcoded-main-container">
         <h1>생산 계획 조회 </h1>
         <hr>
@@ -38,7 +40,7 @@
               
                       </div>
                       <div class="card-body table-border-style">
-                          <div class="table-responsive">
+                          <div class="table-responsive" id="planViewDiv">
                               <table class="table table-striped" id="planViewTable">
                                   <thead>
                                       <tr>
@@ -58,25 +60,23 @@
                                         <th th:text="비고"></th>
                                       </tr>
                                   </thead>
-                                  <tbody>
-                                      <tr th:each="plan : ${plans}">
-                                          <td th:text="${plan.planHdVO.planHdCode}">PLAN001</td>
-                                          <td th:text="${plan.planHdVO.planHdName}">짜파게티 100개</td>
-                                          <td th:text="${#dates.format(plan.planHdVO.planHdDate,'yyyy-MM-dd HH:mm:ss')}">2022-07-30</td>
-                                          <td th:text="${plan.planHdVO.empId}">김민서</td>
-                                          <!--주문내역 관련-->
-                                          <td>주문코드</td>
-                                          <td>거래처명</td>
-                                          <td>납기일자</td>
-                                          <td th:text="${plan.planVO.finPrdCdCode}">제품코드</td>
-                                          <td>제품명</td>
-                                          <td>주문량</td>
-                                          <td th:text="${plan.planVO.planProdVol}">계획량</td>
-                                          <td th:text="${#dates.format(plan.planVO.planSdate,'yyyy-MM-dd HH:mm:ss')}">작업계획 시작일자</td>
-                                          <td th:text="${#dates.format(plan.planVO.planEdate,'yyyy-MM-dd HH:mm:ss')}">작업계획 종료일자</td>
-                                          <td th:if="${plan.planVO.planRemk != null}" th:text="${plan.planVO.planRemk}">비고</td>
-                                          
-                                      </tr>
+                                  <tbody> 
+                                    <tr th:each="plan : ${plans}">
+                                        <td th:text="${plan.planHdVO.planHdCode}">PLAN001</td>
+                                        <td th:text="${plan.planHdVO.planHdName}">짜파게티 100개</td>
+                                        <td th:text="${plan.planHdVO.planHdDate}">2022-07-30</td>
+                                        <td th:text="${plan.planHdVO.empId}">김민서</td>
+                                        <td th:text="${#strings.defaultString(plan.colOrdVO.slsOrdHdNo,' ')}">주문코드</td>
+                                        <td th:text="${#strings.defaultString(plan.colOrdVO.vendCdNm,' ')}">거래처명</td>
+                                        <td th:text="${#strings.defaultString(plan.colOrdVO.slsOrdDtlDlvDate,' ')}">납기일자</td>
+                                        <td th:text="${plan.planVO.finPrdCdCode}">제품코드</td>
+                                        <td th:text="${plan.planVO.finPrdCdName}">제품명</td>
+                                        <td th:text="${#strings.defaultString(plan.colOrdVO.slsOrdDtlVol,' ')}">주문량</td>
+                                        <td th:text="${plan.planVO.planProdVol}">계획량</td>
+                                        <td th:text="${plan.planVO.planSdate}">작업계획 시작일자</td>
+                                        <td th:text="${plan.planVO.planEdate}">작업계획 종료일자</td>
+                                        <td th:text="${plan.planVO.planRemk}">비고</td>
+                                    </tr>
                                   </tbody>
                               </table>
                           </div>
@@ -84,46 +84,5 @@
                   </div>
               </div>
     </div>
-    <script>
-        $("document").ready(function(){
-            $("#planViewBtn").click(function(){
-                let sdate = $("#planSdate").val();
-                let edate = $("#planEdate").val();
-                let vendor = $("#vendor").val();
-                $.ajax({
-                    url : 'planView/'+sdate+'/'+edate,
-                    methods : "GET",
-                    dataType : "json",
-                    success :function(data){
-                        console.log(data);
-                        $("#planViewTable tbody tr").remove();
-                        for(plan of data){
-                            planViewMakeRow(plan);
-                        }
-                        console.log("success");
-                    }
-                })
-            })
-            function planViewMakeRow(plan){
-                let node = `<tr>
-                                <td>${plan.planHdVO.planHdCode}</td>
-                                <td>${plan.planHdVO.planHdName}</td>
-                                <td>${plan.planHdVO.planHdDate}</td>
-                                <td>${plan.planHdVO.empId}</td>
-                                <td>주문코드</td>
-                                <td>거래처명</td>
-                                <td>납기일자</td>
-                                <td>${plan.planVO.finPrdCdCode}</td>
-                                <td>제품명</td>
-                                <td>주문량</td>
-                                <td>${plan.planVO.planProdVol}</td>
-                                <td>${plan.planVO.planSdate}</td>
-                                <td>${plan.planVO.planEdate}</td>
-                                <td>${plan.planVO.planRemk}</td>
-                            </tr>`
-                $("#planViewTable tbody").append(node);
-            }
-        })
-    </script>
 </body>
 </html>
