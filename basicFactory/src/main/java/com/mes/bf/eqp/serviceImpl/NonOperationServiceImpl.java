@@ -31,8 +31,8 @@ public class NonOperationServiceImpl implements NonOperationService {
 	}
 
 	@Override
-	public List<FindNonOpHIstoryVO> findAllNonOpHistory() {
-		return mapper.findAllNonOpHistory();
+	public List<FindNonOpHIstoryVO> findNonOpHistory(String sDate, String eDate, String mchnName, String nonOpCode) {
+		return mapper.findNonOpHistory(sDate, eDate, mchnName, nonOpCode);
 	}
 
 	@Override

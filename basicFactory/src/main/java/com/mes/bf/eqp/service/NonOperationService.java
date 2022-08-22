@@ -16,7 +16,7 @@ public interface NonOperationService {
 	List<NonOpVO> findNonOp(String nonOpCode, String nonOpName);
 
 	// 설비 비가동 조회
-	List<FindNonOpHIstoryVO> findAllNonOpHistory();
+	List<FindNonOpHIstoryVO> findNonOpHistory(String sDate, String eDate, String mchnName,String nonOpCode);
 
 	// 설비상태업데이트
 	int startMchnStatusUpdate(String mchnCode);

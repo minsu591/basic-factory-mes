@@ -82,9 +82,12 @@ public class NonOperationController {
 	}
 
 	// 설비 비가동 조회
-	@GetMapping(value = "findallnonophistory", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<FindNonOpHIstoryVO>> findAllNonOpHistory(FindNonOpHIstoryVO vo) {
-		List<FindNonOpHIstoryVO> list = service.findAllNonOpHistory();
+	@GetMapping(value = "findnonophistory", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<FindNonOpHIstoryVO>> findNonOpHistory(
+			@RequestParam Map<String, String> QueryParameters) {
+
+		List<FindNonOpHIstoryVO> list = service.findNonOpHistory(QueryParameters.get("sDate"),
+				QueryParameters.get("eDate"), QueryParameters.get("mchnName"), QueryParameters.get("nonOpCode"));
 		return new ResponseEntity<List<FindNonOpHIstoryVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
@@ -108,13 +111,14 @@ public class NonOperationController {
 		return service.endMchnStatusUpdate(mchnCode);
 
 	}
-	//입력번호 찾기
-	@GetMapping ("/findinputno")
-	public int findInputNo(){
+
+	// 입력번호 찾기
+	@GetMapping("/findinputno")
+	public int findInputNo() {
 		return service.findInputNo();
 	}
-	
-	//비가동내역 입력
+
+	// 비가동내역 입력
 	@PostMapping("/insertnonophistory")
 	public NonOpHistoryVO insertNonOpHistory(@RequestBody NonOpHistoryVO vo) {
 		System.out.println(vo);
@@ -122,5 +126,4 @@ public class NonOperationController {
 		return vo;
 	}
 
-	
 }

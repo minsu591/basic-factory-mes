@@ -32,7 +32,7 @@
 	</select>
 
 	<!-- 설비 비가동 조회 -->
-	<select id="findAllNonOpHistory" resultType="findNonOpHistoryVO">
+	<select id="findNonOpHistory" resultType="findNonOpHistoryVO">
 		SELECT eqp.mchn_code AS mchnCode,
 		eqp.mchn_name AS mchnName,
 		nonophistory.input_date AS inputDate,
@@ -45,11 +45,24 @@
 		FROM BF_EQP_MCHN eqp,
 		BF_EQP_NON_OP_HISTORY nonophistory,
 		BF_CMN_NON_OP nonop
-		WHERE
-		eqp.mchn_code = nonophistory.mchn_code AND
-		nonophistory.non_op_code =
-		nonop.non_op_code
-
+		<where>
+		AND eqp.mchn_code = nonophistory.mchn_code AND
+		nonophistory.non_op_code = nonop.non_op_code
+		<if test="sDate != null and sDate !=''">
+			<![CDATA[ AND nonophistory.input_date >= #{sDate} ]]>
+		</if>
+		<if test="eDate != null and eDate !=''">
+			<![CDATA[ AND nonophistory.input_date <= #{eDate} ]]>
+		</if>
+		
+		<if test="mchnName != null and mchnName !=''">
+			AND eqp.mchn_name LIKE #{mchnName}
+		</if>
+		
+		<if test="nonOpCode != null and nonOpCode !=''">
+			AND nonop.non_op_code LIKE #{nonOpCode}
+		</if>
+		</where>
 	</select>
 
 
