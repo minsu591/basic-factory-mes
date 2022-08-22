@@ -54,7 +54,7 @@
 			<div class="card">
 				<div class="card-header">
 					<h3>생산계획 상세내역</h3>
-					<button type="button" class="btn  btn-primary" id="findPlan">미지시 생산계획 조회</button>
+					<button type="button" class="btn  btn-primary" id="findPlanBtn">미지시 생산계획 조회</button>
 					<button type="button" class="btn  btn-primary" id="addRowBtn">추가</button>
 					<button type="button" class="btn  btn-primary" id="delRowBtn">삭제</button>
 				</div>
@@ -175,7 +175,7 @@
                 </div>
             </div>
 
-
+            
 
 	</div>
 	</div>
@@ -184,10 +184,8 @@
 <!-- 담당자검색 Modal -->
 <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
 <!-- Modal -->
-<th:block th:replace="~{/fragments/modal/findPlan :: findPlan}"></th:block>
+<th:block th:replace="~{/fragments/modal/findNotDonePlan :: findNotDonePlan}"></th:block>
 
-	
-	
 	
 	
 </body>
