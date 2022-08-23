@@ -3,127 +3,184 @@
 <mapper namespace="com.mes.bf.prod.mapper.InstructionMapper">
 
 
-<resultMap type="com.mes.bf.cmn.vo.EmpVO" id="EmpMap">
-<id property="deptNo" column="dept_no" />
-<id property="empName" column="emp_name" />
-<id property="empAuth" column="emp_auth" />
-<id property="empEmail" column="emp_email" />
-<id property="empId" column="emp_id" />
-<id property="empPw" column="emp_pw" />
-<id property="phone" column="phone" />
-</resultMap>
+	<resultMap type="com.mes.bf.cmn.vo.EmpVO" id="EmpMap">
+		<id property="deptNo" column="dept_no" />
+		<id property="empName" column="emp_name" />
+		<id property="empAuth" column="emp_auth" />
+		<id property="empEmail" column="emp_email" />
+		<id property="empId" column="emp_id" />
+		<id property="empPw" column="emp_pw" />
+		<id property="phone" column="phone" />
+	</resultMap>
 
 
-<resultMap type="com.mes.bf.cmn.vo.DeptVO" id="DeptMap">
-<id property="deptNo" column="dept_no" />
-<id property="deptName" column="dept_name" />
-</resultMap>
+	<resultMap type="com.mes.bf.cmn.vo.DeptVO" id="DeptMap">
+		<id property="deptNo" column="dept_no" />
+		<id property="deptName" column="dept_name" />
+	</resultMap>
 
-<resultMap type="com.mes.bf.prod.vo.FindEmpVO" id="FindEmpVO">
-	<collection property="empvo" resultMap="EmpMap" />
-	<collection property="deptvo" resultMap="DeptMap" />
-	
-</resultMap>
+	<resultMap type="com.mes.bf.prod.vo.FindEmpVO" id="FindEmpVO">
+		<collection property="empvo" resultMap="EmpMap" />
+		<collection property="deptvo" resultMap="DeptMap" />
 
-
-
-<select id="findEmp" resultMap="FindEmpVO">
-
-SELECT *
-  FROM BF_CMN_EMP e JOIN bf_cmn_dept d
-    ON e.dept_no = d.dept_no
-    <where>
-    	<if test="empName != null and empName !=''">
-    		AND LOWER(e.emp_name) LIKE '%'||#{empName}||'%'
-    	</if>
-    </where>
-	
-</select>
-
-<!-- 완제품코드 검색 -->
-
-<select id="findProdName" resultType="VFindProdANdLineVO">
-
-SELECT * FROM v_findprodandline
-WHERE fin_prd_cd_code LIKE '%'||#{prodCode}||'%'
-
-</select>
-
-<!-- 완제품 조회 -->
-
-<select id="findProduct" resultType="prodCode">
-
-SELECT * FROM BF_CMN_FINISH_PRODUCT_CODE 
-WHERE rownum > 0
-	<if test="prdCdCode != null and prdCdCode !=''">
-	 AND fin_prd_cd_code LIKE #{prdCdCode}
-	</if>
-	
-	<if test="prdCdName != null and prdCdName !=''">
-	AND fin_prd_cd_name LIKE #{prdCdName}
-	</if>
-	
+	</resultMap>
 
 
-</select>
 
-<!--생산지시조회 -->
-<select id="findVInstruction" resultType="vinst">
+	<select id="findEmp" resultMap="FindEmpVO">
 
-SELECT * FROM v_instruction
+		SELECT *
+		FROM BF_CMN_EMP e JOIN bf_cmn_dept d
+		ON e.dept_no = d.dept_no
+		<where>
+			<if test="empName != null and empName !=''">
+				AND LOWER(e.emp_name) LIKE '%'||#{empName}||'%'
+			</if>
+		</where>
 
-<where>
-	<if test="instSdate != null and instSdate !=''">
+	</select>
+
+	<!-- 완제품코드 검색 -->
+
+	<select id="findProdName" resultType="VFindProdANdLineVO">
+
+		SELECT * FROM v_findprodandline
+		WHERE fin_prd_cd_code LIKE '%'||#{prodCode}||'%'
+
+	</select>
+
+	<!-- 완제품 조회 -->
+
+	<select id="findProduct" resultType="prodCode">
+
+		SELECT * FROM BF_CMN_FINISH_PRODUCT_CODE
+		WHERE rownum > 0
+		<if test="prdCdCode != null and prdCdCode !=''">
+			AND fin_prd_cd_code LIKE #{prdCdCode}
+		</if>
+
+		<if test="prdCdName != null and prdCdName !=''">
+			AND fin_prd_cd_name LIKE #{prdCdName}
+		</if>
+
+
+
+	</select>
+
+	<!--생산지시조회 -->
+	<select id="findVInstruction" resultType="vinst">
+
+		SELECT * FROM v_instruction
+
+		<where>
+			<if test="instSdate != null and instSdate !=''">
 	<![CDATA[ AND inst_date >= #{instSdate} ]]>
-	</if>
+			</if>
 
-	<if test="instEdate != null and instEdate !='' ">
+			<if test="instEdate != null and instEdate !='' ">
 	 <![CDATA[ AND inst_date <= #{instEdate} ]]>
-	</if>
-	
-	<if test="vendorName != null and vendorName != ''">
-		AND vend_cd_nm LIKE #{vendorName}
-	 </if>
-	 <if test="productName != null and productName != ''">
-	 	AND fin_prd_cd_name LIKE #{productName}
-	 </if>
-</where>
+			</if>
 
-</select>
+			<if test="vendorName != null and vendorName != ''">
+				AND vend_cd_nm LIKE #{vendorName}
+			</if>
+			<if test="productName != null and productName != ''">
+				AND fin_prd_cd_name LIKE #{productName}
+			</if>
+		</where>
 
-<!-- 거래처조회 -->
-<select id="findVendorCode" resultType="vendorCode">
-SELECT * FROM BF_CMN_VENDOR_CODE
-<where>
-	<if test="vendorCode != null and vendorCode != ''">
-		AND vend_cd_code LIKE #{vendorCode}
-	</if>
-	<if test="vendCdClfy != null and vendCdClfy != '' and vendCdClfy != '전체'">
-		AND vend_cd_clfy LIKE #{vendCdClfy}
-	</if>
+	</select>
 
-</where>
-</select>
+	<!-- 거래처조회 -->
+	<select id="findVendorCode" resultType="vendorCode">
+		SELECT * FROM BF_CMN_VENDOR_CODE
+		<where>
+			<if test="vendorCode != null and vendorCode != ''">
+				AND vend_cd_code LIKE #{vendorCode}
+			</if>
+			<if
+				test="vendCdClfy != null and vendCdClfy != '' and vendCdClfy != '전체'">
+				AND vend_cd_clfy LIKE #{vendCdClfy}
+			</if>
 
-<!-- 공정상태조회 -->
-<select id="findProcStatus" resultType="findProcStatusVO">
+		</where>
+	</select>
 
-SELECT linecode.line_cd_ord AS lineCdOrd,
-proccode.proc_cd_name AS procCdName,
-eqp.mchn_name AS mchnName,
-eqp.mchn_stts AS mchnStts
-FROM 
-BF_CMN_LINE_CODE linecode,
-BF_CMN_PROC_CODE proccode,
-BF_EQP_MCHN eqp,
-BF_CMN_LINE_CODE_HD linecodehd
-WHERE linecode.proc_cd_code = proccode.proc_cd_code AND
-linecode.mchn_code = eqp.mchn_code AND linecode.line_cd_hd_code = linecodehd.line_cd_hd_code
-AND line_cd_hd_name LIKE #{lineName}
-ORDER BY line_cd_ord
+	<!-- 공정상태조회 -->
+	<select id="findProcStatus" resultType="findProcStatusVO">
 
-</select>
+		SELECT linecode.line_cd_ord AS lineCdOrd,
+		proccode.proc_cd_name AS procCdName,
+		eqp.mchn_name AS mchnName,
+		eqp.mchn_stts AS mchnStts
+		FROM
+		BF_CMN_LINE_CODE linecode,
+		BF_CMN_PROC_CODE proccode,
+		BF_EQP_MCHN eqp,
+		BF_CMN_LINE_CODE_HD linecodehd
+		WHERE linecode.proc_cd_code = proccode.proc_cd_code AND
+		linecode.mchn_code = eqp.mchn_code AND linecode.line_cd_hd_code =
+		linecodehd.line_cd_hd_code
+		AND line_cd_hd_name LIKE #{lineName}
+		ORDER BY line_cd_ord
+
+	</select>
+
+	<!-- 라인별 자재 소요 예상량 조회 -->
+
+	<select id="findVRscNeedQty"
+		resultType="com.mes.bf.prod.vo.VRscNeedQtyVO">
+
+		SELECT * FROM V_RSC_NEED_QTY WHERE lineCdHdName = #{lineCdHdName}
+
+	</select>
 
 
+	<!-- 생산지시 헤더 입력 -->
+
+	<insert id="insertInstruction">
+
+		INSERT INTO
+		BF_PROD_INSTRUCTION(inst_no,
+		emp_id,
+		inst_name,
+		inst_date,
+		inst_remk,
+		plan_hd_code)
+		VALUES(BF_PROD_INSTRUCTION_SEQ.nextval,
+		(SELECT emp_id FROM BF_CMN_EMP WHERE emp_name = #{empId}),
+		#{instName},
+		#{instDate},
+		#{instRemk},
+		#{planHdCode}
+		)
+
+	</insert>
+
+
+	<!-- 생산지시 상세 입력 -->
+	<insert id="insertInstructionDetail">
+		<selectKey keyProperty="instNo" order="BEFORE"
+			resultType="int">
+			SELECT MAX(inst_no) FROM BF_PROD_INSTRUCTION
+		</selectKey>
+		INSERT INTO
+		BF_PROD_INST_DETAIL(inst_prod_no,
+		fin_prd_cd_code,
+		inst_no,
+		inst_prod_indica_vol,
+		work_scope,
+		work_date)
+		VALUES(BF_PROD_INST_DETAIL_SEQ.nextval,
+		#{detailvo.finPrdCdCode},
+		#{instNo},
+		#{detailvo.instProdIndicaVol},
+		#{detailvo.workScope},
+		#{detailvo.workDate}
+		)
+
+
+		)
+	</insert>
 
 </mapper>

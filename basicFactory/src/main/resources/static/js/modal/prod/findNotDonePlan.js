@@ -1,9 +1,10 @@
 $(document).ready(function () {
-$("#findPlanBtn").click(function (e) {
+	
+//생산계획모달창 ON
+  $("#findPlanBtn").click(function (e) {
     e.preventDefault();
     $("#findNotDonePlanModal").modal("show");
     planNotDoneClick();
-    console.log($(""));
   });
   
   //생산계획모달창 조회 버튼
@@ -22,9 +23,8 @@ $("#findPlanBtn").click(function (e) {
                     }
                 }
             })
-	})
+	});
 	
-  
   //생산계획모달창 ON 함수
   function planNotDoneClick(){
         $.ajax({
@@ -56,5 +56,5 @@ $("#findPlanBtn").click(function (e) {
         </tr>`
         $("#findNotDonePlanTable tbody").append(node);
     }
- });
   
+});

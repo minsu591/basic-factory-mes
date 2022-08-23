@@ -4,12 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.mes.bf.rsc.vo.RscStockVO;
+import com.mes.bf.rsc.vo.RscInVO;
 
 @Mapper
-public interface RscMapper {
-
-
-	//재고
-	List<RscStockVO> StockList();
+public interface RscInMapper {
+	List<RscInVO> inList();
 }

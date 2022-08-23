@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.VendorCodeVO;
@@ -11,25 +12,29 @@ import com.mes.bf.prod.mapper.InstructionMapper;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.FindProcStatusVO;
+import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.InstructionVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
+import com.mes.bf.prod.vo.VRscNeedQtyVO;
 
-@Service 
+@Service
 public class InstructionServiceImpl implements InstructionService {
 
-	@Autowired InstructionMapper mapper;
-	
+	@Autowired
+	InstructionMapper mapper;
+
 	@Override
-	public List<FinProdCodeVO> findProduct(String prdCdCode, String prdCdName) {		
+	public List<FinProdCodeVO> findProduct(String prdCdCode, String prdCdName) {
 		return mapper.findProduct(prdCdCode, prdCdName);
 	}
 
 	@Override
-	public List<VInstructionVO> findVInstruction(String instSdate,String instEdate,String vendorName,String productName) {
-		return mapper.findVInstruction(instSdate,instEdate,vendorName,productName);
+	public List<VInstructionVO> findVInstruction(String instSdate, String instEdate, String vendorName,
+			String productName) {
+		return mapper.findVInstruction(instSdate, instEdate, vendorName, productName);
 	}
-	
+
 	@Override
 	public List<FindEmpVO> findEmp(String empName) {
 		return mapper.findEmp(empName);
@@ -42,13 +47,27 @@ public class InstructionServiceImpl implements InstructionService {
 	}
 
 	@Override
-	public List<VendorCodeVO> findVendorCode(String vendorCode,String vendCdClfy) {
-		return mapper.findVendorCode(vendorCode,vendCdClfy);
+	public List<VendorCodeVO> findVendorCode(String vendorCode, String vendCdClfy) {
+		return mapper.findVendorCode(vendorCode, vendCdClfy);
 	}
 
 	@Override
 	public List<FindProcStatusVO> findProcStatus(String lineName) {
 		return mapper.findProcStatus(lineName);
+	}
+
+	@Override
+	public List<VRscNeedQtyVO> findVRscNeedQty(String lineCdHdName) {
+
+		return mapper.findVRscNeedQty(lineCdHdName);
+	}
+
+	@Override
+	@Transactional
+	public void insertInstruction(InstructionVO vo,InstructionDetailVO detailvo) {
+		mapper.insertInstruction(vo);
+		mapper.insertInstructionDetail(detailvo);
+
 	}
 
 }

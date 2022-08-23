@@ -5,18 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mes.bf.rsc.mapper.RscMapper;
-import com.mes.bf.rsc.service.RscService;
+import com.mes.bf.rsc.mapper.RscStockMapper;
+import com.mes.bf.rsc.service.RscStockService;
 import com.mes.bf.rsc.vo.RscStockVO;
 
 @Service
-public class RscServiceImpl implements RscService{
+public class RscStockServiceImpl implements RscStockService{
 
-	@Autowired RscMapper rscMapper;
+	@Autowired RscStockMapper rscStockMapper;
 	
 	@Override
 	public List<RscStockVO> StockList() {
-		return rscMapper.StockList();
+		return rscStockMapper.StockList();
 	}
 
 }

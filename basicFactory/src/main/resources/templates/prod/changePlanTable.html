@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+        <div class="table-responsive" id="planViewDiv">
+            <table class="table table-striped" id="planViewTable">
+                <thead>
+                    <tr>
+                      <th th:text="생산계획코드"></th>
+                      <th th:text="생산계획명"></th>
+                      <th th:text="'생산계획 일자'"></th>
+                      <th th:text="'담당자 아이디'"></th>
+                      <th th:text="주문코드"></th>
+                      <th th:text="거래처명"></th>
+                      <th th:text="납기일자"></th>
+                      <th th:text="제품코드"></th>
+                      <th th:text="제품명"></th>
+                      <th th:text="주문량"></th>
+                      <th th:text="계획량"></th>
+                      <th th:text="'작업계획 시작일자'"></th>
+                      <th th:text="'작업계획 종료일자'"></th>
+                      <th th:text="비고"></th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    <tr th:each="plan : ${plans}">
+                        <td th:text="${plan.planHdVO.planHdCode}">PLAN001</td>
+                        <td th:text="${plan.planHdVO.planHdName}">짜파게티 100개</td>
+                        <td th:text="${plan.planHdVO.planHdDate}">2022-07-30</td>
+                        <td th:text="${plan.planHdVO.empId}">김민서</td>
+                        <td th:text="${#strings.defaultString(plan.colOrdVO.slsOrdHdNo,' ')}">주문코드</td>
+                        <td th:text="${#strings.defaultString(plan.colOrdVO.vendCdNm,' ')}">거래처명</td>
+                        <td th:text="${#strings.defaultString(plan.colOrdVO.slsOrdDtlDlvDate,' ')}">납기일자</td>
+                        <td th:text="${plan.planVO.finPrdCdCode}">제품코드</td>
+                        <td th:text="${plan.planVO.finPrdCdName}">제품명</td>
+                        <td th:text="${#strings.defaultString(plan.colOrdVO.slsOrdDtlVol,' ')}">주문량</td>
+                        <td th:text="${plan.planVO.planProdVol}">계획량</td>
+                        <td th:text="${plan.planVO.planSdate}">작업계획 시작일자</td>
+                        <td th:text="${plan.planVO.planEdate}">작업계획 종료일자</td>
+                        <td th:text="${plan.planVO.planRemk}">비고</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+</tbody>
+</html>

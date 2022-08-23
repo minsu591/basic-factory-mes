@@ -1,6 +1,6 @@
 package com.mes.bf.prod.vo;
 
-import java.util.Date;
+import java.sql.Date;
 
 import org.apache.ibatis.type.Alias;
 
@@ -12,6 +12,7 @@ public class PlanVO {
 	private int planIdx;
 	private String planHdCode;
 	private String finPrdCdCode;
+	private String finPrdCdName;
 	private int planProdVol;
 	private Date planSdate;
 	private Date planEdate;

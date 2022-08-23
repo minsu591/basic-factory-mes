@@ -8,6 +8,7 @@
 </head>
 <body>
     <script type="text/javascript" th:src="@{/js/sales/order.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
     <link th:href="@{/css/sales/order.css}" rel="stylesheet" />
 
     <div class="pcoded-main-container">
@@ -16,7 +17,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <form class="form-inline" id="ordSelectForm">
+                    <form class="form-inline">
                         <div class="form-group mt-3">
                             <label for="slsOrdHdDate" th:text="주문일자"></label>
                             <input type="date" id="orderSdate" class="form-control mx-sm-3"> ~
@@ -30,7 +31,7 @@
                             <label for="vendorName" th:text="거래처명"></label>
                             <input type="text" id="vendorName" class="form-control mx-sm-3" readonly>
                         </div>
-                        <button type="submit" class="btn  btn-primary" id="ordBtn">조회</button>
+                        <button type="button" class="btn  btn-primary" id="ordBtn">조회</button>
                     </form>
                 </div>
                 <div class="card-body table-border-style">
