@@ -4,8 +4,7 @@ $("document").ready(function(){
                 let edate = $("#planEdate").val();
                 let vendor = $("#vendor").val();
                 $.ajax({
-                    // url : 'planView/'+sdate+'/'+edate+'/'+vendor,
-                    url : 'planView/if',
+                    url : 'planView/org',
                     data : {
                         sdate : sdate,
                         edate : edate,

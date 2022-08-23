@@ -2,98 +2,120 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.prod.mapper.PlanMapper">
 	<resultMap type="planHdVO" id="planHdMap">
-		<id property="planHdCode" column="plan_hd_code"/>
-		<result property="planHdCode" column="plan_hd_code"/>
-		<result property="planHdName" column="plan_hd_name"/>
-		<result property="slsOrdHdNo" column="sls_ord_hd_no"/>
-		<result property="empId" column="emp_id"/>
-		<result property="planHdDate" column="plan_hd_date"/>
-		<result property="planHdRemk" column="plan_hd_remk"/>
+		<id property="planHdCode" column="plan_hd_code" />
+		<result property="planHdCode" column="plan_hd_code" />
+		<result property="planHdName" column="plan_hd_name" />
+		<result property="slsOrdHdNo" column="sls_ord_hd_no" />
+		<result property="empId" column="emp_id" />
+		<result property="planHdDate" column="plan_hd_date" />
+		<result property="planHdRemk" column="plan_hd_remk" />
 	</resultMap>
-	
+
 	<resultMap type="planVO" id="planMap">
-		<id property="planIdx" column="plan_idx"/>
-		<result property="planIdx" column="plan_idx"/>
-		<result property="finPrdCdCode" column="fin_prd_cd_code"/>
-		<result property="planProdVol" column="plan_prod_vol"/>
-		<result property="planSdate" column="plan_sdate"/>
-		<result property="planEdate" column="plan_edate"/>
-		<result property="planRemk" column="plan_remk"/>
+		<id property="planIdx" column="plan_idx" />
+		<result property="planIdx" column="plan_idx" />
+		<result property="finPrdCdCode" column="fin_prd_cd_code" />
+		<result property="finPrdCdName" column="fin_prd_cd_name" />
+		<result property="planProdVol" column="plan_prod_vol" />
+		<result property="planSdate" column="plan_sdate" />
+		<result property="planEdate" column="plan_edate" />
+		<result property="planRemk" column="plan_remk" />
+		<result property="instProdIndicaVol"
+			column="inst_prod_indica_vol" />
+
 	</resultMap>
-	
+
 	<resultMap type="colOrdVO" id="colOrdMap">
-		<id property="slsOrdHdNo" column="sls_ord_hd_no"/>
-		<result property="slsOrdHdNo" column="sls_ord_hd_no"/>
-		<result property="slsOrdHdDate" column="sls_ord_hd_date"/>
-		<result property="vendCdCode" column="vend_cd_code"/>
-		<result property="vendCdNm" column="vend_cd_nm"/>
-		<result property="finPrdCdCode" column="fin_prd_cd_code"/>
-		<result property="finPrdCdName" column="fin_prd_cd_name"/>
-		<result property="slsOrdDtlDlvDate" column="sls_ord_dtl_dlv_date"/>
-		<result property="slsOrdDtlVol" column="sls_ord_dtl_vol"/>
-		<result property="slsOrdDtlPrgCls" column="sls_ord_dtl_prg_cls"/>
+		<id property="slsOrdHdNo" column="sls_ord_hd_no" />
+		<result property="slsOrdHdNo" column="sls_ord_hd_no" />
+		<result property="slsOrdHdDate" column="sls_ord_hd_date" />
+		<result property="vendCdCode" column="vend_cd_code" />
+		<result property="vendCdNm" column="vend_cd_nm" />
+		<result property="finPrdCdCode" column="fin_prd_cd_code" />
+		<result property="finPrdCdName" column="fin_prd_cd_name" />
+		<result property="slsOrdDtlDlvDate"
+			column="sls_ord_dtl_dlv_date" />
+		<result property="slsOrdDtlVol" column="sls_ord_dtl_vol" />
+		<result property="slsOrdDtlPrgCls" column="sls_ord_dtl_prg_cls" />
 	</resultMap>
-	
+
 	<resultMap type="colPlan" id="colPlanMap">
-		<collection property="planHdVO" resultMap="planHdMap"/>
-		<collection property="planVO" resultMap="planMap"/>
+		<collection property="planHdVO" resultMap="planHdMap" />
+		<collection property="planVO" resultMap="planMap" />
 	</resultMap>
-	
+
 	<resultMap type="colPlanOrd" id="colPlanOrdMap">
-		<collection property="planHdVO" resultMap="planHdMap"/>
-		<collection property="planVO" resultMap="planMap"/>
-		<collection property="colOrdVO" resultMap="colOrdMap"/>
+		<collection property="planHdVO" resultMap="planHdMap" />
+		<collection property="planVO" resultMap="planMap" />
+		<collection property="colOrdVO" resultMap="colOrdMap" />
 	</resultMap>
-	
+
 	<sql id="ifPlanDate">
 		<choose>
-	        <when test="(startDate != null and startDate != '') and (endDate != null and endDate != '')">
-	        	AND plan_hd_date BETWEEN #{startDate} AND #{endDate}
-	        </when>
-	        <when test="startDate != null and startDate != ''">
-	        	AND plan_hd_date = #{startDate}
-	        </when>
-	        <when test="endDate != null and endDate != ''">
-	        	AND plan_hd_date = #{endDate}
-	        </when>
-        </choose>
+			<when
+				test="(startDate != null and startDate != '') and (endDate != null and endDate != '')">
+				AND plan_hd_date BETWEEN #{startDate} AND #{endDate}
+			</when>
+			<when test="startDate != null and startDate != ''">
+				AND plan_hd_date = #{startDate}
+			</when>
+			<when test="endDate != null and endDate != ''">
+				AND plan_hd_date = #{endDate}
+			</when>
+		</choose>
 	</sql>
 
-	<select id="findPlanInst" resultMap = "colPlanMap" parameterType="String">
-		select *
-		from bf_prod_plan P JOIN bf_prod_plan_hd H
-		USING(plan_hd_code)
-		JOIN
-		(select D.fin_prd_cd_code, D.inst_prod_indica_vol, N.plan_hd_code
-           FROM bf_prod_instruction N JOIN bf_prod_inst_detail D
-           USING(inst_no)) I
-        USING(plan_hd_code)
-        WHERE I.fin_prd_cd_code = P.fin_prd_cd_code
+	<select id="findPlanInst" resultMap="colPlanMap"
+		parameterType="String">
+		SELECT *
+		FROM BF_PROD_PLAN P
+		JOIN BF_PROD_PLAN_HD H
+		USING (PLAN_HD_CODE)
+		JOIN (SELECT D.FIN_PRD_CD_CODE, D.INST_PROD_INDICA_VOL, N.PLAN_HD_CODE
+		FROM BF_PROD_INSTRUCTION N
+		JOIN BF_PROD_INST_DETAIL D
+		USING (INST_NO)) I
+		USING (PLAN_HD_CODE)
+		WHERE I.FIN_PRD_CD_CODE = P.FIN_PRD_CD_CODE
         <![CDATA[AND I.inst_prod_indica_vol < P.plan_prod_vol]]>
-		<include refid="ifPlanDate"/>
-		
+		<include refid="ifPlanDate" />
 	</select>
-	
+
 	<select id="findPlanOrd" resultMap="colPlanOrdMap">
-		select *
-			from (SELECT L.*, F.FIN_PRD_CD_NAME
-    			FROM bf_prod_plan L JOIN BF_CMN_FINISH_PRODUCT_CODE F
-    			ON L.FIN_PRD_CD_CODE = F.FIN_PRD_CD_CODE) P
-    			JOIN bf_prod_plan_hd H
-			USING(plan_hd_code)
+		SELECT *
+		FROM (SELECT L.*, F.FIN_PRD_CD_NAME
+		FROM BF_PROD_PLAN L JOIN BF_CMN_FINISH_PRODUCT_CODE F
+		ON L.FIN_PRD_CD_CODE = F.FIN_PRD_CD_CODE) P
+		JOIN BF_PROD_PLAN_HD H
+		USING(PLAN_HD_CODE)
 		LEFT OUTER JOIN
-			(SELECT H.VEND_CD_CODE, H.VEND_CD_NM, D.*
-				FROM (SELECT SLS_ORD_HD_NO, VEND_CD_CODE, VEND_CD_NM
-				FROM BF_CMN_VENDOR_CODE JOIN bf_sales_ord_hd
-				USING (VEND_CD_CODE)) H JOIN
-			(SELECT SLS_ORD_HD_NO, SLS_ORD_DTL_NO, SLS_ORD_DTL_DLV_DATE, SLS_ORD_DTL_VOL, SLS_ORD_DTL_PRG_CLS
-				FROM bf_sales_ord_dtl) D
-				ON H.SLS_ORD_HD_NO = D.SLS_ORD_HD_NO) O
-			USING (SLS_ORD_HD_NO)
-			WHERE 1=1
-		<include refid="ifPlanDate"/>
-        <if test="vendorCd != null and vendorCd != ''">
-        	AND vend_cd_code = #{vendorCd}
-        </if>
+		(SELECT H.VEND_CD_CODE, H.VEND_CD_NM, D.*
+		FROM (SELECT SLS_ORD_HD_NO, VEND_CD_CODE, VEND_CD_NM
+		FROM BF_CMN_VENDOR_CODE JOIN BF_SALES_ORD_HD
+		USING (VEND_CD_CODE)) H
+		JOIN
+		(SELECT SLS_ORD_HD_NO, SLS_ORD_DTL_NO, SLS_ORD_DTL_DLV_DATE, SLS_ORD_DTL_VOL,
+		SLS_ORD_DTL_PRG_CLS
+		FROM BF_SALES_ORD_DTL) D
+		ON H.SLS_ORD_HD_NO = D.SLS_ORD_HD_NO) O
+		USING (SLS_ORD_HD_NO)
+		WHERE 1=1
+		<include refid="ifPlanDate" />
+		<if test="vendorCd != null and vendorCd != ''">
+			AND VEND_CD_CODE = #{vendorCd}
+		</if>
+	</select>
+
+	<select id="findMyPlan" resultMap="colPlanMap">
+		SELECT H.PLAN_HD_CODE, H.PLAN_HD_NAME, H.SLS_ORD_HD_NO, H.EMP_ID,
+		       H.PLAN_HD_DATE, H.PLAN_HD_REMK, P.PLAN_IDX, P.FIN_PRD_CD_CODE,
+		       F.FIN_PRD_CD_NAME, P.PLAN_PROD_VOL, P.PLAN_SDATE, P.PLAN_EDATE,
+		       P.PLAN_REMK
+		FROM BF_PROD_PLAN P
+		  JOIN BF_PROD_PLAN_HD H
+		   ON P.PLAN_HD_CODE = H.PLAN_HD_CODE
+		  JOIN BF_CMN_FINISH_PRODUCT_CODE F
+		   ON P.FIN_PRD_CD_CODE = F.FIN_PRD_CD_CODE
+		<include refid="ifPlanDate" />
 	</select>
 </mapper>
