@@ -17,3 +17,8 @@ h1 {
 .input-group.mb-3 {
 	margin-bottom: 0 !important;
 }
+
+.rightBtn {
+    float : right;
+    margin-bottom : 0.3%;
+}

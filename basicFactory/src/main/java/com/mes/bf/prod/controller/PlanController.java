@@ -44,8 +44,8 @@ public class PlanController {
 	
 	//생산 계획 관리에서 내 생산계획 조회 모달
 	@GetMapping("/myPlanView")
-	public ResponseEntity<List<ColPlanVO>> planMyView(@RequestParam Map<String, String> QueryParameters, Model model){
-		List<ColPlanVO> plans = service.findMyPlan(QueryParameters.get("sdate"), QueryParameters.get("edate"));
+	public ResponseEntity<List<ColPlanVO>> planMyView(@RequestParam Map<String, String> QueryParameters){
+		List<ColPlanVO> plans = service.findMyPlan(QueryParameters.get("sdate"), QueryParameters.get("edate"), QueryParameters.get("empId"));
 		return new ResponseEntity<List<ColPlanVO>>(plans, HttpStatus.OK);
 	}
 	
@@ -57,7 +57,7 @@ public class PlanController {
 	
 	//생산 관리에서 미계획 주문내역 조회
 	@GetMapping(value="/notDoneOrd", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<SlsOrdPlanVO>> notDoneOrd(@RequestParam Map<String, String> QueryParameters, Model model){
+	public ResponseEntity<List<SlsOrdPlanVO>> notDoneOrd(@RequestParam Map<String, String> QueryParameters){
 		List<SlsOrdPlanVO> ords = ordService.findOrderForPlan(QueryParameters.get("sdate"), QueryParameters.get("edate"));
 		return new ResponseEntity<List<SlsOrdPlanVO>>(ords, HttpStatus.OK);
 	}
