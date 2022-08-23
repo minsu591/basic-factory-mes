@@ -15,11 +15,7 @@ public class RscOutVO {
 	private String rscLotNo;
 	private int rscOutVol;
 	private int rscOutCls;
-	private String empId;
-	
-	//해당내용 erd 및 테이블에 존재x 확인필
-	private String vendCdCode;
+	private String empName;
 	private String vendCdNm;
-	private String rscOutRemk;
 	
 }

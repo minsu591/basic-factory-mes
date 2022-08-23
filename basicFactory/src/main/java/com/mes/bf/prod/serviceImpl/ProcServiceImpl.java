@@ -9,6 +9,7 @@ import com.mes.bf.cmn.vo.ProcCodeVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.mapper.ProcMapper;
 import com.mes.bf.prod.service.ProcService;
+import com.mes.bf.prod.vo.ProcManageVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
 
 @Service
@@ -31,6 +32,12 @@ public class ProcServiceImpl implements ProcService {
 	public List<VFindProcPerformVO> findProcPerform(String workSdate, String workEdate, String procCdName,
 			String mchnName, String empId) {
 		return mapper.findProcPerform(workSdate, workEdate, procCdName, mchnName, empId);
+	}
+
+	@Override
+	public List<ProcManageVO> findProcManage() {
+		
+		return mapper.findProcManage();
 	}
 
 }

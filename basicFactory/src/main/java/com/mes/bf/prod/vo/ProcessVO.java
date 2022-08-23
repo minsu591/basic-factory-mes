@@ -15,6 +15,6 @@ public class ProcessVO {
 	private Integer fltyVol;
 	private String completionStatus;
 	private String processRemk;
-	
-	
+	private Integer virResult;
+	private Integer nonResult; 
 }
