@@ -184,10 +184,6 @@
 	<!-- 공정테이블 데이터 입력 -->
 	
 	<insert id="insertProc">
-		<selectKey keyProperty="instProdNo" order="BEFORE" resultType="int">
-			SELECT MAX(inst_prod_no) FROM BF_PROD_INST_DETAIL
-		</selectKey>
-	
 INSERT INTO 
 	bf_prod_process (
 					process_no,
@@ -197,7 +193,7 @@ INSERT INTO
 					mchn_code)
 SELECT 
 		BF_PROD_PROCESS_SEQ.nextval,
-        #{instProdNo},
+        (SELECT MAX(inst_prod_no) FROM BF_PROD_INST_DETAIL),
         linecode.line_cd_ord,
         linecode.proc_cd_code,
         linecode.mchn_code 

@@ -27,12 +27,12 @@
 		<result property="nonOpRemk" column="non_op_remk" />
 		<result property="nonOpRsn" column="non_op_rsn" />
 	</resultMap>
-	
+	<!-- 
 	<resultMap type="mchnList" id="mchnListMap">
 		<collection property="MchnInspcVO" resultMap="mInsMap" />
 		<collection property="NonOpHistoryVO" resultMap="mHisMap" />
 	</resultMap>
-
+	
 	<select id="MchnList" resultType="">
 		SELECT MC.MCHN_CODE, MC.MCHN_NAME, MC.MCHN_MODEL, VCD.VEND_CD_NM, 
 			MC.MCHN_MNFCT_DATE, MC.MCHN_INSPC_DATE, MC.MCHN_INSPC_CYCLE, MC.MCHN_STTS, MC.MCHN_REMK
@@ -44,5 +44,5 @@
 	<select id="findMchn" resultType="MchnVO">
 		
 	</select>
-
+ -->
 </mapper>
