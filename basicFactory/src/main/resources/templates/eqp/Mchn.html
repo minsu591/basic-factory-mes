@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>설비 조회</title>
+</head>
+<body>
+
+  <script type="text/javascript" th:src="@{/js/sales/*************.js}"></script>
+    <link th:href="@{/css/sales/mchn.css}" rel="stylesheet" />
+
+    <div class="pcoded-main-container">
+        <h1>설비 조회</h1>
+        <hr>
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <form class="form-inline" id="mchnList">
+                        <div class="form-group mt-3">
+                            <label for="mchnCode" th:text="설비코드"></label>
+                            <input type="text" id="mchnCode" class="form-control mx-sm-3">
+                        </div>
+                        <button type="submit" class="btn  btn-primary" id="mchnBtn">조회</button>
+                    </form>
+                </div>
+                <div class="card-body table-border-style">
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="mchnTable">
+                            <thead>
+                                <tr>
+                                    <th th:text="설비조회"></th>
+                                    <th th:text="설비명"></th>
+                                    <th th:text="모델명"></th>
+                                    <th th:text="제작업체"></th>
+                                    <th th:text="제작일자"></th>
+                                    <th th:text="점검일자"></th>
+                                    <th th:text="점검주기"></th>
+                                    <th th:text="설비상태"></th>
+                                    <th th:text="비고"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>    
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+</body>
+</html>

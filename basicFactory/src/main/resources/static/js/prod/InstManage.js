@@ -1,10 +1,6 @@
 //InstManage.js
 
 $(document).ready(function () {
-  $("#findPlan").click(function (e) {
-    e.preventDefault();
-    $("#findPlanModal").modal("show");
-  });
   //모달창 확인 버튼
   $("#selectbtn").click(function () {
     $("#findempModal").modal("hide");
@@ -120,7 +116,6 @@ $(document).ready(function () {
       });
     });
   });
-});
 
 //공정상태
 function findProcStatus(lineName) {
