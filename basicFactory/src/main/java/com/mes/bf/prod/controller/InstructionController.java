@@ -10,16 +10,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.FindProcStatusVO;
+import com.mes.bf.prod.vo.InstructionDetailVO;
+import com.mes.bf.prod.vo.InstructionVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 import com.mes.bf.prod.vo.VRscNeedQtyVO;
@@ -97,8 +103,27 @@ public class InstructionController {
 	
 	//생산지시 등록
 	@PostMapping("/insertinstruction")
-	public void insertInstruction() {
-		service.insertInstruction(null, null);
+	public void insertInstruction(@RequestBody Map<String,Object> instruction) {
+		//System.out.println(instruction.get("instobjheader"));
+		//System.out.println(instruction.get("instobjdetail"));
+		ObjectMapper m = new ObjectMapper();
+		try {
+			//object -> String 변환
+			String instheader = m.writeValueAsString(instruction.get("instobjheader"));
+			String instdetail = m.writeValueAsString(instruction.get("instobjdetail"));
+			//String -> vo변환
+			InstructionVO instvo = m.readValue(instheader,InstructionVO.class);
+			InstructionDetailVO detailvo = m.readValue(instdetail, InstructionDetailVO.class);
+			System.out.println(instvo);
+			System.out.println(detailvo);
+			service.insertInstruction(instvo, detailvo);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		
+	
+		
 	}
 	
 	

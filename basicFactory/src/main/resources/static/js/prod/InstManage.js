@@ -47,16 +47,40 @@ $(document).ready(function () {
       console.log("지시량 ->" + prodIndicaVol);
       console.log("workDate->" + workDate);
 
-      instobj = {
+      instobjheader = {
         empId: empId,
         instName: instName,
         instDate: instDate,
-        instRemk: instRemk,
-        finPrdCdCode: prodCode,
-        instProdIndicaVol: prodIndicaVol,
-        workDate: workDate,
+        instRemk: instRemk
+
       };
-      console.log(instobj);
+
+      instobjdetail = {
+        instProdIndicaVol: prodIndicaVol,
+        finPrdCdCode: prodCode,
+        workDate: workDate
+      };
+
+      console.log(instobjheader);
+      console.log(instobjdetail)
+
+      $.ajax({
+        url: "insertinstruction",
+        method: "POST",
+        contentType: "application/json;charset=utf-8",
+        //dataType: "json",
+        data: JSON.stringify({
+          instobjheader: instobjheader,
+          instobjdetail: instobjdetail
+        }),
+        error: function (error, status, msg) {
+          alert("상태코드 " + status + "에러메시지" + msg);
+        },
+        success: function (data) {
+          console.log('success');
+        },
+      });
+
     });
   });
 
