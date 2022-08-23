@@ -3,7 +3,7 @@
 <mapper namespace="com.mes.bf.eqp.mapper.MchnMapper">
 
 	<!-- 설비점검vo -->
-	<resultMap type="MchnInspcVO" id="######">
+	<resultMap type="MchnInspcVO" id="mInsMap">
 		<id property="inspcNo" column="inspc_no" />
 		<result property="mchnCode" column="mchn_code" />
 		<result property="inspcSdate" column="inspc_sdate" />
@@ -15,20 +15,22 @@
 		<result property="empId" column="emp_id" />
 	</resultMap>
 	<!-- 설비비가동vo -->
-	<resultMap type="FindNonOpHIstoryVO" id="######">
-		<id property="mchnCode" column="mchnCode" />
-		<result property="mchnName" column="mchnName" />
-		<result property="inputDate" column="inputDate" />
-		<result property="nonOpName" column="nonOpName" />
-		<result property="nonOpRsn" column="nonOpRsn" />
-		<result property="nonOpMin" column="nonOpMin" />
-		<result property="nonOpStartTime" column="nonOpStartTime" />
-		<result property="nonOpEndTime" column="nonOpEndTime" />
+	<resultMap type="NonOpHistoryVO" id="mHisMap">
+		<id property="inputNo" column="input_no" />
+		<result property="mchnCode" column="mchn_code" />
+		<result property="nonOpCode" column="non_op_code" />
+		<result property="empId" column="emp_id" />
+		<result property="inputDate" column="input_date" />
+		<result property="nonOpMin" column="non_op_min" />
+		<result property="nonOpStartTime" column="non_op_start_time" />
+		<result property="nonOpEndTime" column="non_op_end_time" />
+		<result property="nonOpRemk" column="non_op_remk" />
+		<result property="nonOpRsn" column="non_op_rsn" />
 	</resultMap>
 	
 	<resultMap type="mchnList" id="mchnListMap">
-		<collection property="MchnInspcVO" resultMap="inspcMap" />
-		<collection property="FindNonOpHIstoryVO" resultMap="" />
+		<collection property="MchnInspcVO" resultMap="mInsMap" />
+		<collection property="NonOpHistoryVO" resultMap="mHisMap" />
 	</resultMap>
 
 	<select id="MchnList" resultType="">
