@@ -24,17 +24,21 @@ $(document).ready(function () {
   
   function outMakeRow(obj) {
     let node = `<tr>
-                    <td>${obj.slsOrdHdVO.slsOrdHdDate}</td>
-                    <td>${obj.slsOrdHdVO.slsOrdHdNo}</td>
-                    <td>${obj.slsOrdHdVO.vendCdNm}</td>
-                    <td>${obj.slsOrdDtlVO.finPrdCdCode}</td>
-                    <td>${obj.slsOrdDtlVO.finPrdCdName}</td>
-                    <td>${obj.slsOrdDtlVO.slsOrdDtlDlvDate}</td>
-                    <td>${obj.slsOrdDtlVO.slsOrdDtlVol}</td>
-                    <td>${obj.slsOrdDtlVO.slsOrdDtlOutVol}</td>
-                    <td>${obj.slsOrdDtlVO.slsOrdDtlNotOutVol}</td>
-                    <td>${obj.slsOrdHdVO.empName}</td>
-					          <td>${obj.slsOrdHdVO.slsOrdHdRemk}</td>
+                    <td>${obj.slsOutHdVO.slsOutHdDate}</td>
+                    <td>${obj.slsOutHdVO.slsOutHdNo}</td>
+                    <td>${obj.slsOutDtlVO.vendCdNm}</td>
+                    <td>${obj.slsOutDtlVO.finPrdCdCode}</td>
+                    <td>${obj.slsOutDtlVO.finPrdCdName}</td>
+                    <td>${obj.slsOutHdVO.slsOrdHdNo}</td>
+                    <td>${obj.slsOutDtlVO.slsOrdDtlVol}</td>
+                    <td>${obj.slsOutDtlVO.slsOrdDtlOutVol}</td>
+                    <td>${obj.slsOutDtlVO.slsOutDtlVol}</td>
+                    <td>${obj.slsOutDtlVO.slsOrdDtlNotOutVol}</td>
+                    <td>${obj.slsOutDtlVO.fnsPrdStkLotNo}</td>
+                    <td>${obj.slsOutDtlVO.finPrdCdPrice}</td>
+					          <td>${obj.slsOutDtlVO.slsOutDtlPrice}</td>
+                    <td>${obj.slsOutHdVO.empName}</td>
+                    <td>${obj.slsOutHdVO.slsOutHdRemk}</td>
                 </tr>`;
     $("#outTable tbody").append(node);
   }

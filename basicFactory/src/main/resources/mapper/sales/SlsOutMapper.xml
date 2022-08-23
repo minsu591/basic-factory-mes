@@ -4,11 +4,11 @@
 	
 	<resultMap type="slsOutHdVO" id="outHdMap">
 		<id property="slsOutHdNo" column="sls_out_hd_no"/>
-		<result property="slsOrdHdNo" column=""/>
-		<result property="slsOutHdDate" column=""/>
-		<result property="empId" column=""/>
-		<result property="empName" column=""/>
-		<result property="slsOutHdRemk" column=""/>
+		<result property="slsOrdHdNo" column="sls_ord_hd_no"/>
+		<result property="slsOutHdDate" column="sls_out_hd_date"/>
+		<result property="empId" column="emp_id"/>
+		<result property="empName" column="emp_name"/>
+		<result property="slsOutHdRemk" column="sls_out_hd_remk"/>
 	</resultMap>
 	
 	<resultMap type="slsOutDtlVO" id="outDtlMap">
@@ -20,7 +20,9 @@
 		<result property="finPrdCdName" column="fin_prd_cd_name"/>
 		<result property="fnsPrdStkLotNo" column="fns_prd_stk_lot_no"/>
 		<result property="slsOrdDtlVol" column="sls_ord_dtl_vol"/>
+		<result property="slsOrdDtlOutVol" column="sls_ord_dtl_out_vol"/>
 		<result property="slsOutDtlVol" column="sls_ord_dtl_out_vol"/>
+		<result property="slsOrdDtlNotOutVol" column="sls_ord_dtl_not_out_vol"/>
 		<result property="finPrdCdPrice" column="fin_prd_cd_price"/>
 		<result property="slsOutDtlPrice" column="sls_out_dtl_price"/>
 		<result property="fnsPrdStkVol" column="fns_prd_stk_vol"/>
@@ -31,5 +33,45 @@
 		<collection property="slsOutDtlVO" resultMap="outDtlMap"/>
 	</resultMap>
 	
-
+	<select id="findAllOut" resultMap="outHdDtlMap">
+		SELECT OUTHD.SLS_OUT_HD_DATE,
+			   OUTHD.SLS_OUT_HD_NO,
+			   OUTHD.SLS_ORD_HD_NO,
+			   OUTHD.SLS_OUT_HD_REMK,
+			   
+			   OUTDTL.SLS_OUT_DTL_VOL,
+			   OUTDTL.FNS_PRD_STK_LOT_NO,
+			   OUTDTL.SLS_OUT_DTL_PRICE,
+			   
+			   VEND.VEND_CD_NM,
+			   
+			   FNSPRD.FIN_PRD_CD_CODE,
+			   FNSPRD.FIN_PRD_CD_NAME,
+			   
+			   ORDDTL.SLS_ORD_DTL_VOL,
+			   ORDDTL.SLS_ORD_DTL_OUT_VOL,
+			   ORDDTL.SLS_ORD_DTL_NOT_OUT_VOL,
+			   
+			   FNSPRD.FIN_PRD_CD_PRICE,
+			   
+			   EMP.EMP_NAME
+			   
+		FROM BF_SALES_OUT_HD OUTHD
+		JOIN BF_SALES_OUT_DTL OUTDTL
+    	  ON OUTHD.SLS_OUT_HD_NO = OUTDTL.SLS_OUT_HD_NO
+  		JOIN BF_SALES_ORD_HD ORDHD
+    	  ON ORDHD.SLS_ORD_HD_NO = OUTHD.SLS_ORD_HD_NO
+ 		JOIN BF_SALES_ORD_DTL ORDDTL
+    	  ON ORDHD.SLS_ORD_HD_NO = ORDDTL.SLS_ORD_HD_NO
+ 		JOIN BF_CMN_EMP EMP
+   		  ON EMP.EMP_ID = OUTHD.EMP_ID
+ 		JOIN BF_CMN_VENDOR_CODE VEND
+    	  ON VEND.VEND_CD_CODE = OUTDTL.VEND_CD_CODE
+ 		JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
+    	  ON FNSPRD.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
+ 		JOIN BF_SALES_FINISH_PRODUCT_STOK FNSPRDSK
+    	  ON FNSPRDSK.FNS_PRD_STK_LOT_NO = OUTDTL.FNS_PRD_STK_LOT_NO
+    	  
+ 		WHERE ORDDTL.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
+	</select>
 </mapper>

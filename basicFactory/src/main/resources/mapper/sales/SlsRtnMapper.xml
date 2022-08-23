@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.sales.mapper.SlsRtnMapper">
+	
+	<resultMap type="slsRtnHdVO" id="rtnHdMap">
+		<id property="slsRtnHdNo" column="sls_rtn_hd_no" />
+		<result property="slsRtnHdDate" column="sls_rtn_hd_date"/>
+		<result property="empId" column="emp_id"/>
+		<result property="empName" column="emp_name"/>
+		<result property="slsRtnHdRemk" column="sls_rtn_hd_remk"/>
+	</resultMap>
+	
+	<resultMap type="slsRtnDtlVO" id="rtnDtlMap">
+		<id property="slsRtnDtlNo" column="sls_rtn_dtl_no" />
+		<result property="slsRtnHdNo" column="sls_rtn_hd_no"/>
+		<result property="vendCdCode" column="vend_cd_code"/>
+		<result property="finPrdCdCode" column="fin_prd_cd_code"/>
+		<result property="fnsPrdStkLotNo" column="fns_prd_stk_lot_no"/>
+		<result property="slsRtnDtlVol" column="sls_rtn_dtl_vol"/>
+		<result property="slsRtnDtlPrice" column="sls_rtn_dtl_price"/>
+		<result property="slsRtnDtlPrcCls" column="sls_rtn_dtl_prc_cls"/>
+		<result property="slsRtnDtlResn" column="sls_rtn_resn"/>
+	</resultMap>
+	
+	<resultMap type="slsRtnHdDtlVO" id="rtnHdDtlMap">
+		<collection property="slsRtnHdVO" resultMap="rtnHdMap"/>
+		<collection property="slsRtnDtlVO" resultMap="rtnDtlMap"/>
+	</resultMap>
+	
+	<select id="findAllReturn" resultMap="rtnHdDtlMap">
+	SELECT RTNHD.SLS_RTN_HD_DATE,
+		   RTNHD.SLS_RTN_HD_NO,
+           VEND.VEND_CD_NM,
+           FNSPRD.FIN_PRD_CD_CODE,
+           FNSPRD.FIN_PRD_CD_NAME,
+           RTNDTL.SLS_RTN_DTL_VOL,
+           FIN_PRD_CD_PRICE,
+           SLS_RTN_DTL_PRICE,
+           SLS_RTN_DTL_PRC_CLS,
+           SLS_RTN_RESN
+	FROM BF_SALES_RTN_HD RTNHD JOIN BF_SALES_RTN_DTL RTNDTL
+	    ON RTNHD.SLS_RTN_HD_NO = RTNDTL.SLS_RTN_HD_NO
+	JOIN BF_CMN_VENDOR_CODE VEND
+	    ON RTNDTL.VEND_CD_CODE = VEND.VEND_CD_CODE
+	JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
+	    ON RTNDTL.FIN_PRD_CD_CODE = FNSPRD.FIN_PRD_CD_CODE
+	</select>
+</mapper>
