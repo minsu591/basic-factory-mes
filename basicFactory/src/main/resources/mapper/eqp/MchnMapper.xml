@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.eqp.mapper.MchnMapper">
+
+	<select id="MchnList" resultType="MchnVO">
+		SELECT MC.MCHN_CODE, MC.MCHN_NAME, MC.MCHN_MODEL, VCD.VEND_CD_NM, 
+			MC.MCHN_MNFCT_DATE, MC.MCHN_INSPC_DATE, MC.MCHN_INSPC_CYCLE, MC.MCHN_STTS, MC.MCHN_REMK
+		FROM BF_EQP_MCHN MC, BF_CMN_VENDOR_CODE VCD
+		WHERE MC.VEND_CD_CODE = VCD.VEND_CD_CODE
+		ORDER BY MCHN_CODE;
+	</select>
+	
+	<select id="findMchn" resultType="MchnVO">
+		
+	</select>
+
+</mapper>
