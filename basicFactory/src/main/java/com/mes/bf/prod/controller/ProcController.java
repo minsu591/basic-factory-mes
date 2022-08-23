@@ -17,6 +17,7 @@ import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.ProcCodeVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.service.ProcService;
+import com.mes.bf.prod.vo.ProcManageVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
 
 @RestController
@@ -79,6 +80,11 @@ public class ProcController {
 		return new ResponseEntity<List<VFindProcPerformVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
-
+	//공정실적관리 테이블 조회
+	@GetMapping("/findprocmanage")
+	public ResponseEntity<List<ProcManageVO>> findProcManage(){
+		List<ProcManageVO> list = service.findProcManage();
+		return new ResponseEntity<List<ProcManageVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
 
 }
