@@ -7,8 +7,10 @@ import lombok.Data;
 @Data
 @Alias("nonOpVO")
 public class NonOpVO {
-	private String nonOpCode;
-	private String nonOpName;
-	private String nonOpRsn;
-	private String nonOpRemk;
+	
+	private String nonOpCode;	//비가동코드
+	private String nonOpName;	//비가동명
+	//private String nonOpRsn;
+	private String nonOpRemk;	//비고
+	
 }

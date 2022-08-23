@@ -18,10 +18,12 @@ public class MchnController {
 	@Autowired MchnService service;
 	
 	//설비 조회
-	@GetMapping("/mchnAllList")
-	public List<MchnVO> MchnAllList() {
-		List<MchnVO> list = service.MchnAllList();
-		return list;
+	@RequestMapping("/mchnList")
+	public String MchnListPage(Model model) {
+		List<MchnVO> mchns = service.MchnAllList();
+		model.addAttribute("mchns", mchns);
+		System.out.println(mchns);
+		return "eqp/MchnList";
 	}
 	
 	

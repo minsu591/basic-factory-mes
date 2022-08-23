@@ -12,14 +12,15 @@ public class MchnVO {
 
 	private String mchnCode; //설비코드
 	private String mchnName; //설비이름
-	private String vend_cd_code;//거래처코드
-	private String mchn_model;//모델명
-	private String mchn_img; //설비사진
-	private int mchn_price;//금액 
-	private Date mchn_prchs_date;//구매일자
-	private Date mchn_mnfct_date;//제작일자
-	private String mchn_stts;//설비상태
-	private Date mchn_inspc_date;//점검일
-	private int mchn_inspc_cycle;//점검주기
-	private String mchn_remk;//비고
+	private String vendCdCode;//거래처코드
+	private String vendCdNm;	//거래처명
+	private String mchnModel;//모델명
+	private String mchnImg; //설비사진
+	private int mchnPrice;//금액 
+	private Date mchnPrchsDate;//구매일자
+	private Date mchnMnfctDate;//제작일자
+	private String mchnStts;//설비상태
+	private Date mchnInspcDate;//최근점검일
+	private int mchnInspcCycle;//점검주기
+	private String mchnRemk;//비고
 }
