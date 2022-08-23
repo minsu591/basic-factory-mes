@@ -70,4 +70,9 @@ public class InstructionServiceImpl implements InstructionService {
 
 	}
 
+	@Override
+	public void insertProc(String finPrdCdCode) {
+		mapper.insertProc(finPrdCdCode);
+	}
+
 }

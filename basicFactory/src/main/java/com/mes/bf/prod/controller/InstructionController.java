@@ -114,9 +114,12 @@ public class InstructionController {
 			//String -> vo변환
 			InstructionVO instvo = m.readValue(instheader,InstructionVO.class);
 			InstructionDetailVO detailvo = m.readValue(instdetail, InstructionDetailVO.class);
-			System.out.println(instvo);
-			System.out.println(detailvo);
-			service.insertInstruction(instvo, detailvo);
+			//System.out.println(instvo);
+			//System.out.println(detailvo);
+			String finPrdCdCode = detailvo.getFinPrdCdCode();
+			System.out.println(detailvo.getFinPrdCdCode());
+			//service.insertInstruction(instvo, detailvo);
+			service.insertProc(finPrdCdCode);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

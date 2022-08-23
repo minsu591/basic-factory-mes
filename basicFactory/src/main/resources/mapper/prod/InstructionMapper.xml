@@ -180,5 +180,48 @@
 				#{workDate}
 		)
 	</insert>
+	
+	<!-- 공정테이블 데이터 입력 -->
+	
+	<insert id="insertProc">
+		<selectKey keyProperty="instProdNo" order="BEFORE" resultType="int">
+			SELECT MAX(inst_prod_no) FROM BF_PROD_INST_DETAIL
+		</selectKey>
+	
+INSERT INTO 
+	bf_prod_process (
+					process_no,
+					inst_prod_no,
+					process_order,
+					proc_cd_code,
+					mchn_code)
+SELECT 
+		BF_PROD_PROCESS_SEQ.nextval,
+        #{instProdNo},
+        linecode.line_cd_ord,
+        linecode.proc_cd_code,
+        linecode.mchn_code 
+FROM 
+	BF_CMN_PROC_CODE proccode,
+    BF_CMN_LINE_CODE linecode,
+    BF_EQP_MCHN eqp,
+    BF_CMN_LINE_CODE_HD linecodehd,
+    BF_CMN_BOM_CODE bomcode
+WHERE 
+		proccode.proc_cd_code = linecode.proc_cd_code
+	AND
+		eqp.mchn_code = linecode.mchn_code 
+	AND 
+		linecodehd.line_cd_hd_code = linecode.line_cd_hd_code 
+	AND
+		linecodehd.line_cd_hd_code = bomcode.line_cd_hd_code 
+	AND
+		bomcode.fin_prd_cd_code = #{finPrdCdCode}
+	
+	</insert>
+	
+	
+	
+	
 
 </mapper>
