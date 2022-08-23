@@ -117,42 +117,42 @@ $(document).ready(function () {
     });
   });
 
-//공정상태
-function findProcStatus(lineName) {
-  $.ajax({
-    url: `findprocstatus/${lineName}`,
-    method: "GET",
-    dataType: "json",
-    success: function (data) {
-      //console.log(data);
-      $("#procStatusTable tbody tr").remove();
-      for (obj of data) {
-        procStatusMakeRow(obj);
-      }
-    },
-  });
-}
+  //공정상태
+  function findProcStatus(lineName) {
+    $.ajax({
+      url: `findprocstatus/${lineName}`,
+      method: "GET",
+      dataType: "json",
+      success: function (data) {
+        //console.log(data);
+        $("#procStatusTable tbody tr").remove();
+        for (obj of data) {
+          procStatusMakeRow(obj);
+        }
+      },
+    });
+  }
 
-//자재재고 내역
-function findRscNeedQty(lineName, indicaVol) {
-  $.ajax({
-    url: `findvrscneedqty/${lineName}`,
-    method: "GET",
-    dataType: "json",
-    success: function (data) {
-      console.log(data);
-      let index = 0;
-      $("#rscStockTable tbody tr").remove();
-      for (obj of data) {
-        index += 1;
-        rscStockMakeRow(obj, indicaVol, index);
-      }
-    },
-  });
-}
+  //자재재고 내역
+  function findRscNeedQty(lineName, indicaVol) {
+    $.ajax({
+      url: `findvrscneedqty/${lineName}`,
+      method: "GET",
+      dataType: "json",
+      success: function (data) {
+        console.log(data);
+        let index = 0;
+        $("#rscStockTable tbody tr").remove();
+        for (obj of data) {
+          index += 1;
+          rscStockMakeRow(obj, indicaVol, index);
+        }
+      },
+    });
+  }
 
-function detailTableMakeRow() {
-  let node = `<tr>
+  function detailTableMakeRow() {
+    let node = `<tr>
   <td><input type="checkbox"></td>
   <td><input type="text" name="prodCode"></td>
   <td><input type="text" readonly></td>
@@ -167,22 +167,22 @@ function detailTableMakeRow() {
   <td><input type="text" readonly></td>
   <td><input type="text"></td>
 </tr>`;
-  $("#planDetailTable tbody").append(node);
-}
+    $("#planDetailTable tbody").append(node);
+  }
 
-function procStatusMakeRow(obj) {
-  let node = `<tr>
+  function procStatusMakeRow(obj) {
+    let node = `<tr>
               <td>${obj.lineCdOrd}</td>
               <td>${obj.procCdName}</td>
               <td>${obj.mchnName}</td>
               <td>${obj.mchnStts}</td>
               </tr>`;
-  $("#procStatusTable tbody").append(node);
-}
+    $("#procStatusTable tbody").append(node);
+  }
 
-function rscStockMakeRow(obj, indicaVol, index) {
-  console.log(obj.rscUseVol);
-  let node = `<tr>
+  function rscStockMakeRow(obj, indicaVol, index) {
+    console.log(obj.rscUseVol);
+    let node = `<tr>
               <td>${index}</td>
               <td>${obj.rscCdCode}</td>
               <td>${obj.rscCdName}</td>
@@ -191,5 +191,7 @@ function rscStockMakeRow(obj, indicaVol, index) {
               <td>${(indicaVol *= obj.rscUseVol)}</td>
               </tr>`;
 
-  $("#rscStockTable tbody").append(node);
-}
+    $("#rscStockTable tbody").append(node);
+  };
+
+});

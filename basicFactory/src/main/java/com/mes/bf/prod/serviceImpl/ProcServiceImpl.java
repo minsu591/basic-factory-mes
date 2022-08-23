@@ -10,6 +10,7 @@ import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.mapper.ProcMapper;
 import com.mes.bf.prod.service.ProcService;
 import com.mes.bf.prod.vo.ProcManageVO;
+import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
 
 @Service
@@ -36,8 +37,12 @@ public class ProcServiceImpl implements ProcService {
 
 	@Override
 	public List<ProcManageVO> findProcManage() {
-		
 		return mapper.findProcManage();
+	}
+
+	@Override
+	public List<ProcessVO> findProcess() {
+		return mapper.findProcess();
 	}
 
 }

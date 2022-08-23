@@ -14,6 +14,7 @@ import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.InstructionVO;
+import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 import com.mes.bf.prod.vo.VRscNeedQtyVO;
@@ -64,7 +65,7 @@ public class InstructionServiceImpl implements InstructionService {
 
 	@Override
 	@Transactional
-	public void insertInstruction(InstructionVO vo,InstructionDetailVO detailvo) {
+	public void insertInstruction(InstructionVO vo, InstructionDetailVO detailvo) {
 		mapper.insertInstruction(vo);
 		mapper.insertInstructionDetail(detailvo);
 

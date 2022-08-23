@@ -1,9 +1,12 @@
 package com.mes.bf.prod.vo;
 
+import org.apache.ibatis.type.Alias;
+
 import lombok.Data;
 
 //공정
 @Data
+@Alias("ProcessVO")
 public class ProcessVO {
 	private Integer processNo;
 	private Integer instProdNo;

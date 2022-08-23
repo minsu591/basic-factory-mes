@@ -118,7 +118,7 @@ public class InstructionController {
 			//System.out.println(detailvo);
 			String finPrdCdCode = detailvo.getFinPrdCdCode();
 			System.out.println(detailvo.getFinPrdCdCode());
-			//service.insertInstruction(instvo, detailvo);
+			service.insertInstruction(instvo, detailvo);
 			service.insertProc(finPrdCdCode);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();

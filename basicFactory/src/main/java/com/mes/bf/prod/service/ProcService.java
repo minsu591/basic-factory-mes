@@ -5,6 +5,7 @@ import java.util.List;
 import com.mes.bf.cmn.vo.ProcCodeVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.vo.ProcManageVO;
+import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
 
 public interface ProcService {
@@ -21,4 +22,7 @@ public interface ProcService {
 
 	// 공정실적관리 테이블 조회
 	List<ProcManageVO> findProcManage();
+
+	// 공정테이블 조회
+	List<ProcessVO> findProcess();
 }

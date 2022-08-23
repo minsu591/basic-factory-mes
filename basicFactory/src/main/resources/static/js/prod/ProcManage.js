@@ -46,7 +46,27 @@ $(document).ready(function () {
 
 
   $("#procManageTable").on("click", "tr", function () {
-    console.log('클릭')
+    if ($(this).find("td:eq(0)").children().prop("checked")) {
+      console.log('checked');
+      $.ajax({
+        url: `findprocess`,
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+          console.log(data);
+          $("#workInsertTable tbody tr").remove();
+          let index = 0;
+          for (obj of data) {
+            index += 1;
+            workinsertTableMakeRow(obj);
+          }
+        },
+      });
+
+
+    } else {
+      console.log('unchecked')
+    }
   })
 
 });
@@ -85,4 +105,34 @@ function procManageMakeRow(obj, index) {
               </tr>`;
 
   $("#procManageTable tbody").append(node);
+}
+
+function workinsertTableMakeRow(obj) {
+  // [{
+  //   "processNo": 23,
+  //   "instProdNo": 3,
+  //   "processOrder": 1,
+  //   "procCdCode": "PROC001",
+  //   "mchnCode": "MCHN001",
+  //   "inDtlVol": 0,
+  //   "totalProdVol": 0,
+  //   "fltyVol": 0,
+  //   "completionStatus": "n",
+  //   "processRemk": null,
+  //   "virResult": 0,
+  //   "nonResult": 0
+  // },
+  let node = `<tr> 
+              <td>${obj.processOrder}</td>
+              <td>${obj.procCdCode}</td>
+              <td>${obj.mchnCode}</td>
+              <td></td>
+              <td>${obj.inDtlVol}</td>
+              <td>${obj.virResult}</td>
+              <td>${obj.nonResult}</td>
+              <td>${obj.fltyVol}</td>
+              <td><button type="submit" class="btn  btn-primary">진행전</button></td> 
+              </tr>`;
+
+  $("#workInsertTable tbody").append(node);
 }
