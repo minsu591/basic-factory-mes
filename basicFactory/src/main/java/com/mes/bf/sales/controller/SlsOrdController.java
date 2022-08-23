@@ -49,6 +49,13 @@ public class SlsOrdController {
 		return list;
 	}
 	
+	//주문관리 페이지 이동
+	@RequestMapping("/ordManage")
+	public ModelAndView orderManage() {
+		ModelAndView mav = new ModelAndView("sales/orderManage");
+		return mav;
+	}
+	
 	//거래처 전체조회
 	@GetMapping(value = "/findvendorcode", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<VendorCodeVO>> findAllVInstruction(@RequestParam Map<String,String> queryParameters) {

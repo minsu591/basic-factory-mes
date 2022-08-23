@@ -5,25 +5,28 @@
     layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
+    <script type="text/javascript" th:src="@{/js/sales/orderManage.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
+    <link th:href="@{/css/sales/orderManage.css}" rel="stylesheet" />
 </head>
 <body>
-    <script type="text/javascript" th:src="@{/js/sales/return.js}"></script>
-    <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
-    <link th:href="@{/css/sales/return.css}" rel="stylesheet" />
-
     <div class="pcoded-main-container">
-        <h1>완제품 반품 조회</h1>
+        <h1>주문 관리</h1>
         <hr>
+        
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
                     <form class="form-inline">
                         <div class="form-group mt-3">
-                            <label for="slsRtnHdDate" th:text="반품일자"></label>
-                            <input type="date" id="rtnSdate" class="form-control mx-sm-3"> ~
-                            <input type="date" id="rtnEdate" class="form-control mx-sm-3">
+                            <label for="slsOrdHdDate" th:text="주문일자"></label>
+                            <input type="date" id="slsOrdHdDate" class="form-control mx-sm-3">
                         </div>
-                        <br>
+                        <div class="form-group mt-3">
+                            <label for="empid" th:text="담당자명"></label>
+                            <input type="text" id="empid" class="form-control mx-sm-3"
+                             data-toggle="modal" data-target=".bd-example-modal-lg">
+                        </div>
                         <div class="form-group mt-3">
                             <label for="vendor" th:text="거래처"></label>
                             <input type="text" id="vendor" class="form-control mx-sm-3"
@@ -31,37 +34,25 @@
                             <label for="vendorName" th:text="거래처명"></label>
                             <input type="text" id="vendorName" class="form-control mx-sm-3" readonly>
                         </div>
-
-                        <button type="button" class="btn  btn-primary" id="rtnBtn">조회</button>
-
-                        <div class="form-group mt-3">
-                        	<span>처리구분</span>
-                            <select name="prcCls" id="prcCls" class="form-control mx-sm-4">
-                            	<option>선택</option>
-                            	<option value="0">폐기</option>
-                            	<option value="1">입고</option>
-                            	<option value="2">거부</option>
-                            </select>
-                        </div>
-                        
-
                     </form>
                 </div>
                 <div class="card-body table-border-style">
+                    <div class="rightBtn">
+                        <div class="rightBtn">
+                            <button type="button" class="btn btn-primary" id="ordMngBtn">저장</button>
+                            <button type="button" class="btn btn-primary" id="addBtn">추가</button>
+                            <button type="button" class="btn btn-primary" id="delBtn">선택 삭제</button>
+                        </div>
+                    </div>
                     <div class="table-responsive">
-                        <table class="table table-striped" id="returnTable">
+                        <table class="table table-striped" id="ordMngTable">
                             <thead>
                                 <tr>
-                                    <th th:text="반품일자"></th>
-                                    <th th:text="반품번호"></th>
-                                    <th th:text="거래처"></th>
                                     <th th:text="제품코드"></th>
                                     <th th:text="제품명"></th>
-                                    <th th:text="반품량"></th>
-                                    <th th:text="단가"></th>
-                                    <th th:text="금액"></th>
-                                    <th th:text="처리구분"></th>
-                                    <th th:text="반품사유"></th>
+                                    <th th:text="납기일자"></th>
+                                    <th th:text="주문량"></th>
+                                    <th th:text="비고"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,5 +67,7 @@
 
     <!-- 거래처조회 Modal -->
     <th:block th:replace="~{/fragments/modal/findvendor :: findvendor}"></th:block>
+    <!-- 담당자검색 Modal -->
+    <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
 </body>
 </html>
