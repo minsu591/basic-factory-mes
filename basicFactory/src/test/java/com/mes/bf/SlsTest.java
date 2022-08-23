@@ -7,15 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.mes.bf.sales.service.SlsOrdService;
+import com.mes.bf.sales.service.SlsOutService;
+import com.mes.bf.sales.service.SlsRtnService;
 import com.mes.bf.sales.service.SlsStockService;
 import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
+import com.mes.bf.sales.vo.SlsOutHdDtlVO;
+import com.mes.bf.sales.vo.SlsRtnHdDtlVO;
 import com.mes.bf.sales.vo.SlsStockVO;
 
 @SpringBootTest
 public class SlsTest {
 	
 	@Autowired SlsOrdService service;
+	@Autowired SlsOutService outService;
+	@Autowired SlsRtnService rtnService;
 	@Autowired SlsStockService stockService;
+	
 	
 	//@Test
 	void findAllOrd() {
@@ -33,11 +40,36 @@ public class SlsTest {
 		}
 	}
 	
-	@Test
-	void finAllStock() {
+	//@Test
+	void findAllOut() {
+		List<SlsOutHdDtlVO> list = outService.findAllOut();
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).toString());
+		}
+	}
+	
+	//@Test
+	void findAllStock() {
 		List<SlsStockVO> list = stockService.findAllStock();
 		for(int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i).toString());
 		}
 	}
+	
+	//@Test
+	void findStock() {
+		List<SlsStockVO> list = stockService.findStock("", "SLS_LOT002");
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).toString());
+		}	
+	}
+	
+	@Test
+	void findAllReturn() {
+		List<SlsRtnHdDtlVO> list = rtnService.findAllReturn();
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).toString());
+		}
+	}
+	
 }

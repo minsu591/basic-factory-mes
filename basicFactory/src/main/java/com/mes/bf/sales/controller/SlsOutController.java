@@ -19,21 +19,21 @@ import com.mes.bf.sales.service.SlsOutService;
 import com.mes.bf.sales.vo.SlsOutHdDtlVO;
 
 @RestController
-@RequestMapping("sls")
+@RequestMapping("/sls")
 public class SlsOutController {
 
 	@Autowired SlsOutService service;
 	@Autowired InstructionService instService;
 	
 	//완제품 촐고조회 페이지 이동
-	@RequestMapping("out")
+	@RequestMapping("/out")
 	public ModelAndView out() {
 		ModelAndView mav = new ModelAndView("sales/out");
 		return mav;
 	}
 	
 	//완제품 출고내역 전체 조회
-	//@GetMapping("/findAllOut")
+	@GetMapping("/findAllOut")
 	public List<SlsOutHdDtlVO> findAllOut() {
 		List<SlsOutHdDtlVO> list = service.findAllOut();
 		return list;

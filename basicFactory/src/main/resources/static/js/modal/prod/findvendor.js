@@ -44,6 +44,15 @@ $("document").ready(function () {
 
     $("#findvendorModal").modal("hide");
   });
+  
+  //vendor input 내용이 사라지면 vendorName 내용도 사라지는 이벤트
+	$("#vendor").on("change",function(){
+	    if($("#vendor").val()==''){
+	        $("#vendorName").val('');
+	    }
+	});
+  
+  
 });
 function findVendorCode() {
   $.ajax({

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <script type="text/javascript" th:src="@{/js/sales/return.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
+    <link th:href="@{/css/sales/return.css}" rel="stylesheet" />
+
+    <div class="pcoded-main-container">
+        <h1>완제품 반품 조회</h1>
+        <hr>
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <form class="form-inline">
+                        <div class="form-group mt-3">
+                            <label for="slsRtnHdDate" th:text="반품일자"></label>
+                            <input type="date" id="rtnSdate" class="form-control mx-sm-3"> ~
+                            <input type="date" id="rtnEdate" class="form-control mx-sm-3">
+                        </div>
+                        <br>
+                        <div class="form-group mt-3">
+                            <label for="vendor" th:text="거래처"></label>
+                            <input type="text" id="vendor" class="form-control mx-sm-3"
+                                   data-toggle="modal" data-target=".bd-example-modal-lg">
+                            <label for="vendorName" th:text="거래처명"></label>
+                            <input type="text" id="vendorName" class="form-control mx-sm-3" readonly>
+                        </div>
+
+                        <button type="button" class="btn  btn-primary" id="rtnBtn">조회</button>
+
+                        <div class="form-group mt-3">
+                        	<span>처리구분</span>
+                            <select name="prcCls" id="prcCls" class="form-control mx-sm-4">
+                            	<option>선택</option>
+                            	<option value="0">폐기</option>
+                            	<option value="1">입고</option>
+                            	<option value="2">거부</option>
+                            </select>
+                        </div>
+                        
+
+                    </form>
+                </div>
+                <div class="card-body table-border-style">
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="returnTable">
+                            <thead>
+                                <tr>
+                                    <th th:text="반품일자"></th>
+                                    <th th:text="반품번호"></th>
+                                    <th th:text="거래처"></th>
+                                    <th th:text="제품코드"></th>
+                                    <th th:text="제품명"></th>
+                                    <th th:text="반품량"></th>
+                                    <th th:text="단가"></th>
+                                    <th th:text="금액"></th>
+                                    <th th:text="처리구분"></th>
+                                    <th th:text="반품사유"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>    
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 거래처조회 Modal -->
+    <th:block th:replace="~{/fragments/modal/findvendor :: findvendor}"></th:block>
+</body>
+</html>

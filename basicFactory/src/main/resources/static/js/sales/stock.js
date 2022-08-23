@@ -33,4 +33,37 @@ $(document).ready(function () {
                 </tr>`;
     $("#stockTable tbody").append(node);
   }
+
+  //조건에 맞는 완제품 재고 조회
+  $('#stockBtn').click(function () {
+
+    findStock();
+  });
+
+  function findStock() {
+    let prdName = $('#productname').val();
+    let lotNo = $('#fnsPrdStkLotNo').val();
+
+    $.ajax({
+      url: "findStock",
+      method: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      data: {
+        prdName: prdName,
+        lotNo: lotNo
+      },
+      error: function (error) {
+        console.log(error);
+      },
+      success: function (data) {
+        console.log("data!!!!!!!!!" + data);
+        $('#stockTable tbody tr').remove();
+
+        for (obj of data) {
+          stockMakeRow(obj);
+        }
+      }
+    });
+  }
 });
