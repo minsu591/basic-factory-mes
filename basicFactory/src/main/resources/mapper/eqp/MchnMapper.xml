@@ -2,7 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.eqp.mapper.MchnMapper">
 
-	<select id="MchnList" resultType="MchnVO">
+	<!-- 설비점검vo -->
+	<resultMap type="MchnInspcVO" id="######">
+		<id property="inspcNo" column="inspc_no" />
+		<result property="mchnCode" column="mchn_code" />
+		<result property="inspcSdate" column="inspc_sdate" />
+		<result property="inspcEdate" column="inspc_edate" />
+		<result property="inspcNxtDate" column="inspc_nxt_date" />
+		<result property="inspcActnPnt" column="inspc_actn_pnt" />
+		<result property="inspcActnRsn" column="inspc_actn_rsn" />
+		<result property="inspcRemk" column="inspc_remk" />
+		<result property="empId" column="emp_id" />
+	</resultMap>
+	<!-- 설비비가동vo -->
+	<resultMap type="FindNonOpHIstoryVO" id="######">
+		<id property="mchnCode" column="mchnCode" />
+		<result property="mchnName" column="mchnName" />
+		<result property="inputDate" column="inputDate" />
+		<result property="nonOpName" column="nonOpName" />
+		<result property="nonOpRsn" column="nonOpRsn" />
+		<result property="nonOpMin" column="nonOpMin" />
+		<result property="nonOpStartTime" column="nonOpStartTime" />
+		<result property="nonOpEndTime" column="nonOpEndTime" />
+	</resultMap>
+	
+	<resultMap type="mchnList" id="mchnListMap">
+		<collection property="MchnInspcVO" resultMap="inspcMap" />
+		<collection property="FindNonOpHIstoryVO" resultMap="" />
+	</resultMap>
+
+	<select id="MchnList" resultType="">
 		SELECT MC.MCHN_CODE, MC.MCHN_NAME, MC.MCHN_MODEL, VCD.VEND_CD_NM, 
 			MC.MCHN_MNFCT_DATE, MC.MCHN_INSPC_DATE, MC.MCHN_INSPC_CYCLE, MC.MCHN_STTS, MC.MCHN_REMK
 		FROM BF_EQP_MCHN MC, BF_CMN_VENDOR_CODE VCD
