@@ -49,27 +49,28 @@
 		<collection property="planVO" resultMap="planMap" />
 		<collection property="colOrdVO" resultMap="colOrdMap" />
 	</resultMap>
-
+	
+	<!-- 생산계획일자 조건거는 sql -->
 	<sql id="ifPlanDate">
 		<choose>
 			<when
 				test="(startDate != null and startDate != '') and (endDate != null and endDate != '')">
-				AND plan_hd_date BETWEEN #{startDate} AND #{endDate}
+				AND PH.plan_hd_date BETWEEN #{startDate} AND #{endDate}
 			</when>
 			<when test="startDate != null and startDate != ''">
-				AND plan_hd_date = #{startDate}
+				AND PH.plan_hd_date = #{startDate}
 			</when>
 			<when test="endDate != null and endDate != ''">
-				AND plan_hd_date = #{endDate}
+				AND PH.plan_hd_date = #{endDate}
 			</when>
 		</choose>
 	</sql>
-
+	<!-- 지시에 존재하지 않거나 지시량이 계획량에 못 미치는 생산계획 조회 -->
 	<select id="findPlanInst" resultMap="colPlanMap"
 		parameterType="String">
 		SELECT *
 		FROM BF_PROD_PLAN P
-		JOIN BF_PROD_PLAN_HD H
+		JOIN BF_PROD_PLAN_HD PH
 		USING (PLAN_HD_CODE)
 		JOIN (SELECT D.FIN_PRD_CD_CODE, D.INST_PROD_INDICA_VOL, N.PLAN_HD_CODE
 		FROM BF_PROD_INSTRUCTION N
@@ -80,42 +81,50 @@
         <![CDATA[AND I.inst_prod_indica_vol < P.plan_prod_vol]]>
 		<include refid="ifPlanDate" />
 	</select>
-
+	
+	<!-- 생산계획 조회시, 주문내역을 참고한 생산계획과 참고하지 않은 생산계획을 조회 -->
 	<select id="findPlanOrd" resultMap="colPlanOrdMap">
-		SELECT *
-		FROM (SELECT L.*, F.FIN_PRD_CD_NAME
-		FROM BF_PROD_PLAN L JOIN BF_CMN_FINISH_PRODUCT_CODE F
-		ON L.FIN_PRD_CD_CODE = F.FIN_PRD_CD_CODE) P
-		JOIN BF_PROD_PLAN_HD H
-		USING(PLAN_HD_CODE)
-		LEFT OUTER JOIN
-		(SELECT H.VEND_CD_CODE, H.VEND_CD_NM, D.*
-		FROM (SELECT SLS_ORD_HD_NO, VEND_CD_CODE, VEND_CD_NM
-		FROM BF_CMN_VENDOR_CODE JOIN BF_SALES_ORD_HD
-		USING (VEND_CD_CODE)) H
-		JOIN
-		(SELECT SLS_ORD_HD_NO, SLS_ORD_DTL_NO, SLS_ORD_DTL_DLV_DATE, SLS_ORD_DTL_VOL,
-		SLS_ORD_DTL_PRG_CLS
-		FROM BF_SALES_ORD_DTL) D
-		ON H.SLS_ORD_HD_NO = D.SLS_ORD_HD_NO) O
-		USING (SLS_ORD_HD_NO)
+		SELECT PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, PH.PLAN_HD_DATE, PH.EMP_ID,
+		       P.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME, P.PLAN_PROD_VOL,
+		       P.PLAN_SDATE, P.PLAN_EDATE, P.PLAN_REMK,
+		       OH.SLS_ORD_HD_NO, OH.VEND_CD_CODE, V.VEND_CD_NM,
+       		   O.SLS_ORD_DTL_VOL, O.SLS_ORD_DTL_DLV_DATE
+		FROM BF_PROD_PLAN P
+		JOIN BF_PROD_PLAN_HD PH
+		  ON P.PLAN_HD_CODE = PH.PLAN_HD_CODE
+		JOIN BF_CMN_FINISH_PRODUCT_CODE F
+		  ON P.FIN_PRD_CD_CODE = F.FIN_PRD_CD_CODE
+		LEFT OUTER JOIN BF_SALES_ORD_HD OH
+		  ON OH.SLS_ORD_HD_NO = PH.SLS_ORD_HD_NO
+		LEFT OUTER JOIN BF_CMN_VENDOR_CODE V
+		  ON OH.VEND_CD_CODE = V.VEND_CD_CODE
+		LEFT OUTER JOIN BF_SALES_ORD_DTL O
+		  ON O.SLS_ORD_HD_NO = OH.SLS_ORD_HD_NO
+		     AND P.FIN_PRD_CD_CODE = O.FIN_PRD_CD_CODE
 		WHERE 1=1
 		<include refid="ifPlanDate" />
 		<if test="vendorCd != null and vendorCd != ''">
-			AND VEND_CD_CODE = #{vendorCd}
+			AND OH.VEND_CD_CODE = #{vendorCd}
 		</if>
+		ORDER BY PLAN_HD_DATE DESC
 	</select>
-
+	
+	<!-- 로그인한 유저가 작성한 생산계획 조회 -->
 	<select id="findMyPlan" resultMap="colPlanMap">
-		SELECT H.PLAN_HD_CODE, H.PLAN_HD_NAME, H.SLS_ORD_HD_NO, H.EMP_ID,
-		       H.PLAN_HD_DATE, H.PLAN_HD_REMK, P.PLAN_IDX, P.FIN_PRD_CD_CODE,
-		       F.FIN_PRD_CD_NAME, P.PLAN_PROD_VOL, P.PLAN_SDATE, P.PLAN_EDATE,
-		       P.PLAN_REMK
+		SELECT PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, PH.SLS_ORD_HD_NO, PH.EMP_ID,
+		       PH.PLAN_HD_DATE, NVL(PH.PLAN_HD_REMK,' ') AS PLAN_HD_REMK, P.PLAN_IDX,
+               P.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME,
+               P.PLAN_PROD_VOL, P.PLAN_SDATE, P.PLAN_EDATE, NVL(P.PLAN_REMK,' ') AS PLAN_REMK
 		FROM BF_PROD_PLAN P
-		  JOIN BF_PROD_PLAN_HD H
-		   ON P.PLAN_HD_CODE = H.PLAN_HD_CODE
+		  JOIN BF_PROD_PLAN_HD PH
+		   ON P.PLAN_HD_CODE = PH.PLAN_HD_CODE
 		  JOIN BF_CMN_FINISH_PRODUCT_CODE F
 		   ON P.FIN_PRD_CD_CODE = F.FIN_PRD_CD_CODE
+		   WHERE 1=1
 		<include refid="ifPlanDate" />
+		<if test="empId != null and empId != ''">
+			AND PH.EMP_ID = #{empId}
+		</if>
+		ORDER BY PLAN_HD_CODE DESC
 	</select>
 </mapper>

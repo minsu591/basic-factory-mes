@@ -10,16 +10,17 @@ $("document").ready(function(){
     function myPlanClick(){
         let sdate = $("#plansdate").val();
         let edate = $("#planedate").val();
+        let empId = '';
         $.ajax({
             url : 'myPlanView',
             method : "GET",
             dataType : "json",
             data : {
                 sdate : sdate,
-                edate : edate
+                edate : edate,
+                empId : empId
             },
             success : function(data){
-                console.log(data);
                 $("#findMyPlanTable tbody tr").remove();
                 for (obj of data){
                     myPlanMakeRow(obj);
@@ -68,6 +69,11 @@ $("document").ready(function(){
     })
     $("#findNotDoneOrdSearchBtn").on("click",notDoneOrdClick);
 
+    //미계획 주문내역 tr 클릭 이벤트
+    $("#findNotDoneOrdTable").on("click","tr",function(){
+        let slsOrdDtlNo = $(this).find("tr:eq(1)");
+    });
+
     function notDoneOrdClick(){
         let sdate = $("#ordSdate").val();
         let edate = $("#ordSdate").val();
@@ -90,6 +96,7 @@ $("document").ready(function(){
     function notDoneOrdMakeRow(ord){
         let node = `<tr>
             <td>${ord.slsOrdHdVO.slsOrdHdNo}</td>
+            <td>${ord.slsOrdDtlVO.slsOrdDtlNo}</td>
             <td>${ord.slsOrdHdVO.slsOrdHdDate}</td>
             <td>${ord.slsOrdHdVO.vendCdCode}</td>
             <td>${ord.slsOrdHdVO.vendCdNm}</td>
@@ -99,8 +106,27 @@ $("document").ready(function(){
             <td>${ord.slsOrdHdVO.empId}</td>
             <td>${ord.slsOrdDtlVO.slsOrdDtlVol}</td>
             <td>${ord.planVO.planProdVol}</td>
+            <td>${ord.slsOrdDtlVO.slsOrdDtlVol-ord.planVO.planProdVol}</td>
+            <td>${ord.slsOrdHdVO.slsOrdHdRemk}</td>
         </tr>`
         $("#findNotDoneOrdTable tbody").append(node);
+    }
+    function ordMakeRow(ord){
+        let node = ` <tr>
+                <td><input type="checkbox"></td>
+                <td th:text="주문코드"></td>
+                <td th:text="주문상세코드"></td>
+                <td th:text="제품코드"></td>
+                <td th:text="제품명"></td>
+                <td th:text="주문량"></td>
+                <td th:text="납기일자"></td>
+                <td th:text="주문량"></td>
+                <td th:text="기계획량"></td>
+                <td th:text="미계획량"></td>
+                <td><input type="text"></td>
+                <td><input type="date"></td>
+                <td><input type="date"></td>
+            </tr>`
     }
 
 });
