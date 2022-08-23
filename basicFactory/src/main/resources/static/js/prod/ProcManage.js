@@ -1,7 +1,5 @@
 $(document).ready(function () {
-
   findProcManage();
-
 
   $("#workInsertTable").on("click", "button", function () {
     console.log($(this).parent().parent().find("td:eq(2)").text());
@@ -24,7 +22,6 @@ $(document).ready(function () {
     }
   });
 
-
   //작업시작시간 입력
   $("#workStartBtn").click(function () {
     var date = new Date();
@@ -42,12 +39,12 @@ $(document).ready(function () {
     $("#eMinutes").val(minutes).prop("readonly", true);
   });
 
-
-
-
   $("#procManageTable").on("click", "tr", function () {
     if ($(this).find("td:eq(0)").children().prop("checked")) {
-      console.log('checked');
+      let prodName = $(this).find("td:eq(5)").text();
+      $("#workStateTable thead tr td").text(prodName);
+      console.log("제품명->" + prodName);
+
       $.ajax({
         url: `findprocess`,
         method: "GET",
@@ -62,15 +59,11 @@ $(document).ready(function () {
           }
         },
       });
-
-
     } else {
-      console.log('unchecked')
+      console.log("unchecked");
     }
-  })
-
+  });
 });
-
 
 function findProcManage() {
   $.ajax({
@@ -90,7 +83,6 @@ function findProcManage() {
 }
 
 function procManageMakeRow(obj, index) {
-
   let node = `<tr>
                 <td><input type="checkbox"></td>
                 <td>${index}</td>
@@ -124,8 +116,8 @@ function workinsertTableMakeRow(obj) {
   // },
   let node = `<tr> 
               <td>${obj.processOrder}</td>
-              <td>${obj.procCdCode}</td>
-              <td>${obj.mchnCode}</td>
+              <td>${obj.procCdName}</td>
+              <td>${obj.mchnName}</td>
               <td></td>
               <td>${obj.inDtlVol}</td>
               <td>${obj.virResult}</td>

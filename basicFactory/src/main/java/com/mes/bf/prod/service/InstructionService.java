@@ -36,7 +36,7 @@ public interface InstructionService {
 	List<FindProcStatusVO> findProcStatus(String lineName);
 
 	// 자재 소요 예상량 조회
-	List<VRscNeedQtyVO> findVRscNeedQty(String lineCdHdName);
+	List<VRscNeedQtyVO> findVRscNeedQty(String finPrdCdCode);
 
 	// 생산지시 입력
 	void insertInstruction(InstructionVO vo, InstructionDetailVO detailvo);
@@ -44,4 +44,9 @@ public interface InstructionService {
 	// 공정테이블 데이터 입력
 	void insertProc(String finPrdCdCode);
 
+	// 자재소요예살양 데이터 입력
+	void insertNeedQty(String finPrdCdCode);
+
+	// 자재소요예상량 업데이트
+	void updateNeedQty(String needQty,String rscCdCode);
 }

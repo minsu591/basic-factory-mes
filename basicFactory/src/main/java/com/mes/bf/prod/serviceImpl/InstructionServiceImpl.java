@@ -58,9 +58,9 @@ public class InstructionServiceImpl implements InstructionService {
 	}
 
 	@Override
-	public List<VRscNeedQtyVO> findVRscNeedQty(String lineCdHdName) {
+	public List<VRscNeedQtyVO> findVRscNeedQty(String finPrdCdCode) {
 
-		return mapper.findVRscNeedQty(lineCdHdName);
+		return mapper.findVRscNeedQty(finPrdCdCode);
 	}
 
 	@Override
@@ -74,6 +74,18 @@ public class InstructionServiceImpl implements InstructionService {
 	@Override
 	public void insertProc(String finPrdCdCode) {
 		mapper.insertProc(finPrdCdCode);
+	}
+
+	@Override
+	public void insertNeedQty(String finPrdCdCode) {
+		mapper.insertNeedQty(finPrdCdCode);
+		
+	}
+
+	@Override
+	public void updateNeedQty(String needQty,String rscCdCode) {
+		mapper.updateNeedQty(needQty,rscCdCode);
+		
 	}
 
 }

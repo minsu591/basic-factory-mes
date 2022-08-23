@@ -58,11 +58,12 @@ $(document).ready(function () {
 
       console.log(instobjheader);
       console.log(instobjdetail);
-
+      let check = false;
       $.ajax({
         url: "insertinstruction",
         method: "POST",
         contentType: "application/json;charset=utf-8",
+        async: false, //동기로 처리
         //dataType: "json",
         data: JSON.stringify({
           instobjheader: instobjheader,
@@ -72,9 +73,35 @@ $(document).ready(function () {
           alert("상태코드 " + status + "에러메시지" + msg);
         },
         success: function (data) {
-          console.log("success");
+          console.log(" insert success");
+          check = true;
         },
       });
+      //자재소요예상량 업데이트
+      if (check == true) {
+        $("#rscStockTable tbody tr").each(function (i) {
+          let tr = $(this);
+          let td = tr.children();
+          console.log(tr);
+          let needQty = td.eq(5).text();
+          let rscCdCode = td.eq(1).text();
+          console.log(needQty);
+          console.log(rscCdCode);
+          $.ajax({
+            url: `updateneedqty`,
+            method: "PUT",
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({
+              needQty: needQty,
+              rscCdCode: rscCdCode,
+            }),
+            success: function (data) {
+              console.log("update sucess");
+            },
+          });
+        });
+      }
     });
   });
 
@@ -87,7 +114,7 @@ $(document).ready(function () {
     let indicaVol = $(this).find("td:eq(9)").children();
     if ($(this).find("td:eq(0)").children().prop("checked")) {
       findProcStatus(lineName.val());
-      findRscNeedQty(lineName.val(), indicaVol.val());
+      findRscNeedQty(prodCode.val(), indicaVol.val());
     } else {
       $("#procStatusTable tbody tr").remove();
       $("#rscStockTable tbody tr").remove();
@@ -132,9 +159,9 @@ $(document).ready(function () {
   }
 
   //자재재고 내역
-  function findRscNeedQty(lineName, indicaVol) {
+  function findRscNeedQty(prodCode, indicaVol) {
     $.ajax({
-      url: `findvrscneedqty/${lineName}`,
+      url: `findvrscneedqty/${prodCode}`,
       method: "GET",
       dataType: "json",
       success: function (data) {
@@ -180,13 +207,14 @@ $(document).ready(function () {
 
   function rscStockMakeRow(obj, indicaVol, index) {
     console.log(obj.rscUseVol);
+    let needQty = (indicaVol *= obj.rscUseVol);
     let node = `<tr>
               <td>${index}</td>
               <td>${obj.rscCdCode}</td>
               <td>${obj.rscCdName}</td>
               <td>${obj.rscStock}</td>
               <td>${obj.rscCdUnit}</td>
-              <td>${(indicaVol *= obj.rscUseVol)}</td>
+              <td>${needQty}</td>
               </tr>`;
 
     $("#rscStockTable tbody").append(node);
