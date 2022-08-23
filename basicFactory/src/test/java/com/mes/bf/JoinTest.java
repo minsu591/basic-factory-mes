@@ -10,6 +10,7 @@ import com.mes.bf.eqp.service.NonOperationService;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.service.ProcService;
 import com.mes.bf.prod.vo.FindEmpVO;
+import com.mes.bf.prod.vo.ProcManageVO;
 
 @SpringBootTest
 public class JoinTest {
@@ -55,6 +56,20 @@ public class JoinTest {
 	//@Test
 	void findProcStatus() {
 		System.out.println(service2.findProcStatus("1라인"));
+	}
+	
+	//@Test
+	void procManage() {
+		List<ProcManageVO> list = service3.findProcManage();
+		
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+	}
+	
+	@Test
+	void insertProc() {
+		service2.insertProc("FIN001");
 	}
 	
 }
