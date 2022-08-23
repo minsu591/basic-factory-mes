@@ -15,6 +15,6 @@ public class RscReturnVO {
 	private String rscCdUnit;
 	private int rscReturnPrc;
 	private String rscReturnResn;
-	private String empId;
+	private String empName;
 	private String rscReturnRemk;
 }

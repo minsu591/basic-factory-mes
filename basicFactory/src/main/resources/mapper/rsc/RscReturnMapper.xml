@@ -3,6 +3,12 @@
 <mapper namespace="com.mes.bf.rsc.mapper.RscReturnMapper">
 
 	<select id="returnList" resultType="com.mes.bf.rsc.vo.RscReturnVO">
-		select * from bf_rsc_return;
+		SELECT rtn.rsc_return_code, rtn.rsc_return_date, rtn.rsc_cd_code, rsccode.rsc_cd_name, rsccode.rsc_cd_unit,
+            rtn.rsc_return_vol, rtn.rsc_return_prc, rtn.rsc_return_resn, emp.emp_name,rtn.rsc_return_remk
+		FROM BF_RSC_RETURN rtn LEFT JOIN BF_CMN_RSC_CODE rsccode
+		        ON rtn.rsc_cd_code = rsccode.rsc_cd_code
+		        LEFT JOIN BF_CMN_EMP emp
+		        ON rtn.emp_id = emp.emp_id
+		ORDER BY 1
 	</select>
 </mapper>
