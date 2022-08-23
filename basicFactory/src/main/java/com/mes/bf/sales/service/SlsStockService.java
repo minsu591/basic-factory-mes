@@ -10,5 +10,5 @@ public interface SlsStockService {
 	List<SlsStockVO> findAllStock();
 	
 	//제품별, LOT번호별 조회
-	List<SlsStockVO> findStock(String prdCdCode, String PrdStkLotNo);
+	List<SlsStockVO> findStock(String prdName, String lotNo);
 }

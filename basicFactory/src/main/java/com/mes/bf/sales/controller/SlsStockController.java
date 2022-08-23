@@ -36,13 +36,18 @@ public class SlsStockController {
 	}
 	
 	//완제품재고 전체 조회
-	@GetMapping("findAllStock")
+	@GetMapping("/findAllStock")
 	public List<SlsStockVO> findAllStock(){
 		List<SlsStockVO> list = service.findAllStock();
 		return list;
 	}
 	
 	//완제품재고 단건 조회
+	@GetMapping("/findStock")
+	public List<SlsStockVO> findStock(@RequestParam String prdName, String lotNo){
+		List<SlsStockVO> list = service.findStock(prdName, lotNo);
+		return list;
+	}
 	
 	// 완제품 조회
 	@GetMapping(value = "/findproduct", produces = { MediaType.APPLICATION_JSON_VALUE })
