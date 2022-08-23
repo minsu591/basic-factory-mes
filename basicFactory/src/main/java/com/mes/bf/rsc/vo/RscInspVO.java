@@ -15,6 +15,6 @@ public class RscInspVO {
 	private int rscInferVol;
 	private int rscPassVol;
 	private int rscInspSt;
-	private String empId;
+	private String empName;
 	private String rscInspRemk;
 }
