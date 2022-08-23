@@ -39,5 +39,6 @@ public interface InstructionService {
 	
 	//생산지시 입력
 	void insertInstruction(InstructionVO vo,InstructionDetailVO detailvo);
-	
+	//공정테이블 데이터 입력
+	void insertProc(String finPrdCdCode);
 }

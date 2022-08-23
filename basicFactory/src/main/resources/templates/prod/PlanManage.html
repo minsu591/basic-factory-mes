@@ -12,6 +12,9 @@
     
 </head>
 <body>
+    <script type="text/javascript" th:src="@{/js/modal/prod/findPlanManageModal.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
+
     <div class="pcoded-main-container">
         <h1>생산 계획 관리</h1>
         <hr>
@@ -20,7 +23,7 @@
                       <div class="card-header">
                         <!--해당 사용자가 작성한 생산 계획 조회 버튼-->
                         <div class="rightBtn">
-                            <button type="button" class="btn  btn-primary">생산계획 조회</button>
+                            <button type="button" class="btn btn-primary" id="myPlanBtn">생산계획 조회</button>
                         </div>
                         <br>
                         <!--새로운 생산계획 만들 때 사용할 정보-->
@@ -39,15 +42,15 @@
                                 <input type="text" id="planRemk" class="form-control mx-sm-3">                       
                              </div>
                                <div class="form-group mt-3">
-                                  <label for="vendor" th:text="담당자"></label>
-                                  <input type="text" id="planEmp" class="form-control mx-sm-3"
+                                  <label for="empid" th:text="담당자명"></label>
+                                  <input type="text" id="empid" class="form-control mx-sm-3"
                                    data-toggle="modal" data-target=".bd-example-modal-lg">
                               </div>
                           </form>
                                 
                       </div>
                       <div class="card-body table-border-style">
-                        <button type="button" class="btn btn-primary">미생산 주문내역 조회</button>
+                        <button type="button" class="btn btn-primary" id="NotDoneOrdBtn">미계획 주문내역 조회</button>
                         <div class="rightBtn">
                             <button type="button" class="btn btn-primary">저장</button>
                             <button type="button" class="btn btn-primary">추가</button>
@@ -98,5 +101,12 @@
                   </div>
               </div>
     </div>
+    <!--사용자가 작성한 생산계획 모달창-->
+    <th:block th:replace="~{/fragments/modal/findMyPlan :: findMyPlan}"></th:block>
+    <!--미계획된 주문내역 모달창 -->
+    <th:block th:replace="~{/fragments/modal/findNotDoneOrd :: findNotDoneOrd}"></th:block>
+    <!-- 담당자검색 Modal -->
+    <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
+
 </body>
 </html>

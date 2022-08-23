@@ -21,7 +21,7 @@
 								<label for="planDate" th:text="계획일자"></label>
 								<input type="date" id="plansdate" name="plansdate" class="form-control mx-sm-3">
 								<input type="date" id="planedate" name="planedate" class="form-control mx-sm-3">
-								<button type="button" class="btn  btn-primary" id="findMyPlanbtn" th:text="조회"></button>
+								<button type="button" class="btn  btn-primary" id="findMyPlanBtn" th:text="조회"></button>
 							</div>
 						</div>
 						<hr>
@@ -37,6 +37,8 @@
 											<th th:text="담당자명"></th>
 											<th th:text="'작업계획 시작일자'"></th>
 											<th th:text="'작업계획 종료일자'"></th>
+											<th th:text="제품코드"></th>
+											<th th:text="제품명"></th>
 											<th th:text="계획량"></th>
 										</tr>
 									</thead>

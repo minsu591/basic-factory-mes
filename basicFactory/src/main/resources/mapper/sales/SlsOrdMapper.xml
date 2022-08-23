@@ -24,11 +24,21 @@
 		<result property="slsOrdDtlPrgCls" column="sls_ord_dtl_prg_cls"/>
 	</resultMap>
 	
+	<resultMap type="planVO" id="planMap">
+		<result property="planProdVol" column="plan_prod_vol"/>
+	</resultMap>
+	
 	<resultMap type="ordHdDtl" id="ordHdDtlMap">
 		<collection property="slsOrdHdVO" resultMap="ordHdMap"/>
 		<collection property="slsOrdDtlVO" resultMap="ordDtlMap"/>
 	</resultMap>
-
+	
+	<resultMap type="slsOrdPlanVO" id="ordPlanMap">
+		<collection property="slsOrdHdVO" resultMap="ordHdMap"/>
+		<collection property="slsOrdDtlVO" resultMap="ordDtlMap"/>
+		<collection property="planVO" resultMap="planMap"/>
+	</resultMap>
+	
 	<select id="findAllOrder" resultMap="ordHdDtlMap">
 		SELECT ordhd.sls_ord_hd_date, ordhd.sls_ord_hd_no, vend.vend_cd_nm, 
                     fnsprd.fin_prd_cd_code, fnsprd.fin_prd_cd_name, 
@@ -61,5 +71,45 @@
             ON fnsprd.fin_prd_cd_code = orddtl.fin_prd_cd_code
         WHERE vend.vend_cd_nm = #{vendorName} AND
         	  ordhd.sls_ord_hd_date BETWEEN  TO_DATE(#{ordSdate}, 'YY/MM/DD') AND TO_DATE(#{ordEdate}, 'YY/MM/DD') +0.9999
+   	</select>
+   	
+   	<select id="findOrderForPlan" resultMap="ordPlanMap">
+   		SELECT H.SLS_ORD_HD_NO, H.SLS_ORD_HD_DATE, H.VEND_CD_CODE, V.VEND_CD_NM,
+   		       H.EMP_ID, D.SLS_ORD_DTL_NO, D.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME,
+   		       D.SLS_ORD_DTL_DLV_DATE, D.SLS_ORD_DTL_VOL, D.SLS_ORD_DTL_PRG_CLS, (D.SLS_ORD_DTL_VOL-P.PLAN_PROD_VOL) AS PLAN_PROD_VOL
+		       FROM BF_SALES_ORD_HD H
+		JOIN BF_SALES_ORD_DTL D
+		  ON H.SLS_ORD_HD_NO = D.SLS_ORD_HD_NO
+		JOIN BF_CMN_VENDOR_CODE V
+		  ON V.VEND_CD_CODE = H.VEND_CD_CODE
+		JOIN BF_CMN_FINISH_PRODUCT_CODE F
+		  ON F.FIN_PRD_CD_CODE = D.FIN_PRD_CD_CODE
+		LEFT OUTER JOIN
+		  (SELECT H.PLAN_HD_CODE, P.FIN_PRD_CD_CODE, SUM(P.PLAN_PROD_VOL) AS PLAN_PROD_VOL, H.SLS_ORD_HD_NO
+		          FROM BF_PROD_PLAN P
+		   JOIN BF_PROD_PLAN_HD H
+		    ON P.PLAN_HD_CODE = H.PLAN_HD_CODE
+		   GROUP BY H.PLAN_HD_CODE, H.SLS_ORD_HD_NO, P.FIN_PRD_CD_CODE
+		    HAVING H.SLS_ORD_HD_NO IS NOT NULL) P
+		ON (H.SLS_ORD_HD_NO = P.SLS_ORD_HD_NO
+		   AND D.FIN_PRD_CD_CODE = P.FIN_PRD_CD_CODE
+           AND D.SLS_ORD_dTL_PRG_CLS = 1)
+           OR D.SLS_ORD_DTL_PRG_CLS = 0
+		WHERE D.SLS_ORD_DTL_VOL > P.PLAN_PROD_VOL
+		<choose>
+			<when
+				test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
+				AND D.sls_ord_dtl_dlv_date BETWEEN #{ordSdate} AND #{ordEdate}
+			</when>
+			<when test="ordSdate != null and ordSdate != ''">
+				AND D.sls_ord_dtl_dlv_date = #{ordSdate}
+			</when>
+			<when test="ordEdate != null and ordEdate != ''">
+				AND D.sls_ord_dtl_dlv_date = #{ordEdate}
+			</when>
+			<otherwise>
+				AND D.sls_ord_dtl_dlv_date > (sysdate - 10)
+			</otherwise>
+		</choose>
    	</select>
 </mapper>

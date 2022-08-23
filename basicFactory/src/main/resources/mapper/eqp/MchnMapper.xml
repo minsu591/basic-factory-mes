@@ -16,6 +16,7 @@
 			ON mc.vend_cd_code = vcd.vend_cd_code
 		JOIN BF_EQP_INSPC inp
 			ON inp.mchn_code = mc.mchn_code
+
 	</select>
 	<!-- 
 	<select id="findMchn" resultType="mchnListMap">

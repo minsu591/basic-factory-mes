@@ -13,13 +13,13 @@
 <body>
     
     <script type="text/javascript" th:src="@{/js/prod/PlanView.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
     <div class="pcoded-main-container">
         <h1>생산 계획 조회 </h1>
         <hr>
         <div class="col-xl-12">
                   <div class="card">
                       <div class="card-header">
-                          
                           <form class="form-inline">
                               <div class="form-group mt-3">
                                   <label for="planSdate" th:text="'생산 계획 일자'"></label>
@@ -84,5 +84,8 @@
                   </div>
               </div>
     </div>
+
+    
+    <th:block th:replace="~{/fragments/modal/findvendor :: findvendor}"></th:block>
 </body>
 </html>

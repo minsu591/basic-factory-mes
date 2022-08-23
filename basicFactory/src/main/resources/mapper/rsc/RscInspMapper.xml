@@ -2,7 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.rsc.mapper.RscInspMapper">
 	<select id="inspList" resultType="com.mes.bf.rsc.vo.RscInspVO">
-		select * from bf_rsc_insp
+		SELECT insp.rsc_insp_code, insp.rsc_insp_date, insp.rsc_cd_code, rsccode.rsc_cd_name, insp.rsc_insp_vol,
+            insp.rsc_infer_vol, rsccode.rsc_cd_unit, insp.rsc_insp_st, emp.emp_name, insp.rsc_insp_remk
+		FROM BF_RSC_INSP insp LEFT JOIN BF_CMN_RSC_CODE rsccode
+		        ON insp.rsc_cd_code = rsccode.rsc_cd_code
+		        LEFT JOIN BF_CMN_EMP emp
+		        ON insp.emp_id = emp.emp_id
+		ORDER BY 1 DESC
 	</select>
 
 </mapper>

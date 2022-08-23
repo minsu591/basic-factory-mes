@@ -3,11 +3,28 @@
 <mapper namespace="com.mes.bf.rsc.mapper.RscOutMapper">
 
 	<select id="normalOutList" resultType="com.mes.bf.rsc.vo.RscOutVO">
-		select * from bf_rsc_out
+		SELECT rscout.rsc_out_code, rscout.rsc_out_date, rscout.process_perfom_no, rscout.rsc_cd_code, rsccode.rsc_cd_name,
+            rscout.rsc_lot_no, rscout.rsc_out_vol, rscout.rsc_out_cls
+		FROM BF_RSC_OUT rscout LEFT JOIN BF_CMN_RSC_CODE rsccode
+		        ON rscout.rsc_cd_code = rsccode.rsc_cd_code
+		WHERE rscout.rsc_out_cls = 1
+		ORDER BY 1 DESC
 	</select>
 	
 	<select id="exceptOutList" resultType="com.mes.bf.rsc.vo.RscOutVO">
-		select * from bf_rsc_out
+		SELECT rscout.rsc_out_code, rscout.rsc_out_date, rscout.vend_cd_code, vend.vend_cd_nm, 
+            rscout.rsc_cd_code,rsccode.rsc_cd_name, rscout.rsc_lot_no,rscout.rsc_out_vol,rscout.rsc_out_cls,
+            emp.emp_name, rscout.rsc_out_resn
+		FROM BF_RSC_OUT rscout LEFT JOIN BF_CMN_RSC_CODE rsccode
+		        ON rscout.rsc_cd_code = rsccode.rsc_cd_code
+		        LEFT JOIN BF_RSC_STOCK stock
+		        ON rscout.rsc_lot_no = stock.rsc_lot_no
+		        LEFT JOIN BF_CMN_VENDOR_CODE vend
+		        ON rscout.vend_cd_code = vend.vend_cd_code
+		        LEFT JOIN BF_CMN_EMP emp
+		        ON rscout.emp_id = emp.emp_id
+		WHERE rscout.rsc_out_cls = 2
+		ORDER BY 1 DESC
 	</select>
 	
 </mapper>
