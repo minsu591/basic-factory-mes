@@ -61,14 +61,13 @@
                                   <thead>
                                       <tr>
                                           <th><input type="checkbox"></th>
-                                          <!-- readonly option, 미생산 주문내역 조회 버튼을 통해 가져옴-->
                                           <th th:text="주문코드"></th>
+                                          <th th:text="주문상세코드"></th>
                                           <th th:text="제품코드"></th>
                                           <th th:text="제품명"></th>
-                                          <th th:text="규격"></th>
-                                          <th th:text="단위"></th>
                                           <th th:text="주문량"></th>
-                                          <!-- if 주문코드를 가져오면 기존 계획에 해당 주문코드가 존재하는지-->
+                                          <th th:text="납기일자"></th>
+                                          <th th:text="주문량"></th>
                                           <th th:text="기계획량"></th>
                                           <th th:text="미계획량"></th>
                                           <!--input창-->
@@ -78,21 +77,6 @@
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      <tr>
-                                          <td><input type="checkbox"></td>
-                                          <td>TEST001</td>
-                                          <td>FIN002</td>
-                                          <td>짜파게티</td>
-                                          <td>120</td>
-                                          <td>g</td>
-                                          
-                                          <td>10,000</td>
-                                          <td>1,000</td>
-                                          <td>9,000</td>
-                                          <td><input type="text"></td>
-                                          <td><input type="date"></td>
-                                          <td><input type="date"></td>
-                                      </tr>
                                       
                                   </tbody>
                               </table>
