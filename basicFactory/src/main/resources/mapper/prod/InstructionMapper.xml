@@ -190,13 +190,18 @@ INSERT INTO
 					inst_prod_no,
 					process_order,
 					proc_cd_code,
-					mchn_code)
+					proc_cd_name,
+					mchn_code,
+					mchn_name
+					)
 SELECT 
 		BF_PROD_PROCESS_SEQ.nextval,
         (SELECT MAX(inst_prod_no) FROM BF_PROD_INST_DETAIL),
         linecode.line_cd_ord,
         linecode.proc_cd_code,
-        linecode.mchn_code 
+        proccode.proc_cd_name,
+        linecode.mchn_code,
+        eqp.mchn_name
 FROM 
 	BF_CMN_PROC_CODE proccode,
     BF_CMN_LINE_CODE linecode,

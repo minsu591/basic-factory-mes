@@ -80,8 +80,7 @@ FROM
 	BF_PROD_INST_DETAIL instdetail,
 	BF_PROD_PROCESS process
 WHERE
-	inst.inst_no = instdetail.inst_prod_no AND
-	process.inst_prod_no =  instdetail.inst_prod_no
+	inst.inst_no = instdetail.inst_no --AND
 GROUP BY 
 	inst.inst_no,
 	instdetail.work_date,

@@ -9,7 +9,9 @@ public class ProcessVO {
 	private Integer instProdNo;
 	private Integer processOrder;
 	private String procCdCode;
+	private String procCdName;
 	private String mchnCode;
+	private String mchnName;
 	private Integer inDtlVol;
 	private Integer totalProdVol;
 	private Integer fltyVol;
