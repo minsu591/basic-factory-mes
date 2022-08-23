@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.sales.mapper.SlsStockMapper">
+
+	<select id="findAllStock" resultType="slsStockVO">
+		SELECT indtl.sls_in_dtl_date, stock.fin_prd_cd_code,
+                    prdcd.fin_prd_cd_name, stock.fns_prd_stk_vol,
+                    stock.fns_prd_stk_lot_no, indtl.sls_in_dtl_remk
+		FROM BF_SALES_FINISH_PRODUCT_STOK stock
+		 JOIN BF_CMN_FINISH_PRODUCT_CODE prdcd
+		ON stock.fin_prd_cd_code = prdcd.fin_prd_cd_code
+		 JOIN BF_SALES_IN_DTL indtl
+		ON stock.sls_in_dtl_no = indtl.sls_in_dtl_no
+        WHERE stock.fns_prd_stk_vol > 0
+	</select>
+</mapper>

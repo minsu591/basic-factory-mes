@@ -18,18 +18,34 @@ SELECT * FROM v_findmchn
 
 </select>
 
-<!-- 공정코드전체조회 -->
-<!-- <select id="findAllProcCode" resultType="procCode">
-
-SELECT * FROM BF_CMN_PROC_CODE
-
-</select>
- -->
 
 <!-- 공정실적전체조회 -->
-<select id="findAllProcPerform" resultType="vfindprocperformVO">
+<select id="findProcPerform" resultType="vfindprocperformVO">
 
 SELECT * FROM v_findprocperform
+<where>
+<if test="workSdate != null and workSdate != ''">
+	 
+	<![CDATA[ AND work_date >= #{workSdate} ]]> 
+</if>
+
+<if test="workEdate != null and workEdate != ''">
+	<![CDATA[ AND work_date <= #{workEdate} ]]> 
+</if>
+
+<if test="procCdName != null and procCdName != ''">
+	AND proc_cd_name LIKE #{procCdName}
+</if>
+
+<if test="mchnName != null and mchnName != ''">
+	AND mchn_name LIKE #{mchnName}
+</if>
+
+<if test="empId != null and empId != ''">
+	AND worker_name LIKE (SELECT emp_id FROM BF_CMN_EMP WHERE emp_name = #{empId})
+</if>
+
+</where>
 </select>
 
 <!-- 공정명검색 -->

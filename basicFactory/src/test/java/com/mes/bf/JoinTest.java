@@ -45,11 +45,7 @@ public class JoinTest {
 //	void findMchn() {
 //		System.out.println(service.findMchn("유탕"));
 //	}
-	
-	//@Test 
-	void findAllProcPerform() {
-		System.out.println(service3.findAllProcPerform());
-	}
+
 
 	//@Test
 	void findMchn() {

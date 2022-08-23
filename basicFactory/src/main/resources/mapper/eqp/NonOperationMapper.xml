@@ -32,26 +32,37 @@
 	</select>
 
 	<!-- 설비 비가동 조회 -->
-	<select id="findAllNonOpHistory" resultType="NonOpHistoryVO">
-		SELECT eqp.mchn_code
-		AS mchnCode,
+	<select id="findNonOpHistory" resultType="findNonOpHistoryVO">
+		SELECT eqp.mchn_code AS mchnCode,
 		eqp.mchn_name AS mchnName,
-		nonophistory.input_date AS
-		inputDate,
+		nonophistory.input_date AS inputDate,
 		nonop.non_op_name AS nonOpName,
-		nonophistory.non_op_rsn AS
-		nonOpRsn,
+		nonophistory.non_op_rsn AS nonOpRsn,
 		nonophistory.non_op_min AS nonOpMin,
 		nonophistory.non_op_start_time AS nonOpStartTime,
-		nonophistory.non_op_end_time AS nonOpEndTime
+		nonophistory.non_op_end_time AS nonOpEndTime,
+		nonophistory.non_op_remk AS nonOpRemk
 		FROM BF_EQP_MCHN eqp,
 		BF_EQP_NON_OP_HISTORY nonophistory,
 		BF_CMN_NON_OP nonop
-		WHERE
-		eqp.mchn_code = nonophistory.mchn_code AND
-		nonophistory.non_op_code =
-		nonop.non_op_code
-
+		<where>
+		AND eqp.mchn_code = nonophistory.mchn_code AND
+		nonophistory.non_op_code = nonop.non_op_code
+		<if test="sDate != null and sDate !=''">
+			<![CDATA[ AND nonophistory.input_date >= #{sDate} ]]>
+		</if>
+		<if test="eDate != null and eDate !=''">
+			<![CDATA[ AND nonophistory.input_date <= #{eDate} ]]>
+		</if>
+		
+		<if test="mchnName != null and mchnName !=''">
+			AND eqp.mchn_name LIKE #{mchnName}
+		</if>
+		
+		<if test="nonOpCode != null and nonOpCode !=''">
+			AND nonop.non_op_code LIKE #{nonOpCode}
+		</if>
+		</where>
 	</select>
 
 
@@ -78,5 +89,23 @@
 		SELECT NVL(MAX(input_no),0)+1 FROM BF_EQP_NON_OP_HISTORY
 	</select>
 	
+	<!-- 비가동내역 입력 -->
+
+	<insert id="insertNonOpHistory" parameterType="NonOpHistoryVO">
+		INSERT INTO BF_EQP_NON_OP_HISTORY 
+		VALUES(#{inputNo},
+			   #{mchnCode},
+			   #{nonOpCode},
+			   (SELECT emp_id FROM bf_cmn_emp WHERE emp_name = #{empId}),
+			   #{inputDate},
+			   #{nonOpMin},
+			   to_timestamp(#{nonOpStartTime}, 'yyyy-MM-dd HH24:mi:ss.ff'),
+			   to_timestamp(#{nonOpEndTime}, 'yyyy-MM-dd HH24:mi:ss.ff'),
+			   #{nonOpRemk},
+			   #{nonOpRsn}
+				)
+		
+	</insert>
+
 
 </mapper>

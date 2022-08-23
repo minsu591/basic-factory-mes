@@ -7,7 +7,7 @@ import org.apache.ibatis.type.Alias;
 import lombok.Data;
 
 @Data
-@Alias("NonOpHistoryVO")
+@Alias("findNonOpHistoryVO")
 public class FindNonOpHIstoryVO {
 
 	private String mchnCode;
@@ -18,4 +18,5 @@ public class FindNonOpHIstoryVO {
 	private int nonOpMin;
 	private Date nonOpStartTime;
 	private Date nonOpEndTime;
+	private String nonOpRemk;
 }
