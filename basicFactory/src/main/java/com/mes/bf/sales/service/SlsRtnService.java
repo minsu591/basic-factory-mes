@@ -8,4 +8,7 @@ public interface SlsRtnService {
 	
 	//반품내역 전체조회
 	List<SlsRtnHdDtlVO> findAllReturn();
+	
+	//일자, 거래처별 반품조회
+	List<SlsRtnHdDtlVO> findReturn(String rtnSdate, String rtnEdate, String prcCls, String vendorName);
 }

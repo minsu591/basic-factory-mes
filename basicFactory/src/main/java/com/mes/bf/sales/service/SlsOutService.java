@@ -9,5 +9,5 @@ public interface SlsOutService {
 	List<SlsOutHdDtlVO> findAllOut();
 	
 	//일자, 거래처별 출고조회
-	List<SlsOutHdDtlVO> findOut(String ordSdate, String ordEdate, String vendorName);
+	List<SlsOutHdDtlVO> findOut(String outSdate, String outEdate, String vendorName);
 }

@@ -9,5 +9,5 @@ import com.mes.bf.sales.vo.SlsOutHdDtlVO;
 @Mapper
 public interface SlsOutMapper {
 	List<SlsOutHdDtlVO> findAllOut();
-	List<SlsOutHdDtlVO> findOut(String ordSdate, String ordEdate, String vendorName);
+	List<SlsOutHdDtlVO> findOut(String outSdate, String outEdate, String vendorName);
 }
