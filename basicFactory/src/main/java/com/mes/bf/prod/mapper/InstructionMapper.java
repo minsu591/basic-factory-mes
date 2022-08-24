@@ -59,4 +59,7 @@ public interface InstructionMapper {
 	// 제품코드로 설비명,상태조회
 	List<MchnVO> selectMchn(String finPrdCdCode);
 
+	// 최초 공정 입고량 업데이트
+	void updateinDtlVol(int indicaVol);
+
 }

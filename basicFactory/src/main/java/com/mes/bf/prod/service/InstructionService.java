@@ -48,5 +48,8 @@ public interface InstructionService {
 	void insertNeedQty(String finPrdCdCode);
 
 	// 자재소요예상량 업데이트
-	void updateNeedQty(String needQty,String rscCdCode);
+	void updateNeedQty(String needQty, String rscCdCode);
+
+	// 최초 공정 입고량 업데이트
+	void updateinDtlVol(int indicaVol);
 }

@@ -124,6 +124,11 @@ public class InstructionController {
 			
 			//자재소요예상량 데이터 입력
 			service.insertNeedQty(finPrdCdCode);
+
+			//최초 공정 업데이트
+			service.updateinDtlVol(detailvo.getInstProdIndicaVol());
+			
+			
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
