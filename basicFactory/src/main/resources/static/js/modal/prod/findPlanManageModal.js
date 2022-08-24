@@ -28,38 +28,51 @@ $("document").ready(function(){
             }
         })
     }
-    function myPlanMakeRow(obj){
-        let node = `<tr>
-        <td>${obj.planVO.planIdx}</td>
-        <td>${obj.planHdVO.planHdCode}</td>
-        <td>${obj.planHdVO.planHdDate}</td>
-        <td>${obj.planHdVO.planHdName}</td>
-        <td>${obj.planHdVO.empId}</td>
-        <td>${obj.planVO.planSdate}</td>
-        <td>${obj.planVO.planEdate}</td>
-        <td>${obj.planVO.finPrdCdCode}</td>
-        <td>${obj.planVO.finPrdCdName}</td>
-        <td>${obj.planVO.planProdVol}</td>
-        <td>${obj.planVO.planRemk}</td>
-        </tr>`
-        $("#findMyPlanTable tbody").append(node);
-    }
     
     //tr 클릭 이벤트
     $("#findMyPlanTable").on("click","tr", function(){
-        let planHdDate = $(this).find("td:eq(2)").text();
-        let planHdName = $(this).find("td:eq(3)").text();
+        //테이블 상단 공통 요소 삽입
+        let planHdDate = $(this).find("td:eq(3)").text();
+        let planHdName = $(this).find("td:eq(1)").text();
         let planRemk = $(this).find("td:last").text();
         let empId = $(this).find("td:eq(4)").text();
+        let planHdCode = $(this).find("td:eq(0)").text();
 
         $("#planDate").val(planHdDate);
+        $("#planDate").attr("readonly",true);
         $("#planName").val(planHdName)
+        $("#planName").attr("readonly",true);
         $("#planRemk").val(planRemk);
         $("#empid").val(empId);
 
-        $("#findMyPlanModal").modal("hide");
+        //테이블 삽입
+        $.ajax({
+            url : 'myPlanView/dtl',
+            method : 'GET',
+            data : {
+                planCode : planHdCode
+            },
+            success : function(result){
+                console.log(result);
+                sucFun(result,"plan");
+            }
+        })
         //클릭한 생산계획에 해당하는 (계획코드)로 주문내역과 plan가져와서 tr에 뿌리기
-    })
+    });
+
+    function myPlanMakeRow(obj){
+        let node = `<tr>
+        <td>${obj.planHdVO.planHdCode}</td>
+        <td>${obj.planHdVO.planHdName}</td>
+        <td>${obj.planHdVO.slsOrdHdNo}</td>
+        <td>${obj.planHdVO.planHdDate}</td>
+        <td>${obj.planHdVO.empId}</td>
+        <td>${obj.planHdVO.planHdRemk}</td>
+        </tr>`
+        $("#findMyPlanTable tbody").append(node);
+    }
+
+
 
 
     //미계획 주문내역 조회 모달
@@ -71,8 +84,42 @@ $("document").ready(function(){
 
     //미계획 주문내역 tr 클릭 이벤트
     $("#findNotDoneOrdTable").on("click","tr",function(){
-        let slsOrdDtlNo = $(this).find("tr:eq(1)");
+        let ordNo = $(this).find("td:eq(0)").text();
+        $.ajax({
+            url : 'notDoneOrd/dtl',
+            method : 'GET',
+            data : {
+                ordNo : ordNo
+            },
+            dataType : "json",
+            success : function(result){
+                sucFun(result,"ord");
+            }
+        })
     });
+
+    function sucFun(result,type){
+        //경고창 띄워주기
+        let alertFlag = false;
+        if($("#planManageTable tbody").children().length != 0){
+            if(confirm("수정한 정보가 모두 사라집니다. 진행하시겠습니까?")==true){
+                alertFlag = true;
+            }
+        }else{
+            alertFlag = true;
+        }
+        if(alertFlag){
+            $("#planManageTable tbody tr").remove();
+            for(ord of result){
+                ordMakeRow(ord);
+            }
+            if(type == 'ord'){
+                $("#findNotDoneOrdModal").modal("hide");
+            }else{
+                $("#findMyPlanModal").modal("hide");
+            }
+        }
+    }
 
     function notDoneOrdClick(){
         let sdate = $("#ordSdate").val();
@@ -96,37 +143,31 @@ $("document").ready(function(){
     function notDoneOrdMakeRow(ord){
         let node = `<tr>
             <td>${ord.slsOrdHdVO.slsOrdHdNo}</td>
-            <td>${ord.slsOrdDtlVO.slsOrdDtlNo}</td>
             <td>${ord.slsOrdHdVO.slsOrdHdDate}</td>
             <td>${ord.slsOrdHdVO.vendCdCode}</td>
             <td>${ord.slsOrdHdVO.vendCdNm}</td>
-            <td>${ord.slsOrdDtlVO.finPrdCdCode}</td>
-            <td>${ord.slsOrdDtlVO.finPrdCdName}</td>
-            <td>${ord.slsOrdDtlVO.slsOrdDtlDlvDate}</td>
             <td>${ord.slsOrdHdVO.empId}</td>
-            <td>${ord.slsOrdDtlVO.slsOrdDtlVol}</td>
-            <td>${ord.planVO.planProdVol}</td>
-            <td>${ord.slsOrdDtlVO.slsOrdDtlVol-ord.planVO.planProdVol}</td>
             <td>${ord.slsOrdHdVO.slsOrdHdRemk}</td>
         </tr>`
         $("#findNotDoneOrdTable tbody").append(node);
     }
+
     function ordMakeRow(ord){
-        let node = ` <tr>
-                <td><input type="checkbox"></td>
-                <td th:text="주문코드"></td>
-                <td th:text="주문상세코드"></td>
-                <td th:text="제품코드"></td>
-                <td th:text="제품명"></td>
-                <td th:text="주문량"></td>
-                <td th:text="납기일자"></td>
-                <td th:text="주문량"></td>
-                <td th:text="기계획량"></td>
-                <td th:text="미계획량"></td>
-                <td><input type="text"></td>
-                <td><input type="date"></td>
-                <td><input type="date"></td>
-            </tr>`
+        let node = `<tr>
+            <td><input type="checkbox"></td>
+            <td>${ord.slsOrdHdVO.slsOrdHdNo}</td>
+            <td>${ord.slsOrdDtlVO.finPrdCdCode}</td>
+            <td>${ord.slsOrdDtlVO.finPrdCdName}</td>
+            <td>${ord.slsOrdDtlVO.slsOrdDtlDlvDate}</td>
+            <td>${ord.slsOrdDtlVO.slsOrdDtlVol}</td>
+            <td>${ord.planVO.planProdVol}</td>
+            <td>${ord.slsOrdDtlVO.slsOrdDtlVol-ord.planVO.planProdVol}</td>
+            <td><input type="number"></td>
+            <td><input type="date"></td>
+            <td><input type="date"></td>
+        </tr>`
+        $("#planManageTable tbody").append(node);
     }
+
 
 });

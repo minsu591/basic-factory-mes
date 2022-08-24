@@ -102,19 +102,25 @@
 		  ON O.SLS_ORD_HD_NO = OH.SLS_ORD_HD_NO
 		     AND P.FIN_PRD_CD_CODE = O.FIN_PRD_CD_CODE
 		WHERE 1=1
-		<include refid="ifPlanDate" />
-		<if test="vendorCd != null and vendorCd != ''">
-			AND OH.VEND_CD_CODE = #{vendorCd}
+		<choose>
+			<when test="startDate == '0' and endDate == '0' and data !=null">
+				AND PH.PLAN_HD_CODE = #{data}
+			</when>
+			<otherwise>
+				<include refid="ifPlanDate" />
+			</otherwise>
+		</choose>
+		
+		<if test="data != null and data != ''">
+			AND OH.VEND_CD_CODE = #{data}
 		</if>
 		ORDER BY PLAN_HD_DATE DESC
 	</select>
 	
 	<!-- 로그인한 유저가 작성한 생산계획 조회 -->
 	<select id="findMyPlan" resultMap="colPlanMap">
-		SELECT PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, PH.SLS_ORD_HD_NO, PH.EMP_ID,
-		       PH.PLAN_HD_DATE, NVL(PH.PLAN_HD_REMK,' ') AS PLAN_HD_REMK, P.PLAN_IDX,
-               P.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME,
-               P.PLAN_PROD_VOL, P.PLAN_SDATE, P.PLAN_EDATE, NVL(P.PLAN_REMK,' ') AS PLAN_REMK
+		SELECT DISTINCT PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, PH.SLS_ORD_HD_NO, PH.EMP_ID,
+		       PH.PLAN_HD_DATE, NVL(PH.PLAN_HD_REMK,' ') AS PLAN_HD_REMK
 		FROM BF_PROD_PLAN P
 		  JOIN BF_PROD_PLAN_HD PH
 		   ON P.PLAN_HD_CODE = PH.PLAN_HD_CODE

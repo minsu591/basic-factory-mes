@@ -23,8 +23,8 @@ public class PlanServiceImpl implements PlanService {
 		return mapper.findMyPlan(startDate, endDate, empId);
 	}
 	@Override
-	public List<ColPlanOrdVO> findPlanOrd(String startDate, String endDate, String vendorCd) {
-		return mapper.findPlanOrd(startDate, endDate, vendorCd);
+	public List<ColPlanOrdVO> findPlanOrd(String startDate, String endDate, String data) {
+		return mapper.findPlanOrd(startDate, endDate, data);
 	}
 	
 
