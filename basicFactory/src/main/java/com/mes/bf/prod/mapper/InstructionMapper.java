@@ -56,10 +56,7 @@ public interface InstructionMapper {
 	// 자재소요예상량 업데이트
 	void updateNeedQty(String needQty, String rscCdCode);
 
-<<<<<<< HEAD
-	
-=======
 	// 제품코드로 설비명,상태조회
 	List<MchnVO> selectMchn(String finPrdCdCode);
->>>>>>> branch 'jh' of https://github.com/minsu591/basic-factory-mes.git
+
 }
