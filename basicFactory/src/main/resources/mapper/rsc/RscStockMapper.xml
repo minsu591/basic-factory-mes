@@ -3,15 +3,27 @@
 <mapper namespace="com.mes.bf.rsc.mapper.RscStockMapper">
 
 	<select id="StockList" resultType="com.mes.bf.rsc.vo.RscStockVO">
-		SELECT cd.rsc_cd_code, cd.rsc_cd_name, cd.rsc_cd_clfy, st.rsc_lot_no, st.rsc_in_vol, 
-				nvl(rscout.vol,0) as rsc_out_vol, cd.rsc_cd_unit, st.rsc_stock
-		FROM bf_rsc_stock st LEFT JOIN bf_cmn_rsc_code cd 
-        ON cd.rsc_cd_code = st.rsc_cd_code
-        LEFT JOIN (SELECT NVL(SUM(rsc_out_vol),0) AS vol, rsc_lot_no
-                    FROM bf_rsc_out
-                    GROUP BY rsc_lot_no) rscout
-        ON st.rsc_lot_no =  rscout.rsc_lot_no
-        ORDER BY rsc_lot_no DESC
+		SELECT ST.RSC_LOT_NO, 
+			   ST.RSC_IN_VOL, 
+			   ST.RSC_STOCK,
+			   
+		   	   CD.RSC_CD_CODE, 
+			   CD.RSC_CD_NAME, 
+			   CD.RSC_CD_CLFY, 
+			   CD.RSC_CD_UNIT, 
+			   
+			   NVL(RSCOUT.VOL,0) AS RSC_OUT_VOL
+				
+		 FROM  BF_RSC_STOCK ST 
+		 LEFT  JOIN BF_CMN_RSC_CODE CD 
+           ON  CD.RSC_CD_CODE = ST.RSC_CD_CODE
+         LEFT  JOIN (SELECT NVL(SUM(RSC_OUT_VOL),0) AS VOL, 
+         					RSC_LOT_NO
+                      FROM  BF_RSC_OUT
+                      GROUP BY RSC_LOT_NO) RSCOUT
+           ON  ST.RSC_LOT_NO = RSCOUT.RSC_LOT_NO
+        
+        ORDER  BY RSC_LOT_NO DESC
 	</select>
 
 </mapper>

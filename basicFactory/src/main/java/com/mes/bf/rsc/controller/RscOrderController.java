@@ -15,7 +15,6 @@ public class RscOrderController {
 	}
 	
 	@RequestMapping("/orderList")
-	public String orderList() {
-		return "rsc/orderList";
+	public void orderList() {
 	}
 }

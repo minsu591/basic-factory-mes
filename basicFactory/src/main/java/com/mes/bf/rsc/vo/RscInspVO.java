@@ -11,6 +11,7 @@ public class RscInspVO {
 	private Date rscInspDate;
 	private String rscCdCode;
 	private String rscCdName;
+	private String rscCdUnit;
 	private int rscInspVol;
 	private int rscInferVol;
 	private int rscPassVol;
