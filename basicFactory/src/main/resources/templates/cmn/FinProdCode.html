@@ -11,6 +11,7 @@ xmlns:th="http://www.thymeleaf.org"
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
 </head>
 <body>
+    <script type="text/javascript" th:src="@{/js/cmn/finProdCode.js}"></script>
     <div class="pcoded-main-container">
         <h1>완제품 코드 관리</h1>
         <hr>
@@ -20,24 +21,23 @@ xmlns:th="http://www.thymeleaf.org"
                     
                     <form class="form-inline">
                          <div class="form-group mt-3">
-                            <label for="procName" th:text="완제품명"></label>
-                            <input type="text" id="procName" class="form-control mx-sm-3">
+                            <label for="finName" th:text="완제품명"></label>
+                            <input type="text" id="finName" class="form-control mx-sm-3">
                         </div>
-                        
-                        <button type="submit" class="btn  btn-primary">조회</button>
+                        <button type="button" class="btn  btn-primary" id="selectBtn">조회</button>
                     </form>
                     <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary">추가</button>
-                        <button type="button" class="btn  btn-primary">저장</button>
-                        <button type="button" class="btn  btn-primary">선택 삭제</button>
+                        <button type="button" class="btn btn-primary" id="addBtn">추가</button>
+                        <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
+                        <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
                     </div>
                 </div>
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="finProdTable">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox"></th>
+                                    <th><input type="checkbox" id="allCheck"></th>
                                     <th th:text="완제품코드"></th>
                                     <th th:text="완제품명"></th>
                                     <th th:text="표시기준량"></th>
@@ -50,15 +50,15 @@ xmlns:th="http://www.thymeleaf.org"
                             </thead>
                             <tbody>
                                 <tr th:each="prod : ${prods}">
-                                    <td><input type="checkbox"></td>
-                                    <td th:text="${prod.finPrdCdCode}">FIN001</td>
-                                    <td th:text="${prod.finPrdCdName}">신라면</td>
-                                    <td th:text="${prod.finPrdCdVol}">120</td>
-                                    <td th:text="${prod.finPrdCdUnit}">g</td>
-                                    <td th:text="${prod.finPrdCdPrice}">700</td>
+                                    <td><input type="checkbox" name="cb"></td>
+                                    <td th:text="${prod.finPrdCdCode}">완제품코드</td>
+                                    <td th:text="${prod.finPrdCdName}">완제품명</td>
+                                    <td th:text="${prod.finPrdCdVol}">수량</td>
+                                    <td th:text="${prod.finPrdCdUnit}">단위</td>
+                                    <td th:text="${prod.finPrdCdPrice}">단가</td>
                                     <td><input type="checkbox" th:checked="${prod.finPrdCdUse eq'1'}"></td>
                                     <td th:text="${prod.finPrdCdRemk}">비고</td>
-                                    <td th:text="${prod.empId}">mia</td>
+                                    <td th:text="${prod.empId}">담당자아이디</td>
                                 </tr>
                             </tbody>
                         </table>

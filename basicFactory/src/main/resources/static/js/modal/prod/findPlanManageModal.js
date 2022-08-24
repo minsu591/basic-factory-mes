@@ -44,6 +44,7 @@ $("document").ready(function(){
         $("#planName").attr("readonly",true);
         $("#planRemk").val(planRemk);
         $("#empid").val(empId);
+        $("#empid").attr("readonly",true);
 
         //테이블 삽입
         $.ajax({
@@ -57,9 +58,9 @@ $("document").ready(function(){
                 sucFun(result,"plan");
             }
         })
-        //클릭한 생산계획에 해당하는 (계획코드)로 주문내역과 plan가져와서 tr에 뿌리기
     });
 
+    //생산계획 조회 모달 내에 데이터 출력 make row
     function myPlanMakeRow(obj){
         let node = `<tr>
         <td>${obj.planHdVO.planHdCode}</td>
@@ -93,7 +94,7 @@ $("document").ready(function(){
             },
             dataType : "json",
             success : function(result){
-                sucFun(result,"ord");
+                sucFun(result,"order");
             }
         })
     });
@@ -108,12 +109,21 @@ $("document").ready(function(){
         }else{
             alertFlag = true;
         }
+
         if(alertFlag){
             $("#planManageTable tbody tr").remove();
-            for(ord of result){
-                ordMakeRow(ord);
+            if(type == 'order'){
+                for(ord of result){
+                    ordMakeRowForNotDone(ord);
+                }
+            }else{
+                console.log("plan");
+                for(ord of result){
+                    ordMakeRowForPlan(ord);
+                }
             }
-            if(type == 'ord'){
+            
+            if(type == 'order'){
                 $("#findNotDoneOrdModal").modal("hide");
             }else{
                 $("#findMyPlanModal").modal("hide");
@@ -140,6 +150,8 @@ $("document").ready(function(){
             }
         })
     }
+
+    //미계획 주문내역 모달창 출력 make row
     function notDoneOrdMakeRow(ord){
         let node = `<tr>
             <td>${ord.slsOrdHdVO.slsOrdHdNo}</td>
@@ -152,7 +164,8 @@ $("document").ready(function(){
         $("#findNotDoneOrdTable tbody").append(node);
     }
 
-    function ordMakeRow(ord){
+    //미계획 주문내역 조회 모달을 통한 데이터 출력
+    function ordMakeRowForNotDone(ord){
         let node = `<tr>
             <td><input type="checkbox"></td>
             <td>${ord.slsOrdHdVO.slsOrdHdNo}</td>
@@ -168,6 +181,36 @@ $("document").ready(function(){
         </tr>`
         $("#planManageTable tbody").append(node);
     }
-
-
+    
+    //생산계획 조회 모달을 통한 데이터 출력
+    function ordMakeRowForPlan(ord){
+        let node = `<tr>
+                    <td><input type="checkbox"></td>`;
+        if(ord.colOrdVO.slsOrdHdNo == null){
+            node += `<td></td>
+                    <td>${ord.planVO.finPrdCdCode}</td>
+                    <td>${ord.planVO.finPrdCdName}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>${ord.planVO.planProdVol}</td>
+                    <td>${ord.planVO.planSdate}</td>
+                    <td>${ord.planVO.planEdate}</td>
+                </tr>`;
+        }else{
+            node += `<td>${ord.colOrdVO.slsOrdHdNo}</td>
+                    <td>${ord.planVO.finPrdCdCode}</td>
+                    <td>${ord.planVO.finPrdCdName}</td>
+                    <td>${ord.colOrdVO.slsOrdDtlDlvDate}</td>
+                    <td>${ord.colOrdVO.slsOrdDtlVol}</td>
+                    <td>${ord.planVO.planProdVol}</td>
+                    <td>${ord.colOrdVO.slsOrdDtlVol-ord.planVO.planProdVol}</td>
+                    <td>${ord.planVO.planProdVol}</td>
+                    <td>${ord.planVO.planSdate}</td>
+                    <td>${ord.planVO.planEdate}</td>
+                </tr>`
+        }
+        $("#planManageTable tbody").append(node);
+    }
 });

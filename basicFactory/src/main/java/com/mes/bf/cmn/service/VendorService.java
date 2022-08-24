@@ -6,5 +6,5 @@ import com.mes.bf.cmn.vo.VendorCodeVO;
 
 public interface VendorService {
 
-	List<VendorCodeVO> listVendor();
+	List<VendorCodeVO> listVendor(String vendorName);
 }

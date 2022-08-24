@@ -2,8 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.cmn.mapper.VendorMapper">
 	<select id="listVendor" resultType="vendorCode">
-		select *
-		from BF_CMN_VENDOR_CODE
+		select VEND_CD_CODE, EMP_ID, VEND_CD_CLFY, VEND_CD_NM,
+			   VEND_CD_REG_NO, VEND_CD_PHONE, VEND_CD_ADR,
+			   NVL(VEND_CD_REMK,' ') AS VEND_CD_REMK
+		FROM BF_CMN_VENDOR_CODE
+		<if test="vendorName != null and vendorName != ''">
+			WHERE VEND_CD_NM LIKE '%'||#{vendorName}||'%'
+		</if>
 		ORDER BY VEND_CD_CODE
 	</select>
 </mapper>
