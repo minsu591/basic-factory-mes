@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.VendorCodeVO;
+import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.InstructionDetailVO;
@@ -53,6 +54,7 @@ public interface InstructionMapper {
 	void insertNeedQty(String finPrdCdCode);
 
 	// 자재소요예상량 업데이트
-	void updateNeedQty(String needQty,String rscCdCode);
+	void updateNeedQty(String needQty, String rscCdCode);
 
+	
 }
