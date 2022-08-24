@@ -3,8 +3,11 @@
 <mapper namespace="com.mes.bf.cmn.mapper.ProcCodeMapper">
 	
 	<select id="listProcCode" resultType="procCode">
-		SELECT *
+		SELECT PROC_CD_CODE, PROC_CD_NAME, NVL(PROC_CD_REMK,' ') AS PROC_CD_REMK
 		FROM BF_CMN_PROC_CODE
+		<if test="procName != null and procName != ''">
+			WHERE PROC_CD_NAME LIKE '%'||#{procName}||'%'
+		</if>
 		ORDER BY PROC_CD_CODE
 	</select>
 	

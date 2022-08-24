@@ -9,10 +9,8 @@ import com.mes.bf.prod.vo.ColPlanVO;
 
 @Mapper
 public interface PlanMapper {
-	//planType이 notDone 이면 미지시 생산계획 출력
-	//planType이 all이면 전체 출력
-	//planType이 아이디명이면 아이디에 해당하는 담당자가 쓴거만 출력
 	List<ColPlanVO> findPlanInst(String startDate, String endDate);
+	//planType이 head일 때 생산계획헤더 출력, null일 때 생산계획 세부 내역 출력
 	List<ColPlanVO> findMyPlan(String startDate, String endDate, String empId);
-	List<ColPlanOrdVO> findPlanOrd(String startDate, String endDate, String vendorCd);
+	List<ColPlanOrdVO> findPlanOrd(String startDate, String endDate, String data);
 }

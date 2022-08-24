@@ -8,5 +8,5 @@ import com.mes.bf.prod.vo.ColPlanVO;
 public interface PlanService {
 	List<ColPlanVO> findPlanInst(String startDate, String endDate);
 	List<ColPlanVO> findMyPlan(String startDate, String endDate, String empId);
-	List<ColPlanOrdVO> findPlanOrd(String startDate, String endDate, String vendorCd);
+	List<ColPlanOrdVO> findPlanOrd(String startDate, String endDate, String data);
 }

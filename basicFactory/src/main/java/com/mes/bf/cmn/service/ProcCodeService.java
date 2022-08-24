@@ -8,5 +8,5 @@ import com.mes.bf.cmn.vo.ProcCodeVO;
 
 @Service
 public interface ProcCodeService {
-	List<ProcCodeVO> listProcCode();
+	List<ProcCodeVO> listProcCode(String procName);
 }

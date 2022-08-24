@@ -75,11 +75,14 @@
    	
    	<!-- 생산계획에 존재하지 않거나 생산계획에 존재하는데 주문량에 못 미치는 주문내역 조회 -->
    	<select id="findOrderForPlan" resultMap="ordPlanMap">
-   		SELECT H.SLS_ORD_HD_NO, H.SLS_ORD_HD_DATE, H.VEND_CD_CODE, V.VEND_CD_NM,
-   		       H.EMP_ID, D.SLS_ORD_DTL_NO, D.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME,
+   		SELECT <if test="ordType == 'head'"> DISTINCT </if> H.SLS_ORD_HD_NO, H.SLS_ORD_HD_DATE,
+   			   H.VEND_CD_CODE, V.VEND_CD_NM,
+   		       H.EMP_ID, NVL(H.SLS_ORD_HD_REMK,' ') AS SLS_ORD_HD_REMK
+   		       <if test="ordType != 'head'">
+   		       ,D.SLS_ORD_DTL_NO, D.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME,
    		       D.SLS_ORD_DTL_DLV_DATE, D.SLS_ORD_DTL_VOL, D.SLS_ORD_DTL_PRG_CLS, D.SLS_ORD_DTL_NO,
-               NVL(H.SLS_ORD_HD_REMK,' ') AS SLS_ORD_HD_REMK,
                NVL(P.PLAN_PROD_VOL,0) AS PLAN_PROD_VOL
+               </if>
 		       FROM BF_SALES_ORD_HD H
 		JOIN BF_SALES_ORD_DTL D
 		  ON H.SLS_ORD_HD_NO = D.SLS_ORD_HD_NO
@@ -96,24 +99,30 @@
 		    HAVING H.SLS_ORD_HD_NO IS NOT NULL) P
 		ON (H.SLS_ORD_HD_NO = P.SLS_ORD_HD_NO
 		   AND D.FIN_PRD_CD_CODE = P.FIN_PRD_CD_CODE)
-		WHERE (D.SLS_ORD_dTL_PRG_CLS = 1
+		WHERE ((D.SLS_ORD_dTL_PRG_CLS = 1
                AND D.SLS_ORD_DTL_VOL > P.PLAN_PROD_VOL)
-               OR D.SLS_ORD_DTL_PRG_CLS = 0
-		<choose>
-			<when
-				test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
-				AND D.sls_ord_dtl_dlv_date BETWEEN #{ordSdate} AND #{ordEdate}
-			</when>
-			<when test="ordSdate != null and ordSdate != ''">
-				AND D.sls_ord_dtl_dlv_date = #{ordSdate}
-			</when>
-			<when test="ordEdate != null and ordEdate != ''">
-				AND D.sls_ord_dtl_dlv_date = #{ordEdate}
-			</when>
-			<otherwise>
-				AND D.sls_ord_dtl_dlv_date > (sysdate - 10)
-			</otherwise>
-		</choose>
+               OR D.SLS_ORD_DTL_PRG_CLS = 0)
+               <if test="ordType != 'head'">
+               	AND H.SLS_ORD_HD_NO = #{ordType}
+               </if>
+        <if test="ordType == 'head'">
+			<choose>
+				<when
+					test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
+					AND D.sls_ord_dtl_dlv_date BETWEEN #{ordSdate} AND #{ordEdate}
+				</when>
+				<when test="ordSdate != null and ordSdate != ''">
+					AND D.sls_ord_dtl_dlv_date = #{ordSdate}
+				</when>
+				<when test="ordEdate != null and ordEdate != ''">
+					AND D.sls_ord_dtl_dlv_date = #{ordEdate}
+				</when>
+				<otherwise>
+					AND D.sls_ord_dtl_dlv_date > (sysdate - 10)
+				</otherwise>
+			</choose>
+		</if>
 		ORDER BY SLS_ORD_HD_DATE DESC
    	</select>
+   	
 </mapper>

@@ -14,8 +14,8 @@ public class FinProdServiceImpl implements FinProdService {
 	
 	@Autowired FinProdMapper mapper;
 	@Override
-	public List<FinProdCodeVO> listFinProd() {
-		return mapper.listFinProd();
+	public List<FinProdCodeVO> listFinProd(String finName) {
+		return mapper.listFinProd(finName);
 	}
 
 }

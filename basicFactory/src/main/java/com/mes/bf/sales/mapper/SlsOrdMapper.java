@@ -11,5 +11,5 @@ import com.mes.bf.sales.vo.SlsOrdPlanVO;
 public interface SlsOrdMapper {
 	List<SlsOrdHdDtlVO> findAllOrder();
 	List<SlsOrdHdDtlVO> findOrder(String ordSdate, String ordEdate, String vendorName);
-	List<SlsOrdPlanVO> findOrderForPlan(String ordSdate, String ordEdate);
+	List<SlsOrdPlanVO> findOrderForPlan(String ordSdate, String ordEdate, String ordType);
 }
