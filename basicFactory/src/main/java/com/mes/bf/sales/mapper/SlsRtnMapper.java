@@ -10,4 +10,5 @@ import com.mes.bf.sales.vo.SlsRtnHdDtlVO;
 public interface SlsRtnMapper {
 	//반품내역 전체조회
 	List<SlsRtnHdDtlVO> findAllReturn();
+	List<SlsRtnHdDtlVO> findReturn(String rtnSdate, String rtnEdate, String prcCls, String vendorName);
 }

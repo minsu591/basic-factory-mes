@@ -40,7 +40,7 @@ public class SlsOutController {
 	}
 	
 	//완제품 출고내역 단건 조회
-	//@GetMapping(value = "/findOut")
+	@GetMapping(value = "/findOut")
 	public List<SlsOutHdDtlVO> finOut(@RequestParam Map<String, String> param){
 		List<SlsOutHdDtlVO> list = service.findOut(param.get("outSdate"),
 				 								   param.get("outEdate"),
@@ -48,10 +48,4 @@ public class SlsOutController {
 		return list;
 	}
 	
-	//거래처 전체조회
-	//@GetMapping(value = "/findvendorcode", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<VendorCodeVO>> findAllVInstruction(@RequestParam Map<String,String> queryParameters) {
-		List<VendorCodeVO> list = instService.findVendorCode(queryParameters.get("vendorCode"),queryParameters.get("vendCdClfy"));
-		return new ResponseEntity<List<VendorCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
-	}
 }
