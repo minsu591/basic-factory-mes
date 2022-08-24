@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.rsc.service.RscInService;
 import com.mes.bf.rsc.vo.RscInVO;
+import com.mes.bf.rsc.vo.RscInspVO;
 
 @Controller
 @RequestMapping("/rsc")
@@ -19,14 +19,14 @@ public class RscInController {
 	
 	//입고
 	@RequestMapping("/in")
-	public ModelAndView inList() {
-		return new ModelAndView("rsc/in");
+	public void in(Model model) {
+		List<RscInspVO> inspCompList = rscInService.inspCompList();
+		model.addAttribute("inspCompList",inspCompList);
 	}
 
 	@RequestMapping("/inList")
-	public String in(Model model) {
+	public void inList(Model model) {
 		List<RscInVO> inList = rscInService.inList();
 		model.addAttribute("inList",inList);
-		return "rsc/inList";
 	}
 }

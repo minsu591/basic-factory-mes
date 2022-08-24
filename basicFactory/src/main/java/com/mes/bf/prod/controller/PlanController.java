@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -48,6 +48,12 @@ public class PlanController {
 		List<ColPlanVO> plans = service.findMyPlan(QueryParameters.get("sdate"), QueryParameters.get("edate"), QueryParameters.get("empId"));
 		return new ResponseEntity<List<ColPlanVO>>(plans, HttpStatus.OK);
 	}
+	//생산 계획 관리에서 내 생산계획 상세 조회
+	@GetMapping("/myPlanView/dtl")
+	public ResponseEntity<List<ColPlanOrdVO>> planMyDtlView(@RequestParam Map<String, String> QueryParameters){
+		List<ColPlanOrdVO> plans = service.findPlanOrd("0", "0", QueryParameters.get("planCode"));
+		return new ResponseEntity<List<ColPlanOrdVO>>(plans, HttpStatus.OK);
+	}
 	
 	//생산 관리 페이지
 	@RequestMapping("/planManage")
@@ -55,10 +61,17 @@ public class PlanController {
 		return "prod/PlanManage";
 	}
 	
-	//생산 관리에서 미계획 주문내역 조회
+	//생산 관리에서 미계획 주문내역 모달 조회
 	@GetMapping(value="/notDoneOrd", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<SlsOrdPlanVO>> notDoneOrd(@RequestParam Map<String, String> QueryParameters){
-		List<SlsOrdPlanVO> ords = ordService.findOrderForPlan(QueryParameters.get("sdate"), QueryParameters.get("edate"));
+		List<SlsOrdPlanVO> ords = ordService.findOrderForPlan(QueryParameters.get("sdate"), QueryParameters.get("edate"),"head");
+		return new ResponseEntity<List<SlsOrdPlanVO>>(ords, HttpStatus.OK);
+	}
+	
+
+	@GetMapping(value="/notDoneOrd/dtl", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<SlsOrdPlanVO>> notDoneOrdDtl(@RequestParam Map<String, String> QueryParameters){
+		List<SlsOrdPlanVO> ords = ordService.findOrderForPlan(null, null,QueryParameters.get("ordNo"));
 		return new ResponseEntity<List<SlsOrdPlanVO>>(ords, HttpStatus.OK);
 	}
 	

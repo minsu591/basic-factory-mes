@@ -260,7 +260,24 @@ WHERE finprdcdcode = #{finPrdCdCode}
 		WHERE inst_prod_no = (SELECT MAX(inst_prod_no) FROM BF_PROD_INST_DETAIL)
 		AND RSC_CD_CODE = #{rscCdCode}
 		
+	</update>
+	
+	<!-- 최초공정 입고량업데이트 -->
+	<update id="updateinDtlVol">
+		 UPDATE 
+		 	BF_PROD_PROCESS 
+		 SET 
+		 	in_dtl_vol = #{indicaVol}
+		 WHERE 
+		 	inst_prod_no = (SELECT MAX(inst_prod_no)
+		 				   FROM BF_PROD_INST_DETAIL)
+		 AND 
+		 	process_order = 1
 	
 	</update>
+	
+	
+	
+	
 
 </mapper>

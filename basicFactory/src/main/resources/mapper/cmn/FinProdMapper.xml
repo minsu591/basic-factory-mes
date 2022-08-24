@@ -3,8 +3,13 @@
 <mapper namespace="com.mes.bf.cmn.mapper.FinProdMapper">
 	
 	<select id="listFinProd" resultType="prodCode">
-		select *
+		select FIN_PRD_CD_CODE, FIN_PRD_CD_NAME, FIN_PRD_CD_VOL,
+			   FIN_PRD_CD_UNIT, FIN_PRD_CD_UNIT, FIN_PRD_CD_USE,
+			   FIN_PRD_CD_PRICE, NVL(FIN_PRD_CD_REMK,' ') AS FIN_PRD_CD_REMK, EMP_ID
 		from bf_cmn_finish_product_code
+		<if test="finName != null and finName != ''">
+        WHERE FIN_PRD_CD_NAME LIKE '%'||#{finName}||'%'
+		</if>
 		ORDER BY FIN_PRD_CD_CODE
 	</select>
 	

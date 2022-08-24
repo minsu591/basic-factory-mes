@@ -18,9 +18,8 @@ public class RscStockController {
 	
 	//재고
 	@RequestMapping("/stockList")
-	public String stockList(Model model) {
+	public void stockList(Model model) {
 		List<RscStockVO> stock = stockService.StockList();
 		model.addAttribute("stock",stock);
-		return "rsc/stockList";
 	}
 }

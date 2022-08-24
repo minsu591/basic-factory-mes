@@ -26,7 +26,7 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 	}
 
 	@Override
-	public List<SlsOrdPlanVO> findOrderForPlan(String ordSdate, String ordEdate) {
-		return mapper.findOrderForPlan(ordSdate, ordEdate);
+	public List<SlsOrdPlanVO> findOrderForPlan(String ordSdate, String ordEdate, String ordType) {
+		return mapper.findOrderForPlan(ordSdate, ordEdate, ordType);
 	}
 }

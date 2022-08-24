@@ -8,6 +8,7 @@
 </head>
 <body>
 <link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
+<script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
 	<div class="pcoded-main-container">
 		<h1>자재 반품 조회</h1>
 		<hr>
@@ -21,13 +22,13 @@
 								<input type="text" id="rscReturnCode" class="form-control mx-sm-3">
 							</div>
 							<div class="form-group mt-3">
-								<label for="vendCode" th:text="거래처코드"></label> 
-								<input type="text" id="vendCode" class="form-control mx-sm-3">
-								<!-- 자재코드-자재명 Modal창 출력 -->
+								<label for="vendor" th:text="거래처코드"></label> 
+								<input type="text" id="vendor" class="form-control mx-sm-3"
+										data-toggle="modal" data-target=".bd-example-modal-lg">
 							</div>
 							<div class="form-group mt-3">
-								<label for="vendName" th:text="거래처"></label> 
-								<input type="text" id="vendName" class="form-control mx-sm-3" readonly>
+								<label for="vendorName" th:text="거래처"></label> 
+								<input type="text" id="vendorName" class="form-control mx-sm-3" readonly>
 							</div>
 						</div>
 						<div class="form-inline">
@@ -62,12 +63,12 @@
 								<tr th:each="rList : ${rList}">
 									<td th:text="${rList.rscReturnCode}"></td>
 									<td th:text="${rList.rscReturnDate}"></td>
-									<td th:text="${rList.rscCdcode}"></td>
+									<td th:text="${rList.rscCdCode}"></td>
 									<td th:text="${rList.rscCdName}"></td>
 									<td th:text="${rList.rscReturnVol}"></td>
 									<td th:text="${rList.rscCdUnit}"></td>
 									<td th:text="${rList.rscReturnPrc}"></td>
-									<td th:text="${rList.rscRetrunPrc}"></td>
+									<td th:text="${rList.rscReturnPrc * rList.rscReturnVol}"></td>
 									<td th:text="${rList.rscReturnResn}"></td>
 									<td th:text="${rList.empName}"></td>
 									<td th:text="${rList.rscReturnRemk}"></td>
@@ -80,5 +81,8 @@
 		</div>
 	</div>
 
+    <!-- 거래처조회 Modal -->
+    <th:block th:replace="~{/fragments/modal/findvendor :: findvendor}"></th:block>
+    
 </body>
 </html>

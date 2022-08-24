@@ -14,8 +14,8 @@ public class ProcCodeServiceImpl implements ProcCodeService {
 
 	@Autowired ProcCodeMapper mapper;
 	@Override
-	public List<ProcCodeVO> listProcCode() {
-		return mapper.listProcCode();
+	public List<ProcCodeVO> listProcCode(String procName) {
+		return mapper.listProcCode(procName);
 	}
 
 }

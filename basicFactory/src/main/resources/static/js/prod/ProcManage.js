@@ -1,56 +1,33 @@
 $(document).ready(function () {
   findProcManage();
 
-  $("#workInsertTable").on("click", "button", function () {
-    console.log($(this).parent().parent().find("td:eq(2)").text());
-    $("#workInsertModal").modal("show");
-  });
-
-  let fltyCnt = 0;
-  $("#fltyCnt").val(fltyCnt);
-  //불량증가
-  $("#fltyUp").click(function () {
-    $("#fltyCnt").val((fltyCnt += 1));
-  });
-
-  //불량감소
-  $("#fltyDown").click(function () {
-    if (fltyCnt == 0) {
-      $("#fltyCnt").val(0);
-    } else {
-      $("#fltyCnt").val((fltyCnt -= 1));
-    }
-  });
-
-  //작업시작시간 입력
-  $("#workStartBtn").click(function () {
-    var date = new Date();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    $("#sHours").val(hours).prop("readonly", true);
-    $("#sMinutes").val(minutes).prop("readonly", true);
-  });
-
-  $("#workEndBtn").click(function () {
-    var date = new Date();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    $("#eHours").val(hours).prop("readonly", true);
-    $("#eMinutes").val(minutes).prop("readonly", true);
-  });
-
   $("#procManageTable").on("click", "tr", function () {
-    if ($(this).find("td:eq(0)").children().prop("checked")) {
-      let prodName = $(this).find("td:eq(5)").text();
-      $("#workStateTable thead tr td").text(prodName);
-      console.log("제품명->" + prodName);
 
+    if ($(this).find("td:eq(0)").children().prop("checked")) {
+      $("#mchnStatus div").remove();
+      console.log("if문 들어옴")
+      let instDate = $(this).find("td:eq(2)").text();
+      let instNo = $(this).find("td:eq(3)").text();
+      let prodName = $(this).find("td:eq(5)").text();
+      let prodCode = $(this).find("td:eq(4)").text();
+      let instProdNo = $(this).find("input[type=hidden]").val();
+
+      //모달창 안에 데이터 넣기
+      // $("#workStateTable tr:eq(0)").append(`<td>${prodName}</td>`);
+      $("#instDate").val(instDate);
+      $("#instNo").val(instNo);
+      $("#instProdNo").val(instProdNo);
+      // console.log("제품명->" + prodName);
+      //console.log("instProdNo->" + instProdNo);
+      let check = false;
       $.ajax({
-        url: `findprocess`,
+        url: `findprocess/${instProdNo}`,
         method: "GET",
         dataType: "json",
+        async: false, //동기로 처리
         success: function (data) {
-          console.log(data);
+          // console.log(data);
+          check = true;
           $("#workInsertTable tbody tr").remove();
           let index = 0;
           for (obj of data) {
@@ -59,7 +36,27 @@ $(document).ready(function () {
           }
         },
       });
+      if (check == true) {
+        $.ajax({
+          url: `selectmchn/${prodCode}`,
+          method: "GET",
+          dataType: "json",
+          success: function (data) {
+            console.log(data);
+            let index = 0;
+
+            for (obj of data) {
+              index += 1;
+              workinsertTableLastChildMakeRow(obj, index);
+              mchnStatusMakeRow(obj);
+            }
+
+          },
+        });
+      }
+
     } else {
+      $("#workInsertTable tbody tr").remove();
       console.log("unchecked");
     }
   });
@@ -94,37 +91,50 @@ function procManageMakeRow(obj, index) {
                 <td>${obj.virResult}</td>
                 <td>${obj.nonResult}</td>
                 <td>${obj.workScope}</td>
+                <input type="hidden" value="${obj.instProdNo}">
               </tr>`;
 
   $("#procManageTable tbody").append(node);
 }
 
 function workinsertTableMakeRow(obj) {
-  // [{
-  //   "processNo": 23,
-  //   "instProdNo": 3,
-  //   "processOrder": 1,
-  //   "procCdCode": "PROC001",
-  //   "mchnCode": "MCHN001",
-  //   "inDtlVol": 0,
-  //   "totalProdVol": 0,
-  //   "fltyVol": 0,
-  //   "completionStatus": "n",
-  //   "processRemk": null,
-  //   "virResult": 0,
-  //   "nonResult": 0
-  // },
   let node = `<tr> 
               <td>${obj.processOrder}</td>
               <td>${obj.procCdName}</td>
               <td>${obj.mchnName}</td>
-              <td></td>
               <td>${obj.inDtlVol}</td>
               <td>${obj.virResult}</td>
               <td>${obj.nonResult}</td>
               <td>${obj.fltyVol}</td>
-              <td><button type="submit" class="btn  btn-primary">진행전</button></td> 
               </tr>`;
-
   $("#workInsertTable tbody").append(node);
+}
+
+
+function workinsertTableLastChildMakeRow(obj, index) {
+  if (index == 1) {
+    console.log(`${obj.mchnStts}`);
+    let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
+    let tr = $("#workInsertTable tbody tr:eq(0)").append(node);
+  } else if (index == 2) {
+    let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
+    let tr = $("#workInsertTable tbody tr:eq(1)").append(node);
+  } else if (index == 3) {
+    let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
+    let tr = $("#workInsertTable tbody tr:eq(2)").append(node);
+  } else if (index == 4) {
+    let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
+    let tr = $("#workInsertTable tbody tr:eq(3)").append(node);
+  }
+}
+
+//모달창 데이터 입력
+function mchnStatusMakeRow(obj) {
+  let node = `
+            <div>
+              <button type="button" class="btn m-r-20 btn-outline-primary">${obj.mchnName}</button>
+              <button type="button" class="btn  btn-outline-primary">${obj.mchnStts}</button>
+            </div>`;
+
+  $("#mchnStatus").append(node);
 }
