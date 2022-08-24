@@ -7,6 +7,79 @@
 <title>자재입고관리</title>
 </head>
 <body>
+<script type="text/javascript" th:src="@{/js/rsc/in.js}"></script>
+<link th:href="@{/css/rsc/In.css}" rel="stylesheet" />
+	<div class="pcoded-main-container">
+		<h1>자재 입고 관리</h1>
+		<hr>
+		<div class="col-xl-12">
+			<div class="card">
+				<div class="card-header">
+					<form>
+						<div class="form-inline">
+							<div class="form-group mt-3">
+								<label for="rsccode" th:text="자재코드"></label> 
+								<input type="text" id="rsccode" class="form-control mx-sm-3">
+								<!-- 자재코드-자재명 Modal창 출력 -->
+							</div>
+							<div class="form-group mt-3">
+								<label for="rscname" th:text="자재명"></label> 
+								<input type="text" id="rscname" class="form-control mx-sm-3" readonly>
+							</div>
+							<div class="form-group mt-3">
+								<label for="InspDate" th:text="검사일자"></label> 
+								<input type="date" id="rscInspDate" class="form-control mx-sm-3">
+							</div>
+							<button type="submit" class="btn  btn-primary">조회</button>
+						</div>
+						<div class="form-inline">
+						</div>
+					</form>
 
+				</div>
+				<div class="card-body table-border-style" id="in-table">
+					<div>
+						<h4 class="listTitle">입고예정목록</h4>
+						<button type="button" class="btn  btn-primary subBtn">선택등록</button>
+					</div>
+					<br>
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>
+										<input type="checkbox">
+									</th>
+									<th th:text="검사코드"></th>
+									<th th:text="검사일자"></th>
+									<th th:text="자재코드"></th>
+									<th th:text="자재명"></th>
+									<th th:text="입고수량"></th>
+									<th th:text="상태"></th>
+									<th th:text="비고"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="CL : ${inspCompList}">
+									<td>
+										<input type="checkbox">
+									</td>
+									<td th:text="${CL.rscInspCode}"></td>
+									<td th:text="${CL.rscInspDate}"></td>
+									<td th:text="${CL.rscCdCode}"></td>
+									<td th:text="${CL.rscCdName}"></td>
+									<td th:text="${CL.rscPassVol}"></td>
+									<td>
+										<span th:if="${CL.rscInspSt == 0}">입고대기</span>
+									</td>
+									<td th:text="${CL.rscInspRemk}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
