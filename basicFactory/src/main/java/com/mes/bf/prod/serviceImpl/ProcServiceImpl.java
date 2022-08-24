@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mes.bf.cmn.vo.ProcCodeVO;
+import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.mapper.ProcMapper;
 import com.mes.bf.prod.service.ProcService;
@@ -41,8 +42,13 @@ public class ProcServiceImpl implements ProcService {
 	}
 
 	@Override
-	public List<ProcessVO> findProcess() {
-		return mapper.findProcess();
+	public List<ProcessVO> findProcess(int instProdNo) {
+		return mapper.findProcess(instProdNo);
+	}
+
+	@Override
+	public List<MchnVO> selectMchn(String finPrdCdCode) {
+		return mapper.selectMchn(finPrdCdCode);
 	}
 
 }

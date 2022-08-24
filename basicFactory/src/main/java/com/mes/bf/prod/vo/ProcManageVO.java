@@ -11,6 +11,7 @@ import lombok.Data;
 public class ProcManageVO {
 
 	private int instNo;
+	private int instProdNo;
 	private Date workDate;
 	private String finPrdCdCode;
 	private String finPrdCdName;
