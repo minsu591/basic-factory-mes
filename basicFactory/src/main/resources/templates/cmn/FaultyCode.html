@@ -7,25 +7,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>비가동 코드</title>
+    <title>공정불량 코드</title>
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
 </head>
 <body>
     <div class="pcoded-main-container">
-        <h1>비가동 코드 관리</h1>
+        <h1>불량 코드 관리</h1>
         <hr>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
                     
-                    <!-- <form class="form-inline">
+                    <form class="form-inline">
                          <div class="form-group mt-3">
-                            <label for="nonOpName" th:text="비가동명"></label>
-                            <input type="text" id="nonOpName" class="form-control mx-sm-3">
+                            <label for="faultyName" th:text="불량명"></label>
+                            <input type="text" id="faultyName" class="form-control mx-sm-3">
                         </div>
-                        
                         <button type="submit" class="btn  btn-primary">조회</button>
-                    </form> -->
+                    </form>
+
                     <div class="rightBtn">
                         <button type="button" class="btn  btn-primary">추가</button>
                         <button type="button" class="btn  btn-primary">저장</button>
@@ -38,17 +38,17 @@
                             <thead>
                                 <tr>
                                     <th><input type="checkbox"></th>
-                                    <th th:text="비가동코드"></th>
-                                    <th th:text="비가동명"></th>
+                                    <th th:text="불량코드"></th>
+                                    <th th:text="불량명"></th>
                                     <th th:text="비고"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="nonOp : ${nonOp}">
+                                <tr th:each="flty : ${fltys}">
                                     <td><input type="checkbox"></td>
-                                    <td th:text="${nonOp.nonOpCode}"></td>
-                                    <td th:text="${nonOp.nonOpName}"></td>
-                                    <td th:text="${nonOp.nonOpRemk}"></td>
+                                    <td th:text="${flty.faultyCdCode}"></td>
+                                    <td th:text="${flty.faultyName}"></td>
+                                    <td th:text="${flty.faultyRemk}"></td>
                                 </tr>
                             </tbody>
                         </table>

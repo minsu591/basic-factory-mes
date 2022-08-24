@@ -5,7 +5,7 @@ import org.apache.ibatis.type.Alias;
 import lombok.Data;
 
 @Data
-@Alias("RscCodeVO")
+@Alias("RscCode")
 public class RscCodeVO {
 	
 	private String rscCdCode;	//자재코드
@@ -13,5 +13,6 @@ public class RscCodeVO {
 	private String rscCdUnit;	//단위
 	private String rscCdClfy;	//자재분류
 	private String rscCdUse;	//사용여부
+	private String rscCdRemk;	//비고
 	
 }

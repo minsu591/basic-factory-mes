@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mes.bf.cmn.mapper.RscMapper;
-import com.mes.bf.cmn.service.RscService;
+import com.mes.bf.cmn.mapper.RscCodeMapper;
+import com.mes.bf.cmn.service.RscCodeService;
 import com.mes.bf.cmn.vo.RscCodeVO;
 
 @Service
-public class RscServiceImpl implements RscService {
+public class RscCodeServiceImpl implements RscCodeService {
 	
-	@Autowired RscMapper mapper;
+	@Autowired RscCodeMapper mapper;
 
 	@Override
 	public List<RscCodeVO> listRsc() {

@@ -1,10 +1,66 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>자재 코드</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>자재 코드</title>
+    <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="pcoded-main-container">
+      <h1>자재 코드 관리</h1>
+      <hr />
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-header">
+            <form class="form-inline">
+              <div class="form-group mt-3">
+                <label for="rscCdName" th:text="자재명"></label>
+                <input type="text" id="rscCdName" class="form-control mx-sm-3" />
+              </div>
 
-</body>
+              <button type="submit" class="btn btn-primary">조회</button>
+            </form>
+            <div class="rightBtn">
+              <button type="button" class="btn btn-primary">추가</button>
+              <button type="button" class="btn btn-primary">저장</button>
+              <button type="button" class="btn btn-primary">선택 삭제</button>
+            </div>
+          </div>
+          <div class="card-body table-border-style">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th><input type="checkbox" /></th>
+                    <th th:text="자재코드"></th>
+                    <th th:text="자재명"></th>
+                    <th th:text="단위"></th>
+                    <th th:text="자재구분"></th>
+                    <th th:text="사용여부"></th>
+                    <th th:text="비고"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="rsc : ${rscs}">
+                    <td><input type="checkbox" /></td>
+                    <td th:text="${rsc.rscCdCode}"></td>
+                    <td th:text="${rsc.rscCdName}"></td>
+                    <td th:text="${rsc.rscCdUnit}"></td>
+                    <td th:text="${rsc.rscCdClfy}"></td>
+                    <td><input type="checkbox" th:checked="${rsc.rscCdUse =='1'}" /></td>
+                    <td th:text="${rsc.rscCdRemk}"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="rightBtn">
+              <button type="button" class="btn btn-primary">초기화</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

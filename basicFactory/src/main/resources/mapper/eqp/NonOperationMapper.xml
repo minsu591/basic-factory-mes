@@ -17,7 +17,7 @@
 
 	<!-- 비가동코드 검색 -->
 
-	<select id="findNonOp" resultType="nonOpVO">
+	<select id="findNonOp" resultType="nonOp">
 		SELECT * FROM BF_CMN_NON_OP
 		<where>
 			<if test="nonOpCode != null and nonOpCode != ''">

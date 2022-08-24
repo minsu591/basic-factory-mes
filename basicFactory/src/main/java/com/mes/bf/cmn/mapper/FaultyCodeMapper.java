@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.mes.bf.cmn.vo.RscCodeVO;
+import com.mes.bf.cmn.vo.FaultyCodeVO;
 
 @Mapper
-public interface RscMapper {
+public interface FaultyCodeMapper {
 	
-	List<RscCodeVO> listRsc();
+	List<FaultyCodeVO> listFltyCode();
 
 }

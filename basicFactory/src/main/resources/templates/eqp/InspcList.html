@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>설비 점검 조회</title>
+    <link th:href="@{/css/eqp/inspc.css}" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="pcoded-main-container">
+      <h1>설비 점검 조회</h1>
+      <hr />
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-header">
+            <form class="form-inline">
+              <div class="form-group mt-3">
+                <label for="mchninspcDate" th:text="점검일자"></label>
+                <input type="date" id="inspcSdate" class="form-control mx-sm-3" /> ~
+                <input type="date" id="inspcEdate" class="form-control mx-sm-3" />
+              </div>
+              <br />
+              <div class="form-group mt-3">
+                <label for="mchnName" th:text="설비명"></label>
+                <input type="text" id="mchnName" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" />
+                <label for="mchnCode" th:text="설비코드"></label>
+                <input type="text" id="mchnCode" class="form-control mx-sm-3" readonly />
+              </div>
+
+              <button type="button" class="btn btn-primary" id="inspcBtn">조회</button>
+            </form>
+            <div class="rightBtn">
+              <button type="button" class="btn btn-primary">추가</button>
+              <button type="button" class="btn btn-primary">저장</button>
+              <button type="button" class="btn btn-primary">선택 삭제</button>
+            </div>
+          </div>
+          <div class="card-body table-border-style">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th><input type="checkbox" /></th>
+                    <th th:text="설비코드"></th>
+                    <th th:text="설비명"></th>
+                    <th th:text="점검시작일"></th>
+                    <th th:text="점검종료일"></th>
+                    <th th:text="점검주기"></th>
+                    <th th:text="차기점검일"></th>
+                    <th th:text="조치사항"></th>
+                    <th th:text="조치내역"></th>
+                    <th th:text="담당자명"></th>
+                    <th th:text="비고"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="inspc : ${inspcs}">
+                    <td th:text="${inspc.mchnCode}"></td>
+                    <td th:text="${inspc.rscCdName}"></td>
+                    <td th:text="${inspc.rscCdUnit}"></td>
+                    <td th:text="${inspc.rscCdClfy}"></td>
+                    <td th:text="${inspc.rscCdRemk}"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="rightBtn">
+              <button type="button" class="btn btn-primary">초기화</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
