@@ -79,13 +79,18 @@ public class InstructionServiceImpl implements InstructionService {
 	@Override
 	public void insertNeedQty(String finPrdCdCode) {
 		mapper.insertNeedQty(finPrdCdCode);
-		
+
 	}
 
 	@Override
-	public void updateNeedQty(String needQty,String rscCdCode) {
-		mapper.updateNeedQty(needQty,rscCdCode);
-		
+	public void updateNeedQty(String needQty, String rscCdCode) {
+		mapper.updateNeedQty(needQty, rscCdCode);
+
+	}
+
+	@Override
+	public void updateinDtlVol(int indicaVol) {
+		mapper.updateinDtlVol(indicaVol);
 	}
 
 }

@@ -4,13 +4,16 @@ $(document).ready(function () {
   $("#procManageTable").on("click", "tr", function () {
 
     if ($(this).find("td:eq(0)").children().prop("checked")) {
+      $("#mchnStatus div").remove();
+      console.log("if문 들어옴")
       let instDate = $(this).find("td:eq(2)").text();
       let instNo = $(this).find("td:eq(3)").text();
       let prodName = $(this).find("td:eq(5)").text();
       let prodCode = $(this).find("td:eq(4)").text();
       let instProdNo = $(this).find("input[type=hidden]").val();
+
       //모달창 안에 데이터 넣기
-      $("#workStateTable tr td:eq(0)").text(prodName);
+      // $("#workStateTable tr:eq(0)").append(`<td>${prodName}</td>`);
       $("#instDate").val(instDate);
       $("#instNo").val(instNo);
       $("#instProdNo").val(instProdNo);
@@ -41,6 +44,7 @@ $(document).ready(function () {
           success: function (data) {
             console.log(data);
             let index = 0;
+
             for (obj of data) {
               index += 1;
               workinsertTableLastChildMakeRow(obj, index);

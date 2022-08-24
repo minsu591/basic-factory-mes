@@ -1,6 +1,16 @@
 $("document").ready(function () {
 
   $("#workInsertTable").on("click", "button", function () {
+    $("#workStateTable tr td").remove();
+
+    $("#procManageTable tr").each(function () {
+      console.log('each문 들어옴')
+      if ($(this).find("td:eq(0)").children().prop("checked")) {
+        let prodName = $(this).find("td:eq(5)").text();
+        $("#workStateTable tr:eq(0)").append(`<td>${prodName}</td>`);
+      }
+    })
+
     let mchnName = $(this).parent().parent().find("td:eq(2)").text();
     let procCdName = $(this).parent().parent().find("td:eq(1)").text();
     let inDtlVol = $(this).parent().parent().find("td:eq(3)").text(); //입고량
@@ -9,10 +19,10 @@ $("document").ready(function () {
     let fltyVol = $(this).parent().parent().find("td:eq(6)").text(); //불량량
     $("#mchnName").val(mchnName);
     $("#procCdName").val(procCdName);
-    $("#workStateTable tr:eq(1) td").append(inDtlVol);
-    $("#workStateTable tr:eq(2) td").append(virResult);
-    $("#workStateTable tr:eq(3) td").append(nonResult);
-    $("#workStateTable tr:eq(4) td").append(fltyVol);
+    $("#workStateTable tr:eq(1)").append(`<td>${inDtlVol}</td>`);
+    $("#workStateTable tr:eq(2)").append(`<td>${virResult}<td>`);
+    $("#workStateTable tr:eq(3)").append(`<td>${nonResult}</td>`);
+    $("#workStateTable tr:eq(4)").append(`<td>${fltyVol}</td>`);
     $("#workInsertModal").modal("show");
   });
 
