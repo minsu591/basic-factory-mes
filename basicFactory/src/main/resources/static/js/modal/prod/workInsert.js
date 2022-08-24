@@ -1,18 +1,17 @@
 $("document").ready(function () {
-
   $("#workInsertTable").on("click", "button", function () {
     console.log($(this).text());
     $("#workStateTable tr td").remove();
-    if ($(this).text() == '비가동') {
-      alert("비가동입니다.")
+    if ($(this).text() == "비가동") {
+      alert("비가동입니다.");
     } else {
       $("#procManageTable tr").each(function () {
-        console.log('each문 들어옴')
+        console.log("each문 들어옴");
         if ($(this).find("td:eq(0)").children().prop("checked")) {
           let prodName = $(this).find("td:eq(5)").text();
           $("#workStateTable tr:eq(0)").append(`<td>${prodName}</td>`);
         }
-      })
+      });
 
       let mchnName = $(this).parent().parent().find("td:eq(2)").text();
       let procCdName = $(this).parent().parent().find("td:eq(1)").text();
@@ -28,17 +27,15 @@ $("document").ready(function () {
       $("#workStateTable tr:eq(4)").append(`<td>${fltyVol}</td>`);
 
       $("#workInsertModal").modal("show");
-
     }
-
-
   });
 
   let fltyCnt = 0;
   $("#fltyCnt").val(fltyCnt);
   //불량증가
   $("#fltyUp").click(function () {
-    $("#fltyCnt").val((fltyCnt += 1));
+    fltyCnt += 1;
+    $("#fltyCnt").val(fltyCnt);
   });
 
   //불량감소
@@ -46,27 +43,50 @@ $("document").ready(function () {
     if (fltyCnt == 0) {
       $("#fltyCnt").val(0);
     } else {
-      $("#fltyCnt").val((fltyCnt -= 1));
+      fltyCtn -= 1;
+      $("#fltyCnt").val(fltyCnt);
     }
   });
 
-  //작업시작시간 입력
-  $("#workStartBtn").click(function () {
-    var date = new Date();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    $("#sHours").val(hours).prop("readonly", true);
-    $("#sMinutes").val(minutes).prop("readonly", true);
+  $("#addFlty").click(function () {
+    console.log("클릭");
+    console.log(fltyCnt);
+    let fltyVol = $("#workStateTable tr:eq(4) td");
+    fltyVol.html(fltyCnt);
+    fltyCnt = 0;
+    $("#fltyCnt").val(fltyCnt);
   });
-
-  $("#workEndBtn").click(function () {
-    var date = new Date();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    $("#eHours").val(hours).prop("readonly", true);
-    $("#eMinutes").val(minutes).prop("readonly", true);
-  });
-
-
 });
+let work;
+//작업시작 시간 입력
+function startWork() {
+  var date = new Date();
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  $("#sHours").val(hours).prop("readonly", true);
+  $("#sMinutes").val(minutes).prop("readonly", true);
+  work = setInterval(startinterval, 10);
+}
 
+//작업종료 시간 입력
+function endWork() {
+  var date = new Date();
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  $("#eHours").val(hours).prop("readonly", true);
+  $("#eMinutes").val(minutes).prop("readonly", true);
+
+  clearInterval(work);
+}
+let num = 0;
+function startinterval() {
+  let inDtlVol = parseInt($("#workStateTable tr:eq(1) td").text());
+  console.log(inDtlVol);
+
+  num += 1;
+  $("#workStateTable tr:eq(3) td").html(num);
+  if (num == inDtlVol) {
+    console.log("종료");
+    endWork();
+  }
+}
