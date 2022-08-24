@@ -62,12 +62,12 @@
 								<tr th:each="rList : ${rList}">
 									<td th:text="${rList.rscReturnCode}"></td>
 									<td th:text="${rList.rscReturnDate}"></td>
-									<td th:text="${rList.rscCdcode}"></td>
+									<td th:text="${rList.rscCdCode}"></td>
 									<td th:text="${rList.rscCdName}"></td>
 									<td th:text="${rList.rscReturnVol}"></td>
 									<td th:text="${rList.rscCdUnit}"></td>
 									<td th:text="${rList.rscReturnPrc}"></td>
-									<td th:text="${rList.rscRetrunPrc}"></td>
+									<td th:text="${rList.rscReturnPrc * rList.rscReturnVol}"></td>
 									<td th:text="${rList.rscReturnResn}"></td>
 									<td th:text="${rList.empName}"></td>
 									<td th:text="${rList.rscReturnRemk}"></td>

@@ -25,10 +25,8 @@ public class RscReturnController {
 	}
 	
 	@RequestMapping("/returnList")
-	public String returnList(Model model) {
+	public void returnList(Model model) {
 		List<RscReturnVO> rList = rscReturnService.returnList();
-		System.out.println(rList);
 		model.addAttribute("rList", rList);
-		return "rsc/returnList";
 	}
 }
