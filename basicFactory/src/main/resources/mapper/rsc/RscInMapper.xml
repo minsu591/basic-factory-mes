@@ -24,4 +24,35 @@
 		        
 		ORDER  BY RSCIN.RSC_CD_CODE DESC
 	</select>
+	
+	<select id="inspCompList" resultType="com.mes.bf.rsc.vo.RscInspVO">
+		SELECT INSP.RSC_INSP_CODE, 
+			   INSP.RSC_INSP_DATE, 
+			   INSP.RSC_CD_CODE, 
+			   INSP.RSC_PASS_VOL, 
+			   INSP.RSC_INSP_ST,
+			   INSP.RSC_INSP_REMK,
+			
+			   RSCCODE.RSC_CD_NAME
+		
+		 FROM  BF_RSC_INSP INSP
+		 LEFT  JOIN BF_CMN_RSC_CODE RSCCODE
+		 ON    INSP.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
+		
+		 WHERE INSP.RSC_INSP_ST = 0
+		
+		 ORDER BY 1 DESC
+	</select>
+	
+	<insert id="inInsert" parameterType="com.mes.bf.rsc.vo.RscInVO">
+		INSERT INTO BF_RSC_IN 
+		
+		VALUES(
+			   'RSC_IN'||LPAD(BF_RSC_IN_SEQ.nextval,4,0),
+			   #{rscInspCode},
+			   #{rscCdCode},
+			   CURRENT_TIMESTAMP,
+			   #{rscPassVol}
+			  )
+	</insert>
 </mapper>
