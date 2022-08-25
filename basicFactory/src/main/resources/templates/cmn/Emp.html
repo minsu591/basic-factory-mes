@@ -11,6 +11,8 @@ xmlns:th="http://www.thymeleaf.org"
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
 </head>
 <body>
+    <script type="text/javascript" th:src="@{/js/cmn/emp.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/cmn/findDept.js}"></script>
     <div class="pcoded-main-container">
         <h1>직원 관리</h1>
         <hr>
@@ -19,6 +21,7 @@ xmlns:th="http://www.thymeleaf.org"
                 <div class="card-header">
                     
                     <form class="form-inline">
+                        <input type="hidden" id="deptNo">
                         <div class="form-group mt-3">
                             <label for="deptName" th:text="부서명"></label>
                             <input type="text" id="deptName" class="form-control mx-sm-3">
@@ -32,22 +35,22 @@ xmlns:th="http://www.thymeleaf.org"
                             <input type="text" id="empName" class="form-control mx-sm-3">
                         </div>
                         
-                        <button type="submit" class="btn  btn-primary">조회</button>
+                        <button type="button" class="btn  btn-primary" id="selectBtn">조회</button>
                     </form>
                     <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary">추가</button>
-                        <button type="button" class="btn  btn-primary">저장</button>
-                        <button type="button" class="btn  btn-primary">선택 삭제</button>
+                        <button type="button" class="btn btn-primary" id="addBtn">추가</button>
+                        <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
+                        <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
                     </div>
                     
         
                 </div>
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="empTable">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox"></th>
+                                    <th><input type="checkbox" id="allCheck"></th>
                                     <th th:text="아이디"></th>
                                     <th th:text="비밀번호"></th>
                                     <th th:text="부서명"></th>
@@ -56,11 +59,12 @@ xmlns:th="http://www.thymeleaf.org"
                                     <th th:text="이메일"></th>
                                     <th th:text="연락처"></th>
                                     <th th:text="계정상태"></th>
+                                    <th th:text="비고"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="emp : ${emps}">
-                                    <td><input type="checkbox"></td>
+                                    <td><input type="checkbox" name="cb"></td>
                                     <td th:text="${emp.empVO.empId}">mia</td>
                                     <td th:text="${emp.empVO.empPw}">asdf</td>
                                     <td th:text="${emp.deptVO.deptName}">연구개발</td>
@@ -69,17 +73,21 @@ xmlns:th="http://www.thymeleaf.org"
                                     <td th:text="${emp.empVO.empEmail}">mia@yedam.co.kr</td>
                                     <td th:text="${emp.empVO.empPhone}">011-1111-2222</td>
                                     <td><input type="checkbox" th:checked="${emp.empVO.empAuth eq '1'}"></td>
+                                    <td th:text="${emp.empVO.empRemk}">011-1111-2222</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary">초기화</button>
+                        <button type="button" class="btn btn-primary">초기화</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <th:block th:replace="~{/fragments/modal/findDept :: findDept}"></th:block>
+
+
     
 </body>
 </html>

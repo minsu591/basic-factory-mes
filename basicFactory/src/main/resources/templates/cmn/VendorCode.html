@@ -50,7 +50,7 @@ xmlns:th="http://www.thymeleaf.org"
                             </thead>
                             <tbody>
                                 <tr th:each="vend : ${vendors}">
-                                    <td><input type="checkbox"></td>
+                                    <td><input type="checkbox" name="chk"></td>
                                     <td th:text="${vend.vendCdCode}">VEND001</td>
                                     <td th:text="${vend.empId}">mia</td>
                                     <td th:text="${vend.vendCdClfy}">판매</td>

@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,7 +69,8 @@ public class ProcController {
 	// 공정명 조회
 	@GetMapping(value = "/findproccode", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<ProcCodeVO>> findProcCode(@RequestParam Map<String, String> QueryParameters) {
-		List<ProcCodeVO> list = service.findProcCode(QueryParameters.get("procCdCode"), QueryParameters.get("procCdName"));
+		List<ProcCodeVO> list = service.findProcCode(QueryParameters.get("procCdCode"),
+				QueryParameters.get("procCdName"));
 		return new ResponseEntity<List<ProcCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
@@ -75,33 +78,62 @@ public class ProcController {
 	@GetMapping(value = "/findprocperform", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<VFindProcPerformVO>> findProcPerform(@RequestParam Map<String, String> QueryParameters) {
 		List<VFindProcPerformVO> list = service.findProcPerform(QueryParameters.get("workSdate"),
-																QueryParameters.get("workEdate"),
-																QueryParameters.get("procCdName"),
-																QueryParameters.get("mchnName"),
-																QueryParameters.get("empId"));
+				QueryParameters.get("workEdate"), QueryParameters.get("procCdName"), QueryParameters.get("mchnName"),
+				QueryParameters.get("empId"));
 		return new ResponseEntity<List<VFindProcPerformVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
-	//공정실적관리 테이블 조회
+	// 공정실적관리 테이블 조회
 	@GetMapping("/findprocmanage")
-	public ResponseEntity<List<ProcManageVO>> findProcManage(){
+	public ResponseEntity<List<ProcManageVO>> findProcManage() {
 		List<ProcManageVO> list = service.findProcManage();
 		return new ResponseEntity<List<ProcManageVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
-	
-	//공정테이블 조회
+
+	// 공정테이블 조회
 	@GetMapping("/findprocess/{instProdNo}")
-	public ResponseEntity<List<ProcessVO>> findProcess(@PathVariable int instProdNo){
+	public ResponseEntity<List<ProcessVO>> findProcess(@PathVariable int instProdNo) {
 		List<ProcessVO> list = service.findProcess(instProdNo);
-		return new ResponseEntity<List<ProcessVO>>(list,HttpStatus.OK);
+		return new ResponseEntity<List<ProcessVO>>(list, HttpStatus.OK);
+	}
+
+	// 설비명,상태 조회
+	@GetMapping("/selectmchn/{finPrdCdCode}")
+	public ResponseEntity<List<MchnVO>> selectMchn(@PathVariable String finPrdCdCode) {
+		List<MchnVO> list = service.selectMchn(finPrdCdCode);
+		return new ResponseEntity<List<MchnVO>>(list, HttpStatus.OK);
+	}
+
+	// 실적량 업데이트
+	@PutMapping("/updateprodvol") // 파라미터가 JSON이라 파싱필요
+	public void updateProcVol(@RequestBody ProcessVO vo) {
+		System.out.println(vo);
+		service.updateProcVol(vo);
 	}
 	
-	//설비명,상태 조회
-	@GetMapping("selectmchn/{finPrdCdCode}")
-	public ResponseEntity<List<MchnVO>> selectMchn(@PathVariable String finPrdCdCode){
-		List<MchnVO> list = service.selectMchn(finPrdCdCode);
-		return new ResponseEntity<List<MchnVO>>(list,HttpStatus.OK);
+	// 공정테이블 불량수정 
+	@PutMapping("/updatefltyvol")
+	public void updateFltyVol(@RequestBody ProcessVO vo) {
+		service.updateFltyVol(vo);
 	}
+	//설비상태 진행중 업데이트
+	@PutMapping("/updatemchnstts")
+	public void updateMchnStts(@RequestBody MchnVO vo) {
+		service.updateMchnStts(vo);
+	}
+	
+	//설비상태 디폴트 업데이트
+	@PutMapping("/updatemchnsttsdefault")
+	public void updateMchnSttsdefault(@RequestBody MchnVO vo) {
+		service.updateMchnSttsdefault(vo);
+	}
+	
+	//공정테이블 완료 여부 업데이트
+	@PutMapping("/updateproccheck")
+	public void updateProcCheck(@RequestBody ProcessVO vo) {
+		service.updateProcCheck(vo);
+	}
+	
 	
 
 }

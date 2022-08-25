@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mes.bf.cmn.vo.ProcCodeVO;
 import com.mes.bf.eqp.vo.MchnVO;
@@ -11,6 +12,7 @@ import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.mapper.ProcMapper;
 import com.mes.bf.prod.service.ProcService;
 import com.mes.bf.prod.vo.ProcManageVO;
+import com.mes.bf.prod.vo.ProcessPerformVO;
 import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
 
@@ -49,6 +51,39 @@ public class ProcServiceImpl implements ProcService {
 	@Override
 	public List<MchnVO> selectMchn(String finPrdCdCode) {
 		return mapper.selectMchn(finPrdCdCode);
+	}
+
+	@Override
+	public void updateProcVol(ProcessVO vo) {
+		mapper.updateProcVol(vo);
+	}
+
+	@Override
+	@Transactional
+	public void updateFltyVol(ProcessVO vo) {
+		mapper.updateFltyVol(vo);
+		mapper.updateProcVol(vo);
+	}
+
+	@Override
+	public void updateMchnStts(MchnVO vo) {
+		mapper.updateMchnStts(vo);	
+	}
+
+	@Override
+	public void updateMchnSttsdefault(MchnVO vo) {
+		mapper.updateMchnSttsdefault(vo);
+		
+	}
+
+	@Override
+	public void updateProcCheck(ProcessVO vo) {
+		mapper.updateProcCheck(vo);
+	}
+
+	@Override
+	public void InsertProcPerfrom(ProcessPerformVO vo) {
+		mapper.InsertProcPerfrom(vo);
 	}
 
 }

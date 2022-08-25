@@ -5,11 +5,15 @@
     layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" th:src="@{/js/sales/orderManage.js}"></script>
-    <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
-    <link th:href="@{/css/sales/orderManage.css}" rel="stylesheet" />
 </head>
 <body>
+    <script type="text/javascript" th:src="@{/js/sales/orderManage.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/sales/findOrder.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/sales/findProduct.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
+    <link th:href="@{/css/sales/orderManage.css}" rel="stylesheet" />
+
     <div class="pcoded-main-container">
         <h1>주문 관리</h1>
         <hr>
@@ -17,16 +21,18 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
+                    <!-- 새로운 주문 등록폼-->
                     <form class="form-inline">
                         <div class="form-group mt-3">
                             <label for="slsOrdHdDate" th:text="주문일자"></label>
                             <input type="date" id="slsOrdHdDate" class="form-control mx-sm-3">
                         </div>
+
                         <div class="form-group mt-3">
-                            <label for="empid" th:text="담당자명"></label>
-                            <input type="text" id="empid" class="form-control mx-sm-3"
-                             data-toggle="modal" data-target=".bd-example-modal-lg">
+                            <labe for="slsOrdHdNo" th:text="주문번호"></labe>
+                            <input type="text" id="slsOrdHdNo" name="slsOrdHdNo" class="form-control mx-sm-3" readonly>
                         </div>
+
                         <div class="form-group mt-3">
                             <label for="vendor" th:text="거래처"></label>
                             <input type="text" id="vendor" class="form-control mx-sm-3"
@@ -34,26 +40,37 @@
                             <label for="vendorName" th:text="거래처명"></label>
                             <input type="text" id="vendorName" class="form-control mx-sm-3" readonly>
                         </div>
+
+                        <div class="form-group mt-3">
+                            <label for="empid" th:text="담당자명"></label>
+                            <input type="text" id="empid" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="remk" th:text="비고"></label>
+                            <input type="text" id="remk" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
+                        </div>
+
                     </form>
                 </div>
                 <div class="card-body table-border-style">
                     <div class="rightBtn">
                         <div class="rightBtn">
-                        	<button type="button" class="btn btn-primary" id="ordSelectBtn">조회</button>
-                            <button type="button" class="btn btn-primary" id="ordMngBtn">저장</button>
+                        	<button type="button" class="btn btn-primary" id="findOrderBtn">조회</button>
+                            <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
                             <button type="button" class="btn btn-primary" id="addBtn">추가</button>
-                            <button type="button" class="btn btn-primary" id="delBtn">선택 삭제</button>
+                            <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
                         </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped" id="ordMngTable">
                             <thead>
                                 <tr>
+                                	<th><input type="checkbox" id="allCheck"></th>
                                     <th th:text="제품코드"></th>
                                     <th th:text="제품명"></th>
                                     <th th:text="납기일자"></th>
                                     <th th:text="주문량"></th>
-                                    <th th:text="비고"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -70,5 +87,9 @@
     <th:block th:replace="~{/fragments/modal/findvendor :: findvendor}"></th:block>
     <!-- 담당자검색 Modal -->
     <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
+    <!--제품검색 Modal -->
+    <th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
+    <!-- 주문조회 Modal -->
+    <th:block th:replace="~{/fragments/modal/sales/findOrder :: findOrder}"></th:block>
 </body>
 </html>

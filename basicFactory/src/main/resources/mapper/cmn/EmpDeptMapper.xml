@@ -26,9 +26,31 @@
 	</resultMap>
 	
 	<select id="listEmpDept" resultMap="empDeptMap">
-		select *
-		from BF_CMN_EMP INNER JOIN BF_CMN_DEPT
-		USING(DEPT_NO)
+		SELECT D.DEPT_NO, D.DEPT_NAME, E.EMP_ID, E.EMP_PW,
+			   E.EMP_NAME, E.EMP_EMAIL, E.EMP_PHONE, E.EMP_AUTH,
+			   E.EMP_POS, NVL(E.EMP_REMK,' ') AS EMP_REMK
+		FROM BF_CMN_EMP E
+        INNER JOIN BF_CMN_DEPT D
+		ON E.DEPT_NO = D.DEPT_NO
+		WHERE 1=1
+		<if test="empId != null and empId != ''">
+		AND E.EMP_ID LIKE '%'||#{empId}||'%'
+		</if>
+		<if test="empName != null and empName != ''">
+		AND E.EMP_NAME LIKE '%'||#{empName}||'%'
+		</if>
+		<if test="deptNo != null and deptNo != ''">
+		AND D.DEPT_NO = #{deptNo}
+		</if>
+	</select>
+	
+	<select id="listDept" resultType="dept">
+		SELECT DEPT_NO, DEPT_NAME
+        FROM BF_CMN_DEPT
+        <if test="deptName != null and deptName != ''">
+        WHERE DEPT_NAME LIKE '%'||#{deptName}||'%'
+        </if>
+        ORDER BY DEPT_NO
 	</select>
 	
 </mapper>

@@ -22,4 +22,5 @@ public class ProcessVO {
 	private String processRemk;
 	private Integer virResult;
 	private Integer nonResult; 
+	private Integer achieRate;
 }
