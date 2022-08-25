@@ -1,6 +1,7 @@
 package com.mes.bf.rsc.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,4 +30,5 @@ public class RscInController {
 		List<RscInVO> inList = rscInService.inList();
 		model.addAttribute("inList",inList);
 	}
+
 }

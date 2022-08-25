@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.rsc.mapper.FindRscCodeMapper">
+	<select id="rscCodeList" resultType="com.mes.bf.cmn.vo.RscCodeVO">
+		SELECT * 
+		
+		  FROM BF_CMN_RSC_CODE
+		<where>
+			<if test="rscCdName != null and rscCdName != ''">
+				AND RSC_CD_NAME LIKE '%'||#{rscCdName}||'%'
+			</if>
+			<if test="rscCdClfy != null and rscCdClfy!= '' and rscCdClfy != '전체'">
+				AND RSC_CD_CLFY = #{rscCdClfy}
+			</if>
+		</where>
+		 ORDER BY RSC_CD_CODE DESC
+	</select>
+	
+	<select id="rscLotNoList" resultType="com.mes.bf.rsc.vo.RscStockVO">
+		SELECT STOCK.RSC_LOT_NO, 
+			   CODE.RSC_CD_NAME, 
+			   CODE.RSC_CD_USE
+			   
+		 FROM  BF_RSC_STOCK STOCK
+		 LEFT  JOIN BF_CMN_RSC_CODE CODE
+		   ON  STOCK.RSC_CD_CODE = CODE.RSC_CD_CODE
+		   
+		WHERE  CODE.RSC_CD_NAME = '#{rscCdName}'
+			<if test="rscCdUse != null and rscCdUse != '' and rscCdUse != '전체'">
+				AND CODE.RSC_CD_USE = '#{rscCdUse}'
+			</if>
+		ORDER  BY RSC_LOT_NO DESC
+	</select>
+	
+</mapper>

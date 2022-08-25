@@ -7,6 +7,7 @@
 <title>자재출고조회</title>
 </head>
 <body>
+<script type="text/javascript" th:src="@{/js/modal/rsc/findResource.js}"></script>
 	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
 	<div class="pcoded-main-container">
 		<h1>자재 출고 조회</h1>
@@ -126,5 +127,7 @@
 					</div>
 				</div>
 			</div>
+		<!-- 자재조회 Modal -->
+    <th:block th:replace="~{/fragments/modal/findresource :: findresource}"></th:block>
 </body>
 </html>

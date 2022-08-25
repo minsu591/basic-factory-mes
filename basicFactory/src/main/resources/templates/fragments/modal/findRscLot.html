@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+
+	<th:block th:fragment="findRscLot">
+
+
+		<div class="modal fade" id="findRscLotModal" tabindex="-1"
+			role="dialog" aria-labelledby="findRscLotModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="findRscLotModalLabel">자재 LOT 조회</h3>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-inline">
+							<div class="form-group mt-3">
+								<label for="lotrscname" th:text="자재명"></label> 
+								<input type="text" id="lotrscname" name="lotrscname"
+									class="form-control mx-sm-3" readonly>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<label class="input-group-text hei-45 wid-80 p-0"
+											for="rscCdUse">가용여부</label>
+									</div>
+									<select class="custom-select hei-45 m-r-10"
+										id="rscCdUse">
+										<option selected>전체</option>
+										<option th:value="1" th:text="가용"></option>
+										<option th:value="0" th:text="비가용"></option>
+									</select>
+								</div>
+								<button type="button" class="btn  btn-primary"
+									id="findRscLotBtn" th:text="검색"></button>
+
+							</div>
+						</div>
+
+						<div class="card-body table-border-style">
+							<div class="table-responsive">
+								<table class="table table-hover" id="findRscLotTable">
+									<thead>
+										<tr>
+											<th></th>
+											<th th:text="자재명"></th>
+											<th th:text="LOT번호"></th>
+											<th th:text="가용여부"></th>
+										</tr>
+									</thead>
+									<tbody id="findRscLottbody">
+									
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</th:block>
+</body>
+</html>
