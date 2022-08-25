@@ -105,7 +105,7 @@ public class ProcController {
 	}
 
 	// 실적량 업데이트
-	@PutMapping("/updatenprodvol") // 파라미터가 JSON이라 파싱필요
+	@PutMapping("/updateprodvol") // 파라미터가 JSON이라 파싱필요
 	public void updateProcVol(@RequestBody ProcessVO vo) {
 		System.out.println(vo);
 		service.updateProcVol(vo);

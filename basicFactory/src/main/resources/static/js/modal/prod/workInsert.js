@@ -119,7 +119,7 @@ $("document").ready(function () {
       prodVol.html(result);
       let resultFltyVol = fltyVol.text();
       let totalProdVol = prodVol.text();
-      let instProdNo = $("#instProdNo").val();//작업번호
+      let processNo = $("#processNo").val();//작업번호
       let procCdName = $("#procCdName").val();//공정명
 
       //불량량 업데이트문 실행하고 다시 실적량 업데이트 실행함
@@ -130,9 +130,8 @@ $("document").ready(function () {
         contentType: "application/json;charset=utf-8",
         data: JSON.stringify({
           totalProdVol: totalProdVol,
-          instProdNo: instProdNo,
+          processNo: processNo,
           fltyVol: resultFltyVol,
-          procCdName: procCdName
         }),
         success: function (data) {
           console.log("update sucess");
@@ -170,10 +169,10 @@ function startWork() {
     }
   });
   console.log('컴플리션스테이터스->' + completionStatus);
-  if (completionStatus == 'y') {
-    alert('이미 완료된 작업입니다.');
-    return;
-  }
+  // if (completionStatus == 'y') {
+  //   alert('이미 완료된 작업입니다.');
+  //   return;
+  // }
 
   if ($("#empid").val() == '') {
     alert('작업자 입력하세요')
@@ -282,21 +281,22 @@ function startinterval() {
   let inDtlVol = $("#workStateTable tr:eq(1) td"); //입고량
   let prodVol = $("#workStateTable tr:eq(3) td");//실적량 
   let rate = $("#workStateTable tr:eq(5) td") //달성률
-  let instProdNo = $("#instProdNo").val()//작업번호
+  let processNo = $("#processNo").val()//작업번호
   let procCdName = $("#procCdName").val();//공정명
   let totalProdVol = 1 + parseInt(prodVol.text());
+  console.log("프로세스번호!!!!"+processNo);
   //console.log(prodVol.text());
   rate.html(Math.ceil(((totalProdVol / parseInt(inDtlVol.text())) * 100)) + '%');
   prodVol.html(num);
   console.log(totalProdVol);
   //실적량 업데이트
   $.ajax({
-    url: `updatenprodvol`,
+    url: `updateprodvol`,
     method: "PUT",
     dataType: "json",
     contentType: "application/json;charset=utf-8",
     data: JSON.stringify({
-      instProdNo: instProdNo,
+      processNo: processNo,
       totalProdVol: totalProdVol,
       procCdName: procCdName
     }),

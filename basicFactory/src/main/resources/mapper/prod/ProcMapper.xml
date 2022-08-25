@@ -144,9 +144,7 @@
 	SET 
 		total_prod_vol = #{totalProdVol} 
 	WHERE 
-		inst_prod_no = #{instProdNo} 
-	AND 
-		proc_cd_name = #{procCdName}
+		process_no = #{processNo}
 	
 	</update>
 	
@@ -156,10 +154,8 @@
 			BF_PROD_PROCESS 
 		SET 
 			flty_vol = #{fltyVol} 
-		WHERE 
-			inst_prod_no = #{instProdNo} 
-		AND 
-			proc_cd_name = #{procCdName}
+		WHERE
+		process_no = #{processNo}
 	</update>
 	
 	<!-- 설비상태 진행중 업데이트 -->
