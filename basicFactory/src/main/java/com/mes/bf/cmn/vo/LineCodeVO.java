@@ -7,9 +7,11 @@ import lombok.Data;
 @Data
 @Alias("lineCodeVO")
 public class LineCodeVO {
-	private int lineCdNo;
+	private String lineCdCode;
 	private String lineCdHdCode;
 	private String procCdCode;
+	private String procCdName;
 	private String mchnCode;
+	private String mchnName;
 	private int lineCdOrd;
 }

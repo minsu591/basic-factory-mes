@@ -1,12 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.cmn.mapper.BomMapper">
+
+	<resultMap type="bomRsc" id="bomRcsMap">
+		<id property="bomCdCode" column="bom_cd_code" />
+		<result property="bomCdCode" column="bom_cd_code" />
+		<result property="lineCdCode" column="line_cd_code" />
+		<result property="lineCd" column="line_cd" />
+		<result property="rscCdCode" column="rsc_cd_code" />
+		<result property="rscCdName" column="rsc_cd_name" />
+		<result property="bomRscUseVol" column="bom_rsc_use_vol" />
+		<result property="bomRscUnit" column="bom_rsc_unit" />
+	</resultMap>
+	
+	<resultMap type="lineCodeVO" id="lineMap">
+		<id property="lineCdNo" column="line_cd_no" />
+		<result property="lineCdNo" column="line_cd_no" />
+		<result property="lineCdHdCode" column="line_cd_hd_code" />
+		<result property="procCdCode" column="proc_cd_code" />
+		<result property="procCdName" column="proc_cd_name" />
+		<result property="mchnCode" column="mchn_code" />
+		<result property="mchnName" column="mchn_name" />
+		<result property="lineCdOrd" column="line_cd_ord" />
+	</resultMap>
+	
+	<resultMap type="bomRscDtl" id="bomRscDtlMap">
+		<collection property="bomRscVO" resultMap="bomRcsMap"/>
+		<collection property="lineCodeVO" resultMap="lineMap"/>
+	</resultMap>
 	
 	<select id="listBom" resultType="bom">
-		select A.*, b.fin_prd_cd_name
-		FROM bf_cmn_bom_code A JOIN bf_cmn_finish_product_code B
-		ON A.FIN_PRD_CD_CODE = B.FIN_PRD_CD_CODE
-		ORDER BY A.BOM_CD_CODE
+		SELECT B.BOM_CD_CODE, B.BOM_CD_NAME, B.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME,
+			   B.LINE_CD_HD_CODE, L.LINE_CD_HD_NAME, B.BOM_CD_PROD_VOL, B.BOM_CD_UNIT,
+			   B.BOM_CD_USE, NVL(B.BOM_CD_REMK,' ') AS BOM_CD_REMK
+		FROM BF_CMN_BOM_CODE B
+             JOIN BF_CMN_FINISH_PRODUCT_CODE F
+		       ON F.FIN_PRD_CD_CODE = B.FIN_PRD_CD_CODE
+             JOIN BF_CMN_LINE_CODE_HD L
+               ON B.LINE_CD_HD_CODE = L.LINE_CD_HD_CODE
+        <if test="finName != null and finName != ''">
+        WHERE F.FIN_PRD_CD_NAME LIKE '%'||#{finName}||'%'
+        </if>
+		ORDER BY B.BOM_CD_CODE
 	</select>
 	
+	<select id="findBomRsc" resultMap="bomRscDtlMap">
+		SELECT BR.BOM_CD_CODE, BR.LINE_CD_CODE, LD.PROC_CD_CODE,
+			   P.PROC_CD_NAME, LD.MCHN_CODE, M.MCHN_NAME, LD.LINE_CD_ORD,
+			   BR.RSC_CD_CODE, R.RSC_CD_NAME,
+		       BR.BOM_RSC_USE_VOL, BR.BOM_RSC_UNIT
+		FROM BF_CMN_BOM_RSC BR
+		     JOIN BF_CMN_RSC_CODE R
+		       ON BR.RSC_CD_CODE = R.RSC_CD_CODE
+		     JOIN BF_CMN_LINE_CODE LD
+		       ON LD.LINE_CD_CODE = BR.LINE_CD_CODE
+		     JOIN BF_CMN_PROC_CODE P
+		       ON P.PROC_CD_CODE = LD.PROC_CD_CODE
+		     JOIN BF_EQP_MCHN M
+		       ON M.MCHN_CODE = LD.MCHN_CODE
+		<if test="bomCode != null and bomCode != ''">
+		WHERE BOM_CD_CODE = #{bomCode}
+		</if>
+		ORDER BY LINE_CD_CODE, PROC_CD_CODE
+	</select>
 </mapper>

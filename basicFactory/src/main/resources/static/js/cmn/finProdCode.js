@@ -63,18 +63,18 @@ $("document").ready(function(){
     
 
     //체크박스 체크유무
-    let allCheck = $("#allCheck");
     $("#allCheck").click("change",function(){
         if($("#allCheck").is(":checked")){
             $("#finProdTable tbody input:checkbox[name='cb']").prop("checked",true);
         }else{
             $("#finProdTable tbody input:checkbox[name='cb']").prop("checked",false);
         }
-    })
-
-    $("#finProdTable tbody").on("change","input:checkbox[name='cb']",function(){
-        if(!$("this").is(":checked")){
-            $("#allCheck").prop("checked",false);
-        }
+    });
+    $("input[name='cb']").click(function(e){
+        e.stopPropagation();
+        let total = $("input[name=cb]").length;
+        let checked = $("input[name=cb]:checked").length;
+        if (total != checked) $("#allCheck").prop("checked",false);
+        else $("#allCheck").prop("checked", true);
     });
 });

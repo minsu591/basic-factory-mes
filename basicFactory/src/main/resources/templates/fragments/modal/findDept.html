@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+
+	<th:block th:fragment="findDept">
+		<div class="modal fade" id="findDeptModal" tabindex="-1"
+			role="dialog" aria-labelledby="findDeptModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="findDeptModalLabel">부서 조회</h3>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-inline">
+							<div class="form-group mt-3">
+								<label for="modalDeptName" th:text="부서이름"></label>
+								<input type="text" id="modalDeptName" name="modalDeptName"
+									class="form-control mx-sm-3">
+								<button type="button" class="btn btn-primary"
+									id="findDeptBtn" th:text="검색"></button>
+
+							</div>
+						</div>
+
+						<div class="card-body table-border-style">
+							<div class="table-responsive">
+								<table class="table table-hover" id="findDeptTable">
+									<thead>
+										<tr>
+											<th th:text="부서번호"></th>
+											<th th:text="부서명"></th>
+										</tr>
+									</thead>
+									<tbody>
+									
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" th:text="선택"
+							th:onclick=""></button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</th:block>
+</body>
+</html>

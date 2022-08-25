@@ -12,6 +12,7 @@ public class BomVO {
 	private String finPrdCdCode;
 	private String finPrdCdName;
 	private String lineCdHdCode;
+	private String lineCdHdName;
 	private int bomCdProdVol;
 	private String bomCdUnit;
 	private String bomCdUse;
