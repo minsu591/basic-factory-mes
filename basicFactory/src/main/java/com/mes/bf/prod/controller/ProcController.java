@@ -116,16 +116,10 @@ public class ProcController {
 	public void updateFltyVol(@RequestBody ProcessVO vo) {
 		service.updateFltyVol(vo);
 	}
-	//설비상태 진행중 업데이트
+	//설비상태 업데이트
 	@PutMapping("/updatemchnstts")
 	public void updateMchnStts(@RequestBody MchnVO vo) {
 		service.updateMchnStts(vo);
-	}
-	
-	//설비상태 디폴트 업데이트
-	@PutMapping("/updatemchnsttsdefault")
-	public void updateMchnSttsdefault(@RequestBody MchnVO vo) {
-		service.updateMchnSttsdefault(vo);
 	}
 	
 	//공정테이블 완료 여부 업데이트

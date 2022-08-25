@@ -70,11 +70,6 @@ public class ProcServiceImpl implements ProcService {
 		mapper.updateMchnStts(vo);	
 	}
 
-	@Override
-	public void updateMchnSttsdefault(MchnVO vo) {
-		mapper.updateMchnSttsdefault(vo);
-		
-	}
 
 	@Override
 	public void updateProcCheck(ProcessVO vo) {

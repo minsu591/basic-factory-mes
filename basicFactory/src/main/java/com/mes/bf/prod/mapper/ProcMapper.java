@@ -42,8 +42,7 @@ public interface ProcMapper {
 	
 	//설비 상태 진행중 업데이트
 	void updateMchnStts(MchnVO vo);
-	//설비 상태 default, 공정테이블 완료여부업데이트
-	void updateMchnSttsdefault(MchnVO vo);
+	//설비 상태 공정테이블 완료여부업데이트
 	void updateProcCheck(ProcessVO vo);
 
 	
