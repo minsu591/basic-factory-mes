@@ -1,10 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html 
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}">
 <head>
-<meta charset="UTF-8">
-<title>비가동 코드</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비가동 코드</title>
+    <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
 </head>
 <body>
-
+    <div class="pcoded-main-container">
+        <h1>비가동 코드 관리</h1>
+        <hr>
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    
+                    <!-- <form class="form-inline">
+                         <div class="form-group mt-3">
+                            <label for="nonOpName" th:text="비가동명"></label>
+                            <input type="text" id="nonOpName" class="form-control mx-sm-3">
+                        </div>
+                        
+                        <button type="submit" class="btn  btn-primary">조회</button>
+                    </form> -->
+                    <div class="rightBtn">
+                        <button type="button" class="btn  btn-primary">추가</button>
+                        <button type="button" class="btn  btn-primary">저장</button>
+                        <button type="button" class="btn  btn-primary">선택 삭제</button>
+                    </div>
+                </div>
+                <div class="card-body table-border-style">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox"></th>
+                                    <th th:text="비가동코드"></th>
+                                    <th th:text="비가동명"></th>
+                                    <th th:text="비고"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="nonOp : ${nonOp}">
+                                    <td><input type="checkbox"></td>
+                                    <td th:text="${nonOp.nonOpCode}"></td>
+                                    <td th:text="${nonOp.nonOpName}"></td>
+                                    <td th:text="${nonOp.nonOpRemk}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="rightBtn">
+                        <button type="button" class="btn  btn-primary">초기화</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </body>
 </html>

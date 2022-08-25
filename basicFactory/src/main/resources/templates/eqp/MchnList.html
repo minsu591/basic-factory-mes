@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <!-- <script type="text/javascript" th:src="@{/js/sales/*************.js}"></script> -->
+    <!-- <script type="text/javascript" th:src="@{/js/eqp/mchn.js}"></script> -->
 
     <div class="pcoded-main-container">
         <h1>설비 조회</h1>
@@ -29,15 +29,16 @@
 
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="mchnTable">
                             <thead>
                                 <tr>
-                                    <th th:text="설비조회"></th>
+                                    <th th:text="설비코드"></th>
                                     <th th:text="설비명"></th>
                                     <th th:text="모델명"></th>
                                     <th th:text="제작업체"></th>
                                     <th th:text="제작일자"></th>
                                     <th th:text="점검주기"></th>
+                                    <th th:text="최근점검일"></th>
                                     <th th:text="설비상태"></th>
                                     <th th:text="비고"></th>
                                 </tr>
@@ -50,6 +51,7 @@
                                     <td th:text="${mchn.vendCdNm}"></td>
                                     <td th:text="${mchn.mchnMnfctDate}"></td>
                                     <td th:text="${mchn.mchnInspcCycle}"></td>
+                                    <td th:text="${mchn.inspcEdate}"></td>
                                     <td th:text="${mchn.mchnStts}"></td>
                                     <td th:text="${mchn.mchnRemk}"></td>
                                 </tr>

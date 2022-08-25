@@ -11,6 +11,7 @@ xmlns:th="http://www.thymeleaf.org"
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
 </head>
 <body>
+    <script type="text/javascript" th:src="@{/js/cmn/vendorCode.js}"></script>
     <div class="pcoded-main-container">
         <h1>거래처 코드 관리</h1>
         <hr>
@@ -23,21 +24,20 @@ xmlns:th="http://www.thymeleaf.org"
                             <label for="vendorName" th:text="거래처명"></label>
                             <input type="text" id="vendorName" class="form-control mx-sm-3">
                         </div>
-                        
-                        <button type="submit" class="btn  btn-primary">조회</button>
+                        <button type="button" class="btn  btn-primary" id="selectBtn">조회</button>
                     </form>
                     <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary">추가</button>
-                        <button type="button" class="btn  btn-primary">저장</button>
-                        <button type="button" class="btn  btn-primary">선택 삭제</button>
+                        <button type="button" class="btn btn-primary" id="addBtn">추가</button>
+                        <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
+                        <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
                     </div>
                 </div>
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="vendorTable">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox"></th>
+                                    <th><input type="checkbox" id="allCheck"></th>
                                     <th th:text="거래처코드"></th>
                                     <th th:text="'담당자 아이디'"></th>
                                     <th th:text="거래처분류"></th>
@@ -64,12 +64,15 @@ xmlns:th="http://www.thymeleaf.org"
                         </table>
                     </div>
                     <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary">초기화</button>
+                        <button type="button" class="btn btn-primary">초기화</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+    <script>
+        
+
+    </script>
 </body>
 </html>

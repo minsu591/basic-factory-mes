@@ -9,6 +9,7 @@
 <body>
 <script type="text/javascript" th:src="@{/js/prod/ProcManage.js}"></script>
 <script type="text/javascript" th:src="@{/js/modal/prod/findproduct.js}"></script>
+<script type="text/javascript" th:src="@{/js/modal/prod/workInsert.js}"></script>
 <link th:href="@{/css/prod/ProcManage.css}" rel="stylesheet" />  
   
   <div class="pcoded-main-container">
@@ -114,7 +115,6 @@
                                         <th th:text="순서"></th>
                                         <th th:text="공정명"></th>
                                         <th th:text="설비명"></th>
-                                        <th th:text="자재LOTNo"></th>
                                         <th th:text="입고량"></th>
                                         <th th:text="기실적량"></th>
                                         <th th:text="미실적량"></th>
@@ -123,28 +123,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td th:text="1"></td>                                        
-                                        <td th:text="반죽공정"></td>
-                                        <td th:text="반죽기1호기"></td>
-                                        <td th:text="milgaru001"></td>                                     
-                                        <td th:text="${#numbers.formatInteger(500, 0, 'COMMA')}"></td>
-                                        <td th:text="${#numbers.formatInteger(300, 0, 'COMMA')}"></td>
-                                        <td th:text="${#numbers.formatInteger(0, 0, 'COMMA')}"></td>
-                                        <td th:text="${#numbers.formatInteger(0, 0, 'COMMA')}"></td>
-                                        <td><button type="submit" class="btn  btn-primary">진행전</button></td>                                    
-                                    </tr>
-                                     <tr>
-                                        <td th:text="2"></td>                                        
-                                        <td th:text="유탕공정"></td>
-                                        <td th:text="유탕기1호기"></td>
-                                        <td th:text="milgaru001"></td>                                     
-                                        <td th:text="${#numbers.formatInteger(500, 0, 'COMMA')}"></td>
-                                        <td th:text="${#numbers.formatInteger(300, 0, 'COMMA')}"></td>
-                                        <td th:text="${#numbers.formatInteger(0, 0, 'COMMA')}"></td>
-                                        <td th:text="${#numbers.formatInteger(0, 0, 'COMMA')}"></td>
-                                        <td><button type="submit" class="btn  btn-primary">진행전</button></td>                                    
-                                    </tr>
+                                    
                                     
                                 </tbody>
                             </table>

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,10 +95,10 @@ public class InstructionController {
 		return new ResponseEntity<List<FindProcStatusVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
-	// 라인별 자재 소요 예상량 조회
-	@GetMapping("/findvrscneedqty/{lineCdHdName}")
-	public ResponseEntity<List<VRscNeedQtyVO>> findVRscNeedQty(@PathVariable String lineCdHdName) {
-		List<VRscNeedQtyVO> list = service.findVRscNeedQty(lineCdHdName);
+	// 제품별 자재 소요 예상량 조회
+	@GetMapping("/findvrscneedqty/{finPrdCdCode}")
+	public ResponseEntity<List<VRscNeedQtyVO>> findVRscNeedQty(@PathVariable String finPrdCdCode) {
+		List<VRscNeedQtyVO> list = service.findVRscNeedQty(finPrdCdCode);
 		return new ResponseEntity<List<VRscNeedQtyVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 	
@@ -118,17 +119,31 @@ public class InstructionController {
 			//System.out.println(detailvo);
 			String finPrdCdCode = detailvo.getFinPrdCdCode();
 			System.out.println(detailvo.getFinPrdCdCode());
-			//service.insertInstruction(instvo, detailvo);
+			service.insertInstruction(instvo, detailvo);
 			service.insertProc(finPrdCdCode);
+			
+			//자재소요예상량 데이터 입력
+			service.insertNeedQty(finPrdCdCode);
+
+			//최초 공정 업데이트
+			service.updateinDtlVol(detailvo.getInstProdIndicaVol());
+			
+			
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 		
-		
-	
-		
 	}
 	
+	//자재소요예상량 업데이트
+	@PutMapping("/updateneedqty") //파라미터가 JSON이라 파싱필요
+	public void todoUpdate(@RequestBody Map<String,String> needQty) {
+		System.out.println(needQty.get("needQty"));
+		System.out.println(needQty.get("rscCdCode"));
+		
+		service.updateNeedQty(needQty.get("needQty"), needQty.get("rscCdCode"));
+		
+	}
 	
 	
 	

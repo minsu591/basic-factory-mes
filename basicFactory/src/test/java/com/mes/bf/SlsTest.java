@@ -48,6 +48,14 @@ public class SlsTest {
 		}
 	}
 	
+	@Test
+	void findOut() {
+		List<SlsOutHdDtlVO> list = outService.findOut("2022-08-24", "2022-08-24", "예담");
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).toString());
+		}
+	}
+	
 	//@Test
 	void findAllStock() {
 		List<SlsStockVO> list = stockService.findAllStock();
@@ -64,9 +72,17 @@ public class SlsTest {
 		}	
 	}
 	
-	@Test
+	//@Test
 	void findAllReturn() {
 		List<SlsRtnHdDtlVO> list = rtnService.findAllReturn();
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).toString());
+		}
+	}
+	
+	//@Test
+	void findReturn() {
+		List<SlsRtnHdDtlVO> list = rtnService.findReturn("2022-08-24", "2022-08-24", "2", "예담");
 		for(int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i).toString());
 		}

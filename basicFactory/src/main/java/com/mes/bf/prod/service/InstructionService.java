@@ -10,6 +10,7 @@ import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.InstructionVO;
+import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 import com.mes.bf.prod.vo.VRscNeedQtyVO;
@@ -20,7 +21,7 @@ public interface InstructionService {
 	List<FinProdCodeVO> findProduct(String prdCdCode, String prdCdName);
 
 	// 생산지시조회
-	List<VInstructionVO> findVInstruction(String instSdate,String instEdate,String vendorName,String productName);
+	List<VInstructionVO> findVInstruction(String instSdate, String instEdate, String vendorName, String productName);
 
 	// 담당자 검색
 	List<FindEmpVO> findEmp(String empName);
@@ -33,12 +34,22 @@ public interface InstructionService {
 
 	// 공정 상태 조회
 	List<FindProcStatusVO> findProcStatus(String lineName);
-	
-	//자재 소요 예상량 조회
-	List<VRscNeedQtyVO> findVRscNeedQty (String lineCdHdName);
-	
-	//생산지시 입력
-	void insertInstruction(InstructionVO vo,InstructionDetailVO detailvo);
-	//공정테이블 데이터 입력
+
+	// 자재 소요 예상량 조회
+	List<VRscNeedQtyVO> findVRscNeedQty(String finPrdCdCode);
+
+	// 생산지시 입력
+	void insertInstruction(InstructionVO vo, InstructionDetailVO detailvo);
+
+	// 공정테이블 데이터 입력
 	void insertProc(String finPrdCdCode);
+
+	// 자재소요예살양 데이터 입력
+	void insertNeedQty(String finPrdCdCode);
+
+	// 자재소요예상량 업데이트
+	void updateNeedQty(String needQty, String rscCdCode);
+
+	// 최초 공정 입고량 업데이트
+	void updateinDtlVol(int indicaVol);
 }

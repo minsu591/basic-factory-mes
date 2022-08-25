@@ -8,16 +8,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.ProcCodeVO;
+import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.service.ProcService;
 import com.mes.bf.prod.vo.ProcManageVO;
+import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
 
 @RestController
@@ -86,5 +88,20 @@ public class ProcController {
 		List<ProcManageVO> list = service.findProcManage();
 		return new ResponseEntity<List<ProcManageVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
+	
+	//공정테이블 조회
+	@GetMapping("/findprocess/{instProdNo}")
+	public ResponseEntity<List<ProcessVO>> findProcess(@PathVariable int instProdNo){
+		List<ProcessVO> list = service.findProcess(instProdNo);
+		return new ResponseEntity<List<ProcessVO>>(list,HttpStatus.OK);
+	}
+	
+	//설비명,상태 조회
+	@GetMapping("selectmchn/{finPrdCdCode}")
+	public ResponseEntity<List<MchnVO>> selectMchn(@PathVariable String finPrdCdCode){
+		List<MchnVO> list = service.selectMchn(finPrdCdCode);
+		return new ResponseEntity<List<MchnVO>>(list,HttpStatus.OK);
+	}
+	
 
 }

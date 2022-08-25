@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.cmn.mapper.NonOpMapper">
 
-	<select id="listNonOp" resultType="nonOpVO">
+	<select id="listNonOp" resultType="nonOp">
 		SELECT * FROM BF_CMN_NON_OP ORDER BY NON_OP_CODE
 	</select>
 

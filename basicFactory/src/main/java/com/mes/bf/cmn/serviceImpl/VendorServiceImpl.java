@@ -14,8 +14,8 @@ public class VendorServiceImpl implements VendorService {
 	
 	@Autowired VendorMapper mapper;
 	@Override
-	public List<VendorCodeVO> listVendor() {
-		return mapper.listVendor();
+	public List<VendorCodeVO> listVendor(String vendorName) {
+		return mapper.listVendor(vendorName);
 	}
 
 }

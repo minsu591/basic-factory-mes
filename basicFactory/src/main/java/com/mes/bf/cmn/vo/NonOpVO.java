@@ -5,7 +5,7 @@ import org.apache.ibatis.type.Alias;
 import lombok.Data;
 
 @Data
-@Alias("nonOpVO")
+@Alias("nonOp")
 public class NonOpVO {
 	
 	private String nonOpCode;	//비가동코드

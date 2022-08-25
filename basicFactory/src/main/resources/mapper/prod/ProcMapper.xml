@@ -2,95 +2,137 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.prod.mapper.ProcMapper">
 
-<!-- 설비조회 -->
-<select id="findMchn" resultType="vmchn">
-SELECT * FROM v_findmchn
-<where>
-	<if test="mchnCode != null and mchnCode != ''">
-		AND mchn_code LIKE #{mchnCode}
-	</if>
-	
-	<if test="mchnName != null and mchnName != ''">
-		AND mchn_name LIKE #{mchnName}
-	</if>
-	
-</where>
+	<!-- 설비조회 -->
+	<select id="findMchn" resultType="vmchn">
+		SELECT * FROM v_findmchn
+		<where>
+			<if test="mchnCode != null and mchnCode != ''">
+				AND mchn_code LIKE #{mchnCode}
+			</if>
 
-</select>
+			<if test="mchnName != null and mchnName != ''">
+				AND mchn_name LIKE #{mchnName}
+			</if>
+
+		</where>
+
+	</select>
 
 
-<!-- 공정실적전체조회 -->
-<select id="findProcPerform" resultType="vfindprocperformVO">
+	<!-- 공정실적전체조회 -->
+	<select id="findProcPerform" resultType="vfindprocperformVO">
 
-SELECT * FROM v_findprocperform
-<where>
-<if test="workSdate != null and workSdate != ''">
+		SELECT * FROM v_findprocperform
+		<where>
+			<if test="workSdate != null and workSdate != ''">
 	 
-	<![CDATA[ AND work_date >= #{workSdate} ]]> 
-</if>
+	<![CDATA[ AND work_date >= #{workSdate} ]]>
+			</if>
 
-<if test="workEdate != null and workEdate != ''">
-	<![CDATA[ AND work_date <= #{workEdate} ]]> 
-</if>
+			<if test="workEdate != null and workEdate != ''">
+	<![CDATA[ AND work_date <= #{workEdate} ]]>
+			</if>
 
-<if test="procCdName != null and procCdName != ''">
-	AND proc_cd_name LIKE #{procCdName}
-</if>
+			<if test="procCdName != null and procCdName != ''">
+				AND proc_cd_name LIKE #{procCdName}
+			</if>
 
-<if test="mchnName != null and mchnName != ''">
-	AND mchn_name LIKE #{mchnName}
-</if>
+			<if test="mchnName != null and mchnName != ''">
+				AND mchn_name LIKE #{mchnName}
+			</if>
 
-<if test="empId != null and empId != ''">
-	AND worker_name LIKE (SELECT emp_id FROM BF_CMN_EMP WHERE emp_name = #{empId})
-</if>
+			<if test="empId != null and empId != ''">
+				AND worker_name LIKE (SELECT emp_id FROM BF_CMN_EMP WHERE
+				emp_name =
+				#{empId})
+			</if>
 
-</where>
-</select>
+		</where>
+	</select>
 
-<!-- 공정명검색 -->
-<select id="findProcCode" resultType="procCode">
-SELECT * FROM BF_CMN_PROC_CODE
-<where>
-	<if test="procCdCode != null and procCdCode != ''">
-		AND proc_cd_code  LIKE #{procCdCode}
-	</if>
-	<if test="procCdName != null and procCdName != ''">
-		AND proc_cd_name  LIKE #{procCdName}
-	</if>
+	<!-- 공정명검색 -->
+	<select id="findProcCode" resultType="procCode">
+		SELECT * FROM BF_CMN_PROC_CODE
+		<where>
+			<if test="procCdCode != null and procCdCode != ''">
+				AND proc_cd_code LIKE #{procCdCode}
+			</if>
+			<if test="procCdName != null and procCdName != ''">
+				AND proc_cd_name LIKE #{procCdName}
+			</if>
 
-</where>
-</select>
+		</where>
+	</select>
 
-<!-- 공정실적관리테이블 조회 -->
+	<!-- 공정실적관리테이블 조회 -->
 
-<select id="findProcManage" resultType="ProcManageVO">
-SELECT inst.inst_no AS instNo,
-	   instdetail.work_date AS workDate,
-	   instdetail.fin_prd_cd_code AS finPrdCdCode,
-		(SELECT fin_prd_cd_name
-		 FROM BF_CMN_FINISH_PRODUCT_CODE 
-		 WHERE fin_prd_cd_code = instdetail.fin_prd_cd_code) AS finPrdCdName,
-	   instdetail.inst_prod_indica_vol AS instProdIndicaVol,
-	   instdetail.work_scope AS workScope,
-       process.vir_result AS virResult,
-       process.non_result AS nonResult
-FROM 
-	BF_PROD_INSTRUCTION inst,
-	BF_PROD_INST_DETAIL instdetail,
-	BF_PROD_PROCESS process
-WHERE
-	inst.inst_no = instdetail.inst_prod_no AND
-	process.inst_prod_no =  instdetail.inst_prod_no
-GROUP BY 
-	inst.inst_no,
-	instdetail.work_date,
-	instdetail.fin_prd_cd_code,
-	instdetail.inst_prod_indica_vol,
-	instdetail.work_scope,
-	process.vir_result,
-	process.non_result
+	<select id="findProcManage" resultType="ProcManageVO">
 
-</select>
+		SELECT inst.inst_no AS
+		instNo,
+		instdetail.inst_prod_no instProdNo,
+		instdetail.work_date AS workDate,
+		instdetail.fin_prd_cd_code AS finPrdCdCode,
+		(SELECT
+		fin_prd_cd_name
+		FROM
+		BF_CMN_FINISH_PRODUCT_CODE
+		WHERE
+		fin_prd_cd_code = instdetail.fin_prd_cd_code)
+		AS finPrdCdName,
+		instdetail.inst_prod_indica_vol AS instProdIndicaVol,
+		instdetail.work_scope AS workScope,
+		process.vir_result AS virResult,
+		process.non_result AS nonResult
+		FROM
+		BF_PROD_INSTRUCTION inst,
+		BF_PROD_INST_DETAIL instdetail,
+		BF_PROD_PROCESS process
+		WHERE
+		inst.inst_no = instdetail.inst_no AND
+		instdetail.inst_prod_no = process.inst_prod_no
+		GROUP BY
+		inst.inst_no,
+		instdetail.inst_prod_no,
+		instdetail.work_date,
+		instdetail.fin_prd_cd_code,
+		instdetail.inst_prod_indica_vol,
+		instdetail.work_scope,
+		process.vir_result,
+		process.non_result
+		ORDER BY 1, 2
+
+	</select>
+
+	<!-- 공정테이블 조회 -->
+
+	<select id="findProcess"
+		resultType="com.mes.bf.prod.vo.ProcessVO">
+		SELECT * FROM bf_prod_process
+		WHERE inst_prod_no =
+		#{instProdNo}
+		order by 2,3
+	</select>
+
+	<!-- 제품코드로 설비명,상태 조회 -->
+	<select id="selectMchn" resultType="MchnVO">
+		SELECT 
+			mchn.mchn_name,
+			mchn.mchn_stts
+		FROM 
+			BF_EQP_MCHN mchn,
+			BF_CMN_LINE_CODE linecode,
+			BF_CMN_LINE_CODE_HD linehd,
+			BF_CMN_BOM_CODE bomcode
+		WHERE 
+			mchn.mchn_code = linecode.mchn_code 
+		AND
+			linecode.line_cd_hd_code = linehd.line_cd_hd_code 
+		AND
+		linehd.line_cd_hd_code = bomcode.line_cd_hd_code 
+		AND
+		fin_prd_cd_code = #{finPrdCdCode}
+
+	</select>
 
 </mapper>

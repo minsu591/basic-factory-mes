@@ -67,9 +67,14 @@ public class JoinTest {
 		}
 	}
 	
-	@Test
+	//@Test
 	void insertProc() {
 		service2.insertProc("FIN001");
+	}
+	
+	@Test
+	void updateNeedQTY() {
+		service2.updateNeedQty("300", "RSC0022");
 	}
 	
 }

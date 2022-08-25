@@ -14,5 +14,5 @@ public interface SlsOrdService {
 	List<SlsOrdHdDtlVO> findOrder(String ordSdate, String ordEdate, String vendorName);
 	
 	//생산계획관리의 미계획 주문내역 조회
-	List<SlsOrdPlanVO> findOrderForPlan(String ordSdate, String ordEdate);
+	List<SlsOrdPlanVO> findOrderForPlan(String ordSdate, String ordEdate, String ordType);
 }

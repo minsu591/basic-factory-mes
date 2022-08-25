@@ -7,5 +7,5 @@ import org.apache.ibatis.annotations.Mapper;
 import com.mes.bf.cmn.vo.FinProdCodeVO;
 
 public interface FinProdService {
-	List<FinProdCodeVO> listFinProd();
+	List<FinProdCodeVO> listFinProd(String finName);
 }

@@ -8,5 +8,5 @@ import com.mes.bf.cmn.vo.ProcCodeVO;
 
 @Mapper
 public interface ProcCodeMapper {
-	List<ProcCodeVO> listProcCode();
+	List<ProcCodeVO> listProcCode(String procName);
 }

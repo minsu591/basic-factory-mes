@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.mes.bf.cmn.vo.RscCodeVO;
 
-public interface RscService {
+public interface RscCodeService {
 	
 	List<RscCodeVO> listRsc();
 

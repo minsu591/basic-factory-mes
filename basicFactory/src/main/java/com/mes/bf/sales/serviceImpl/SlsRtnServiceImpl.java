@@ -19,4 +19,9 @@ public class SlsRtnServiceImpl implements SlsRtnService{
 		return mapper.findAllReturn();
 	}
 
+	@Override
+	public List<SlsRtnHdDtlVO> findReturn(String rtnSdate, String rtnEdate, String prcCls, String vendorName) {
+		return mapper.findReturn(rtnSdate, rtnEdate, prcCls, vendorName);
+	}
+
 }

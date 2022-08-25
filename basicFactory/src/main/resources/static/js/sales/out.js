@@ -26,12 +26,12 @@ $(document).ready(function () {
     let node = `<tr>
                     <td>${obj.slsOutHdVO.slsOutHdDate}</td>
                     <td>${obj.slsOutHdVO.slsOutHdNo}</td>
-                    <td>${obj.slsOutDtlVO.vendCdNm}</td>
+                    <td>${obj.slsOutHdVO.vendCdNm}</td>
                     <td>${obj.slsOutDtlVO.finPrdCdCode}</td>
                     <td>${obj.slsOutDtlVO.finPrdCdName}</td>
                     <td>${obj.slsOutHdVO.slsOrdHdNo}</td>
                     <td>${obj.slsOutDtlVO.slsOrdDtlVol}</td>
-                    <td>${obj.slsOutDtlVO.slsOrdDtlOutVol}</td>
+                    <td>${obj.slsOutDtlVO.slsOutDtlPrvsVol}</td>
                     <td>${obj.slsOutDtlVO.slsOutDtlVol}</td>
                     <td>${obj.slsOutDtlVO.slsOrdDtlNotOutVol}</td>
                     <td>${obj.slsOutDtlVO.fnsPrdStkLotNo}</td>
@@ -53,7 +53,6 @@ $(document).ready(function () {
     let outEdate = $("#outEdate").val();
     let vendorName = $("#vendorName").val();
 
-    console.log(ordSdate);
     $.ajax({
       url: "findOut",
       method: "GET",
