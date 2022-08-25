@@ -134,5 +134,73 @@
 		fin_prd_cd_code = #{finPrdCdCode}
 
 	</select>
+	
+	<!-- 공정명과 작업번호를 받아서 공정테이블 실적량(생산량) 수정 -->
+	
+	<update id="updateProcVol" parameterType="ProcessVO">
+	
+	UPDATE 
+		BF_PROD_PROCESS 
+	SET 
+		total_prod_vol = #{totalProdVol} 
+	WHERE 
+		inst_prod_no = #{instProdNo} 
+	AND 
+		proc_cd_name = #{procCdName}
+	
+	</update>
+	
+	<!-- 공정테이블 불량수정 -->
+	<update id="updateFltyVol" parameterType="ProcessVO">
+		UPDATE 
+			BF_PROD_PROCESS 
+		SET 
+			flty_vol = #{fltyVol} 
+		WHERE 
+			inst_prod_no = #{instProdNo} 
+		AND 
+			proc_cd_name = #{procCdName}
+	</update>
+	
+	<!-- 설비상태 진행중 업데이트 -->
+	
+	<update id="updateMchnStts" parameterType="MchnVO">
+		UPDATE
+			BF_EQP_MCHN
+		SET 
+			mchn_stts = '진행중'
+		WHERE
+			mchn_code = #{mchnCode}
+	
+	</update>
 
+	<!-- 설비상태 default 업데이트 -->	
+
+	<update id="updateMchnSttsdefault" parameterType="MchnVO">
+		UPDATE
+			BF_EQP_MCHN
+		SET 
+			mchn_stts = '진행전'
+		WHERE
+			mchn_code = #{mchnCode}
+	</update>
+	
+	<!-- 공정테이블 완료여부 업데이트   -->
+	<update id="updateProcCheck">
+		UPDATE
+			BF_PROD_PROCESS
+		SET
+			completion_status = 'y'
+		WHERE
+			process_no = #{processNo}
+	
+	</update>
+	
+	<!-- 공정 실적 테이블 등록 -->
+	<insert id="InsertProcPerfrom">
+	
+	
+	</insert>
+	
+	
 </mapper>

@@ -26,7 +26,7 @@ $(document).ready(function () {
         dataType: "json",
         async: false, //동기로 처리
         success: function (data) {
-          // console.log(data);
+          console.log(data);
           check = true;
           $("#workInsertTable tbody tr").remove();
           let index = 0;
@@ -42,7 +42,7 @@ $(document).ready(function () {
           method: "GET",
           dataType: "json",
           success: function (data) {
-            console.log(data);
+            //console.log(data);
             let index = 0;
 
             for (obj of data) {
@@ -91,7 +91,7 @@ function procManageMakeRow(obj, index) {
                 <td>${obj.virResult}</td>
                 <td>${obj.nonResult}</td>
                 <td>${obj.workScope}</td>
-                <input type="hidden" value="${obj.instProdNo}">
+                <input type="hidden" name="instProdNo" value="${obj.instProdNo}">
               </tr>`;
 
   $("#procManageTable tbody").append(node);
@@ -105,7 +105,11 @@ function workinsertTableMakeRow(obj) {
               <td>${obj.inDtlVol}</td>
               <td>${obj.virResult}</td>
               <td>${obj.nonResult}</td>
+              <td>${obj.totalProdVol}</td>
               <td>${obj.fltyVol}</td>
+              <input type="hidden" name="processNo" value="${obj.processNo}">
+              <input type="hidden" name="mchnCode" value="${obj.mchnCode}">
+              <input type="hidden" name="completionStatus" value="${obj.completionStatus}">
               </tr>`;
   $("#workInsertTable tbody").append(node);
 }
@@ -132,8 +136,8 @@ function workinsertTableLastChildMakeRow(obj, index) {
 function mchnStatusMakeRow(obj) {
   let node = `
             <div>
-              <button type="button" class="btn m-r-20 btn-outline-primary">${obj.mchnName}</button>
-              <button type="button" class="btn  btn-outline-primary">${obj.mchnStts}</button>
+              <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
+              <div class="btn btn-outline-primary m-t-15">${obj.mchnStts}</div>
             </div>`;
 
   $("#mchnStatus").append(node);

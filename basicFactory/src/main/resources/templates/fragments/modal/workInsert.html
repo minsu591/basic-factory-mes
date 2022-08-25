@@ -22,10 +22,10 @@
 					</div>
 					<div class="modal-body">
 						<div class="row headerbtn">
-							<button type="submit" class="btn  btn-primary m-r-10"
-								th:text="저장"></button>
-							<button type="submit" class="btn  btn-primary m-r-10"
-								th:text="닫기"></button>
+							<button type="button" class="btn  btn-primary m-r-10"
+								th:text="저장" id="saveBtn"></button>
+							<button type="button" class="btn  btn-primary m-r-10"
+								th:text="닫기" id="closeBtn"></button>
 						</div>
 
 						<hr>
@@ -50,8 +50,8 @@
 										<div class="form-group mt-3">
 											<label for="instNo" th:text="지시번호"></label> <input
 												type="text" id="instNo" class="form-control mx-sm-3" readonly>
-											<label for="instProdNo" th:text="작업번호"></label> <input
-												type="text" id="instProdNo" class="form-control mx-sm-3" readonly>
+											<label for="processNo" th:text="작업번호"></label> <input
+												type="text" id="processNo" class="form-control mx-sm-3" readonly>
 											<label for="mchnName" th:text="설비"></label> <input
 												type="text" id="mchnName" class="form-control mx-sm-3" readonly>
 										</div>
@@ -155,12 +155,7 @@
 						</div>
 						</div>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save
-							changes</button>
-					</div>
+			
 				</div>
 			</div>
 		</div>
