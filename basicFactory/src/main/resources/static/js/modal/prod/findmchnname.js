@@ -7,8 +7,12 @@ $("document").ready(function () {
   });
   //설비테이블 클릭이벤트
   $("#findMchnTable").on("click", "tr", function () {
+    let mchnCode = $(this).find("td:eq(1)").text();
     let mchnName = $(this).find("td:eq(2)").text();
+
+    $("#mchnCode").val(mchnCode);
     $("#mchnname").val(mchnName);
+
     $("#findMchnNameModal").modal("hide");
   });
   //설비테이블 검색버튼 클릭 이벤트

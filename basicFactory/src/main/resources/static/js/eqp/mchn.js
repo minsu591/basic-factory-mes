@@ -1,23 +1,32 @@
 $(document).ready(function () {
+  $("#mchnListBtn").click(function () {
+    findMchnCode();
+  });
 
-  mchnList();
+  function findMchnCode() {
+    let mchnname = $("#mchnname").val();
+    let mchnCode = $("#mchnCode").val();
 
-  function mchnList(){
     $.ajax({
-      url : "mchnAllList",
-      method : "get",
-      contentType : "application/json;charset=utf-8",
-      dataType : "json",
-      success : function(data) {
-        console.log(data);
-        for (obj of data) {
+      url: "mchnList/mchncode",
+      method: "get",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      data: {
+        mchnname: mchnname,
+        mchnCode: mchnCode
+      },
+      success: function (result) {
+        console.log(result);
+        $("#mchnTable tbody tr").remove();
+        for (obj of result) {
           mchnMakeRow(obj);
           console.log(obj);
         }
       },
-      error : function(error) {
+      error: function (error) {
         console.log(error);
-      }
+      },
     });
   }
 
@@ -32,9 +41,7 @@ $(document).ready(function () {
                   <td>${obj.inspcEdate}</td>
                   <td>${obj.mchnStts}</td>
                   <td>${obj.mchnRemk}</td>
-                </tr>`
+                </tr>`;
     $("#mchnTable tbody").append(node);
   }
-
-
 });

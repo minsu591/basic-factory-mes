@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.eqp.mapper.InspcMapper">
+
+	<select id="listInspc" resultType="inspc">
+		SELECT INP.MCHN_CODE, 
+            	MC.MCHN_NAME, 
+            	INP.INSPC_SDATE, 
+            	INP.INSPC_EDATE,
+            	MC.MCHN_INSPC_CYCLE, 
+            	INP.INSPC_NXT_DATE, 
+            	INP.INSPC_ACTN_PNT, 
+            	INP.INSPC_ACTN_RSN, 
+            	EMP.EMP_NAME,
+            	INP.INSPC_REMK
+		FROM BF_EQP_INSPC INP JOIN BF_EQP_MCHN MC
+			ON INP.MCHN_CODE = MC.MCHN_CODE
+		JOIN BF_CMN_EMP EMP
+			ON INP.EMP_ID = EMP.EMP_ID
+	</select>
+	
+	<select id="findListInspc" resultType="inspc">
+		SELECT INP.MCHN_CODE, 
+            	MC.MCHN_NAME, 
+            	INP.INSPC_SDATE, 
+            	INP.INSPC_EDATE,
+            	MC.MCHN_INSPC_CYCLE, 
+            	INP.INSPC_NXT_DATE, 
+            	INP.INSPC_ACTN_PNT, 
+            	INP.INSPC_ACTN_RSN, 
+            	EMP.EMP_NAME,
+            	INP.INSPC_REMK
+		FROM BF_EQP_INSPC INP JOIN BF_EQP_MCHN MC
+			ON INP.MCHN_CODE = MC.MCHN_CODE
+		JOIN BF_CMN_EMP EMP
+			ON INP.EMP_ID = EMP.EMP_ID
+		WHERE 1=1
+		<if test="mchnCode != null and mchnCode !=''">
+			AND INP.MCHN_CODE = #{mchnCode}
+		</if>
+		<if test="(inspcSdate != null and inspcSdate != '') and (inspcEdate != null and inspcEdate != '')">
+			AND INP.INSPC_EDATE BETWEEN #{inspcSdate} AND #{inspcEdate}
+		</if>
+	</select>
+	
+	
+</mapper>

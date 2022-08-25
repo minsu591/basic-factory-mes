@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Alias("inspc")
-public class MchnInspcVO {
+public class InspcVO {
 	
 	private int inspcNo;	//점검번호
 	private String mchnCode;	//설비코드
@@ -21,5 +21,6 @@ public class MchnInspcVO {
 	private String inspcActnRsn;	//조치사유
 	private String inspcRemk;	//비고
 	private String empId;	//직원 아이디
+	private String empName;	//직원 이름
 
 }

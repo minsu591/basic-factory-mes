@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+  </head>
+  <body>
+    <div class="table-responsive" id="inspcListDiv">
+      <table class="table table-striped" id="inspcListTable">
+        <thead>
+          <tr>
+            <th th:text="설비코드"></th>
+            <th th:text="설비명"></th>
+            <th th:text="점검시작일"></th>
+            <th th:text="점검종료일"></th>
+            <th th:text="점검주기"></th>
+            <th th:text="차기점검일"></th>
+            <th th:text="조치사항"></th>
+            <th th:text="조치내역"></th>
+            <th th:text="담당자명"></th>
+            <th th:text="비고"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="inspc : ${inspcs}">
+            <td th:text="${inspc.mchnCode}"></td>
+            <td th:text="${inspc.mchnName}"></td>
+            <td th:text="${inspc.inspcSdate}"></td>
+            <td th:text="${inspc.inspcEdate}"></td>
+            <td th:text="${inspc.mchnInspcCycle}"></td>
+            <td th:text="${inspc.inspcNxtDate}"></td>
+            <td th:text="${inspc.inspcActnPnt}"></td>
+            <td th:text="${inspc.inspcActnRsn}"></td>
+            <td th:text="${inspc.empName}"></td>
+            <td th:text="${inspc.inspcRemk}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

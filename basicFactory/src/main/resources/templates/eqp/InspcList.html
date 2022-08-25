@@ -8,6 +8,9 @@
     <link th:href="@{/css/eqp/inspc.css}" rel="stylesheet" />
   </head>
   <body>
+    <script type="text/javascript" th:src="@{/js/eqp/inspc.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
+
     <div class="pcoded-main-container">
       <h1>설비 점검 조회</h1>
       <hr />
@@ -16,32 +19,26 @@
           <div class="card-header">
             <form class="form-inline">
               <div class="form-group mt-3">
-                <label for="mchninspcDate" th:text="점검일자"></label>
+                <label for="inspcEdate" th:text="점검일자"></label>
                 <input type="date" id="inspcSdate" class="form-control mx-sm-3" /> ~
                 <input type="date" id="inspcEdate" class="form-control mx-sm-3" />
               </div>
               <br />
               <div class="form-group mt-3">
-                <label for="mchnName" th:text="설비명"></label>
-                <input type="text" id="mchnName" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" />
+                <label for="mchnname" th:text="설비명"></label>
+                <input type="text" id="mchnname" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" />
                 <label for="mchnCode" th:text="설비코드"></label>
                 <input type="text" id="mchnCode" class="form-control mx-sm-3" readonly />
               </div>
 
-              <button type="button" class="btn btn-primary" id="inspcBtn">조회</button>
+              <button type="button" class="btn btn-primary" id="inspcViewBtn">조회</button>
             </form>
-            <div class="rightBtn">
-              <button type="button" class="btn btn-primary">추가</button>
-              <button type="button" class="btn btn-primary">저장</button>
-              <button type="button" class="btn btn-primary">선택 삭제</button>
-            </div>
           </div>
           <div class="card-body table-border-style">
-            <div class="table-responsive">
-              <table class="table table-striped">
+            <div class="table-responsive" id="inspcListDiv">
+              <table class="table table-striped" id="inspcListTable">
                 <thead>
                   <tr>
-                    <th><input type="checkbox" /></th>
                     <th th:text="설비코드"></th>
                     <th th:text="설비명"></th>
                     <th th:text="점검시작일"></th>
@@ -57,20 +54,24 @@
                 <tbody>
                   <tr th:each="inspc : ${inspcs}">
                     <td th:text="${inspc.mchnCode}"></td>
-                    <td th:text="${inspc.rscCdName}"></td>
-                    <td th:text="${inspc.rscCdUnit}"></td>
-                    <td th:text="${inspc.rscCdClfy}"></td>
-                    <td th:text="${inspc.rscCdRemk}"></td>
+                    <td th:text="${inspc.mchnName}"></td>
+                    <td th:text="${inspc.inspcSdate}"></td>
+                    <td th:text="${inspc.inspcEdate}"></td>
+                    <td th:text="${inspc.mchnInspcCycle}"></td>
+                    <td th:text="${inspc.inspcNxtDate}"></td>
+                    <td th:text="${inspc.inspcActnPnt}"></td>
+                    <td th:text="${inspc.inspcActnRsn}"></td>
+                    <td th:text="${inspc.empName}"></td>
+                    <td th:text="${inspc.inspcRemk}"></td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <div class="rightBtn">
-              <button type="button" class="btn btn-primary">초기화</button>
-            </div>
           </div>
         </div>
       </div>
+      <!-- 설비코드 Modal -->
+      <th:block th:replace="~{/fragments/modal/findMchnName :: findMchnName}"></th:block>
     </div>
   </body>
 </html>
