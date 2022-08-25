@@ -1,76 +1,29 @@
 $(document).ready(function () {
-
-  //주문테이블 초기데이터 입력
-  orderTableInsert();
-
-  function orderTableInsert() {
-    $.ajax({
-      url: "findAllOrder",
-      method: "GET",
-      contentType: "application/json;charset=utf-8",
-      dataType: "json",
-      error: function(error) {
-        console.log(error);
-      },
-      success: function (data) {
-        console.log(data);
-        for (obj of data) {
-          console.log(obj);
-          orderMakeRow(obj);
-        }
-      }
-    });
-  }
-  
-  function orderMakeRow(obj) {
+  //추가버튼
+  $("#addBtn").on("click", function () {
     let node = `<tr>
-                    <td>${obj.slsOrdHdVO.slsOrdHdDate}</td>
-                    <td>${obj.slsOrdHdVO.slsOrdHdNo}</td>
-                    <td>${obj.slsOrdHdVO.vendCdNm}</td>
-                    <td>${obj.slsOrdDtlVO.finPrdCdCode}</td>
-                    <td>${obj.slsOrdDtlVO.finPrdCdName}</td>
-                    <td>${obj.slsOrdDtlVO.slsOrdDtlDlvDate}</td>
-                    <td>${obj.slsOrdDtlVO.slsOrdDtlVol}</td>
-                    <td>${obj.slsOrdDtlVO.slsOrdDtlOutVol}</td>
-                    <td>${obj.slsOrdDtlVO.slsOrdDtlNotOutVol}</td>
-                    <td>${obj.slsOrdHdVO.empName}</td>
-					<td>${obj.slsOrdHdVO.slsOrdHdRemk}</td>
-                </tr>`;
-    $("#orderTable tbody").append(node);
-  }
-
-  //조건에 맞는 주문내역 조회
-  $("#ordBtn").click(function() {
-    findOrder();
+                <td><input type="checkbox"></td>`;
+    //allCheck의 체크박스가 체크되어있으면 추가되는 행도 체크된 채로 나오기
+    if ($("#allCheck").is(":checked")) {
+      node = `<tr>
+              <td><input type="checkbox" checked></td>`
+    }
+    
+    node += `<td><input type="text" id="productCode" 
+                                    class="form-control mx-sm-2" data-toggle="modal"
+                                    data-target=".bd-example-modal-lg"></td>
+              <td><input type="text" id="productName" class="form-control mx-sm-2" readonly></td>
+              <td><input type="date" id="slsOrdDtlDlvDate" class="form-control mx-sm-2"></td>
+              <td><input type="text" id="slsOrdDtlVol" class="form-control mx-sm-2"></td>
+            </tr>`
+    console.log(node);
+    $("#ordMngTable tbody").append(node);
   });
 
-  function findOrder() {
-    let ordSdate = $("#orderSdate").val();
-    let ordEdate = $("#orderEdate").val();
-    let vendorName = $("#vendorName").val();
-
-    console.log(ordSdate);
-    $.ajax({
-      url: "findOrder",
-      method: "GET",
-      contentType: "application/json;charset=utf-8",
-      dataType : "json",
-      data: {
-        ordSdate: ordSdate,
-        ordEdate: ordEdate,
-        vendorName: vendorName
-      },
-      error: function(error) {
-        console.log(error);
-      },
-      success: function (data) {
-        console.log(data);
-        $('#orderTable tbody tr').remove();
-        
-        for (obj of data) {
-          orderMakeRow(obj);
-        }
-      }
-    });
-  }
+  $("#ordMngTable").on("click", "#productCode", function (e) {
+    e.preventDefault();
+    //제품 조회
+    findProduct();
+    $("#findproductModal").modal("show");
+  })
 });

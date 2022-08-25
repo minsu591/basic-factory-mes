@@ -11,6 +11,7 @@ import com.mes.bf.sales.service.SlsOutService;
 import com.mes.bf.sales.service.SlsRtnService;
 import com.mes.bf.sales.service.SlsStockService;
 import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
+import com.mes.bf.sales.vo.SlsOrdHdVO;
 import com.mes.bf.sales.vo.SlsOutHdDtlVO;
 import com.mes.bf.sales.vo.SlsRtnHdDtlVO;
 import com.mes.bf.sales.vo.SlsStockVO;
@@ -88,4 +89,10 @@ public class SlsTest {
 		}
 	}
 	
+	void findOrderModal() {
+		List<SlsOrdHdVO> list = service.findOrderModal("2022-08-24", "2022-08-24");
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).toString());
+		}
+	}
 }
