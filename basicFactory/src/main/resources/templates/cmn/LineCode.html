@@ -11,6 +11,7 @@ xmlns:th="http://www.thymeleaf.org"
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
 </head>
 <body>
+    <script type="text/javascript" th:src="@{/js/cmn/lineCode.js}"></script>
     <div class="pcoded-main-container">
         
         <div class="rightBtn">
@@ -28,27 +29,27 @@ xmlns:th="http://www.thymeleaf.org"
                             <label for="lineName" th:text="라인명"></label>
                             <input type="text" id="lineName" class="form-control mx-sm-3">
                         </div>
-                        <button type="submit" class="btn  btn-primary">조회</button>
+                        <button type="button" class="btn btn-primary" id="lineSelectBtn">조회</button>
                     </form>
                     <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary">BOM 추가</button>
-                        <button type="button" class="btn  btn-primary">BOM 선택 삭제</button>
+                        <button type="button" class="btn btn-primary" id="lineAddBtn">라인 추가</button>
+                        <button type="button" class="btn btn-primary" id="lineDeleteBtn">라인 선택삭제</button>
                     </div>
         
                 </div>
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="lineTable">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox"></th>
+                                    <th><input type="checkbox" id="lineAllCheck"></th>
                                     <th th:text="'라인 코드'"></th>
                                     <th th:text="라인명"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="line : ${lines}">
-                                    <td><input type="checkbox"></td>
+                                    <td><input type="checkbox" name="lineCb"></td>
                                     <td th:text="${line.lineCdHdCode}">LINE001</td>
                                     <td th:text="${line.lineCdHdName}">1라인</td>
                                 </tr>
@@ -69,42 +70,35 @@ xmlns:th="http://www.thymeleaf.org"
                     
                     <form class="form-inline">
                         <div class="form-group mt-3">
-                           <label for="lineNameView" th:text="라인명"></label>
-                           <input type="text" id="lineNameView" class="form-control mx-sm-3" readonly>
+                            <input type="hidden" id="procLineCode">
+                           <label for="procLineName" th:text="라인명"></label>
+                           <input type="text" id="procLineName" class="form-control mx-sm-3" readonly>
                        </div>
                    </form>
                    <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary">추가</button>
-                        <button type="button" class="btn  btn-primary">선택 삭제</button>
+                        <button type="button" class="btn  btn-primary" id="procAddBtn">추가</button>
+                        <button type="button" class="btn  btn-primary" id="procDeleteBtn">선택 삭제</button>
                    </div>
                 </div>
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="lineProcTable">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox"></th>
-                                    <th th:text="공정순서"></th>
+                                    <th><input type="checkbox" id="procAllCheck"></th>
                                     <th th:text="공정코드"></th>
                                     <th th:text="공정명"></th>
+                                    <th th:text="공정순서"></th>
                                     <th th:text="설비코드"></th>
                                     <th th:text="설비명"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>1</td>
-                                    <td>PROC001</td>
-                                    <td>배합</td>
-                                    <td>MCHN001</td>
-                                    <td>배합 1호기</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary">공정 초기화</button>
+                        <button type="button" class="btn btn-primary" id="procResetBtn">공정 초기화</button>
                     </div>
                 </div>
             </div>

@@ -20,10 +20,10 @@ $("document").ready(function(){
 
     $("#addBtn").on("click",function(){
         let node = `<tr>
-                        <td><input type="checkbox"></td>`;
+                        <td><input type="checkbox" name="chk"></td>`;
         if ($("#allCheck").is(":checked")){
             node = `<tr>
-                        <td><input type="checkbox" checked></td>`;
+                        <td><input type="checkbox" name="chk" checked></td>`;
         }
         node +=`<td></td>
                 <td></td>
@@ -39,7 +39,7 @@ $("document").ready(function(){
 
     function vendorMakeRow(obj){
         let node = `<tr>
-                        <td><input type="checkbox"></td>
+                        <td><input type="checkbox" name="chk"></td>
                         <td>${obj.vendCdCode}</td>
                         <td>${obj.empId}</td>
                         <td>${obj.vendCdClfy}</td>
@@ -54,19 +54,18 @@ $("document").ready(function(){
 
     
 
-    //체크박스 체크유무
-    let allCheck = $("#allCheck");
-    $("#allCheck").click("change",function(){
-        if($("#allCheck").is(":checked")){
-            $("#vendorTable tbody input:checkbox").prop("checked",true);
-        }else{
-            $("#vendorTable tbody input:checkbox").prop("checked",false);
-        }
-    })
-
-    $("#vendorTable tbody").on("change","input:checkbox",function(){
-        if(!$("this").is(":checked")){
-            $("#allCheck").prop("checked",false);
-        }
-    });
+     //체크박스 체크유무
+     $("#allCheck").click("change",function(){
+         if($("#allCheck").is(":checked")){
+             $("#vendorTable tbody input:checkbox").prop("checked",true);
+         }else{
+             $("#vendorTable tbody input:checkbox").prop("checked",false);
+         }
+     })
+       $("input[name=chk]").click(function(){
+             let total = $("input[name=chk]").length;
+             let checked = $("input[name=chk]:checked").length;
+             if (total != checked) $("#allCheck").prop("checked",false);
+             else $("#allCheck").prop("checked", true);
+       })
 });

@@ -103,7 +103,7 @@
 		     AND P.FIN_PRD_CD_CODE = O.FIN_PRD_CD_CODE
 		WHERE 1=1
 		<choose>
-			<when test="startDate == 0 and endDate == 0 and data !=null">
+			<when test='startDate == "0" and endDate == "0" and data !=null'>
 				AND PH.PLAN_HD_CODE = #{data}
 			</when>
 			<otherwise>

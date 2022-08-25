@@ -11,6 +11,7 @@ xmlns:th="http://www.thymeleaf.org"
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
 </head>
 <body>
+    <script type="text/javascript" th:src="@{/js/cmn/bomCode.js}"></script>
     <div class="pcoded-main-container">
         <div class="rightBtn">
             <button type="button" class="btn  btn-primary">저장</button>
@@ -24,30 +25,31 @@ xmlns:th="http://www.thymeleaf.org"
                     
                     <form class="form-inline">
                          <div class="form-group mt-3">
-                            <label for="finProdName" th:text="완제품명"></label>
-                            <input type="text" id="finProdName" class="form-control mx-sm-3">
+                            <label for="finName" th:text="완제품명"></label>
+                            <input type="text" id="finName" class="form-control mx-sm-3">
                         </div>
                         
-                        <button type="submit" class="btn  btn-primary">조회</button>
+                        <button type="button" class="btn  btn-primary" id="bomSelectBtn">조회</button>
                     </form>
                     <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary">BOM 추가</button>
-                        <button type="button" class="btn  btn-primary">BOM 선택 삭제</button>
+                        <button type="button" class="btn  btn-primary" id="bomAddBtn">BOM 추가</button>
+                        <button type="button" class="btn  btn-primary" id="bomDeleteBtn">BOM 선택 삭제</button>
                     </div>
         
                 </div>
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="bomTable">
                             <thead>
                                 <tr>
                                     <!-- 한 행을 클릭할 때마다 셀렉트?-->
-                                    <th><input type="checkbox"></th>
+                                    <th><input type="checkbox" id="bomAllCheck"></th>
                                     <th th:text="'BOM 코드'"></th>
                                     <th th:text="BOM명"></th>
                                     <th th:text="'완제품 코드'"></th>
                                     <th th:text="완제품명"></th>
                                     <th th:text="라인코드"></th>
+                                    <th th:text="라인명"></th>
                                     <th th:text="생산량"></th>
                                     <th th:text="단위"></th>
                                     <th th:text="사용여부"></th>
@@ -56,12 +58,13 @@ xmlns:th="http://www.thymeleaf.org"
                             </thead>
                             <tbody>
                                 <tr th:each="bom : ${boms}">
-                                    <td><input type="checkbox"></td>
+                                    <td><input type="checkbox" name="bomCb"></td>
                                     <td th:text="${bom.bomCdCode}">BOM001</td>
                                     <td th:text="${bom.bomCdName}">BOM 이름</td>
                                     <td th:text="${bom.finPrdCdCode}">FIN001</td>
                                     <td th:text="${bom.finPrdCdName}">신라면</td>
                                     <td th:text="${bom.lineCdHdCode}">LINE001</td>
+                                    <td th:text="${bom.lineCdHdName}">LINE001</td>
                                     <td th:text="${bom.bomCdProdVol}">120</td>
                                     <td th:text="${bom.bomCdUnit}">개</td>
                                     <td><input type="checkbox" th:checked="${bom.bomCdUse eq '1'}"></td>
@@ -71,7 +74,7 @@ xmlns:th="http://www.thymeleaf.org"
                         </table>
                     </div>
                     <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary">BOM 초기화</button>
+                        <button type="button" class="btn  btn-primary" id="bomResetBtn">BOM 초기화</button>
                     </div>
                 </div>
             </div>
@@ -88,11 +91,11 @@ xmlns:th="http://www.thymeleaf.org"
                             <input type="text" id="bomCode" class="form-control mx-sm-3" readonly>
                         </div>
                         <div class="form-group mt-3">
-                            <label for="lineName" th:text="'생산 공정 라인'"></label>
-                            <input type="text" id="lineName" class="form-control mx-sm-3" readonly>
+                            <label for="lineCode" th:text="라인코드"></label>
+                            <input type="text" id="lineCode" class="form-control mx-sm-3" readonly>
                         </div>
                         <div class="form-group mt-3">
-                            <label for="prodVol" th:text="'제품 생산량'"></label>
+                            <label for="prodVol" th:text="'기준 생산량'"></label>
                             <input type="text" id="prodVol" class="form-control mx-sm-3" readonly>
                         </div>
                         <div class="form-group mt-3">
@@ -101,20 +104,22 @@ xmlns:th="http://www.thymeleaf.org"
                         </div>
                     </form>
                     <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary">자재 추가</button>
-                        <button type="button" class="btn  btn-primary">자재 선택 삭제</button>
+                        <button type="button" class="btn  btn-primary" id="rscAddBtn">자재 추가</button>
+                        <button type="button" class="btn  btn-primary" id="rscDeleteBtn">자재 선택 삭제</button>
                     </div>
         
                 </div>
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="bomRscTable">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox"></th>
-                                    <th th:text="'사용 공정명'"></th>
+                                    <th><input type="checkbox" id="rscAllCheck"></th>
+                                    <th th:text="'사용공정코드'"></th>
+                                    <th th:text="'사용공정명'"></th>
                                     <!--사용 공정을 선택하면 설비코드는 readonly option-->
-                                    <th th:text="'설비 코드'"></th>
+                                    <th th:text="'설비코드'"></th>
+                                    <th th:text="'설비명'"></th>
                                     <th th:text="'자재 코드'"></th>
                                     <!--자재 코드를 선택하면 자재명은 readonly option-->
                                     <th th:text="자재명"></th>
@@ -124,20 +129,12 @@ xmlns:th="http://www.thymeleaf.org"
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>배합</td>
-                                    <td>MCHN001</td>
-                                    <td>RSC001</td>
-                                    <td>밀가루</td>
-                                    <td>120</td>
-                                    <td>g</td>
-                                </tr>
+                                
                             </tbody>
                         </table>
                     </div>
                     <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary">자재 초기화</button>
+                        <button type="button" class="btn  btn-primary" id="bomRscResetBtn">자재 초기화</button>
                     </div>
                 </div>
             </div>

@@ -1,29 +1,39 @@
 $("document").ready(function(){
-    //조회버튼 click 이벤트
-    $("#selectBtn").on("click",function(){
-        let vendorName = $("#vendorName").val();
+    //bom 조회버튼 click 이벤트
+    $("#bomSelectBtn").on("click",function(){
+        let finName = $("#finName").val();
         $.ajax({
-            url : 'vendorCode/name',
+            url : 'bomCode/name',
             method : 'GET',
             dataType : 'json',
             data : {
-                vendorName : vendorName
+                finName : finName
             },
             success :function(result){
-                $("#vendorTable tbody tr").remove();
+                $("#bomTable tbody tr").remove();
                 for(obj of result){
-                    vendorMakeRow(obj);
+                    bomMakeRow(obj);
                 }
+
+                //필요 자재 목록 삭제
+                $("#bomCode").val('');
+                $("#lineCode").val('');
+                $("#prodVol").val('');
+                $("#prodUnit").val('');
+                $("#bomRscTable tbody tr").remove();
+
             }
-        })
+        });
+
     });
 
-    $("#addBtn").on("click",function(){
+    //bom 추가 버튼
+    $("#bomAddBtn").on("click",function(){
         let node = `<tr>
-                        <td><input type="checkbox"></td>`;
-        if ($("#allCheck").is(":checked")){
+                        <td><input type="checkbox" name="bomCb"></td>`;
+        if ($("#bomAllCheck").is(":checked")){
             node = `<tr>
-                        <td><input type="checkbox" checked></td>`;
+                        <td><input type="checkbox" name="bomCb" checked></td>`;
         }
         node +=`<td></td>
                 <td></td>
@@ -33,40 +43,138 @@ $("document").ready(function(){
                 <td></td>
                 <td></td>
                 <td></td>
+                <td><input type="checkbox"></td>
+                <td></td>
             </tr>`;
-        $("#vendorTable tbody").append(node);
+        $("#bomTable tbody").append(node);
     });
 
-    function vendorMakeRow(obj){
+    //bom tr 클릭
+    $("#bomTable tbody").on("click","tr",function(){
+        let bomCode = $(this).find("td:eq(1)").text();
+        let lineCode = $(this).find("td:eq(5)").text();
+        let prodVol = $(this).find("td:eq(7)").text();
+        let prodUnit = $(this).find("td:eq(8)").text();
+
+        $("#bomCode").val(bomCode);
+        $("#lineCode").val(lineCode);
+        $("#prodVol").val(prodVol);
+        $("#prodUnit").val(prodUnit);
+
+        $.ajax({
+            url : 'bomRsc',
+            methods : 'GET',
+            data : {
+                bomCode : bomCode
+            },
+            dataType : 'json',
+            success : function(result){
+                $("#bomRscTable tbody tr").remove();
+                for(obj of result){
+                    rscMakeRow(obj);
+                }
+            }
+        })
+    })
+
+
+    //rsc 추가 버튼
+    $("#rscAddBtn").on("click",function(){
+        if($("#bomCode").val() == ''){
+            alert("bom을 선택하고 자재를 추가해주세요.");
+        }else{
+            let node = `<tr>
+                            <td><input type="checkbox" name="rscCb"></td>`;
+            if ($("#rscAllCheck").is(":checked")){
+                node = `<tr>
+                            <td><input type="checkbox" name="rscCb" checked></td>`;
+            }
+            node +=`<td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>`;
+            $("#bomRscTable tbody").append(node);
+        }
+    });
+
+    function bomMakeRow(obj){
         let node = `<tr>
-                        <td><input type="checkbox"></td>
-                        <td>${obj.vendCdCode}</td>
-                        <td>${obj.empId}</td>
-                        <td>${obj.vendCdClfy}</td>
-                        <td>${obj.vendCdNm}</td>
-                        <td>${obj.vendCdRegNo}</td>
-                        <td>${obj.vendCdPhone}</td>
-                        <td>${obj.vendCdAdr}</td>
-                        <td>${obj.vendCdRemk}</td>
-                    </tr>`;
-        $("#vendorTable tbody").append(node);
+                        <td><input type="checkbox" name="bomCb"></td>`;
+        if($("#bomAllCheck").is(":checked")){
+            node = `<tr>
+                <td><input type="checkbox" name="bomCb" checked></td>`
+        }
+        node += `<td>${obj.bomCdCode}</td>
+                <td>${obj.bomCdName}</td>
+                <td>${obj.finPrdCdCode}</td>
+                <td>${obj.finPrdCdName}</td>
+                <td>${obj.lineCdHdCode}</td>
+                <td>${obj.lineCdHdName}</td>
+                <td>${obj.bomCdProdVol}</td>
+                <td>${obj.bomCdUnit}</td>`;
+        if(obj.bomCdUse == 1){
+            node += `<td><input type="checkbox" checked></td>`;
+        }else{
+            node += `<td><input type="checkbox"></td>`;
+        }
+        node += `<td>${obj.bomCdRemk}</td>
+                </tr>`;
+        $("#bomTable tbody").append(node);
+    }
+
+    function rscMakeRow(obj){
+        let node = `<tr>
+                        <td><input type="checkbox" name="rscCb"></td>`;
+        if($("#rscAllCheck").is(":checked")){
+            node = `<tr>
+                <td><input type="checkbox" name="rscCb" checked></td>`
+        }
+        node+= `<td>${obj.lineCodeVO.procCdCode}</td>
+                <td>${obj.lineCodeVO.procCdName}</td>
+                <td>${obj.lineCodeVO.mchnCode}</td>
+                <td>${obj.lineCodeVO.mchnName}</td>
+                <td>${obj.bomRscVO.rscCdCode}</td>
+                <td>${obj.bomRscVO.rscCdName}</td>
+                <td>${obj.bomRscVO.bomRscUseVol}</td>
+                <td>${obj.bomRscVO.bomRscUnit}</td>
+                </tr>`;
+        $("#bomRscTable tbody").append(node);
     }
 
     
 
-    //체크박스 체크유무
-    let allCheck = $("#allCheck");
-    $("#allCheck").click("change",function(){
-        if($("#allCheck").is(":checked")){
-            $("#vendorTable tbody input:checkbox").prop("checked",true);
+    //bom 체크박스 체크유무
+    $("#bomAllCheck").click("change",function(){
+        if($("#bomAllCheck").is(":checked")){
+            $("#bomTable tbody input:checkbox[name='bomCb']").prop("checked",true);
         }else{
-            $("#vendorTable tbody input:checkbox").prop("checked",false);
+            $("#bomTable tbody input:checkbox[name='bomCb']").prop("checked",false);
         }
     })
+    $("input[name='bomCb']").click(function(e){
+        e.stopPropagation();
+        let total = $("input[name='bomCb']").length;
+        let checked = $("input[name='bomCb']:checked").length;
+        if (total != checked) $("#bomAllCheck").prop("checked",false);
+        else $("#bomAllCheck").prop("checked", true);
+    })
 
-    $("#vendorTable tbody").on("change","input:checkbox",function(){
-        if(!$("this").is(":checked")){
-            $("#allCheck").prop("checked",false);
+    //rsc 체크박스 체크유무
+    $("#rscAllCheck").click("change",function(){
+        if($("#rscAllCheck").is(":checked")){
+            $("#bomRscTable tbody input:checkbox[name='rscCb']").prop("checked",true);
+        }else{
+            $("#bomRscTable tbody input:checkbox[name='rscCb']").prop("checked",false);
         }
-    });
+    })
+    $("input[name='rscCb']").click(function(e){
+        let total = $("input[name=rscCb]").length;
+        let checked = $("input[name=rscCb]:checked").length;
+        if (total != checked) $("#rscAllCheck").prop("checked",false);
+        else $("#rscAllCheck").prop("checked", true);
+    })
+
 });

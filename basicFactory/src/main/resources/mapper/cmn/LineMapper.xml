@@ -3,9 +3,26 @@
 <mapper namespace="com.mes.bf.cmn.mapper.LineMapper">
 	
 	<select id="listLineCodeHd" resultType="lineCodeHd">
-		select *
-		from bf_cmn_line_code_hd
-		order by line_cd_hd_code
+		SELECT LH.LINE_CD_HD_CODE, LH.LINE_CD_HD_NAME
+		  FROM BF_CMN_LINE_CODE_HD LH
+		<if test="lineName != null and lineName != ''">
+        WHERE LH.LINE_CD_HD_NAME LIKE '%'||#{lineName}||'%'
+		</if>
+		ORDER BY LH.LINE_CD_HD_CODE
+	</select>
+	
+	<select id="listLineCode" resultType="lineCodeVO">
+		SELECT L.LINE_CD_ORD, L.LINE_CD_CODE, L.LINE_CD_HD_CODE,
+			   L.PROC_CD_CODE, P.PROC_CD_NAME, L.MCHN_CODE, M.MCHN_NAME
+			   FROM BF_CMN_LINE_CODE L
+			   JOIN BF_CMN_PROC_CODE P
+		         ON P.PROC_CD_CODE = L.PROC_CD_CODE
+		       JOIN BF_EQP_MCHN M
+		         ON M.MCHN_CODE = L.MCHN_CODE
+		<if test="lineCode != null and lineCode != ''">
+		WHERE L.LINE_CD_HD_CODE = #{lineCode}
+		</if>
+		ORDER BY L.LINE_CD_CODE
 	</select>
 	
 </mapper>

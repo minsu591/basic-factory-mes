@@ -23,10 +23,10 @@ $("document").ready(function(){
 
     $("#addBtn").on("click",function(){
         let node = `<tr>
-                        <td><input type="checkbox" ></td>`;
+                        <td><input type="checkbox" name="cb"></td>`;
         if ($("#allCheck").is(":checked")){
             node = `<tr>
-                        <td><input type="checkbox" checked ></td>`;
+                        <td><input type="checkbox" name="cb" checked ></td>`;
         }
         node +=`<td></td>
                 <td></td>
@@ -37,7 +37,7 @@ $("document").ready(function(){
 
     function procMakeRow(obj){
         let node = `<tr>
-                        <td><input type="checkbox" ></td>
+                        <td><input type="checkbox" name="cb"></td>
                         <td>${obj.procCdCode}</td>
                         <td>${obj.procCdName}</td>
                         <td>${obj.procCdRemk}</td>`;
@@ -47,18 +47,18 @@ $("document").ready(function(){
     
 
     //체크박스 체크유무
-    let allCheck = $("#allCheck");
     $("#allCheck").click("change",function(){
         if($("#allCheck").is(":checked")){
-            $("#procTable tbody input:checkbox").prop("checked",true);
+            $("#procTable tbody input:checkbox[name='cb']").prop("checked",true);
         }else{
-            $("#procTable tbody input:checkbox").prop("checked",false);
+            $("#procTable tbody input:checkbox[name='cb']").prop("checked",false);
         }
-    })
-
-    $("#procTable tbody").on("change","input:checkbox",function(){
-        if(!$("this").is(":checked")){
-            $("#allCheck").prop("checked",false);
-        }
+    });
+    $("input[name='cb']").click(function(e){
+        e.stopPropagation();
+        let total = $("input[name=cb]").length;
+        let checked = $("input[name=cb]:checked").length;
+        if (total != checked) $("#allCheck").prop("checked",false);
+        else $("#allCheck").prop("checked", true);
     });
 });
