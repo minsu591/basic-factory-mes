@@ -2,6 +2,7 @@ package com.mes.bf.prod.vo;
 
 import java.util.Date;
 
+import org.apache.ibatis.type.Alias;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,6 +11,7 @@ import lombok.Data;
 
 //공정실적
 @Data
+@Alias("ProcessPerformVO")
 public class ProcessPerformVO {
 	private Integer processPerformNo;
 	private Integer processNo;

@@ -184,9 +184,17 @@
 	
 	
 	<!-- 공정 실적 테이블 등록 -->
-	<!-- <insert id="insertProcPerform" parameterType="com.mes.bf.prod.vo.ProcessPerformVO">
+<!--  	<insert id="insertProcPerform" parameterType="ProcessPerformVO">
 	INSERT INTO 
-		BF_PROD_PROCESS_PERFORMANCE
+		BF_PROD_PROCESS_PERFORMANCE (
+									PROCESS_PERFOM_NO,
+                                    PROCESS_NO,
+                                    PROD_VOL,
+                                    FLTY_VOL,
+                                    WORK_START_TIME,
+                                    WORK_END_TIME,
+                                    WORKER_NAME
+									)
 	VALUES (
 			BF_PROD_PROCESS_PERFORMANCE_SEQ.nextval,
 			#{processNo),
@@ -194,11 +202,10 @@
 			#{fltyVol},
 			to_timestamp(#{workStartTime}, 'yyyy-MM-dd HH24:mi:ss.ff'),
 			to_timestamp(#{workEndTime}, 'yyyy-MM-dd HH24:mi:ss.ff'),
-			#{perpormRemk},
 			#{workerName}
 			)
 	
-	</insert> -->
+	</insert>  -->
 	
 	
 </mapper>
