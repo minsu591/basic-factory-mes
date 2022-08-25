@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.service.ProcService;
 import com.mes.bf.prod.vo.ProcManageVO;
+import com.mes.bf.prod.vo.ProcessPerformVO;
 import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
 
@@ -128,6 +130,11 @@ public class ProcController {
 		service.updateProcCheck(vo);
 	}
 	
-	
+	//공정 실적 등록
+	@PostMapping("/insertprocperform")
+	public void insertProcPerform(@RequestBody ProcessPerformVO vo) {
+		System.out.println(vo);
+		//service.InsertProcPerform(vo);
+	}
 
 }

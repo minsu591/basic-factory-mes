@@ -1,4 +1,6 @@
 $("document").ready(function () {
+  let date = new Date();
+
   $("#closeBtn").click(function () {
     $("#workInsertModal").modal("hide");
   });
@@ -138,9 +140,39 @@ $("document").ready(function () {
     } else {
     }
   });
-
+  //저장버튼
   $("#saveBtn").click(function () {
-    console.log("saveBtn");
+    //공정실적 테이블 등록
+    let workDate = $("#instDate").val();
+    let processNo = $("#processNo").val(); //작업번호
+    let prodVol = $("#workStateTable tr:eq(3) td").text(); //실적량
+    let fltyVol = $("#workStateTable tr:eq(4) td").text(); //불량랑
+    let procPerform = {
+      processNo: processNo,
+      prodVol: prodVol,
+      fltyVol: fltyVol,
+      workStartTime:
+        workDate + " " + $("#sHours").val() + ":" + $("#sMinutes").val(),
+      workEndTime:
+        workDate + " " + $("#eHours").val() + ":" + $("#eMinutes").val(),
+      workerName: $("#empid").val(),
+    };
+    console.log(procPerform);
+
+    $.ajax({
+      url: "insertprocperform",
+      method: "POST",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify(procPerform),
+      error: function (error, status, msg) {
+        //alert("상태코드 " + status + "에러메시지" + msg);
+        console.log(error);
+      },
+      success: function (data) {
+        console.log("success");
+      },
+    });
   });
 }); //document end
 let work;
@@ -173,12 +205,12 @@ function startWork() {
   }
   if ($("#sHours").val() == "" && $("#sMinutes").val() == "") {
     var date = new Date();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
+    let hours = ("0" + date.getHours()).slice(-2);
+    let minutes = ("0" + date.getMinutes()).slice(-2);
     $("#sHours").val(hours).prop("readonly", true);
     $("#sMinutes").val(minutes).prop("readonly", true);
     updateMchnStts();
-    work = setInterval(startinterval, 100);
+    work = setInterval(startinterval, 50);
   } else {
     alert("이미 시작했어요");
   }
@@ -215,8 +247,8 @@ function endWork() {
     //인터벌 종료
     clearInterval(work);
     var date = new Date();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
+    let hours = ("0" + date.getHours()).slice(-2);
+    let minutes = ("0" + date.getMinutes()).slice(-2);
     $("#eHours").val(hours).prop("readonly", true);
     $("#eMinutes").val(minutes).prop("readonly", true);
     let mchnCode;
@@ -245,6 +277,8 @@ function endWork() {
     //완료여부 업데이트
     let processNo = $("#processNo").val();
     console.log("완려여부 업데이트 프로세스번호->" + processNo);
+    let achieRate = $("#workStateTable tr:eq(5) td").text().slice(0, -1);
+
     $.ajax({
       url: `updateproccheck`,
       method: "PUT",
@@ -252,6 +286,7 @@ function endWork() {
       contentType: "application/json;charset=utf-8",
       data: JSON.stringify({
         processNo: processNo,
+        achieRate: achieRate,
       }),
       success: function (data) {
         alert("완료 업데이트");
@@ -260,7 +295,8 @@ function endWork() {
   } else {
     alert("이미 종료했어요");
   }
-}
+} // 작업종료 끝
+
 let num = 0;
 
 function startinterval() {

@@ -77,8 +77,8 @@ public class ProcServiceImpl implements ProcService {
 	}
 
 	@Override
-	public void InsertProcPerfrom(ProcessPerformVO vo) {
-		mapper.InsertProcPerfrom(vo);
+	public void insertProcPerform(ProcessPerformVO vo) {
+		mapper.insertProcPerform(vo);
 	}
 
 }

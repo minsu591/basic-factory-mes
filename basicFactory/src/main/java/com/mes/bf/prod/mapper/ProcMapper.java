@@ -42,11 +42,9 @@ public interface ProcMapper {
 	
 	//설비 상태 진행중 업데이트
 	void updateMchnStts(MchnVO vo);
-	//설비 상태 공정테이블 완료여부업데이트
+	//설비 상태 공정테이블 완료여부 달성률업데이트
 	void updateProcCheck(ProcessVO vo);
-
-	
 	//공정 실적 테이블 등록
-	void InsertProcPerfrom(ProcessPerformVO vo);
+	void insertProcPerform(ProcessPerformVO vo);
 	
 }

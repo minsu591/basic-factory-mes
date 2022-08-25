@@ -1,6 +1,10 @@
 package com.mes.bf.prod.vo;
 
-import java.sql.Date;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
@@ -10,10 +14,14 @@ public class ProcessPerformVO {
 	private Integer processPerformNo;
 	private Integer processNo;
 	private Integer prodVol;
-	private Integer fity_vol;
+	private Integer fltyVol;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
 	private Date workStartTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
 	private Date workEndTime;
-	private String perfomeRemk;
+	private String perpormRemk;
 	private String workerName;
 	
 	

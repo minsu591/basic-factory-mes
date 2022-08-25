@@ -45,6 +45,6 @@ public interface ProcService {
 	void updateProcCheck(ProcessVO vo);
 
 	// 공정 실적 테이블 등록
-	void InsertProcPerfrom(ProcessPerformVO vo);
+	void insertProcPerform(ProcessPerformVO vo);
 
 }
