@@ -40,37 +40,90 @@
 	</resultMap>
 	
 	<select id="findAllOrder" resultMap="ordHdDtlMap">
-		SELECT ordhd.sls_ord_hd_date, ordhd.sls_ord_hd_no, vend.vend_cd_nm, 
-                    fnsprd.fin_prd_cd_code, fnsprd.fin_prd_cd_name, 
-                    orddtl.sls_ord_dtl_dlv_date, orddtl.sls_ord_dtl_vol,
-                    orddtl.sls_ord_dtl_out_vol, orddtl.sls_ord_dtl_not_out_vol,
-                    emp.emp_name, ordhd.sls_ord_hd_remk
-		FROM bf_sales_ord_hd ordhd JOIN bf_sales_ord_dtl orddtl
-			ON ordhd.sls_ord_hd_no = orddtl.sls_ord_hd_no
-        JOIN BF_CMN_EMP emp
-            ON emp.emp_id = ordhd.emp_id
-		JOIN BF_CMN_VENDOR_CODE vend
-			ON vend.vend_cd_code = ordhd.vend_cd_code
-        JOIN BF_CMN_FINISH_PRODUCT_CODE fnsprd
-            ON fnsprd.fin_prd_cd_code = orddtl.fin_prd_cd_code
+		SELECT ORDHD.SLS_ORD_HD_DATE,
+			   ORDHD.SLS_ORD_HD_NO,
+			   VEND.VEND_CD_NM, 
+               FNSPRD.FIN_PRD_CD_CODE,
+               FNSPRD.FIN_PRD_CD_NAME, 
+               ORDDTL.SLS_ORD_DTL_DLV_DATE,
+               ORDDTL.SLS_ORD_DTL_VOL,
+               ORDDTL.SLS_ORD_DTL_OUT_VOL,
+               ORDDTL.SLS_ORD_DTL_NOT_OUT_VOL,
+               EMP.EMP_NAME,
+               NVL(ORDHD.SLS_ORD_HD_REMK, ' ') AS SLS_ORD_HD_REMK
+		FROM BF_SALES_ORD_HD ORDHD
+		JOIN BF_SALES_ORD_DTL ORDDTL
+		  ON ORDHD.SLS_ORD_HD_NO = ORDDTL.SLS_ORD_HD_NO
+        JOIN BF_CMN_EMP EMP
+          ON EMP.EMP_ID = ORDHD.EMP_ID
+		JOIN BF_CMN_VENDOR_CODE VEND
+		  ON VEND.VEND_CD_CODE = ORDHD.VEND_CD_CODE
+        JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
+          ON FNSPRD.FIN_PRD_CD_CODE = ORDDTL.FIN_PRD_CD_CODE
 	</select>
 	
 	<select id="findOrder" resultMap="ordHdDtlMap">
-   		SELECT ordhd.sls_ord_hd_date, ordhd.sls_ord_hd_no, vend.vend_cd_nm, 
-                    fnsprd.fin_prd_cd_code, fnsprd.fin_prd_cd_name, 
-                    orddtl.sls_ord_dtl_dlv_date, orddtl.sls_ord_dtl_vol,
-                    orddtl.sls_ord_dtl_out_vol, orddtl.sls_ord_dtl_not_out_vol,
-                    emp.emp_name, ordhd.sls_ord_hd_remk
-		FROM bf_sales_ord_hd ordhd JOIN bf_sales_ord_dtl orddtl
-			ON ordhd.sls_ord_hd_no = orddtl.sls_ord_hd_no
-        JOIN BF_CMN_EMP emp
-            ON emp.emp_id = ordhd.emp_id
-		JOIN BF_CMN_VENDOR_CODE vend
-			ON vend.vend_cd_code = ordhd.vend_cd_code
-        JOIN BF_CMN_FINISH_PRODUCT_CODE fnsprd
-            ON fnsprd.fin_prd_cd_code = orddtl.fin_prd_cd_code
-        WHERE vend.vend_cd_nm = #{vendorName} AND
-        	  ordhd.sls_ord_hd_date BETWEEN  TO_DATE(#{ordSdate}, 'YY/MM/DD') AND TO_DATE(#{ordEdate}, 'YY/MM/DD') +0.9999
+   		SELECT ORDHD.SLS_ORD_HD_DATE,
+   			   ORDHD.SLS_ORD_HD_NO,
+   			   VEND.VEND_CD_NM, 
+               FNSPRD.FIN_PRD_CD_CODE,
+               FNSPRD.FIN_PRD_CD_NAME, 
+               ORDDTL.SLS_ORD_DTL_DLV_DATE,
+               ORDDTL.SLS_ORD_DTL_VOL,
+               ORDDTL.SLS_ORD_DTL_OUT_VOL,
+               ORDDTL.SLS_ORD_DTL_NOT_OUT_VOL,
+               EMP.EMP_NAME,
+               NVL(ORDHD.SLS_ORD_HD_REMK, ' ') AS SLS_ORD_HD_REMK
+		FROM BF_SALES_ORD_HD ORDHD
+		JOIN BF_SALES_ORD_DTL ORDDTL
+		  ON ORDHD.SLS_ORD_HD_NO = ORDDTL.SLS_ORD_HD_NO
+        JOIN BF_CMN_EMP EMP
+          ON EMP.EMP_ID = ORDHD.EMP_ID
+		JOIN BF_CMN_VENDOR_CODE VEND
+		  ON VEND.VEND_CD_CODE = ORDHD.VEND_CD_CODE
+        JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
+          ON FNSPRD.FIN_PRD_CD_CODE = ORDDTL.FIN_PRD_CD_CODE
+            
+        WHERE
+        	<if test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
+        		ORDHD.SLS_ORD_HD_DATE BETWEEN  TO_DATE(#{ordSdate}, 'YY/MM/DD') AND TO_DATE(#{ordEdate}, 'YY/MM/DD') + 0.9999
+        	</if>
+        	<if test="vendorName != null and vendorName != ''">
+        		AND VEND.VEND_CD_NM = #{vendorName}
+        	</if>
+        
+   	</select>
+   	
+   	<!-- 주문관리에서 주문내역 조회 모달 -->
+   	<select id="findOrderModal" resultType="slsOrdHdVO">
+   		SELECT DISTINCT ORDHD.SLS_ORD_HD_NO,
+   			   ORDHD.SLS_ORD_HD_DATE,
+   			   VEND.VEND_CD_CODE,
+   			   VEND.VEND_CD_NM,
+   			   EMP.EMP_NAME,
+   			   NVL(ORDHD.SLS_ORD_HD_REMK, ' ') AS SLS_ORD_HD_REMK
+   		FROM BF_SALES_ORD_HD ORDHD
+   		JOIN BF_CMN_VENDOR_CODE VEND
+   		  ON ORDHD.VEND_CD_CODE = VEND.VEND_CD_CODE
+   		JOIN BF_CMN_EMP EMP
+   		  ON ORDHD.EMP_ID = EMP.EMP_ID
+   		<if test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
+   			WHERE ORDHD.SLS_ORD_HD_DATE BETWEEN  TO_DATE(#{ordSdate}, 'YY/MM/DD') AND TO_DATE(#{ordEdate}, 'YY/MM/DD') + 0.9999
+        </if>
+   	</select>
+   	
+   	<!-- 주문관리에서 주문내역 상세 조회 -->
+   	<select id="findDtlOrder" resultType="slsOrdDtlVO">
+   		SELECT FNSPRD.FIN_PRD_CD_CODE,
+   			   FNSPRD.FIN_PRD_CD_NAME,
+   			   ORDDTL.SLS_ORD_DTL_DLV_DATE,
+   			   ORDDTL.SLS_ORD_DTL_VOL
+   		FROM BF_SALES_ORD_HD ORDHD 
+   		JOIN BF_SALES_ORD_DTL ORDDTL
+   		  ON ORDHD.SLS_ORD_HD_NO = ORDDTL.SLS_ORD_HD_NO
+   		JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
+   		  ON FNSPRD.FIN_PRD_CD_CODE = ORDDTL.FIN_PRD_CD_CODE
+   		WHERE ORDDTL.SLS_ORD_HD_NO = #{slsOrdHdNo}
    	</select>
    	
    	<!-- 생산계획에 존재하지 않거나 생산계획에 존재하는데 주문량에 못 미치는 주문내역 조회 -->

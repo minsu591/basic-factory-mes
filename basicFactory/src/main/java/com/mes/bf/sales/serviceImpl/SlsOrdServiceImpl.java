@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.mes.bf.sales.mapper.SlsOrdMapper;
 import com.mes.bf.sales.service.SlsOrdService;
 import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
+import com.mes.bf.sales.vo.SlsOrdHdVO;
 import com.mes.bf.sales.vo.SlsOrdPlanVO;
 
 @Service
@@ -26,7 +27,19 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 	}
 
 	@Override
+	public List<SlsOrdHdVO> findOrderModal(String ordSdate, String ordEdate) {
+		return mapper.findOrderModal(ordSdate, ordEdate);
+	}
+	
+	@Override
+	public List<SlsOrdHdDtlVO> findDtlOrder(String slsOrdHdNo) {
+		return mapper.findDtlOrder(slsOrdHdNo);
+	}
+	
+	@Override
 	public List<SlsOrdPlanVO> findOrderForPlan(String ordSdate, String ordEdate, String ordType) {
 		return mapper.findOrderForPlan(ordSdate, ordEdate, ordType);
 	}
+
+
 }
