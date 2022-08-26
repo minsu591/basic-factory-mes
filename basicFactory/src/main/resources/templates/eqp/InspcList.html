@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>설비 점검 조회</title>
-    <link th:href="@{/css/eqp/inspc.css}" rel="stylesheet" />
   </head>
   <body>
+    <link th:href="@{/css/eqp/inspc.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/js/eqp/inspc.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
 
@@ -60,9 +60,9 @@
                     <td th:text="${inspc.mchnInspcCycle}"></td>
                     <td th:text="${inspc.inspcNxtDate}"></td>
                     <td th:text="${inspc.inspcActnPnt}"></td>
-                    <td th:text="${inspc.inspcActnRsn}"></td>
+                    <td th:text="${#strings.defaultString(inspc.inspcActnRsn, '')}"></td>
                     <td th:text="${inspc.empName}"></td>
-                    <td th:text="${inspc.inspcRemk}"></td>
+                    <td th:text="${#strings.defaultString(inspc.inspcRemk, '')}"></td>
                   </tr>
                 </tbody>
               </table>
