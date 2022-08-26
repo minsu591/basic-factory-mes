@@ -3,9 +3,36 @@ $(document).ready(function () {
   findPacking();
   $("#packingTable").on("click", "tr", function () {
     //fidndPacking($(this));
-    insertModalData($(this));
+
+    if ($(this).find("input:hidden[name='completionStatus']").val() == "y") {
+      insertModalData($(this));
+      let processNo = $(this).find("input:hidden[name='processNo']").val();
+
+      getprocPerform(processNo);
+    } else {
+      insertModalData($(this));
+    }
     $("#workInsertModal").modal("show");
   });
+  function getprocPerform(processNo) {
+    $.ajax({
+      url: `getprocperform/${processNo}`,
+      method: "GET",
+      dataType: "json",
+      success: function (data) {
+        console.log("getperfrom->" + data.prodDate);
+        let startTime = data.workStartTime;
+        let endTime = data.workEndTime;
+        $("#instDate").val(data.prodDate).prop("readonly", true);
+        $("#sHours").val(startTime.substring(11, 13));
+        $("#sMinutes").val(startTime.substring(14, 16));
+        $("#eHours").val(endTime.substring(11, 13));
+        $("#eMinutes").val(endTime.substring(14, 16));
+        $("#empid").val(data.workerName).prop("readonly", true);
+      },
+      error: function () {},
+    });
+  }
 
   let fltyCnt = 0;
   $("#fltyCnt").val(fltyCnt);
@@ -60,6 +87,42 @@ $(document).ready(function () {
       $("#fltyCnt").val(fltyCnt);
     } else {
     }
+  });
+
+  //저장버튼
+  $("#saveBtn").click(function () {
+    //공정실적 테이블 등록
+    let workDate = $("#instDate").val();
+    let processNo = $("#processNo").val(); //작업번호
+    let prodVol = $("#workStateTable tr:eq(3) td").text(); //실적량
+    let fltyVol = $("#workStateTable tr:eq(4) td").text(); //불량랑
+    let procPerform = {
+      processNo: processNo,
+      prodVol: prodVol,
+      fltyVol: fltyVol,
+      workStartTime:
+        workDate + " " + $("#sHours").val() + ":" + $("#sMinutes").val(),
+      workEndTime:
+        workDate + " " + $("#eHours").val() + ":" + $("#eMinutes").val(),
+      workerName: $("#empid").val(),
+      prodDate: workDate,
+    };
+    console.log(procPerform);
+
+    $.ajax({
+      url: "insertprocperform",
+      method: "POST",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify(procPerform),
+      error: function (error, status, msg) {
+        //alert("상태코드 " + status + "에러메시지" + msg);
+        console.log(error);
+      },
+      success: function (data) {
+        console.log("success");
+      },
+    });
   });
 });
 function findPacking() {
@@ -162,6 +225,8 @@ function packingTableMakeRow(obj, index) {
               <td>${obj.fltyVol}</td>
               <td>${obj.workDate}</td>
               <input type="hidden" value="${obj.mchnCode}" name="mchnCode">
+              <input type="hidden" value="${obj.completionStatus}" name="completionStatus">
+              <input type="hidden" value="${obj.processNo}" name="processNo">
               </tr>`;
 
   $("#packingTable tbody").append(node);
@@ -329,39 +394,3 @@ function endWork() {
     alert("이미 종료했어요");
   }
 } // 작업종료 끝
-
-//저장버튼
-$("#saveBtn").click(function () {
-  //공정실적 테이블 등록
-  let workDate = $("#instDate").val();
-  let processNo = $("#processNo").val(); //작업번호
-  let prodVol = $("#workStateTable tr:eq(3) td").text(); //실적량
-  let fltyVol = $("#workStateTable tr:eq(4) td").text(); //불량랑
-  let procPerform = {
-    processNo: processNo,
-    prodVol: prodVol,
-    fltyVol: fltyVol,
-    workStartTime:
-      workDate + " " + $("#sHours").val() + ":" + $("#sMinutes").val(),
-    workEndTime:
-      workDate + " " + $("#eHours").val() + ":" + $("#eMinutes").val(),
-    workerName: $("#empid").val(),
-    prodDate: workDate,
-  };
-  console.log(procPerform);
-
-  $.ajax({
-    url: "insertprocperform",
-    method: "POST",
-    contentType: "application/json;charset=utf-8",
-    dataType: "json",
-    data: JSON.stringify(procPerform),
-    error: function (error, status, msg) {
-      //alert("상태코드 " + status + "에러메시지" + msg);
-      console.log(error);
-    },
-    success: function (data) {
-      console.log("success");
-    },
-  });
-});
