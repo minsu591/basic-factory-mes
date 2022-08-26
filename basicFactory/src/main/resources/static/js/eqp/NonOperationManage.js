@@ -150,8 +150,8 @@ $(document).ready(function () {
     let nonOpCode = $("#nonOpTable tbody tr").find("td:eq(0)").children().val();
     let empId = $("#empid").val();
     let inputDate = $("#inputDate").val();
-    let startTime = inputDate + sHours + ":" + sMinutes;
-    let endTime = inputDate + eHours + ":" + eMinutes;
+    let startTime = inputDate + " " + sHours + ":" + sMinutes;
+    let endTime = inputDate + " " + eHours + ":" + eMinutes;
     let nonOpRsn = $("#nonOpTable tbody tr").find("td:eq(2)").children().val();
     let remk = $("#nonOpTable tbody tr").find("td:eq(3)").children().val();
     let nonOpMin = (eMinutes - sMinutes);

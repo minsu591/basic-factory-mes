@@ -91,4 +91,9 @@ public class ProcServiceImpl implements ProcService {
 		return mapper.getProcPerform(processNo);
 	}
 
+	@Override
+	public void updateachieRate(ProcessVO vo) {
+		mapper.updateachieRate(vo);
+	}
+
 }

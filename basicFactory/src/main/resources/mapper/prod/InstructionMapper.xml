@@ -75,18 +75,18 @@
 
 		<where>
 			<if test="instSdate != null and instSdate !=''">
-	<![CDATA[ AND inst_date >= #{instSdate} ]]>
+				<![CDATA[ AND instdate >= #{instSdate} ]]>
 			</if>
 
 			<if test="instEdate != null and instEdate !='' ">
-	 <![CDATA[ AND inst_date <= #{instEdate} ]]>
+				 <![CDATA[ AND instdate <= #{instEdate} ]]>
 			</if>
 
 			<if test="vendorName != null and vendorName != ''">
-				AND vend_cd_nm LIKE #{vendorName}
+				AND vendcdnm LIKE #{vendorName}
 			</if>
 			<if test="productName != null and productName != ''">
-				AND fin_prd_cd_name LIKE #{productName}
+				AND finPrdCdName LIKE #{productName}
 			</if>
 		</where>
 

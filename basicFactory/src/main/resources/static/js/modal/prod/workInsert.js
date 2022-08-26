@@ -313,7 +313,7 @@ function startWork() {
     let mchnStts = "진행중";
     //진행중으로 업데이트 실행 
     updateMchnStts(mchnCode, mchnStts);
-    work = setInterval(startinterval, 1000);
+    work = setInterval(startinterval, 10);
   } else {
     alert("이미 시작했어요");
   }
@@ -355,7 +355,7 @@ function endWork() {
       contentType: "application/json;charset=utf-8",
       data: JSON.stringify({
         processNo: processNo,
-        achieRate: achieRate,
+        //achieRate: achieRate,
       }),
       success: function (data) {
         alert("완료 업데이트");
@@ -395,7 +395,7 @@ function startinterval() {
 
   rate.html(Math.ceil((totalProdVol / parseInt(inDtlVol.text())) * 100) + "%");
   prodVol.html(num);
-  // console.log(totalProdVol);
+  let achieRate = $("#workStateTable tr:eq(5) td").text().slice(0, -1);
   //실적량 업데이트
   $.ajax({
     url: `updateprodvol`,
@@ -411,6 +411,24 @@ function startinterval() {
       console.log("update sucess");
     },
   });
+
+
+  //달성률 업데이트
+  $.ajax({
+    url: `updateachierate`,
+    method: "PUT",
+    dataType: "json",
+    contentType: "application/json;charset=utf-8",
+    data: JSON.stringify({
+      processNo: processNo,
+      achieRate: achieRate
+    }),
+    success: function (data) {
+      console.log("update sucess");
+    },
+  });
+
+
 
   if (num == parseInt(inDtlVol.text())) {
     console.log("종료");
