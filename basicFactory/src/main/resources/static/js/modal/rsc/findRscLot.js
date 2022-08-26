@@ -16,7 +16,6 @@ $("document").ready(function () {
  $("#findRscLotBtn").click(function () {
    let rscCdUse = $("#rscCdUse option:selected").text();
    let rscCdName = $("#lotrscname").val();
-   console.log(rscCdName);
    $.ajax({
      url: "findRscLot",
      method: "GET",
@@ -53,7 +52,6 @@ $("document").ready(function () {
 
 function findRscLot() {
   let rscCdName = $("#rscname").val();
-  console.log(rscCdName);
  $.ajax({
    url: "findRscLot",
    method: "GET",

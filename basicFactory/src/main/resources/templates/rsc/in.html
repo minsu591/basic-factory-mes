@@ -30,7 +30,7 @@
 								<label for="InspDate" th:text="검사일자"></label> 
 								<input type="date" id="rscInspDate" class="form-control mx-sm-3">
 							</div>
-							<button type="submit" class="btn  btn-primary">조회</button>
+							<button type="button" class="btn  btn-primary" id="search">조회</button>
 						</div>
 						<div class="form-inline">
 						</div>
@@ -40,42 +40,11 @@
 				<div class="card-body table-border-style" id="in-table">
 					<div>
 						<h4 class="listTitle">입고예정목록</h4>
-						<button type="button" class="btn  btn-primary subBtn">선택등록</button>
+						<button type="button" class="btn  btn-primary subBtn" id="subBtn">선택등록</button>
 					</div>
 					<br>
-					<div class="table-responsive">
-						<table class="table table-striped" id="inspCompTable">
-							<thead>
-								<tr>
-									<th>
-										<input type="checkbox" id="allCheck">
-									</th>
-									<th th:text="검사코드"></th>
-									<th th:text="검사일자"></th>
-									<th th:text="자재코드"></th>
-									<th th:text="자재명"></th>
-									<th th:text="입고수량"></th>
-									<th th:text="상태"></th>
-									<th th:text="비고"></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="CL : ${inspCompList}">
-									<td>
-										<input type="checkbox" name="chk">
-									</td>
-									<td th:text="${CL.rscInspCode}"></td>
-									<td th:text="${CL.rscInspDate}"></td>
-									<td th:text="${CL.rscCdCode}"></td>
-									<td th:text="${CL.rscCdName}"></td>
-									<td th:text="${CL.rscPassVol}"></td>
-									<td>
-										<span th:if="${CL.rscInspSt == 0}">입고대기</span>
-									</td>
-									<td th:text="${CL.rscInspRemk}"></td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="table-responsive" th:replace="/rsc/table/inTable.html :: intable" id="intable">
+						
 					</div>
 				</div>
 			</div>

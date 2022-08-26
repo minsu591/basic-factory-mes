@@ -9,6 +9,7 @@
 <body>
 <script type="text/javascript" th:src="@{/js/modal/rsc/findResource.js}"></script>
 <script type="text/javascript" th:src="@{/js/modal/rsc/findRscLot.js}"></script>
+<script type="text/javascript" th:src="@{/js/rsc/stock.js}"></script>
 	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
 	<div class="pcoded-main-container">
 		<h1>자재 재고 조회</h1>
@@ -29,41 +30,14 @@
 							<label for="rsclotno" th:text="자재LOT번호"></label> 
 							<input type="text" id="rsclotno" class="form-control mx-sm-3">
 						</div>
-						<button type="submit" class="btn  btn-primary">조회</button>
+						<button type="button" class="btn  btn-primary" id="search">조회</button>
 						<button type="reset" class="btn  btn-primary">초기화</button>
 					</form>
 
 				</div>
 				<div class="card-body table-border-style">
-					<div class="table-responsive">
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th th:text="자재코드"></th>
-									<th th:text="자재명"></th>
-									<th th:text="자재구분"></th>
-									<th th:text="자재LOT번호"></th>
-									<th th:text="입고수량"></th>
-									<th th:text="출고수량"></th>
-									<th th:text="재고수량"></th>
-									<th th:text="단위"></th>
-									<th th:text="가용여부"></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="stock : ${stock}">
-									<td th:text="${stock.rscCdCode}"></td>
-									<td th:text="${stock.rscCdName}"></td>
-									<td th:text="${stock.rscCdClfy}"></td>
-									<td th:text="${stock.rscLotNo}"></td>
-									<td th:text="${stock.rscInVol}"></td>
-									<td th:text="${stock.rscOutVol}"></td>
-									<td th:text="${stock.rscStock}"></td>
-									<td th:text="${stock.rscCdUnit}"></td>
-									<td ><input type="checkbox" th:checked="#{stock.rscStockUse eq '1'}" checked onClick="return false;"></td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="table-responsive" th:replace="/rsc/table/stockTable.html :: stocktable" id="sttable">
+						
 					</div>
 				</div>
 			</div>

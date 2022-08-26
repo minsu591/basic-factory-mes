@@ -11,5 +11,5 @@ public interface RscStockMapper {
 
 
 	//재고
-	List<RscStockVO> StockList();
+	List<RscStockVO> StockList(String rscCdCode, String rscLotNo);
 }
