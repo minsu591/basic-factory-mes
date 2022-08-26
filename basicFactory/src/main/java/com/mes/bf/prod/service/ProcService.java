@@ -41,8 +41,8 @@ public interface ProcService {
 	void updateMchnStts(MchnVO vo);
 
 	// 공정테이블 완료여부업데이트
-
 	void updateProcCheck(ProcessVO vo);
+	void updateachieRate(ProcessVO vo);
 
 	// 공정 실적 테이블 등록
 	void insertProcPerform(ProcessPerformVO vo);

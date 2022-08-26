@@ -25,7 +25,7 @@ import com.mes.bf.prod.vo.ProcManageVO;
 import com.mes.bf.prod.vo.ProcessPerformVO;
 import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
-import com.mes.bf.prod.vo.VInstructionVO;
+
 
 @RestController
 @RequestMapping("/prod")
@@ -130,6 +130,12 @@ public class ProcController {
 	@PutMapping("/updateproccheck")
 	public void updateProcCheck(@RequestBody ProcessVO vo) {
 		service.updateProcCheck(vo);
+	}
+	
+	// 달성률 업데이트
+	@PutMapping("/updateachierate")
+	public void update(@RequestBody ProcessVO vo) {
+		service.updateachieRate(vo);
 	}
 
 	// 공정 실적 등록

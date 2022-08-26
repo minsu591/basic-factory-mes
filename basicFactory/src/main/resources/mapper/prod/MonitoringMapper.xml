@@ -11,6 +11,7 @@ SELECT
      FROM BF_CMN_FINISH_PRODUCT_CODE WHERE fin_prd_cd_code = detail.fin_prd_cd_code) AS prodName,
     detail.inst_prod_indica_vol AS indicaVol,
     proc.total_prod_vol AS totalVol,
+     proc.in_dtl_vol,
     proc.flty_vol AS fltyVol,
     proc.achie_rate AS achieRate,
     detail.work_date AS workDate        
