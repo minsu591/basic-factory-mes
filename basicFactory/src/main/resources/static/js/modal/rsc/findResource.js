@@ -41,6 +41,7 @@ $("document").ready(function () {
    let rscCdName = $(this).find("td:eq(2)").text();
    $("#rsccode").val(rscCdCode);
    $("#rscname").val(rscCdName);
+   $("#rsclotno").val(null);
 
    $("#findresourceModal").modal("hide");
  });
@@ -76,12 +77,18 @@ function findRscCode() {
 }
 //자재조회 행생성
 function makeRscCodeRow(obj, index) {
+  let st = null;
+  if( obj.rscCdUse == 1){
+    st = `<input type="checkbox" checked onClick="return false;">`;
+  }else{
+    st = `<input type="checkbox" onClick="return false;">`;
+  }
  let node = `<tr>
              <td>${index}</td>
              <td>${obj.rscCdCode}</td>
              <td>${obj.rscCdName}</td>
              <td>${obj.rscCdClfy}</td>
-             <td>${obj.rscCdUse}</td>
+             <td>${st}</td>
            </tr>`;
  $("#findRsctbody").append(node);
 }

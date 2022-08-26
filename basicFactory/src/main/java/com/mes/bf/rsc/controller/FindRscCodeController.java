@@ -33,8 +33,9 @@ public class FindRscCodeController {
 	//자재코드LOT조회
 	@GetMapping(value="/findRscLot", produces= { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<RscStockVO>> findRscLot(@RequestParam Map<String, String> queryParameters){
-		System.out.println("hi");
-		List<RscStockVO> list = findRscService.rscLotNoList(queryParameters.get("rscCdName"), queryParameters.get("rscCdUse"));
+		System.out.println("hihi");
+		System.out.println(queryParameters.get("rscCdName"));
+		List<RscStockVO> list = findRscService.rscLotNoList(queryParameters.get("rscCdName"));
 		System.out.println(list);
 		return new ResponseEntity<List<RscStockVO>>(list, HttpStatus.OK);
 	}

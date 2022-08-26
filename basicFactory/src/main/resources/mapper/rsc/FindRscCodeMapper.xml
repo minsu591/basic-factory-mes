@@ -18,17 +18,15 @@
 	
 	<select id="rscLotNoList" resultType="com.mes.bf.rsc.vo.RscStockVO">
 		SELECT STOCK.RSC_LOT_NO, 
-			   CODE.RSC_CD_NAME, 
-			   CODE.RSC_CD_USE
+			   STOCK.RSC_STOCK_ST,
+			   CODE.RSC_CD_NAME
 			   
 		 FROM  BF_RSC_STOCK STOCK
 		 LEFT  JOIN BF_CMN_RSC_CODE CODE
 		   ON  STOCK.RSC_CD_CODE = CODE.RSC_CD_CODE
 		   
-		WHERE  CODE.RSC_CD_NAME = '#{rscCdName}'
-			<if test="rscCdUse != null and rscCdUse != '' and rscCdUse != '전체'">
-				AND CODE.RSC_CD_USE = '#{rscCdUse}'
-			</if>
+		WHERE  CODE.RSC_CD_NAME = #{rscCdName}
+		
 		ORDER  BY RSC_LOT_NO DESC
 	</select>
 	
