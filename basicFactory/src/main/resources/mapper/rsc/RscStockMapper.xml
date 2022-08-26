@@ -6,6 +6,7 @@
 		SELECT ST.RSC_LOT_NO, 
 			   ST.RSC_IN_VOL, 
 			   ST.RSC_STOCK,
+			   ST.RSC_STOCK_ST,
 			   
 		   	   CD.RSC_CD_CODE, 
 			   CD.RSC_CD_NAME, 

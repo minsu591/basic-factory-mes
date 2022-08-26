@@ -10,5 +10,5 @@ public interface FindRscCodeService {
 	List<RscCodeVO> rscCodeList(String rscCdName, String rscCdClfy);
 	
 	//자재LOT번호 조회
-	List<RscStockVO> rscLotNoList(String rscCdName, String rscCdUse);
+	List<RscStockVO> rscLotNoList(String rscCdName);
 }

@@ -26,21 +26,6 @@
 								<label for="lotrscname" th:text="자재명"></label> 
 								<input type="text" id="lotrscname" name="lotrscname"
 									class="form-control mx-sm-3" readonly>
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<label class="input-group-text hei-45 wid-80 p-0"
-											for="rscCdUse">가용여부</label>
-									</div>
-									<select class="custom-select hei-45 m-r-10"
-										id="rscCdUse">
-										<option selected>전체</option>
-										<option th:value="1" th:text="가용"></option>
-										<option th:value="0" th:text="비가용"></option>
-									</select>
-								</div>
-								<button type="button" class="btn  btn-primary"
-									id="findRscLotBtn" th:text="검색"></button>
-
 							</div>
 						</div>
 
