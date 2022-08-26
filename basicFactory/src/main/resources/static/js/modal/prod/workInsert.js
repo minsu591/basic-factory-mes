@@ -16,7 +16,7 @@ $("document").ready(function () {
     let statusMchnName = $(this).text();
     findProcess(instProdNo, statusMchnName);
     let processNo = $("#processNo").val();
-    //모달 시간과 날짜 입력을 위해 조회 
+    //모달 시간과 날짜 입력을 위해 조회
     getprocPerform(processNo);
   });
 
@@ -53,15 +53,16 @@ $("document").ready(function () {
         $("#eHours").val(endTime.substring(11, 13));
         $("#eMinutes").val(endTime.substring(14, 16));
         $("#empid").val(data.workerName).prop("readonly", true);
-      }, error: function () {
+      },
+      error: function () {
         //$("#instDate").val("").prop("readonly", false);
         //console.log('에러?');
         $("#sHours").val("");
         $("#sMinutes").val("");
         $("#eHours").val("");
         $("#eMinutes").val("");
-        $("empid").val("").prop("readonly", false)
-      }
+        $("empid").val("").prop("readonly", false);
+      },
     });
   }
 
@@ -109,8 +110,6 @@ $("document").ready(function () {
           //"겟프로세스"
           getprocPerform(processNo);
         }
-
-
       });
       //modalDataInsert($(this));
 
@@ -195,7 +194,7 @@ $("document").ready(function () {
       workEndTime:
         workDate + " " + $("#eHours").val() + ":" + $("#eMinutes").val(),
       workerName: $("#empid").val(),
-      prodDate: workDate
+      prodDate: workDate,
     };
     console.log(procPerform);
 
@@ -225,7 +224,7 @@ $("document").ready(function () {
     let nextProcessOrder = parseInt(processOrder) + 1;
     console.log("프로세스오더->" + nextProcessOrder);
 
-    if (nextProcessOrder < 5) {
+    if (nextProcessOrder < 6) {
       let instProdNo;
       $("#procManageTable tbody tr").each(function () {
         if ($(this).find("td:eq(0)").children().prop("checked")) {
@@ -237,8 +236,8 @@ $("document").ready(function () {
       let updateData = {
         inDtlVol: prodVol,
         instProdNo: instProdNo,
-        processOrder: nextProcessOrder
-      }
+        processOrder: nextProcessOrder,
+      };
       console.log(updateData);
       //다음공정 입고량 업데이트
       $.ajax({
@@ -256,9 +255,8 @@ $("document").ready(function () {
         },
       });
     } else {
-
+      //포장일 경우?
     }
-
   });
 }); //document end
 
@@ -291,9 +289,9 @@ function startWork() {
     $("#instDate").prop("readonly", true);
   }
   let inDtlVol = $("#workStateTable tbody tr:eq(1) td").text(); //입고량
-  let virResult = $("#workStateTable tbody tr:eq(2) td").text();//기실적량
-  let prodVol = $("#workStateTable tbody tr:eq(3) td").text();//실적량
-  let fltyVol = $("#workStateTable tbody tr:eq(4) td").text();//불량량
+  let virResult = $("#workStateTable tbody tr:eq(2) td").text(); //기실적량
+  let prodVol = $("#workStateTable tbody tr:eq(3) td").text(); //실적량
+  let fltyVol = $("#workStateTable tbody tr:eq(4) td").text(); //불량량
 
   if ($("#sHours").val() == "" && $("#sMinutes").val() == "") {
     var date = new Date();
@@ -311,7 +309,7 @@ function startWork() {
     });
     console.log("진행중업데이트 ->" + mchnCode);
     let mchnStts = "진행중";
-    //진행중으로 업데이트 실행 
+    //진행중으로 업데이트 실행
     updateMchnStts(mchnCode, mchnStts);
     work = setInterval(startinterval, 10);
   } else {
@@ -346,7 +344,7 @@ function endWork() {
     //완료여부 업데이트
     let processNo = $("#processNo").val();
     console.log("완려여부 업데이트 프로세스번호->" + processNo);
-    let achieRate = $("#workStateTable tr:eq(5) td").text().slice(0, -1);
+    // let achieRate = $("#workStateTable tr:eq(5) td").text().slice(0, -1);
 
     $.ajax({
       url: `updateproccheck`,
@@ -355,7 +353,6 @@ function endWork() {
       contentType: "application/json;charset=utf-8",
       data: JSON.stringify({
         processNo: processNo,
-        //achieRate: achieRate,
       }),
       success: function (data) {
         alert("완료 업데이트");
@@ -412,7 +409,6 @@ function startinterval() {
     },
   });
 
-
   //달성률 업데이트
   $.ajax({
     url: `updateachierate`,
@@ -421,14 +417,12 @@ function startinterval() {
     contentType: "application/json;charset=utf-8",
     data: JSON.stringify({
       processNo: processNo,
-      achieRate: achieRate
+      achieRate: achieRate,
     }),
     success: function (data) {
       console.log("update sucess");
     },
   });
-
-
 
   if (num == parseInt(inDtlVol.text())) {
     console.log("종료");

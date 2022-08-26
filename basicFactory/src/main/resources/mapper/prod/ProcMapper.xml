@@ -108,9 +108,14 @@
 
 	<select id="findProcess"
 		resultType="com.mes.bf.prod.vo.ProcessVO">
-		SELECT * FROM bf_prod_process
-		WHERE inst_prod_no =
-		#{instProdNo}
+		SELECT * 
+		FROM 
+			bf_prod_process
+		WHERE 
+			inst_prod_no =
+			#{instProdNo}
+		AND 
+			NOT process_order=5
 		order by 2,3
 	</select>
 
@@ -132,6 +137,10 @@
 		linehd.line_cd_hd_code = bomcode.line_cd_hd_code 
 		AND
 		fin_prd_cd_code = #{finPrdCdCode}
+		AND 
+		NOT linecode.line_cd_ord = 5
+		order by linecode.line_cd_ord
+		
 
 	</select>
 	
@@ -175,7 +184,7 @@
 		UPDATE
 			BF_PROD_PROCESS
 		SET
-			completion_status = 'y',
+			completion_status = 'y'
 			
 		WHERE
 			process_no = #{processNo}

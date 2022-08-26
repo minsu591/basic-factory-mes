@@ -13,7 +13,7 @@ public class VRscNeedQtyVO {
 	private String rscCdName;
 	private int rscStock;
 	private String rscCdUnit;
-	private int rscUseVol;
+	private double rscUseVol;
 	private String lineCdHdName;
 
 }

@@ -207,7 +207,9 @@ $(document).ready(function () {
 
   function rscStockMakeRow(obj, indicaVol, index) {
     console.log(obj.rscUseVol);
-    let needQty = (indicaVol *= obj.rscUseVol);
+    console.log(indicaVol);
+
+    let needQty = Math.round((indicaVol *= obj.rscUseVol));
     let node = `<tr>
               <td>${index}</td>
               <td>${obj.rscCdCode}</td>
