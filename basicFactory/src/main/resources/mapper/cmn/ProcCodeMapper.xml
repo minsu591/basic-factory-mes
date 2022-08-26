@@ -11,4 +11,10 @@
 		ORDER BY PROC_CD_CODE
 	</select>
 	
+	<update id="procCodeUpdate" parameterType = "String">
+		UPDATE BF_CMN_PROC_CODE
+		SET ${updCol} = #{updCont}
+		WHERE PROC_CD_CODE = #{priKey}
+	</update>
+	
 </mapper>

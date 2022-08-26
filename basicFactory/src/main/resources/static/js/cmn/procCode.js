@@ -21,19 +21,7 @@ $("document").ready(function(){
         })
     });
 
-    $("#addBtn").on("click",function(){
-        let node = `<tr>
-                        <td><input type="checkbox" name="cb"></td>`;
-        if ($("#allCheck").is(":checked")){
-            node = `<tr>
-                        <td><input type="checkbox" name="cb" checked ></td>`;
-        }
-        node +=`<td></td>
-                <td></td>
-                <td></td>
-            </tr>`;
-        $("#procTable tbody").append(node);
-    });
+    
 
     function procMakeRow(obj){
         let node = `<tr>
@@ -61,4 +49,7 @@ $("document").ready(function(){
         if (total != checked) $("#allCheck").prop("checked",false);
         else $("#allCheck").prop("checked", true);
     });
+
+    
+
 });

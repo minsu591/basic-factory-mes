@@ -17,5 +17,9 @@ public class ProcCodeServiceImpl implements ProcCodeService {
 	public List<ProcCodeVO> listProcCode(String procName) {
 		return mapper.listProcCode(procName);
 	}
+	@Override
+	public int procCodeUpdate(String priKey, String updCol, String updCont) {
+		return mapper.procCodeUpdate(priKey, updCol, updCont);
+	}
 
 }
