@@ -15,4 +15,5 @@ public interface SlsOrdMapper {
 	List<SlsOrdHdVO> findOrderModal(String ordSdate, String ordEdate);
 	List<SlsOrdHdDtlVO> findDtlOrder (String slsOrdHdNo);
 	List<SlsOrdPlanVO> findOrderForPlan(String ordSdate, String ordEdate, String ordType);
+	void insertOrder(SlsOrdHdVO vo);
 }

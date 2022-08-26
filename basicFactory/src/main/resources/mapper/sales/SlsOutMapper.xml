@@ -83,7 +83,6 @@
 		   OUTDTL.SLS_OUT_DTL_PRICE,
 		   EMP.EMP_NAME,
 		   NVL(OUTHD.SLS_OUT_HD_REMK, ' ') AS SLS_OUT_HD_REMK
-		   
 	FROM BF_SALES_OUT_HD OUTHD
 	JOIN BF_SALES_OUT_DTL OUTDTL
    	  ON OUTHD.SLS_OUT_HD_NO = OUTDTL.SLS_OUT_HD_NO
@@ -110,4 +109,45 @@
 		</if>
 	
 	</select>
+	
+	
+	<!-- 출고관리에서 미출고 주문 조회 모달-->
+   	<select id="findNotOut" resultType="slsOrdHdVO">
+   		SELECT DISTINCT ORDHD.SLS_ORD_HD_NO,
+   			   ORDHD.SLS_ORD_HD_DATE,
+   			   VEND.VEND_CD_CODE,
+   			   VEND.VEND_CD_NM,
+   			   EMP.EMP_NAME,
+   			   NVL(ORDHD.SLS_ORD_HD_REMK, ' ') AS SLS_ORD_HD_REMK
+   		FROM BF_SALES_ORD_HD ORDHD
+   		JOIN BF_SALES_ORD_DTL ORDDTL
+   		  ON ORDDTL.SLS_ORD_HD_NO = ORDHD.SLS_ORD_HD_NO
+   		JOIN BF_CMN_VENDOR_CODE VEND
+   		  ON ORDHD.VEND_CD_CODE = VEND.VEND_CD_CODE
+   		JOIN BF_CMN_EMP EMP
+   		  ON ORDHD.EMP_ID = EMP.EMP_ID
+   		  
+		WHERE ORDDTL.SLS_ORD_DTL_NOT_OUT_VOL > 0
+   		<if test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
+   			AND ORDHD.SLS_ORD_HD_DATE BETWEEN  TO_DATE(#{ordSdate}, 'YY/MM/DD') AND TO_DATE(#{ordEdate}, 'YY/MM/DD') + 0.9999
+        </if>
+   	</select>
+   	
+   	<select id="findNotOutDtl" resultType="slsOutDtlVO">
+   		SELECT FNSPRD.FIN_PRD_CD_CODE,
+               FNSPRD.FIN_PRD_CD_NAME,
+               ORDDTL.SLS_ORD_DTL_VOL,
+               NVL(OUTDTL.SLS_OUT_DTL_PRVS_VOL, 0) AS SLS_OUT_DTL_PRVS_VOL,
+               FNSPRD.FIN_PRD_CD_PRICE
+   		FROM BF_SALES_OUT_DTL OUTDTL
+        JOIN BF_SALES_OUT_HD OUTHD
+          ON OUTDTL.sls_out_hd_no = OUTHD.sls_out_hd_no
+        JOIN BF_SALES_ORD_HD ORDHD
+          ON ORDHD.sls_ord_hd_no = OUTHD.sls_ord_hd_no
+        RIGHT JOIN BF_SALES_ORD_DTL ORDDTL
+          ON ORDDTL.sls_ord_hd_no = ORDHD.sls_ord_hd_no
+        JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
+          ON FNSPRD.fin_prd_cd_code = ORDDTL.fin_prd_cd_code
+        WHERE ORDDTL.sls_ord_hd_no = #{slsOrdHdNo}
+   	</select>
 </mapper>

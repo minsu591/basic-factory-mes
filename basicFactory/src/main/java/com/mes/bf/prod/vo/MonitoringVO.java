@@ -18,5 +18,6 @@ public class MonitoringVO {
 	private int fltyVol;
 	private int achieRate;
 	private Date workDate;
+	private int inDtlVol;
 
 }

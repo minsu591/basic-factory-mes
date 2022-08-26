@@ -7,6 +7,6 @@ import com.mes.bf.rsc.vo.RscStockVO;
 public interface RscStockService {
 
 	//재고
-	List<RscStockVO> StockList();
+	List<RscStockVO> StockList(String rscCdCode, String rscLotNo);
 	
 }

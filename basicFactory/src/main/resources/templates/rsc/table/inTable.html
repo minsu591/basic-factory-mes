@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<div th:fragment="intable" id="intable">
+	<table class="table table-striped" id="inspCompTable">
+		<thead>
+			<tr>
+				<th><input type="checkbox" id="allCheck"></th>
+				<th th:text="검사코드"></th>
+				<th th:text="검사일자"></th>
+				<th th:text="자재코드"></th>
+				<th th:text="자재명"></th>
+				<th th:text="입고수량"></th>
+				<th th:text="상태"></th>
+				<th th:text="비고"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="CL : ${inspCompList}">
+				<td><input type="checkbox" name="chk"></td>
+				<td th:text="${CL.rscInspCode}"></td>
+				<td th:text="${CL.rscInspDate}"></td>
+				<td th:text="${CL.rscCdCode}"></td>
+				<td th:text="${CL.rscCdName}"></td>
+				<td th:text="${CL.rscPassVol}"></td>
+				<td><span th:if="${CL.rscInspSt == 0}">입고대기</span></td>
+				<td th:text="${CL.rscInspRemk}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</head>
+</html>

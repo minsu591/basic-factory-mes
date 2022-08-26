@@ -94,6 +94,7 @@ function MonitoringTableMakeRow(obj) {
 								<td>${obj.procCdName}</td>
 								<td>${obj.prodName}</td>
 								<td>${obj.indicaVol}EA</td>
+								<td>${obj.inDtlVol}</td>
 								<td>${obj.totalVol}</td>
 								<td>${obj.fltyVol}</td>
 								<td>${obj.achieRate}%</td>

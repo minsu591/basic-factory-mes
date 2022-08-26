@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <script type="text/javascript" th:src="@{/js/sales/returnManage.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/sales/findOrder.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/sales/findProduct.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
+    <link th:href="@{/css/sales/returnManage.css}" rel="stylesheet" />
+
+    <div class="pcoded-main-container">
+        <h1>완제품 반품 관리</h1>
+        <hr>
+        
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <!-- 새로운 완제품 출고 등록폼-->
+                    <form class="form-inline">
+                        <div class="form-group mt-3">
+                            <label for="slsRtnHdDate" th:text="반품일자"></label>
+                            <input type="date" id="slsRtnHdDate" class="form-control mx-sm-3">
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <labe for="slsRtnHdNo" th:text="반품번호"></labe>
+                            <input type="text" id="slsRtnHdNo" name="slsRtnHdNo" class="form-control mx-sm-3" readonly>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="vendor" th:text="거래처"></label>
+                            <input type="text" id="vendor" class="form-control mx-sm-3"
+                                   data-toggle="modal" data-target=".bd-example-modal-lg">
+                            <label for="vendorName" th:text="거래처명"></label>
+                            <input type="text" id="vendorName" class="form-control mx-sm-3" readonly>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="empid" th:text="담당자명"></label>
+                            <input type="text" id="empid" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="remk" th:text="비고"></label>
+                            <input type="text" id="remk" class="form-control mx-sm-3">
+                        </div>
+
+                    </form>
+                </div>
+                <div class="card-body table-border-style">
+                    <div class="rightBtn">
+                        <div class="rightBtn">
+                            <button type="button" class="btn btn-primary" id="findOutBtn">출고조회</button>
+                        	<button type="button" class="btn btn-primary" id="findRtnBtn">조회</button>
+                            <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
+                            <button type="button" class="btn btn-primary" id="addBtn">추가</button>
+                            <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="outMngTable">
+                            <thead>
+                                <tr>
+                                	<th><input type="checkbox" id="allCheck"></th>
+                                    <th th:text="제품코드"></th>
+                                    <th th:text="제품명"></th>
+                                    <th th:text="출고번호"></th>
+                                    <th th:text="기반품량"></th>
+                                    <th th:text="반품량"></th>
+                                    <th th:text="단가"></th>
+                                    <th th:text="금액"></th>
+                                    <th th:text="처리구분"></th>
+                                    <th th:text="반품사유"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>    
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 거래처조회 Modal -->
+    <th:block th:replace="~{/fragments/modal/findvendor :: findvendor}"></th:block>
+    <!-- 담당자검색 Modal -->
+    <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
+    <!--제품검색 Modal -->
+    <th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
+    <!-- 출고조회 Modal -->
+</body>
+</html>

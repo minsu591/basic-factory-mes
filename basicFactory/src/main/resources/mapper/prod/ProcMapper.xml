@@ -26,11 +26,11 @@
 		<where>
 			<if test="workSdate != null and workSdate != ''">
 	 
-	<![CDATA[ AND work_date >= #{workSdate} ]]>
+				<![CDATA[ AND work_date >= #{workSdate} ]]>
 			</if>
 
 			<if test="workEdate != null and workEdate != ''">
-	<![CDATA[ AND work_date <= #{workEdate} ]]>
+				<![CDATA[ AND work_date <= #{workEdate} ]]>
 			</if>
 
 			<if test="procCdName != null and procCdName != ''">
@@ -43,11 +43,11 @@
 
 			<if test="empId != null and empId != ''">
 				AND worker_name LIKE (SELECT emp_id FROM BF_CMN_EMP WHERE
-				emp_name =
-				#{empId})
+				emp_name = #{empId})
 			</if>
-
+			
 		</where>
+		
 	</select>
 
 	<!-- 공정명검색 -->
@@ -176,12 +176,20 @@
 			BF_PROD_PROCESS
 		SET
 			completion_status = 'y',
-			achie_rate = #{achieRate}
+			
 		WHERE
 			process_no = #{processNo}
 	
 	</update>
 	
+	<update id="updateachieRate">
+		UPDATE
+			BF_PROD_PROCESS
+		SET
+			achie_rate = #{achieRate}	
+		WHERE
+			process_no = #{processNo}
+	</update>
 	
 	<!-- 공정 실적 테이블 등록 -->
   	<insert id="insertProcPerform" parameterType="ProcessPerformVO">

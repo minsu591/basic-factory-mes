@@ -45,6 +45,7 @@ public interface ProcMapper {
 
 	// 설비 상태 공정테이블 완료여부 달성률업데이트
 	void updateProcCheck(ProcessVO vo);
+	void updateachieRate(ProcessVO vo);
 
 	// 공정 실적 테이블 등록
 	void insertProcPerform(ProcessPerformVO vo);

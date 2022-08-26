@@ -15,8 +15,8 @@ public class RscStockServiceImpl implements RscStockService{
 	@Autowired RscStockMapper rscStockMapper;
 	
 	@Override
-	public List<RscStockVO> StockList() {
-		return rscStockMapper.StockList();
+	public List<RscStockVO> StockList(String rscCdCode, String rscLotNo) {
+		return rscStockMapper.StockList(rscCdCode, rscLotNo);
 	}
 
 }

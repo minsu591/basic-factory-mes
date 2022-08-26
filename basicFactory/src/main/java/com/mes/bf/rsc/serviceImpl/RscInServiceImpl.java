@@ -1,5 +1,6 @@
 package com.mes.bf.rsc.serviceImpl;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class RscInServiceImpl implements RscInService {
 	}
 
 	@Override
-	public List<RscInspVO> inspCompList() {
-		return rscInMapper.inspCompList();
+	public List<RscInspVO> inspCompList(String rscCdCode, String inspDate) {
+		return rscInMapper.inspCompList(rscCdCode, inspDate);
 	}
 
 	@Override

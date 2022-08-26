@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 </head>
 <body>
-	<th:block th:fragment="findOrder">
-		<div class="modal fade" id="findOrdModal" tabindex="-1" role="dialog"
-			aria-labelledby="findOrdModalLabel" aria-hidden="true">
+	<th:block th:fragment="findNotOut">
+		<div class="modal fade" id="findNotOutModal" tabindex="-1" role="dialog"
+			aria-labelledby="findNotOutModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h3 class="modal-title" id="findOrdModalLabel">주문내역</h3>
+						<h3 class="modal-title" id="findNotOutModalLabel">미출고 주문내역</h3>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -19,16 +19,16 @@
 						<div class="form-inline">
 							<div class="form-group mt-3">
 								<label for="slsOrdHdDate" th:text="주문일자"></label>
-								<input type="date" id="ordSdate" class="form-control mx-sm-3"> ~
-								<input type="date" id="ordEdate" class="form-control mx-sm-3">
+								<input type="date" id="ordSdate" name="ordSdate" class="form-control mx-sm-3"> ~
+								<input type="date" id="ordEdate" name="ordEdate" class="form-control mx-sm-3">
 
-								<button type="button" class="btn  btn-primary" id="findOrdBtn" th:text="조회"></button>
+								<button type="button" class="btn  btn-primary" id="NotOutBtn" th:text="조회"></button>
 							</div>
 						</div>
 						<hr>
 						<div class="card-body table-border-style">
 							<div class="table-responsive">
-								<table class="table table-hover" id="findOrdTable">
+								<table class="table table-hover" id="findNotOutTable">
 									<thead>
 										<tr>
 											<th th:text="주문일자"></th>
@@ -39,7 +39,7 @@
 											<th th:text="비고"></th>
 										</tr>
 									</thead>
-									<tbody id="findOrdtbody">
+									<tbody id="findNotOut">
 
 									</tbody>
 								</table>

@@ -48,4 +48,11 @@ public class SlsRtnController {
 													  param.get("vendorName"));
 		return list;
 	}
+	
+	//완제품 반품관리 페이지 이동
+	@RequestMapping("/rtnManage")
+	public ModelAndView rtnManage() {
+		ModelAndView mav = new ModelAndView("sales/returnManage");
+		return mav;
+	}
 }

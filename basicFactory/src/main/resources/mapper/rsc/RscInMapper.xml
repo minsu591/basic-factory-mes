@@ -40,6 +40,12 @@
 		 ON    INSP.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
 		
 		 WHERE INSP.RSC_INSP_ST = 0
+		 	<if test="rscCdCode != null and rscCdCode != ''">
+		 		AND INSP.RSC_CD_CODE = #{rscCdCode}
+		 	</if>
+		 	<if test="inspDate != null and inspDate != ''">
+		 		AND INSP.RSC_INSP_DATE = #{inspDate}
+		 	</if>
 		
 		 ORDER BY 1 DESC
 	</select>
