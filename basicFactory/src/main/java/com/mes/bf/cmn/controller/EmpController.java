@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -50,6 +51,25 @@ public class EmpController {
 	public ResponseEntity<List<DeptVO>> findDept(@RequestParam Map<String, String> QueryParameters){
 		List<DeptVO> depts = service.listDept(QueryParameters.get("deptName"));
 		return new ResponseEntity<List<DeptVO>>(depts,HttpStatus.OK);
+	}
+	
+	//부서 insert, delete, update
+	@PostMapping(value = "/dept/delete", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Integer> deptDelete(@RequestParam Map<String, String> QueryParameters) {
+		int result = service.deptDelete(QueryParameters.get("priKey"));
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/dept/insert", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Integer> deptInsert(@RequestParam Map<String, String> QueryParameters) {
+		int result = service.deptInsert(QueryParameters.get("deptName"));
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/dept/update", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Integer> procCodeUpdate(@RequestParam Map<String, String> QueryParameters) {
+		int result = service.deptUpdate(QueryParameters.get("priKey"), QueryParameters.get("updCol"), QueryParameters.get("updCont"));
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 	
 }

@@ -9,9 +9,18 @@ xmlns:th="http://www.thymeleaf.org"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Common ProcCode</title>
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
+    <style>
+        .tdBorder {
+            border : 1px solid #444444;
+        }
+        td {
+            margin : 0px;
+        }
+    </style>
 </head>
 <body>
     <script type="text/javascript" th:src="@{/js/cmn/procCode.js}"></script>
+    <script type="text/javascript" th:src="@{/js/cmn/procUpdateDB.js}"></script>
     <div class="pcoded-main-container">
         <h1>공정 코드 관리</h1>
         <hr>
@@ -39,9 +48,9 @@ xmlns:th="http://www.thymeleaf.org"
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" id="allCheck"></th>
-                                    <th th:text="공정코드"></th>
-                                    <th th:text="공정명"></th>
-                                    <th th:text="비고"></th>
+                                    <th th:text="공정코드" th:name="proc_cd_code"></th>
+                                    <th th:text="공정명" th:name="proc_cd_name"></th>
+                                    <th th:text="비고" th:name="PROC_CD_REMK"></th>
                                 </tr>
                             </thead>
                             <tbody>
