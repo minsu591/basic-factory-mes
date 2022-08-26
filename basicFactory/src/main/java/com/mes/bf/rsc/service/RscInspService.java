@@ -6,4 +6,5 @@ import com.mes.bf.rsc.vo.RscInspVO;
 
 public interface RscInspService {
 	List<RscInspVO> inspList();
+	
 }
