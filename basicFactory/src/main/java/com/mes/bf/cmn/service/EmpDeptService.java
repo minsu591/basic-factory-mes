@@ -8,5 +8,9 @@ import com.mes.bf.cmn.vo.EmpDeptVO;
 public interface EmpDeptService {
 	List<EmpDeptVO> listEmpDept(String empId, String empName, String deptNo);
 	List<DeptVO> listDept(String deptName);
+	
+	int deptUpdate(String priKey, String updCol, String updCont);
+	int deptInsert(String deptName);
+	int deptDelete(String priKey);
 
 }

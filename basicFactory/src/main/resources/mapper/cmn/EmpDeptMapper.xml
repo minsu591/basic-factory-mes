@@ -53,4 +53,21 @@
         ORDER BY DEPT_NO
 	</select>
 	
+	<!-- dept insert,delete,update -->
+	<insert id="deptInsert" parameterType="String">
+		INSERT INTO BF_CMN_DEPT
+		VALUES(BF_CMN_DEPT_SEQ.NEXTVAL, #{deptName})
+	</insert>
+	
+	<delete id="deptDelete">
+		DELETE BF_CMN_DEPT
+		WHERE DEPT_NO = #{priKey}
+	</delete>
+	
+	<update id="deptUpdate" parameterType = "String">
+		UPDATE BF_CMN_DEPT
+		SET ${updCol} = #{updCont}
+		WHERE DEPT_NO = #{priKey}
+	</update>
+	
 </mapper>

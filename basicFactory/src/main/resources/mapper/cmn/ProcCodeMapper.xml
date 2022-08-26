@@ -17,4 +17,14 @@
 		WHERE PROC_CD_CODE = #{priKey}
 	</update>
 	
+	<insert id="procCodeInsert" parameterType = "String">
+		INSERT INTO BF_CMN_PROC_CODE
+		VALUES('PROC'||LPAD(BF_CMN_PROC_CODE_SEQ.NEXTVAL,3,'0'),#{procName},#{procRemk})
+	</insert>
+	
+	<delete id="procCodeDelete" parameterType = "String">
+		DELETE BF_CMN_PROC_CODE
+		WHERE PROC_CD_CODE = #{priKey}
+	</delete>
+	
 </mapper>

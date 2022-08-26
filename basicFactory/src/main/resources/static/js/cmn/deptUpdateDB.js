@@ -6,24 +6,25 @@ $("document").ready(function(){
     //수정될거 저장하는 list 정의
     let modifyList = [];
     let addList = [];
+    let delList = [];
     //수정할 테이블
-    let table = $("#procTable");
+    let table = $("#deptTable");
     //notNull이어야하는 idx
     let notNullList = [2];
     //적용할 인덱스
-    let avArr = [2,3];
+    let avArr = [2];
+    //프라이머리 키
+    let priKeyIdx = 1;
 
     //수정 이벤트
     table.find("tbody").on("dblclick","td",function(e){
         e.stopPropagation();
         let col = $(this).index();
         let updCol =table.find("thead").find("th:eq("+col+")").attr("name");
-        let priKey = $(this).parent().find("td:eq(1)").text();
+        let priKey = $(this).parent().find("td:eq("+priKeyIdx+")").text();
         let flag = false;
         let tdInfo = $(this);
-        let defaultVal = $(this).text();
-        console.log(defaultVal);
-
+        let defaultVal = tdInfo.text();
         //적용할 인덱스인지 확인
         for(let i = 0; i<avArr.length;i++){
             if(col == avArr[i]){
@@ -44,8 +45,9 @@ $("document").ready(function(){
                 tdInfo.blur();
             }
         });
-
-        tdInfo.focusout(function(){
+        
+        tdInfo.blur(function(e){
+            e.preventDefault();
             tdInfo.attr("contenteditable","false")
                     .removeClass("tdBorder");
             //not null이어야하는 값
@@ -81,13 +83,22 @@ $("document").ready(function(){
         let trs = table.find("tbody tr");
         let result;
         if(confirm("저장하시겠습니까?")==true){
+            //삭제용
+            for(priKey of delList){
+                deleteSaveAjax(priKey);
+            }
             //수정용
             for(obj of modifyList){
                 modifySaveAjax(obj);
             }
             //추가용
+            addList = table.find("tr[name='addTr']");
+            for(obj of addList){
+                addSaveAjax(obj);
+            }
 
             alert("저장이 완료되었습니다.");
+            //location.reload();
         }
     });
 
@@ -96,7 +107,7 @@ $("document").ready(function(){
         let updCol = obj[1];
         let updCont = obj[2];
         $.ajax({
-            url : 'procCode/update',
+            url : 'dept/update',
             type :"POST",
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
@@ -106,7 +117,7 @@ $("document").ready(function(){
                 updCont : updCont
             },
             success : function(result){
-                console.log(result);
+                console.log("업데이트 완료");
             }, error : function(error){
                 alert("서버 오류 : " + error);
             }
@@ -114,21 +125,79 @@ $("document").ready(function(){
     }
     //수정 끝
 
-    //추가 이벤트
+    //추가 버튼 이벤트
     $("#addBtn").on("click",function(){
-        let node = `<tr name="addTr">
-                        <td><input type="checkbox" name="cb"></td>`;
-        if ($("#allCheck").is(":checked")){
-            node = `<tr>
-                        <td><input type="checkbox" name="cb" checked ></td>`;
-        }
-        node +=`<td></td>
-                <td></td>
-                <td></td>
-            </tr>`;
-        $("#procTable tbody").append(node);
-
+        empBlankMakeRow();
     });
 
+    function empBlankMakeRow(){
+        let node = `<tr name="addTr">
+                        <td><input type="checkbox" name="cb"></td>`;
+        if($("#allCheck").is(":checked")){
+            node = `<tr>
+                    <td><input type="checkbox" name="cb" checked></td>`;
+        }
+        node += `<td></td>
+                <td></td>
+                </tr>`;
+
+        $("#deptTable tbody").append(node);
+    }
+
+
+    function addSaveAjax(obj){
+        let deptName = $(obj).find("td:eq(2)").text();
+        if(deptName == null && deptName == ''){
+            return;
+        }
+        $.ajax({
+            url : 'dept/insert',
+            type : 'POST',
+            dataType : 'text',
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
+            data : {
+                deptName : deptName
+            },
+            success : function(result){
+                console.log("추가 성공");
+            }
+
+        })
+    }
+
     //추가 끝
+
+    //선택 삭제 이벤트
+    $("#deleteBtn").on("click",function(){
+        table.find("tbody input:checkbox[name='cb']").each(function(idx,el){
+            if($(el).is(":checked")){
+                let tr = $(el).parent().parent();
+                let priKey = tr.find("td:eq("+priKeyIdx+")").text();
+                delList.push(priKey);
+                tr.remove();
+                for(let i = 0; i< modifyList.length; i++){
+                    if(tr[i][0]== priKey){
+                        modifyList.splice(i,1);
+                        break;
+                    }
+                }
+            }
+        });
+    });
+
+    function deleteSaveAjax(priKey){
+        $.ajax({
+            url : 'dept/delete',
+            type : 'POST',
+            dataType : 'text',
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
+            data : {
+                priKey : priKey
+            },
+            success : function(result){
+                console.log("삭제 성공");
+            }
+        })
+    }
+
 });

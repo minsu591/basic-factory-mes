@@ -10,4 +10,6 @@ import com.mes.bf.cmn.vo.ProcCodeVO;
 public interface ProcCodeService {
 	List<ProcCodeVO> listProcCode(String procName);
 	int procCodeUpdate(String priKey, String updCol, String updCont);
+	int procCodeInsert(String procName, String procRemk);
+	int procCodeDelete(String priKey);
 }

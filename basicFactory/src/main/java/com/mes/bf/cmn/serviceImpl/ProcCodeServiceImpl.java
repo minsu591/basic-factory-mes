@@ -21,5 +21,13 @@ public class ProcCodeServiceImpl implements ProcCodeService {
 	public int procCodeUpdate(String priKey, String updCol, String updCont) {
 		return mapper.procCodeUpdate(priKey, updCol, updCont);
 	}
+	@Override
+	public int procCodeInsert(String procName, String procRemk) {
+		return mapper.procCodeInsert(procName, procRemk);
+	}
+	@Override
+	public int procCodeDelete(String priKey) {
+		return mapper.procCodeDelete(priKey);
+	}
 
 }

@@ -38,7 +38,18 @@ public class ProcCodeController {
 	@PostMapping(value = "/procCode/update", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Integer> procCodeUpdate(@RequestParam Map<String, String> QueryParameters) {
 		int result = service.procCodeUpdate(QueryParameters.get("priKey"), QueryParameters.get("updCol"), QueryParameters.get("updCont"));
-		
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/procCode/insert", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Integer> procCodeInsert(@RequestParam Map<String, String> QueryParameters) {
+		int result = service.procCodeInsert(QueryParameters.get("procName"), QueryParameters.get("procRemk"));
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/procCode/delete", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Integer> procCodeDelete(@RequestParam Map<String, String> QueryParameters) {
+		int result = service.procCodeDelete(QueryParameters.get("priKey"));
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 }
