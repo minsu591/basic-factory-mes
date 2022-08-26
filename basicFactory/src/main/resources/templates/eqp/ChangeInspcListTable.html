@@ -30,9 +30,9 @@
             <td th:text="${inspc.mchnInspcCycle}"></td>
             <td th:text="${inspc.inspcNxtDate}"></td>
             <td th:text="${inspc.inspcActnPnt}"></td>
-            <td th:text="${inspc.inspcActnRsn}"></td>
+            <td th:text="${#strings.defaultString(inspc.inspcActnRsn, '')}"></td>
             <td th:text="${inspc.empName}"></td>
-            <td th:text="${inspc.inspcRemk}"></td>
+            <td th:text="${#strings.defaultString(inspc.inspcRemk, '')}"></td>
           </tr>
         </tbody>
       </table>

@@ -15,8 +15,8 @@ public class FaultyCodeServiceImpl implements FaultyCodeService{
 	@Autowired FaultyCodeMapper mapper;
 
 	@Override
-	public List<FaultyCodeVO> listFltyCode() {
-		return mapper.listFltyCode();
+	public List<FaultyCodeVO> listFltyCode(String faultyName) {
+		return mapper.listFltyCode(faultyName);
 	}
 	
 	
