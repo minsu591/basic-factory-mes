@@ -25,6 +25,8 @@ public class ProcessPerformVO {
 	private Date workEndTime;
 	private String perpormRemk;
 	private String workerName;
-	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private Date prodDate;
 	
 }

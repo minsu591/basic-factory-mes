@@ -184,7 +184,7 @@
 	
 	
 	<!-- 공정 실적 테이블 등록 -->
-<!--  	<insert id="insertProcPerform" parameterType="ProcessPerformVO">
+  	<insert id="insertProcPerform" parameterType="ProcessPerformVO">
 	INSERT INTO 
 		BF_PROD_PROCESS_PERFORMANCE (
 									PROCESS_PERFOM_NO,
@@ -193,19 +193,46 @@
                                     FLTY_VOL,
                                     WORK_START_TIME,
                                     WORK_END_TIME,
-                                    WORKER_NAME
+                                    WORKER_NAME,
+                                    prod_date
 									)
 	VALUES (
 			BF_PROD_PROCESS_PERFORMANCE_SEQ.nextval,
-			#{processNo),
+			#{processNo},
 			#{prodVol},
 			#{fltyVol},
 			to_timestamp(#{workStartTime}, 'yyyy-MM-dd HH24:mi:ss.ff'),
 			to_timestamp(#{workEndTime}, 'yyyy-MM-dd HH24:mi:ss.ff'),
-			#{workerName}
+			#{workerName},
+			#{prodDate}
 			)
 	
-	</insert>  -->
+	</insert>
+	
+	<!-- 하나의 공정 완료 후 다음 공정 입고량 업데이트 -->
+	
+	<update id="updateProcInDtlVol" parameterType="ProcessVO">
+		UPDATE 
+				BF_PROD_PROCESS 
+		SET 
+				in_dtl_vol = #{inDtlVol}
+ 		WHERE 
+				inst_prod_no = #{instProdNo}
+ 		AND 
+				process_order = #{processOrder}
+	
+	</update>
+	
+	
+	<!-- 공정실적 테이블 조회 -->
+	
+	<select id="getProcPerform" resultType="ProcessPerformVO">
+	SELECT * 
+	FROM 
+		BF_PROD_PROCESS_PERFORMANCE 
+	WHERE process_no = #{processNo}
+	
+	</select>
 	
 	
 </mapper>

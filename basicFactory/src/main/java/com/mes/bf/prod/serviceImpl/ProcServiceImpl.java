@@ -81,4 +81,14 @@ public class ProcServiceImpl implements ProcService {
 		mapper.insertProcPerform(vo);
 	}
 
+	@Override
+	public void updateProcInDtlVol(ProcessVO vo) {
+		mapper.updateProcInDtlVol(vo);
+	}
+
+	@Override
+	public ProcessPerformVO getProcPerform(int processNo) {
+		return mapper.getProcPerform(processNo);
+	}
+
 }

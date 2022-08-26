@@ -47,4 +47,10 @@ public interface ProcService {
 	// 공정 실적 테이블 등록
 	void insertProcPerform(ProcessPerformVO vo);
 
+	// 공정 완료 후 다음공정 입고량 업데이트
+	void updateProcInDtlVol(ProcessVO vo);
+
+	//공정 실적테이블 단건 검색
+	ProcessPerformVO getProcPerform(int processNo);
+
 }

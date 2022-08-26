@@ -25,6 +25,7 @@ import com.mes.bf.prod.vo.ProcManageVO;
 import com.mes.bf.prod.vo.ProcessPerformVO;
 import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
+import com.mes.bf.prod.vo.VInstructionVO;
 
 @RestController
 @RequestMapping("/prod")
@@ -112,29 +113,44 @@ public class ProcController {
 		System.out.println(vo);
 		service.updateProcVol(vo);
 	}
-	
-	// 공정테이블 불량수정 
+
+	// 공정테이블 불량수정
 	@PutMapping("/updatefltyvol")
 	public void updateFltyVol(@RequestBody ProcessVO vo) {
 		service.updateFltyVol(vo);
 	}
-	//설비상태 업데이트
+
+	// 설비상태 업데이트
 	@PutMapping("/updatemchnstts")
 	public void updateMchnStts(@RequestBody MchnVO vo) {
 		service.updateMchnStts(vo);
 	}
-	
-	//공정테이블 완료 여부 업데이트
+
+	// 공정테이블 완료 여부 업데이트
 	@PutMapping("/updateproccheck")
 	public void updateProcCheck(@RequestBody ProcessVO vo) {
 		service.updateProcCheck(vo);
 	}
-	
-	//공정 실적 등록
+
+	// 공정 실적 등록
 	@PostMapping("/insertprocperform")
 	public void insertProcPerform(@RequestBody ProcessPerformVO vo) {
 		System.out.println(vo);
-		//service.InsertProcPerform(vo);
+		service.insertProcPerform(vo);
+	}
+
+	// 공정 완료 후 다음공정 입고량 업데이트
+	@PutMapping("/updateprocindetlvol")
+	public void updateProcInDtlVol(@RequestBody ProcessVO vo) {
+		System.out.println(vo);
+		service.updateProcInDtlVol(vo);
+	}
+
+	// 공정 실적 테이블 단건 검색
+	@GetMapping(value = "/getprocperform/{processNo}")
+	public ResponseEntity<ProcessPerformVO> getProcPerform(@PathVariable int processNo) {
+		ProcessPerformVO vo = service.getProcPerform(processNo);
+		return new ResponseEntity<ProcessPerformVO>(vo, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
 }

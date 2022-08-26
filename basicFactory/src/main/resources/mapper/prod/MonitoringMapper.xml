@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.prod.mapper.MonitoringMapper">
+
+<select id="findMonitoring" resultType="MonitoringVO">
+
+SELECT 
+	proc.mchn_name AS mchnName,
+    proc.proc_cd_name AS procCdName,
+    (SELECT fin_prd_cd_name 
+     FROM BF_CMN_FINISH_PRODUCT_CODE WHERE fin_prd_cd_code = detail.fin_prd_cd_code) AS prodName,
+    detail.inst_prod_indica_vol AS indicaVol,
+    proc.total_prod_vol AS totalVol,
+    proc.flty_vol AS fltyVol,
+    proc.achie_rate AS achieRate,
+    detail.work_date AS workDate        
+FROM 
+	BF_PROD_PROCESS proc,
+	BF_PROD_INST_DETAIL detail
+WHERE 
+	proc.inst_prod_no = detail.inst_prod_no
+	AND 
+	TO_CHAR(detail.work_date,'yyyy-mm-dd') = #{toDay}
+
+</select>
+
+</mapper>
