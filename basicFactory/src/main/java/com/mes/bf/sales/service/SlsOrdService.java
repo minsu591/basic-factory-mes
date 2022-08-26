@@ -22,4 +22,8 @@ public interface SlsOrdService {
 	
 	//생산계획관리의 미계획 주문내역 조회
 	List<SlsOrdPlanVO> findOrderForPlan(String ordSdate, String ordEdate, String ordType);
+	
+	//주문관리 테이블 등록
+	void insertOrder(SlsOrdHdVO vo);
+	
 }
