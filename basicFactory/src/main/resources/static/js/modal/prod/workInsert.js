@@ -8,7 +8,6 @@ $("document").ready(function () {
   //설비상태 클릭 이벤트
   $("#mchnStatus").on("click", "button", function () {
     let instProdNo;
-    //let instProdNo = $("#instProdNo").val();
     $("#procManageTable tbody tr").each(function () {
       if ($(this).find("td:eq(0)").children().prop("checked")) {
         instProdNo = $(this).find("input[type=hidden]").val();
@@ -16,12 +15,16 @@ $("document").ready(function () {
     });
     let statusMchnName = $(this).text();
     findProcess(instProdNo, statusMchnName);
+    let processNo = $("#processNo").val();
+    //모달 시간과 날짜 입력을 위해 조회 
+    getprocPerform(processNo);
   });
 
   function findProcess(instProdNo, MchnName) {
     $.ajax({
       url: `findprocess/${instProdNo}`,
       method: "GET",
+      async: false,
       dataType: "json",
       success: function (data) {
         console.log(data);
@@ -35,13 +38,44 @@ $("document").ready(function () {
     });
   }
 
-  function workStateTableMakeRow(obj) {
-    $("#procManageTable tr").each(function () {
-      //console.log("each문 들어옴");
-      if ($(this).find("td:eq(0)").children().prop("checked")) {
-        modalprodName($(this));
+  function getprocPerform(processNo) {
+    $.ajax({
+      url: `getprocperform/${processNo}`,
+      method: "GET",
+      dataType: "json",
+      success: function (data) {
+        console.log("getperfrom->" + data.prodDate);
+        let startTime = data.workStartTime;
+        let endTime = data.workEndTime;
+        $("#instDate").val(data.prodDate).prop("readonly", true);
+        $("#sHours").val(startTime.substring(11, 13));
+        $("#sMinutes").val(startTime.substring(14, 16));
+        $("#eHours").val(endTime.substring(11, 13));
+        $("#eMinutes").val(endTime.substring(14, 16));
+        $("#empid").val(data.workerName).prop("readonly", true);
+      }, error: function () {
+        //$("#instDate").val("").prop("readonly", false);
+        //console.log('에러?');
+        $("#sHours").val("");
+        $("#sMinutes").val("");
+        $("#eHours").val("");
+        $("#eMinutes").val("");
+        $("empid").val("").prop("readonly", false)
       }
     });
+  }
+
+  function workStateTableMakeRow(obj) {
+    let inputDate;
+    $("#procManageTable tbody tr").each(function () {
+      if ($(this).find("td:eq(0)").children().prop("checked")) {
+        // console.log("체크됨?")
+        modalprodName($(this));
+        inputDate = $(this).find("td:eq(2)").text();
+      }
+    });
+    // console.log(inputDate);
+    $("#instDate").val(inputDate);
     $("#procCdName").val(obj.procCdName);
     $("#mchnName").val(obj.mchnName);
     $("#processNo").val(obj.processNo);
@@ -53,7 +87,7 @@ $("document").ready(function () {
   }
 
   $("#workInsertTable").on("click", "button", function () {
-    console.log($(this).text());
+    // console.log($(this).text());
     let mchnName = $(this).parent().parent().find("td:eq(2)").text();
     let processNo = $(this)
       .parent()
@@ -61,6 +95,7 @@ $("document").ready(function () {
       .find("input:hidden[name=processNo]")
       .val();
     $("#workStateTable tr td").remove();
+
     if ($(this).text() == "비가동") {
       alert("비가동입니다.");
     } else {
@@ -71,7 +106,11 @@ $("document").ready(function () {
           let instProdNo = $(this).find("input[type=hidden]").val();
           console.log("instProdNo->" + instProdNo);
           findProcess(instProdNo, mchnName);
+          //"겟프로세스"
+          getprocPerform(processNo);
         }
+
+
       });
       //modalDataInsert($(this));
 
@@ -108,7 +147,7 @@ $("document").ready(function () {
     let fltyVol = $("#workStateTable tr:eq(4) td"); //불량량
 
     if (parseInt(fltyVol.text()) == 0) {
-      console.log(fltyCnt);
+      //console.log(fltyCnt);
       fltyVol.html(fltyCnt);
       let prodVol = $("#workStateTable tr:eq(3) td"); //실적량
       let result = parseInt(prodVol.text()) - parseInt(fltyVol.text());
@@ -132,7 +171,7 @@ $("document").ready(function () {
           fltyVol: resultFltyVol,
         }),
         success: function (data) {
-          console.log("update sucess");
+          //console.log("update sucess");
         },
       });
       fltyCnt = 0;
@@ -156,6 +195,7 @@ $("document").ready(function () {
       workEndTime:
         workDate + " " + $("#eHours").val() + ":" + $("#eMinutes").val(),
       workerName: $("#empid").val(),
+      prodDate: workDate
     };
     console.log(procPerform);
 
@@ -173,8 +213,55 @@ $("document").ready(function () {
         console.log("success");
       },
     });
+
+    let processOrder;
+    let procCdName = $("#procCdName").val();
+    $("#workInsertTable tbody tr").each(function () {
+      //console.log($(this).find("td:eq(1)").text())
+      if (procCdName == $(this).find("td:eq(1)").text()) {
+        processOrder = $(this).find("td:eq(0)").text();
+      }
+    });
+    let nextProcessOrder = parseInt(processOrder) + 1;
+    console.log("프로세스오더->" + nextProcessOrder);
+
+    if (nextProcessOrder < 5) {
+      let instProdNo;
+      $("#procManageTable tbody tr").each(function () {
+        if ($(this).find("td:eq(0)").children().prop("checked")) {
+          instProdNo = $(this).find("input[type=hidden]").val();
+        }
+      });
+      console.log("저장할 instProdNo->" + instProdNo);
+
+      let updateData = {
+        inDtlVol: prodVol,
+        instProdNo: instProdNo,
+        processOrder: nextProcessOrder
+      }
+      console.log(updateData);
+      //다음공정 입고량 업데이트
+      $.ajax({
+        url: "updateprocindetlvol",
+        method: "PUT",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(updateData),
+        error: function (error, status, msg) {
+          //alert("상태코드 " + status + "에러메시지" + msg);
+          console.log(error);
+        },
+        success: function (data) {
+          console.log("success");
+        },
+      });
+    } else {
+
+    }
+
   });
 }); //document end
+
 let work;
 //작업시작 시간 입력
 function startWork() {
@@ -185,7 +272,7 @@ function startWork() {
     let mchnName = $("#mchnName").val();
     let tablemchnname = $(this).find("td:eq(2)").text();
 
-    console.log("찾은 테이블에있는 머신이름?" + tablemchnname);
+    // console.log("찾은 테이블에있는 머신이름?" + tablemchnname);
     if (mchnName == tablemchnname) {
       completionStatus = $(this).find("input[name=completionStatus]").val();
     }
@@ -203,48 +290,41 @@ function startWork() {
     $("#empid").prop("readonly", true);
     $("#instDate").prop("readonly", true);
   }
+  let inDtlVol = $("#workStateTable tbody tr:eq(1) td").text(); //입고량
+  let virResult = $("#workStateTable tbody tr:eq(2) td").text();//기실적량
+  let prodVol = $("#workStateTable tbody tr:eq(3) td").text();//실적량
+  let fltyVol = $("#workStateTable tbody tr:eq(4) td").text();//불량량
+
   if ($("#sHours").val() == "" && $("#sMinutes").val() == "") {
     var date = new Date();
     let hours = ("0" + date.getHours()).slice(-2);
     let minutes = ("0" + date.getMinutes()).slice(-2);
     $("#sHours").val(hours).prop("readonly", true);
     $("#sMinutes").val(minutes).prop("readonly", true);
-    updateMchnStts();
-    work = setInterval(startinterval, 50);
+    //설비코드 찾기
+    let mchnCode;
+    $("#workInsertTable tbody tr").each(function () {
+      let mchnName = $("#mchnName").val();
+      if (mchnName == $(this).find("td:eq(2)").text()) {
+        mchnCode = $(this).find("input:hidden[name=mchnCode]").val();
+      }
+    });
+    console.log("진행중업데이트 ->" + mchnCode);
+    let mchnStts = "진행중";
+    //진행중으로 업데이트 실행 
+    updateMchnStts(mchnCode, mchnStts);
+    work = setInterval(startinterval, 1000);
   } else {
     alert("이미 시작했어요");
   }
-}
-//설비상태 업데이트
-function updateMchnStts() {
-  let mchnCode;
-  $("#workInsertTable tbody tr").each(function () {
-    let mchnName = $("#mchnName").val();
-    if (mchnName == $(this).find("td:eq(2)").text()) {
-      mchnCode = $(this).find("input:hidden[name=mchnCode]").val();
-    }
-  });
-  console.log("진행중업데이트 ->" + mchnCode);
-
-  $.ajax({
-    url: `updatemchnstts`,
-    method: "PUT",
-    dataType: "json",
-    contentType: "application/json;charset=utf-8",
-    data: JSON.stringify({
-      mchnStts: "진행중",
-      mchnCode: mchnCode,
-    }),
-    success: function (data) {
-      alert("진행중업데이트");
-    },
-  });
 }
 
 //작업종료 시간 입력
 function endWork() {
   if ($("#eHours").val() == "" && $("#eMinutes").val() == "") {
     //인터벌 종료
+    num = 0;
+
     clearInterval(work);
     var date = new Date();
     let hours = ("0" + date.getHours()).slice(-2);
@@ -259,20 +339,9 @@ function endWork() {
       }
     });
     console.log("진행전으로 업데이트 ->" + mchnCode);
+    let mchnStts = "진행전";
     //진행전으로 업데이트
-    $.ajax({
-      url: `updatemchnstts`,
-      method: "PUT",
-      dataType: "json",
-      contentType: "application/json;charset=utf-8",
-      data: JSON.stringify({
-        mchnStts: "진행전",
-        mchnCode: mchnCode,
-      }),
-      success: function (data) {
-        alert("진행전으로 업데이트");
-      },
-    });
+    updateMchnStts(mchnCode, mchnStts);
 
     //완료여부 업데이트
     let processNo = $("#processNo").val();
@@ -297,8 +366,24 @@ function endWork() {
   }
 } // 작업종료 끝
 
-let num = 0;
+//설비상태 업데이트
+function updateMchnStts(mchnCode, mchnStts) {
+  $.ajax({
+    url: `updatemchnstts`,
+    method: "PUT",
+    dataType: "json",
+    contentType: "application/json;charset=utf-8",
+    data: JSON.stringify({
+      mchnStts: mchnStts,
+      mchnCode: mchnCode,
+    }),
+    success: function (data) {
+      alert("설비상태업데이트");
+    },
+  });
+}
 
+let num = 0;
 function startinterval() {
   num += 1;
   let inDtlVol = $("#workStateTable tr:eq(1) td"); //입고량
@@ -310,7 +395,7 @@ function startinterval() {
 
   rate.html(Math.ceil((totalProdVol / parseInt(inDtlVol.text())) * 100) + "%");
   prodVol.html(num);
-  console.log(totalProdVol);
+  // console.log(totalProdVol);
   //실적량 업데이트
   $.ajax({
     url: `updateprodvol`,
