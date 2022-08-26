@@ -12,5 +12,5 @@ public class RscStockVO {
 	private int rscOutVol;
 	private int rscStock;
 	private String rscCdUnit;
-	private int rscStockUse;
+	private int rscStockSt;
 }
