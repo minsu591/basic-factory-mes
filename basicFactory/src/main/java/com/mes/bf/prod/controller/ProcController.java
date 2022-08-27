@@ -21,11 +21,12 @@ import com.mes.bf.cmn.vo.ProcCodeVO;
 import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.service.ProcService;
+import com.mes.bf.prod.vo.FindRscVO;
 import com.mes.bf.prod.vo.ProcManageVO;
 import com.mes.bf.prod.vo.ProcessPerformVO;
 import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
-
+import com.mes.bf.rsc.vo.RscOutVO;
 
 @RestController
 @RequestMapping("/prod")
@@ -87,9 +88,10 @@ public class ProcController {
 	}
 
 	// 공정실적관리 테이블 조회
-	@GetMapping(value = "/findprocmanage", produces = { MediaType.APPLICATION_JSON_VALUE } )
-	public ResponseEntity<List<ProcManageVO>> findProcManage(@RequestParam Map<String,String> QueryParameters) {
-		List<ProcManageVO> list = service.findProcManage(QueryParameters.get("finPrdCdName"),QueryParameters.get("workDate"));
+	@GetMapping(value = "/findprocmanage", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<ProcManageVO>> findProcManage(@RequestParam Map<String, String> QueryParameters) {
+		List<ProcManageVO> list = service.findProcManage(QueryParameters.get("finPrdCdName"),
+				QueryParameters.get("workDate"));
 		return new ResponseEntity<List<ProcManageVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
@@ -131,7 +133,7 @@ public class ProcController {
 	public void updateProcCheck(@RequestBody ProcessVO vo) {
 		service.updateProcCheck(vo);
 	}
-	
+
 	// 달성률 업데이트
 	@PutMapping("/updateachierate")
 	public void update(@RequestBody ProcessVO vo) {
@@ -157,6 +159,20 @@ public class ProcController {
 	public ResponseEntity<ProcessPerformVO> getProcPerform(@PathVariable int processNo) {
 		ProcessPerformVO vo = service.getProcPerform(processNo);
 		return new ResponseEntity<ProcessPerformVO>(vo, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
+
+	// 제품명으로 자재 사용량 및 재고량 조
+	@GetMapping("/findrscvo/{finPrdCdCode}")
+	public ResponseEntity<List<FindRscVO>> findRscVO(@PathVariable String finPrdCdCode) {
+		List<FindRscVO> list = service.findRscVO(finPrdCdCode);
+		return new ResponseEntity<List<FindRscVO>>(list, HttpStatus.OK);
+	}
+
+	// 자재 사용량 출고내역 등록
+	@PostMapping("/insertrscout")
+	public void insertRscOut(@RequestBody RscOutVO vo) {
+		System.out.println(vo);
+		service.insertRscOut(vo);
 	}
 
 }

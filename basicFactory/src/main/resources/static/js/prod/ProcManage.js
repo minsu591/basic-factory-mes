@@ -85,7 +85,7 @@ function findProcManage() {
     dataType: "json",
     contentType: "application/json;charset=utf-8",
     success: function (data) {
-      console.log(data);
+      // console.log(data);
       $("#procManageTable tbody tr").remove();
       let index = 0;
       for (obj of data) {

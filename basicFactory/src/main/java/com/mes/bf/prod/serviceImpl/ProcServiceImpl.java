@@ -11,10 +11,12 @@ import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.mapper.ProcMapper;
 import com.mes.bf.prod.service.ProcService;
+import com.mes.bf.prod.vo.FindRscVO;
 import com.mes.bf.prod.vo.ProcManageVO;
 import com.mes.bf.prod.vo.ProcessPerformVO;
 import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
+import com.mes.bf.rsc.vo.RscOutVO;
 
 @Service
 public class ProcServiceImpl implements ProcService {
@@ -94,6 +96,17 @@ public class ProcServiceImpl implements ProcService {
 	@Override
 	public void updateachieRate(ProcessVO vo) {
 		mapper.updateachieRate(vo);
+	}
+
+	@Override
+	public List<FindRscVO> findRscVO(String finPrdCdCode) {
+		return mapper.findRscVO(finPrdCdCode);
+	}
+
+	@Override
+	public void insertRscOut(RscOutVO vo) {
+		mapper.insertRscOut(vo);
+		
 	}
 
 }

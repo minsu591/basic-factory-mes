@@ -44,7 +44,7 @@ $("document").ready(function () {
       method: "GET",
       dataType: "json",
       success: function (data) {
-        console.log("getperfrom->" + data.prodDate);
+        // console.log("getperfrom->" + data.prodDate);
         let startTime = data.workStartTime;
         let endTime = data.workEndTime;
         $("#instDate").val(data.prodDate).prop("readonly", true);
@@ -196,22 +196,48 @@ $("document").ready(function () {
       workerName: $("#empid").val(),
       prodDate: workDate,
     };
-    console.log(procPerform);
-
+    // console.log(procPerform);
+    let check = false;
     $.ajax({
       url: "insertprocperform",
       method: "POST",
+      async: false, //동기로 처리
       contentType: "application/json;charset=utf-8",
       dataType: "json",
       data: JSON.stringify(procPerform),
       error: function (error, status, msg) {
         //alert("상태코드 " + status + "에러메시지" + msg);
         console.log(error);
+        check = true;
       },
       success: function (data) {
+        check = true;
         console.log("success");
       },
     });
+    if (check == true) {
+      let processOrder;
+      let procCdName = $("#procCdName").val();
+      $("#workInsertTable tbody tr").each(function () {
+        //console.log($(this).find("td:eq(1)").text())
+        if (procCdName == $(this).find("td:eq(1)").text()) {
+          processOrder = parseInt($(this).find("td:eq(0)").text());
+        }
+      });
+
+      if (processOrder == 1) {
+        let finPrdCdCode;
+        $("#procManageTable tbody tr").each(function () {
+          if ($(this).find("td:eq(0)").children().prop("checked")) {
+            finPrdCdCode = $(this).find("td:eq(4)").text();
+          }
+        });
+        //처리
+        //제품명으로 사용량 자재 재고 조회
+        console.log("finRscVO로 넘기는 finPrdCdCode=" + finPrdCdCode);
+        findRscVO(finPrdCdCode);
+      }
+    }
 
     let processOrder;
     let procCdName = $("#procCdName").val();
@@ -428,4 +454,89 @@ function startinterval() {
     console.log("종료");
     endWork();
   }
+}
+
+function findRscVO(finPrdCdCode) {
+  $.ajax({
+    url: `findrscvo/${finPrdCdCode}`,
+    method: "GET",
+    dataType: "json",
+    contentType: "application/json;charset=utf-8",
+
+    success: function (data) {
+      console.log(data);
+      let indicaVol = parseInt($("#workStateTable tbody tr:eq(1) td").text()); //지시량
+      let rscCdName;
+      let totalQty;
+      for (obj of data) {
+        let needQty = obj.bomRscUseVol * indicaVol; //소요량
+        console.log(obj.rscCdName + "재고량->" + obj.rscStock);
+        console.log("원래소요량->" + needQty);
+        console.log("포문시작 토탈 큐티와이" + totalQty);
+        if (totalQty != undefined && totalQty != "") {
+          if (obj.rscStock < totalQty) {
+            console.log("맨위 이프 작을 떄 자재명 ->" + obj.rscCdName);
+            console.log("계산후 남은 소요량 ->" + totalQty);
+            totalQty = totalQty - obj.rscStock;
+            console.log(
+              obj.rscLotNo +
+                "자재 " +
+                obj.rscCdName +
+                "를" +
+                obj.rscStock +
+                "만큼 출고량 인설트"
+            );
+            console.log("토탈큐티와이" + totalQty);
+          } else {
+            if (rscCdName == obj.rscCdName) {
+              console.log("맨위이프 왔따 가따");
+            } else {
+              console.log(
+                "남은 소요량" + totalQty + "만큼감소" + obj.rscCdName
+              );
+              console.log(
+                obj.rscLotNo +
+                  "자재 " +
+                  obj.rscCdName +
+                  "를" +
+                  totalQty +
+                  "만큼 출고량 인설트"
+              );
+              totalQty = "";
+            }
+          }
+        } else {
+          if (obj.rscStock < needQty) {
+            console.log("작을 떄 자재명->" + obj.rscCdName);
+            console.log("남은 소요량->" + (needQty - obj.rscStock));
+            console.log(
+              obj.rscLotNo +
+                "자재 " +
+                obj.rscCdName +
+                "를" +
+                obj.rscStock +
+                "만큼 출고량 인설트"
+            );
+            totalQty = needQty - obj.rscStock;
+            console.log("토탈큐티와이" + totalQty);
+          } else {
+            if (rscCdName == obj.rscCdName) {
+              console.log("한번 왔다 가따");
+            } else {
+              if (totalQty != "" && totalQty != null && totalQty != undefined) {
+                console.log(
+                  "남은 소요량" + totalQty + "만큼 감소->" + obj.rscCdName
+                );
+
+                totalQty = "";
+              } else {
+                console.log(needQty + "만큼 감소 ->" + obj.rscCdName);
+                rscCdName = obj.rscCdName;
+              }
+            }
+          }
+        }
+      }
+    },
+  });
 }
