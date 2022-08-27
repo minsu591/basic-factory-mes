@@ -1,5 +1,18 @@
 //클릭시 완료여부 체크해서 모달 헤더 데이터 넣기 작업 해야함
 $(document).ready(function () {
+  $("#sweetTest").click(function () {
+    Swal.fire({
+      icon: "success", // Alert 타입
+      title: "Alert가 실행되었습니다.", // Alert 제목
+      text: "이곳은 내용이 나타나는 곳입니다.", // Alert 내용
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log("dhksfy");
+        location.reload();
+      }
+    });
+  });
+
   findPacking();
   $("#packingTable").on("click", "tr", function () {
     //fidndPacking($(this));
