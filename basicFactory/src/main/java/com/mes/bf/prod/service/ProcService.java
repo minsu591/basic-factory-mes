@@ -23,7 +23,7 @@ public interface ProcService {
 			String empId);
 
 	// 공정실적관리 테이블 조회
-	List<ProcManageVO> findProcManage();
+	List<ProcManageVO> findProcManage(String finPrdCdName,String workDate);
 
 	// 공정테이블 조회
 	List<ProcessVO> findProcess(int instProdNo);

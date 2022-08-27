@@ -26,11 +26,11 @@
 		<where>
 			<if test="workSdate != null and workSdate != ''">
 	 
-				<![CDATA[ AND work_date >= #{workSdate} ]]>
+				<![CDATA[ AND workdate >= #{workSdate} ]]>
 			</if>
 
 			<if test="workEdate != null and workEdate != ''">
-				<![CDATA[ AND work_date <= #{workEdate} ]]>
+				<![CDATA[ AND workdate <= #{workEdate} ]]>
 			</if>
 
 			<if test="procCdName != null and procCdName != ''">
@@ -42,8 +42,7 @@
 			</if>
 
 			<if test="empId != null and empId != ''">
-				AND worker_name LIKE (SELECT emp_id FROM BF_CMN_EMP WHERE
-				emp_name = #{empId})
+				AND workername LIKE #{empId}
 			</if>
 			
 		</where>
@@ -67,41 +66,15 @@
 	<!-- 공정실적관리테이블 조회 -->
 
 	<select id="findProcManage" resultType="ProcManageVO">
-
-		SELECT inst.inst_no AS
-		instNo,
-		instdetail.inst_prod_no instProdNo,
-		instdetail.work_date AS workDate,
-		instdetail.fin_prd_cd_code AS finPrdCdCode,
-		(SELECT
-		fin_prd_cd_name
-		FROM
-		BF_CMN_FINISH_PRODUCT_CODE
-		WHERE
-		fin_prd_cd_code = instdetail.fin_prd_cd_code)
-		AS finPrdCdName,
-		instdetail.inst_prod_indica_vol AS instProdIndicaVol,
-		instdetail.work_scope AS workScope,
-		process.vir_result AS virResult,
-		process.non_result AS nonResult
-		FROM
-		BF_PROD_INSTRUCTION inst,
-		BF_PROD_INST_DETAIL instdetail,
-		BF_PROD_PROCESS process
-		WHERE
-		inst.inst_no = instdetail.inst_no AND
-		instdetail.inst_prod_no = process.inst_prod_no
-		GROUP BY
-		inst.inst_no,
-		instdetail.inst_prod_no,
-		instdetail.work_date,
-		instdetail.fin_prd_cd_code,
-		instdetail.inst_prod_indica_vol,
-		instdetail.work_scope,
-		process.vir_result,
-		process.non_result
-		ORDER BY 1, 2
-
+		SELECT * FROM v_procmanage
+		<where>
+			<if test="finPrdCdName != null and finPrdCdName !=''">
+				AND finPrdCdName LIKE #{finPrdCdName}
+			</if>
+			<if test="workDate != null and workDate !=''">
+				AND to_char(workDate,'yyyy-mm-dd') = #{workDate}
+			</if>
+		</where>
 	</select>
 
 	<!-- 공정테이블 조회 -->

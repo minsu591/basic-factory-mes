@@ -1,8 +1,32 @@
 $(document).ready(function () {
   findProcManage();
 
-  $("#procManageTable").on("click", "tr", function () {
+  //조회버튼 클릭 이벤트
+  $("#findProcManageBtn").click(function () {
+    let finPrdCdName = $("#productname").val();
+    let workDate = $("#workDate").val();
+    $.ajax({
+      url: `findprocmanage`,
+      method: "GET",
+      dataType: "json",
+      contentType: "application/json;charset=utf-8",
+      data: {
+        finPrdCdName: finPrdCdName,
+        workDate: workDate,
+      },
+      success: function (data) {
+        console.log(data);
+        $("#procManageTable tbody tr").remove();
+        let index = 0;
+        for (obj of data) {
+          index += 1;
+          procManageMakeRow(obj, index);
+        }
+      },
+    });
+  });
 
+  $("#procManageTable").on("click", "tr", function () {
     if ($(this).find("td:eq(0)").children().prop("checked")) {
       $("#mchnStatus div").remove();
       let instDate = $(this).find("td:eq(2)").text();
@@ -45,23 +69,21 @@ $(document).ready(function () {
               workinsertTableLastChildMakeRow(obj, index);
               mchnStatusMakeRow(obj);
             }
-
           },
         });
       }
-
     } else {
       $("#workInsertTable tbody tr").remove();
       console.log("unchecked");
     }
   });
 });
-
 function findProcManage() {
   $.ajax({
     url: `findprocmanage`,
     method: "GET",
     dataType: "json",
+    contentType: "application/json;charset=utf-8",
     success: function (data) {
       console.log(data);
       $("#procManageTable tbody tr").remove();
@@ -108,7 +130,6 @@ function workinsertTableMakeRow(obj) {
               </tr>`;
   $("#workInsertTable tbody").append(node);
 }
-
 
 function workinsertTableLastChildMakeRow(obj, index) {
   if (index == 1) {

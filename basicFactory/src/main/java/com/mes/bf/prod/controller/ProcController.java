@@ -87,9 +87,9 @@ public class ProcController {
 	}
 
 	// 공정실적관리 테이블 조회
-	@GetMapping("/findprocmanage")
-	public ResponseEntity<List<ProcManageVO>> findProcManage() {
-		List<ProcManageVO> list = service.findProcManage();
+	@GetMapping(value = "/findprocmanage", produces = { MediaType.APPLICATION_JSON_VALUE } )
+	public ResponseEntity<List<ProcManageVO>> findProcManage(@RequestParam Map<String,String> QueryParameters) {
+		List<ProcManageVO> list = service.findProcManage(QueryParameters.get("finPrdCdName"),QueryParameters.get("workDate"));
 		return new ResponseEntity<List<ProcManageVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 

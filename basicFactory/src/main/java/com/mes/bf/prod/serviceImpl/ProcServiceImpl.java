@@ -39,8 +39,8 @@ public class ProcServiceImpl implements ProcService {
 	}
 
 	@Override
-	public List<ProcManageVO> findProcManage() {
-		return mapper.findProcManage();
+	public List<ProcManageVO> findProcManage(String finPrdCdName,String workDate) {
+		return mapper.findProcManage(finPrdCdName,workDate);
 	}
 
 	@Override
