@@ -11,8 +11,18 @@ button {
 	margin-top: 1rem;
 }
 
+#exportBtn {
+	float: right;
+	margin-bottom: 1rem;
+}
+
+.clear {
+	clear: both;
+}
 
 #findempbtn,
-#findMchnBtn,#findCdNameBtn {
+#findMchnBtn,
+#findCdNameBtn,
+#exportBtn {
 	margin-top: 0;
 }

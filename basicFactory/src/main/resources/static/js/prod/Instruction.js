@@ -1,4 +1,13 @@
 $(document).ready(function () {
+  $("#exportBtn").click(function () {
+    console.log("click");
+    $("#instTable").table2excel({
+      exclude: ".excludeThisClass",
+      name: "testExcel",
+      filename: "textname",
+      preserveColors: false,
+    });
+  });
   //생산지시테이블 초기데이터 입력
   findvinst();
 
@@ -60,16 +69,16 @@ function instMakeRow(obj) {
   let slsOrdDtlDlvDate;
   let slsOrdDtlVol;
   if (!obj.slsOrdDtlDlvDate) {
-    slsOrdDtlDlvDate = ' ';
+    slsOrdDtlDlvDate = " ";
   } else {
-    slsOrdDtlDlvDate = obj.slsOrdDtlDlvDate
+    slsOrdDtlDlvDate = obj.slsOrdDtlDlvDate;
   }
   if (!obj.slsOrdDtlVol) {
-    slsOrdDtlVol = ' ';
+    slsOrdDtlVol = " ";
   } else {
     slsOrdDtlVol = obj.slsOrdDtlVol;
   }
-  console.log(slsOrdDtlDlvDate)
+  console.log(slsOrdDtlDlvDate);
   let node = `<tr>
   <td>${obj.instDate}</td>
   <td>${obj.instNo}</td>

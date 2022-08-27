@@ -1,4 +1,4 @@
-//InstManage.js
+//InstManage.js다음
 
 $(document).ready(function () {
   //모달창 확인 버튼
