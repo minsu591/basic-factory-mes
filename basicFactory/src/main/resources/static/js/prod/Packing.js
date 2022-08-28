@@ -1,5 +1,5 @@
-//클릭시 완료여부 체크해서 모달 헤더 데이터 넣기 작업 해야함
 //지시작업구분 진행완료로 업데이트 해야함
+//완제품 재고 등록 처리 해야함
 $(document).ready(function () {
   $("#sweetTest").click(function () {
     Swal.fire({
@@ -144,6 +144,8 @@ $(document).ready(function () {
         console.log("success");
       },
     });
+
+    //완제품 재고 등록 처리
   });
 });
 function findPacking() {
@@ -197,18 +199,6 @@ function insertModalData(tr) {
     },
   });
 }
-function findMchnStts(finPrdCdCode) {
-  $.ajax({
-    url: `findmchn/${finPrdCdCode}`,
-    method: "GET",
-    dataType: "json",
-    success: function (data) {
-      // workinsertTableLastChildMakeRow(obj, index);
-      $("#mchnStatus div").remove();
-      mchnStatusMakeRow(data);
-    },
-  });
-}
 
 function packingTableMakeRow(obj, index) {
   [
@@ -253,22 +243,6 @@ function packingTableMakeRow(obj, index) {
 
   $("#packingTable tbody").append(node);
 }
-function mchnStatusMakeRow(obj) {
-  let node = `
-  <div>
-    <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
-    <div class="btn btn-outline-primary m-t-15">${obj.mchnStts}</div>
-  </div>`;
-
-  $("#mchnStatus").append(node);
-  if (obj.mchnStts == "진행중") {
-    $("#mchnStatus div")
-      .last()
-      .append(
-        `<span class="spinner-border spinner-border-sm m-l-5" role="status"></span>`
-      );
-  }
-}
 
 let work;
 //작업시작 시간 입력
@@ -307,9 +281,9 @@ function startWork() {
     let mchnStts = "진행중";
     //진행중으로 업데이트 실행
     updateMchnStts(mchnCode, mchnStts);
-    work = setInterval(startinterval, 10);
 
-    //설비상태 다시 리로드
+    work = setInterval(startinterval, 100);
+    //설비상태 다시 불러오기
     findMchnStts(finPrdCdCode);
   } else {
     alert("이미 시작했어요");
@@ -322,14 +296,13 @@ function updateMchnStts(mchnCode, mchnStts) {
     url: `updatemchnstts`,
     method: "PUT",
     dataType: "json",
+    async: false, //동기로 처리
     contentType: "application/json;charset=utf-8",
     data: JSON.stringify({
       mchnStts: mchnStts,
       mchnCode: mchnCode,
     }),
-    success: function (data) {
-      alert("설비상태업데이트");
-    },
+    success: function (data) {},
   });
 }
 
@@ -343,7 +316,7 @@ function startinterval() {
   let processNo = $("#processNo").val(); //작업번호
   let procCdName = $("#procCdName").val(); //공정명
   let totalProdVol = 1 + parseInt(prodVol.text());
-  console.log(Math.ceil((totalProdVol / parseInt(inDtlVol.text())) * 100));
+
   rate.html(Math.ceil((totalProdVol / parseInt(inDtlVol.text())) * 100) + "%");
   prodVol.html(num);
   let achieRate = $("#workStateTable tr:eq(5) td").text().slice(0, -1);
@@ -364,7 +337,7 @@ function startinterval() {
     },
   });
 
-  //달성률 업데이트
+  // 달성률 업데이트
   $.ajax({
     url: `updateachierate`,
     method: "PUT",
@@ -408,7 +381,7 @@ function endWork() {
     console.log("진행전으로 업데이트 ->" + mchnCode);
     let mchnStts = "진행전";
     //진행전으로 업데이트
-    updateMchnStts(mchnCode, mchnStts);
+    updateMchnStts(mchnCode, mchnStts, finPrdCdCode);
 
     //완료여부 업데이트
     let processNo = $("#processNo").val();
@@ -443,6 +416,37 @@ function reloadMchnSttsMakeRow(obj) {
 
   $("#mchnStatus").append(node);
 
+  if (obj.mchnStts == "진행중") {
+    $("#mchnStatus div")
+      .last()
+      .append(
+        `<span class="spinner-border spinner-border-sm m-l-5" role="status"></span>`
+      );
+  }
+}
+
+function findMchnStts(finPrdCdCode) {
+  console.log("리로드설비상태 제품코드번호->" + finPrdCdCode);
+  $.ajax({
+    url: `findmchn/${finPrdCdCode}`,
+    method: "GET",
+    dataType: "json",
+    success: function (data) {
+      // workinsertTableLastChildMakeRow(obj, index);
+      $("#mchnStatus div").remove();
+      mchnStatusMakeRow(data);
+    },
+  });
+}
+
+function mchnStatusMakeRow(obj) {
+  let node = `
+  <div>
+    <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
+    <div class="btn btn-outline-primary m-t-15">${obj.mchnStts}</div>
+  </div>`;
+
+  $("#mchnStatus").append(node);
   if (obj.mchnStts == "진행중") {
     $("#mchnStatus div")
       .last()
