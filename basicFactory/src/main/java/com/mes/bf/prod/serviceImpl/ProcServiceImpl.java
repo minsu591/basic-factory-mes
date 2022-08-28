@@ -12,6 +12,7 @@ import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.mapper.ProcMapper;
 import com.mes.bf.prod.service.ProcService;
 import com.mes.bf.prod.vo.FindRscVO;
+import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.ProcManageVO;
 import com.mes.bf.prod.vo.ProcessPerformVO;
 import com.mes.bf.prod.vo.ProcessVO;
@@ -106,6 +107,12 @@ public class ProcServiceImpl implements ProcService {
 	@Override
 	public void insertRscOut(RscOutVO vo) {
 		mapper.insertRscOut(vo);
+		
+	}
+
+	@Override
+	public void updateWorkScope(InstructionDetailVO vo) {
+		mapper.updateWorkScope(vo);
 		
 	}
 

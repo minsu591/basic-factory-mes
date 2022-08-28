@@ -22,6 +22,7 @@ import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.service.ProcService;
 import com.mes.bf.prod.vo.FindRscVO;
+import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.ProcManageVO;
 import com.mes.bf.prod.vo.ProcessPerformVO;
 import com.mes.bf.prod.vo.ProcessVO;
@@ -173,6 +174,13 @@ public class ProcController {
 	public void insertRscOut(@RequestBody RscOutVO vo) {
 		System.out.println(vo);
 		service.insertRscOut(vo);
+	}
+
+	// 작업구분 업데이트
+	@PutMapping("/updateworkscope")
+	public void updateWorkScope(@RequestBody InstructionDetailVO vo) {
+		System.out.println(vo);
+		service.updateWorkScope(vo);
 	}
 
 }

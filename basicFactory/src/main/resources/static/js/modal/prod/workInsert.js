@@ -227,15 +227,19 @@ $("document").ready(function () {
 
       if (processOrder == 1) {
         let finPrdCdCode;
+        let instProdNo;
         $("#procManageTable tbody tr").each(function () {
           if ($(this).find("td:eq(0)").children().prop("checked")) {
             finPrdCdCode = $(this).find("td:eq(4)").text();
+            instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
           }
         });
         //처리
         //제품명으로 사용량 자재 재고 조회
         console.log("finRscVO로 넘기는 finPrdCdCode=" + finPrdCdCode);
         findRscVO(finPrdCdCode);
+        //지시 작업구분 업데이트
+        updateWorkScope(instProdNo);
       }
     }
 
@@ -591,6 +595,25 @@ function findRscVO(finPrdCdCode) {
           }
         }
       }
+    },
+  });
+}
+
+//지시 작업구분 업데이트
+function updateWorkScope(instProdNo) {
+  let workScope = "진행중";
+
+  $.ajax({
+    url: `updateworkscope`,
+    method: "PUT",
+    dataType: "json",
+    contentType: "application/json;charset=utf-8",
+    data: JSON.stringify({
+      instProdNo: instProdNo,
+      workScope: workScope,
+    }),
+    success: function (data) {
+      console.log("update sucess");
     },
   });
 }

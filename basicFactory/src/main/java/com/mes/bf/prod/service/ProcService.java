@@ -6,6 +6,7 @@ import com.mes.bf.cmn.vo.ProcCodeVO;
 import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.vo.FindRscVO;
+import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.ProcManageVO;
 import com.mes.bf.prod.vo.ProcessPerformVO;
 import com.mes.bf.prod.vo.ProcessVO;
@@ -41,6 +42,9 @@ public interface ProcService {
 
 	// 설비 상태 진행중 업데이트
 	void updateMchnStts(MchnVO vo);
+
+	// 지시 상태 진행중 업데이트
+	void updateWorkScope(InstructionDetailVO vo);
 
 	// 공정테이블 완료여부업데이트
 	void updateProcCheck(ProcessVO vo);

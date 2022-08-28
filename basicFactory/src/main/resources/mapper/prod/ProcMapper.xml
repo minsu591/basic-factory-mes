@@ -260,6 +260,14 @@
 	
 	</insert>
 	
+	<!-- 작업구분 업데이트  -->
 	
+	<update id="updateWorkScope" parameterType="InstructionDetailVO">
+	UPDATE 
+		BF_PROD_INST_DETAIL 
+	SET 
+	work_scope = #{workScope} 
+	WHERE inst_prod_no = #{instProdNo}
+	</update>
 	
 </mapper>
