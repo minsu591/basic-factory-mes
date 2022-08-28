@@ -4,20 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mes.bf.cmn.vo.VendorCodeVO;
-import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.sales.service.SlsRtnService;
-import com.mes.bf.sales.vo.SlsRtnDtlVO;
 import com.mes.bf.sales.vo.SlsRtnHdDtlVO;
+import com.mes.bf.sales.vo.SlsRtnHdVO;
 
 @RestController
 @RequestMapping("/sls")
@@ -54,5 +49,20 @@ public class SlsRtnController {
 	public ModelAndView rtnManage() {
 		ModelAndView mav = new ModelAndView("sales/returnManage");
 		return mav;
+	}
+	
+	//완제품 반품관리에서 반품내역 조회 모달
+	@GetMapping("/returnView")
+	public List<SlsRtnHdVO> returnView(@RequestParam Map<String, String> param){
+		List<SlsRtnHdVO> list = service.returnView(param.get("rtnSdate"),
+												   param.get("rtnEdate"));
+		return list;
+	}
+	
+	//완제품 반품관리에서 반품내역 상세조회
+	@GetMapping("/returnView/dtl")
+	public List<SlsRtnHdDtlVO> returnDtlView(@RequestParam Map<String, String> param){
+		List<SlsRtnHdDtlVO> list = service.returnDtlView(param.get("slsRtnHdNo"));
+		return list;
 	}
 }

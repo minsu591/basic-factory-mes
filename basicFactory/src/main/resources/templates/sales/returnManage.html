@@ -8,7 +8,8 @@
 </head>
 <body>
     <script type="text/javascript" th:src="@{/js/sales/returnManage.js}"></script>
-    <script type="text/javascript" th:src="@{/js/modal/sales/findOrder.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/sales/findOutModal.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/sales/findReturn.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/sales/findProduct.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
@@ -56,15 +57,15 @@
                 <div class="card-body table-border-style">
                     <div class="rightBtn">
                         <div class="rightBtn">
-                            <button type="button" class="btn btn-primary" id="findOutBtn">출고조회</button>
-                        	<button type="button" class="btn btn-primary" id="findRtnBtn">조회</button>
+                            <button type="button" class="btn btn-primary" id="findOutModalBtn">출고조회</button>
+                        	<button type="button" class="btn btn-primary" id="findRtnMngBtn">조회</button>
                             <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
                             <button type="button" class="btn btn-primary" id="addBtn">추가</button>
                             <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped" id="outMngTable">
+                        <table class="table table-striped" id="rtnMngTable">
                             <thead>
                                 <tr>
                                 	<th><input type="checkbox" id="allCheck"></th>
@@ -95,6 +96,9 @@
     <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
     <!--제품검색 Modal -->
     <th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
-    <!-- 출고조회 Modal -->
+    <!-- 완제품 출고조회 Modal-->
+    <th:block th:replace="~{/fragments/modal/sales/findOut :: findOut}"></th:block>
+    <!-- 완제품 반품조회 Modal-->
+    <th:block th:replace="~{/fragments/modal/sales/findReturn :: findReturn}"></th:block>
 </body>
 </html>

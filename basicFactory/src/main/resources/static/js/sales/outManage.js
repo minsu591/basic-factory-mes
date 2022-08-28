@@ -3,8 +3,8 @@ $(document).ready(function () {
   //오늘 일자
   today = new Date();
   today = today.toISOString().slice(0, 10);
-  orderToday = $("#slsOrdHdDate");
-  orderToday.val(today);
+  outToday = $("#slsOutHdDate");
+  outToday.val(today);
 
   //추가 버튼
   $("#addBtn").on("click", function () {
@@ -14,11 +14,15 @@ $(document).ready(function () {
                   <td><input type="text" class="form-control mx-sm-2 productCode" data-toggle="modal"
                                         data-target=".bd-example-modal-lg"></td>
                   <td><input type="text" class="form-control mx-sm-2 productName" readonly></td>
-                  <td><input type="date" class="form-control mx-sm-2"></td>
+                  <td></td>
+                  <td>0</td>
                   <td><input type="text" class="form-control mx-sm-2"></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                 </tr>`
 
-    $("#ordMngTable tbody").append(node);
+    $("#outMngTable tbody").append(node);
   });
 
   //체크박스 전체선택 & 해제
@@ -32,7 +36,7 @@ $(document).ready(function () {
 
   //선택삭제 버튼
   $("#deleteBtn").on("click", function () {
-    let trs = $("#planManageTable tbody tr");
+    let trs = $("#outMngTable tbody tr");
 
   });
 });
