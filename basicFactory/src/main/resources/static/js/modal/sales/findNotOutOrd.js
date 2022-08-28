@@ -113,8 +113,8 @@ $("document").ready(function () {
                     <td></td>
                     <td></td>
                     <td>${ord.finPrdCdPrice}</td>
-                    <td>${ord.slsOrdDtlVol * ord.finPrdCdPrice}</td>
-                    </tr>`;
+                    <td></td>
+                </tr>`;
     
     $("#outMngTable tbody").append(node);
   }

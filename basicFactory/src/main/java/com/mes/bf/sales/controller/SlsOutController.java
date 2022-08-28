@@ -13,9 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.sales.service.SlsOutService;
 import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
-import com.mes.bf.sales.vo.SlsOrdHdVO;
 import com.mes.bf.sales.vo.SlsOutDtlVO;
 import com.mes.bf.sales.vo.SlsOutHdDtlVO;
+import com.mes.bf.sales.vo.SlsOutHdVO;
 
 @RestController
 @RequestMapping("/sls")
@@ -57,20 +57,30 @@ public class SlsOutController {
 	//완제품 출고관리에서 미출고된 주문내역 조회 모달창
 	@RequestMapping("/NotOutOrderView")
 	public List<SlsOrdHdDtlVO> findNotOutOrder(@RequestParam Map<String, String> param){
-		System.out.println("접속!!!");
 		List<SlsOrdHdDtlVO> list = service.findNotOut(param.get("ordSdate"),
 														   param.get("ordEdate"));
 		return list;
 	}
 	
-	//출고관리에서 미출고된 주문내역 상세조회
+	//완제품 출고관리에서 미출고된 주문내역 상세조회
 	@RequestMapping("/NotOutOrderView/dtl")
 	public List<SlsOutDtlVO> findNotOutDtl(@RequestParam Map<String, String> param){
 		List<SlsOutDtlVO> list = service.findNotOutDtl(param.get("slsOrdHdNo"));
 		return list;
 	}
 	
-	//출고관리에서 출고내역 조회 모달
-	//출고관리에서 출고내역 상세 조회
+	//완제품 출고관리에서 출고내역 조회 모달
+	@RequestMapping("/outView")
+	public List<SlsOutHdVO> outView(@RequestParam Map<String, String> param){
+		List<SlsOutHdVO> list = service.outView(param.get("outSdate"),
+												param.get("outEdate"));
+		return list;
+	}
 	
+	//완제품 출고관리에서 출고내역 상세 조회
+	@RequestMapping("/outView/dtl")
+	public List<SlsOutDtlVO> outDtlView(@RequestParam Map<String, String> param){
+		List<SlsOutDtlVO> list = service.outDtlView(param.get("slsOutHdNo"));
+		return list;
+	}
 }
