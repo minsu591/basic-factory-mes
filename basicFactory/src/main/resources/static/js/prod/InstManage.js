@@ -1,6 +1,13 @@
 //InstManage.js다음
 
 $(document).ready(function () {
+  //지시일자 기본값 세팅
+  let today = new Date();
+  let year = today.getFullYear();
+  let month = ("0" + (today.getMonth() + 1)).slice(-2);
+  let day = ("0" + today.getDate()).slice(-2);
+  let dateString = year + "-" + month + "-" + day;
+  $("#instdate").val(dateString);
   //모달창 확인 버튼
   $("#selectbtn").click(function () {
     $("#findempModal").modal("hide");
@@ -22,93 +29,112 @@ $(document).ready(function () {
   });
   //저장 버튼 클릭이벤트
   $("#instSaveBtn").click(function () {
-    Swal.fire({
-      icon: "success", // Alert 타입
-      title: "저장이 완료되었습니다.", // Alert 제목
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log($("#instdate").val()); //지시작성일자
-        console.log($("#instremk").val()); //특기사항
-        console.log($("#instname").val()); //생산지시명
-        console.log($("#empid").val()); //작업자명
-
-        let instDate = $("#instdate").val();
-        let empId = $("#empid").val();
-        let instName = $("#instname").val();
-        let instRemk = $("#instRemk").val();
-
-        let checkbox = $("input:checkbox:checked");
-        checkbox.each(function (i) {
-          let tr = checkbox.parent().parent().eq(i);
-          let td = tr.children();
-          let prodCode = td.children().eq(1).val(); //제품코드
-          let prodIndicaVol = td.children().eq(9).val(); //지시량
-          let workDate = td.children().eq(12).val(); //작업날짜
-          console.log("prodCode ->" + prodCode);
-          console.log("지시량 ->" + prodIndicaVol);
-          console.log("workDate->" + workDate);
-
-          instobjheader = {
-            empId: empId,
-            instName: instName,
-            instDate: instDate,
-            instRemk: instRemk,
-          };
-
-          instobjdetail = {
-            instProdIndicaVol: prodIndicaVol,
-            finPrdCdCode: prodCode,
-            workDate: workDate,
-          };
-
-          console.log(instobjheader);
-          console.log(instobjdetail);
-          let check = false;
-          $.ajax({
-            url: "insertinstruction",
-            method: "POST",
-            contentType: "application/json;charset=utf-8",
-            async: false, //동기로 처리
-            //dataType: "json",
-            data: JSON.stringify({
-              instobjheader: instobjheader,
-              instobjdetail: instobjdetail,
-            }),
-            error: function (error, status, msg) {
-              alert("상태코드 " + status + "에러메시지" + msg);
-            },
-            success: function (data) {
-              console.log(" insert success");
-              check = true;
-            },
-          });
-          //자재소요예상량 업데이트
-          if (check == true) {
-            $("#rscStockTable tbody tr").each(function (i) {
-              let tr = $(this);
-              let td = tr.children();
-              console.log(tr);
-              let needQty = td.eq(5).text();
-              let rscCdCode = td.eq(1).text();
-              console.log(needQty);
-              console.log(rscCdCode);
-              $.ajax({
-                url: `updateneedqty`,
-                method: "PUT",
-                dataType: "json",
-                contentType: "application/json;charset=utf-8",
-                data: JSON.stringify({
-                  needQty: needQty,
-                  rscCdCode: rscCdCode,
-                }),
-                success: function (data) {
-                  console.log("update sucess");
-                },
-              });
-            });
+    let check = false;
+    $("#rscStockTable tbody tr").each(function () {
+      if ($(this).hasClass("warn") === true) {
+        check = true;
+        Swal.fire({
+          icon: "warning",
+          title: "재고량이 부족합니다.",
+          text: "발주 페이지로 이동하시겠습니까?",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "확인",
+          cancelButtonText: "취소",
+          closeOnClickOutside: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location = "/rsc/order";
           }
         });
-        location.reload();
+      }
+      if (!check) {
+        //  재고량이 충분할때
+        Swal.fire({
+          icon: "success", // Alert 타입
+          title: "저장이 완료되었습니다.", // Alert 제목
+        }).then((result) => {
+          if (result.isConfirmed) {
+            console.log($("#instdate").val()); //지시작성일자
+            console.log($("#instremk").val()); //특기사항
+            console.log($("#instname").val()); //생산지시명
+            console.log($("#empid").val()); //작업자명
+            let instDate = $("#instdate").val();
+            let empId = $("#empid").val();
+            let instName = $("#instname").val();
+            let instRemk = $("#instRemk").val();
+            let checkbox = $("input:checkbox:checked");
+            checkbox.each(function (i) {
+              let tr = checkbox.parent().parent().eq(i);
+              let td = tr.children();
+              let prodCode = td.children().eq(1).val(); //제품코드
+              let prodIndicaVol = td.children().eq(9).val(); //지시량
+              let workDate = td.children().eq(12).val(); //작업날짜
+              console.log("prodCode ->" + prodCode);
+              console.log("지시량 ->" + prodIndicaVol);
+              console.log("workDate->" + workDate);
+              instobjheader = {
+                empId: empId,
+                instName: instName,
+                instDate: instDate,
+                instRemk: instRemk,
+              };
+              instobjdetail = {
+                instProdIndicaVol: prodIndicaVol,
+                finPrdCdCode: prodCode,
+                workDate: workDate,
+              };
+              console.log(instobjheader);
+              console.log(instobjdetail);
+              let check = false;
+              $.ajax({
+                url: "insertinstruction",
+                method: "POST",
+                contentType: "application/json;charset=utf-8",
+                async: false, //동기로 처리
+                //dataType: "json",
+                data: JSON.stringify({
+                  instobjheader: instobjheader,
+                  instobjdetail: instobjdetail,
+                }),
+                error: function (error, status, msg) {
+                  alert("상태코드 " + status + "에러메시지" + msg);
+                },
+                success: function (data) {
+                  console.log(" insert success");
+                  check = true;
+                },
+              });
+              //자재소요예상량 업데이트
+              if (check == true) {
+                $("#rscStockTable tbody tr").each(function (i) {
+                  let tr = $(this);
+                  let td = tr.children();
+                  console.log(tr);
+                  let needQty = td.eq(5).text();
+                  let rscCdCode = td.eq(1).text();
+                  console.log(needQty);
+                  console.log(rscCdCode);
+                  $.ajax({
+                    url: `updateneedqty`,
+                    method: "PUT",
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    data: JSON.stringify({
+                      needQty: needQty,
+                      rscCdCode: rscCdCode,
+                    }),
+                    success: function (data) {
+                      console.log("update sucess");
+                    },
+                  });
+                });
+              }
+            });
+            location.reload();
+          }
+        });
       }
     });
   });
@@ -214,19 +240,21 @@ $(document).ready(function () {
   }
 
   function rscStockMakeRow(obj, indicaVol, index) {
-    console.log(obj.rscUseVol);
-    console.log(indicaVol);
+    //console.log(obj.rscUseVol);
+    //console.log(indicaVol);
+    let needQty = Math.round(indicaVol * obj.rscUseVol);
 
-    let needQty = Math.round((indicaVol *= obj.rscUseVol));
     let node = `<tr>
-              <td>${index}</td>
-              <td>${obj.rscCdCode}</td>
-              <td>${obj.rscCdName}</td>
-              <td>${obj.rscStock}</td>
-              <td>${obj.rscCdUnit}</td>
-              <td>${needQty}</td>
-              </tr>`;
-
+      <td>${index}</td>
+      <td>${obj.rscCdCode}</td>
+      <td>${obj.rscCdName}</td>
+      <td>${obj.rscStock}</td>
+      <td>${obj.rscCdUnit}</td>
+      <td>${needQty}</td>
+      </tr>`;
     $("#rscStockTable tbody").append(node);
+    if (needQty > obj.rscStock) {
+      $("#rscStockTable tbody tr").last().addClass("warn");
+    }
   }
 });

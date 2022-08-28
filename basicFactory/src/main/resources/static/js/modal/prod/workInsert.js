@@ -337,7 +337,17 @@ function startWork() {
     let mchnStts = "진행중";
     //진행중으로 업데이트 실행
     updateMchnStts(mchnCode, mchnStts);
-    work = setInterval(startinterval, 10);
+    work = setInterval(startinterval, 1000);
+
+    //설비상태 다시 리로드
+    let prodCode;
+    $("#procManageTable tbody tr").each(function () {
+      if ($(this).find("td:eq(0)").children().prop("checked")) {
+        prodCode = $(this).find("td:eq(4)").text();
+      }
+      console.log("리로드 프로드코드->" + prodCode);
+    });
+    selectMchnStts(prodCode);
   } else {
     alert("이미 시작했어요");
   }
@@ -384,6 +394,16 @@ function endWork() {
         alert("완료 업데이트");
       },
     });
+
+    //설비상태 다시 리로드
+    let prodCode;
+    $("#procManageTable tbody tr").each(function () {
+      if ($(this).find("td:eq(0)").children().prop("checked")) {
+        prodCode = $(this).find("td:eq(4)").text();
+      }
+      console.log("리로드 프로드코드->" + prodCode);
+    });
+    selectMchnStts(prodCode);
   } else {
     alert("이미 종료했어요");
   }
@@ -404,6 +424,40 @@ function updateMchnStts(mchnCode, mchnStts) {
       alert("설비상태업데이트");
     },
   });
+}
+
+//설비 상태 조회
+function selectMchnStts(prodCode) {
+  $.ajax({
+    url: `selectmchn/${prodCode}`,
+    method: "GET",
+    dataType: "json",
+    success: function (data) {
+      console.log("리로드 셀렉트머신->" + data);
+
+      $("#mchnStatus div").remove();
+      for (obj of data) {
+        reloadMchnSttsMakeRow(obj);
+      }
+    },
+  });
+}
+
+function reloadMchnSttsMakeRow(obj) {
+  let node = `<div>
+              <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
+              <div class="btn btn-outline-primary m-t-15">${obj.mchnStts}</div>
+              </div>`;
+
+  $("#mchnStatus").append(node);
+
+  if (obj.mchnStts == "진행중") {
+    $("#mchnStatus div")
+      .last()
+      .append(
+        `<span class="spinner-border spinner-border-sm m-l-5" role="status"></span>`
+      );
+  }
 }
 
 let num = 0;
