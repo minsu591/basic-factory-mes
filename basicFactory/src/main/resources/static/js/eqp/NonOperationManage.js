@@ -5,11 +5,10 @@ $(document).ready(function () {
   //작업 종료 버튼
   $("#workEndBtn").click(function () {
     let date = new Date();
-    let hours = ('0' + date.getHours()).slice(-2);
-    let minutes = ('0' + date.getMinutes()).slice(-2);
+    let hours = ("0" + date.getHours()).slice(-2);
+    let minutes = ("0" + date.getMinutes()).slice(-2);
     $("#eHours").val(hours).prop("readonly", true);
     $("#eMinutes").val(minutes).prop("readonly", true);
-
 
     let mchnCode = $("#mchnCode").val();
     $.ajax({
@@ -38,8 +37,8 @@ $(document).ready(function () {
       findMchnName();
       let date = new Date();
 
-      let hours = ('0' + date.getHours()).slice(-2);
-      let minutes = ('0' + date.getMinutes()).slice(-2);
+      let hours = ("0" + date.getHours()).slice(-2);
+      let minutes = ("0" + date.getMinutes()).slice(-2);
 
       $("#sHours").val(hours).prop("readonly", true);
       $("#sMinutes").val(minutes).prop("readonly", true);
@@ -51,7 +50,7 @@ $(document).ready(function () {
         error: function (error, status, msg) {
           alert("상태코드 " + status + "에러메시지" + msg);
         },
-        success: function (data) { },
+        success: function (data) {},
       });
       $.ajax({
         url: `findinputno`,
@@ -150,12 +149,11 @@ $(document).ready(function () {
     let nonOpCode = $("#nonOpTable tbody tr").find("td:eq(0)").children().val();
     let empId = $("#empid").val();
     let inputDate = $("#inputDate").val();
-    let startTime = inputDate + sHours + ":" + sMinutes;
-    let endTime = inputDate + eHours + ":" + eMinutes;
+    let startTime = inputDate + " " + sHours + ":" + sMinutes;
+    let endTime = inputDate + " " + eHours + ":" + eMinutes;
     let nonOpRsn = $("#nonOpTable tbody tr").find("td:eq(2)").children().val();
     let remk = $("#nonOpTable tbody tr").find("td:eq(3)").children().val();
-    let nonOpMin = (eMinutes - sMinutes);
-
+    let nonOpMin = eMinutes - sMinutes;
 
     let nonOpHistory = {
       inputNo: inputNo,
@@ -167,26 +165,31 @@ $(document).ready(function () {
       nonOpStartTime: startTime,
       nonOpEndTime: endTime,
       nonOpRemk: remk,
-      nonOpRsn: nonOpRsn
-    }
+      nonOpRsn: nonOpRsn,
+    };
 
     console.log(nonOpHistory);
-
-    $.ajax({
-      url: "insertnonophistory",
-      method: "POST",
-      contentType: "application/json;charset=utf-8",
-      dataType: "json",
-      data: JSON.stringify(nonOpHistory),
-      error: function (error, status, msg) {
-        alert("상태코드 " + status + "에러메시지" + msg);
-      },
-      success: function (data) {
-        console.log('success');
-
-      },
+    Swal.fire({
+      icon: "success", // Alert 타입
+      title: "저장이 완료되었습니다.", // Alert 제목
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "insertnonophistory",
+          method: "POST",
+          contentType: "application/json;charset=utf-8",
+          dataType: "json",
+          data: JSON.stringify(nonOpHistory),
+          error: function (error, status, msg) {
+            alert("상태코드 " + status + "에러메시지" + msg);
+          },
+          success: function (data) {
+            console.log("success");
+          },
+        });
+        location.reload();
+      }
     });
-
   });
 });
 

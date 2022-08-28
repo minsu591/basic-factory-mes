@@ -14,7 +14,8 @@
   
   <div class="pcoded-main-container">
   	<h1>포장 관리</h1>
-  	<hr>
+  	<hr> 
+  	<button type="button" value="text" id="sweetTest"></button>
   	<div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
@@ -35,22 +36,24 @@
                     </div>
                     <div class="card-body table-border-style">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="packingTable">
                                 <thead>
                                     <tr>
-                                        <th><input type="checkbox"></th>
-                                        <th th:text="제품코드"></th>
+                                        <th th:text="순번"></th>
+                                        <th th:text="제품코드"></th> 
                                         <th th:text="제품명"></th>
+                                        <th th:text="설비명"></th>
                                         <th th:text="입고량"></th>
-                                        <th th:text="단위"></th>
+                                        <th th:text="기실적량"></th>
+                                        <th th:text="미실적량"></th>
+                                        <th th:text="실적량"></th>
+                                        <th th:text="불량량"></th>
                                         <th th:text="생산일시"></th>
-                                        <th th:text="비고"></th>                                      
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                    	<th><input type="checkbox"></th>
-                                        <td th:text="PROUCT1"></td>
+                                    	<th></th>
                                         <td th:text="짜파게티"></td>
                                         <td th:text="500"></td>
                                         <td th:text="EA"></td>                                      
@@ -67,5 +70,7 @@
   
    <!-- 제품검색 Modal -->
  <th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
+ <!--작업등록 Modal -->
+<th:block th:replace="~{/fragments/modal/workInsert :: workInsert}"></th:block>
   </body>
 </html>

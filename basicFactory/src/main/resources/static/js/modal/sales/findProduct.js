@@ -1,15 +1,25 @@
 $("document").ready(function () {
 
+  let tdInfo;
+  $("#ordMngTable").on("click", ".productCode", function (e) {
+    e.preventDefault();
+    //제품 조회
+    findProduct();
+    $("#findproductModal").modal("show");
+    tdInfo = $(this);
+  })
+
   //테이블 클릭 이벤트
   $("#findProductTable").on("click", "tr", function () {
-    console.log($(this).find("td:eq(2)").text());
     let prdCode = $(this).find("td:eq(1)").text();
     let prdName = $(this).find("td:eq(2)").text();
+    
+    tdInfo.val(prdCode);
+    tdInfo.parent().next().find("input").val(prdName);
 
-    $("#productCode").val(prdCode);
-    $("#productName").val(prdName);
     $("#findproductModal").modal("hide");
   });
+
   //제품검색버튼 이벤트
   $("#findProductbtn").click(function () {
     let code = $("#prdCdCode").val();
@@ -44,6 +54,7 @@ $("document").ready(function () {
     }
   });
 });
+
 //제품조회
 function findProduct() {
   $.ajax({

@@ -24,18 +24,14 @@ public class FindRscCodeController {
 	//자재코드 조회
 	@GetMapping(value="/findResourceCode", produces= { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<RscCodeVO>> findResource(@RequestParam Map<String, String> queryParameters){
-		System.out.println("hi");
 		List<RscCodeVO> list = findRscService.rscCodeList(queryParameters.get("rscCdName"), queryParameters.get("rscCdClfy"));
-		System.out.println(list);
 		return new ResponseEntity<List<RscCodeVO>>(list, HttpStatus.OK);
 	}
 	
 	//자재코드LOT조회
 	@GetMapping(value="/findRscLot", produces= { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<RscStockVO>> findRscLot(@RequestParam Map<String, String> queryParameters){
-		System.out.println("hi");
-		List<RscStockVO> list = findRscService.rscLotNoList(queryParameters.get("rscCdName"), queryParameters.get("rscCdUse"));
-		System.out.println(list);
+		List<RscStockVO> list = findRscService.rscLotNoList(queryParameters.get("rscCdName"));
 		return new ResponseEntity<List<RscStockVO>>(list, HttpStatus.OK);
 	}
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.prod.mapper.PackingMapper">
+
+<select id="findPackingProc" resultType="PackingVO">
+SELECT *
+FROM 
+bf_PROD_PROCESS proc,
+BF_PROD_INST_DETAIL detail,
+BF_CMN_FINISH_PRODUCT_CODE prodcode
+WHERE proc.inst_prod_no = detail.inst_prod_no
+AND detail.fin_prd_cd_code = prodcode.fin_prd_cd_code
+
+AND process_order = 5
+</select>
+
+<!-- 제품코드로 설비명,상태 조회 -->
+	<select id="findMchn" resultType="MchnVO">
+		SELECT 
+			mchn.mchn_name,
+			mchn.mchn_stts
+		FROM 
+			BF_EQP_MCHN mchn,
+			BF_CMN_LINE_CODE linecode,
+			BF_CMN_LINE_CODE_HD linehd,
+			BF_CMN_BOM_CODE bomcode
+		WHERE 
+			mchn.mchn_code = linecode.mchn_code 
+		AND
+			linecode.line_cd_hd_code = linehd.line_cd_hd_code 
+		AND
+		linehd.line_cd_hd_code = bomcode.line_cd_hd_code 
+		AND
+		fin_prd_cd_code = #{finPrdCdCode}
+		AND 
+		linecode.line_cd_ord = 5
+		order by linecode.line_cd_ord
+		
+
+	</select>
+
+</mapper>

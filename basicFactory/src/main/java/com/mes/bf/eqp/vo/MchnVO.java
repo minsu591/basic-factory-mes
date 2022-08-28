@@ -11,7 +11,7 @@ import lombok.Data;
 public class MchnVO {
 
 	private String mchnCode; //설비코드
-	private String mchnName; //설비이름
+	private String mchnName; //설비명
 	private String vendCdCode;//거래처코드
 	private String vendCdNm;	//거래처명
 	private String mchnModel;//모델명

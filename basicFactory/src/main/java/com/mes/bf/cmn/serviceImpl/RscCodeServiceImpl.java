@@ -15,8 +15,8 @@ public class RscCodeServiceImpl implements RscCodeService {
 	@Autowired RscCodeMapper mapper;
 
 	@Override
-	public List<RscCodeVO> listRsc() {
-		return mapper.listRsc();
+	public List<RscCodeVO> listRsc(String rscCode) {
+		return mapper.listRsc(rscCode);
 	}
 
 }

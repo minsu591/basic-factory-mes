@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.mes.bf.sales.mapper.SlsRtnMapper;
 import com.mes.bf.sales.service.SlsRtnService;
 import com.mes.bf.sales.vo.SlsRtnHdDtlVO;
+import com.mes.bf.sales.vo.SlsRtnHdVO;
 
 @Service
 public class SlsRtnServiceImpl implements SlsRtnService{
@@ -24,4 +25,13 @@ public class SlsRtnServiceImpl implements SlsRtnService{
 		return mapper.findReturn(rtnSdate, rtnEdate, prcCls, vendorName);
 	}
 
+	@Override
+	public List<SlsRtnHdVO> returnView(String rtnSdate, String rtnEdate) {
+		return mapper.returnView(rtnSdate, rtnEdate);
+	}
+
+	@Override
+	public List<SlsRtnHdDtlVO> returnDtlView(String slsRtnHdNo) {
+		return mapper.returnDtlView(slsRtnHdNo);
+	}
 }

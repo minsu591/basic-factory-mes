@@ -1,9 +1,9 @@
 $("document").ready(function () {
- $("#rsclotno").click(function (e) {
-   e.preventDefault();
-   let rscname = $("#rscname").val();
-   if(!rscname){
-     alert("자재코드를 먼저 선택해주세요.")
+  $("#rsclotno").click(function (e) {
+    e.preventDefault();
+    let rscname = $("#rscname").val();
+    if(!rscname){
+      alert("자재코드를 먼저 선택해주세요.")
     }else{
       //자재조회
       findRscLot();
@@ -16,7 +16,6 @@ $("document").ready(function () {
  $("#findRscLotBtn").click(function () {
    let rscCdUse = $("#rscCdUse option:selected").text();
    let rscCdName = $("#lotrscname").val();
-   console.log(rscCdName);
    $.ajax({
      url: "findRscLot",
      method: "GET",
@@ -50,15 +49,16 @@ $("document").ready(function () {
  });
  
 });
+
 function findRscLot() {
-  let lotrscname = $("#lotrscname").val();
+  let rscCdName = $("#rscname").val();
  $.ajax({
    url: "findRscLot",
    method: "GET",
    contentType: "application/json;charset=utf-8",
    dataType: "json",
-   date : {
-    lotrscname : lotrscname
+   data : {
+    rscCdName : rscCdName
    },
    error: function (error, status, msg) {
      alert("상태코드 " + status + "에러메시지" + msg);
@@ -76,11 +76,17 @@ function findRscLot() {
 }
 //자재조회 행생성
 function makeRscLotRow(obj, index) {
+  let st = null;
+  if( obj.rscStockSt == 1){
+    st = `<input type="checkbox" checked onClick="return false;">`;
+  }else{
+    st = `<input type="checkbox" onClick="return false;">`;
+  }
  let node = `<tr>
              <td>${index}</td>
              <td>${obj.rscCdName}</td>
              <td>${obj.rscLotNo}</td>
-             <td>${obj.rscCdUse}</td>
+             <td>${st}</td>
            </tr>`;
  $("#findRscLottbody").append(node);
 }

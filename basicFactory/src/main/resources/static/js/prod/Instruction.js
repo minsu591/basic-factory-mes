@@ -1,4 +1,13 @@
 $(document).ready(function () {
+  $("#exportBtn").click(function () {
+    console.log("click");
+    $("#instTable").table2excel({
+      exclude: ".excludeThisClass",
+      name: "testExcel",
+      filename: "textname",
+      preserveColors: false,
+    });
+  });
   //생산지시테이블 초기데이터 입력
   findvinst();
 
@@ -57,6 +66,19 @@ function findvinst() {
 }
 
 function instMakeRow(obj) {
+  let slsOrdDtlDlvDate;
+  let slsOrdDtlVol;
+  if (!obj.slsOrdDtlDlvDate) {
+    slsOrdDtlDlvDate = " ";
+  } else {
+    slsOrdDtlDlvDate = obj.slsOrdDtlDlvDate;
+  }
+  if (!obj.slsOrdDtlVol) {
+    slsOrdDtlVol = " ";
+  } else {
+    slsOrdDtlVol = obj.slsOrdDtlVol;
+  }
+  console.log(slsOrdDtlDlvDate);
   let node = `<tr>
   <td>${obj.instDate}</td>
   <td>${obj.instNo}</td>
@@ -64,8 +86,8 @@ function instMakeRow(obj) {
   <td>${obj.finPrdCdCode}</td>
   <td>${obj.finPrdCdName}</td>
   <td>${obj.slsOrdHdNo}</td>
-  <td>${obj.slsOrdDtlDlvDate}</td>
-  <td>${obj.slsOrdDtlVol}</td>
+  <td>${slsOrdDtlDlvDate}</td>
+  <td>${slsOrdDtlVol}</td>
   <td>${obj.instProdIndicaVol}</td>
   <td>${obj.workScope}</td>
   <td>${obj.workDate}</td>

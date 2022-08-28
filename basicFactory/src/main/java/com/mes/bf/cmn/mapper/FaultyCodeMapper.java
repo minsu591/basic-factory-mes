@@ -9,6 +9,6 @@ import com.mes.bf.cmn.vo.FaultyCodeVO;
 @Mapper
 public interface FaultyCodeMapper {
 	
-	List<FaultyCodeVO> listFltyCode();
+	List<FaultyCodeVO> listFltyCode(String faultyName);
 
 }

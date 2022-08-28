@@ -21,10 +21,13 @@ import com.mes.bf.cmn.vo.ProcCodeVO;
 import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.service.ProcService;
+import com.mes.bf.prod.vo.FindRscVO;
+import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.ProcManageVO;
 import com.mes.bf.prod.vo.ProcessPerformVO;
 import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
+import com.mes.bf.rsc.vo.RscOutVO;
 
 @RestController
 @RequestMapping("/prod")
@@ -86,9 +89,10 @@ public class ProcController {
 	}
 
 	// 공정실적관리 테이블 조회
-	@GetMapping("/findprocmanage")
-	public ResponseEntity<List<ProcManageVO>> findProcManage() {
-		List<ProcManageVO> list = service.findProcManage();
+	@GetMapping(value = "/findprocmanage", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<ProcManageVO>> findProcManage(@RequestParam Map<String, String> QueryParameters) {
+		List<ProcManageVO> list = service.findProcManage(QueryParameters.get("finPrdCdName"),
+				QueryParameters.get("workDate"));
 		return new ResponseEntity<List<ProcManageVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
@@ -112,29 +116,71 @@ public class ProcController {
 		System.out.println(vo);
 		service.updateProcVol(vo);
 	}
-	
-	// 공정테이블 불량수정 
+
+	// 공정테이블 불량수정
 	@PutMapping("/updatefltyvol")
 	public void updateFltyVol(@RequestBody ProcessVO vo) {
 		service.updateFltyVol(vo);
 	}
-	//설비상태 업데이트
+
+	// 설비상태 업데이트
 	@PutMapping("/updatemchnstts")
 	public void updateMchnStts(@RequestBody MchnVO vo) {
 		service.updateMchnStts(vo);
 	}
-	
-	//공정테이블 완료 여부 업데이트
+
+	// 공정테이블 완료 여부 업데이트
 	@PutMapping("/updateproccheck")
 	public void updateProcCheck(@RequestBody ProcessVO vo) {
 		service.updateProcCheck(vo);
 	}
-	
-	//공정 실적 등록
+
+	// 달성률 업데이트
+	@PutMapping("/updateachierate")
+	public void update(@RequestBody ProcessVO vo) {
+		service.updateachieRate(vo);
+	}
+
+	// 공정 실적 등록
 	@PostMapping("/insertprocperform")
 	public void insertProcPerform(@RequestBody ProcessPerformVO vo) {
 		System.out.println(vo);
-		//service.InsertProcPerform(vo);
+		service.insertProcPerform(vo);
+	}
+
+	// 공정 완료 후 다음공정 입고량 업데이트
+	@PutMapping("/updateprocindetlvol")
+	public void updateProcInDtlVol(@RequestBody ProcessVO vo) {
+		System.out.println(vo);
+		service.updateProcInDtlVol(vo);
+	}
+
+	// 공정 실적 테이블 단건 검색
+	@GetMapping(value = "/getprocperform/{processNo}")
+	public ResponseEntity<ProcessPerformVO> getProcPerform(@PathVariable int processNo) {
+		ProcessPerformVO vo = service.getProcPerform(processNo);
+		return new ResponseEntity<ProcessPerformVO>(vo, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
+
+	// 제품명으로 자재 사용량 및 재고량 조
+	@GetMapping("/findrscvo/{finPrdCdCode}")
+	public ResponseEntity<List<FindRscVO>> findRscVO(@PathVariable String finPrdCdCode) {
+		List<FindRscVO> list = service.findRscVO(finPrdCdCode);
+		return new ResponseEntity<List<FindRscVO>>(list, HttpStatus.OK);
+	}
+
+	// 자재 사용량 출고내역 등록
+	@PostMapping("/insertrscout")
+	public void insertRscOut(@RequestBody RscOutVO vo) {
+		System.out.println(vo);
+		service.insertRscOut(vo);
+	}
+
+	// 작업구분 업데이트
+	@PutMapping("/updateworkscope")
+	public void updateWorkScope(@RequestBody InstructionDetailVO vo) {
+		System.out.println(vo);
+		service.updateWorkScope(vo);
 	}
 
 }

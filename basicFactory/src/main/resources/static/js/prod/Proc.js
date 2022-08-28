@@ -1,9 +1,17 @@
 $(document).ready(function () {
+  $("#exportBtn").click(function () {
+    $("#procPerfomTable").table2excel({
+      exclude: ".excludeThisClass",
+      name: "testExcel",
+      filename: "textname",
+      preserveColors: false,
+    });
+  });
+
   //실적조회테이블
   findAllProcPerform();
 
   $("#findProcBtn").click(function () {
-
     let workSdate = $("#worksdate").val();
     let workEdate = $("#workedate").val();
     let procCdName = $("#proccdname").val();
@@ -20,7 +28,7 @@ $(document).ready(function () {
         workEdate: workEdate,
         procCdName: procCdName,
         mchnName: mchnName,
-        empId: empId
+        empId: empId,
       },
       error: function (error, status, msg) {
         alert("상태코드 " + status + "에러메시지" + msg);
@@ -33,9 +41,7 @@ $(document).ready(function () {
         }
       },
     });
-
   });
-
 });
 
 function findAllProcPerform() {

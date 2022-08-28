@@ -51,6 +51,12 @@ public class InstructionController {
 		ModelAndView mav = new ModelAndView("prod/InstManage");
 		return mav;
 	}
+	
+	@RequestMapping("rsc/order")
+	public ModelAndView order() {
+		ModelAndView mav = new ModelAndView("rsc/order");
+		return mav;
+	}
 
 	// 조회 => Get
 	@GetMapping(value = "/findemp", produces = { MediaType.APPLICATION_JSON_VALUE })

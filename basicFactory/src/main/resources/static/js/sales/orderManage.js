@@ -1,29 +1,38 @@
 $(document).ready(function () {
-  //추가버튼
+
+  //오늘 일자
+  today = new Date();
+  today = today.toISOString().slice(0, 10);
+  orderToday = $("#slsOrdHdDate");
+  orderToday.val(today);
+
+  //추가 버튼
   $("#addBtn").on("click", function () {
+
     let node = `<tr>
-                <td><input type="checkbox"></td>`;
-    //allCheck의 체크박스가 체크되어있으면 추가되는 행도 체크된 채로 나오기
-    if ($("#allCheck").is(":checked")) {
-      node = `<tr>
-              <td><input type="checkbox" checked></td>`
-    }
-    
-    node += `<td><input type="text" id="productCode" 
-                                    class="form-control mx-sm-2" data-toggle="modal"
-                                    data-target=".bd-example-modal-lg"></td>
-              <td><input type="text" id="productName" class="form-control mx-sm-2" readonly></td>
-              <td><input type="date" id="slsOrdDtlDlvDate" class="form-control mx-sm-2"></td>
-              <td><input type="text" id="slsOrdDtlVol" class="form-control mx-sm-2"></td>
-            </tr>`
-    console.log(node);
+                  <td><input type="checkbox" name="checkRow"></td>
+                  <td><input type="text" class="form-control mx-sm-2 productCode" data-toggle="modal"
+                                        data-target=".bd-example-modal-lg"></td>
+                  <td><input type="text" class="form-control mx-sm-2 productName" readonly></td>
+                  <td><input type="date" class="form-control mx-sm-2"></td>
+                  <td><input type="text" class="form-control mx-sm-2"></td>
+                </tr>`
+
     $("#ordMngTable tbody").append(node);
   });
 
-  $("#ordMngTable").on("click", "#productCode", function (e) {
-    e.preventDefault();
-    //제품 조회
-    findProduct();
-    $("#findproductModal").modal("show");
-  })
+  //체크박스 전체선택 & 해제
+  $("#allCheck").on("click", function () {
+    if ($("#allCheck").prop("checked")) {
+      $("input[type=checkbox]").prop("checked", true);
+    } else {
+      $("input[type=checkbox]").prop("checked", false);
+    }
+  });
+
+  //선택삭제 버튼
+  $("#deleteBtn").on("click", function () {
+    let trs = $("#planManageTable tbody tr");
+
+  });
 });

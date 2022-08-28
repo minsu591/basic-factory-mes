@@ -6,6 +6,6 @@ import com.mes.bf.cmn.vo.RscCodeVO;
 
 public interface RscCodeService {
 	
-	List<RscCodeVO> listRsc();
+	List<RscCodeVO> listRsc(String rscCode);
 
 }
