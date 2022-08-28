@@ -1,4 +1,5 @@
 //클릭시 완료여부 체크해서 모달 헤더 데이터 넣기 작업 해야함
+//지시작업구분 진행완료로 업데이트 해야함
 $(document).ready(function () {
   $("#sweetTest").click(function () {
     Swal.fire({
@@ -17,12 +18,19 @@ $(document).ready(function () {
   $("#packingTable").on("click", "tr", function () {
     //fidndPacking($(this));
 
-    if ($(this).find("input:hidden[name='completionStatus']").val() == "y") {
+    if ($(this).find("input:hidden[name=completionStatus]").val() == "y") {
       insertModalData($(this));
-      let processNo = $(this).find("input:hidden[name='processNo']").val();
+      let processNo = $(this).find("input:hidden[name=processNo]").val();
 
       getprocPerform(processNo);
     } else {
+      $("#empid").prop("readonly", false);
+      $("#instDate").val("");
+      $("#sHours").val("");
+      $("#sMinutes").val("");
+      $("#eHours").val("");
+      $("#eMinutes").val("");
+      $("#empid").val("");
       insertModalData($(this));
     }
     $("#workInsertModal").modal("show");
@@ -150,7 +158,6 @@ function findPacking() {
       for (obj of data) {
         index += 1;
         packingTableMakeRow(obj, index);
-        findMchnStts(obj.finPrdCdCode);
       }
     },
   });
@@ -162,7 +169,8 @@ function insertModalData(tr) {
     dataType: "json",
     success: function (data) {
       for (obj of data) {
-        if (tr.find("td:eq(1)").text() == obj.finPrdCdCode) {
+        if (tr.find("input:hidden[name=processNo]").val() == obj.processNo) {
+          findMchnStts(obj.finPrdCdCode);
           $("#workStateTable tbody tr td").remove();
           $("#procCdName").val(obj.procCdName);
           $("#instNo").val(obj.instNo);
@@ -196,6 +204,7 @@ function findMchnStts(finPrdCdCode) {
     dataType: "json",
     success: function (data) {
       // workinsertTableLastChildMakeRow(obj, index);
+      $("#mchnStatus div").remove();
       mchnStatusMakeRow(data);
     },
   });
@@ -252,6 +261,13 @@ function mchnStatusMakeRow(obj) {
   </div>`;
 
   $("#mchnStatus").append(node);
+  if (obj.mchnStts == "진행중") {
+    $("#mchnStatus div")
+      .last()
+      .append(
+        `<span class="spinner-border spinner-border-sm m-l-5" role="status"></span>`
+      );
+  }
 }
 
 let work;
@@ -277,12 +293,14 @@ function startWork() {
     let minutes = ("0" + date.getMinutes()).slice(-2);
     $("#sHours").val(hours).prop("readonly", true);
     $("#sMinutes").val(minutes).prop("readonly", true);
-    //설비코드 찾기
+    //설비코드, 제품코드찾기
     let mchnCode;
+    let finPrdCdCode;
     $("#packingTable tbody tr").each(function () {
-      let mchnName = $("#mchnName").val();
-      if (mchnName == $(this).find("td:eq(3)").text()) {
+      let processNo = $("#processNo").val();
+      if (processNo == $(this).find("input:hidden[name=processNo]").val()) {
         mchnCode = $(this).find("input:hidden[name=mchnCode]").val();
+        finPrdCdCode = $(this).find("td:eq(1)").text();
       }
     });
     console.log("진행중업데이트 ->" + mchnCode);
@@ -290,6 +308,9 @@ function startWork() {
     //진행중으로 업데이트 실행
     updateMchnStts(mchnCode, mchnStts);
     work = setInterval(startinterval, 10);
+
+    //설비상태 다시 리로드
+    findMchnStts(finPrdCdCode);
   } else {
     alert("이미 시작했어요");
   }
@@ -322,10 +343,11 @@ function startinterval() {
   let processNo = $("#processNo").val(); //작업번호
   let procCdName = $("#procCdName").val(); //공정명
   let totalProdVol = 1 + parseInt(prodVol.text());
-
+  console.log(Math.ceil((totalProdVol / parseInt(inDtlVol.text())) * 100));
   rate.html(Math.ceil((totalProdVol / parseInt(inDtlVol.text())) * 100) + "%");
   prodVol.html(num);
   let achieRate = $("#workStateTable tr:eq(5) td").text().slice(0, -1);
+
   //실적량 업데이트
   $.ajax({
     url: `updateprodvol`,
@@ -375,10 +397,12 @@ function endWork() {
     $("#eHours").val(hours).prop("readonly", true);
     $("#eMinutes").val(minutes).prop("readonly", true);
     let mchnCode;
+    let finPrdCdCode;
     $("#packingTable tbody tr").each(function () {
-      let mchnName = $("#mchnName").val();
-      if (mchnName == $(this).find("td:eq(3)").text()) {
+      let processNo = $("#processNo").val();
+      if (processNo == $(this).find("input:hidden[name=processNo]").val()) {
         mchnCode = $(this).find("input:hidden[name=mchnCode]").val();
+        finPrdCdCode = $(this).find("td:eq(1)").text();
       }
     });
     console.log("진행전으로 업데이트 ->" + mchnCode);
@@ -403,7 +427,27 @@ function endWork() {
         alert("완료 업데이트");
       },
     });
+
+    //설비상태 다시 리로드
+    findMchnStts(finPrdCdCode);
   } else {
     alert("이미 종료했어요");
   }
 } // 작업종료 끝
+
+function reloadMchnSttsMakeRow(obj) {
+  let node = `<div>
+              <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
+              <div class="btn btn-outline-primary m-t-15">${obj.mchnStts}</div>
+              </div>`;
+
+  $("#mchnStatus").append(node);
+
+  if (obj.mchnStts == "진행중") {
+    $("#mchnStatus div")
+      .last()
+      .append(
+        `<span class="spinner-border spinner-border-sm m-l-5" role="status"></span>`
+      );
+  }
+}
