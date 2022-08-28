@@ -1,6 +1,6 @@
 $("document").ready(function(){
-    //출고관리에서 조회 시 출고내역 모달창
-    $("#findOutMngBtn").on("click",function(e){
+    //반품관리에서 출고조회 시 출고내역 모달창
+    $("#findOutModalBtn").on("click",function(e){
         $("#findOutModal").modal("show");
         findOutClick();
     });
@@ -82,7 +82,7 @@ $("document").ready(function(){
     function sucFun(result){
         //경고창 띄워주기
         let alertFlag = false;
-        if ($("#outMngTable tbody").children().length != 0){
+        if ($("#rtnMngTable tbody").children().length != 0){
             if(confirm("수정한 정보가 모두 사라집니다. 진행하시겠습니까?")==true){
                 alertFlag = true;
             }
@@ -91,9 +91,9 @@ $("document").ready(function(){
         }
 
         if(alertFlag){
-            $("#outMngTable tbody tr").remove();
+            $("#rtnMngTable tbody tr").remove();
                 for(out of result){
-                    outMngMakeRow(out);
+                    rtnMngMakeRow(out);
                 }
 
             $("#findOutModal").modal("hide");
@@ -103,18 +103,26 @@ $("document").ready(function(){
 
     
     //출고내역 조회 모달을 통한 데이터 출력
-    function outMngMakeRow(out){
+    function rtnMngMakeRow(out){
         let node = `<tr>
                         <td><input type="checkbox"></td>
                         <td>${out.finPrdCdCode}</td>
                         <td>${out.finPrdCdName}</td>
-                        <td>${out.slsOrdDtlVol}</td>
-                        <td>${out.slsOutDtlPrvsVol}</td>
-                        <td>${out.slsOutDtlVol}</td>
-                        <td>${out.slsOrdDtlVol - out.slsOutDtlVol}</td>
+                        <td>${out.slsOutHdNo}</td>
+                        <td>0</td>
+                        <td></td>
                         <td>${out.finPrdCdPrice}</td>
-                        <td>${out.slsOutDtlVol * out.finPrdCdPrice}</td>
+                        <td></td>
+                        <td>
+                            <select name="prcCls" name="prcCls" class="form-control mx-sm-4">
+                            <option>선택</option>
+                            <option value="0">폐기</option>
+                            <option value="1">입고</option>
+                            <option value="2">거부</option>
+                            </select>
+                        </td>
+                        <td></td>
                     </tr>`;
-        $("#outMngTable tbody").append(node);
+        $("#rtnMngTable tbody").append(node);
     }
 });

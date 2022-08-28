@@ -23,7 +23,7 @@ $("document").ready(function(){
         let priKey = $(this).parent().find("td:eq("+priKeyIdx+")").text();
         let flag = false;
         let tdInfo = $(this);
-        let defaultVal = tdInfo.text();
+        let defaultVal;
         //적용할 인덱스인지 확인
         for(let i = 0; i<avArr.length;i++){
             if(col == avArr[i]){
@@ -36,7 +36,9 @@ $("document").ready(function(){
             return;
         }
         tdInfo.attr("contenteditable","true");
-        tdInfo.focus();
+        tdInfo.focus(function(){
+            defaultVal = tdInfo.text();
+        });
         tdInfo.addClass("tdBorder");
         tdInfo.on("keyup",function(key){
             if(key.keyCode == 13 || key.keyCode == 27){

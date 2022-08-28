@@ -12,8 +12,11 @@ import com.mes.bf.sales.service.SlsRtnService;
 import com.mes.bf.sales.service.SlsStockService;
 import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdVO;
+import com.mes.bf.sales.vo.SlsOutDtlVO;
 import com.mes.bf.sales.vo.SlsOutHdDtlVO;
+import com.mes.bf.sales.vo.SlsOutHdVO;
 import com.mes.bf.sales.vo.SlsRtnHdDtlVO;
+import com.mes.bf.sales.vo.SlsRtnHdVO;
 import com.mes.bf.sales.vo.SlsStockVO;
 
 @SpringBootTest
@@ -49,7 +52,7 @@ public class SlsTest {
 		}
 	}
 	
-	@Test
+	//@Test
 	void findOut() {
 		List<SlsOutHdDtlVO> list = outService.findOut("2022-08-24", "2022-08-24", "예담");
 		for(int i = 0; i < list.size(); i++) {
@@ -89,8 +92,41 @@ public class SlsTest {
 		}
 	}
 	
+	//@Test
 	void findOrderModal() {
 		List<SlsOrdHdVO> list = service.findOrderModal("2022-08-24", "2022-08-24");
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).toString());
+		}
+	}
+	
+	//@Test
+	void outView() {
+		List<SlsOutHdVO> list = outService.outView(null, null);
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).toString());
+		}
+	}
+	
+	//@Test
+	void outDtlView() {
+		List<SlsOutDtlVO> list = outService.outDtlView("SLS_OUT002");
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).toString());
+		}
+	}
+	
+	//@Test
+	void returnView() {
+		List<SlsRtnHdVO> list = rtnService.returnView(null, null);
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).toString());
+		}
+	}
+	
+	//@Test
+	void returnDtlView() {
+		List<SlsRtnHdDtlVO> list = rtnService.returnDtlView("SLS_RTN_001");
 		for(int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i).toString());
 		}
