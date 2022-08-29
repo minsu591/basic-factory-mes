@@ -3,8 +3,8 @@ $(document).ready(function () {
   //오늘 일자
   today = new Date();
   today = today.toISOString().slice(0, 10);
-  outToday = $("#slsOutHdDate");
-  outToday.val(today);
+  rtnToday = $("#slsRtnHdDate");
+  rtnToday.val(today);
 
   //체크박스 전체선택 & 해제
   $("#allCheck").on("click", function () {
@@ -17,7 +17,7 @@ $(document).ready(function () {
 
   //선택삭제 버튼
   $("#deleteBtn").on("click", function () {
-    let trs = $("#outMngTable tbody tr");
-  });
+    let trs = $("#rtnMngTable tbody tr");
 
+  });
 });
