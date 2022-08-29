@@ -4,14 +4,9 @@ $(document).ready(function () {
   $("#sweetTest").click(function () {
     Swal.fire({
       icon: "success", // Alert 타입
-      title: "Alert가 실행되었습니다.", // Alert 제목
-      text: "이곳은 내용이 나타나는 곳입니다.", // Alert 내용
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log("dhksfy");
-        location.reload();
-      }
-    });
+      title: "저장 되었습니다.", // Alert 제목
+
+    })
   });
 
   findPacking();
@@ -51,12 +46,13 @@ $(document).ready(function () {
         $("#eMinutes").val(endTime.substring(14, 16));
         $("#empid").val(data.workerName).prop("readonly", true);
       },
-      error: function () {},
+      error: function () { },
     });
   }
 
   let fltyCnt = 0;
   $("#fltyCnt").val(fltyCnt);
+
   //불량증가
   $("#fltyUp").click(function () {
     fltyCnt += 1;
@@ -65,10 +61,11 @@ $(document).ready(function () {
 
   //불량감소
   $("#fltyDown").click(function () {
+
     if (fltyCnt == 0) {
       $("#fltyCnt").val(0);
     } else {
-      fltyCtn -= 1;
+      fltyCnt -= 1;
       $("#fltyCnt").val(fltyCnt);
     }
   });
@@ -144,8 +141,22 @@ $(document).ready(function () {
         console.log("success");
       },
     });
+    //지시 작업구분 업데이트
+    let instProdNo;
+    let finPrdCdCode;
+    $("#packingTable tbody tr").each(function () {
+      if (processNo == $(this).find("input:hidden[name=processNo]").val()) {
+        instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
+        finPrdCdCode = $(this).find("td:eq(1)").text();
+      }
+    })
+    console.log("찾은 제품코드 ->" + finPrdCdCode);
+    updateWorkScope(instProdNo);
+
 
     //완제품 재고 등록 처리
+    insertInDtl(processNo, workDate, prodVol, finPrdCdCode);
+    saveSucess();
   });
 });
 function findPacking() {
@@ -173,6 +184,7 @@ function insertModalData(tr) {
       for (obj of data) {
         if (tr.find("input:hidden[name=processNo]").val() == obj.processNo) {
           findMchnStts(obj.finPrdCdCode);
+          $("#instDate").val(tr.find("td:eq(9)").text());
           $("#workStateTable tbody tr td").remove();
           $("#procCdName").val(obj.procCdName);
           $("#instNo").val(obj.instNo);
@@ -239,6 +251,7 @@ function packingTableMakeRow(obj, index) {
               <input type="hidden" value="${obj.mchnCode}" name="mchnCode">
               <input type="hidden" value="${obj.completionStatus}" name="completionStatus">
               <input type="hidden" value="${obj.processNo}" name="processNo">
+              <input type="hidden" value="${obj.instProdNo}" name="instProdNo">
               </tr>`;
 
   $("#packingTable tbody").append(node);
@@ -302,7 +315,7 @@ function updateMchnStts(mchnCode, mchnStts) {
       mchnStts: mchnStts,
       mchnCode: mchnCode,
     }),
-    success: function (data) {},
+    success: function (data) { },
   });
 }
 
@@ -454,4 +467,57 @@ function mchnStatusMakeRow(obj) {
         `<span class="spinner-border spinner-border-sm m-l-5" role="status"></span>`
       );
   }
+}
+
+
+//지시 작업구분 업데이트
+function updateWorkScope(instProdNo) {
+  let workScope = "진행완료";
+
+  $.ajax({
+    url: `updateworkscope`,
+    method: "PUT",
+    dataType: "json",
+    contentType: "application/json;charset=utf-8",
+    data: JSON.stringify({
+      instProdNo: instProdNo,
+      workScope: workScope,
+    }),
+    success: function (data) {
+      console.log("update sucess");
+    },
+  });
+}
+
+function insertInDtl(processNo, workDate, prodVol, finPrdCdCode) {
+  console.log(processNo);
+  console.log(workDate);
+  console.log(prodVol);
+  console.log(finPrdCdCode);
+  $.ajax({
+    url: "insertindtl",
+    method: "POST",
+    contentType: "application/json;charset=utf-8",
+    dataType: "json",
+    data: JSON.stringify({
+      processNo: processNo,
+      slsInDtlDate: workDate,
+      finPrdCdCode: finPrdCdCode,
+      slsInDtlVol: prodVol
+    }),
+    error: function (error, status, msg) {
+
+    },
+    success: function (data) {
+
+    },
+  });
+}
+
+function saveSucess() {
+  Swal.fire({
+    icon: "success", // Alert 타입
+    title: "저장 되었습니다.", // Alert 제목
+
+  })
 }

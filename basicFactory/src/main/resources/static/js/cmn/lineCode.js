@@ -38,7 +38,9 @@ $("document").ready(function(){
         let lineName = $(this).find("td:eq(2)").text();
         $("#procLineCode").val(lineCode);
         $("#procLineName").val(lineName);
-
+        if(lineCode == null || lineCode == ''){
+            return;
+        }
         $.ajax({
             url : 'lineCode/dtl',
             methods : 'GET',
@@ -55,54 +57,20 @@ $("document").ready(function(){
         })
     });
 
-    //라인 추가 버튼
-    $("#lineAddBtn").on("click",function(){
-        let node = `<tr>
-            <td><input type="checkbox" name="lineCb"></td>`;
-            if($("#lineAllCheck").is(":checked")){
-                node = `<tr>
-                        <td><input type="checkbox" name="lineCb" checked></td>`;
-            }
-            node += `<td></td>
-                    <td></td>
-                </tr>`;
-            $("#lineTable tbody").append(node);
-    });
-
-    //공정 추가 버튼
-    $("#procAddBtn").on("click",function(){
-        if($("#procLineName").val() == ''){
-            alert("라인을 선택하고 공정을 추가해주세요.")
-        }else{
-            let node = `<tr>
-            <td><input type="checkbox" name="procCb"></td>`;
-            if($("#procAllCheck").is(":checked")){
-                node = `<tr>
-                        <td><input type="checkbox" name="procCb" checked></td>`;
-            }
-            node += `<td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>`;
-            $("#lineProcTable tbody").append(node);
-        }
-    });
-
-
     //공정 make row
     function procMakeRow(obj){
         let node = `<tr>
+                        <input type="hidden" class="lineCdCode" value="${obj.lineCdCode}">
                         <td><input type="checkbox" name="procCb"></td>`;
         if($("#procAllCheck").is(":checked")){
             node = `<tr>
+                    <input type="hidden" class="lineCdCode" value="${obj.lineCdCode}">
                     <td><input type="checkbox" name="procCb" checked></td>`
         }
-        node += `<td>${obj.procCdCode}</td>
+        node += `<td>${obj.lineCdOrd}</td>
+                <td class="procCode">${obj.procCdCode}</td>
                 <td>${obj.procCdName}</td>
-                <td>${obj.lineCdOrd}</td>
-                <td>${obj.mchnCode}</td>
+                <td class="mchnCode">${obj.mchnCode}</td>
                 <td>${obj.mchnName}</td>
                 </tr>`;
         $("#lineProcTable tbody").append(node);
@@ -139,7 +107,5 @@ $("document").ready(function(){
         else $("#procAllCheck").prop("checked", true);
     })
 
-
-    //라인 추가 버튼
 
 });

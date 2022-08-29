@@ -18,6 +18,16 @@
 		   ON  RSCOUT.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
 		        
 		WHERE  RSCOUT.RSC_OUT_CLS = 1
+			<if test="rscOutCode != null and rscOutCode != ''">
+		 		AND RSCOUT.RSC_OUT_CODE = '%'||#{rscOutCode}||'%'
+		 	</if>
+		 	<if test="rscCdCode != null and rscCdCode != ''">
+		 		AND RSCOUT.RSC_CD_CODE = #{rscCdCode}
+		 	</if>
+		 	<if test="rscOutSDate != null and rscOutSDate != ''">
+		 		<![CDATA[AND RSCOUT.RSC_OUT_DATE >= #{rscOutSDate} 
+		 			 AND RSCOUT.RSC_OUT_DATE <= #{rscOutEDate}]]>
+		 	</if>
 		
 		ORDER  BY 1 DESC
 	</select>
@@ -47,8 +57,32 @@
 		   ON  RSCOUT.EMP_ID = EMP.EMP_ID
 		        
 		WHERE  RSCOUT.RSC_OUT_CLS = 2
+			<if test="rscOutCode != null and rscOutCode != ''">
+		 		AND RSCOUT.RSC_OUT_CODE = '%'||#{rscOutCode}||'%'
+		 	</if>
+		 	<if test="rscCdCode != null and rscCdCode != ''">
+		 		AND RSCOUT.RSC_CD_CODE = #{rscCdCode}
+		 	</if>
+		 	<if test="rscOutSDate != null and rscOutSDate != ''">
+		 		<![CDATA[AND RSCOUT.RSC_OUT_DATE >= #{rscOutSDate} 
+		 			 AND RSCOUT.RSC_OUT_DATE <= #{rscOutEDate}]]>
+		 	</if>
 		
 		ORDER  BY 1 DESC
 	</select>
+	<insert id="OutInsert" parameterType="com.mes.bf.rsc.vo.RscOutVO">
+		INSERT INTO BF_RSC_OUT
+		VALUES ('RSC_OUT'||LPAD(BF_RSC_OUT_CODE_SEQ.NEXTVAL,4,0),
+				NULL,
+				#{rscCdCode},
+				#{rscLotNo},
+				#{rscOutDate},
+				#{rscOutVol},
+				2,
+				#{rscOutResn},
+				#{empId},
+				#{vendCdCode})
+				
+	</insert>
 	
 </mapper>

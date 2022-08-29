@@ -17,5 +17,18 @@ public class FinProdServiceImpl implements FinProdService {
 	public List<FinProdCodeVO> listFinProd(String finName) {
 		return mapper.listFinProd(finName);
 	}
+	@Override
+	public int finProdDelete(String priKey) {
+		return mapper.finProdDelete(priKey);
+	}
+	@Override
+	public int finProdUpdate(String priKey, String updCol, String updCont) {
+		return mapper.finProdUpdate(priKey, updCol, updCont);
+	}
+
+	@Override
+	public int finProdInsert(FinProdCodeVO finProd) {
+		return mapper.finProdInsert(finProd);
+	}
 
 }

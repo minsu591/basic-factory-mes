@@ -25,4 +25,38 @@
 		ORDER BY L.LINE_CD_CODE
 	</select>
 	
+	<!-- line header insert, update, delete -->
+	<insert id="lineCodeHdInsert">
+		INSERT INTO BF_CMN_LINE_CODE_HD
+		VALUES('LINE'||LPAD(BF_CMN_LINE_CODE_HD_SEQ.NEXTVAL,3,'0'),#{lineName})
+	</insert>
+	
+	<update id="lineCodeHdUpdate">
+		UPDATE BF_CMN_LINE_CODE_HD
+		SET ${updCol} = #{updCont}
+		WHERE LINE_CD_HD_CODE = #{priKey}
+	</update>
+	
+	<delete id="lineCodeHdDelete">
+		DELETE BF_CMN_LINE_CODE_HD
+		WHERE LINE_CD_HD_CODE = #{priKey}
+	</delete>
+	
+	<!-- line insert, delete, update -->
+	<insert id="lineCodeInsert" parameterType ="lineCodeVO">
+		INSERT INTO BF_CMN_LINE_CODE
+		VALUES('LINEDT'||LPAD(BF_CMN_LINE_CODE_SEQ.NEXTVAL,3,'0'),#{lineCdHdCode},#{procCdCode},#{mchnCode},#{lineCdOrd}})
+	</insert>
+	
+	<update id="lineCodeUpdate">
+		UPDATE BF_CMN_LINE_CODE
+		SET ${updCol} = #{updCont}
+		WHERE LINE_CD_CODE = #{priKey}
+	</update>
+	
+	<delete id="lineCodeDelete">
+		DELETE BF_CMN_LINE_CODE
+		WHERE LINE_CD_CODE = #{priKey}
+	</delete>
+	
 </mapper>

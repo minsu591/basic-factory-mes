@@ -3,14 +3,31 @@
 <mapper namespace="com.mes.bf.cmn.mapper.FinProdMapper">
 	
 	<select id="listFinProd" resultType="prodCode">
-		select FIN_PRD_CD_CODE, FIN_PRD_CD_NAME, FIN_PRD_CD_VOL,
+		SELECT FIN_PRD_CD_CODE, FIN_PRD_CD_NAME, FIN_PRD_CD_VOL,
 			   FIN_PRD_CD_UNIT, FIN_PRD_CD_UNIT, FIN_PRD_CD_USE,
 			   FIN_PRD_CD_PRICE, NVL(FIN_PRD_CD_REMK,' ') AS FIN_PRD_CD_REMK, EMP_ID
-		from bf_cmn_finish_product_code
+		FROM BF_CMN_FINISH_PRODUCT_CODE
 		<if test="finName != null and finName != ''">
         WHERE FIN_PRD_CD_NAME LIKE '%'||#{finName}||'%'
 		</if>
 		ORDER BY FIN_PRD_CD_CODE
 	</select>
 	
+	<delete id="finProdDelete">
+		DELETE BF_CMN_FINISH_PRODUCT_CODE
+		WHERE FIN_PRD_CD_CODE = #{priKey}
+	</delete>
+	
+	<update id="finProdUpdate">
+		UPDATE BF_CMN_FINISH_PRODUCT_CODE
+		SET ${updCol} = #{updCont}
+		WHERE FIN_PRD_CD_CODE = #{priKey}
+	</update>
+	
+	<insert id="finProdInsert" parameterType="prodCode">
+		INSERT INTO BF_CMN_FINISH_PRODUCT_CODE
+		VALUES('FIN'||LPAD(BF_FIN_PRD_CD_SEQ.NEXTVAL,3,'0'),#{finPrdCdName}
+				,#{finPrdCdVol},#{finPrdCdUnit},#{finPrdCdUse}
+				,#{finPrdCdPrice},#{finPrdCdRemk},#{empId})
+	</insert>
 </mapper>

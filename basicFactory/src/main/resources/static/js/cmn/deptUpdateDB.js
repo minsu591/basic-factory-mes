@@ -1,7 +1,6 @@
 
 $("document").ready(function(){
     //수정
-    //procCdName, procCdRemk 수정
 
     //수정될거 저장하는 list 정의
     let modifyList = [];
@@ -37,7 +36,9 @@ $("document").ready(function(){
             return;
         }
         tdInfo.attr("contenteditable","true");
-        tdInfo.focus();
+        tdInfo.focus(function(){
+            defaultVal = tdInfo.text();
+        });
         tdInfo.addClass("tdBorder");
         tdInfo.on("keyup",function(key){
             if(key.keyCode == 13 || key.keyCode == 27){
@@ -83,6 +84,16 @@ $("document").ready(function(){
         let trs = table.find("tbody tr");
         let result;
         if(confirm("저장하시겠습니까?")==true){
+            //null 검사
+            for(tr of trs){
+                for(idx of notNullList){
+                    let content = $(tr).find("td:eq("+idx+")").text();
+                    if(content == null || content == ''){
+                        alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
+                        return;
+                    }
+                }
+            }
             //삭제용
             for(priKey of delList){
                 deleteSaveAjax(priKey);

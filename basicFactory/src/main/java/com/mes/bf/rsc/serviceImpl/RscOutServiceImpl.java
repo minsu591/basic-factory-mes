@@ -15,13 +15,18 @@ public class RscOutServiceImpl implements RscOutService {
 	@Autowired RscOutMapper rscOutMapper;
 
 	@Override
-	public List<RscOutVO> normalOutList() {
-		return rscOutMapper.normalOutList();
+	public List<RscOutVO> normalOutList(String rscOutCode, String rscCdCode, String rscOutSDate, String rscOutEDate) {
+		return rscOutMapper.normalOutList(rscOutCode, rscCdCode, rscOutSDate, rscOutEDate);
 	}
 
 	@Override
-	public List<RscOutVO> exceptOutList() {
-		return rscOutMapper.exceptOutList();
+	public List<RscOutVO> exceptOutList(String rscOutCode, String rscCdCode, String rscOutSDate, String rscOutEDate) {
+		return rscOutMapper.exceptOutList(rscOutCode, rscCdCode, rscOutSDate, rscOutEDate);
+	}
+
+	@Override
+	public void OutInsert(RscOutVO vo) {
+		
 	}
 
 }

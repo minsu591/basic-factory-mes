@@ -43,7 +43,6 @@ public class RscInController {
 	@RequestMapping(value = "/inInsert", method = RequestMethod.POST)
 	@ResponseBody
 	public String inInsert(@RequestBody List<RscInspVO> itemList) {
-		System.out.println(itemList);
 		for(RscInspVO insp:itemList) {
 			rscInService.inInsert(insp);
 			}
@@ -54,8 +53,16 @@ public class RscInController {
 	//입고 전체조회
 	@RequestMapping("/inList")
 	public void inList(Model model) {
-		List<RscInVO> inList = rscInService.inList();
+		List<RscInVO> inList = rscInService.inList(null,null,null,null);
 		model.addAttribute("inList",inList);
+	}
+	
+	@RequestMapping(value = "/inListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public String inListTable(@RequestParam Map<String, String> QueryParameters, Model model) {
+		List<RscInVO> inList = rscInService.inList(QueryParameters.get("rscInCode"), QueryParameters.get("rscCdCode"), 
+													QueryParameters.get("rscInSDate"), QueryParameters.get("rscInEDate"));
+		model.addAttribute("inList", inList);
+		return "rsc/table/inListTable";
 	}
 
 }

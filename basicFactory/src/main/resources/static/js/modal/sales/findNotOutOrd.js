@@ -106,13 +106,14 @@ $("document").ready(function () {
     
     let node = `<tr>
                     <td><input type="checkbox"></td>
-                    <td>${ord.finPrdCdCode}</td>
-                    <td>${ord.finPrdCdName}</td>
-                    <td>${ord.slsOrdDtlVol}</td>
-                    <td>${ord.slsOutDtlPrvsVol}</td>
+                    <td>${ord.slsOutDtlVO.finPrdCdCode}</td>
+                    <td name="finPrdCdName">${ord.slsOutDtlVO.finPrdCdName}</td>
+                    <td>${ord.slsOrdDtlVO.slsOrdDtlVol}</td>
+                    <td>${ord.slsOrdDtlVO.slsOrdDtlOutVol}</td> 기출고량
                     <td></td>
                     <td></td>
-                    <td>${ord.finPrdCdPrice}</td>
+                    <td><input type="text" class="lotNo"></td>
+                    <td>${ord.slsOutDtlVO.finPrdCdPrice}</td>
                     <td></td>
                 </tr>`;
     

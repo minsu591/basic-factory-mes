@@ -20,7 +20,7 @@ $(document).ready(function () {
   //생산지시 삭제 버튼
   $("#delRowBtn").click(function () {
     if ($("input[type='checkbox']:checked").length === 0) {
-      alert("삭제할 항목을 선택하세요");
+      deleteWarning();
       return;
     }
     $("input[type='checkbox']:checked").each(function (k, val) {
@@ -258,3 +258,11 @@ $(document).ready(function () {
     }
   }
 });
+
+
+function deleteWarning() {
+  Swal.fire({
+    icon: "warning", // Alert 타입
+    title: "삭제할 항목을 선택하세요.", // Alert 제목
+  })
+}
