@@ -1,51 +1,50 @@
 @charset "UTF-8";
 
 h1 {
-	margin-top: 2%;
-	margin-left: 2%;
-	margin-bottom: 2%;
+  margin-top: 2%;
+  margin-left: 2%;
+  margin-bottom: 2%;
 }
 
-
 .row {
-
-	margin-left: 0;
-	margin-right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 button {
-	margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 #findempbtn,
 #findPlanbtn {
-	margin-top: 0;
+  margin-top: 0;
 }
 
-input[type=text]:read-only {
-	background: #f6f6f6 !important;
-	width: 100% !important
+input[type="text"]:read-only {
+  background: #f6f6f6 !important;
+  width: 100% !important;
 }
 
-#planDetailTable input[type=text] {
-	height: 2rem;
-	text-align: center;
-	border: 0;
-	width: 100%;
-	background: rgba(241, 196, 15, 0.1)
+#planDetailTable input[type="text"] {
+  height: 2rem;
+  text-align: center;
+  border: 0;
+  width: 100%;
+  background: rgba(241, 196, 15, 0.1);
 }
 
 #planDetailTable td {
-	padding: 0;
-
+  padding: 0;
 }
 
 .flex-end {
-	justify-content: end;
-
+  justify-content: end;
 }
 
-
 .warn {
-	background-color: rgba(231, 76, 60, 0.5);
+  background-color: rgba(231, 76, 60, 0.5);
+}
+
+#planDetailTable tbody tr input[type="checkbox"] {
+  vertical-align: middle;
 }

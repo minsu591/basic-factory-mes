@@ -267,13 +267,13 @@
                   	 emp_id
                   	)
 		VALUES ( 
-                'RSC_OUT' || BF_RSC_OUT_CODE_SEQ.nextval,
+                'RSC_OUT'||LPAD(BF_RSC_OUT_CODE_SEQ.NEXTVAL,4,0),
                 (SELECT process_perfom_no 
                 FROM BF_PROD_PROCESS_PERFORMANCE 
                 WHERE process_no = #{processNo}),
                 #{rscCdCode},
                 #{rscLotNo},
-                TO_DATE(#{rscOutDate}, 'yyyy-mm-dd'),
+                #{rscOutDate},
                 #{rscOutVol},
                 #{rscOutCls},
                 (SELECT emp_id 

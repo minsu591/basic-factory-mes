@@ -3,15 +3,15 @@
 <mapper namespace="com.mes.bf.prod.mapper.PackingMapper">
 
 <select id="findPackingProc" resultType="PackingVO">
+
 SELECT *
 FROM 
-bf_PROD_PROCESS proc,
+BF_PROD_PROCESS proc,
 BF_PROD_INST_DETAIL detail,
 BF_CMN_FINISH_PRODUCT_CODE prodcode
 WHERE proc.inst_prod_no = detail.inst_prod_no
 AND detail.fin_prd_cd_code = prodcode.fin_prd_cd_code
-
-AND process_order = 5
+AND process_order = 5 AND NOT completion_status = 'y'
 </select>
 
 <!-- 제품코드로 설비명,상태 조회 -->
@@ -36,7 +36,30 @@ AND process_order = 5
 		linecode.line_cd_ord = 5
 		order by linecode.line_cd_ord
 		
-
 	</select>
+	
+	
+	<insert id="insertInDtl" parameterType="slsInDtlVO">
+		INSERT INTO 
+		BF_SALES_IN_DTL ( sls_in_dtl_no,
+                          process_perfom_no,
+                          sls_in_dtl_date,
+                          fin_prd_cd_code,
+                          sls_in_dtl_vol
+                        )
+VALUES (    
+        'SLS_IN'||LPAD(BF_SALES_IN_DTL_SEQ.nextval,3,0),
+        (SELECT 
+        	process_perfom_no 
+        FROM 
+        	BF_PROD_PROCESS_PERFORMANCE 
+        WHERE 
+        	process_no = #{processNo}),
+        #{slsInDtlDate},
+        #{finPrdCdCode},
+        #{slsInDtlVol}       
+        ) 
+	
+	</insert>
 
 </mapper>

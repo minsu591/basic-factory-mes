@@ -183,6 +183,7 @@ $("document").ready(function () {
     //공정실적 테이블 등록
     let workDate = $("#instDate").val();
     let processNo = $("#processNo").val(); //작업번호
+    let inDtlVol = $("#workStateTable tr:eq(1) td").text();//입고량 
     let prodVol = $("#workStateTable tr:eq(3) td").text(); //실적량
     let fltyVol = $("#workStateTable tr:eq(4) td").text(); //불량랑
     let procPerform = {
@@ -238,6 +239,11 @@ $("document").ready(function () {
         //제품명으로 사용량 자재 재고 조회
         console.log("finRscVO로 넘기는 finPrdCdCode=" + finPrdCdCode);
         findRscVO(finPrdCdCode);
+
+        //제품코드,작업날짜,processNo,empName,입고량 만큼 데이터를 프로시져에 넘겨줌
+        //insertRscOut(finPrdCdCode,)
+
+
         //지시 작업구분 업데이트
         updateWorkScope(instProdNo);
       }
@@ -255,6 +261,7 @@ $("document").ready(function () {
     console.log("프로세스오더->" + nextProcessOrder);
 
     if (nextProcessOrder < 6) {
+
       let instProdNo;
       $("#procManageTable tbody tr").each(function () {
         if ($(this).find("td:eq(0)").children().prop("checked")) {
@@ -284,10 +291,11 @@ $("document").ready(function () {
           console.log("success");
         },
       });
+      saveSucess();
     } else {
       //포장일 경우?
     }
-    saveSucess();
+
   });
 }); //document end
 
@@ -420,6 +428,7 @@ function updateMchnStts(mchnCode, mchnStts) {
     url: `updatemchnstts`,
     method: "PUT",
     dataType: "json",
+    async: false,
     contentType: "application/json;charset=utf-8",
     data: JSON.stringify({
       mchnStts: mchnStts,
@@ -629,7 +638,7 @@ function insertRscOut(rscLotNo, rscCdCode, needQty) {
   let processNo = $("#processNo").val(); //현재 공정작업번호 (perfrom키 찾기 위해)
   let instDate = $("#instDate").val(); // 출고 일자
   let rscOutCls = 1; //출고 분류
-
+  console.log(instDate);
   let empName = $("#empid").val(); //작업자 이름 
   $.ajax({
     url: "insertrscout",

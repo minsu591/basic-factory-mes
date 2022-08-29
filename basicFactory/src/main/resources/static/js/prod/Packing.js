@@ -141,8 +141,22 @@ $(document).ready(function () {
         console.log("success");
       },
     });
+    //지시 작업구분 업데이트
+    let instProdNo;
+    let finPrdCdCode;
+    $("#packingTable tbody tr").each(function () {
+      if (processNo == $(this).find("input:hidden[name=processNo]").val()) {
+        instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
+        finPrdCdCode = $(this).find("td:eq(1)").text();
+      }
+    })
+    console.log("찾은 제품코드 ->" + finPrdCdCode);
+    updateWorkScope(instProdNo);
+
 
     //완제품 재고 등록 처리
+    insertInDtl(processNo, workDate, prodVol, finPrdCdCode);
+
   });
 });
 function findPacking() {
@@ -170,6 +184,7 @@ function insertModalData(tr) {
       for (obj of data) {
         if (tr.find("input:hidden[name=processNo]").val() == obj.processNo) {
           findMchnStts(obj.finPrdCdCode);
+          $("#instDate").val(tr.find("td:eq(9)").text());
           $("#workStateTable tbody tr td").remove();
           $("#procCdName").val(obj.procCdName);
           $("#instNo").val(obj.instNo);
@@ -236,6 +251,7 @@ function packingTableMakeRow(obj, index) {
               <input type="hidden" value="${obj.mchnCode}" name="mchnCode">
               <input type="hidden" value="${obj.completionStatus}" name="completionStatus">
               <input type="hidden" value="${obj.processNo}" name="processNo">
+              <input type="hidden" value="${obj.instProdNo}" name="instProdNo">
               </tr>`;
 
   $("#packingTable tbody").append(node);
@@ -451,4 +467,49 @@ function mchnStatusMakeRow(obj) {
         `<span class="spinner-border spinner-border-sm m-l-5" role="status"></span>`
       );
   }
+}
+
+
+//지시 작업구분 업데이트
+function updateWorkScope(instProdNo) {
+  let workScope = "진행완료";
+
+  $.ajax({
+    url: `updateworkscope`,
+    method: "PUT",
+    dataType: "json",
+    contentType: "application/json;charset=utf-8",
+    data: JSON.stringify({
+      instProdNo: instProdNo,
+      workScope: workScope,
+    }),
+    success: function (data) {
+      console.log("update sucess");
+    },
+  });
+}
+
+function insertInDtl(processNo, workDate, prodVol, finPrdCdCode) {
+  console.log(processNo);
+  console.log(workDate);
+  console.log(prodVol);
+  console.log(finPrdCdCode);
+  $.ajax({
+    url: "insertindtl",
+    method: "POST",
+    contentType: "application/json;charset=utf-8",
+    dataType: "json",
+    data: JSON.stringify({
+      processNo: processNo,
+      slsInDtlDate: workDate,
+      finPrdCdCode: finPrdCdCode,
+      slsInDtlVol: prodVol
+    }),
+    error: function (error, status, msg) {
+
+    },
+    success: function (data) {
+
+    },
+  });
 }

@@ -1,64 +1,68 @@
 @charset "UTF-8";
 
 h1 {
-	margin-top: 2%;
-	margin-left: 2%;
-	margin-bottom: 2%;
+  margin-top: 2%;
+  margin-left: 2%;
+  margin-bottom: 2%;
 }
 
 .form-inline button {
-	margin-top: 1rem;
+  margin-top: 1rem;
 }
 
-#findProductbtn,#findMchnBtn,#workStartBtn,#workEndBtn,
-#addFlty,#fltyUp,#fltyDown{
-	margin-top: 0;
+#findProductbtn,
+#findMchnBtn,
+#workStartBtn,
+#workEndBtn,
+#addFlty,
+#fltyUp,
+#fltyDown {
+  margin-top: 0;
 }
 
 .modal-fullsize {
-	width: 90%;
-	height: 90%;
-	/* margin: 0; */
-	padding: 0;
+  width: 90%;
+  height: 90%;
+  /* margin: 0; */
+  padding: 0;
 }
 
 .modal-fullsize {
-	height: auto;
-	min-height: 100%;
-	border-radius: 0;
+  height: auto;
+  min-height: 100%;
+  border-radius: 0;
 }
 
 .headerbtn {
-	justify-content: flex-end;
-
+  justify-content: flex-end;
 }
 
 .content-center {
-	justify-content: center;
+  justify-content: center;
 }
 
-
-
 @media (min-width: 576px) {
-	.modal-fullsize {
-		max-width: 300%;
-		margin: 1.75rem auto;
-	}
+  .modal-fullsize {
+    max-width: 300%;
+    margin: 1.75rem auto;
+  }
 }
 
 .time {
-	width: 10% !important;
-	padding: 0;
-	text-align: center;
+  width: 10% !important;
+  padding: 0;
+  text-align: center;
 }
 
 #workStateTable th {
-
-	background: #f6f6f6;
+  background: #f6f6f6;
 }
 
-
 #fltyCnt {
-	padding: 0;
-	text-align: center;
+  padding: 0;
+  text-align: center;
+}
+
+.swal2-container {
+  z-index: 20000 !important;
 }
