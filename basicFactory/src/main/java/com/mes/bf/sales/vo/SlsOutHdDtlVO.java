@@ -9,4 +9,5 @@ import lombok.Data;
 public class SlsOutHdDtlVO {
 	private SlsOutHdVO slsOutHdVO;
 	private SlsOutDtlVO slsOutDtlVO;
+	private SlsOrdDtlVO slsOrdDtlVO;
 }

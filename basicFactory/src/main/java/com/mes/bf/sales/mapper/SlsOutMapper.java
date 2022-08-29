@@ -14,7 +14,7 @@ public interface SlsOutMapper {
 	List<SlsOutHdDtlVO> findAllOut();
 	List<SlsOutHdDtlVO> findOut(String outSdate, String outEdate, String vendorName);
 	List<SlsOrdHdDtlVO> findNotOut(String ordSdate, String ordEdate);
-	List<SlsOutDtlVO> findNotOutDtl(String slsOrdHdNo);
+	List<SlsOutHdDtlVO> findNotOutDtl(String slsOrdHdNo);
 	List<SlsOutHdVO> outView(String outSdate, String outEdate);
 	List<SlsOutDtlVO> outDtlView(String slsOutHdNo);
 }
