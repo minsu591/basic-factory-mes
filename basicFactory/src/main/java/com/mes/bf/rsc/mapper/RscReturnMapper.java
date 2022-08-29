@@ -8,5 +8,5 @@ import com.mes.bf.rsc.vo.RscReturnVO;
 
 @Mapper
 public interface RscReturnMapper {
-	List<RscReturnVO> returnList();	
+	List<RscReturnVO> returnList(String rscReturnCode, String vendor, String rscReturnSDate, String rscReturnEDate);	
 }

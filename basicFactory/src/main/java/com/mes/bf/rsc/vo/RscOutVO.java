@@ -9,7 +9,7 @@ public class RscOutVO {
 
 	private String rscOutCode;
 	private Date rscOutDate;
-	private String processPerformNo;
+	private String processPerfomNo;
 	private String rscCdCode;
 	private String rscCdName;
 	private String rscLotNo;

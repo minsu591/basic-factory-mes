@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<div th:fragment="outlisttable" id="outlisttable">
+	<ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+		<li class="nav-item"><a class="nav-link active text-uppercase"
+			id="home-tab" data-toggle="tab" href="#home" role="tab"
+			aria-controls="home" aria-selected="true">정상출고</a></li>
+		<li class="nav-item"><a class="nav-link text-uppercase"
+			id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+			aria-controls="profile" aria-selected="false">정상외출고</a></li>
+	</ul>
+	<div class="tab-content" id="myTabContent">
+		<div class="tab-pane fade show active" id="home" role="tabpanel"
+			aria-labelledby="home-tab">
+			<p class="mb-0">
+			<div class="card-body table-border-style">
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th th:text="출고코드"></th>
+								<th th:text="출고일자"></th>
+								<th th:text="출고공정"></th>
+								<th th:text="자재코드"></th>
+								<th th:text="자재명"></th>
+								<th th:text="자재LOT번호"></th>
+								<th th:text="출고수량"></th>
+								<th th:text="분류"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="nList : ${nList}">
+								<td th:text="${nList.rscOutCode}"></td>
+								<td th:text="${nList.rscOutDate}"></td>
+								<td th:text="${nList.processPerfomNo}"></td>
+								<td th:text="${nList.rscCdCode}"></td>
+								<td th:text="${nList.rscCdName}"></td>
+								<td th:text="${nList.rscLotNo}"></td>
+								<td th:text="${nList.rscOutVol}"></td>
+								<td><span th:if="${nList.rscOutCls == 1}" th:text="정상출고" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			</p>
+		</div>
+		<div class="tab-pane fade" id="profile" role="tabpanel"
+			aria-labelledby="profile-tab">
+			<p class="mb-0">
+			<div class="card-body table-border-style">
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th th:text="출고코드"></th>
+								<th th:text="출고일자"></th>
+								<th th:text="거래처"></th>
+								<th th:text="자재코드"></th>
+								<th th:text="자재명"></th>
+								<th th:text="출고수량"></th>
+								<th th:text="담당자"></th>
+								<th th:text="분류"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="eList : ${eList}">
+								<td th:text="${eList.rscOutCode}"></td>
+								<td th:text="${eList.rscOutDate}"></td>
+								<td th:text="${eList.vendCdNm}"></td>
+								<td th:text="${eList.rscCdCode}"></td>
+								<td th:text="${eList.rscCdName}"></td>
+								<td th:text="${eList.rscOutVol}"></td>
+								<td th:text="${eList.empName}"></td>
+								<td><span th:if="${eList.rscOutCls == 2}" th:text="정상외출고" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			</p>
+		</div>
+	</div>
+</div>
+</head>
+</html>

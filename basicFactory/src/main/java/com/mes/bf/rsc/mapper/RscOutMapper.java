@@ -8,6 +8,8 @@ import com.mes.bf.rsc.vo.RscOutVO;
 
 @Mapper
 public interface RscOutMapper {
-	List<RscOutVO> normalOutList();
-	List<RscOutVO> exceptOutList();
+	List<RscOutVO> normalOutList(String rscOutCode, String rscCdCode, String rscOutSDate, String rscOutEDate);
+	List<RscOutVO> exceptOutList(String rscOutCode, String rscCdCode, String rscOutSDate, String rscOutEDate);
+	
+	void OutInsert(RscOutVO vo);
 }
