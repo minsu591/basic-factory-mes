@@ -156,7 +156,7 @@ $(document).ready(function () {
 
     //완제품 재고 등록 처리
     insertInDtl(processNo, workDate, prodVol, finPrdCdCode);
-
+    saveSucess();
   });
 });
 function findPacking() {
@@ -512,4 +512,12 @@ function insertInDtl(processNo, workDate, prodVol, finPrdCdCode) {
 
     },
   });
+}
+
+function saveSucess() {
+  Swal.fire({
+    icon: "success", // Alert 타입
+    title: "저장 되었습니다.", // Alert 제목
+
+  })
 }
