@@ -287,6 +287,7 @@ $("document").ready(function () {
     } else {
       //포장일 경우?
     }
+    saveSucess();
   });
 }); //document end
 
@@ -306,10 +307,10 @@ function startWork() {
     }
   });
   console.log("컴플리션스테이터스->" + completionStatus);
-  // if (completionStatus == 'y') {
-  //   alert('이미 완료된 작업입니다.');
-  //   return;
-  // }
+  if (completionStatus == 'y') {
+    warning();
+    return;
+  }
 
   if ($("#empid").val() == "") {
     alert("작업자 입력하세요");
@@ -341,7 +342,7 @@ function startWork() {
     let mchnStts = "진행중";
     //진행중으로 업데이트 실행
     updateMchnStts(mchnCode, mchnStts);
-    work = setInterval(startinterval, 1000);
+    work = setInterval(startinterval, 100);
 
     //설비상태 다시 리로드
     let prodCode;
@@ -409,7 +410,7 @@ function endWork() {
     });
     selectMchnStts(prodCode);
   } else {
-    alert("이미 종료했어요");
+    warning();
   }
 } // 작업종료 끝
 
@@ -522,6 +523,7 @@ function findRscVO(finPrdCdCode) {
     contentType: "application/json;charset=utf-8",
 
     success: function (data) {
+
       console.log(data);
       let indicaVol = parseInt($("#workStateTable tbody tr:eq(1) td").text()); //지시량
       let rscCdName;
@@ -538,12 +540,13 @@ function findRscVO(finPrdCdCode) {
             totalQty = totalQty - obj.rscStock;
             console.log(
               obj.rscLotNo +
-                "자재 " +
-                obj.rscCdName +
-                "를" +
-                obj.rscStock +
-                "만큼 출고량 인설트"
+              "자재 " +
+              obj.rscCdName +
+              "를" +
+              obj.rscStock +
+              "만큼 출고량 인설트"
             );
+            insertRscOut(obj.rscLotNo, obj.rscCdCode, obj.rscStock);
             console.log("토탈큐티와이" + totalQty);
           } else {
             if (rscCdName == obj.rscCdName) {
@@ -554,12 +557,13 @@ function findRscVO(finPrdCdCode) {
               );
               console.log(
                 obj.rscLotNo +
-                  "자재 " +
-                  obj.rscCdName +
-                  "를" +
-                  totalQty +
-                  "만큼 출고량 인설트"
+                "자재 " +
+                obj.rscCdName +
+                "를" +
+                totalQty +
+                "만큼 출고량 인설트"
               );
+              insertRscOut(obj.rscLotNo, obj.rscCdCode, totalQty);
               totalQty = "";
             }
           }
@@ -569,12 +573,13 @@ function findRscVO(finPrdCdCode) {
             console.log("남은 소요량->" + (needQty - obj.rscStock));
             console.log(
               obj.rscLotNo +
-                "자재 " +
-                obj.rscCdName +
-                "를" +
-                obj.rscStock +
-                "만큼 출고량 인설트"
+              "자재 " +
+              obj.rscCdName +
+              "를" +
+              obj.rscStock +
+              "만큼 출고량 인설트"
             );
+            insertRscOut(obj.rscLotNo, obj.rscCdCode, obj.rscStock);
             totalQty = needQty - obj.rscStock;
             console.log("토탈큐티와이" + totalQty);
           } else {
@@ -585,11 +590,12 @@ function findRscVO(finPrdCdCode) {
                 console.log(
                   "남은 소요량" + totalQty + "만큼 감소->" + obj.rscCdName
                 );
-
+                insertRscOut(obj.rscLotNo, obj.rscCdCode, totalQty);
                 totalQty = "";
               } else {
                 console.log(needQty + "만큼 감소 ->" + obj.rscCdName);
                 rscCdName = obj.rscCdName;
+                insertRscOut(obj.rscLotNo, obj.rscCdCode, needQty);
               }
             }
           }
@@ -616,4 +622,51 @@ function updateWorkScope(instProdNo) {
       console.log("update sucess");
     },
   });
+}
+
+//자재 출고량 인설트
+function insertRscOut(rscLotNo, rscCdCode, needQty) {
+  let processNo = $("#processNo").val(); //현재 공정작업번호 (perfrom키 찾기 위해)
+  let instDate = $("#instDate").val(); // 출고 일자
+  let rscOutCls = 1; //출고 분류
+
+  let empName = $("#empid").val(); //작업자 이름 
+  $.ajax({
+    url: "insertrscout",
+    method: "POST",
+    contentType: "application/json;charset=utf-8",
+    dataType: "json",
+    data: JSON.stringify({
+      processNo: processNo,
+      rscCdCode: rscCdCode,
+      rscLotNo: rscLotNo,
+      rscOutDate: instDate,
+      rscOutVol: needQty,
+      rscOutCls: rscOutCls,
+      empName: empName
+    }),
+    error: function (error, status, msg) {
+
+    },
+    success: function (data) {
+
+    },
+  });
+}
+
+
+
+function warning() {
+  Swal.fire({
+    icon: "warning", // Alert 타입
+    title: "이미 완료된 작업입니다.", // Alert 제목
+  })
+}
+
+function saveSucess() {
+  Swal.fire({
+    icon: "success", // Alert 타입
+    title: "저장 되었습니다.", // Alert 제목
+
+  })
 }
