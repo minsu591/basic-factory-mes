@@ -84,6 +84,16 @@ $("document").ready(function(){
         let trs = table.find("tbody tr");
         let result;
         if(confirm("저장하시겠습니까?")==true){
+            //null 검사
+            for(tr of trs){
+                for(idx of notNullList){
+                    let content = $(tr).find("td:eq("+idx+")").text();
+                    if(content == null || content == ''){
+                        alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
+                        return;
+                    }
+                }
+            }
             //삭제용
             for(priKey of delList){
                 deleteSaveAjax(priKey);
@@ -168,10 +178,10 @@ $("document").ready(function(){
 
     //선택 삭제 이벤트
     $("#deleteBtn").on("click",function(){
-        $("#procTable tbody input:checkbox[name='cb']").each(function(idx,el){
+        table.find("tbody input:checkbox[name='cb']").each(function(idx,el){
             if($(el).is(":checked")){
                 let tr = $(el).parent().parent();
-                let priKey = tr.find("td:eq(1)").text();
+                let priKey = tr.find("td:eq("+priKeyIdx+")").text();
                 delList.push(priKey);
                 tr.remove();
                 for(let i = 0; i< modifyList.length; i++){

@@ -14,7 +14,6 @@ $("document").ready(function(){
                 if($("#allCheck").is(":checked")){
                     $("#allCheck").prop("checked",false);
                 }
-                console.log(result);
                 for(obj of result){
                     finProdMakeRow(obj);
                 }
@@ -22,24 +21,6 @@ $("document").ready(function(){
         })
     });
 
-    $("#addBtn").on("click",function(){
-        let node = `<tr>
-                        <td><input type="checkbox" name="cb"></td>`;
-        if ($("#allCheck").is(":checked")){
-            node = `<tr>
-                        <td><input type="checkbox" name="cb" checked ></td>`;
-        }
-        node +=`<td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><input type="checkbox"></td>
-                <td></td>
-                <td></td>
-            </tr>`;
-        $("#finProdTable tbody").append(node);
-    });
 
     function finProdMakeRow(obj){
         let node = `<tr>
@@ -50,9 +31,9 @@ $("document").ready(function(){
                         <td>${obj.finPrdCdUnit}</td>
                         <td>${obj.finPrdCdPrice}</td>`;
         if(obj.finPrdCdUse == 1){
-            node += `<td><input type="checkbox" checked></td>`;
+            node += `<td><input type="checkbox" name='use' checked></td>`;
         }else{
-            node += `<td><input type="checkbox"></td>`;
+            node += `<td><input type="checkbox" name='use'></td>`;
         }
         node+= `<td>${obj.finPrdCdRemk}</td>
                 <td>${obj.empId}</td>

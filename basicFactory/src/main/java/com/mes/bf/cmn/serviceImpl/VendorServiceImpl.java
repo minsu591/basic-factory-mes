@@ -17,5 +17,17 @@ public class VendorServiceImpl implements VendorService {
 	public List<VendorCodeVO> listVendor(String vendorName) {
 		return mapper.listVendor(vendorName);
 	}
+	@Override
+	public int vendorCodeInsert(VendorCodeVO vendor) {
+		return mapper.vendorCodeInsert(vendor);
+	}
+	@Override
+	public int vendorCodeDelete(String priKey) {
+		return mapper.vendorCodeDelete(priKey);
+	}
+	@Override
+	public int vendorCodeUpdate(String priKey, String updCol, String updCont) {
+		return mapper.vendorCodeUpdate(priKey, updCol, updCont);
+	}
 
 }
