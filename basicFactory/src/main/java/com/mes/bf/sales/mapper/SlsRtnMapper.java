@@ -5,10 +5,12 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mes.bf.sales.vo.SlsRtnHdDtlVO;
+import com.mes.bf.sales.vo.SlsRtnHdVO;
 
 @Mapper
 public interface SlsRtnMapper {
-	//반품내역 전체조회
 	List<SlsRtnHdDtlVO> findAllReturn();
 	List<SlsRtnHdDtlVO> findReturn(String rtnSdate, String rtnEdate, String prcCls, String vendorName);
+	List<SlsRtnHdVO> returnView(String rtnSdate, String rtnEdate);
+	List<SlsRtnHdDtlVO> returnDtlView(String slsRtnHdNo);
 }

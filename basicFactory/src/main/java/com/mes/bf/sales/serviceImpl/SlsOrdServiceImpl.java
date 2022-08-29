@@ -41,5 +41,10 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 		return mapper.findOrderForPlan(ordSdate, ordEdate, ordType);
 	}
 
+	@Override
+	public void insertOrder(SlsOrdHdVO vo) {
+		mapper.insertOrder(vo);
+	}
+
 
 }

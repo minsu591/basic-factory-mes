@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <title>설비 조회</title>
-    <link th:href="@{/css/eqp/mchn.css}" rel="stylesheet" />
   </head>
   <body>
+    <link th:href="@{/css/eqp/mchn.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/js/eqp/mchn.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
 
@@ -46,13 +46,13 @@
                   <tr th:each="mchn : ${mchns}">
                     <td th:text="${mchn.mchnCode}"></td>
                     <td th:text="${mchn.mchnName}"></td>
-                    <td th:text="${mchn.mchnModel}"></td>
+                    <td th:text="${#strings.defaultString(mchn.mchnModel, '')}"></td>
                     <td th:text="${mchn.vendCdNm}"></td>
-                    <td th:text="${mchn.mchnMnfctDate}"></td>
+                    <td th:text="${#strings.defaultString(mchn.mchnMnfctDate, '')}"></td>
                     <td th:text="${mchn.mchnInspcCycle}"></td>
                     <td th:text="${mchn.inspcEdate}"></td>
-                    <td th:text="${mchn.mchnStts}"></td>
-                    <td th:text="${mchn.mchnRemk}"></td>
+                    <td th:text="${#strings.defaultString(mchn.mchnStts, '')}"></td>
+                    <td th:text="${#strings.defaultString(mchn.mchnRemk, '')}"></td>
                   </tr>
                 </tbody>
               </table>

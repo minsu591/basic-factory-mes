@@ -23,7 +23,14 @@
                       FROM  BF_RSC_OUT
                       GROUP BY RSC_LOT_NO) RSCOUT
            ON  ST.RSC_LOT_NO = RSCOUT.RSC_LOT_NO
-        
+        <where>
+        	<if test="rscCdCode != null and rscCdCode != ''">
+        		ST.RSC_CD_CODE = #{rscCdCode}
+        	</if>
+        	<if test="rscLotNo != null and rscLotNo != ''">
+        		AND ST.RSC_LOT_NO = #{rscLotNo}
+        	</if>
+        </where>
         ORDER  BY RSC_LOT_NO DESC
 	</select>
 

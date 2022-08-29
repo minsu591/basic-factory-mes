@@ -183,7 +183,7 @@
 		#{finPrdCdCode},
 		#{instNo},
 		#{instProdIndicaVol},
-		'지시',
+		'진행전',
 		#{workDate}
 		)
 	</insert>

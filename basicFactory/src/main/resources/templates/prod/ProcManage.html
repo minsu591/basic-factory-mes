@@ -23,18 +23,16 @@
 				<div class="card-header">
 					<form class="form-inline">
 						<div class="form-group mt-3">
-							<label for="instdate" th:text="작업일자"></label> <input type="date"
-								id="instdate" class="form-control mx-sm-3">
+							<label for="workDate" th:text="작업일자"></label> <input type="date"
+								id="workDate" class="form-control mx-sm-3">
 						</div>
 						<br> <br>
 						<div class="form-group mt-3">
 							<label for="productname" th:text="제품명"></label> <input type="text" id="productname"
 								class="form-control mx-sm-3" data-toggle="modal"
-								data-target=".bd-example-modal-lg"> <label
-								for="line">라인</label> <input type="text" id="line"
-								class="form-control mx-sm-3">
+								data-target=".bd-example-modal-lg"> 
 						</div>
-						<button type="submit" class="btn  btn-primary">조회</button>
+						<button type="button" class="btn  btn-primary" id="findProcManageBtn">조회</button>
 					</form>
 
 				</div>

@@ -26,11 +26,11 @@
 		<where>
 			<if test="workSdate != null and workSdate != ''">
 	 
-				<![CDATA[ AND work_date >= #{workSdate} ]]>
+				<![CDATA[ AND workdate >= #{workSdate} ]]>
 			</if>
 
 			<if test="workEdate != null and workEdate != ''">
-				<![CDATA[ AND work_date <= #{workEdate} ]]>
+				<![CDATA[ AND workdate <= #{workEdate} ]]>
 			</if>
 
 			<if test="procCdName != null and procCdName != ''">
@@ -42,8 +42,7 @@
 			</if>
 
 			<if test="empId != null and empId != ''">
-				AND worker_name LIKE (SELECT emp_id FROM BF_CMN_EMP WHERE
-				emp_name = #{empId})
+				AND workername LIKE #{empId}
 			</if>
 			
 		</where>
@@ -67,50 +66,29 @@
 	<!-- 공정실적관리테이블 조회 -->
 
 	<select id="findProcManage" resultType="ProcManageVO">
-
-		SELECT inst.inst_no AS
-		instNo,
-		instdetail.inst_prod_no instProdNo,
-		instdetail.work_date AS workDate,
-		instdetail.fin_prd_cd_code AS finPrdCdCode,
-		(SELECT
-		fin_prd_cd_name
-		FROM
-		BF_CMN_FINISH_PRODUCT_CODE
-		WHERE
-		fin_prd_cd_code = instdetail.fin_prd_cd_code)
-		AS finPrdCdName,
-		instdetail.inst_prod_indica_vol AS instProdIndicaVol,
-		instdetail.work_scope AS workScope,
-		process.vir_result AS virResult,
-		process.non_result AS nonResult
-		FROM
-		BF_PROD_INSTRUCTION inst,
-		BF_PROD_INST_DETAIL instdetail,
-		BF_PROD_PROCESS process
-		WHERE
-		inst.inst_no = instdetail.inst_no AND
-		instdetail.inst_prod_no = process.inst_prod_no
-		GROUP BY
-		inst.inst_no,
-		instdetail.inst_prod_no,
-		instdetail.work_date,
-		instdetail.fin_prd_cd_code,
-		instdetail.inst_prod_indica_vol,
-		instdetail.work_scope,
-		process.vir_result,
-		process.non_result
-		ORDER BY 1, 2
-
+		SELECT * FROM v_procmanage
+		<where>
+			<if test="finPrdCdName != null and finPrdCdName !=''">
+				AND finPrdCdName LIKE #{finPrdCdName}
+			</if>
+			<if test="workDate != null and workDate !=''">
+				AND to_char(workDate,'yyyy-mm-dd') = #{workDate}
+			</if>
+		</where>
 	</select>
 
 	<!-- 공정테이블 조회 -->
 
 	<select id="findProcess"
 		resultType="com.mes.bf.prod.vo.ProcessVO">
-		SELECT * FROM bf_prod_process
-		WHERE inst_prod_no =
-		#{instProdNo}
+		SELECT * 
+		FROM 
+			bf_prod_process
+		WHERE 
+			inst_prod_no =
+			#{instProdNo}
+		AND 
+			NOT process_order=5
 		order by 2,3
 	</select>
 
@@ -132,6 +110,10 @@
 		linehd.line_cd_hd_code = bomcode.line_cd_hd_code 
 		AND
 		fin_prd_cd_code = #{finPrdCdCode}
+		AND 
+		NOT linecode.line_cd_ord = 5
+		order by linecode.line_cd_ord
+		
 
 	</select>
 	
@@ -175,7 +157,7 @@
 		UPDATE
 			BF_PROD_PROCESS
 		SET
-			completion_status = 'y',
+			completion_status = 'y'
 			
 		WHERE
 			process_no = #{processNo}
@@ -242,5 +224,50 @@
 	
 	</select>
 	
+	
+	<!-- 제품명으로 자재소요량 검색 -->
+	<select id="findRscVO" resultType="FindRscVO">
+		SELECT 
+			rsccode.rsc_cd_code AS rscCdCode,
+        	rsccode.rsc_cd_name AS rscCdName,
+        	bomrsc.bom_rsc_use_vol AS bomRscUseVol,
+        	stock.rsc_lot_no AS rscLotNo,
+        	stock.rsc_stock AS rscStock
+		FROM 
+			BF_CMN_RSC_CODE rsccode 
+		JOIN 
+			BF_CMN_BOM_RSC bomrsc
+		ON 
+			rsccode.rsc_cd_code = bomrsc.rsc_cd_code
+		JOIN 
+			BF_RSC_STOCK stock 
+		ON 
+			stock.rsc_cd_code = rsccode.rsc_cd_code 
+		JOIN
+		 	BF_CMN_BOM_CODE bomcode
+		ON 
+			bomcode.bom_cd_code = bomrsc.bom_cd_code
+		WHERE 
+			bomcode.fin_prd_cd_code = #{finprdCdCode}
+		ORDER BY 
+			rscCdCode
+	</select>
+	
+	<!-- 자재사용량출고 내역 등록 -->
+	
+	<insert id="insertRscOut" parameterType="com.mes.bf.rsc.vo.RscOutVO">
+		
+	
+	</insert>
+	
+	<!-- 작업구분 업데이트  -->
+	
+	<update id="updateWorkScope" parameterType="InstructionDetailVO">
+	UPDATE 
+		BF_PROD_INST_DETAIL 
+	SET 
+	work_scope = #{workScope} 
+	WHERE inst_prod_no = #{instProdNo}
+	</update>
 	
 </mapper>

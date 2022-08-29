@@ -5,16 +5,16 @@
 	<select id="listMchn" resultType="MchnVO">
 		SELECT mc.mchn_code, 
 				mc.mchn_name, 
-				mc.mchn_model, 
+				NVL(mc.mchn_model, ' ') AS mchn_model, 
 				mc.mchn_mnfct_date,
 		       	mc.mchn_inspc_cycle, 
-		       	mc.mchn_stts, 
-		       	mc.mchn_remk,
+		       	NVL(mc.mchn_stts,  ' ') AS mchn_stts, 
+		       	NVL(mc.mchn_remk, ' ') AS mchn_remk, 
 		       	vcd.vend_cd_nm, 
 		       	inp.inspc_edate
 		FROM BF_EQP_MCHN mc JOIN bf_cmn_vendor_code vcd
 			ON mc.vend_cd_code = vcd.vend_cd_code
-		JOIN BF_EQP_INSPC inp
+		LEFT OUTER JOIN BF_EQP_INSPC inp
 			ON inp.mchn_code = mc.mchn_code
 		<if test="mchnCode != null and mchnCode != ''">
 			WHERE mc.mchn_code = #{mchnCode}

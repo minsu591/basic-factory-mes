@@ -25,5 +25,20 @@ public class EmpDeptServiceImpl implements EmpDeptService {
 		return mapper.listDept(deptName);
 	}
 
+	@Override
+	public int deptUpdate(String priKey, String updCol, String updCont) {
+		return mapper.deptUpdate(priKey, updCol, updCont);
+	}
+
+	@Override
+	public int deptInsert(String deptName) {
+		return mapper.deptInsert(deptName);
+	}
+
+	@Override
+	public int deptDelete(String priKey) {
+		return mapper.deptDelete(priKey);
+	}
+
 
 }

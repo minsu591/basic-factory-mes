@@ -11,6 +11,7 @@ import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.service.MonitoringService;
 import com.mes.bf.prod.service.ProcService;
 import com.mes.bf.prod.vo.ProcManageVO;
+import com.mes.bf.prod.vo.ProcessVO;
 
 @SpringBootTest
 public class JoinTest {
@@ -20,6 +21,7 @@ public class JoinTest {
 	@Autowired InstructionService service2;
 	@Autowired ProcService service3;
 	@Autowired NonOperationService service;
+
 	
 	//@Test
 	void findNonOp() {
@@ -57,16 +59,7 @@ public class JoinTest {
 	void findProcStatus() {
 		System.out.println(service2.findProcStatus("1라인"));
 	}
-	
-	//@Test
-	void procManage() {
-		List<ProcManageVO> list = service3.findProcManage();
-		
-		for(int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i));
-		}
-	}
-	
+
 	//@Test
 	void insertProc() {
 		service2.insertProc("FIN001");
@@ -77,10 +70,18 @@ public class JoinTest {
 		service2.updateNeedQty("300", "RSC0022");
 	}
 	
-	@Test
+	//@Test
 	void findMonitor() {
 		
 		System.out.println(monitorservice.findMonitoring("2022-08-11"));
 	}
+	@Test
+	void processVOUpdate() {
+		ProcessVO vo = new ProcessVO();
+		vo.setProcessNo(84);
+		service3.updateProcCheck(null);
+	}
+	
+	
 	
 }

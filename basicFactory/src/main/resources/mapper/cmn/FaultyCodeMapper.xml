@@ -3,7 +3,14 @@
 <mapper namespace="com.mes.bf.cmn.mapper.FaultyCodeMapper">
 
 	<select id="listFltyCode" resultType="fltyCode">
-		SELECT * FROM BF_CMN_FAULTY_CODE ORDER BY FAULTY_CD_CODE
+		SELECT FAULTY_CD_CODE,
+				FAULTY_NAME,
+				NVL(FAULTY_REMK, ' ') AS FAULTY_REMK
+		FROM BF_CMN_FAULTY_CODE
+		<if test="FaultyName != null and FaultyName != ''">
+			WHERE FAULTY_NAME = #{faultyName}
+		</if>
+		ORDER BY FAULTY_CD_CODE
 		
 	</select>
 
