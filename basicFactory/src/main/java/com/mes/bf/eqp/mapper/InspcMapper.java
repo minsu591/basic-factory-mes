@@ -10,7 +10,7 @@ import com.mes.bf.eqp.vo.InspcVO;
 public interface InspcMapper {
 	
 	//설비점검
-	
+	void insertInspc(InspcVO vo);
 	
 	//설비점검조회
 	List<InspcVO> listInspc();

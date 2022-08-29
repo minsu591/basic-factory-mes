@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>불량처리관리</title>
+</head>
+<body>
+  <link th:href="@{/css/prod/FltyPrcsManage.css}" rel="stylesheet" />
+  <script type="text/javascript" th:src="@{/js/prod/FltyPrcsManage.js}"></script>
+  <script type="text/javascript" th:src="@{/js/modal/cmn/findFaulty.js}"></script>
+  <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
+
+  <div class="pcoded-main-container">
+    <h1>불량 처리 관리</h1>
+    <hr />
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-header">
+          <form class="form-inline">
+            <div class="form-group mt-3">
+              <label for="fltyPrcsDate" th:text="불량처리일자"></label>
+              <input type="date" id="fltyPrcsDate" class="form-control mx-sm-3">
+            </div>
+            <div class="form-group mt-3">
+                <label for="faultyCode" th:text="불량코드"></label>
+                <input type="text" id="faultyCode" class="form-control mx-sm-3"
+                      data-toggle="modal" data-target=".bd-example-modal-lg">
+                <label for="faultyName" th:text="불량명"></label>
+                <input type="text" id="faultyName" class="form-control mx-sm-3" readonly>
+            </div>
+            <div class="form-group mt-3">
+                <label for="empid" th:text="담당자명"></label>
+                <input type="text" id="empid" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
+            </div>
+            <div class="form-group mt-3">
+                <label for="fltyPrcsRemk" th:text="비고"></label>
+                <input type="text" id="fltyPrcsRemk" class="form-control mx-sm-3">
+            </div>
+            <div class="rightBtn">
+              <button type="button" class="btn btn-primary" id="fltyPrcsBtn">조회</button>
+              <button type="button" class="btn btn-primary" id="">초기화</button>
+              <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
+            </div>
+          </form>
+        </div>
+        <div class="card-body table-border-style">
+          <div class="rightBtn">
+            <button type="button" class="btn btn-primary" id="prodFltyBtn">불량 조회</button>
+          </div>
+          <div class="leftBtn">
+            <button type="button" class="btn btn-primary" id="addBtn">추가</button>
+            <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped" id="fltyPrcsTable">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" id="allCheck"></th>
+                  <th th:text="완제품코드"></th>
+                  <th th:text="완제품명"></th>
+                  <th th:text="불량수"></th>
+                  <th th:text="공정명"></th>
+                  <th th:text="설비명"></th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 불량코드 Modal -->
+  <th:block th:replace="~{/fragments/modal//cmn/findFaulty :: findFaulty}"></th:block>
+  <!-- 담당자 Modal -->
+  <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
+  <!-- 불량처리조회 Modal -->
+  <!-- 생산불량조회 Modal -->
+
+</body>
+</html>
