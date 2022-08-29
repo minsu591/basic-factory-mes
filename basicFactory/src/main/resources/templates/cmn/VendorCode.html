@@ -9,9 +9,12 @@ xmlns:th="http://www.thymeleaf.org"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Common VendorCode</title>
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
+    <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet" />
 </head>
 <body>
     <script type="text/javascript" th:src="@{/js/cmn/vendorCode.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/cmn/findTdEmp.js}"></script>
+    <script type="text/javascript" th:src="@{/js/cmn/vendorUpdateDB.js}"></script>
     <div class="pcoded-main-container">
         <h1>거래처 코드 관리</h1>
         <hr>
@@ -38,22 +41,29 @@ xmlns:th="http://www.thymeleaf.org"
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" id="allCheck"></th>
-                                    <th th:text="거래처코드"></th>
-                                    <th th:text="'담당자 아이디'"></th>
-                                    <th th:text="거래처분류"></th>
-                                    <th th:text="거래처명"></th>
-                                    <th th:text="'사업자 등록 번호'"></th>
-                                    <th th:text="'거래처 연락처'"></th>
-                                    <th th:text="주소"></th>
-                                    <th th:text="비고"></th>
+                                    <th th:text="거래처코드" th:name="vend_cd_code"></th>
+                                    <th th:text="'담당자 아이디'" th:name="emp_id"></th>
+                                    <th th:text="거래처분류" th:name="vend_cd_clfy"></th>
+                                    <th th:text="거래처명" th:name="vend_cd_nm"></th>
+                                    <th th:text="'사업자 등록 번호'" th:name="vend_cd_reg_no"></th>
+                                    <th th:text="'거래처 연락처'" th:name="vend_cd_phone"></th>
+                                    <th th:text="주소" th:name="vend_cd_adr"></th>
+                                    <th th:text="비고" th:name="vend_cd_remk"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="vend : ${vendors}">
                                     <td><input type="checkbox" name="chk"></td>
                                     <td th:text="${vend.vendCdCode}">VEND001</td>
-                                    <td th:text="${vend.empId}">mia</td>
-                                    <td th:text="${vend.vendCdClfy}">판매</td>
+                                    <td th:text="${vend.empId}" th:class="empId">mia</td>
+                                    <td>
+                                        <select th:value="${vend.vendCdClfy}">
+                                            <option value="" th:selected="${vend.vendCdClfy} == ''"></option>
+                                            <option value="구매" th:selected="${vend.vendCdClfy} == '구매'">구매</option>
+                                            <option value="판매" th:selected="${vend.vendCdClfy} == '판매'">판매</option>
+                                            <option value="기타" th:selected="${vend.vendCdClfy} == '기타'">기타</option>
+                                        </select>
+                                    </td>
                                     <td th:text="${vend.vendCdNm}">농심</td>
                                     <td th:text="${vend.vendCdRegNo}">111-2222-343554</td>
                                     <td th:text="${vend.vendCdPhone}">888-9999-5555</td>
@@ -70,9 +80,6 @@ xmlns:th="http://www.thymeleaf.org"
             </div>
         </div>
     </div>
-    <script>
-        
-
-    </script>
+    <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
 </body>
 </html>

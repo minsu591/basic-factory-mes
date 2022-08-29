@@ -8,4 +8,7 @@ import com.mes.bf.cmn.vo.FinProdCodeVO;
 
 public interface FinProdService {
 	List<FinProdCodeVO> listFinProd(String finName);
+	int finProdDelete(String priKey);
+	int finProdUpdate(String priKey, String updCol, String updCont);
+	int finProdInsert(FinProdCodeVO finProd);
 }

@@ -1,4 +1,3 @@
-
 $("document").ready(function(){
     //수정
 
@@ -7,23 +6,21 @@ $("document").ready(function(){
     let addList = [];
     let delList = [];
     //수정할 테이블
-    let table = $("#deptTable");
+    let table = $("#finProdTable");
+    //td 수정을 적용할 인덱스
+    let avArr = [2,3,4,5,7];
     //notNull이어야하는 idx
-    let notNullList = [2];
-    //적용할 인덱스
-    let avArr = [2];
-    //프라이머리 키
+    let notNullList = [2,3,4,5,8];
+    //primary키인 index
     let priKeyIdx = 1;
 
     //수정 이벤트
-    table.find("tbody").on("dblclick","td",function(e){
+    table.find("tbody").on("click","td",function(e){
         e.stopPropagation();
         let col = $(this).index();
-        let updCol =table.find("thead").find("th:eq("+col+")").attr("name");
-        let priKey = $(this).parent().find("td:eq("+priKeyIdx+")").text();
         let flag = false;
         let tdInfo = $(this);
-        let defaultVal = tdInfo.text();
+        let defaultVal;
         //적용할 인덱스인지 확인
         for(let i = 0; i<avArr.length;i++){
             if(col == avArr[i]){
@@ -36,22 +33,24 @@ $("document").ready(function(){
             return;
         }
         tdInfo.attr("contenteditable","true");
-        tdInfo.focus(function(){
+        //td에 focus가 되면
+        tdInfo.focus(function(e){
             defaultVal = tdInfo.text();
+            tdInfo.addClass("tdBorder");
         });
-        tdInfo.addClass("tdBorder");
+        //enter나 esc 누르면 blur되도록
         tdInfo.on("keyup",function(key){
             if(key.keyCode == 13 || key.keyCode == 27){
                 key.preventDefault();
                 tdInfo.blur();
             }
         });
-        
+        //td에 blur가 되면
         tdInfo.blur(function(e){
             e.preventDefault();
             tdInfo.attr("contenteditable","false")
                     .removeClass("tdBorder");
-            //not null이어야하는 값
+            //not null이어야하는 값은 null이 되면 이전에 입력한 값으로 돌려놓게 setting
             if(tdInfo.text() == null || tdInfo.text() == ''){
                 for(idx of notNullList){
                     if(col == idx){
@@ -60,13 +59,37 @@ $("document").ready(function(){
                     }
                 }
             }else{
-                if(priKey != null && priKey != ''){
-                    checkNewModify(priKey,updCol,tdInfo.text());
-                }
+                tdInfo.trigger("change");
             }
+            e.stopPropagation();
         });
 
     });
+
+
+    
+    //기존에 있는 값들 중에 td변경될 때
+    table.find("tbody td:not(:first-child)").change(function(e){
+        console.log(e);
+        e.preventDefault();
+        let col = $(this).index();
+        let priKey = $(this).parent().find("td:eq("+priKeyIdx+")").text();
+        let updCol =table.find("thead").find("th:eq("+col+")").attr("name");
+        let updCont;
+        if(col == 6){
+            //checkbox일 때
+            updCont = 0;
+            if($(this).find("input").is(":checked")){
+                updCont = 1;
+            }
+        }else{
+            //td일 때
+            updCont = $(this).text();
+        }
+        checkNewModify(priKey,updCol,updCont);
+        console.log(modifyList);
+        e.stopPropagation();
+    })
 
     function checkNewModify(priKey,updCol,updCont){
         for(p of modifyList){
@@ -82,7 +105,6 @@ $("document").ready(function(){
     //저장 버튼 이벤트
     $("#saveBtn").on("click",function(){
         let trs = table.find("tbody tr");
-        let result;
         if(confirm("저장하시겠습니까?")==true){
             //null 검사
             for(tr of trs){
@@ -94,6 +116,7 @@ $("document").ready(function(){
                     }
                 }
             }
+            
             //삭제용
             for(priKey of delList){
                 deleteSaveAjax(priKey);
@@ -109,16 +132,17 @@ $("document").ready(function(){
             }
 
             alert("저장이 완료되었습니다.");
-            //location.reload();
+            location.reload();
         }
     });
 
     function modifySaveAjax(obj){
+        //checkbox인거
         let priKey = obj[0];
         let updCol = obj[1];
         let updCont = obj[2];
         $.ajax({
-            url : 'dept/update',
+            url : 'finProdCode/update',
             type :"POST",
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
@@ -136,38 +160,57 @@ $("document").ready(function(){
     }
     //수정 끝
 
-    //추가 버튼 이벤트
+    //추가 이벤트
+    //추가 버튼 누르면 행 추가
     $("#addBtn").on("click",function(){
-        empBlankMakeRow();
-    });
-
-    function empBlankMakeRow(){
         let node = `<tr name="addTr">
                         <td><input type="checkbox" name="cb"></td>`;
-        if($("#allCheck").is(":checked")){
+        if ($("#allCheck").is(":checked")){
             node = `<tr>
-                    <td><input type="checkbox" name="cb" checked></td>`;
+                        <td><input type="checkbox" name="cb" checked ></td>`;
         }
-        node += `<td></td>
+        node +=`<td></td>
                 <td></td>
-                </tr>`;
-
-        $("#deptTable tbody").append(node);
-    }
-
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><input type="checkbox" name="use"></td>
+                <td></td>
+                <td class="empId"></td>
+            </tr>`;
+        $("#finProdTable tbody").append(node);
+    });
 
     function addSaveAjax(obj){
-        let deptName = $(obj).find("td:eq(2)").text();
-        if(deptName == null && deptName == ''){
-            return;
+        let finPrdCdName = $(obj).find("td:eq(2)").text();
+        let finPrdCdVol = $(obj).find("td:eq(3)").text();
+        let finPrdCdUnit = $(obj).find("td:eq(4)").text();
+        let finPrdCdPrice = $(obj).find("td:eq(5)").text();
+        let finPrdCdRemk = $(obj).find("td:eq(7)").text();
+        let empId = $(obj).find("td:eq(8)").text();
+
+        //checkbox인 td
+        let finPrdCdUse = $(obj).find("td:eq(6) input");
+        console.log(finPrdCdUse);
+        if($(finPrdCdUse).is(":checked")){
+            finPrdCdUse = 1;
+        }else{
+            finPrdCdUse = 0;
         }
+        
         $.ajax({
-            url : 'dept/insert',
+            url : 'finProdCode/insert',
             type : 'POST',
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
-                deptName : deptName
+                finPrdCdName : finPrdCdName,
+                finPrdCdVol : finPrdCdVol,
+                finPrdCdUnit : finPrdCdUnit,
+                finPrdCdPrice : finPrdCdPrice,
+                finPrdCdUse : finPrdCdUse,
+                finPrdCdRemk : finPrdCdRemk,
+                empId : empId
             },
             success : function(result){
                 console.log("추가 성공");
@@ -198,7 +241,7 @@ $("document").ready(function(){
 
     function deleteSaveAjax(priKey){
         $.ajax({
-            url : 'dept/delete',
+            url : 'finProdCode/delete',
             type : 'POST',
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
