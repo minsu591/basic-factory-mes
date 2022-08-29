@@ -18,7 +18,7 @@ public interface SlsOutService {
 	List<SlsOrdHdDtlVO> findNotOut(String ordSdate, String ordEdate);
 	
 	//출고관리에서 주문상세 조회
-	List<SlsOutDtlVO> findNotOutDtl(String slsOrdHdNo);
+	List<SlsOutHdDtlVO> findNotOutDtl(String slsOrdHdNo);
 	
 	//출고관리에서 출고조회 모달
 	List<SlsOutHdVO> outView(String outSdate, String outEdate);

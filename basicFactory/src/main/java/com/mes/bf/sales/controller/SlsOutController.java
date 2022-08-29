@@ -64,8 +64,8 @@ public class SlsOutController {
 	
 	//완제품 출고관리에서 미출고된 주문내역 상세조회
 	@RequestMapping("/NotOutOrderView/dtl")
-	public List<SlsOutDtlVO> findNotOutDtl(@RequestParam Map<String, String> param){
-		List<SlsOutDtlVO> list = service.findNotOutDtl(param.get("slsOrdHdNo"));
+	public List<SlsOutHdDtlVO> findNotOutDtl(@RequestParam Map<String, String> param){
+		List<SlsOutHdDtlVO> list = service.findNotOutDtl(param.get("slsOrdHdNo"));
 		return list;
 	}
 	

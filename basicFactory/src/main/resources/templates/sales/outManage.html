@@ -13,6 +13,7 @@
     <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/sales/findProduct.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/sales/findLotNo.js}"></script>
 
     <div class="pcoded-main-container">
         <h1>완제품 출고 관리</h1>
@@ -59,7 +60,6 @@
                             <button type="button" class="btn btn-primary" id="findNotOutBtn">미출고 주문조회</button>
                         	<button type="button" class="btn btn-primary" id="findOutMngBtn">조회</button>
                             <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
-                            <button type="button" class="btn btn-primary" id="addBtn">추가</button>
                             <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
                         </div>
                     </div>
@@ -74,6 +74,7 @@
                                     <th th:text="기출고량"></th>
                                     <th th:text="출고량"></th>
                                     <th th:text="미출고량"></th>
+                                    <th th:text="Lot번호"></th>
                                     <th th:text="단가"></th>
                                     <th th:text="금액"></th>
                                 </tr>
@@ -98,5 +99,7 @@
     <th:block th:replace="~{/fragments/modal/sales/findNotOut :: findNotOut}"></th:block>
     <!-- 출고조회 Modal-->
     <th:block th:replace="~{/fragments/modal/sales/findOut :: findOut}"></th:block>
+    <!-- lot별 완제품 재고 조회 Modal-->
+    <th:block th:replace="~{/fragments/modal/sales/findLot :: findLot}"></th:block>
 </body>
 </html>
