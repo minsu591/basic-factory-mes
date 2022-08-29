@@ -17,8 +17,8 @@ public class RscInServiceImpl implements RscInService {
 	@Autowired RscInMapper rscInMapper;
 	
 	@Override
-	public List<RscInVO> inList() {
-		return rscInMapper.inList();
+	public List<RscInVO> inList(String rscInCode, String rscCdCode, String rscInSDate, String rscInEDate) {
+		return rscInMapper.inList(rscInCode, rscCdCode, rscInSDate, rscInEDate);
 	}
 
 	@Override

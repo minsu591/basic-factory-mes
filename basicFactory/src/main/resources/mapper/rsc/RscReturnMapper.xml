@@ -14,14 +14,29 @@
 		       RSCCODE.RSC_CD_NAME, 
 		       RSCCODE.RSC_CD_UNIT,
 		       
-               EMP.EMP_NAME
+               EMP.EMP_NAME,
+
+               VEND.VEND_CD_NM
                
 		 FROM  BF_RSC_RETURN RTN 
 		 LEFT  JOIN BF_CMN_RSC_CODE RSCCODE
 		   ON  RTN.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
 		 LEFT  JOIN BF_CMN_EMP EMP
 		   ON  RTN.EMP_ID = EMP.EMP_ID
-		   
+		 LEFT  JOIN BF_CMN_VENDOR_CODE VEND
+		   ON  RTN.VEND_CD_CODE = VEND.VEND_CD_CODE
+		 <where>
+		 	<if test="rscReturnCode != null and rscReturnCode != ''">
+		 		RTN.RSC_RETURN_CODE = '%'||#{rscReturnCode}||'%'
+		 	</if>
+		 	<if test="vendor != null and vendor != ''">
+		 		RTN.VEND_CD_CODE = #{vendor}
+		 	</if>
+		 	<if test="rscReturnSDate != null and rscReturnSDate != ''">
+		 		<![CDATA[RTN.RSC_RETURN_DATE >= #{rscReturnSDate} 
+		 			 AND RTN.RSC_RETURN_DATE <= #{rscReturnEDate}]]>
+		 	</if>
+		 </where>
 		ORDER  BY 1 DESC
 	</select>
 </mapper>

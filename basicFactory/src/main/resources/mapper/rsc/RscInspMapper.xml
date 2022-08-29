@@ -21,7 +21,18 @@
 		   ON  INSP.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
 		 LEFT  JOIN BF_CMN_EMP EMP
 		   ON  INSP.EMP_ID = EMP.EMP_ID
-		        
+		<where>
+		 	<if test="rscInspCode != null and rscInspCode != ''">
+		 		INSP.RSC_INSP_CODE LIKE '%'||#{rscInspCode}||'%'
+		 	</if>
+		 	<if test="rscCdCode != null and rscCdCode != ''">
+		 		INSP.RSC_CD_CODE = #{rscCdCode}
+		 	</if>
+		 	<if test="rscInspSDate != null and rscInspSDate != ''">
+		 		<![CDATA[INSP.RSC_INSP_DATE >= #{rscInspSDate} 
+		 			 AND INSP.RSC_INSP_DATE <= #{rscInspEDate}]]>
+		 	</if>
+		 </where>
 		ORDER BY 1 DESC
 	</select>
 

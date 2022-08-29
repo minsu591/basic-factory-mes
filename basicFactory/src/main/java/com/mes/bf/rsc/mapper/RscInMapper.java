@@ -10,7 +10,7 @@ import com.mes.bf.rsc.vo.RscInspVO;
 
 @Mapper
 public interface RscInMapper {
-	List<RscInVO> inList();
+	List<RscInVO> inList(String rscInCode, String rscCdCode, String rscInSDate, String rscInEDate);
 	List<RscInspVO> inspCompList(String rscCdCode, String inspDate);
 	
 	int inInsert(RscInspVO vo);

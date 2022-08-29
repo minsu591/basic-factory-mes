@@ -77,7 +77,6 @@ function findRscCode() {
 }
 //자재조회 행생성
 function makeRscCodeRow(obj, index) {
-<<<<<<< HEAD
   let st = null;
   if( obj.rscCdUse == 1){
     st = `<input type="checkbox" checked onClick="return false;">`;
@@ -85,9 +84,6 @@ function makeRscCodeRow(obj, index) {
     st = `<input type="checkbox" onClick="return false;">`;
   }
  let node = `<tr>
-=======
-  let node = `<tr>
->>>>>>> refs/remotes/origin/wyw
              <td>${index}</td>
              <td>${obj.rscCdCode}</td>
              <td>${obj.rscCdName}</td>

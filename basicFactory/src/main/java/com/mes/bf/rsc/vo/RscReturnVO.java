@@ -17,5 +17,7 @@ public class RscReturnVO {
 	private String rscReturnResn;
 	private String empName;
 	private String rscReturnRemk;
+	private String vendCdCode;
+	private String vendCdNm;
 	
 }

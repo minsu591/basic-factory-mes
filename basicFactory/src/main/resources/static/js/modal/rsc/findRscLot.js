@@ -43,8 +43,9 @@ $("document").ready(function () {
  //자재코드 검색 테이블 클릭이벤트
  $("#findRscLotTable").on("click", "tr", function () {
    let rscLotNo = $(this).find("td:eq(2)").text();
+   let stockVol = $(this).find("#rscStock").val();
    $("#rsclotno").val(rscLotNo);
-
+   $("#stockVol").val(stockVol);
    $("#findRscLotModal").modal("hide");
  });
  
@@ -87,6 +88,7 @@ function makeRscLotRow(obj, index) {
              <td>${obj.rscCdName}</td>
              <td>${obj.rscLotNo}</td>
              <td>${st}</td>
+             <input type="hidden" value="${obj.rscStock}" id="rscStock">
            </tr>`;
  $("#findRscLottbody").append(node);
 }

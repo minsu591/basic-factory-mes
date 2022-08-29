@@ -8,6 +8,7 @@
 </head>
 <body>
 <script type="text/javascript" th:src="@{/js/modal/rsc/findResource.js}"></script>
+<script type="text/javascript" th:src="@{/js/rsc/inspList.js}"></script>
 <link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
 	<div class="pcoded-main-container">
 		<h1>자재 검사 조회</h1>
@@ -36,48 +37,14 @@
 								<input type="date" id="rscInspSDate" class="form-control mx-sm-3">~
 								<input type="date" id="rscInspEDate" class="form-control mx-sm-3">
 							</div>
-							<button type="submit" class="btn  btn-primary">조회</button>
+							<button type="button" class="btn  btn-primary" id="search">조회</button>
 						</div>
 					</form>
 
 				</div>
 				<div class="card-body table-border-style">
-					<div class="table-responsive">
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th th:text="검사코드"></th>
-									<th th:text="검사일자"></th>
-									<th th:text="자재코드"></th>
-									<th th:text="자재명"></th>
-									<th th:text="검사수량"></th>
-									<th th:text="불량수량"></th>
-									<th th:text="통과수량"></th>
-									<th th:text="단위"></th>
-									<th th:text="상태"></th>
-									<th th:text="검사자"></th>
-									<th th:text="비고"></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="insp : ${inspList}">
-									<td th:text="${insp.rscInspCode}"></td>
-									<td th:text="${insp.rscInspDate}"></td>
-									<td th:text="${insp.rscCdCode}"></td>
-									<td th:text="${insp.rscCdName}"></td>
-									<td th:text="${insp.rscInspVol}"></td>
-									<td th:text="${insp.rscInferVol}"></td>
-									<td th:text="${insp.rscPassVol}"></td>
-									<td th:text="${insp.rscCdUnit}"></td>
-									<td>
-										<span th:if="${insp.rscInspSt == 0}">입고대기</span>
-										<span th:if="${insp.rscInspSt == 1}">입고완료</span>
-									</td>
-									<td th:text="${insp.empName}"></td>
-									<td th:text="${insp.rscInspRemk}"></td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="table-responsive" th:replace="/rsc/table/inspListTable.html :: insplisttable" id="insplisttable">
+
 					</div>
 				</div>
 			</div>

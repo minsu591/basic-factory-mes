@@ -35,8 +35,16 @@ public class RscReturnController {
 	
 	@RequestMapping("/returnList")
 	public void returnList(Model model) {
-		List<RscReturnVO> rList = rscReturnService.returnList();
+		List<RscReturnVO> rList = rscReturnService.returnList(null, null, null, null);
 		model.addAttribute("rList", rList);
+	}
+	
+	@RequestMapping(value = "/returnListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public String returnListTable(@RequestParam Map<String,String> QueryParameters, Model model) {
+		List<RscReturnVO> rList = rscReturnService.returnList(QueryParameters.get("rscReturnCode"), QueryParameters.get("vendor"), 
+								QueryParameters.get("rscReturnSDate"), QueryParameters.get("rscReturnEDate"));
+		model.addAttribute("rList", rList);
+		return "rsc/table/returnListTable";
 	}
 	
 	//거래처 전체조회
