@@ -9,9 +9,12 @@ xmlns:th="http://www.thymeleaf.org"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Common ProcCode</title>
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
+    <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet" />
 </head>
 <body>
     <script type="text/javascript" th:src="@{/js/cmn/finProdCode.js}"></script>
+    <script type="text/javascript" th:src="@{/js/cmn/finProdUpdateDB.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/cmn/findTdEmp.js}"></script>
     <div class="pcoded-main-container">
         <h1>완제품 코드 관리</h1>
         <hr>
@@ -38,14 +41,14 @@ xmlns:th="http://www.thymeleaf.org"
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" id="allCheck"></th>
-                                    <th th:text="완제품코드"></th>
-                                    <th th:text="완제품명"></th>
-                                    <th th:text="표시기준량"></th>
-                                    <th th:text="단위"></th>
-                                    <th th:text="단가"></th>
-                                    <th th:text="사용여부"></th>
-                                    <th th:text="비고"></th>
-                                    <th th:text="'담당자 아이디'"></th>
+                                    <th th:text="완제품코드" name="fin_prd_cd_code"></th>
+                                    <th th:text="완제품명" name="fin_prd_cd_name"></th>
+                                    <th th:text="표시기준량" name="fin_prd_cd_vol"></th>
+                                    <th th:text="단위" name="fin_prd_cd_unit"></th>
+                                    <th th:text="단가" name="fin_prd_cd_price"></th>
+                                    <th th:text="사용여부" name="fin_prd_cd_use"></th>
+                                    <th th:text="비고" name="fin_prd_cd_remk"></th>
+                                    <th th:text="'담당자 아이디'" name="emp_id"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,9 +59,9 @@ xmlns:th="http://www.thymeleaf.org"
                                     <td th:text="${prod.finPrdCdVol}">수량</td>
                                     <td th:text="${prod.finPrdCdUnit}">단위</td>
                                     <td th:text="${prod.finPrdCdPrice}">단가</td>
-                                    <td><input type="checkbox" th:checked="${prod.finPrdCdUse eq'1'}"></td>
+                                    <td><input type="checkbox" th:checked="${prod.finPrdCdUse eq'1'}" name="use"></td>
                                     <td th:text="${prod.finPrdCdRemk}">비고</td>
-                                    <td th:text="${prod.empId}">담당자아이디</td>
+                                    <td th:text="${prod.empId}" th:class="empId">담당자아이디</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -70,6 +73,6 @@ xmlns:th="http://www.thymeleaf.org"
             </div>
         </div>
     </div>
-    
+    <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
 </body>
 </html>

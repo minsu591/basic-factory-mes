@@ -22,15 +22,20 @@
 		<result property="slsOrdDtlVol" column="sls_ord_dtl_vol"/>
 		<result property="slsOutDtlPrvsVol" column="sls_out_dtl_prvs_vol"/>
 		<result property="slsOutDtlVol" column="sls_out_dtl_vol"/>
-		<result property="slsOrdDtlOutVol" column="sls_ord_dtl_out_vol"/>
 		<result property="slsOrdDtlNotOutVol" column="sls_ord_dtl_not_out_vol"/>
 		<result property="finPrdCdPrice" column="fin_prd_cd_price"/>
 		<result property="slsOutDtlPrice" column="sls_out_dtl_price"/>
 	</resultMap>
 	
+	<resultMap type="slsOrdDtlVO" id="ordDtlMap">
+		<result property="slsOrdDtlVol" column="sls_ord_dtl_vol" />
+		<result property="slsOrdDtlOutVol" column="sls_ord_dtl_out_vol" />
+	</resultMap>
+	
 	<resultMap type="outHdDtl" id="outHdDtlMap">
 		<collection property="slsOutHdVO" resultMap="outHdMap"/>
 		<collection property="slsOutDtlVO" resultMap="outDtlMap"/>
+		<collection property="slsOrdDtlVO" resultMap="ordDtlMap"/>
 	</resultMap>
 	
 	<select id="findAllOut" resultMap="outHdDtlMap">
@@ -65,6 +70,7 @@
  		JOIN BF_SALES_FINISH_PRODUCT_STOK FNSPRDSK
     	  ON FNSPRDSK.FNS_PRD_STK_LOT_NO = OUTDTL.FNS_PRD_STK_LOT_NO
  		WHERE ORDDTL.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
+ 		ORDER BY SLS_OUT_HD_DATE DESC
 	</select>
 	
 	<select id="findOut" resultMap="outHdDtlMap">
@@ -131,14 +137,15 @@
    		<if test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
    			AND ORDHD.SLS_ORD_HD_DATE BETWEEN  TO_DATE(#{ordSdate}, 'YY/MM/DD') AND TO_DATE(#{ordEdate}, 'YY/MM/DD') + 0.9999
         </if>
+        ORDER BY SLS_ORD_HD_DATE DESC
    	</select>
    	
    	<!-- 출고관리에서 미출고 주문 상세조회 모달-->
-   	<select id="findNotOutDtl" resultType="slsOutDtlVO">
+   	<select id="findNotOutDtl" resultMap="outHdDtlMap">
    		SELECT FNSPRD.FIN_PRD_CD_CODE,
                FNSPRD.FIN_PRD_CD_NAME,
                ORDDTL.SLS_ORD_DTL_VOL,
-               NVL(OUTDTL.SLS_OUT_DTL_PRVS_VOL, 0) AS SLS_OUT_DTL_PRVS_VOL,
+               NVL(ORDDTL.SLS_ORD_DTL_OUT_VOL, 0) AS SLS_ORD_DTL_OUT_VOL,
                FNSPRD.FIN_PRD_CD_PRICE
    		FROM BF_SALES_OUT_DTL OUTDTL
         JOIN BF_SALES_OUT_HD OUTHD
@@ -181,6 +188,7 @@
    			   ORDDTL.SLS_ORD_DTL_VOL,
    			   OUTDTL.SLS_OUT_DTL_PRVS_VOL,
    			   OUTDTL.SLS_OUT_DTL_VOL,
+   			   OUTDTL.FNS_PRD_STK_LOT_NO,
    			   FNSPRD.FIN_PRD_CD_PRICE
    		FROM BF_SALES_OUT_DTL OUTDTL
    		JOIN BF_SALES_OUT_HD OUTHD
@@ -191,6 +199,8 @@
    		  ON ORDDTL.SLS_ORD_HD_NO = ORDHD.SLS_ORD_HD_NO
    		JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
    		  ON FNSPRD.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
+   		JOIN BF_SALES_FINISH_PRODUCT_STOK FNSPRDSK
+   		  ON FNSPRDSK.FNS_PRD_STK_LOT_NO = OUTDTL.FNS_PRD_STK_LOT_NO
    		
    		WHERE OUTDTL.SLS_OUT_HD_NO = #{slsOutHdNo} 
    			  AND ORDDTL.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE

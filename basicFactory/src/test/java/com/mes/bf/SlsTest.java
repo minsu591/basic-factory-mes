@@ -61,6 +61,14 @@ public class SlsTest {
 	}
 	
 	//@Test
+	void findNotOutDtl() {
+		List<SlsOutHdDtlVO> list = outService.findNotOutDtl("SLS_OD004");
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).toString());
+		}
+	}
+	
+	//@Test
 	void findAllStock() {
 		List<SlsStockVO> list = stockService.findAllStock();
 		for(int i = 0; i < list.size(); i++) {

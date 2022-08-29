@@ -18,30 +18,11 @@ $("document").ready(function(){
         })
     });
 
-    $("#addBtn").on("click",function(){
-        let node = `<tr>
-                        <td><input type="checkbox" name="chk"></td>`;
-        if ($("#allCheck").is(":checked")){
-            node = `<tr>
-                        <td><input type="checkbox" name="chk" checked></td>`;
-        }
-        node +=`<td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>`;
-        $("#vendorTable tbody").append(node);
-    });
-
     function vendorMakeRow(obj){
         let node = `<tr>
                         <td><input type="checkbox" name="chk"></td>
                         <td>${obj.vendCdCode}</td>
-                        <td>${obj.empId}</td>
+                        <td class="empId">${obj.empId}</td>
                         <td>${obj.vendCdClfy}</td>
                         <td>${obj.vendCdNm}</td>
                         <td>${obj.vendCdRegNo}</td>

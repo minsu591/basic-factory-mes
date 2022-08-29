@@ -18,4 +18,6 @@ public class RscOutVO {
 	private String empName;
 	private String vendCdNm;
 	
+	private int processNo;
+	
 }

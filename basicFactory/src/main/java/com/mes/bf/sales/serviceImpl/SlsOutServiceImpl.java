@@ -33,7 +33,7 @@ public class SlsOutServiceImpl implements SlsOutService {
 	}
 
 	@Override
-	public List<SlsOutDtlVO> findNotOutDtl(String slsOrdHdNo) {
+	public List<SlsOutHdDtlVO> findNotOutDtl(String slsOrdHdNo) {
 		return mapper.findNotOutDtl(slsOrdHdNo);
 	}
 

@@ -4,14 +4,9 @@ $(document).ready(function () {
   $("#sweetTest").click(function () {
     Swal.fire({
       icon: "success", // Alert 타입
-      title: "Alert가 실행되었습니다.", // Alert 제목
-      text: "이곳은 내용이 나타나는 곳입니다.", // Alert 내용
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log("dhksfy");
-        location.reload();
-      }
-    });
+      title: "저장 되었습니다.", // Alert 제목
+
+    })
   });
 
   findPacking();
@@ -51,12 +46,13 @@ $(document).ready(function () {
         $("#eMinutes").val(endTime.substring(14, 16));
         $("#empid").val(data.workerName).prop("readonly", true);
       },
-      error: function () {},
+      error: function () { },
     });
   }
 
   let fltyCnt = 0;
   $("#fltyCnt").val(fltyCnt);
+
   //불량증가
   $("#fltyUp").click(function () {
     fltyCnt += 1;
@@ -65,10 +61,11 @@ $(document).ready(function () {
 
   //불량감소
   $("#fltyDown").click(function () {
+
     if (fltyCnt == 0) {
       $("#fltyCnt").val(0);
     } else {
-      fltyCtn -= 1;
+      fltyCnt -= 1;
       $("#fltyCnt").val(fltyCnt);
     }
   });
@@ -302,7 +299,7 @@ function updateMchnStts(mchnCode, mchnStts) {
       mchnStts: mchnStts,
       mchnCode: mchnCode,
     }),
-    success: function (data) {},
+    success: function (data) { },
   });
 }
 

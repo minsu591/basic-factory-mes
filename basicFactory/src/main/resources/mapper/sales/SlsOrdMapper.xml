@@ -60,6 +60,7 @@
 		  ON VEND.VEND_CD_CODE = ORDHD.VEND_CD_CODE
         JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
           ON FNSPRD.FIN_PRD_CD_CODE = ORDDTL.FIN_PRD_CD_CODE
+        ORDER BY SLS_ORD_HD_DATE DESC
 	</select>
 	
 	<select id="findOrder" resultMap="ordHdDtlMap">
@@ -110,6 +111,7 @@
    		<if test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
    			WHERE ORDHD.SLS_ORD_HD_DATE BETWEEN  TO_DATE(#{ordSdate}, 'YY/MM/DD') AND TO_DATE(#{ordEdate}, 'YY/MM/DD') + 0.9999
         </if>
+        ORDER BY SLS_ORD_HD_DATE DESC
    	</select>
    	
    	<!-- 주문관리에서 주문내역 상세 조회 -->

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.cmn.mapper.VendorMapper">
 	<select id="listVendor" resultType="vendorCode">
-		select VEND_CD_CODE, EMP_ID, VEND_CD_CLFY, VEND_CD_NM,
+		SELECT VEND_CD_CODE, EMP_ID, VEND_CD_CLFY, VEND_CD_NM,
 			   VEND_CD_REG_NO, VEND_CD_PHONE, VEND_CD_ADR,
 			   NVL(VEND_CD_REMK,' ') AS VEND_CD_REMK
 		FROM BF_CMN_VENDOR_CODE
@@ -11,4 +11,22 @@
 		</if>
 		ORDER BY VEND_CD_CODE
 	</select>
+	
+	<insert id="vendorCodeInsert" parameterType="vendorCode">
+		INSERT INTO BF_CMN_VENDOR_CODE
+		VALUES('VEND'||LPAD(BF_CMN_VENDOR_CODE_SEQ.NEXTVAL,3,'0'),
+			   #{empId},#{vendCdClfy},#{vendCdNm},#{vendCdRegNo},
+			   #{vendCdPhone},#{vendCdAdr},#{vendCdRemk})
+	</insert>
+	
+	<update id="vendorCodeUpdate">
+		UPDATE BF_CMN_VENDOR_CODE
+		SET ${updCol} = #{updCont}
+		WHERE VEND_CD_CODE = #{priKey}
+	</update>
+	
+	<delete id="vendorCodeDelete">
+		DELETE BF_CMN_VENDOR_CODE
+		WHERE VEND_CD_CODE = #{priKey}
+	</delete>
 </mapper>
