@@ -1,12 +1,12 @@
 $("document").ready(function () {
 
   let tdInfo;
-  $("#ordMngTable").on("click", ".productCode", function (e) {
+  $("#ordMngTable").find("tbody").on("click", ".productCode", function (e) {
     e.preventDefault();
     //제품 조회
     findProduct();
     $("#findproductModal").modal("show");
-    tdInfo = $(this);
+    tdInfo = $(this); //클릭한 td정보
   })
 
   //테이블 클릭 이벤트
@@ -14,8 +14,9 @@ $("document").ready(function () {
     let prdCode = $(this).find("td:eq(1)").text();
     let prdName = $(this).find("td:eq(2)").text();
     
-    tdInfo.val(prdCode);
-    tdInfo.parent().next().find("input").val(prdName);
+    tdInfo.text(prdCode);
+    tdInfo.next().text(prdName);
+    //tdInfo.parent().next().find("input").val(prdName);
 
     $("#findproductModal").modal("hide");
   });

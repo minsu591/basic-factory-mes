@@ -1,7 +1,6 @@
 $("document").ready(function () {
 
   let lotNoTdInfo;
-  let stockSum = 0;
   //완제품 출고 관리에서 lot별 완제품 재고 모달창
   $("#outMngTable").on("click", ".lotNo", function (e) {
     e.preventDefault();
@@ -32,23 +31,6 @@ $("document").ready(function () {
           findLotNoModalMakeRow(obj);
         }
         
-        stockVolSumMakeRow();
-
-        let stockOutVolSum = parseInt(0);
-
-        $(".stockOutVol").on("focusout", function () {
-
-          $(".stockOutVol").each(function (el) {
-            if (!isNaN(this.value) && this.value !== '') {
-              stockOutVolSum += parseInt(this.value);
-            } else {
-              console.log("0");
-              return 0;
-            }
-            $("#stockOutVolSum").text(stockOutVolSum);
-          });
-        });
-        
       }
     })
   }
@@ -70,39 +52,8 @@ $("document").ready(function () {
                     <td><input type="text" class="stockOutVol"></td>
                 </tr>`
     $("#findLotTable tbody").append(node);
-
-    //완제품 재고수량 합계
-    stockSum += obj.fnsPrdStkVol;
   }
-
-  //완제품 재고 합계
-  function stockVolSumMakeRow() {
-    let node = `<tr>
-                  <td colspan="3">총 합계:</td>
-                  <td id="stockVolSum"></td>
-                  <td id="stockOutVolSum"></td>
-                </tr>`
-    $("#findLotTable tbody").append(node);
-    $("#stockVolSum").text(stockSum);
-  }
-
-  //입력된 출고량 합계
-  // function stockOutVolSum() {
-  //   let stockOutVolSum = 0;
-
-  //   $(".stockOutVol").on("keyup", function () {
-  //     this.value = this.value.replace(/[^0-9]/g, '');
-  //     $(".stockOutVol").each(function () {
-  //       if (!isNaN(this.value) && this.value !== '') {
-  //         stockOutVolSum += this.value;
-  //       } else {
-  //         return 0;
-  //       }
-  //       $("#stockOutVolSum").val(stockOutVolSum);
-  //     });
-  //   });
-  // }
-
+  
   function sucFun(result) {
     //경고창 띄워주기
     let alertFlag = false;

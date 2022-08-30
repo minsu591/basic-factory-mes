@@ -3,6 +3,7 @@
 <mapper namespace="com.mes.bf.prod.mapper.FltyPrcsMapper">
 
 
+
 	<select id="listFltyPrcs" resultType="fltyPrcs">
 		SELECT FC.FAULTY_CD_CODE, 
 				FC.FAULTY_NAME,
