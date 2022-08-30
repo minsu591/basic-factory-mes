@@ -10,13 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mes.bf.prod.service.PlanService;
 import com.mes.bf.prod.vo.ColPlanOrdVO;
 import com.mes.bf.prod.vo.ColPlanVO;
+import com.mes.bf.prod.vo.PlanHdVO;
+import com.mes.bf.prod.vo.PlanVO;
 import com.mes.bf.sales.service.SlsOrdService;
 import com.mes.bf.sales.vo.SlsOrdPlanVO;
 
@@ -77,9 +78,15 @@ public class PlanController {
 	
 	//생산 지시에서 미지시 생산계획 조회
 	@GetMapping(value="/planNotDoneView", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<ColPlanVO>> planNotDoneView(@RequestParam Map<String, String> QueryParameters, Model model){
-		List<ColPlanVO> plans = service.findPlanInst(QueryParameters.get("sdate"), QueryParameters.get("edate"));
-		return new ResponseEntity<List<ColPlanVO>>(plans, HttpStatus.OK);
+	public ResponseEntity<List<PlanHdVO>> planNotDoneView(@RequestParam Map<String, String> QueryParameters){
+		List<PlanHdVO> plans = service.findPlanInst(QueryParameters.get("sdate"), QueryParameters.get("edate"));
+		return new ResponseEntity<List<PlanHdVO>>(plans, HttpStatus.OK);
+	}
+	//계획 상세 조회
+	@GetMapping(value="/planNotDoneView/dtl", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<PlanVO>> planNotDoneViewDtl(@RequestParam String planHdCode){
+		List<PlanVO> plans = service.findPlan(planHdCode);
+		return new ResponseEntity<List<PlanVO>>(plans, HttpStatus.OK);
 	}
 	
 	
