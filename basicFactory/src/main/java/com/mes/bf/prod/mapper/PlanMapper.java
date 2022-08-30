@@ -6,11 +6,14 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.mes.bf.prod.vo.ColPlanOrdVO;
 import com.mes.bf.prod.vo.ColPlanVO;
+import com.mes.bf.prod.vo.PlanHdVO;
+import com.mes.bf.prod.vo.PlanVO;
 
 @Mapper
 public interface PlanMapper {
-	List<ColPlanVO> findPlanInst(String startDate, String endDate);
+	List<PlanHdVO> findPlanInst(String startDate, String endDate);
 	//planType이 head일 때 생산계획헤더 출력, null일 때 생산계획 세부 내역 출력
 	List<ColPlanVO> findMyPlan(String startDate, String endDate, String empId);
 	List<ColPlanOrdVO> findPlanOrd(String startDate, String endDate, String data);
+	List<PlanVO> findPlan(String planHdCode);
 }
