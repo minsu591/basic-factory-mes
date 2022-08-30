@@ -44,7 +44,8 @@ $("#search").click(function(){
 $("#subBtn").click(function(){
 	let checked = $("input[name=chk]:checked").length;
 	if (checked == 0){
-		alert("체크된 항목이 없습니다.")
+		deleteWarning();
+		return;
 	}
 		let param = [];
 		let info = [];
@@ -96,4 +97,11 @@ $("#subBtn").click(function(){
 		})
 		
 })
+
+function deleteWarning() {
+	Swal.fire({
+			icon: "warning", // Alert 타입
+			title: "등록할 항목을 선택하세요.", // Alert 제목
+	})
+}
 })

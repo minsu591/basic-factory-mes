@@ -21,7 +21,10 @@ public class RscOutVO {
 	private String rscLotNo;
 	private int rscOutVol;
 	private int rscOutCls;
+	private String rscOutResn;
+	private String empId;
 	private String empName;
+	private String vendCdCode;
 	private String vendCdNm;
 	
 	private int processNo;

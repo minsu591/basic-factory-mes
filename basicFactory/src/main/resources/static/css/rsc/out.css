@@ -23,12 +23,20 @@ button {
 	margin-top: 0;
 }
 
-input[type=text]:read-only {
+#outInsertTable input[type=text]:read-only {
 	background: #f6f6f6 !important;
 	width: 100% !important
 }
 
 #outInsertTable input[type=text] {
+	height: 2rem;
+	text-align: center;
+	border: 0;
+	width: 100%;
+	background: rgba(241, 196, 15, 0.1)
+}
+
+#outInsertTable input[type=date] {
 	height: 2rem;
 	text-align: center;
 	border: 0;
@@ -44,6 +52,10 @@ input[type=text]:read-only {
 .flex-end {
 	justify-content: end;
 
+}
+
+swal.fire{
+	z-index: 1;
 }
 
 
