@@ -5,10 +5,6 @@
 	<select id="findlistFltyPrcs" resultType="fltyPrcs">
 		
 	</select>
-	
-	<select id="findFltyCode" resultMap="FaultyCodeVO">
-		select * from 
-	</select>
 
 
 	<select id="listFltyPrcs" resultType="fltyPrcs">

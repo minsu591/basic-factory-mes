@@ -42,8 +42,8 @@ public class RscInController {
 	
 	@RequestMapping(value = "/inInsert", method = RequestMethod.POST)
 	@ResponseBody
-	public String inInsert(@RequestBody List<RscInspVO> itemList) {
-		for(RscInspVO insp:itemList) {
+	public String inInsert(@RequestBody List<RscInspVO> list) {
+		for(RscInspVO insp:list) {
 			rscInService.inInsert(insp);
 			}
 		return "rsc/in";

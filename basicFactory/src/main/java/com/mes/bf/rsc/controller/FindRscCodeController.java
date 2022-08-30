@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mes.bf.cmn.vo.RscCodeVO;
 import com.mes.bf.rsc.service.FindRscCodeService;
+import com.mes.bf.rsc.service.RscOutService;
+import com.mes.bf.rsc.vo.RscOutVO;
 import com.mes.bf.rsc.vo.RscStockVO;
 @Controller
 @RequestMapping("/rsc")
 public class FindRscCodeController {
 	
 	@Autowired FindRscCodeService findRscService;
+	@Autowired RscOutService rscOutService;
 	
 	//자재코드 조회
 	@GetMapping(value="/findResourceCode", produces= { MediaType.APPLICATION_JSON_VALUE })
@@ -33,5 +36,12 @@ public class FindRscCodeController {
 	public ResponseEntity<List<RscStockVO>> findRscLot(@RequestParam Map<String, String> queryParameters){
 		List<RscStockVO> list = findRscService.rscLotNoList(queryParameters.get("rscCdName"));
 		return new ResponseEntity<List<RscStockVO>>(list, HttpStatus.OK);
+	}
+	
+	//자재출고 조회
+	@GetMapping(value="/findRscOut", produces= { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<RscOutVO>> findRscOut(@RequestParam Map<String, String> queryParameters){
+		List<RscOutVO> list = rscOutService.exceptOutList(queryParameters.get("rscOutCode"), null, queryParameters.get("rscOutDate"),queryParameters.get("rscOutDate"));
+		return new ResponseEntity<List<RscOutVO>>(list, HttpStatus.OK);
 	}
 }
