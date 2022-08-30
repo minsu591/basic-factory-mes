@@ -365,9 +365,8 @@ $("document").ready(function(){
                 delList.push(priKey);
                 tr.remove();
                 for(let i = 0; i< modifyList.length; i++){
-                    if(tr[i][0]== priKey){
+                    if(modifyList[i][0]== priKey){
                         modifyList.splice(i,1);
-                        break;
                     }
                 }
             }

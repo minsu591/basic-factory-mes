@@ -3,81 +3,63 @@ $("document").ready(function () {
   $("tbody").on("click",".procCode",function (e) {
     e.preventDefault();
     //공정명 검색
-    findAllProcCode();
-    $("#findProcCdNameModal").modal("show");
+    let lineCode = $("#lineCode").val();
+    findAllProcCode(lineCode);
+    $("#findProcForLineModal").modal("show");
     tdInfo = $(this);
   });
 
   //공정테이블 클릭이벤트
-  $("#findProcCdNameTable").on("click", "tr", function () {
+  $("#findProcForLineTable").on("click", "tr", function () {
     let procCdCode = $(this).find("td:eq(1)").text();
     let procCdName = $(this).find("td:eq(2)").text();
+    let mchnCode = $(this).find("td:eq(3)").text();
+    let mchnName = $(this).find("td:eq(4)").text();
+    let lineCdCode = $(this).find("input[class='lineCdCode']").val();
+
     tdInfo.text(procCdCode);
     tdInfo.next().text(procCdName);
+    tdInfo.next().next().text(mchnCode);
+    tdInfo.next().next().next().text(mchnName);
+    tdInfo.parent().find("input[class='lineCdCode']").val(lineCdCode);
+
     tdInfo.trigger("change");
-    $("#findProcCdNameModal").modal("hide");
+    $("#findProcForLineModal").modal("hide");
 
   });
-  //공정검색버튼 클릭 이벤트
-  $("#findCdNameBtn").on("click", function () {
-    let code = $("#procCdCode").val();
-    let name = $("#procCdName").val();
-    console.log("code -> " + code + " name->" + name);
-    if (name == "" && code == "") {
-      findAllProcCode();
-    } else {
-      $.ajax({
-        url: `findproccode`,
-        method: "GET",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        data: {
-          procCdCode: code,
-          procCdName: name,
-        },
-        error: function (error, status, msg) {
-          alert("상태코드 " + status + "에러메시지" + msg);
-        },
-        success: function (data) {
-          console.log(data);
-          let index = 0;
-          index += 1;
-          $("#findProcCdNameTable tbody tr").remove();
-          for (obj of data) {
-            index += 1;
-            makeProcCodeRow(obj, index);
-          }
-        },
-      });
-    }
-  });
-});
-//공정검색
-function findAllProcCode() {
+  
+//공정조회
+function findAllProcCode(lineCode) {
   $.ajax({
-    url: "findproccode",
-    method: "GET",
+    url: "bomRsc/proc",
+    type: "GET",
     contentType: "application/json;charset=utf-8",
     dataType: "json",
+    data : {
+      lineCode
+    },
     error: function (error, status, msg) {
       alert("상태코드 " + status + "에러메시지" + msg);
     },
     success: function (data) {
+      $("#findProcForLineTable tbody tr").remove();
       let index = 0;
-      $("#findProcCdNameTable tbody tr").remove();
       for (obj of data) {
         index += 1;
-        makeProcCodeRow(obj, index);
+        makeProcCodeRow(obj,index);
       }
     },
   });
 }
-function makeProcCodeRow(obj, index) {
+function makeProcCodeRow(obj,index) {
   let node = `<tr>
-  <td>${index}</td>
-  <td>${obj.procCdCode}</td>
-  <td>${obj.procCdName}</td>
-  <td>${obj.procCdRemk}</td>
- </tr>`;
-  $("#findProcCdNameTable").append(node);
+                <input type="hidden" value="${obj.lineCdCode}" class="lineCdCode">
+                <td>${index}</td>
+                <td>${obj.procCdCode}</td>
+                <td>${obj.procCdName}</td>
+                <td>${obj.mchnCode}</td>
+                <td>${obj.mchnName}</td>
+              </tr>`;
+  $("#findProcForLineTable").append(node);
 }
+});

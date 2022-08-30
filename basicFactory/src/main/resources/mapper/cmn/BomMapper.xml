@@ -3,7 +3,8 @@
 <mapper namespace="com.mes.bf.cmn.mapper.BomMapper">
 
 	<resultMap type="bomRsc" id="bomRcsMap">
-		<id property="bomCdCode" column="bom_cd_code" />
+		<id property="bomRscIdx" column="bom_rsc_idx" />
+		<result property="bomRscIdx" column="bom_rsc_idx" />
 		<result property="bomCdCode" column="bom_cd_code" />
 		<result property="lineCdCode" column="line_cd_code" />
 		<result property="lineCd" column="line_cd" />
@@ -45,7 +46,7 @@
 	</select>
 	
 	<select id="findBomRsc" resultMap="bomRscDtlMap">
-		SELECT BR.BOM_CD_CODE, BR.LINE_CD_CODE, LD.PROC_CD_CODE,
+		SELECT BR.BOM_RSC_IDX, BR.BOM_CD_CODE, BR.LINE_CD_CODE, LD.PROC_CD_CODE,
 			   P.PROC_CD_NAME, LD.MCHN_CODE, M.MCHN_NAME, LD.LINE_CD_ORD,
 			   BR.RSC_CD_CODE, R.RSC_CD_NAME,
 		       BR.BOM_RSC_USE_VOL, BR.BOM_RSC_UNIT
@@ -62,5 +63,50 @@
 		WHERE BOM_CD_CODE = #{bomCode}
 		</if>
 		ORDER BY LINE_CD_CODE, PROC_CD_CODE
+	</select>
+	
+	<insert id="bomCodeInsert">
+		INSERT INTO BF_CMN_BOM_CODE
+		VALUES('BOM'||LPAD(BF_CMN_BOM_CODE_SEQ.NEXTVAL,3,0),#{bomCdName},#{finPrdCdCode}
+			   ,#{lineCdHdCode},#{bomCdProdVol},#{bomCdUnit},#{bomCdUse},#{bomCdRemk})
+	</insert>
+	
+	<update id="bomCodeUpdate">
+		UPDATE BF_CMN_BOM_CODE
+		SET ${updCol} = #{updCont}
+		WHERE BF_BOM_CD_CODE = #{priKey}
+	</update>
+	
+	<delete id="bomCodeDelete">
+		DELETE BF_CMN_BOM_CODE
+		WHERE BF_BOM_CD_CODE = #{priKey}
+	</delete>
+	
+	<insert id="bomRscInsert">
+		INSERT INTO BF_CMN_BOM_RSC
+		VALUES(BF_CMN_BOM_RSC_SEQ.NEXTVAL,#{bomCdCode},
+		#{lineCdCode},#{rscCdCode},#{bomRscUseVol},#{bomRscUnit})
+	</insert>
+	
+	<update id="bomRscUpdate">
+		UPDATE BF_CMN_BOM_RSC
+		SET ${updCol} = #{updCont}
+		WHERE BOM_RSC_IDX = #{priKey}
+	</update>
+	
+	<delete id="bomRscDelete">
+		DELETE BF_CMN_BOM_RSC
+		WHERE BOM_RSC_IDX = #{priKey}
+	</delete>
+	
+	<select id="findProcForLine" resultType="lineCodeVO">
+		SELECT L.LINE_CD_CODE, L.PROC_CD_CODE, P.PROC_CD_NAME, L.MCHN_CODE, M.MCHN_NAME
+		FROM BF_CMN_LINE_CODE L
+		  JOIN BF_CMN_PROC_CODE P
+		   ON L.PROC_CD_CODE = P.PROC_CD_CODE
+		  JOIN BF_EQP_MCHN M
+		   ON L.MCHN_CODE = M.MCHN_CODE
+		WHERE LINE_CD_HD_CODE = #{lineCode}
+		ORDER BY LINE_CD_CODE
 	</select>
 </mapper>

@@ -27,84 +27,13 @@ $("document").ready(function(){
 
     });
 
-    //bom 추가 버튼
-    $("#bomAddBtn").on("click",function(){
-        let node = `<tr>
-                        <td><input type="checkbox" name="bomCb"></td>`;
-        if ($("#bomAllCheck").is(":checked")){
-            node = `<tr>
-                        <td><input type="checkbox" name="bomCb" checked></td>`;
-        }
-        node +=`<td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><input type="checkbox"></td>
-                <td></td>
-            </tr>`;
-        $("#bomTable tbody").append(node);
-    });
-
-    //bom tr 클릭
-    $("#bomTable tbody").on("click","tr",function(){
-        let bomCode = $(this).find("td:eq(1)").text();
-        let lineCode = $(this).find("td:eq(5)").text();
-        let prodVol = $(this).find("td:eq(7)").text();
-        let prodUnit = $(this).find("td:eq(8)").text();
-
-        $("#bomCode").val(bomCode);
-        $("#lineCode").val(lineCode);
-        $("#prodVol").val(prodVol);
-        $("#prodUnit").val(prodUnit);
-
-        $.ajax({
-            url : 'bomRsc',
-            methods : 'GET',
-            data : {
-                bomCode : bomCode
-            },
-            dataType : 'json',
-            success : function(result){
-                $("#bomRscTable tbody tr").remove();
-                for(obj of result){
-                    rscMakeRow(obj);
-                }
-            }
-        })
-    })
-
-
-    //rsc 추가 버튼
-    $("#rscAddBtn").on("click",function(){
-        if($("#bomCode").val() == ''){
-            alert("bom을 선택하고 자재를 추가해주세요.");
-        }else{
-            let node = `<tr>
-                            <td><input type="checkbox" name="rscCb"></td>`;
-            if ($("#rscAllCheck").is(":checked")){
-                node = `<tr>
-                            <td><input type="checkbox" name="rscCb" checked></td>`;
-            }
-            node +=`<td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>`;
-            $("#bomRscTable tbody").append(node);
-        }
-    });
+    
 
     function bomMakeRow(obj){
-        let node = `<tr>
+        let node = `<tr name="addTr">
                         <td><input type="checkbox" name="bomCb"></td>`;
         if($("#bomAllCheck").is(":checked")){
-            node = `<tr>
+            node = `<tr name="addTr">
                 <td><input type="checkbox" name="bomCb" checked></td>`
         }
         node += `<td>${obj.bomCdCode}</td>
@@ -125,24 +54,6 @@ $("document").ready(function(){
         $("#bomTable tbody").append(node);
     }
 
-    function rscMakeRow(obj){
-        let node = `<tr>
-                        <td><input type="checkbox" name="rscCb"></td>`;
-        if($("#rscAllCheck").is(":checked")){
-            node = `<tr>
-                <td><input type="checkbox" name="rscCb" checked></td>`
-        }
-        node+= `<td>${obj.lineCodeVO.procCdCode}</td>
-                <td>${obj.lineCodeVO.procCdName}</td>
-                <td>${obj.lineCodeVO.mchnCode}</td>
-                <td>${obj.lineCodeVO.mchnName}</td>
-                <td>${obj.bomRscVO.rscCdCode}</td>
-                <td>${obj.bomRscVO.rscCdName}</td>
-                <td>${obj.bomRscVO.bomRscUseVol}</td>
-                <td>${obj.bomRscVO.bomRscUnit}</td>
-                </tr>`;
-        $("#bomRscTable tbody").append(node);
-    }
 
     
 

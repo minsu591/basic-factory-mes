@@ -1,0 +1,96 @@
+$("document").ready(function () {
+  let tdInfo;
+  $("#bomRscTable tbody").on("click",".rscCdCode",function (e) {
+    e.preventDefault();
+    //자재조회
+    findRscCode();
+    tdInfo = $(this);
+    $("#findresourceModal").modal("show");
+  });
+
+  //자재코드 검색 버튼 클릭 이벤트
+  $("#findRscBtn").click(function () {
+    let rscCdClfy = $("#rscCdClfy option:selected").text();
+    let rscCdName = $("#rscCdName").val();
+    console.log(rscCdName);
+    $.ajax({
+      url: "findResourceCode",
+      method: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      data: {
+        rscCdName: rscCdName,
+        rscCdClfy: rscCdClfy,
+      },
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        console.log("검색조건 데이타 _ >" + data);
+        let index = 0;
+        $("#findRsctbody tr").remove();
+        for (obj of data) {
+          index += 1;
+          makeRscCodeRow(obj, index);
+        }
+      },
+    });
+  });
+
+
+ //자재코드 검색 테이블 클릭이벤트
+ $("#findRscTable").on("click", "tr", function () {
+   let rscCdCode = $(this).find("td:eq(1)").text();
+   let rscCdName = $(this).find("td:eq(2)").text();
+   let rscCdUnit = $(this).find("input[class='rscCdUnit']").val();
+   tdInfo.text(rscCdCode);
+   tdInfo.next().text(rscCdName);
+   tdInfo.parent().find("td:last").text(rscCdUnit);
+
+    $("#findresourceModal").modal("hide");
+  });
+
+  //rsccode input 내용이 사라지면 rscName 내용도 사라지는 이벤트
+  $("#rsccode").on("change", function () {
+    if ($("#rsccode").val() == "") {
+      $("#rscname").val("");
+    }
+  });
+});
+function findRscCode() {
+  $.ajax({
+    url: "findResourceCode",
+    method: "GET",
+    contentType: "application/json;charset=utf-8",
+    dataType: "json",
+    error: function (error, status, msg) {
+      alert("상태코드 " + status + "에러메시지" + msg);
+    },
+    success: function (data) {
+      $("#findRsctbody tr").remove();
+      let index = 0;
+      for (obj of data) {
+        index += 1;
+        makeRscCodeRow(obj, index);
+      }
+    },
+  });
+}
+//자재조회 행생성
+function makeRscCodeRow(obj, index) {
+  let st = null;
+  if( obj.rscCdUse == 1){
+    st = `<input type="checkbox" checked onClick="return false;">`;
+  }else{
+    st = `<input type="checkbox" onClick="return false;">`;
+  }
+ let node = `<tr>
+             <td>${index}</td>
+             <td>${obj.rscCdCode}</td>
+             <td>${obj.rscCdName}</td>
+             <td>${obj.rscCdClfy}</td>
+             <td>${st}</td>
+             <input type="hidden" value=${obj.rscCdUnit} class="rscCdUnit">
+           </tr>`;
+  $("#findRsctbody").append(node);
+}
