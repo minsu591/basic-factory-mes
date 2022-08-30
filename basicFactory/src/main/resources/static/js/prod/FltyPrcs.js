@@ -37,6 +37,7 @@ $("document").ready(function () {
                   <td>${obj.procCdName}</td>
                   <td>${obj.mchnName}</td>
                   <td>${obj.fltyPrcsDate}</td>
+                  <td>${obj.empName}</td>
                   <td>${obj.fltyPrcsRemk}</td>
                 </tr>`;
     $("#fplyPrcsTable tbody").append(node);
