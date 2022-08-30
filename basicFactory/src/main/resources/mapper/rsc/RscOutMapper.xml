@@ -84,5 +84,29 @@
 				#{vendCdCode})
 				
 	</insert>
+	<update id="OutUpdate" parameterType="com.mes.bf.rsc.vo.RscOutVO">
+		UPDATE BF_RSC_OUT
+		<set>
+			<if test="rscOutDate != null and rscOutDate != ''">
+				RSC_OUT_DATE = #{rscOutDate}
+			</if>
+			<if test="vendCdCode != null and vendCdCode != ''">
+				VEND_CD_CODE = #{vendCdCode}
+			</if>
+			<if test="rscCdCode != null and rscCdCode != ''">
+				RSC_CD_CODE = #{rscCdCode}
+			</if>
+			<if test="rscLotNo != null and rscLotNo != ''">
+				RSC_LOT_NO = #{rscLotNo}
+			</if>
+			<if test="rscOutVol != null and rscOutVol != ''">
+				RSC_OUT_VOL = #{rscOutVol}
+			</if>
+			<if test="empId != null and empId != ''">
+				EMP_ID = #{empId}
+			</if>
+		</set>
+		WHERE RSC_OUT_CODE = #{rscOutCode}
+	</update>
 	
 </mapper>

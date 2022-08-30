@@ -25,7 +25,13 @@ public class RscOutServiceImpl implements RscOutService {
 	}
 
 	@Override
-	public void OutInsert(RscOutVO vo) {
+	public int OutInsert(RscOutVO vo) {
+		return rscOutMapper.OutInsert(vo);
+		
+	}
+
+	@Override
+	public void OutUpdate(RscOutVO vo) {
 		
 	}
 

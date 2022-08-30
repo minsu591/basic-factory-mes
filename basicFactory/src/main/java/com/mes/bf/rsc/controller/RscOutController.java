@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.rsc.service.RscOutService;
@@ -24,6 +27,25 @@ public class RscOutController {
 	@RequestMapping("/out")
 	public ModelAndView out() {
 		return new ModelAndView("rsc/out");
+	}
+	
+	//출고입력&수정
+	@RequestMapping(value="/outInAndUp", method = RequestMethod.POST)
+	@ResponseBody
+	public String outInAndUp(@RequestBody List<RscOutVO> list) {
+		int insert = 0;
+		int update = 0;
+		for(int i = 0; i < list.size() ; i++) {
+			if(list.get(i).getRscOutCode() == null) {
+				rscOutService.OutInsert(list.get(i));	
+				insert++;
+			}else {
+				rscOutService.OutUpdate(list.get(i));
+				update++;
+			}
+		}
+		System.out.println("insert"+ insert + "update" + update);
+		return "rsc/out";
 	}
 	
 	@RequestMapping("/outList")
