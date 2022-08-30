@@ -62,7 +62,7 @@
 		<if test="bomCode != null and bomCode != ''">
 		WHERE BOM_CD_CODE = #{bomCode}
 		</if>
-		ORDER BY LINE_CD_CODE, PROC_CD_CODE
+		ORDER BY BOM_RSC_IDX
 	</select>
 	
 	<insert id="bomCodeInsert">

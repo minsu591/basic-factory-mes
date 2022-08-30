@@ -23,14 +23,12 @@ $("document").ready(function(){
 
 
     //수정 이벤트
-    $("tbody").on("click","td:not(:first-child)",function(e){
+    bomTable.find("tbody").on("click","td:not(:first-child)",modifyTdEvent);
+    rscTable.find("tbody").on("click","td:not(:first-child)",modifyTdEvent);
+
+    function modifyTdEvent(e){
         let tdInfo = $(this);
-        console.log(tdInfo.find("input").length);
-        if(parseInt(tdInfo.find("input").length) == 1){
-            return;
-        }
         let col = tdInfo.index();
-        console.log(col);
         let flag = false;
         let defaultVal;
         let avArr;
@@ -83,18 +81,15 @@ $("document").ready(function(){
             }else{
                 tdInfo.trigger("change");
             }
-            e.stopPropagation();
         });
-
-    });
-
+    }
    
     
     //기존에 있는 값들 중에 bom의 수정이 일어날 때
-    $("tbody").find("td:not(:first-child)").change(function(e){
+    bomTable.find("tbody").find("td:not(:first-child)").change(function(e){
         e.preventDefault();
         let table = $(this).closest('table');
-        let col = $(this).index()-2;
+        let col = $(this).index();
         let priKey = $(this).parent().find("td:eq("+bomPriKeyIdx+")").text();
         let updCol =table.find("thead").find("th:eq("+col+")").attr("name");
         let updCont;
@@ -149,7 +144,6 @@ $("document").ready(function(){
         }
         let modifyTr = [priKey,updCol,updCont];
         modifyList.push(modifyTr);
-        console.log(modifyList);
         return;
     }
 
@@ -182,6 +176,7 @@ $("document").ready(function(){
             for(priKey of bomDelList){
                 bomDeleteSaveAjax(priKey);
             }
+            console.log(rscDelList);
             for(priKey of rscDelList){
                 rscDeleteSaveAjax(priKey);
             }
@@ -197,6 +192,7 @@ $("document").ready(function(){
             for(obj of bomAddList){
                 bomAddSaveAjax(obj);
             }
+
             rscAddList = rscTable.find("tr[name='addTr']");
             for(obj of rscAddList){
                 let bomCode = $("#bomCode").val();
@@ -373,37 +369,39 @@ $("document").ready(function(){
 
 
     //선택 삭제 이벤트
-    $("#bomDeleteBtn").on("click",deleteBtnFunc);
-    $("#rscDeleteBtn").on("click",deleteBtnFunc);
-    
-    function deleteBtnFunc(){
-        $("tbody").find("input:checkbox").each(function(idx,el){
-            let type = $(this).attr("name");
-            let modifyList;
-            let priKey;
-            let delList;
+    $("#bomDeleteBtn").on("click",function(){
+        $("#bomTable tbody").find("input:checkbox[name='bomCb']").each(function(idx,el){
+            let tr = $(el).closest('tr');
+            let priKey = tr.find("td:eq("+bomPriKeyIdx+")").text();
 
             if($(el).is(":checked")){
-                let tr = $(el).closest('tr');
-                if(type == 'bomCb'){
-                    modifyList = bomModifyList;
-                    priKey = tr.find("td:eq("+bomPriKeyIdx+")").text();
-                    delList = bomDelList;
-                }else if(type == 'rscCb'){
-                    modifyList = rscModifyList;
-                    priKey = tr.find("input[class='bomRscIdx']").val();
-                    delList = rscDelList;
-                }
-                delList.push(priKey);
+                bomDelList.push(priKey);
                 tr.remove();
-                for(let i = 0; i< modifyList.length; i++){
-                    if(modifyList[i][0]== priKey){
-                        modifyList.splice(i,1);
+                for(let i = 0; i< bomModifyList.length; i++){
+                    if(bomModifyList[i][0]== priKey){
+                        bomModifyList.splice(i,1);
                     }
                 }
             }
         });
-    }
+    });
+    $("#rscDeleteBtn").on("click",function(){
+        $("#bomRscTable tbody").find("input:checkbox[name='rscCb']").each(function(idx,el){
+            let tr = $(el).closest('tr');
+            let priKey = tr.find("input[class='bomRscIdx']").val();
+
+            if($(el).is(":checked")){
+                rscDelList.push(priKey);
+                tr.remove();
+                for(let i = 0; i< rscModifyList.length; i++){
+                    if(rscModifyList[i][0]== priKey){
+                        rscModifyList.splice(i,1);
+                    }
+                }
+            }
+        });
+    });
+    
 
     function bomDeleteSaveAjax(priKey){
         $.ajax({
@@ -435,14 +433,16 @@ $("document").ready(function(){
     }
 
     //bom tr 클릭
-    $("#bomTable tbody").on("click","tr",function(){
+    $("#bomTable tbody").on("click","tr",function(e){
         let bomCode = $(this).find("td:eq(1)").text();
         let lineCode = $(this).find("td:eq(5)").text();
         let prodVol = $(this).find("td:eq(7)").text();
         let prodUnit = $(this).find("td:eq(8)").text();
-
-        if(bomCode == null || bomCode == ''){
-            return;
+        if($("#bomCode").val()==bomCode ||
+            ((lineCode == null || lineCode == '') &&
+            (procVol == null || procVol == '') &&
+            (prodUnit == null || prodUnit == ''))){
+            return false;
         }
 
         $("#bomCode").val(bomCode);
@@ -485,7 +485,7 @@ $("document").ready(function(){
     }
     
     function rscMakeRow(obj){
-        let node = `<tr name="addTr">
+        let node = `<tr>
                     <input type="hidden" class="bomRscIdx" value="${obj.bomRscVO.bomRscIdx}">
                     <input type="hidden" class="lineCdCode" value="${obj.lineCodeVO.lineCdCode}">`;
         if($("#rscAllCheck").is(":checked")){

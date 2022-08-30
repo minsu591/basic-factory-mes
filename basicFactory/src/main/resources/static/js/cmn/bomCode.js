@@ -30,10 +30,10 @@ $("document").ready(function(){
     
 
     function bomMakeRow(obj){
-        let node = `<tr name="addTr">
+        let node = `<tr>
                         <td><input type="checkbox" name="bomCb"></td>`;
         if($("#bomAllCheck").is(":checked")){
-            node = `<tr name="addTr">
+            node = `<tr>
                 <td><input type="checkbox" name="bomCb" checked></td>`
         }
         node += `<td>${obj.bomCdCode}</td>
@@ -65,12 +65,12 @@ $("document").ready(function(){
             $("#bomTable tbody input:checkbox[name='bomCb']").prop("checked",false);
         }
     })
-    $("input[name='bomCb']").click(function(e){
-        e.stopPropagation();
+    $("#bomTable tbody").on("click","input:checkbox[name='bomCb']",function(e){
         let total = $("input[name='bomCb']").length;
         let checked = $("input[name='bomCb']:checked").length;
         if (total != checked) $("#bomAllCheck").prop("checked",false);
         else $("#bomAllCheck").prop("checked", true);
+        e.stopPropagation();
     })
 
     //rsc 체크박스 체크유무
@@ -81,11 +81,12 @@ $("document").ready(function(){
             $("#bomRscTable tbody input:checkbox[name='rscCb']").prop("checked",false);
         }
     })
-    $("input[name='rscCb']").click(function(e){
+    $("#bomRscTable tbody").on("click","input:checkbox[name='rscCb']",function(e){
         let total = $("input[name=rscCb]").length;
         let checked = $("input[name=rscCb]:checked").length;
         if (total != checked) $("#rscAllCheck").prop("checked",false);
         else $("#rscAllCheck").prop("checked", true);
+        e.stopPropagation();
     })
 
 });
