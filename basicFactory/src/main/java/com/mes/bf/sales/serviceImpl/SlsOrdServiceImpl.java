@@ -42,8 +42,9 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 	}
 
 	@Override
-	public void insertOrder(SlsOrdHdVO vo) {
-		mapper.insertOrder(vo);
+	public void orderUpdate(String priKey, String updCol, String updCont) {
+		mapper.orderUpdate(priKey, updCol, updCont);
+		
 	}
 
 

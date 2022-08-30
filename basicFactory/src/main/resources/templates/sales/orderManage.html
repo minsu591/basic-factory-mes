@@ -5,9 +5,11 @@
     layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
+    <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet" />
 </head>
 <body>
     <script type="text/javascript" th:src="@{/js/sales/orderManage.js}"></script>
+    <script type="text/javascript" th:src="@{/js/sales/orderMngUpdate.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/sales/findOrder.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/sales/findProduct.js}"></script>
@@ -67,10 +69,10 @@
                             <thead>
                                 <tr>
                                 	<th><input type="checkbox" id="allCheck"></th>
-                                    <th th:text="제품코드"></th>
-                                    <th th:text="제품명"></th>
-                                    <th th:text="납기일자"></th>
-                                    <th th:text="주문량"></th>
+                                    <th th:text="제품코드" name="fin_prd_cd_code"></th>
+                                    <th th:text="제품명" name="fin_prd_cd_name"></th>
+                                    <th th:text="납기일자" name="sls_ord_dtl_dlv_date"></th>
+                                    <th th:text="주문량" name="sls_ord_dtl_vol"></th>
                                 </tr>
                             </thead>
                             <tbody>

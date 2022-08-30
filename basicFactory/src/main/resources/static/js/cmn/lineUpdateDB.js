@@ -88,6 +88,10 @@ $("document").ready(function(){
     });
 
     procTable.find("tbody").on("change","td:not(:first-child)",function(e){
+        let lineCdCode = $(this).parent().find("input[class='lineCdCode'").val();
+        if(lineCdCode == null || lineCdCode == ''){
+            return;
+        }
         e.preventDefault();
         let table = $(this).closest('table');
         let col = $(this).index()-1;
@@ -164,7 +168,8 @@ $("document").ready(function(){
             }
             procAddList = procTable.find("tr[name='addTr']");
             for(obj of procAddList){
-                procAddSaveAjax(obj);
+                let lineCdHdCode = $("#procLineCode").val();
+                procAddSaveAjax(lineCdHdCode,obj);
             }
 
             alert("저장이 완료되었습니다.");
@@ -196,7 +201,6 @@ $("document").ready(function(){
     }
 
     function procModifySaveAjax(obj){
-        //checkbox인거
         let priKey = obj[0];
         let updCol = obj[1];
         let updCont = obj[2];
@@ -238,12 +242,45 @@ $("document").ready(function(){
 
     //공정 추가 버튼
     $("#procAddBtn").on("click",function(){
-        let no = $("#lineProcTable tbody tr").length +1;
+        let no = $("#lineProcTable tbody tr").length;
+        let lastNo = $("#lineProcTable tbody tr:last-child").find("td:eq(1)").text();
+        let maxNo=0;
+        let trs = $("#lineProcTable tbody tr");
+        let noList = [];
+        //noList 만들기
+        for(let i = 0; i<no;i++){
+            noList.push(i+1);
+        }
+        for(tr of trs){
+            let trTxt = parseInt($(tr).find("td:eq(1)").text());
+            if(maxNo < trTxt){
+                maxNo = trTxt;
+            }
+        }
+        if(no != maxNo){
+            for(noIdx of noList){
+                let flag = false;
+                for(tr of trs){
+                    let trTxt = parseInt($(tr).find("td:eq(1)").text());
+                    if(noIdx == trTxt){
+                        flag = true;
+                        break;
+                    }
+                }
+                if(!flag){
+                    no = noIdx;
+                    break;
+                }
+            }
+        }else{
+            no+=1;
+        }
         if($("#procLineName").val() == ''){
             alert("라인을 선택하고 공정을 추가해주세요.")
         }else{
             let node = `<tr name='addTr'>
-            <td><input type="checkbox" name="procCb"></td>`;
+            <td><input type="checkbox" name="procCb"></td>
+            <input type="hidden" class="lineCdCode" value="">`;
             if($("#procAllCheck").is(":checked")){
                 node = `<tr>
                         <td><input type="checkbox" name="procCb" checked></td>`;
@@ -278,6 +315,7 @@ $("document").ready(function(){
 
     function procAddSaveAjax(lineCdHdCode, obj){
         let procCdCode = $(obj).find("td:eq(2)").text();
+        console.log(procCdCode);
         let mchnCode = $(obj).find("td:eq(4)").text();
         let lineCdOrd = $(obj).find("td:eq(1)").text();
         
@@ -303,7 +341,10 @@ $("document").ready(function(){
 
 
     //선택 삭제 이벤트
-    $("#lineDeleteBtn").on("click",function(){
+    $("#lineDeleteBtn").on("click",deleteBtnFunc);
+    $("#procDeleteBtn").on("click",deleteBtnFunc);
+    
+    function deleteBtnFunc(){
         $("tbody").find("input:checkbox").each(function(idx,el){
             let type = $(this).attr("name");
             let modifyList;
@@ -313,8 +354,8 @@ $("document").ready(function(){
             if($(el).is(":checked")){
                 let tr = $(el).closest('tr');
                 if(type == 'lineCb'){
-                    modifyList = listModifyList;
-                    priKey = tr.find("td:eq("+priKeyIdx+")").text();
+                    modifyList = lineModifyList;
+                    priKey = tr.find("td:eq("+linePriKeyIdx+")").text();
                     delList = lineDelList;
                 }else if(type == 'procCb'){
                     modifyList = procModifyList;
@@ -331,7 +372,7 @@ $("document").ready(function(){
                 }
             }
         });
-    });
+    }
 
     function lineDeleteSaveAjax(priKey){
         $.ajax({

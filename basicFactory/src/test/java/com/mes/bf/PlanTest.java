@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.mes.bf.prod.service.PlanService;
 import com.mes.bf.prod.vo.ColPlanOrdVO;
-import com.mes.bf.prod.vo.ColPlanVO;
+import com.mes.bf.prod.vo.PlanHdVO;
 import com.mes.bf.sales.service.SlsOrdService;
 import com.mes.bf.sales.vo.SlsOrdPlanVO;
 
@@ -19,7 +19,7 @@ public class PlanTest {
 	
 	//@Test
 	void findPlan() {
-		List<ColPlanVO> plans = service.findPlanInst("2022-08-11","2022-08-19");
+		List<PlanHdVO> plans = service.findPlanInst("2022-08-11","2022-08-19");
 		List<ColPlanOrdVO> plans2 = service.findPlanOrd("2022-08-11","2022-08-19","VEND001");
 		System.out.println(plans);
 		System.out.println(plans2);
