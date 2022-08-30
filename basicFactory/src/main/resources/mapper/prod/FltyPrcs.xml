@@ -1,3 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.prod.FltyPrcs"></mapper>
+<mapper namespace="com.mes.bf.prod.mapper.FltyPrcsMapper">
+
+	<select id="findlistFltyPrcs" resultType="fltyPrcs">
+		
+	</select>
+	
+	<select id="findFltyCode" resultMap="FaultyCodeVO">
+		select * from 
+	</select>
+
+
+	<select id="listFltyPrcs" resultType="fltyPrcs">
+		SELECT FC.FAULTY_CD_CODE, 
+				FC.FAULTY_NAME,
+            	FPD.FLTY_PRCS_DATE, 
+            	NVL(FPD.FLTY_PRCS_REMK, ' ') AS FLTY_PRCS_REMK,
+            	PP.FLTY_VOL,
+            	P.PROC_CD_NAME, 
+            	P.MCHN_NAME,
+            	IDE.FIN_PRD_CD_CODE, 
+            	FPC.FIN_PRD_CD_NAME
+	    FROM BF_PROD_FLTY_PRCS_DETAILS FPD
+	    JOIN BF_CMN_FAULTY_CODE FC
+	        ON FPD.FAULTY_CD_CODE = FC.FAULTY_CD_CODE
+	    JOIN BF_PROD_PROCESS_PERFORMANCE PP
+	        ON FPD.PROCESS_PERFOM_NO = PP.PROCESS_PERFOM_NO
+	    JOIN BF_PROD_PROCESS P
+	        ON PP.PROCESS_NO = P.PROCESS_NO
+	    JOIN BF_PROD_INST_DETAIL IDE
+	        ON P.INST_PROD_NO = IDE.INST_PROD_NO
+	    JOIN BF_CMN_FINISH_PRODUCT_CODE FPC
+	        ON IDE.FIN_PRD_CD_CODE = FPC.FIN_PRD_CD_CODE
+		ORDER BY FLTY_PRCS_DATE
+	</select>
+	
+	<select id="findFltyPrcs" resultType="fltyPrcs">
+		SELECT FC.FAULTY_CD_CODE, 
+				FC.FAULTY_NAME,
+	            FPD.FLTY_PRCS_DATE, 
+	            NVL(FPD.FLTY_PRCS_REMK, ' ') AS FLTY_PRCS_REMK,
+	            PP.FLTY_VOL,
+	            P.PROC_CD_NAME, 
+	            P.MCHN_NAME,
+	            IDE.FIN_PRD_CD_CODE, 
+	            FPC.FIN_PRD_CD_NAME
+	    FROM BF_PROD_FLTY_PRCS_DETAILS FPD
+	    JOIN BF_CMN_FAULTY_CODE FC
+	        ON FPD.FAULTY_CD_CODE = FC.FAULTY_CD_CODE
+	    JOIN BF_PROD_PROCESS_PERFORMANCE PP
+	        ON FPD.PROCESS_PERFOM_NO = PP.PROCESS_PERFOM_NO
+	    JOIN BF_PROD_PROCESS P
+	        ON PP.PROCESS_NO = P.PROCESS_NO
+	    JOIN BF_PROD_INST_DETAIL IDE
+	        ON P.INST_PROD_NO = IDE.INST_PROD_NO
+	    JOIN BF_CMN_FINISH_PRODUCT_CODE FPC
+	        ON IDE.FIN_PRD_CD_CODE = FPC.FIN_PRD_CD_CODE
+		WHERE 1=1
+		<if test="finPrdCdCode != null and finPrdCdCode != ''">
+			AND FPC.FIN_PRD_CD_CODE = #{finPrdCdCode}
+		</if>
+		<if test="(fltyPrcsSdate != null and fltyPrcsSdate != '') and (fltyPrcsEdate != null and fltyPrcsEdate != '')">
+			AND FPD.FLTY_PRCS_DATE BETWEEN #{fltyPrcsSdate} AND #{fltyPrcsEdate}
+		</if>
+		ORDER BY flty_prcs_date
+	</select>
+
+</mapper>

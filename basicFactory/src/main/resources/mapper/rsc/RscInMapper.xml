@@ -21,6 +21,18 @@
 		   ON  RSCIN.RSC_IN_CODE = STOCK.RSC_IN_CODE
 		 LEFT  JOIN BF_RSC_INSP RSCINSP
 		   ON  RSCIN.RSC_INSP_CODE = RSCINSP.RSC_INSP_CODE
+		 <where>
+		 	<if test="rscInCode != null and rscInCode != ''">
+		 		RSCIN.RSC_IN_CODE = '%'||#{rscInCode}||'%'
+		 	</if>
+		 	<if test="rscCdCode != null and rscCdCode != ''">
+		 		RSCIN.RSC_CD_CODE = #{rscCdCode}
+		 	</if>
+		 	<if test="rscInSDate != null and rscInSDate != ''">
+		 		<![CDATA[RSCIN.RSC_IN_DATE >= #{rscInSDate} 
+		 			 AND RSCIN.RSC_IN_DATE <= #{rscInEDate}]]>
+		 	</if>
+		 </where>
 		        
 		ORDER  BY RSCIN.RSC_CD_CODE DESC
 	</select>

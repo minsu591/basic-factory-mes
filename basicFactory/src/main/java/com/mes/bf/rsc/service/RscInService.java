@@ -9,7 +9,7 @@ import com.mes.bf.rsc.vo.RscInspVO;
 public interface RscInService {
 	
 	//입고 리스트 조회
-	List<RscInVO> inList();
+	List<RscInVO> inList(String rscInCode, String rscCdCode, String rscInSDate, String rscInEDate);
 	List<RscInspVO> inspCompList(String rscCdCode, String inspDate);
 	
 	//입고 등록

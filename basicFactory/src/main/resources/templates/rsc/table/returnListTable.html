@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<div th:fragment="returnlisttable" id="returnlisttable">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th th:text="반품코드"></th>
+				<th th:text="반품일자"></th>
+				<th th:text="자재코드"></th>
+				<th th:text="자재명"></th>
+				<th th:text="거래처"></th>
+				<th th:text="반품수량"></th>
+				<th th:text="단위"></th>
+				<th th:text="금액"></th>
+				<th th:text="금액합계"></th>
+				<th th:text="반품사유"></th>
+				<th th:text="담당자"></th>
+				<th th:text="비고"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="rList : ${rList}">
+				<td th:text="${rList.rscReturnCode}"></td>
+				<td th:text="${rList.rscReturnDate}"></td>
+				<td th:text="${rList.rscCdCode}"></td>
+				<td th:text="${rList.rscCdName}"></td>
+				<td th:text="${rList.vendCdNm}"></td>
+				<td th:text="${rList.rscReturnVol}"></td>
+				<td th:text="${rList.rscCdUnit}"></td>
+				<td th:text="${rList.rscReturnPrc}"></td>
+				<td th:text="${rList.rscReturnPrc * rList.rscReturnVol}"></td>
+				<td th:text="${rList.rscReturnResn}"></td>
+				<td th:text="${rList.empName}"></td>
+				<td th:text="${rList.rscReturnRemk}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</head>
+</html>

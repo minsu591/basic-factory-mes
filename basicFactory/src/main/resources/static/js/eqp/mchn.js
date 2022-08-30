@@ -26,7 +26,7 @@ $(document).ready(function () {
       },
       error: function (error) {
         console.log(error);
-      },
+      }
     });
   }
 

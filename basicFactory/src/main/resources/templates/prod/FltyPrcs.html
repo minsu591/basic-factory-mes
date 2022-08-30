@@ -6,8 +6,8 @@
 </head>
 <body>
   <link th:href="@{/css/prod/FltyPrcs.css}" rel="stylesheet" />
-  <script type="text/javascript" th:src="@{/js/eqp/inspc.js}"></script>
-  <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
+  <script type="text/javascript" th:src="@{/js/prod/FltyPrcs.js}"></script>
+  <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script> <!-- 모달창 만들면 바꾸기 -->
 
   <div class="pcoded-main-container">
     <h1>불량 처리 조회</h1>
@@ -17,23 +17,23 @@
         <div class="card-header">
           <form class="form-inline">
             <div class="form-group mt-3">
-              <label for="ㅎㅎㅎ" th:text="불량처리일"></label>
-              <input type="date" id="ㅎㅎㅎ" class="form-control mx-sm-3" /> ~
-              <input type="date" id="ㅎㅎㅎ" class="form-control mx-sm-3" />
+              <label for="fltyPrcsDate" th:text="불량처리일"></label>
+              <input type="date" id="fltyPrcsSdate" class="form-control mx-sm-3" /> ~
+              <input type="date" id="fltyPrcsEdate" class="form-control mx-sm-3" />
             </div>
             <br />
             <div class="form-group mt-3">
-              <label for="ㅎㅎㅎ" th:text="불량코드"></label>
-              <input type="text" id="ㅎㅎㅎ" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" />
-              <label for="ㅎㅎㅎ" th:text="불량명"></label>
-              <input type="text" id="ㅎㅎㅎ" class="form-control mx-sm-3" readonly />
+              <label for="fltyCode" th:text="불량코드"></label>
+              <input type="text" id="fltyCode" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" />
+              <label for="fltyName" th:text="불량명"></label>
+              <input type="text" id="fltyName" class="form-control mx-sm-3" readonly />
             </div>
 
             <button type="button" class="btn btn-primary" id="selectBtn">조회</button>
           </form>
         </div>
         <div class="card-body table-border-style">
-          <div class="table-responsive" id="inspcListDiv">
+          <div class="table-responsive">
             <table class="table table-striped" id="fplyPrcsTable">
               <thead>
                 <tr>
@@ -42,7 +42,6 @@
                   <th th:text="불량수"></th>
                   <th th:text="제품코드"></th>
                   <th th:text="제품명"></th>
-                  <th th:text="라인명"></th>
                   <th th:text="공정명"></th>
                   <th th:text="설비명"></th>
                   <th th:text="불량처리일"></th>
@@ -50,17 +49,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr th:each="ㅎㅎㅎ : ${ㅎㅎㅎ}">
-                  <td th:text="${ㅎㅎㅎ.faultyCdCode}"></td>
-                  <td th:text="${ㅎㅎㅎ.faultyName}"></td>
-                  <td th:text="${ㅎㅎㅎ.fltyVol}"></td>
-                  <td th:text="${ㅎㅎㅎ.finPrdCdCode}"></td>
-                  <td th:text="${ㅎㅎㅎ.finPrdCdName}"></td>
-                  <td th:text="${ㅎㅎㅎ.lineCdHdName}"></td>
-                  <td th:text="${ㅎㅎㅎ.procCdName}"></td>
-                  <td th:text="${ㅎㅎㅎ.mchnName}"></td>
-                  <td th:text="${ㅎㅎㅎ.fltyPrcsDate}"></td>
-                  <td th:text="${ㅎㅎㅎ.fltyPrcsRemk}"></td>
+                <tr th:each="fp : ${fltyPrcs}">
+                  <td th:text="${fp.faultyCdCode}"></td>
+                  <td th:text="${fp.faultyName}"></td>
+                  <td th:text="${fp.fltyVol}"></td>
+                  <td th:text="${fp.finPrdCdCode}"></td>
+                  <td th:text="${fp.finPrdCdName}"></td>
+                  <td th:text="${fp.procCdName}"></td>
+                  <td th:text="${fp.mchnName}"></td>
+                  <td th:text="${fp.fltyPrcsDate}"></td>
+                  <td th:text="${fp.fltyPrcsRemk}"></td>
                 </tr>
               </tbody>
             </table>

@@ -1,23 +1,45 @@
 $("document").ready(function () {
-  $("#inspcViewBtn").click(function () {
-    let sdate = $("#inspcSdate").val();
-    let edate = $("#inspcEdate").val();
-    let mchnCode = $("#mchnCode").val();
-    console.log(sdate);
-    console.log(edate);
+
+  $("#selectBtn").click(function () {
+    let fltyPrcsSdate = $("#fltyPrcsSdate").val();
+    let fltyPrcsEdate = $("#fltyPrcsEdate").val();
+    let fltyCode = $("#fltyCode").val();
 
     $.ajax({
-      url: "inspcList/find",
+      url: "fltyPrcsList/find",
       methods: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
       data: {
-        sdate: sdate,
-        edate: edate,
-        mchnCode: mchnCode,
+        fltyPrcsSdate: fltyPrcsSdate,
+        fltyPrcsEdate: fltyPrcsEdate,
+        fltyCode: fltyCode,
       },
-      dataType: "text",
-      success: function (data) {
-        $("#inspcListDiv").replaceWith(data);
+      success: function (result) {
+        $("#fplyPrcsTable tbody tr").remove();
+        for (obj of result) {
+          fltyPrcsMakeRow(obj);
+        }
       },
+      error: function (error) {
+        console.log(error);
+      }
     });
   });
+
+  function fltyPrcsMakeRow(obj) {
+    let node = `<tr>
+                  <td>${obj.faultyCdCode}</td>
+                  <td>${obj.faultyName}</td>
+                  <td>${obj.fltyVol}</td>
+                  <td>${obj.finPrdCdCode}</td>
+                  <td>${obj.finPrdCdName}</td>
+                  <td>${obj.procCdName}</td>
+                  <td>${obj.mchnName}</td>
+                  <td>${obj.fltyPrcsDate}</td>
+                  <td>${obj.fltyPrcsRemk}</td>
+                </tr>`;
+    $("#fplyPrcsTable tbody").append(node);
+  }
+
 });

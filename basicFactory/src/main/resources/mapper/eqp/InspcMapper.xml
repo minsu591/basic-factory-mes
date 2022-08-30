@@ -35,7 +35,7 @@
 		JOIN BF_CMN_EMP EMP
 			ON INP.EMP_ID = EMP.EMP_ID
 		WHERE 1=1
-		<if test="mchnCode != null and mchnCode !=''">
+		<if test="mchnCode != null and mchnCode != ''">
 			AND INP.MCHN_CODE = #{mchnCode}
 		</if>
 		<if test="(inspcSdate != null and inspcSdate != '') and (inspcEdate != null and inspcEdate != '')">

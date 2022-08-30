@@ -8,5 +8,5 @@ import com.mes.bf.rsc.vo.RscInspVO;
 
 @Mapper
 public interface RscInspMapper {
-	List<RscInspVO> inspList();
+	List<RscInspVO> inspList(String rscInspCode, String rscCdCode, String rscInspSDate, String rscInspEDate);
 }

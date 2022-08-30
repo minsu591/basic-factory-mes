@@ -9,6 +9,7 @@
 <body>
 <link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
 <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
+    <script type="text/javascript" th:src="@{/js/rsc/returnList.js}"></script>
 	<div class="pcoded-main-container">
 		<h1>자재 반품 조회</h1>
 		<hr>
@@ -37,44 +38,13 @@
 								<input type="date" id="rscReturnSDate" class="form-control mx-sm-3">~
 								<input type="date" id="rscReturnEDate" class="form-control mx-sm-3">
 							</div>
-							<button type="submit" class="btn  btn-primary">조회</button>
+							<button type="button" class="btn  btn-primary" id="search">조회</button>
 						</div>
 					</form>
 				</div>
 				<div class="card-body table-border-style">
-					<div class="table-responsive">
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th th:text="반품코드"></th>
-									<th th:text="반품일자"></th>
-									<th th:text="자재코드"></th>
-									<th th:text="자재명"></th>
-									<th th:text="반품수량"></th>
-									<th th:text="단위"></th>
-									<th th:text="금액"></th>
-									<th th:text="금액합계"></th>
-									<th th:text="반품사유"></th>
-									<th th:text="담당자"></th>
-									<th th:text="비고"></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="rList : ${rList}">
-									<td th:text="${rList.rscReturnCode}"></td>
-									<td th:text="${rList.rscReturnDate}"></td>
-									<td th:text="${rList.rscCdCode}"></td>
-									<td th:text="${rList.rscCdName}"></td>
-									<td th:text="${rList.rscReturnVol}"></td>
-									<td th:text="${rList.rscCdUnit}"></td>
-									<td th:text="${rList.rscReturnPrc}"></td>
-									<td th:text="${rList.rscReturnPrc * rList.rscReturnVol}"></td>
-									<td th:text="${rList.rscReturnResn}"></td>
-									<td th:text="${rList.empName}"></td>
-									<td th:text="${rList.rscReturnRemk}"></td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="table-responsive" th:replace="/rsc/table/returnListTable.html :: returnlisttable" id="returnlisttable">
+						
 					</div>
 				</div>
 			</div>
