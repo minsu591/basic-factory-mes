@@ -63,6 +63,7 @@
         ORDER BY SLS_ORD_HD_DATE DESC
 	</select>
 	
+	<!-- 주문 조건 조회 -->
 	<select id="findOrder" resultMap="ordHdDtlMap">
    		SELECT ORDHD.SLS_ORD_HD_DATE,
    			   ORDHD.SLS_ORD_HD_NO,
@@ -95,6 +96,13 @@
         
    	</select>
    	
+   	<!-- 주문관리에서 주문 수정 -->
+   	<update id="orderUpdate">
+   		UPDATE BF_SALES_ORD_DTL
+   		SET ${updCol} = #{updCont}
+   		WHERE SLS_ORD_DTL_NO = #{priKey}
+   	</update>
+   	
    	<!-- 주문관리에서 주문내역 조회 모달 -->
    	<select id="findOrderModal" resultType="slsOrdHdVO">
    		SELECT DISTINCT ORDHD.SLS_ORD_HD_NO,
@@ -116,7 +124,8 @@
    	
    	<!-- 주문관리에서 주문내역 상세 조회 -->
    	<select id="findDtlOrder" resultType="slsOrdDtlVO">
-   		SELECT FNSPRD.FIN_PRD_CD_CODE,
+   		SELECT ORDDTL.SLS_ORD_DTL_NO,
+   			   FNSPRD.FIN_PRD_CD_CODE,
    			   FNSPRD.FIN_PRD_CD_NAME,
    			   ORDDTL.SLS_ORD_DTL_DLV_DATE,
    			   ORDDTL.SLS_ORD_DTL_VOL,
