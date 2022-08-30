@@ -9,12 +9,17 @@ xmlns:th="http://www.thymeleaf.org"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Common BOMCode</title>
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
+    <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet" />
 </head>
 <body>
     <script type="text/javascript" th:src="@{/js/cmn/bomCode.js}"></script>
+    <script type="text/javascript" th:src="@{/js/cmn/bomUpdateDB.js}"></script>
+    <!--modal js-->
+    <script type="text/javascript" th:src="@{/js/modal/cmn/findTdResource.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/cmn/findTdproccdname.js}"></script>
     <div class="pcoded-main-container">
         <div class="rightBtn">
-            <button type="button" class="btn  btn-primary">저장</button>
+            <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
         </div>
         <h1>BOM 관리</h1>
         <hr>
@@ -32,8 +37,8 @@ xmlns:th="http://www.thymeleaf.org"
                         <button type="button" class="btn  btn-primary" id="bomSelectBtn">조회</button>
                     </form>
                     <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary" id="bomAddBtn">BOM 추가</button>
-                        <button type="button" class="btn  btn-primary" id="bomDeleteBtn">BOM 선택 삭제</button>
+                        <button type="button" class="btn btn-primary" id="bomAddBtn">BOM 추가</button>
+                        <button type="button" class="btn btn-primary" id="bomDeleteBtn">BOM 선택 삭제</button>
                     </div>
         
                 </div>
@@ -45,15 +50,15 @@ xmlns:th="http://www.thymeleaf.org"
                                     <!-- 한 행을 클릭할 때마다 셀렉트?-->
                                     <th><input type="checkbox" id="bomAllCheck"></th>
                                     <th th:text="'BOM 코드'"></th>
-                                    <th th:text="BOM명"></th>
-                                    <th th:text="'완제품 코드'"></th>
+                                    <th th:text="BOM명" name="bom_cd_name"></th>
+                                    <th th:text="'완제품 코드'" name="fin_prd_cd_code"></th>
                                     <th th:text="완제품명"></th>
-                                    <th th:text="라인코드"></th>
+                                    <th th:text="라인코드" name="line_cd_hd_code"></th>
                                     <th th:text="라인명"></th>
-                                    <th th:text="생산량"></th>
-                                    <th th:text="단위"></th>
-                                    <th th:text="사용여부"></th>
-                                    <th th:text="비고"></th>
+                                    <th th:text="생산량" name="bom_cd_prod_vol"></th>
+                                    <th th:text="단위" name="bom_cd_unit"></th>
+                                    <th th:text="사용여부" name="bom_cd_use"></th>
+                                    <th th:text="비고" name="bom_cd_remk"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -115,17 +120,14 @@ xmlns:th="http://www.thymeleaf.org"
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" id="rscAllCheck"></th>
-                                    <th th:text="'사용공정코드'"></th>
+                                    <th th:text="'사용공정코드'" name="line_cd_code"></th>
                                     <th th:text="'사용공정명'"></th>
-                                    <!--사용 공정을 선택하면 설비코드는 readonly option-->
                                     <th th:text="'설비코드'"></th>
                                     <th th:text="'설비명'"></th>
-                                    <th th:text="'자재 코드'"></th>
-                                    <!--자재 코드를 선택하면 자재명은 readonly option-->
+                                    <th th:text="'자재 코드'" name="rsc_cd_code"></th>
                                     <th th:text="자재명"></th>
-                                    <th th:text="사용량"></th>
-                                    <!--자재 코드를 선택하면 readonly option-->
-                                    <th th:text="단위"></th>
+                                    <th th:text="사용량" name="bom_rsc_use_vol"></th>
+                                    <th th:text="단위" name="bom_rsc_unit"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -140,6 +142,8 @@ xmlns:th="http://www.thymeleaf.org"
             </div>
         </div>
     </div>
-    
+
+    <th:block th:replace="~{/fragments/modal/findresource :: findresource}"></th:block>
+    <th:block th:replace="~{/fragments/modal/cmn/findProcForLine :: findProcForLine}"></th:block>
 </body>
 </html>

@@ -180,14 +180,13 @@ $("document").ready(function(){
     $("#deleteBtn").on("click",function(){
         table.find("tbody input:checkbox[name='cb']").each(function(idx,el){
             if($(el).is(":checked")){
-                let tr = $(el).parent().parent();
+                let tr = $(el).closest('tr');
                 let priKey = tr.find("td:eq("+priKeyIdx+")").text();
                 delList.push(priKey);
                 tr.remove();
                 for(let i = 0; i< modifyList.length; i++){
-                    if(tr[i][0]== priKey){
+                    if(modifyList[i][0]== priKey){
                         modifyList.splice(i,1);
-                        break;
                     }
                 }
             }
