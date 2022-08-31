@@ -96,13 +96,6 @@
         
    	</select>
    	
-   	<!-- 주문관리에서 주문 수정 -->
-   	<update id="orderUpdate">
-   		UPDATE BF_SALES_ORD_DTL
-   		SET ${updCol} = #{updCont}
-   		WHERE SLS_ORD_DTL_NO = #{priKey}
-   	</update>
-   	
    	<!-- 주문관리에서 주문내역 조회 모달 -->
    	<select id="findOrderModal" resultType="slsOrdHdVO">
    		SELECT DISTINCT ORDHD.SLS_ORD_HD_NO,
@@ -137,6 +130,60 @@
    		  ON FNSPRD.FIN_PRD_CD_CODE = ORDDTL.FIN_PRD_CD_CODE
    		WHERE ORDDTL.SLS_ORD_HD_NO = #{slsOrdHdNo}
    	</select>
+   	
+   	<!-- 주문관리에서 신규 등록 -->
+   	<insert id="orderInsertHd" parameterType="slsOrdHdVO">
+   		INSERT INTO BF_SALES_ORD_HD
+   		VALUES('SLS_OD' || LPAD(BF_SALES_ORD_HD_SEQ.nextval, 3, 0),
+   				#{slsOrdHdDate},
+   				#{vendCdCode},
+   				#{empId},
+   				#{slsOrdHdRemk})
+   	</insert>
+   	
+   	<insert id="orderInsertDtl" parameterType="java.util.List">
+   		<!-- 주문코드 가져오기 -->
+   		<!-- for문 돌려서 dtl에 인서트하기 -->
+   		INSERT INTO BF_SALES_ORD_DTL
+   		<selectKey keyProperty="orderNo" resultType="String" order="BEFORE">
+   			SELECT SLS_ORD_HD_NO FROM (SELECT * FROM BF_SALES_ORD_HD ORDER BY ROWNUM DESC) WHERE ROWNUM=1
+   		</selectKey> 
+   		VALUES
+	   			<foreach collection="list" item="item" separator=",">
+	   			  ('SLS_ODDT' || LPAD(BF_SALES_ORD_DTL_SEQ.nextval, 3, 0),
+				  orderNo,
+				  #{item.finPrdCdCode},
+				  #{item.slsOrdDtlDlvDate},
+				  #{item.slsOrdDtlVol},
+				  0,
+				  0,
+				  0
+			  	  )
+				</foreach>
+   	</insert>
+   	
+   	<!-- 주문관리에서 기존 주문 추가등록 -->
+   	<insert id="orderDtlAddInsert" parameterType="slsOrdDtlVO">
+   		INSERT INTO BF_SALES_ORD_DTL
+   		VALUES('SLS_ODDT' || LPAD(BF_SALES_ORD_DTL_SEQ.nextval, 3, 0),
+   			   #{slsOrdHdNo},
+   			   #{finPrdCdCode},
+   			   #{slsOrdDtlDlvDate},
+   			   #{slsOrdDtlVol}, 0, 0, 0)
+   	</insert>
+   	
+   	<!-- 주문관리에서 주문 수정 -->
+   	<update id="orderUpdate">
+   		UPDATE BF_SALES_ORD_DTL
+   		SET ${updCol} = #{updCont}
+   		WHERE SLS_ORD_DTL_NO = #{priKey}
+   	</update>
+   	
+   	<!-- 주문관리에서 주문 삭제 -->
+   	<delete id="orderDelete">
+   		DELETE FROM BF_SALES_ORD_DTL
+   		WHERE SLS_ORD_DTL_NO = #{priKey}
+   	</delete>
    	
    	<!-- 생산계획에 존재하지 않거나 생산계획에 존재하는데 주문량에 못 미치는 주문내역 조회 -->
    	<select id="findOrderForPlan" resultMap="ordPlanMap">

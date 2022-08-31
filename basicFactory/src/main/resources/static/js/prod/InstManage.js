@@ -69,7 +69,7 @@ $(document).ready(function () {
               let tr = checkbox.parent().parent().eq(i);
               let td = tr.children();
               let prodCode = td.children().eq(1).val(); //제품코드
-              let prodIndicaVol = td.children().eq(9).val(); //지시량
+              let prodIndicaVol = td.children().eq(10).val(); //지시량
               let workDate = td.children().eq(12).val(); //작업날짜
               console.log("prodCode ->" + prodCode);
               console.log("지시량 ->" + prodIndicaVol);
@@ -145,7 +145,7 @@ $(document).ready(function () {
     let prodName = $(this).find("td:eq(2)").children();
     let prodUnit = $(this).find("td:eq(3)").children();
     let lineName = $(this).find("td:eq(11)").children();
-    let indicaVol = $(this).find("td:eq(9)").children();
+    let indicaVol = $(this).find("td:eq(10)").children();
     if ($(this).find("td:eq(0)").children().prop("checked")) {
       findProcStatus(lineName.val());
       findRscNeedQty(prodCode.val(), indicaVol.val());
@@ -221,10 +221,10 @@ $(document).ready(function () {
   <td><input type="text" readonly></td>
   <td><input type="text" readonly></td>
   <td><input type="text" readonly></td>
-  <td><input type="text"></td>
-  <td><input type="text" readonly></td>
   <td><input type="text" readonly></td>
   <td><input type="text"></td>
+  <td><input type="text" readonly></td>
+  <td><input type="date"></td>
 </tr>`;
     $("#planDetailTable tbody").append(node);
   }

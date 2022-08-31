@@ -7,16 +7,19 @@ $("document").ready(function(){
     let delList = [];
     //수정할 테이블
     let table = $("#ordMngTable");
-    //td 수정을 적용할 인덱스(hidden input빼고)
+    //td 수정을 적용할 인덱스 (td기준)
     let avArr = [4];
-    //notNull이어야하는 idx
-    let notNullList = [1,2,3,4];
-
+    //notNull이어야하는 (td기준)
+    let notNullList = [2,3,4];
+    //primary키인 index
+    //let priKeyIdx = 1;
 
     //수정 이벤트
     table.find("tbody").on("click","td",function(e){
         e.stopPropagation();
-        let col = $(this).index('td'); //이거고침
+        let col = $(this).index() -1; //input값 -1
+        console.log(addList);
+        console.log(modifyList);
         let flag = false;
         let tdInfo = $(this);
         let defaultVal;
@@ -36,7 +39,7 @@ $("document").ready(function(){
 
         //수정할 수 있도록 하는 설정
         tdInfo.attr("contenteditable", "true");
-        
+
         //td에 focus가 되면
         tdInfo.focus(function(e){
             defaultVal = tdInfo.text();
@@ -76,26 +79,32 @@ $("document").ready(function(){
 
     
     //기존에 있는 값들 중에 td변경될 때(체인지이벤트 일어나는 거 갖고 옴)
-    table.find("tbody").on("change","td:not(:first-child)", function (e) {  //기존에 있던 tbody에 change 이벤트가 발생했을 때.
+    table.find("tbody").on("change", "td:not(:first-child)", function (e) {  //기존에 있던 tbody에 change 이벤트가 발생했을 때.
         console.log(e);
         e.preventDefault();
-        let col = $(this).index('td');                                      //클릭된 td의 index를 (td의 index만 찾음) col변수에 저장
-        let priKey = $(this).parent().find("input[type='hidden']").val();   //해당 td의 부모에서 프라이머리키 td를 찾아 그 값을 저장
-                                                                            //set ${updCol}= #{updCont} where PK컬럼 = #{ priKey }
-        //html의 th name속성값 찾아옴
-        let updCol = table.find("thead").find("th:eq(" + col + ")").attr("name");//thead에서 col번째 th name값 갖고 옴
+        let col = $(this).index() - 1;                                        //클릭된 td의 index를 (td의 index만 찾음) col변수에 저장
+        let priKey = $(this).parent().find("input[type='hidden']").val();   //해당 td의 부모에서 프라이머리키 값이 있는 태그를 찾아 그 값을 저장
+        //set ${updCol}= #{updCont} where PK컬럼 = #{ priKey }
+        
+        console.log("col!!! " + col);
+        let updCol = table.find("thead").find("th:eq(" + col + ")").attr("name");//html의 col번째 th name값 갖고 옴
         let updCont = $(this).text();   //해당 td의 text값을 저장
 
-        checkNewModify(priKey, updCol, updCont);
+        if (col == 3) {
+            updCont = $(this).find("input[type='date']").val(); //컬럼 index가 3번째 td라면 updCont는 input의 date값을 담음
+        }
+        if (priKey != null && priKey != '') {                   //priKey가 null이면 modifyList에 담기지 않도록 하는 if문
+            checkNewModify(priKey, updCol, updCont);
+        }
         console.log(modifyList);
+
         e.stopPropagation();
     });
 
     function checkNewModify(priKey, updCol, updCont) {
         for(p of modifyList){
             if (p[0] == priKey && p[1] == updCol) { //modifyList의 한 건에 대해 같은 값을 수정하는 것이라면 
-                
-                p[2] = updCont
+                p[2] = updCont                      //새로 추가가 아닌 기존 배열에 수정
                 return;
             }
         }
@@ -104,13 +113,19 @@ $("document").ready(function(){
     }
 
     //저장 버튼 이벤트
-    $("#saveBtn").on("click",function(){
+    $("#saveBtn").on("click", function () {
+
         let trs = table.find("tbody tr");
         if(confirm("저장하시겠습니까?")==true){
             //null 검사
             for(tr of trs){
-                for(idx of notNullList){
-                    let content = $(tr).find("td:eq("+idx+")").text();
+                for (idx of notNullList) {                                  //tr돌면서 notNullList index가 null인지 검사
+                    let content;
+                    if (idx == 3) {
+                        content = $(tr).find("input[type='date']").val();   //index가 3번째면 content에 납기일자 대입
+                    } else {
+                        content = $(tr).find("td:eq(" + idx + ")").text();
+                    }
                     if (content == null || content == '') {
                         alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
                         return;
@@ -127,10 +142,19 @@ $("document").ready(function(){
             for (obj of modifyList) {
                 modifySaveAjax(obj);
             }
-            //추가용(추가 후 저장누르면 name이 'addTr'인 값을 addList에 추가하여 Ajax실행)
+            //추가용(추가 후 저장누르면 name이 'addTr'인 tr을 addList에 추가하여 Ajax실행)
+            let slsOrdHdNo = $("#slsOrdHdNo").val();
             addList = table.find("tr[name='addTr']");
-            for(obj of addList){
-                addSaveAjax(obj);
+            if (slsOrdHdNo == null || slsOrdHdNo == '') {
+                console.log("신규 주문 추가등록!!");
+                //1. 헤더 넣고 여러개 인서트
+                addHdSaveAjax(addList);
+            } else {
+                console.log("기존 주문 추가등록!!");
+                //2. 있는 헤더 가져다가 인서트
+                for (obj of addList) {
+                    addDtlSaveAjax(obj, slsOrdHdNo);
+                }
             }
 
             alert("저장이 완료되었습니다.");
@@ -173,7 +197,8 @@ $("document").ready(function(){
             node = `<tr>
                         <td><input type="checkbox" name="cb" checked ></td>`;
         }
-        node +=`<td class="productCode" data-toggle="modal" data-target=".bd-example-modal-lg"></td>
+        node +=`<input type="hidden">
+                <td class="productCode" data-toggle="modal" data-target=".bd-example-modal-lg"></td>
                 <td></td>
                 <td><input type="date"></td>
                 <td></td>
@@ -181,30 +206,67 @@ $("document").ready(function(){
         $("#ordMngTable tbody").append(node);
     });
 
-    function addSaveAjax(obj) {
-        //주문일자, 거래처 코드, 담당자 입력
-        let orderDate = $("#slsOrdHdDate").val();
-        let vendorCode = $("#vendor").val();
+
+    //주문헤더 insert
+    function addHdSaveAjax(addList) {
+        let slsOrdHdDate = $("#slsOrdHdDate").val();
+        let vendCdCode = $("#vendor").val();
         let empId = $("#empid").val();
-        
-        let prdCode = $(obj).find("td:eq(2)").text();
-        let prdName = $(obj).find("td:eq(3)").text();
-        let ordDlvDate = $(obj).find("td:eq(4)").text();
-        let ordDtlVol = $(obj).find("td:eq(5)").text();
-        
+        let slsOrdHdRemk = $("#remk").val();
+        let slsOrdDtlVO = [];
+
+        //추가하는 tr 다 가져와 for문을 돌려서 slsOrdDtlVO에 리스트 형태로 push
+        for (obj of addList) {
+            let finPrdCdCode = $(obj).find("td:eq(1)").text();
+            let slsOrdDtlDlvDate = $(obj).find("input[type='date']").val();
+            let slsOrdDtlVol = $(obj).find("td:eq(4)").text();
+            let addDtl = {
+                finPrdCdCode,
+                slsOrdDtlDlvDate,
+                slsOrdDtlVol
+            }
+            slsOrdDtlVO.push(addDtl);
+        }
         $.ajax({
-            url: 'ordManage/insert',
+            url: 'ordManage/hdDtlInsert',
+            type: 'POST',
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({
+                slsOrdHdVO: {
+                    slsOrdHdDate,
+                    vendCdCode,
+                    empId,
+                    slsOrdHdRemk
+                },
+                slsOrdDtlVO
+            }),
+            success: function (result) {
+                console.log("orderHdDtl 추가 성공")
+            }
+        })
+    }
+
+    //기존 주문 추가 등록Ajax
+    function addDtlSaveAjax(obj, slsOrdHdNo) {
+        console.log("addDtl");
+        //주문일자, 거래처 코드, 담당자 입력
+        //let slsOrdHdNo = $("#slsOrdHdNo").val(); 위에 선언함
+        let finPrdCdCode = $(obj).find("td:eq(1)").text();
+        let slsOrdDtlDlvDate = $(obj).find("input[type='date']").val();
+        let slsOrdDtlVol = $(obj).find("td:eq(4)").text();
+
+        $.ajax({
+            url: 'ordManage/dtlInsert',
             type : 'POST',
-            dataType : 'text',
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
-            data : {
-                prdCode,
-                prdName,
-                ordDlvDate,
-                ordDtlVol
-            },
-            success : function(result){
-                console.log("추가 성공");
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({
+                slsOrdHdNo: slsOrdHdNo,
+                finPrdCdCode: finPrdCdCode,
+                slsOrdDtlDlvDate: slsOrdDtlDlvDate,
+                slsOrdDtlVol: slsOrdDtlVol
+            }),
+            success : function(result) {
+                console.log("orderDtl 추가 성공");
             }
 
         })
@@ -215,14 +277,14 @@ $("document").ready(function(){
     //선택 삭제 이벤트
     $("#deleteBtn").on("click",function(){
         table.find("tbody input:checkbox[name='cb']").each(function(idx,el){
-            if($(el).is(":checked")){
-                let tr = $(el).parent().parent();
-                let priKey = tr.find("td:eq("+priKeyIdx+")").text();
+            if($(el).is(":checked")){                                   //체크 되어있다면
+                let tr = $(el).parent().parent();                       //[el:input]의 부모=td의 부모=tr을 변수에 저장
+                let priKey = tr.find("input[type = 'hidden']").val();    //tr내 td에서 위에 선언한 priKeyidx(1)번째의 텍스트 저장
                 delList.push(priKey);
                 tr.remove();
-                for(let i = 0; i< modifyList.length; i++){
-                    if(modifyList[i][0]== priKey){
-                        modifyList.splice(i,1);
+                for(let i = 0; i< modifyList.length; i++){              
+                    if (modifyList[i][0] == priKey) {                   //수정목록의 길이만큼 돌면서[0]번째:priKey값이 같으면 
+                        modifyList.splice(i, 1);                        //[priKey, updCol, updCont]에서 배열 i번재부터 1개의 값을 썰어버림
                     }
                 }
             }
@@ -231,15 +293,15 @@ $("document").ready(function(){
 
     function deleteSaveAjax(priKey){
         $.ajax({
-            url : 'finProdCode/delete',
+            url: 'ordManage/delete',
             type : 'POST',
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
-                priKey : priKey
+                priKey
             },
-            success : function(result){
-                console.log("삭제 성공");
+            success: function (result) {
+                console.log("삭제완료");
             }
         })
     }

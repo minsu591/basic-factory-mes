@@ -30,5 +30,6 @@ public class RscOutVO {
 	
 	private int processNo;
 	private String finPrdCdCode;
+	private String inDtlVol;
 	
 }

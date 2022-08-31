@@ -16,6 +16,7 @@ import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.ProcManageVO;
 import com.mes.bf.prod.vo.ProcessPerformVO;
 import com.mes.bf.prod.vo.ProcessVO;
+import com.mes.bf.prod.vo.ProdRscOutVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
 import com.mes.bf.rsc.vo.RscOutVO;
 
@@ -105,7 +106,7 @@ public class ProcServiceImpl implements ProcService {
 	}
 
 	@Override
-	public void insertRscOut(RscOutVO vo) {
+	public void insertRscOut(ProdRscOutVO vo) {
 		mapper.insertRscOut(vo);
 		
 	}

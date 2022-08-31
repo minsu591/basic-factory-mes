@@ -1,76 +1,80 @@
 <!DOCTYPE html>
 <html
   xmlns:th="http://www.thymeleaf.org"
-   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}">
-<head>
-<meta charset="UTF-8">
-</head>  
-<body>
-<script type="text/javascript" th:src="@{/js/prod/Packing.js}"></script>
-<script type="text/javascript" th:src="@{/js/modal/prod/findproduct.js}"></script>
-<link th:href="@{/css/prod/Packing.css}" rel="stylesheet" /> 
-    
-  
-  <div class="pcoded-main-container">
-  	<h1>포장 관리</h1>
-  	<hr> 
-  	<button type="button" value="text" id="sweetTest"></button>
-  	<div class="col-xl-12">
-                <div class="card">
-                    <div class="card-header">
-                        
-                        <form class="form-inline">
-                            <div class="form-group mt-3">
-                                <label for="worksdate" th:text="작업일자"></label>
-                                <input type="date" id="worksdate" class="form-control mx-sm-3">                                
-                            </div>
-                            <br><br>                        
-                            <div class="form-group mt-3">
-                                <label for="productname" th:text="제품명"></label>
-                                <input type="text" id="productname" class="form-control mx-sm-3">                       
-                            </div>
-                            <button type="submit" class="btn  btn-primary">조회</button>
-                        </form>
-            
-                    </div>
-                    <div class="card-body table-border-style">
-                        <div class="table-responsive">
-                            <table class="table table-hover" id="packingTable">
-                                <thead>
-                                    <tr>
-                                        <th th:text="순번"></th>
-                                        <th th:text="제품코드"></th> 
-                                        <th th:text="제품명"></th>
-                                        <th th:text="설비명"></th>
-                                        <th th:text="입고량"></th>
-                                        <th th:text="기실적량"></th>
-                                        <th th:text="미실적량"></th>
-                                        <th th:text="실적량"></th>
-                                        <th th:text="불량량"></th>
-                                        <th th:text="생산일시"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                    	<th></th>
-                                        <td th:text="짜파게티"></td>
-                                        <td th:text="500"></td>
-                                        <td th:text="EA"></td>                                      
-                                        <td th:text="2022-08-14"></td>
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}"
+>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <script type="text/javascript" th:src="@{/js/prod/Packing.js}"></script>
+    <script
+      type="text/javascript"
+      th:src="@{/js/modal/prod/findproduct.js}"
+    ></script>
+    <link th:href="@{/css/prod/Packing.css}" rel="stylesheet" />
+
+    <div class="pcoded-main-container">
+      <h1>포장 관리</h1>
+      <hr />
+      <button type="button" value="text" id="sweetTest"></button>
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-header">
+            <form class="form-inline">
+              <div class="form-group mt-3">
+                <label for="worksdate" th:text="작업일자"></label>
+                <input
+                  type="date"
+                  id="worksdate"
+                  class="form-control mx-sm-3"
+                />
+              </div>
+              <br /><br />
+              <div class="form-group mt-3">
+                <label for="productname" th:text="제품명"></label>
+                <input
+                  type="text"
+                  id="productname"
+                  class="form-control mx-sm-3"
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">조회</button>
+            </form>
+          </div>
+          <div class="card-body table-border-style">
+            <div class="table-responsive">
+              <table class="table table-hover" id="packingTable">
+                <thead>
+                  <tr>
+                    <th th:text="순번"></th>
+                    <th th:text="제품코드"></th>
+                    <th th:text="제품명"></th>
+                    <th th:text="설비명"></th>
+                    <th th:text="입고량"></th>
+                    <th th:text="기실적량"></th>
+                    <th th:text="미실적량"></th>
+                    <th th:text="실적량"></th>
+                    <th th:text="불량량"></th>
+                    <th th:text="생산일시"></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
             </div>
-  </div>
-  
-   <!-- 제품검색 Modal -->
- <th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
- <!--작업등록 Modal -->
-<th:block th:replace="~{/fragments/modal/workInsert :: workInsert}"></th:block>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 제품검색 Modal -->
+    <th:block
+      th:replace="~{/fragments/modal/findproduct :: findproduct}"
+    ></th:block>
+    <!--작업등록 Modal -->
+    <th:block
+      th:replace="~{/fragments/modal/workInsert :: workInsert}"
+    ></th:block>
   </body>
 </html>

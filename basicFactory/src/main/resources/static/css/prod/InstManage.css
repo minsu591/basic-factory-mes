@@ -25,7 +25,8 @@ input[type="text"]:read-only {
   width: 100% !important;
 }
 
-#planDetailTable input[type="text"] {
+#planDetailTable input[type="text"],
+#planDetailTable input[type="date"] {
   height: 2rem;
   text-align: center;
   border: 0;
