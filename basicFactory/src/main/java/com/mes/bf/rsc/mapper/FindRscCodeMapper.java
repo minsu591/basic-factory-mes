@@ -12,5 +12,5 @@ public interface FindRscCodeMapper {
 	List<RscCodeVO> rscCodeList(String rscCdName, String rscCdClfy);
 	
 	//자재LOT번호 조회
-	List<RscStockVO> rscLotNoList(String rscCdName);
+	List<RscStockVO> rscLotNoList(String rscCdCode, String rscCdName);
 }

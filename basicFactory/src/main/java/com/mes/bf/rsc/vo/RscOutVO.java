@@ -26,6 +26,7 @@ public class RscOutVO {
 	private String empName;
 	private String vendCdCode;
 	private String vendCdNm;
+	private int rscStock;
 	
 	private int processNo;
 	private String finPrdCdCode;

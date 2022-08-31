@@ -15,8 +15,5 @@ $("document").ready(function(){
     $("#sttable").replaceWith(data);
    }
   })
-  $("#rsccode").val(null);
-  $("#rscname").val(null);
-  $("#rsclotno").val(null);
  })
 })

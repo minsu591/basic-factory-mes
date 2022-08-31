@@ -35,7 +35,7 @@
 	<select id="exceptOutList" resultType="com.mes.bf.rsc.vo.RscOutVO">
 		SELECT RSCOUT.RSC_OUT_CODE, 
 			   RSCOUT.RSC_OUT_DATE, 
-			   RSCOUT.VEND_CD_CODE, 
+			   NVL(RSCOUT.VEND_CD_CODE,''), 
                RSCOUT.RSC_CD_CODE,
                RSCOUT.RSC_LOT_NO,
                RSCOUT.RSC_OUT_VOL,
@@ -70,6 +70,40 @@
 		
 		ORDER  BY 1 DESC
 	</select>
+	
+		<select id="exceptOut" resultType="com.mes.bf.rsc.vo.RscOutVO">
+		SELECT RSCOUT.RSC_OUT_CODE, 
+			   RSCOUT.RSC_OUT_DATE, 
+			   RSCOUT.VEND_CD_CODE, 
+               RSCOUT.RSC_CD_CODE,
+               RSCOUT.RSC_LOT_NO,
+               RSCOUT.RSC_OUT_VOL,
+               RSCOUT.RSC_OUT_CLS,
+               RSCOUT.RSC_OUT_RESN,
+               
+               RSCCODE.RSC_CD_NAME, 
+			   
+			   VEND.VEND_CD_NM, 
+               
+               EMP.EMP_ID,
+               
+               STOCK.RSC_STOCK
+            
+		 FROM  BF_RSC_OUT RSCOUT 
+		 LEFT  JOIN BF_CMN_RSC_CODE RSCCODE
+		   ON  RSCOUT.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
+		 LEFT  JOIN BF_CMN_VENDOR_CODE VEND
+		   ON  RSCOUT.VEND_CD_CODE = VEND.VEND_CD_CODE
+		 LEFT  JOIN BF_CMN_EMP EMP
+		   ON  RSCOUT.EMP_ID = EMP.EMP_ID
+		 LEFT  JOIN BF_RSC_STOCK STOCK
+		   ON  RSCOUT.RSC_LOT_NO = STOCK.RSC_LOT_NO
+		        
+		WHERE  RSCOUT.RSC_OUT_CLS = 2
+		 		AND RSCOUT.RSC_OUT_CODE = #{rscOutCode}
+	</select>
+	
+	
 	<insert id="OutInsert" parameterType="com.mes.bf.rsc.vo.RscOutVO">
 		INSERT INTO BF_RSC_OUT
 		VALUES ('RSC_OUT'||LPAD(BF_RSC_OUT_CODE_SEQ.NEXTVAL,4,0),
@@ -84,29 +118,31 @@
 				#{vendCdCode})
 				
 	</insert>
-	<update id="OutUpdate" parameterType="com.mes.bf.rsc.vo.RscOutVO">
-		UPDATE BF_RSC_OUT
+	
+	<update id="OutUpdate">
+		UPDATE BF_RSC_OUT 
 		<set>
-			<if test="rscOutDate != null and rscOutDate != ''">
+			<if test="rscOutDate != null">
 				RSC_OUT_DATE = #{rscOutDate}
 			</if>
 			<if test="vendCdCode != null and vendCdCode != ''">
-				VEND_CD_CODE = #{vendCdCode}
+				,VEND_CD_CODE = #{vendCdCode}
 			</if>
 			<if test="rscCdCode != null and rscCdCode != ''">
-				RSC_CD_CODE = #{rscCdCode}
+				,RSC_CD_CODE = #{rscCdCode}
 			</if>
 			<if test="rscLotNo != null and rscLotNo != ''">
-				RSC_LOT_NO = #{rscLotNo}
+				,RSC_LOT_NO = #{rscLotNo}
 			</if>
-			<if test="rscOutVol != null and rscOutVol != ''">
-				RSC_OUT_VOL = #{rscOutVol}
+			<if test="rscOutVol != null and rscOutVol != '' and rscOutVol >= 0">
+				,RSC_OUT_VOL = #{rscOutVol}
 			</if>
 			<if test="empId != null and empId != ''">
-				EMP_ID = #{empId}
+				,EMP_ID = #{empId}
 			</if>
 		</set>
 		WHERE RSC_OUT_CODE = #{rscOutCode}
 	</update>
+	
 	
 </mapper>

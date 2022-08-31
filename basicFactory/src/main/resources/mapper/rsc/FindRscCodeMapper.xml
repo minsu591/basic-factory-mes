@@ -20,13 +20,21 @@
 		SELECT STOCK.RSC_LOT_NO, 
 			   STOCK.RSC_STOCK_ST,
 			   STOCK.RSC_STOCK,
+			   STOCK.RSC_CD_CODE,
+			   
 			   CODE.RSC_CD_NAME
 			   
 		 FROM  BF_RSC_STOCK STOCK
 		 LEFT  JOIN BF_CMN_RSC_CODE CODE
 		   ON  STOCK.RSC_CD_CODE = CODE.RSC_CD_CODE
-		   
-		WHERE  CODE.RSC_CD_NAME = #{rscCdName}
+		<where>
+			<if test="rscCdCode != null and rscCdCode != ''">
+				STOCK.RSC_CD_CODE LIKE '%'||#{rscCdCode}||'%'
+			</if>
+			<if test="rscCdName != null and rscCdName != ''">
+				AND CODE.RSC_CD_NAME LIKE '%'||#{rscCdName}||'%'
+			</if>
+		</where>   
 		
 		ORDER  BY RSC_LOT_NO DESC
 	</select>
