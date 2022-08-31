@@ -22,14 +22,12 @@ $(document).ready(function () {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><input type="date"></td>
-                    <td></td>
+                    <td id="faultyCode"></td>
+                    <td id="faultyName"></td>
+                    <td><input type="date" id="fltyPrcsDate"></td>
+                    <td id="empId"></td>
                     <td></td>
                 </tr>`;
-
-    $("#fltyPrcsTable tbody").append(node);
   });
 
   //체크박스 체크유무
@@ -47,9 +45,4 @@ $(document).ready(function () {
         else $("#allCheck").prop("checked", true);
   })
 
-  //선택삭제 버튼
-  $("#deleteBtn").on("click", function () {
-    let trs = $("#fltyPrcsTable tbody tr");
-
-  });
 });

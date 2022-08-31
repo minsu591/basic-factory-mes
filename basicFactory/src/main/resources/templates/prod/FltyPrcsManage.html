@@ -5,8 +5,10 @@
 <title>불량처리관리</title>
 </head>
 <body>
-  <link th:href="@{/css/prod/FltyPrcsManage.css}" rel="stylesheet" />
+  <link th:href="@{/css/prod/FltyPrcs.css}" rel="stylesheet" />
   <script type="text/javascript" th:src="@{/js/prod/FltyPrcsManage.js}"></script>
+  <script type="text/javascript" th:src="@{/js/modal/prod/findListFltyPrcs.js}"></script>
+  <script type="text/javascript" th:src="@{/js/modal/prod/findProcFlty.js}"></script>
   <script type="text/javascript" th:src="@{/js/modal/cmn/findFaulty.js}"></script>
   <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
 
@@ -32,8 +34,9 @@
                 <tr>
                   <th><input type="checkbox" id="allCheck"></th>
                   <th><input type="hidden"></th>
-                  <th th:text="완제품코드"></th>
-                  <th th:text="완제품명"></th>
+                  <th th:text="공정실적번호"></th>
+                  <th th:text="제품코드"></th>
+                  <th th:text="제품명"></th>
                   <th th:text="불량수"></th>
                   <th th:text="공정명"></th>
                   <th th:text="설비명"></th>
@@ -54,11 +57,13 @@
     </div>
   </div>
   <!-- 불량코드 Modal -->
-  <th:block th:replace="~{/fragments/modal//cmn/findFaulty :: findFaulty}"></th:block>
+  <th:block th:replace="~{/fragments/modal/cmn/findFaulty :: findFaulty}"></th:block>
   <!-- 담당자 Modal -->
   <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
-  <!-- 불량처리조회 Modal -->
+  <!-- 불량처리내역조회 Modal -->
+  <th:block th:replace="~{/fragments/modal/prod/findListFltyPrcs :: findListFltyPrcs}"></th:block>
   <!-- 생산불량조회 Modal -->
+  <th:block th:replace="~{/fragments/modal/prod/findProcFlty :: findProcFlty}"></th:block>
 
 </body>
 </html>

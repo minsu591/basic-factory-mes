@@ -2,24 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>불량처리목록(모달창)</title>
+<title>생산불량내역(모달창)</title>
 </head>
 <body>
   <!-- <link th:href="@{/css/prod/FltyPrcs.css}" rel="stylesheet" /> -->
 
-  <th:block th:fragment="findListFltyPrcs">
-		<div class="modal fade" id="findListFltyPrcsModal" tabindex="-1" role="dialog"
-			aria-labelledby="findListFltyPrcsModalLabel" aria-hidden="true">
+  <th:block th:fragment="findProcFlty">
+		<div class="modal fade" id="findProcFltyModal" tabindex="-1" role="dialog"
+			aria-labelledby="findProcFltyModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h3 class="modal-title" id="findListFltyPrcsModalLabel">불량 처리 내역</h3>
+						<h3 class="modal-title" id="findProcFltyModalLabel">생산 불량 내역</h3>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						<div class="form-inline">
+						<!-- <div class="form-inline">
 							<div class="form-group mt-3">
 								<label for="fltyPrcsDate" th:text="불량처리일"></label>
                 <input type="date" id="fltyPrcsSdate" class="form-control mx-sm-3" /> ~
@@ -27,28 +27,23 @@
 								<button type="button" class="btn  btn-primary" id="selectBtn" th:text="조회"></button>
 							</div>
 						</div>
-						<hr>
+						<hr> -->
 						<div class="card-body table-border-style">
 							<div class="table-responsive">
-								<table class="table table-hover" id="findListFltyPrcsTable">
+								<table class="table table-hover" id="findProcFltyTable">
 									<thead>
 										<tr>
-											<th><input type="checkbox" id="allCheck"></th>
-											<th></th>	<!-- css에 display: none 해주기 -->
 											<th th:text="공정실적번호"></th>
-											<th th:text="제품코드"></th>
+                      <th th:text="생산일"></th>
+                      <th th:text="제품코드"></th>
                       <th th:text="제품명"></th>
                       <th th:text="불량수"></th>
                       <th th:text="공정명"></th>
                       <th th:text="설비명"></th>
-                      <th th:text="불량코드"></th>
-                      <th th:text="불량명"></th>
-                      <th th:text="불량처리일"></th>
-                      <th th:text="담당자"></th>
-                      <th th:text="비고"></th>
+                      <th th:text="작업자"></th>
 										</tr>
 									</thead>
-									<tbody id="findListFltyPrcstbody">
+									<tbody id="findProcFltytbody">
 
 									</tbody>
 								</table>

@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.prod.mapper.FltyPrcsMapper">
+
+	<!-- 생산불량조회(모달창) -->
+	<select id="findProcFlty" resultType="vfindprocperformVO">
+		SELECT PP.PROCESS_PERFOM_NO,
+				PP.PROCESS_PERFOM_NO,
+	            IDE.FIN_PRD_CD_CODE, 
+	            FPC.FIN_PRD_CD_NAME,
+	            PP.FLTY_VOL,
+	            P.PROC_CD_NAME,
+	            P.MCHN_NAME,
+	            IDE.WORK_DATE,
+	            PP.WORKER_NAME
+		FROM BF_PROD_PROCESS_PERFORMANCE PP
+		JOIN BF_PROD_PROCESS P
+		        ON PP.PROCESS_NO = P.PROCESS_NO
+		JOIN BF_PROD_INST_DETAIL IDE
+		        ON P.INST_PROD_NO = IDE.INST_PROD_NO
+		JOIN BF_CMN_FINISH_PRODUCT_CODE FPC
+		        ON IDE.FIN_PRD_CD_CODE = FPC.FIN_PRD_CD_CODE
+		WHERE PP.FLTY_VOL > 0
+	</select>
 	
 	<!-- 불량처리목록(모달창) -->
 	<select id="findlistFltyPrcs" resultType="fltyPrcs">
-		SELECT FC.FAULTY_CD_CODE, 
+		SELECT PP.PROCESS_PERFOM_NO,
+				FC.FAULTY_CD_CODE, 
 				FC.FAULTY_NAME,
 				FPD.FLTY_PRCS_NO,
 	            FPD.FLTY_PRCS_DATE, 
@@ -48,7 +70,8 @@
 
 
 	<select id="listFltyPrcs" resultType="fltyPrcs">
-		SELECT FC.FAULTY_CD_CODE, 
+		SELECT PP.PROCESS_PERFOM_NO,
+				FC.FAULTY_CD_CODE, 
 				FC.FAULTY_NAME,
 	            FPD.FLTY_PRCS_DATE, 
 	            NVL(FPD.FLTY_PRCS_REMK, ' ') AS FLTY_PRCS_REMK,
@@ -75,7 +98,8 @@
 	</select>
 	
 	<select id="findFltyPrcs" resultType="fltyPrcs">
-		SELECT FC.FAULTY_CD_CODE, 
+		SELECT PP.PROCESS_PERFOM_NO,
+				FC.FAULTY_CD_CODE, 
 				FC.FAULTY_NAME,
 	            FPD.FLTY_PRCS_DATE, 
 	            NVL(FPD.FLTY_PRCS_REMK, ' ') AS FLTY_PRCS_REMK,
@@ -99,8 +123,8 @@
 	    JOIN BF_CMN_EMP EMP
         	ON FPD.EMP_ID = EMP.EMP_ID
 		WHERE 1=1
-		<if test="finPrdCdCode != null and finPrdCdCode != ''">
-			AND FPC.FIN_PRD_CD_CODE = #{finPrdCdCode}
+		<if test="finPrdCdName != null and finPrdCdName != ''">
+			AND FPC.FIN_PRD_CD_NAME = #{finPrdCdName}
 		</if>
 		<if test="(fltyPrcsSdate != null and fltyPrcsSdate != '') and (fltyPrcsEdate != null and fltyPrcsEdate != '')">
 			AND FPD.FLTY_PRCS_DATE BETWEEN #{fltyPrcsSdate} AND #{fltyPrcsEdate}

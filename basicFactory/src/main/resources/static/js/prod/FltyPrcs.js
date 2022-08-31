@@ -3,7 +3,7 @@ $("document").ready(function () {
   $("#selectBtn").click(function () {
     let fltyPrcsSdate = $("#fltyPrcsSdate").val();
     let fltyPrcsEdate = $("#fltyPrcsEdate").val();
-    let fltyCode = $("#fltyCode").val();
+    let finPrdCdCode = $("#productname").val();
 
     $.ajax({
       url: "fltyPrcsList/find",
@@ -13,7 +13,7 @@ $("document").ready(function () {
       data: {
         fltyPrcsSdate: fltyPrcsSdate,
         fltyPrcsEdate: fltyPrcsEdate,
-        fltyCode: fltyCode,
+        finPrdCdCode: finPrdCdCode,
       },
       success: function (result) {
         $("#fplyPrcsTable tbody tr").remove();
@@ -29,6 +29,7 @@ $("document").ready(function () {
 
   function fltyPrcsMakeRow(obj) {
     let node = `<tr>
+                  <td>${obj.processPerfomNo}</td>
                   <td>${obj.faultyCdCode}</td>
                   <td>${obj.faultyName}</td>
                   <td>${obj.fltyVol}</td>

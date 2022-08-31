@@ -9,3 +9,12 @@ h1 {
 .btn {
 	margin-top: 1rem;
 }
+
+.rightBtn {
+	float : right;
+    width : 30%;
+    text-align : right;
+}
+
+#fltyPrcsTable th:nth-of-type(2) { display: none; }   
+#fltyPrcsTable td:nth-of-type(2) { display: none; }

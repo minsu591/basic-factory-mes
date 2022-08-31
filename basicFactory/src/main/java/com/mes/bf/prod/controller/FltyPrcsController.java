@@ -16,9 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.cmn.vo.FaultyCodeVO;
 import com.mes.bf.prod.service.FltyPrcsService;
-import com.mes.bf.prod.service.InstructionService;
-import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.FltyPrcsVO;
+import com.mes.bf.prod.vo.VFindProcPerformVO;
 
 @Controller
 @RequestMapping("/prod")
@@ -40,9 +39,12 @@ public class FltyPrcsController {
 		return new ResponseEntity<List<FltyPrcsVO>>(list, HttpStatus.OK);
 	}
 	
-	
-	//생산중불량조회 
-	
+	//생산불량조회
+	@GetMapping("/findProcFlty")
+	public ResponseEntity<List<VFindProcPerformVO>> findProcFlty() {
+		List<VFindProcPerformVO> list = service.findProcFlty();
+		return new ResponseEntity<List<VFindProcPerformVO>>(list, HttpStatus.OK);
+	}
 	
 	//불량코드조회(모달창)
 	@GetMapping(value = "/findFltyCode", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -62,7 +64,7 @@ public class FltyPrcsController {
 	//불량처리상세조회
 	@GetMapping(value = "/fltyPrcsList/find", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<FltyPrcsVO>> fltyPrcsFindPage(@RequestParam Map<String, String> queryParameters) {
-		List<FltyPrcsVO> list = service.findFltyPrcs(queryParameters.get("fltyPrcsSdate"), queryParameters.get("fltyPrcsEdate"), queryParameters.get("fltyCode"));
+		List<FltyPrcsVO> list = service.findFltyPrcs(queryParameters.get("fltyPrcsSdate"), queryParameters.get("fltyPrcsEdate"), queryParameters.get("finPrdCdName"));
 		return new ResponseEntity<List<FltyPrcsVO>>(list, HttpStatus.OK);
 	}
 	
