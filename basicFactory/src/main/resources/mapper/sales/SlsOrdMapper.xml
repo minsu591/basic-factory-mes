@@ -186,55 +186,57 @@
    	</delete>
    	
    	<!-- 생산계획에 존재하지 않거나 생산계획에 존재하는데 주문량에 못 미치는 주문내역 조회 -->
-   	<select id="findOrderForPlan" resultMap="ordPlanMap">
-   		SELECT <if test="ordType == 'head'"> DISTINCT </if> H.SLS_ORD_HD_NO, H.SLS_ORD_HD_DATE,
-   			   H.VEND_CD_CODE, V.VEND_CD_NM,
-   		       H.EMP_ID, NVL(H.SLS_ORD_HD_REMK,' ') AS SLS_ORD_HD_REMK
-   		       <if test="ordType != 'head'">
-   		       ,D.SLS_ORD_DTL_NO, D.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME,
-   		       D.SLS_ORD_DTL_DLV_DATE, D.SLS_ORD_DTL_VOL, D.SLS_ORD_DTL_PRG_CLS, D.SLS_ORD_DTL_NO,
-               NVL(P.PLAN_PROD_VOL,0) AS PLAN_PROD_VOL
-               </if>
-		       FROM BF_SALES_ORD_HD H
-		JOIN BF_SALES_ORD_DTL D
-		  ON H.SLS_ORD_HD_NO = D.SLS_ORD_HD_NO
-		JOIN BF_CMN_VENDOR_CODE V
-		  ON V.VEND_CD_CODE = H.VEND_CD_CODE
-		JOIN BF_CMN_FINISH_PRODUCT_CODE F
-		  ON F.FIN_PRD_CD_CODE = D.FIN_PRD_CD_CODE
-		LEFT OUTER JOIN
-		  (SELECT H.PLAN_HD_CODE, P.FIN_PRD_CD_CODE, SUM(P.PLAN_PROD_VOL) AS PLAN_PROD_VOL, H.SLS_ORD_HD_NO
-		          FROM BF_PROD_PLAN P
-		   JOIN BF_PROD_PLAN_HD H
-		    ON P.PLAN_HD_CODE = H.PLAN_HD_CODE
-		   GROUP BY H.PLAN_HD_CODE, H.SLS_ORD_HD_NO, P.FIN_PRD_CD_CODE
-		    HAVING H.SLS_ORD_HD_NO IS NOT NULL) P
-		ON (H.SLS_ORD_HD_NO = P.SLS_ORD_HD_NO
-		   AND D.FIN_PRD_CD_CODE = P.FIN_PRD_CD_CODE)
-		WHERE ((D.SLS_ORD_dTL_PRG_CLS = 1
-               AND D.SLS_ORD_DTL_VOL > P.PLAN_PROD_VOL)
-               OR D.SLS_ORD_DTL_PRG_CLS = 0)
-               <if test="ordType != 'head'">
-               	AND H.SLS_ORD_HD_NO = #{ordType}
-               </if>
-        <if test="ordType == 'head'">
-			<choose>
-				<when
-					test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
-					AND D.sls_ord_dtl_dlv_date BETWEEN #{ordSdate} AND #{ordEdate}
-				</when>
-				<when test="ordSdate != null and ordSdate != ''">
-					AND D.sls_ord_dtl_dlv_date = #{ordSdate}
-				</when>
-				<when test="ordEdate != null and ordEdate != ''">
-					AND D.sls_ord_dtl_dlv_date = #{ordEdate}
-				</when>
-				<otherwise>
-					AND D.sls_ord_dtl_dlv_date > (sysdate - 10)
-				</otherwise>
-			</choose>
-		</if>
+   	<select id="findOrderForPlan" resultType="slsOrdHdVO">
+   		SELECT DISTINCT OH.SLS_ORD_HD_NO, OH.SLS_ORD_HD_DATE, OH.VEND_CD_CODE,
+   				V.VEND_CD_NM, OH.EMP_ID, NVL(OH.SLS_ORD_HD_REMK,' ') AS SLS_ORD_HD_REMK
+		   FROM BF_SALES_ORD_HD OH
+		        JOIN BF_SALES_ORD_DTL O
+				   ON OH.SLS_ORD_HD_NO = O.SLS_ORD_HD_NO
+        	    JOIN BF_CMN_VENDOR_CODE V
+        		   ON V.VEND_CD_CODE = OH.VEND_CD_CODE
+		WHERE (OH.SLS_ORD_HD_NO NOT IN (SELECT DISTINCT SLS_ORD_HD_NO
+		                                FROM BF_PROD_PLAN_HD
+		                                WHERE SLS_ORD_HD_NO IS NOT NULL)
+		OR O.SLS_ORD_DTL_VOL > (SELECT SUM(P.PLAN_PROD_VOL)
+		                        FROM BF_PROD_PLAN P
+		                        JOIN BF_PROD_PLAN_HD PH
+		                        ON PH.PLAN_HD_CODE = P.PLAN_HD_CODE
+		                        WHERE PH.SLS_ORD_HD_NO IS NOT NULL
+		                        AND P.FIN_PRD_CD_CODE = O.FIN_PRD_CD_CODE
+		                        GROUP BY PH.SLS_ORD_HD_NO, P.FIN_PRD_CD_CODE))
+		<choose>
+			<when
+				test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
+				AND O.sls_ord_dtl_dlv_date BETWEEN #{ordSdate} AND #{ordEdate}
+			</when>
+			<when test="ordSdate != null and ordSdate != ''">
+				AND O.sls_ord_dtl_dlv_date = #{ordSdate}
+			</when>
+			<when test="ordEdate != null and ordEdate != ''">
+				AND O.sls_ord_dtl_dlv_date = #{ordEdate}
+			</when>
+		</choose>
 		ORDER BY SLS_ORD_HD_DATE DESC
    	</select>
    	
+   	<select id="findOrderForPlanDtl" resultType="slsOrdDtlVO">
+   		SELECT OH.SLS_ORD_HD_NO, O.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME, O.SLS_ORD_DTL_DLV_DATE, O.SLS_ORD_DTL_VOL, P.PLAN_PRE_VOL
+		FROM BF_SALES_ORD_HD OH
+		JOIN BF_SALES_ORD_DTL O
+		ON OH.SLS_ORD_HD_NO = O.SLS_ORD_HD_NO
+		JOIN BF_CMN_FINISH_PRODUCT_CODE F
+		ON F.FIN_PRD_CD_CODE = O.FIN_PRD_CD_CODE
+		JOIN (SELECT PH.SLS_ORD_HD_NO, P.FIN_PRD_CD_CODE, SUM(P.PLAN_PROD_VOL) AS PLAN_PRE_VOL
+		        FROM BF_PROD_PLAN P
+		        JOIN BF_PROD_PLAN_HD PH
+		        ON PH.PLAN_HD_CODE = P.PLAN_HD_CODE
+		        WHERE PH.SLS_ORD_HD_NO IS NOT NULL
+		        GROUP BY PH.SLS_ORD_HD_NO, P.FIN_PRD_CD_CODE) P
+		ON P.SLS_ORD_HD_NO = OH.SLS_ORD_HD_NO
+		   AND P.FIN_PRD_CD_CODE = O.FIN_PRD_CD_CODE
+		WHERE O.SLS_ORD_DTL_VOL > P.PLAN_PRE_VOL
+		<if test="slsOrdHdNo != null and slsOrdHdNo != ''">
+		AND O.SLS_ORD_HD_NO = #{slsOrdHdNo}
+		</if>
+   	</select>
 </mapper>

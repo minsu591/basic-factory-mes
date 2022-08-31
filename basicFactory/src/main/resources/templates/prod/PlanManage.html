@@ -9,12 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Production PlanManage</title>
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
+    <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet" />
     
 </head>
 <body>
     <script type="text/javascript" th:src="@{/js/modal/prod/findPlanManageModal.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/cmn/findTdproduct.js}"></script>
     <script type="text/javascript" th:src="@{/js/prod/PlanManage.js}"></script>
+    <script type="text/javascript" th:src="@{/js/prod/planUpdateDB.js}"></script>
 
     <div class="pcoded-main-container">
         <h1>생산 계획 관리</h1>
@@ -62,17 +65,16 @@
                                   <thead>
                                       <tr>
                                           <th><input type="checkbox" id="allCheck"></th>
-                                          <th th:text="주문코드"></th>
-                                          <th th:text="제품코드"></th>
+                                          <th th:text="주문코드" name="sls_ord_hd_no"></th>
+                                          <th th:text="제품코드" name="fin_prd_cd_code"></th>
                                           <th th:text="제품명"></th>
                                           <th th:text="납기일자"></th>
                                           <th th:text="주문량"></th>
-                                          <th th:text="기계획량"></th>
+                                          <th th:text="기계획량" name="plan_pre_vol"></th>
                                           <th th:text="미계획량"></th>
-                                          <!--input창-->
-                                          <th th:text="계획량"></th>
-                                          <th th:text="'작업계획 시작일자'"></th>
-                                          <th th:text="'작업계획 종료일자'"></th>
+                                          <th th:text="계획량" name="plan_prod_vol"></th>
+                                          <th th:text="'작업계획 시작일자'" name="plan_sdate"></th>
+                                          <th th:text="'작업계획 종료일자'" name="plan_edate"></th>
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -90,6 +92,8 @@
     <th:block th:replace="~{/fragments/modal/findNotDoneOrd :: findNotDoneOrd}"></th:block>
     <!-- 담당자검색 Modal -->
     <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
+    <!--제품코드 검색 modal-->
+    <th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
     <script>
         
 

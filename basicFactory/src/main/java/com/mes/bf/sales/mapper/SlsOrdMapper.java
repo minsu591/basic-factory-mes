@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 import com.mes.bf.sales.vo.SlsOrdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdVO;
-import com.mes.bf.sales.vo.SlsOrdPlanVO;
 
 @Mapper
 public interface SlsOrdMapper {
@@ -15,7 +14,8 @@ public interface SlsOrdMapper {
 	List<SlsOrdHdDtlVO> findOrder(String ordSdate, String ordEdate, String vendorName);
 	List<SlsOrdHdVO> findOrderModal(String ordSdate, String ordEdate);
 	List<SlsOrdHdDtlVO> findDtlOrder (String slsOrdHdNo);
-	List<SlsOrdPlanVO> findOrderForPlan(String ordSdate, String ordEdate, String ordType);
+	List<SlsOrdHdVO> findOrderForPlan(String ordSdate, String ordEdate);
+	List<SlsOrdDtlVO> findOrderForPlanDtl(String slsOrdHdNo);
 	void orderUpdate(String priKey, String updCol, String updCont);
 	void orderDelete(String priKey);
 	void orderInsertHd(SlsOrdHdVO vo);

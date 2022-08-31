@@ -9,4 +9,7 @@ import lombok.Data;
 public class LineCodeHdVO {
 	private String lineCdHdCode;
 	private String lineCdHdName;
+	private String finPrdCdCode;
+	private String finPrdCdName;
+	
 }

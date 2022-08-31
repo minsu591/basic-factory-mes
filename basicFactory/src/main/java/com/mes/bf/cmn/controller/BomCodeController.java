@@ -19,12 +19,17 @@ import com.mes.bf.cmn.service.BomService;
 import com.mes.bf.cmn.vo.BomRscDtlVO;
 import com.mes.bf.cmn.vo.BomRscVO;
 import com.mes.bf.cmn.vo.BomVO;
+import com.mes.bf.cmn.vo.FinProdCodeVO;
+import com.mes.bf.cmn.vo.LineCodeHdVO;
 import com.mes.bf.cmn.vo.LineCodeVO;
+import com.mes.bf.prod.service.InstructionService;
 
 @Controller
 @RequestMapping("/cmn")
 public class BomCodeController {
 	@Autowired BomService service;
+	@Autowired InstructionService Instservice;
+
 	
 	//페이지 호출
 	@RequestMapping("/bomCode")
@@ -91,6 +96,19 @@ public class BomCodeController {
 	public ResponseEntity<Integer> bomRscUpdate(@RequestParam Map<String, String> QueryParameters) {
 		int result = service.bomRscUpdate(QueryParameters.get("priKey"), QueryParameters.get("updCol"), QueryParameters.get("updCont"));
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	// 완제품 조회
+	@GetMapping(value = "/findproduct", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<FinProdCodeVO>> findProduct(@RequestParam Map<String, String> QueryParameters) {
+		List<FinProdCodeVO> list = Instservice.findProduct(QueryParameters.get("prdCdCode"),
+				QueryParameters.get("prdCdName"));
+		return new ResponseEntity<List<FinProdCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
+	//bom에 없는 라인 조회
+	@GetMapping(value = "/findLine", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<LineCodeHdVO>> findLine() {
+		List<LineCodeHdVO> lines = service.findLine();
+		return new ResponseEntity<List<LineCodeHdVO>>(lines, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 	
 }

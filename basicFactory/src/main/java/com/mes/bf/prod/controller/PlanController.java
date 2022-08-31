@@ -19,6 +19,8 @@ import com.mes.bf.prod.vo.ColPlanVO;
 import com.mes.bf.prod.vo.PlanHdVO;
 import com.mes.bf.prod.vo.PlanVO;
 import com.mes.bf.sales.service.SlsOrdService;
+import com.mes.bf.sales.vo.SlsOrdDtlVO;
+import com.mes.bf.sales.vo.SlsOrdHdVO;
 import com.mes.bf.sales.vo.SlsOrdPlanVO;
 
 @Controller
@@ -64,16 +66,16 @@ public class PlanController {
 	
 	//생산 관리에서 미계획 주문내역 모달 조회
 	@GetMapping(value="/notDoneOrd", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<SlsOrdPlanVO>> notDoneOrd(@RequestParam Map<String, String> QueryParameters){
-		List<SlsOrdPlanVO> ords = ordService.findOrderForPlan(QueryParameters.get("sdate"), QueryParameters.get("edate"),"head");
-		return new ResponseEntity<List<SlsOrdPlanVO>>(ords, HttpStatus.OK);
+	public ResponseEntity<List<SlsOrdHdVO>> notDoneOrd(@RequestParam Map<String, String> QueryParameters){
+		List<SlsOrdHdVO> ords = ordService.findOrderForPlan(QueryParameters.get("sdate"), QueryParameters.get("edate"));
+		return new ResponseEntity<List<SlsOrdHdVO>>(ords, HttpStatus.OK);
 	}
 	
-
+	//생산 관리에서 미계획 주문내역 모달 상세 조회
 	@GetMapping(value="/notDoneOrd/dtl", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<SlsOrdPlanVO>> notDoneOrdDtl(@RequestParam Map<String, String> QueryParameters){
-		List<SlsOrdPlanVO> ords = ordService.findOrderForPlan(null, null,QueryParameters.get("ordNo"));
-		return new ResponseEntity<List<SlsOrdPlanVO>>(ords, HttpStatus.OK);
+	public ResponseEntity<List<SlsOrdDtlVO>> notDoneOrdDtl(@RequestParam Map<String, String> QueryParameters){
+		List<SlsOrdDtlVO> ords = ordService.findOrderForPlanDtl(QueryParameters.get("slsOrdHdNo"));
+		return new ResponseEntity<List<SlsOrdDtlVO>>(ords, HttpStatus.OK);
 	}
 	
 	//생산 지시에서 미지시 생산계획 조회

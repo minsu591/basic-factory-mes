@@ -10,6 +10,7 @@ import com.mes.bf.cmn.service.BomService;
 import com.mes.bf.cmn.vo.BomRscDtlVO;
 import com.mes.bf.cmn.vo.BomRscVO;
 import com.mes.bf.cmn.vo.BomVO;
+import com.mes.bf.cmn.vo.LineCodeHdVO;
 import com.mes.bf.cmn.vo.LineCodeVO;
 
 @Service
@@ -50,6 +51,10 @@ public class BomServiceImpl implements BomService {
 	@Override
 	public List<LineCodeVO> findProcForLine(String lineCode) {
 		return mapper.findProcForLine(lineCode);
+	}
+	@Override
+	public List<LineCodeHdVO> findLine() {
+		return mapper.findLine();
 	}
 
 }

@@ -38,8 +38,8 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 	}
 	
 	@Override
-	public List<SlsOrdPlanVO> findOrderForPlan(String ordSdate, String ordEdate, String ordType) {
-		return mapper.findOrderForPlan(ordSdate, ordEdate, ordType);
+	public List<SlsOrdHdVO> findOrderForPlan(String ordSdate, String ordEdate) {
+		return mapper.findOrderForPlan(ordSdate, ordEdate);
 	}
 
 	@Override
@@ -67,6 +67,11 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 	@Override
 	public void orderDtlAddInsert(SlsOrdDtlVO vo) {
 		mapper.orderDtlAddInsert(vo);
+	}
+
+	@Override
+	public List<SlsOrdDtlVO> findOrderForPlanDtl(String slsOrdHdNo) {
+		return mapper.findOrderForPlanDtl(slsOrdHdNo);
 	}
 
 

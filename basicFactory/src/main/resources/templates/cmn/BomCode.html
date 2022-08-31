@@ -17,6 +17,8 @@ xmlns:th="http://www.thymeleaf.org"
     <!--modal js-->
     <script type="text/javascript" th:src="@{/js/modal/cmn/findTdResource.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/cmn/findTdproccdname.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/cmn/findTdproduct.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/cmn/findTdLine.js}"></script>
     <div class="pcoded-main-container">
         <div class="rightBtn">
             <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
@@ -66,13 +68,13 @@ xmlns:th="http://www.thymeleaf.org"
                                     <td><input type="checkbox" name="bomCb"></td>
                                     <td th:text="${bom.bomCdCode}">BOM001</td>
                                     <td th:text="${bom.bomCdName}">BOM 이름</td>
-                                    <td th:text="${bom.finPrdCdCode}">FIN001</td>
+                                    <td th:text="${bom.finPrdCdCode}" class="finPrdCdCode">FIN001</td>
                                     <td th:text="${bom.finPrdCdName}">신라면</td>
-                                    <td th:text="${bom.lineCdHdCode}">LINE001</td>
+                                    <td th:text="${bom.lineCdHdCode}" class="lineCdHdCode">LINE001</td>
                                     <td th:text="${bom.lineCdHdName}">LINE001</td>
                                     <td th:text="${bom.bomCdProdVol}">120</td>
                                     <td th:text="${bom.bomCdUnit}">개</td>
-                                    <td><input type="checkbox" th:checked="${bom.bomCdUse eq '1'}"></td>
+                                    <td><input type="checkbox" th:checked="${bom.bomCdUse eq '1'}" class='bomCdUse'></td>
                                     <td th:text="${bom.bomCdRemk}"></td>
                                 </tr>
                             </tbody>
@@ -145,5 +147,7 @@ xmlns:th="http://www.thymeleaf.org"
 
     <th:block th:replace="~{/fragments/modal/findresource :: findresource}"></th:block>
     <th:block th:replace="~{/fragments/modal/cmn/findProcForLine :: findProcForLine}"></th:block>
+    <th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
+    <th:block th:replace="~{/fragments/modal/cmn/findLineCode :: findLineCode}"></th:block>
 </body>
 </html>

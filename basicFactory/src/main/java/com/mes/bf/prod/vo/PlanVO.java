@@ -18,4 +18,5 @@ public class PlanVO {
 	private Date planEdate;
 	private String planRemk;
 	private Integer instProdIndicaVol;
+	private Integer planPreVol;
 }
