@@ -54,7 +54,8 @@ $(document).ready(function () {
         success : function(data){
           $("#planDetailTable tbody tr").remove();
           for(obj of data){
-            detailTableMakeRow(obj);
+            let finInfoList = finInfo(obj.finPrdCdCode);
+            detailTableMakeRow(obj,finInfoList);
           }
           $("#findNotDonePlanModal").modal("hide");
         }
@@ -62,33 +63,48 @@ $(document).ready(function () {
 
     });
 
-    function detailTableMakeRow(obj) {
+    function detailTableMakeRow(obj,finInfoList) {
       let node = `<tr>
-    <td><input type="checkbox"></td>
-    <td><input type="text" name="prodCode" value="${obj.finPrdCdCode}"></td>
-    <td><input type="text" readonly></td>
-    <td><input type="text" readonly></td>
-    <td><input type="text" readonly value="${obj.planIdx}"></td>
-    <td><input type="text" readonly value="${obj.planHdCode}"></td>
-    <td><input type="text" readonly value="${obj.planSdate}"></td>
-    <td><input type="text" readonly value="${obj.planEdate}"></td>
-    <td><input type="text" readonly value="${obj.instProdIndicaVol}"></td>
-    <td><input type="text" readonly value="${obj.planProdVol - obj.instProdIndicaVol}"></td>
-    <td><input type="text"></td>
-    <td><input type="text" readonly></td>
-  </tr>`;
+          <td><input type="checkbox"></td>
+          <td><input type="text" readonly name="prodCode" value="${obj.finPrdCdCode}" ></td>
+          <td><input type="text" readonly value="${finInfoList[0]}"></td>
+          <td><input type="text" readonly value="${finInfoList[1]}"></td>
+          <td><input type="text" readonly value="${obj.planIdx}"></td>
+          <td><input type="text" readonly value="${obj.planHdCode}"></td>
+          <td><input type="text" readonly value="${obj.planSdate}"></td>
+          <td><input type="text" readonly value="${obj.planEdate}"></td>
+          <td><input type="text" readonly value="${obj.instProdIndicaVol}"></td>
+          <td><input type="text" readonly value="${obj.planProdVol - obj.instProdIndicaVol}"></td>
+          <td><input type="text"></td>
+          <td><input type="text" readonly value="${finInfoList[2]}"></td>
+          <td><input type="text"></td>
+        </tr>`;
       $("#planDetailTable tbody").append(node);
     }
-    /*완제품코드
-      완제품명
-      규격
-      생산계획상세번호
-      생산계획코드
-      생산계획시작일자
-      생산계획종료일자
-      기지시량 (=지시량)
-      미지시량 (=계획량 - 지시량)
-      지시량
-      지시일자*/
+
+    function finInfo(prodCode){
+      let finPrdCdName;
+      let prodUnit;
+      let lineName;
+      $.ajax({
+        url: `findProdName/${prodCode}`,
+        method: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async : false,
+        success: function (data) {
+          console.log(data);
+          finPrdCdName = data.finPrdCdName;
+          prodUnit = data.finPrdCdVol + data.finPrdCdUnit;
+          lineName = data.lineCdHdName;
+        },
+        error: function (error, status, msg) {
+          finPrdCdName = "";
+          prodUnit = "";
+          lineName = "";
+        },
+      });
+      return [finPrdCdName,prodUnit,lineName];
+    }
 
 });
