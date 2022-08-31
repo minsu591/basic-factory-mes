@@ -25,7 +25,6 @@ import com.mes.bf.prod.vo.FltyPrcsVO;
 public class FltyPrcsController {
 	
 	@Autowired FltyPrcsService service;
-	@Autowired InstructionService instService;
 	
 	//불량처리관리 페이지
 	@RequestMapping("/fltyPrcsManage")
@@ -34,14 +33,23 @@ public class FltyPrcsController {
 		return mav;
 	}
 	
-	//불량처리관리 
+	//불량처리목록(모달창)
+	@GetMapping(value = "/findListFltyPrcs", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<FltyPrcsVO>> findListFltyPrcs(@RequestParam Map<String, String> QueryParameters) {
+		List<FltyPrcsVO> list = service.findlistFltyPrcs(QueryParameters.get("fltyPrcsSdate"), QueryParameters.get("fltyPrcsEdate"));
+		return new ResponseEntity<List<FltyPrcsVO>>(list, HttpStatus.OK);
+	}
 	
 	
-	//불량코드조회
-	//@GetMapping(value = "/findFltyCode", produces = { MediaType.APPLICATION_JSON_VALUE })
-	//public ResponseEntity<List<FaultyCodeVO>> findFltyCode(@RequestParam Map<String, String> QueryParameters) {
-	//	List<FaultyCodeVO> list = 
-	//}
+	//생산중불량조회 
+	
+	
+	//불량코드조회(모달창)
+	@GetMapping(value = "/findFltyCode", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<FaultyCodeVO>> findFltyCode(@RequestParam Map<String, String> QueryParameters) {
+		List<FaultyCodeVO> list = service.findFltyCode(QueryParameters.get("faultyCode"));
+		return new ResponseEntity<List<FaultyCodeVO>>(list, HttpStatus.OK);
+	}
 	
 	//불량처리조회
 	@RequestMapping("/fltyPrcs")

@@ -8,15 +8,15 @@ $("document").ready(function () {
 
   //불량코드 검색 버튼 클릭 이벤트
   $("#findFaultyBtn").click(function () {
-    let faultyCdCode = $("#faultyCdCode").val();
+    let faultyCode = $("#faultyCdCode").val();
 
     $.ajax({
-      url: `ㅎㅎㅎㅎㅎ`,
+      url: `findFltyCode`,
       method: "GET",
       contentType: "application/json;charset=utf-8",
       dataType: "json",
       data: {
-        faultyCdCode: faultyCdCode,
+        faultyCode: faultyCode,
       },
       error: function (error, status, msg) {
         alert("상태코드 " + status + "에러메시지" + msg);
@@ -55,7 +55,7 @@ $("document").ready(function () {
 });
 function findFaultyCode() {
   $.ajax({
-    url: "ㅎㅎㅎㅎㅎ",
+    url: "findFltyCode",
     method: "GET",
     contentType: "application/json;charset=utf-8",
     dataType: "json",
@@ -63,7 +63,6 @@ function findFaultyCode() {
       alert("상태코드 " + status + "에러메시지" + msg);
     },
     success: function (data) {
-      console.log(data);
       $("#findFaultytbody tr").remove();
       let index = 0;
       for (obj of data) {

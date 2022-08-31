@@ -21,5 +21,7 @@ public class FltyPrcsVO {
 	//private String lineCdHdName;	//라인명
 	private String procCdName;		//공정명
 	private String mchnName;		//설비명
+	private String empId;
+	private String empName;
 
 }

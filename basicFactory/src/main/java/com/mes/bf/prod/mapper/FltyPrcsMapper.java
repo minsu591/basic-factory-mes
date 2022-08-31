@@ -15,7 +15,8 @@ public interface FltyPrcsMapper {
 	//생산중불량조회
 	List<FltyPrcsVO> findProcFlty();
 	//불량코드 조회
-	List<FaultyCodeVO> findFltyCode(String fltyName);
+	List<FaultyCodeVO> findFltyCode(String faultyCode);
+	
 	//불량처리조회
 	List<FltyPrcsVO> listFltyPrcs();
 	//불량처리상세조회

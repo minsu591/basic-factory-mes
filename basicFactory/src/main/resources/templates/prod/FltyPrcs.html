@@ -45,6 +45,7 @@
                   <th th:text="공정명"></th>
                   <th th:text="설비명"></th>
                   <th th:text="불량처리일"></th>
+                  <th th:text="담당자"></th>
                   <th th:text="비고"></th>
                 </tr>
               </thead>
@@ -58,6 +59,7 @@
                   <td th:text="${fp.procCdName}"></td>
                   <td th:text="${fp.mchnName}"></td>
                   <td th:text="${fp.fltyPrcsDate}"></td>
+                  <td th:text="${fp.empName}"></td>
                   <td th:text="${fp.fltyPrcsRemk}"></td>
                 </tr>
               </tbody>
