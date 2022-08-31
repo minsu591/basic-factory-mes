@@ -157,6 +157,8 @@ $(document).ready(function () {
     //완제품 재고 등록 처리
     insertInDtl(processNo, workDate, prodVol, finPrdCdCode);
     saveSucess();
+
+
   });
 });
 function findPacking() {

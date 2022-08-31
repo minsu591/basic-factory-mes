@@ -21,13 +21,12 @@ import com.mes.bf.cmn.vo.ProcCodeVO;
 import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.service.ProcService;
-import com.mes.bf.prod.vo.FindRscVO;
 import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.ProcManageVO;
 import com.mes.bf.prod.vo.ProcessPerformVO;
 import com.mes.bf.prod.vo.ProcessVO;
+import com.mes.bf.prod.vo.ProdRscOutVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
-import com.mes.bf.rsc.vo.RscOutVO;
 
 @RestController
 @RequestMapping("/prod")
@@ -149,7 +148,7 @@ public class ProcController {
 	}
 
 	// 공정 완료 후 다음공정 입고량 업데이트
-	@PutMapping("/updateprocindetlvol")
+	@PutMapping("/updateprocindtlvol")
 	public void updateProcInDtlVol(@RequestBody ProcessVO vo) {
 		System.out.println(vo);
 		service.updateProcInDtlVol(vo);
@@ -162,16 +161,16 @@ public class ProcController {
 		return new ResponseEntity<ProcessPerformVO>(vo, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
-	// 제품명으로 자재 사용량 및 재고량 조
-	@GetMapping("/findrscvo/{finPrdCdCode}")
-	public ResponseEntity<List<FindRscVO>> findRscVO(@PathVariable String finPrdCdCode) {
-		List<FindRscVO> list = service.findRscVO(finPrdCdCode);
-		return new ResponseEntity<List<FindRscVO>>(list, HttpStatus.OK);
-	}
+//	// 제품명으로 자재 사용량 및 재고량 조
+//	@GetMapping("/findrscvo/{finPrdCdCode}")
+//	public ResponseEntity<List<FindRscVO>> findRscVO(@PathVariable String finPrdCdCode) {
+//		List<FindRscVO> list = service.findRscVO(finPrdCdCode);
+//		return new ResponseEntity<List<FindRscVO>>(list, HttpStatus.OK);
+//	}
 
 	// 자재 사용량 출고내역 등록
 	@PostMapping("/insertrscout")
-	public void insertRscOut(@RequestBody RscOutVO vo) {
+	public void insertRscOut(@RequestBody ProdRscOutVO vo) {
 		System.out.println(vo);
 		service.insertRscOut(vo);
 	}

@@ -13,5 +13,8 @@ public class FindRscVO {
 	private Double bomRscUseVol;
 	private String rscLotNo;
 	private Double rscStock;
+	private int inDtlVol;
+	private int processNo; //processperfomNo 찾는용
+	private String empId;
 	
 }

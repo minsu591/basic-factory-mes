@@ -1,35 +1,35 @@
 @charset "UTF-8";
 
 h1 {
-	margin-top: 2%;
-	margin-left: 2%;
-	margin-bottom: 2%;
+  margin-top: 2%;
+  margin-left: 2%;
+  margin-bottom: 2%;
 }
 
 .row {
-
-	margin-left: 0;
-	margin-right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .time {
-	width: 10% !important;
+  width: 10% !important;
+}
+.table-responsive {
+  height: 400px;
+}
+#nonOpTable input[type="text"]:read-only {
+  background: #f6f6f6 !important;
+  width: 100% !important;
 }
 
-#nonOpTable input[type=text]:read-only {
-	background: #f6f6f6 !important;
-	width: 100% !important
-}
-
-#nonOpTable input[type=text] {
-	height: 2rem;
-	text-align: center;
-	border: solid 1px #e2e5e8;
-	width: 100%;
-	background: rgba(241, 196, 15, 0.1)
+#nonOpTable input[type="text"] {
+  height: 2rem;
+  text-align: center;
+  border: solid 1px #e2e5e8;
+  width: 100%;
+  background: rgba(241, 196, 15, 0.1);
 }
 
 #nonOpTable td {
-	padding: 0;
-
+  padding: 0;
 }

@@ -132,29 +132,78 @@ function workinsertTableMakeRow(obj) {
 }
 
 function workinsertTableLastChildMakeRow(obj, index) {
+  let compstts;
+  $("#workInsertTable tbody tr").each(function () {
+    if (obj.mchnCode == $(this).find("input:hidden[name=mchnCode]").val()) {
+
+      compstts = $(this).find("input:hidden[name=completionStatus]").val();
+
+    }
+    console.log("index" + index);
+    console.log(compstts);
+  })
+
   if (index == 1) {
-    //console.log(`${obj.mchnStts}`);
-    let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
-    let tr = $("#workInsertTable tbody tr:eq(0)").append(node);
+    if (compstts == 'y') {
+      let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
+      $("#workInsertTable tbody tr:eq(0)").append(node);
+    } else {
+      let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
+      let tr = $("#workInsertTable tbody tr:eq(0)").append(node);
+    }
   } else if (index == 2) {
-    let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
-    let tr = $("#workInsertTable tbody tr:eq(1)").append(node);
+
+    if (compstts == 'y') {
+      let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
+      $("#workInsertTable tbody tr:eq(1)").append(node);
+    } else {
+      let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
+      let tr = $("#workInsertTable tbody tr:eq(1)").append(node);
+    }
   } else if (index == 3) {
-    let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
-    let tr = $("#workInsertTable tbody tr:eq(2)").append(node);
+    if (compstts == 'y') {
+      let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
+      $("#workInsertTable tbody tr:eq(2)").append(node);
+    } else {
+      let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
+      let tr = $("#workInsertTable tbody tr:eq(2)").append(node);
+    }
   } else if (index == 4) {
-    let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
-    let tr = $("#workInsertTable tbody tr:eq(3)").append(node);
+    if (compstts == 'y') {
+      let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
+      $("#workInsertTable tbody tr:eq(3)").append(node);
+    } else {
+      let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
+      let tr = $("#workInsertTable tbody tr:eq(3)").append(node);
+    }
   }
 }
 
 //모달창 데이터 입력
 function mchnStatusMakeRow(obj) {
-  let node = `
-            <div>
-              <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
-              <div class="btn btn-outline-primary m-t-15">${obj.mchnStts}</div>
-            </div>`;
+  let compstts;
+  let node;
+  $("#workInsertTable tbody tr").each(function () {
+    if (obj.mchnCode == $(this).find("input:hidden[name=mchnCode]").val()) {
+
+      compstts = $(this).find("input:hidden[name=completionStatus]").val();
+
+    }
+  })
+
+  if (compstts == 'y') {
+    node = `
+    <div>
+      <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
+      <div class="btn btn-outline-primary m-t-15">진행완료</div>
+    </div>`;
+  } else {
+    node = `
+              <div>
+                <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
+                <div class="btn btn-outline-primary m-t-15">${obj.mchnStts}</div>
+              </div>`;
+  }
 
   $("#mchnStatus").append(node);
 }
