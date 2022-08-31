@@ -19,6 +19,7 @@ $("document").ready(function () {
     //tdInfo.parent().next().find("input").val(prdName);
 
     $("#findproductModal").modal("hide");
+    tdInfo.trigger("change");
   });
 
   //제품검색버튼 이벤트
