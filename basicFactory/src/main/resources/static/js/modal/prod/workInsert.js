@@ -193,6 +193,7 @@ function getprocPerform(processNo) {
       // console.log("getperfrom->" + data.prodDate);
       $("#workStartBtn").prop("disabled", true);
       $("#addFlty").prop("disabled", true);
+      $("#workEndBtn").prop("disabled", true);
       let startTime = data.workStartTime;
       let endTime = data.workEndTime;
       $("#instDate").val(data.prodDate).prop("readonly", true);
@@ -600,15 +601,22 @@ function startWork() {
     warning();
     return;
   }
+  let inDtlVol = $("#workStateTable tbody tr:eq(1) td").text(); //입고량
 
+  if (inDtlVol == 0) {
+    noInDtlVol();
+    return;
+  }
   if ($("#empid").val() == "") {
-    alert("작업자 입력하세요");
+    noEmpId();
+
     return;
   } else {
     $("#empid").prop("readonly", true);
     $("#instDate").prop("readonly", true);
   }
-  // let inDtlVol = $("#workStateTable tbody tr:eq(1) td").text(); //입고량
+
+
   // let virResult = $("#workStateTable tbody tr:eq(2) td").text(); //기실적량
   // let prodVol = $("#workStateTable tbody tr:eq(3) td").text(); //실적량
   // let fltyVol = $("#workStateTable tbody tr:eq(4) td").text(); //불량량
@@ -704,6 +712,18 @@ function warning() {
   Swal.fire({
     icon: "warning", // Alert 타입
     title: "이미 완료된 작업입니다.", // Alert 제목
+  })
+}
+function noEmpId() {
+  Swal.fire({
+    icon: "warning", // Alert 타입
+    title: "작업자가 입력되지 않았습니다.", // Alert 제목
+  })
+};
+function noInDtlVol() {
+  Swal.fire({
+    icon: "warning", // Alert 타입
+    title: "입고가 되지 않은 공정입니다.", // Alert 제목
   })
 }
 
