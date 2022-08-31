@@ -9,13 +9,15 @@ import com.mes.bf.prod.mapper.PlanMapper;
 import com.mes.bf.prod.service.PlanService;
 import com.mes.bf.prod.vo.ColPlanOrdVO;
 import com.mes.bf.prod.vo.ColPlanVO;
+import com.mes.bf.prod.vo.PlanHdVO;
+import com.mes.bf.prod.vo.PlanVO;
 
 @Service
 public class PlanServiceImpl implements PlanService {
 	@Autowired PlanMapper mapper;
 
 	@Override
-	public List<ColPlanVO> findPlanInst(String startDate, String endDate) {
+	public List<PlanHdVO> findPlanInst(String startDate, String endDate) {
 		return mapper.findPlanInst(startDate, endDate);
 	}
 	@Override
@@ -25,6 +27,10 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public List<ColPlanOrdVO> findPlanOrd(String startDate, String endDate, String data) {
 		return mapper.findPlanOrd(startDate, endDate, data);
+	}
+	@Override
+	public List<PlanVO> findPlan(String planHdCode) {
+		return mapper.findPlan(planHdCode);
 	}
 	
 

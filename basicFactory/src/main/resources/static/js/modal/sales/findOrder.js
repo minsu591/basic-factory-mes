@@ -105,9 +105,10 @@ $("document").ready(function(){
     function ordMakeRow(ord){
         let node = `<tr>
                     <td><input type="checkbox"></td>
-                    <td>${ord.finPrdCdCode}</td>
+                    <input type="hidden" value="${ord.slsOrdDtlNo}">
+                    <td class="productCode">${ord.finPrdCdCode}</td>
                     <td>${ord.finPrdCdName}</td>
-                    <td>${ord.slsOrdDtlDlvDate}</td>
+                    <td><input type="date" value="${ord.slsOrdDtlDlvDate}"></td>
                     <td>${ord.slsOrdDtlVol}</td>
                     </tr>`;
         $("#ordMngTable tbody").append(node);

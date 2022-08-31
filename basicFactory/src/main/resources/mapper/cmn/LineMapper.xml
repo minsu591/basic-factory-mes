@@ -45,7 +45,7 @@
 	<!-- line insert, delete, update -->
 	<insert id="lineCodeInsert" parameterType ="lineCodeVO">
 		INSERT INTO BF_CMN_LINE_CODE
-		VALUES('LINEDT'||LPAD(BF_CMN_LINE_CODE_SEQ.NEXTVAL,3,'0'),#{lineCdHdCode},#{procCdCode},#{mchnCode},#{lineCdOrd}})
+		VALUES('LINEDT'||LPAD(BF_CMN_LINE_CODE_SEQ.NEXTVAL,3,'0'),#{lineCdHdCode},#{procCdCode},#{mchnCode},#{lineCdOrd})
 	</insert>
 	
 	<update id="lineCodeUpdate">

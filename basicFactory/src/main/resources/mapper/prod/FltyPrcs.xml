@@ -2,10 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.prod.mapper.FltyPrcsMapper">
 
-	<select id="findlistFltyPrcs" resultType="fltyPrcs">
-		
-	</select>
-
 
 	<select id="listFltyPrcs" resultType="fltyPrcs">
 		SELECT FC.FAULTY_CD_CODE, 

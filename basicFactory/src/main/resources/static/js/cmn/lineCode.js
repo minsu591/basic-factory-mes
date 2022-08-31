@@ -60,8 +60,8 @@ $("document").ready(function(){
     //공정 make row
     function procMakeRow(obj){
         let node = `<tr>
-                        <input type="hidden" class="lineCdCode" value="${obj.lineCdCode}">
-                        <td><input type="checkbox" name="procCb"></td>`;
+                        <td><input type="checkbox" name="procCb"></td>
+                        <input type="hidden" class="lineCdCode" value="${obj.lineCdCode}">`;
         if($("#procAllCheck").is(":checked")){
             node = `<tr>
                     <input type="hidden" class="lineCdCode" value="${obj.lineCdCode}">
