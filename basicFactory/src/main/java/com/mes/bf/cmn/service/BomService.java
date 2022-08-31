@@ -5,6 +5,7 @@ import java.util.List;
 import com.mes.bf.cmn.vo.BomRscDtlVO;
 import com.mes.bf.cmn.vo.BomRscVO;
 import com.mes.bf.cmn.vo.BomVO;
+import com.mes.bf.cmn.vo.LineCodeHdVO;
 import com.mes.bf.cmn.vo.LineCodeVO;
 
 
@@ -21,4 +22,5 @@ public interface BomService {
 	int bomRscUpdate(String priKey, String updCol, String updCont);
 	
 	List<LineCodeVO> findProcForLine(String lineCode);
+	List<LineCodeHdVO> findLine();
 }

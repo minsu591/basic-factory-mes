@@ -38,16 +38,16 @@ $("document").ready(function(){
         }
         node += `<td>${obj.bomCdCode}</td>
                 <td>${obj.bomCdName}</td>
-                <td>${obj.finPrdCdCode}</td>
+                <td class="finPrdCdCode">${obj.finPrdCdCode}</td>
                 <td>${obj.finPrdCdName}</td>
-                <td>${obj.lineCdHdCode}</td>
+                <td class="lineCdHdCode">${obj.lineCdHdCode}</td>
                 <td>${obj.lineCdHdName}</td>
                 <td>${obj.bomCdProdVol}</td>
                 <td>${obj.bomCdUnit}</td>`;
         if(obj.bomCdUse == 1){
-            node += `<td><input type="checkbox" checked></td>`;
+            node += `<td><input type="checkbox" class="bomCdUse" checked ></td>`;
         }else{
-            node += `<td><input type="checkbox"></td>`;
+            node += `<td><input type="checkbox" class="bomCdUse"></td>`;
         }
         node += `<td>${obj.bomCdRemk}</td>
                 </tr>`;
@@ -70,6 +70,9 @@ $("document").ready(function(){
         let checked = $("input[name='bomCb']:checked").length;
         if (total != checked) $("#bomAllCheck").prop("checked",false);
         else $("#bomAllCheck").prop("checked", true);
+        e.stopPropagation();
+    })
+    $("#bomTable tbody").on("click","input:checkbox",function(e){
         e.stopPropagation();
     })
 

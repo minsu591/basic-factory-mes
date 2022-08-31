@@ -19,4 +19,5 @@ public class SlsOrdDtlVO {
 	private Integer slsOrdDtlOutVol;   //출고량
 	private Integer slsOrdDtlNotOutVol;//미출고량
 	private Integer slsOrdDtlPrgCls;   //진행구분
+	private Integer planPreVol; //기계획량
 }

@@ -2,6 +2,7 @@ package com.mes.bf.sales.service;
 
 import java.util.List;
 
+import com.mes.bf.sales.vo.SlsOrdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdVO;
 import com.mes.bf.sales.vo.SlsOrdPlanVO;
@@ -21,7 +22,10 @@ public interface SlsOrdService {
 	List<SlsOrdHdDtlVO> findDtlOrder (String slsOrdHdNo);
 	
 	//생산계획관리의 미계획 주문내역 조회
-	List<SlsOrdPlanVO> findOrderForPlan(String ordSdate, String ordEdate, String ordType);
+	List<SlsOrdHdVO> findOrderForPlan(String ordSdate, String ordEdate);
+	
+	//생산계획관리의 미계획 주문내역 상세 조회
+	List<SlsOrdDtlVO> findOrderForPlanDtl(String slsOrdHdNo);
 	
 	//주문관리 테이블 등록
 	void insertOrder(SlsOrdHdVO vo);

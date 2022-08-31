@@ -24,9 +24,4 @@ public class PlanTest {
 		System.out.println(plans);
 		System.out.println(plans2);
 	}
-	@Test
-	void findOrdForPlan() {
-		List<SlsOrdPlanVO> ords = ordService.findOrderForPlan(null, null,"head");
-		System.out.println(ords);
-	}
 }

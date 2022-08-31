@@ -16,7 +16,7 @@ $("document").ready(function(){
     let bomAvArr = [2,7,8,10];
     let rscAvArr = [7];
     //notNull이어야하는 idx
-    let bomNotNullList = [2,3,5,7,8,10];
+    let bomNotNullList = [2,3,5,7,8];
     let rscNotNullList = [1,3,5,7];
     //primary키인 index
     let bomPriKeyIdx = 1;
@@ -86,10 +86,9 @@ $("document").ready(function(){
    
     
     //기존에 있는 값들 중에 bom의 수정이 일어날 때
-    bomTable.find("tbody").find("td:not(:first-child)").change(function(e){
-        e.preventDefault();
-        let table = $(this).closest('table');
+    bomTable.find("tbody td:not(:first-child)").change(function(e){
         let col = $(this).index();
+        let table = $(this).closest('table');
         let priKey = $(this).parent().find("td:eq("+bomPriKeyIdx+")").text();
         let updCol =table.find("thead").find("th:eq("+col+")").attr("name");
         let updCont;
@@ -109,12 +108,12 @@ $("document").ready(function(){
 
     //필요 자재 목록의 수정이 일어날 때
     rscTable.find("tbody").on("change","td:not(:first-child)",function(e){
+        console.log(e);
         let bomRscIdx = $(this).parent().find("input[class='bomRscIdx']").val();
         //추가된 tr(priKey가 없는)은 제외
         if(bomRscIdx == null || bomRscIdx == ''){
             return;
         }
-        e.preventDefault();
         let table = $(this).closest('table');
         let col = $(this).index()-2;
         let priKey = bomRscIdx;
@@ -149,34 +148,15 @@ $("document").ready(function(){
 
     //저장 버튼 이벤트
     $("#saveBtn").on("click",function(){
-        let bomTrs = bomTable.find("tbody tr");
-        let rscTrs = rscTable.find("tbody tr");
         if(confirm("저장하시겠습니까?")==true){
-            //null 검사
-            for(tr of bomTrs){
-                for(idx of bomNotNullList){
-                    let content = $(tr).find("td:eq("+idx+")").text();
-                    if(content == null || content == ''){
-                        alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
-                        return;
-                    }
-                }
-            }
-            for(tr of rscTrs){
-                for(idx of rscNotNullList){
-                    let content = $(tr).find("td:eq("+idx+")").text();
-                    if(content == null || content == ''){
-                        alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
-                        return;
-                    }
-                }
-            }
-            
+            let flag = examineTr();
+            if(flag){
+                return false;
+            };
             //삭제용
             for(priKey of bomDelList){
                 bomDeleteSaveAjax(priKey);
             }
-            console.log(rscDelList);
             for(priKey of rscDelList){
                 rscDeleteSaveAjax(priKey);
             }
@@ -203,6 +183,64 @@ $("document").ready(function(){
             location.reload();
         }
     });
+
+    function exNull(st){
+        return st == null || st == '';
+    }
+
+    function examineTr(){
+        let bomTrs = [];
+        let bomUseCheck = bomTable.find("input[class='bomCdUse']");
+        bomUseCheck.each(function(idx,el){
+            if($(el).is(":checked")){
+                bomTrs.push($(el).closest('tr'));
+            }
+        })
+        //null 검사
+        let finList = [];
+        let lineList = [];
+        for(tr of bomTrs){
+            for(idx of bomNotNullList){
+                let content = $(tr).find("td:eq("+idx+")").text();
+                if(content == null || content == ''){
+                    alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
+                    return true;
+                }
+            }
+            //완제품코드 중복 검사
+            let finCode = $(tr).find("td:eq(3)").text();
+            let lineCode = $(tr).find("td:eq(5)").text();
+            for(fin of finList){
+                if(fin == finCode){
+                    alert('사용가능한 BOM 중에 완제품코드가 중복되는 요소가 존재합니다.');
+                    return true;
+                }
+            }
+            finList.push(finCode);
+            //라인코드 중복 검사
+            for(line of lineList){
+                if(line == lineCode){
+                    alert('사용가능한 BOM 중에 라인코드가 중복되는 요소가 존재합니다.');
+                    return true;
+                }
+            }
+            lineList.push(lineCode);
+        }
+        //rsc null 검사
+        let rscTrs = rscTable.find("tbody tr");
+        for(tr of rscTrs){
+            for(idx of rscNotNullList){
+                let content = $(tr).find("td:eq("+idx+")").text();
+                if(content == null || content == ''){
+                    alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
+                    return true;
+                }
+            }
+        }
+        //사용여부가 체크된 것 중에
+        //bom 코드 완제품코드와 라인코드가 동일하거나 || 라인코드가 겹치거나 || 완제품코드가 겹치는게 있다면 저장 불가
+        
+    }
 
     function bomModifySaveAjax(obj){
         //checkbox인거
@@ -263,13 +301,13 @@ $("document").ready(function(){
         }
         node +=`<td></td>
                 <td></td>
+                <td class="finPrdCdCode"></td>
+                <td></td>
+                <td class="lineCdHdCode"></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" class="bomCdUse"></td>
                 <td></td>
             </tr>`;
         $("#bomTable tbody").append(node);
@@ -277,7 +315,10 @@ $("document").ready(function(){
 
     //rsc 추가 버튼
     $("#rscAddBtn").on("click",function(){
-        if($("#bomCode").val() == ''){
+        let bomCode = $("#bomCode").val();
+        let lineCode = $("#lineCode").val();
+
+        if(exNull(bomCode) && exNull(lineCode)){
             alert("bom을 선택하고 자재를 추가해주세요.");
         }else{
             let node = `<tr name="addTr">
@@ -431,17 +472,17 @@ $("document").ready(function(){
             }
         })
     }
-
     //bom tr 클릭
     $("#bomTable tbody").on("click","tr",function(e){
         let bomCode = $(this).find("td:eq(1)").text();
+        let finCode = $(this).find("td:eq(3)").text();
         let lineCode = $(this).find("td:eq(5)").text();
         let prodVol = $(this).find("td:eq(7)").text();
         let prodUnit = $(this).find("td:eq(8)").text();
-        if($("#bomCode").val()==bomCode ||
-            ((lineCode == null || lineCode == '') &&
-            (procVol == null || procVol == '') &&
-            (prodUnit == null || prodUnit == ''))){
+        let inputBomCode = $("#bomCode").val();
+        //아래의 bomcode가 채워져있고 bomCode와 아래 bomCode가 동일할 때만 시행 X
+        if(inputBomCode == bomCode && (!exNull(inputBomCode)) ||
+            exNull(lineCode) || exNull(finCode) || exNull(prodVol) || exNull(prodUnit)){
             return false;
         }
 
@@ -450,6 +491,9 @@ $("document").ready(function(){
         $("#prodVol").val(prodVol);
         $("#prodUnit").val(prodUnit);
 
+        if(exNull(bomCode)){
+            return;
+        }
         
         if($("#bomRscTable tbody tr").length != 0){
             if(confirm('현재 수정한 내용이 모두 삭제됩니다.')==true){
@@ -458,12 +502,10 @@ $("document").ready(function(){
                 rscDelList = [];
                 $("#bomRscTable tbody tr").remove();
             }else{
-                return;
+                return false;
             }
         }
         selectBomRscAjax(bomCode);
-        
-        
     });
 
     function selectBomRscAjax(bomCode){
