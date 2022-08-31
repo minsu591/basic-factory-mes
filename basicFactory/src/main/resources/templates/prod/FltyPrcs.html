@@ -7,7 +7,7 @@
 <body>
   <link th:href="@{/css/prod/FltyPrcs.css}" rel="stylesheet" />
   <script type="text/javascript" th:src="@{/js/prod/FltyPrcs.js}"></script>
-  <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script> <!-- 모달창 만들면 바꾸기 -->
+  <script type="text/javascript" th:src="@{/js/modal/prod/findproduct.js}"></script>
 
   <div class="pcoded-main-container">
     <h1>불량 처리 조회</h1>
@@ -23,10 +23,8 @@
             </div>
             <br />
             <div class="form-group mt-3">
-              <label for="fltyCode" th:text="불량코드"></label>
-              <input type="text" id="fltyCode" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" />
-              <label for="fltyName" th:text="불량명"></label>
-              <input type="text" id="fltyName" class="form-control mx-sm-3" readonly />
+              <label for="productname" th:text="제품명"></label>
+              <input type="text" id="productname" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" />
             </div>
 
             <button type="button" class="btn btn-primary" id="selectBtn">조회</button>
@@ -37,6 +35,7 @@
             <table class="table table-striped" id="fplyPrcsTable">
               <thead>
                 <tr>
+                  <th th:text="공정실적번호"></th>
                   <th th:text="불량코드"></th>
                   <th th:text="불량명"></th>
                   <th th:text="불량수"></th>
@@ -51,6 +50,7 @@
               </thead>
               <tbody>
                 <tr th:each="fp : ${fltyPrcs}">
+                  <td th:text="${fp.processPerfomNo}"></td>
                   <td th:text="${fp.faultyCdCode}"></td>
                   <td th:text="${fp.faultyName}"></td>
                   <td th:text="${fp.fltyVol}"></td>
@@ -69,5 +69,7 @@
       </div>
     </div>
   </div>
+  <!-- 제품명 모달 -->
+  <th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
 </body>
 </html>

@@ -9,6 +9,7 @@ import com.mes.bf.cmn.vo.FaultyCodeVO;
 import com.mes.bf.prod.mapper.FltyPrcsMapper;
 import com.mes.bf.prod.service.FltyPrcsService;
 import com.mes.bf.prod.vo.FltyPrcsVO;
+import com.mes.bf.prod.vo.VFindProcPerformVO;
 
 @Service
 public class FltyPrcsServiceImpl implements FltyPrcsService{
@@ -21,7 +22,7 @@ public class FltyPrcsServiceImpl implements FltyPrcsService{
 	}
 
 	@Override
-	public List<FltyPrcsVO> findProcFlty() {
+	public List<VFindProcPerformVO> findProcFlty() {
 		return mapper.findProcFlty();
 	}
 
@@ -36,8 +37,8 @@ public class FltyPrcsServiceImpl implements FltyPrcsService{
 	}
 
 	@Override
-	public List<FltyPrcsVO> findFltyPrcs(String fltyPrcsSdate, String fltyPrcsEdate, String fltyCode) {
-		return mapper.findFltyPrcs(fltyPrcsSdate, fltyPrcsEdate, fltyCode);
+	public List<FltyPrcsVO> findFltyPrcs(String fltyPrcsSdate, String fltyPrcsEdate, String finPrdCdName) {
+		return mapper.findFltyPrcs(fltyPrcsSdate, fltyPrcsEdate, finPrdCdName);
 	}
 
 	
