@@ -25,6 +25,7 @@ import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.FindProcStatusVO;
+import com.mes.bf.prod.vo.InstAndDetailVO;
 import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.InstructionVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
@@ -51,7 +52,7 @@ public class InstructionController {
 		ModelAndView mav = new ModelAndView("prod/InstManage");
 		return mav;
 	}
-	
+
 	@RequestMapping("rsc/order")
 	public ModelAndView order() {
 		ModelAndView mav = new ModelAndView("rsc/order");
@@ -107,51 +108,58 @@ public class InstructionController {
 		List<VRscNeedQtyVO> list = service.findVRscNeedQty(finPrdCdCode);
 		return new ResponseEntity<List<VRscNeedQtyVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
-	
-	//생산지시 등록
+
+	// 생산지시 등록
 	@PostMapping("/insertinstruction")
-	public void insertInstruction(@RequestBody Map<String,Object> instruction) {
-		//System.out.println(instruction.get("instobjheader"));
-		//System.out.println(instruction.get("instobjdetail"));
+	public void insertInstruction(@RequestBody Map<String, Object> instruction) {
+		// System.out.println(instruction.get("instobjheader"));
+		// System.out.println(instruction.get("instobjdetail"));
 		ObjectMapper m = new ObjectMapper();
 		try {
-			//object -> String 변환
+			// object -> String 변환
 			String instheader = m.writeValueAsString(instruction.get("instobjheader"));
 			String instdetail = m.writeValueAsString(instruction.get("instobjdetail"));
-			//String -> vo변환
-			InstructionVO instvo = m.readValue(instheader,InstructionVO.class);
+			// String -> vo변환
+			InstructionVO instvo = m.readValue(instheader, InstructionVO.class);
 			InstructionDetailVO detailvo = m.readValue(instdetail, InstructionDetailVO.class);
-			//System.out.println(instvo);
-			//System.out.println(detailvo);
+			// System.out.println(instvo);
+			// System.out.println(detailvo);
 			String finPrdCdCode = detailvo.getFinPrdCdCode();
 			System.out.println(detailvo.getFinPrdCdCode());
 			service.insertInstruction(instvo, detailvo);
 			service.insertProc(finPrdCdCode);
-			
-			//자재소요예상량 데이터 입력
+
+			// 자재소요예상량 데이터 입력
 			service.insertNeedQty(finPrdCdCode);
 
-			//최초 공정 업데이트
+			// 최초 공정 업데이트
 			service.updateinDtlVol(detailvo.getInstProdIndicaVol());
-			
-			
+
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	//자재소요예상량 업데이트
-	@PutMapping("/updateneedqty") //파라미터가 JSON이라 파싱필요
-	public void todoUpdate(@RequestBody Map<String,String> needQty) {
+
+	// 생산지시 등록 통합
+	@PostMapping("/insertinstanddetail")
+	public void insertInstAndDetail(@RequestBody InstAndDetailVO vo) {
+		// System.out.println(instruction.get("instobjheader"));
+		// System.out.println(instruction.get("instobjdetail"));
+		System.out.println(vo);
+//		for(InstructionDetailVO str : vo.getDetailvo()) {
+//			System.out.println(str.getFinPrdCdCode());
+//		}
+	}
+
+	// 자재소요예상량 업데이트
+	@PutMapping("/updateneedqty") // 파라미터가 JSON이라 파싱필요
+	public void todoUpdate(@RequestBody Map<String, String> needQty) {
 		System.out.println(needQty.get("needQty"));
 		System.out.println(needQty.get("rscCdCode"));
-		
+
 		service.updateNeedQty(needQty.get("needQty"), needQty.get("rscCdCode"));
-		
+
 	}
-	
-	
-	
 
 }

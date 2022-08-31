@@ -12,6 +12,7 @@ import com.mes.bf.prod.mapper.InstructionMapper;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.FindProcStatusVO;
+import com.mes.bf.prod.vo.InstAndDetailVO;
 import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.InstructionVO;
 import com.mes.bf.prod.vo.ProcessVO;
@@ -67,7 +68,7 @@ public class InstructionServiceImpl implements InstructionService {
 	@Transactional
 	public void insertInstruction(InstructionVO vo, InstructionDetailVO detailvo) {
 		mapper.insertInstruction(vo);
-		mapper.insertInstructionDetail(detailvo);
+		//mapper.insertInstructionDetail(detailvo);
 
 	}
 
@@ -91,6 +92,13 @@ public class InstructionServiceImpl implements InstructionService {
 	@Override
 	public void updateinDtlVol(int indicaVol) {
 		mapper.updateinDtlVol(indicaVol);
+	}
+
+	//생산지시 통합입력
+	@Override
+	public void insertInstAndDetail(InstAndDetailVO vo) {
+		mapper.insertInstruction(vo.getVo());
+		mapper.insertInstructionDetail(vo.getDetailvo());
 	}
 
 }

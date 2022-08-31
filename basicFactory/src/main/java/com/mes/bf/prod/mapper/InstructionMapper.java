@@ -10,6 +10,7 @@ import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.FindProcStatusVO;
+import com.mes.bf.prod.vo.InstAndDetailVO;
 import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.InstructionVO;
 import com.mes.bf.prod.vo.ProcessVO;
@@ -45,7 +46,10 @@ public interface InstructionMapper {
 	boolean insertInstruction(InstructionVO vo);
 
 	// 생산지시 상세 입력
-	boolean insertInstructionDetail(InstructionDetailVO detailvo);
+	boolean insertInstructionDetail(List<InstructionDetailVO> list);
+	
+	//생산지시 통합 입력
+	void insertInstAndDetail(InstAndDetailVO vo);
 
 	// 공정테이블 데이터 입력
 	void insertProc(String finPrdCdCode);

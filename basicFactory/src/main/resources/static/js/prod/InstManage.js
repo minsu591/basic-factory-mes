@@ -65,6 +65,8 @@ $(document).ready(function () {
             let instName = $("#instname").val();
             let instRemk = $("#instRemk").val();
             let checkbox = $("input:checkbox:checked");
+
+            let detailvo = [];
             checkbox.each(function (i) {
               let tr = checkbox.parent().parent().eq(i);
               let td = tr.children();
@@ -74,65 +76,83 @@ $(document).ready(function () {
               console.log("prodCode ->" + prodCode);
               console.log("지시량 ->" + prodIndicaVol);
               console.log("workDate->" + workDate);
-              instobjheader = {
-                empId: empId,
-                instName: instName,
-                instDate: instDate,
-                instRemk: instRemk,
-              };
-              instobjdetail = {
+
+              let instObjDetail = {
                 instProdIndicaVol: prodIndicaVol,
                 finPrdCdCode: prodCode,
                 workDate: workDate,
               };
-              console.log(instobjheader);
-              console.log(instobjdetail);
-              let check = false;
-              $.ajax({
-                url: "insertinstruction",
-                method: "POST",
-                contentType: "application/json;charset=utf-8",
-                async: false, //동기로 처리
-                //dataType: "json",
-                data: JSON.stringify({
-                  instobjheader: instobjheader,
-                  instobjdetail: instobjdetail,
-                }),
-                error: function (error, status, msg) {
-                  alert("상태코드 " + status + "에러메시지" + msg);
-                },
-                success: function (data) {
-                  console.log(" insert success");
-                  check = true;
-                },
-              });
-              //자재소요예상량 업데이트
-              if (check == true) {
-                $("#rscStockTable tbody tr").each(function (i) {
-                  let tr = $(this);
-                  let td = tr.children();
-                  console.log(tr);
-                  let needQty = td.eq(5).text();
-                  let rscCdCode = td.eq(1).text();
-                  console.log(needQty);
-                  console.log(rscCdCode);
-                  $.ajax({
-                    url: `updateneedqty`,
-                    method: "PUT",
-                    dataType: "json",
-                    contentType: "application/json;charset=utf-8",
-                    data: JSON.stringify({
-                      needQty: needQty,
-                      rscCdCode: rscCdCode,
-                    }),
-                    success: function (data) {
-                      console.log("update sucess");
-                    },
-                  });
-                });
-              }
+              detailvo.push(instObjDetail);
             });
-            location.reload();
+            instObj = {
+              empId: empId,
+              instName: instName,
+              instDate: instDate,
+              instRemk: instRemk,
+            };
+            console.log(instObj);
+            let check = false;
+            $.ajax({
+              url: "insertinstanddetail",
+              method: "POST",
+              contentType: "application/json;charset=utf-8",
+              traditional: true,
+              data: JSON.stringify({
+                vo: instObj,
+                detailvo: detailvo,
+              }),
+              error: function (err) {
+                console.log(err);
+              },
+              success: function (data) {
+                console.log(data);
+              },
+            });
+            // $.ajax({
+            //   url: "insertinstruction",
+            //   method: "POST",
+            //   contentType: "application/json;charset=utf-8",
+            //   async: false, //동기로 처리
+            //   //dataType: "json",
+            //   data: JSON.stringify({
+            //     instobjheader: instobjheader,
+            //     instobjdetail: instobjdetail,
+            //   }),
+            //   error: function (error, status, msg) {
+            //     alert("상태코드 " + status + "에러메시지" + msg);
+            //   },
+            //   success: function (data) {
+            //     console.log(" insert success");
+            //     check = true;
+            //   },
+            // });
+            //자재소요예상량 업데이트
+            // if (check == true) {
+            //   $("#rscStockTable tbody tr").each(function (i) {
+            //     let tr = $(this);
+            //     let td = tr.children();
+            //     console.log(tr);
+            //     let needQty = td.eq(5).text();
+            //     let rscCdCode = td.eq(1).text();
+            //     console.log(needQty);
+            //     console.log(rscCdCode);
+            //     $.ajax({
+            //       url: `updateneedqty`,
+            //       method: "PUT",
+            //       dataType: "json",
+            //       contentType: "application/json;charset=utf-8",
+            //       data: JSON.stringify({
+            //         needQty: needQty,
+            //         rscCdCode: rscCdCode,
+            //       }),
+            //       success: function (data) {
+            //         console.log("update sucess");
+            //       },
+            //     });
+            //   });
+            // }
+
+            // location.reload();
           }
         });
       }
@@ -146,36 +166,77 @@ $(document).ready(function () {
     let prodUnit = $(this).find("td:eq(3)").children();
     let lineName = $(this).find("td:eq(11)").children();
     let indicaVol = $(this).find("td:eq(10)").children();
-    if ($(this).find("td:eq(0)").children().prop("checked")) {
+
+    let tr = $(this);
+    let procTabletr = $("#procStatusTable tbody tr").length;
+    if (tr.children().children().is(":checked") == true) {
+      console.log("체크");
+
       findProcStatus(lineName.val());
       findRscNeedQty(prodCode.val(), indicaVol.val());
-    } else {
-      $("#procStatusTable tbody tr").remove();
-      $("#rscStockTable tbody tr").remove();
+    } else if (tr.children().children().is(":checked") == false) {
+      var trNum = $(this).closest("tr").prevAll().length;
+      // console.log("trNum : " + trNum);
+      // console.log(Math.abs(trNum * 5 - procTabletr));
+      // console.log(Math.abs(trNum * 5 - procTabletr + procTabletr));
+      // $("#procStatusTable tbody tr")
+      //   .slice(
+      //     Math.abs(trNum * 5 - procTabletr),
+      //     Math.abs(trNum * 5 - procTabletr + 5)
+      //   )
+      //   .remove();
+      console.log("언체크");
     }
+    // $("#planDetailTable tbody tr").each(function (idx) {
+    //   let tr = $(this);
+    //   if (tr.find("td:eq(0)").children().is(":checked") == true) {
+    //     console.log("쳌 인덱스-> " + idx);
+    //     findProcStatus(lineName.val(), idx);
+    //     findRscNeedQty(prodCode.val(), indicaVol.val());
+    //   } else if (tr.find("td:eq(0)").children().is(":checked") == false) {
+    //     $("#procStatusTable tbody tr")
+    //       .slice(idx * 5, idx * 5 + 5)
+    //       .remove();
+    //     // console.log(index);
+    //     //console.log($("#procStatusTable tbody tr").eq(index));
+    //     //$("#rscStockTable tbody tr").remove();
+    //   }
+    // });
+
+    //지시량에 값이 입력 됬을 떄 실행
+    indicaVol.bind("input", function () {
+      $("#rscStockTable tbody tr").remove();
+      findRscNeedQty(prodCode.val(), indicaVol.val());
+    });
     //제품코드에 값이 입력됐을 때 실행
     prodCode.bind("input", function () {
       //console.log($(this).val());
+
+      console.log($(this).val());
       let prodCode = $(this).val();
-      $.ajax({
-        url: `findProdName/${prodCode}`,
-        method: "GET",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-          prodName.val(data.finPrdCdName);
-          prodUnit.val(data.finPrdCdVol + data.finPrdCdUnit);
-          lineName.val(data.lineCdHdName);
-        },
-        error: function (error, status, msg) {
-          prodName.val("");
-          prodUnit.val("");
-          lineName.val("");
-        },
-      });
+      findProdName(prodCode, prodName, prodUnit, lineName);
     });
   });
 
+  //제품코드로 제품이름,규격,라인 찾기
+  function findProdName(prodCode, prodName, prodUnit, lineName) {
+    $.ajax({
+      url: `findProdName/${prodCode}`,
+      method: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function (data) {
+        prodName.val(data.finPrdCdName);
+        prodUnit.val(data.finPrdCdVol + data.finPrdCdUnit);
+        lineName.val(data.lineCdHdName);
+      },
+      error: function (error, status, msg) {
+        prodName.val("");
+        prodUnit.val("");
+        lineName.val("");
+      },
+    });
+  }
   //공정상태
   function findProcStatus(lineName) {
     $.ajax({
@@ -185,6 +246,9 @@ $(document).ready(function () {
       success: function (data) {
         //console.log(data);
         $("#procStatusTable tbody tr").remove();
+        // $("#procStatusTable tbody tr")
+        //   .slice(idx * 5, idx * 5 + 5)
+        //   .remove();
         for (obj of data) {
           procStatusMakeRow(obj);
         }
@@ -259,10 +323,9 @@ $(document).ready(function () {
   }
 });
 
-
 function deleteWarning() {
   Swal.fire({
     icon: "warning", // Alert 타입
     title: "삭제할 항목을 선택하세요.", // Alert 제목
-  })
+  });
 }

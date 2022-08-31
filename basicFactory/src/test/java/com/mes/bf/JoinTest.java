@@ -75,12 +75,12 @@ public class JoinTest {
 		
 		System.out.println(monitorservice.findMonitoring("2022-08-11"));
 	}
-	@Test
-	void processVOUpdate() {
-		ProcessVO vo = new ProcessVO();
-		vo.setProcessNo(84);
-		service3.updateProcCheck(null);
-	}
+//	@Test
+//	void processVOUpdate() {
+//		ProcessVO vo = new ProcessVO();
+//		vo.setProcessNo(84);
+//		service3.updateProcCheck(null);
+//	}
 	
 	
 	

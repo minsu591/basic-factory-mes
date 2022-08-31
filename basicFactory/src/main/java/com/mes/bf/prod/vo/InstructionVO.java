@@ -13,5 +13,4 @@ public class InstructionVO {
 	private String instRemk; //특기사항 
 	private String planHdCode; //생산계획코드 
 	
-	
 }
