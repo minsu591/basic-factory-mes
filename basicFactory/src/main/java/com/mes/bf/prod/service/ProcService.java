@@ -10,8 +10,8 @@ import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.ProcManageVO;
 import com.mes.bf.prod.vo.ProcessPerformVO;
 import com.mes.bf.prod.vo.ProcessVO;
+import com.mes.bf.prod.vo.ProdRscOutVO;
 import com.mes.bf.prod.vo.VFindProcPerformVO;
-import com.mes.bf.rsc.vo.RscOutVO;
 
 public interface ProcService {
 
@@ -64,6 +64,6 @@ public interface ProcService {
 	List<FindRscVO> findRscVO(String finPrdCdCode);
 
 	// 자재 사용량 출고내역 등록
-	void insertRscOut(RscOutVO vo);
+	void insertRscOut(ProdRscOutVO vo);
 
 }
