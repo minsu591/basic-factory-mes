@@ -181,6 +181,8 @@ function findProcess(instProdNo, MchnName) {
     },
   });
 }
+
+
 //모달창 헤더 데이터 입력
 function getprocPerform(processNo) {
   $.ajax({
@@ -189,6 +191,8 @@ function getprocPerform(processNo) {
     dataType: "json",
     success: function (data) {
       // console.log("getperfrom->" + data.prodDate);
+      $("#workStartBtn").prop("disabled", true);
+      $("#addFlty").prop("disabled", true);
       let startTime = data.workStartTime;
       let endTime = data.workEndTime;
       $("#instDate").val(data.prodDate).prop("readonly", true);
@@ -201,6 +205,8 @@ function getprocPerform(processNo) {
     error: function () {
       //$("#instDate").val("").prop("readonly", false);
       //console.log('에러?');
+      $("#workStartBtn").prop("disabled", false);
+      $("#addFlty").prop("disabled", false);
       $("#sHours").val("");
       $("#sMinutes").val("");
       $("#eHours").val("");
@@ -265,20 +271,14 @@ function selectMchnStts(prodCode) {
   $.ajax({
     url: `selectmchn/${prodCode}`,
     method: "GET",
+    async: false,
     dataType: "json",
     success: function (data) {
       //console.log("리로드 셀렉트머신->" + data);
       $("#mchnStatus div").remove();
       //업데이트 후에 화면 상에 input val이 업데이트가 안되서 안되는듯
       for (obj of data) {
-        let compstts;
-        $("#workInsertTable tbody tr").each(function () {
-          if (obj.mchnCode == $(this).find("input:hidden[name=mchnCode]").val()) {
-            compstts = $(this).find("input:hidden[name=completionStatus]").val();
-            console.log("설비상태->" + compstts);
-            reloadMchnSttsMakeRow(obj, compstts);
-          }
-        })
+        reloadMchnSttsMakeRow(obj);
       }
     },
   });
@@ -436,8 +436,6 @@ function insertRscOut(rscLotNo, rscCdCode, needQty) {
 }
 
 
-
-
 /////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////Make Row //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -465,31 +463,55 @@ function workStateTableMakeRow(obj) {
 }
 
 
-function reloadMchnSttsMakeRow(obj, compstts) {
-
+function reloadMchnSttsMakeRow(obj) {
   let node;
+  let instProdNo;
+  $("#procManageTable tbody tr").each(function () {
+    if ($(this).find("td:eq(0)").children().prop("checked")) {
+      instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
+    }
+  });
 
-  if (compstts == 'y') {
-    console.log('완료여부 -> y 이프문 들어옴')
-    node = `<div>
-    <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
-    <div class="btn btn-outline-primary m-t-15">진행완료</div>
-    </div>`;
-  } else {
-    node = `<div>
-    <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
-    <div class="btn btn-outline-primary m-t-15">${obj.mchnStts}</div>
-    </div>`;
-  }
-  $("#mchnStatus").append(node);
+  $.ajax({
+    url: `findprocess/${instProdNo}`,
+    method: "GET",
+    dataType: "json",
+    success: function (data) {
 
-  if (obj.mchnStts == "진행중") {
-    $("#mchnStatus div")
-      .last()
-      .append(
-        `<span class="spinner-border spinner-border-sm m-l-5" role="status"></span>`
-      );
-  }
+      for (obj2 of data) {
+        console.log('obj2 of data ')
+        if (obj2.mchnCode == obj.mchnCode) {
+          console.log('obj2mc=objmc')
+          if (obj2.completionStatus == 'y') {
+            console.log('if y')
+            node = `<div>
+                    <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
+                    <div class="btn btn-outline-primary m-t-15">진행완료</div>
+                   </div>`;
+            $("#mchnStatus").append(node);
+          } else {
+            node = `<div>
+                     <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
+                     <div class="btn btn-outline-primary m-t-15">${obj.mchnStts}</div>
+                    </div>`;
+            $("#mchnStatus").append(node);
+            if (obj.mchnStts == "진행중") {
+              $("#mchnStatus div")
+                .last()
+                .append(
+                  `<span class="spinner-border spinner-border-sm m-l-5" role="status"></span>`
+                );
+            }
+          }
+        }
+
+      }
+    },
+  });
+
+
+
+
 }
 
 
@@ -562,7 +584,7 @@ let work;
 //작업시작 시간 입력
 function startWork() {
   //완료여부
-
+  $("#workEndBtn").prop("disabled", false);
   let completionStatus;
   $("#workInsertTable tbody tr").each(function () {
     let mchnName = $("#mchnName").val();
@@ -630,7 +652,7 @@ function endWork() {
   if ($("#eHours").val() == "" && $("#eMinutes").val() == "") {
     //인터벌 종료
     num = 0;
-
+    $("#saveBtn").prop("disabled", false);
     clearInterval(work);
     var date = new Date();
     let hours = ("0" + date.getHours()).slice(-2);
@@ -672,19 +694,9 @@ function endWork() {
 
 
 
-
-
-
-
-
-
 /////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////Functinon End ///////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
 
 
 

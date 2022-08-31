@@ -139,8 +139,8 @@ function workinsertTableLastChildMakeRow(obj, index) {
       compstts = $(this).find("input:hidden[name=completionStatus]").val();
 
     }
-    console.log("index" + index);
-    console.log(compstts);
+    // console.log("index" + index);
+    //console.log(compstts);
   })
 
   if (index == 1) {
