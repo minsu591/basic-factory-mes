@@ -1,4 +1,4 @@
-$("document").ready(function(){
+$("document").ready(function () {
     //주문관리에서 조회 시 주문내역 모달창
     $("#findOrderBtn").on("click",function(e){
         $("#findOrdModal").modal("show");
@@ -104,7 +104,7 @@ $("document").ready(function(){
     //주문내역 조회 모달을 통한 데이터 출력
     function ordMakeRow(ord){
         let node = `<tr>
-                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox" name="cb"></td>
                     <input type="hidden" value="${ord.slsOrdDtlNo}">
                     <td class="productCode">${ord.finPrdCdCode}</td>
                     <td>${ord.finPrdCdName}</td>

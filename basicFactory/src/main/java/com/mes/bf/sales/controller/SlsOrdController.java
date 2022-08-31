@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +20,10 @@ import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.sales.service.SlsOrdService;
+import com.mes.bf.sales.vo.SlsOrdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdVO;
+import com.mes.bf.sales.vo.SlsOrdInsertVO;
 
 @RestController
 @RequestMapping("/sls")
@@ -59,17 +63,33 @@ public class SlsOrdController {
 		return mav;
 	}
 	
-	//주문관리 등록
-	//@PostMapping("/ordManage/insert")
-	//public int orderInsert(@RequestParam Map<String, String> params) {}
+	//주문관리 등록(신규 주문등록)
+	@PostMapping("/ordManage/hdDtlInsert")
+	public void orderHdDtlInsert(@RequestBody SlsOrdInsertVO vo) {
+		System.out.println("신규 주문등록");
+		service.orderInsertHd(vo.getSlsOrdHdVO());
+		service.orderInsertDtl(vo.getSlsOrdDtlVO());
+	}
+	
+	//주문관리 등록(기존 주문내역에 추가 등록할 경우)
+	@PostMapping("/ordManage/dtlInsert")
+	public void orderDtlInsert(@RequestBody SlsOrdDtlVO vo) {
+		System.out.println("기존 주문 추가등록");
+		service.orderDtlAddInsert(vo);
+	}
 	
 	//주문관리 수정
 	@PutMapping("/ordManage/update")
 	public void orderUpdate(@RequestParam Map<String, String> params) {
-		System.out.println("주문관리 수정");
 					service.orderUpdate(params.get("priKey"),
 										 params.get("updCol"),
 										 params.get("updCont"));
+	}
+	
+	//주문관리 삭제
+	@PostMapping("/ordManage/delete")
+	public void orderDelete(@RequestParam Map<String, String> params) {
+		service.orderDelete(params.get("priKey"));
 	}
 	
 	//주문관리에서 주문내역 조회 모달
