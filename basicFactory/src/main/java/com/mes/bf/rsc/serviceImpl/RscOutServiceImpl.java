@@ -25,14 +25,20 @@ public class RscOutServiceImpl implements RscOutService {
 	}
 
 	@Override
+	public RscOutVO exceptOut(String rscOutCode) {
+		return rscOutMapper.exceptOut(rscOutCode);
+	}
+	
+	@Override
 	public int OutInsert(RscOutVO vo) {
 		return rscOutMapper.OutInsert(vo);
 		
 	}
 
 	@Override
-	public void OutUpdate(RscOutVO vo) {
-		
+	public int OutUpdate(RscOutVO vo) {
+		return rscOutMapper.OutUpdate(vo);
 	}
+
 
 }

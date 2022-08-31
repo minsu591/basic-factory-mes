@@ -41,15 +41,15 @@ $("document").ready(function () {
   function detailTableMakeRow() {
     let node = `<tr>
  <td><input type="checkbox" name="chk"></td>
- <td><input type="text" readonly></td>
- <td><input type="date" required></td>
- <td><input type="text" class="vendor"></td>
- <td><input type="text" readonly></td>
- <td><input type="text" class="rsccode"></td>
+ <td><input type="text" name="outcode" readonly></td>
+ <td><input type="date"></td>
+ <td><input type="text" class="rsccode" readonly></td>
  <td><input type="text" class="rscname" readonly></td>
  <td><input type="text" class="rsclotno"></td>
  <td><input type="text" readonly></td>
  <td><input type="text" class="outVol"></td>
+ <td><input type="text" class="vendor"></td>
+ <td><input type="text" readonly></td>
  <td><input type="text"></td>
  <td><input type="text"></td>
  </tr>`;
@@ -88,6 +88,19 @@ $("document").ready(function () {
   }
 
 
+  //수정
+  $("#outTable").find("input").on("change", function(){
+    let outCode = $(this).parent().parent().children.eq(1).val();
+    let modifyArray = [];
+    if(outCode){
+      modifyArray = {
+        outCode : outCode,
+        
+      }
+    }
+  })
+
+
   //등록버튼
 
   $("#subBtn").click(function () {
@@ -113,53 +126,62 @@ $("document").ready(function () {
       // td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
       let rscOutCode = td.eq(1).val();
       let rscOutDate = td.eq(2).val();
-      let vendCdCode = td.eq(3).val();
-      let rscCdCode = td.eq(5).val();
-      let rscLotNo = td.eq(7).val();
-      let rscOutVol = td.eq(9).val();
+      let rscCdCode = td.eq(3).val();
+      let rscLotNo = td.eq(5).val();
+      let rscOutVol = td.eq(7).val();
+      let vendCdCode = td.eq(8).val();
       let rscOutResn = td.eq(10).val();
       let empId = td.eq(11).val();
-      
-      if (!rscOutCode){
-        rscOutCode = null;
+      if(!rscOutDate || !vendCdCode || !rscCdCode || !rscLotNo || !rscOutVol || !empId){
+        Swal.fire({
+          icon: "warning", // Alert 타입
+          title: "입력되지 않은 값이 있습니다.", // Alert 제목
+          text: "자재코드, 자재LOT번호, 출고수량, 담당자는 기본 입력사항입니다."
+        })
+      }else{
+        if (!rscOutCode){
+          rscOutCode = null;
+        }
+  
+        info = {
+          rscOutCode: rscOutCode,
+          rscOutDate: rscOutDate,
+          vendCdCode: vendCdCode,
+          rscCdCode: rscCdCode,
+          rscLotNo: rscLotNo,
+          rscOutVol: rscOutVol,
+          rscOutResn: rscOutResn,
+          empId: empId
+        }
+  
+        param.push(info);
+        console.log(info);
+        console.log(rowData);
+        
+        console.log(param);
+    
+    
+        $.ajax({
+          url: "outInAndUp",
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          data: JSON.stringify(param),
+          dataType: "text",
+          error: function (error, status, msg) {
+            alert("상태코드 " + status + "에러메시지" + msg);
+          },
+          success: function () {
+            alert("등록처리완료");
+            //완료된 행 삭제
+            $("input[name='chk']:checked").each(function (k, val) {
+              $(this).parent().parent().remove();
+            });
+          }
+        })
       }
 
-      info = {
-        rscOutCode: rscOutCode,
-        rscOutDate: rscOutDate,
-        vendCdCode: vendCdCode,
-        rscCdCode: rscCdCode,
-        rscLotNo: rscLotNo,
-        rscOutVol: rscOutVol,
-        rscOutResn: rscOutResn,
-        empId: empId
-      }
-
-      param.push(info);
-      console.log(info);
-      console.log(rowData);
     });
 
-    console.log(param);
-
-
-    $.ajax({
-      url: "outInAndUp",
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      data: JSON.stringify(param),
-      dataType: "text",
-      error: function (error, status, msg) {
-        alert("상태코드 " + status + "에러메시지" + msg);
-      },
-      success: function () {
-        alert("등록처리완료");
-        //완료된 행 삭제
-        $("input[name='chk']:checked").each(function (k, val) {
-          $(this).parent().parent().remove();
-        });
-      }
-    })
 
   })
 
@@ -167,6 +189,7 @@ $("document").ready(function () {
   $("#search").click(function(e){
     e.preventDefault();
     findRscOutList();
+    $("#modalAllCheck").prop("checked", false);
     $("#findRscOutModal").modal("show");
     
   })
@@ -225,7 +248,7 @@ $("document").ready(function () {
               <td>${obj.rscOutCode}</td>
               <td>${obj.rscOutDate}</td>
               <td>${obj.vendCdNm}</td>
-              <td>${obj.rscCdCode}</td>
+              <td>${obj.rscCdName}</td>
               <td>${obj.rscOutVol}</td>
             </tr>`;
     $("#findRscOuttbody").append(node);
@@ -238,7 +261,85 @@ $("document").ready(function () {
       submitWarning();
       return;
     }
+
+    let param = [];
+    let info = [];
+    let rowData = new Array();
+    let checkbox = $("input[name='chkModal']:checked");
+    console.log(checkbox)
+    // 체크된 체크박스 값을 가져온다
+    checkbox.each(function(i) {
+      // checkbox.parent() : checkbox의 부모는 <td>이다.
+      // checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
+      let tr = checkbox.parent().parent().eq(i);
+      let td = tr.children();
+      // 체크된 row의 모든 값을 배열에 담는다.
+      rowData.push(tr.text());
+
+      // td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
+      let rscOutCode = td.eq(1).text();
+      
+      info = {
+        rscOutCode: rscOutCode
+      }
+
+      param.push(info);
+      console.log(info);
+      console.log(rowData);
+    });
+
+    console.log(param);
+    let outCodeList = [];
+    let outCode = $("#outTable").children();
+    for (let i = 0; i < outCode.length; i++){
+      outCodeList.push(outCode.eq(i).children().eq(1).children().val());
+      console.log(outCode.eq(i).children().eq(1).children().val());
+    }
+    console.log(outCodeList);
+
+    $.ajax({
+      url: "outUpList",
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      data: JSON.stringify(param),
+      dataType: "json",
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        // for(let k = 0 ; k < data.length ; k++){
+        //   console.log(data[k].rscOutCode);
+        //   for(let j = 0 ; j < outCodeList.length + 1 ; j++){
+        //     if(outCodeList[j] == obj.rscOutCode){
+        //       data.pop(data[k]);
+        //   }
+        // }
+        for (obj of data){
+          outListInsert(obj);
+        }
+        $("#findRscOutModal").modal("hide");
+      }
+    })
+
   })
+
+  function outListInsert(obj) {
+    let node = `<tr>
+ <td><input type="checkbox" name="chk"></td>
+ <td><input type="text" value="${obj.rscOutCode}" name="outcode" readonly></td>
+ <td><input type="date" value="${obj.rscOutDate}"></td>
+ <td><input type="text" class="rsccode" value="${obj.rscCdCode}" readonly></td>
+ <td><input type="text" class="rscname" value="${obj.rscCdName}" readonly></td>
+ <td><input type="text" class="rsclotno" value="${obj.rscLotNo}"></td>
+ <td><input type="text" value="${obj.rscStock}" readonly></td>
+ <td><input type="text" class="outVol" value="${obj.rscOutVol}"></td>
+ <td><input type="text" class="vendor" value="${obj.vendCdCode}"></td>
+ <td><input type="text" value="${obj.vendCdNm}" readonly></td>
+ <td><input type="text" value="${obj.rscOutResn}"></td>
+ <td><input type="text" value="${obj.empId}"></td>
+ </tr>`;
+    $("#outInsertTable tbody").append(node);
+  }
 
 
   //거래처코드, 거래처명찾기
@@ -334,118 +435,47 @@ $("document").ready(function () {
   }
 
 
-  //자재코드, 자재명 찾기
-
-  //자재코드 행 클릭시 모달팝업
-  $("#outInsertTable").on("click", ".rsccode", function (e) {
-    e.preventDefault();
-    tdinfo = $(this);
-    //자재조회
-    findRscCode();
-    $("#findresourceModal").modal("show");
-  });
-
-  //자재코드 검색 테이블 클릭이벤트
-  $("#findRscTable").on("click", "tr", function () {
-    let rscCdCode = $(this).find("td:eq(1)").text();
-    let rscCdName = $(this).find("td:eq(2)").text();
-    tdinfo.val(rscCdCode);
-    tdinfo.parent().next().find("input").val(rscCdName);
-    tdinfo.parent().next().next().find("input").val("");
-    tdinfo.parent().next().next().next().find("input").val("");
-    tdinfo.parent().next().next().next().next().find("input").val("");
-    tdinfo.parent().next().next().next().next().next().find("input").val("");
-
-    $("#findresourceModal").modal("hide");
-  });
-
-  //rsccode input 내용이 사라지면 rscName 내용도 사라지는 이벤트
-  $("#outInsertTable").on("change", ".rsccode", function () {
-    tdinfo = $(this);
-    let rsccode = $(".rsccode").text();
-    if (!rsccode) {
-      tdinfo.parent().next().find("input").val("");
-      tdinfo.parent().next().next().find("input").val("");
-      tdinfo.parent().next().next().next().find("input").val("");
-    }
-  });
-
-
-  //자재코드 조회
-  function findRscCode() {
-    $.ajax({
-      url: "findResourceCode",
-      method: "GET",
-      contentType: "application/json;charset=utf-8",
-      dataType: "json",
-      error: function (error, status, msg) {
-        alert("상태코드 " + status + "에러메시지" + msg);
-      },
-      success: function (data) {
-        console.log(data);
-        $("#findRsctbody tr").remove();
-        let index = 0;
-        for (obj of data) {
-          index += 1;
-          makeRscCodeRow(obj, index);
-        }
-      },
-    });
-  }
-
-  //자재조회 행생성
-  function makeRscCodeRow(obj, index) {
-    let st = null;
-    if (obj.rscCdUse == 1) {
-      st = `<input type="checkbox" checked onClick="return false;">`;
-    } else {
-      st = `<input type="checkbox" onClick="return false;">`;
-    }
-    let node = `<tr>
-            <td>${index}</td>
-            <td>${obj.rscCdCode}</td>
-            <td>${obj.rscCdName}</td>
-            <td>${obj.rscCdClfy}</td>
-            <td>${st}</td>
-          </tr>`;
-    $("#findRsctbody").append(node);
-  }
-
-
-
   //자재lot번호 찾기
 
   $("#outInsertTable").on("click", ".rsclotno", function (e) {
     e.preventDefault();
     tdinfo = $(this);
-    let rscname = tdinfo.parent().prev().find("input").val();
-    if (!rscname) {
-      Swal.fire({
-        title: '자재 코드 미입력',
-        text: '자재 코드를 먼저 선택해주세요.',
-        icon: 'warning',                       // Alert 타입
-
-        confirmButtonText: '확인' // confirm 버튼 텍스트 지정
-      });
-    } else {
-      //자재조회
-      $("#lotrscname").val(rscname);
       findRscLot();
       $("#findRscLotModal").modal("show");
-    }
   });
 
   //자재코드 검색 테이블 클릭이벤트
   $("#findRscLotTable").on("click", "tr", function () {
+    let rscCdCode = $(this).find("#modalrscCode").val();
+    let rscCdName = $(this).find("td:eq(1)").text();
     let rscLotNo = $(this).find("td:eq(2)").text();
     let stockVol = $(this).find("#rscStock").val();
+    tdinfo.parent().prev().prev().find("input").val(rscCdCode);
+    tdinfo.parent().prev().find("input").val(rscCdName);
     tdinfo.val(rscLotNo);
     tdinfo.parent().next().find("input").val(stockVol);
     $("#findRscLotModal").modal("hide");
   });
 
+    //rsclotcode input 내용이 사라지면 다른 내용도 사라지는 이벤트
+    $("#outInsertTable").on("change", ".rsclotno", function () {
+      tdinfo = $(this);
+      let rsclotno = $(".rsclotno").text();
+      if (!rsclotno) {
+        tdinfo.parent().next().find("input").val("");
+        tdinfo.parent().prev().find("input").val("");
+        tdinfo.parent().prev().prev().find("input").val("");
+      }
+    });
+
+    //조회버튼 클릭 이벤트
+    $("#findRscLotBtn").click(function(){
+      findRscLot();
+    })
+
 
   function findRscLot() {
+    let rscCdCode = $("#lotrsccode").val();
     let rscCdName = $("#lotrscname").val();
     $.ajax({
       url: "findRscLot",
@@ -453,6 +483,7 @@ $("document").ready(function () {
       contentType: "application/json;charset=utf-8",
       dataType: "json",
       data: {
+        rscCdCode: rscCdCode,
         rscCdName: rscCdName
       },
       error: function (error, status, msg) {
@@ -484,6 +515,7 @@ $("document").ready(function () {
             <td>${obj.rscLotNo}</td>
             <td>${st}</td>
             <input type="hidden" value="${obj.rscStock}" id="rscStock">
+            <input type="hidden" value="${obj.rscCdCode}" id="modalrscCode">
           </tr>`;
     $("#findRscLottbody").append(node);
   }

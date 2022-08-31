@@ -2,14 +2,10 @@ $("document").ready(function () {
   $("#rsclotno").click(function (e) {
     e.preventDefault();
     let rscname = $("#rscname").val();
-    if(!rscname){
-      alert("자재코드를 먼저 선택해주세요.")
-    }else{
       //자재조회
       findRscLot();
       $("#lotrscname").val(rscname);
       $("#findRscLotModal").modal("show");
-    }
  });
 
  //자재코드 검색 버튼 클릭 이벤트
@@ -42,8 +38,12 @@ $("document").ready(function () {
 
  //자재코드 검색 테이블 클릭이벤트
  $("#findRscLotTable").on("click", "tr", function () {
+  let rscCdCode = $(this).find("#modalrscCode").val();
+  let rscCdName = $(this).find("td:eq(1)").text();
    let rscLotNo = $(this).find("td:eq(2)").text();
    let stockVol = $(this).find("#rscStock").val();
+   $("#rsccode").val(rscCdCode);
+   $("#rscname").val(rscCdName);
    $("#rsclotno").val(rscLotNo);
    $("#stockVol").val(stockVol);
    $("#findRscLotModal").modal("hide");
@@ -89,6 +89,7 @@ function makeRscLotRow(obj, index) {
              <td>${obj.rscLotNo}</td>
              <td>${st}</td>
              <input type="hidden" value="${obj.rscStock}" id="rscStock">
+             <input type="hidden" value="${obj.rscCdCode}" id="modalrscCode">
            </tr>`;
  $("#findRscLottbody").append(node);
 }

@@ -8,6 +8,8 @@ public interface RscOutService {
 	List<RscOutVO> normalOutList(String rscOutCode, String rscCdCode, String rscOutSDate, String rscOutEDate);
 	List<RscOutVO> exceptOutList(String rscOutCode, String rscCdCode, String rscOutSDate, String rscOutEDate);
 	
+	RscOutVO exceptOut(String rscOutCode);
+	
 	int OutInsert(RscOutVO vo);
-	void OutUpdate(RscOutVO vo);
+	int OutUpdate(RscOutVO vo);
 }

@@ -42,18 +42,18 @@
 										<th><input type="checkbox" id="allCheck"></th>
 										<th th:text="출고코드"></th>
 										<th th:text="출고일자"></th>
-										<th th:text="거래처코드"></th>
-										<th th:text="거래처"></th>
 										<th th:text="자재코드"></th>
 										<th th:text="자재명"></th>
 										<th th:text="자재LOT번호"></th>
 										<th th:text="재고수량"></th>
 										<th th:text="출고수량"></th>
+										<th th:text="거래처코드"></th>
+										<th th:text="거래처"></th>
 										<th th:text="출고사유"></th>
-										<th th:text="담당자"></th>
+										<th th:text="담당자ID"></th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="outTable">
 
 								</tbody>
 							</table>
@@ -64,12 +64,9 @@
 			</div>
 		</div>
 		<!-- 최근 입력 내용 조회 Modal -->
-		<th:block th:replace="~{/fragments/modal/findRscOut :: findRscOut}"></th:block>
+		<th:block th:replace="~{/fragments/modal/findRscOut :: findRscOut}" id="modal"></th:block>
 		<!-- 거래처조회 Modal -->
 		<th:block th:replace="~{/fragments/modal/findvendor :: findvendor}"></th:block>
-		<!-- 자재조회 Modal -->
-		<th:block
-			th:replace="~{/fragments/modal/findresource :: findresource}"></th:block>
 		<!-- Lot번호 조회 Modal -->
 		<th:block th:replace="~{/fragments/modal/findRscLot :: findRscLot}"></th:block>
 </body>

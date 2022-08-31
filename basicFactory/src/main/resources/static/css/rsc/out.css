@@ -54,10 +54,9 @@ button {
 
 }
 
-swal.fire{
-	z-index: 1;
+.swal2-container {
+  z-index: 20000 !important;
 }
-
 
 .warn {
 	background-color: rgba(231, 76, 60, 0.5);
