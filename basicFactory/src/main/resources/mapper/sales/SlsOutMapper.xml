@@ -70,7 +70,7 @@
  		JOIN BF_SALES_FINISH_PRODUCT_STOK FNSPRDSK
     	  ON FNSPRDSK.FNS_PRD_STK_LOT_NO = OUTDTL.FNS_PRD_STK_LOT_NO
  		WHERE ORDDTL.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
- 		ORDER BY SLS_OUT_HD_DATE DESC
+ 		ORDER BY SLS_OUT_HD_DATE DESC, SLS_OUT_HD_NO DESC
 	</select>
 	
 	<select id="findOut" resultMap="outHdDtlMap">
@@ -113,7 +113,7 @@
 		<if test="vendorName != null and vendorName != ''">
 			AND VEND.VEND_CD_NM = #{vendorName}
 		</if>
-	
+	ORDER BY SLS_OUT_HD_DATE DESC, SLS_OUT_HD_NO DESC
 	</select>
 	
 	
@@ -137,7 +137,7 @@
    		<if test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
    			AND ORDHD.SLS_ORD_HD_DATE BETWEEN  TO_DATE(#{ordSdate}, 'YY/MM/DD') AND TO_DATE(#{ordEdate}, 'YY/MM/DD') + 0.9999
         </if>
-        ORDER BY SLS_ORD_HD_DATE DESC
+        ORDER BY SLS_ORD_HD_DATE DESC, SLS_ORD_HD_NO DESC
    	</select>
    	
    	<!-- 출고관리에서 미출고 주문 상세조회 모달-->
@@ -177,7 +177,7 @@
    		<if test="(outSdate != null and outSdate != '') and (outEdate != null and outEdate != '')">
    			WHERE SLS_OUT_HD_DATE BETWEEN  TO_DATE(#{outSdate}, 'YY/MM/DD') AND TO_DATE(#{outEdate}, 'YY/MM/DD') + 0.9999
         </if>
-
+		ORDER BY SLS_OUT_HD_DATE DESC, SLS_OUT_HD_NO DESC
    	</select>
    	
    	<!-- 출고관리에서 출고내역 상세조회 -->

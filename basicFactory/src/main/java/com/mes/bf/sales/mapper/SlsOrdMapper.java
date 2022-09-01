@@ -19,6 +19,6 @@ public interface SlsOrdMapper {
 	void orderUpdate(String priKey, String updCol, String updCont);
 	void orderDelete(String priKey);
 	void orderInsertHd(SlsOrdHdVO vo);
-	void orderInsertDtl(List<SlsOrdDtlVO> vo);
+	void orderInsertDtl(SlsOrdDtlVO ordDtlVO);
 	void orderDtlAddInsert(SlsOrdDtlVO vo);
 }

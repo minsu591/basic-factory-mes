@@ -1,5 +1,5 @@
 $("document").ready(function () {
-  $("#empid").click(function (e) {
+  $("#empName").click(function (e) {
     e.preventDefault();
     findEmp();
     $("#findempModal").modal("show");
@@ -7,10 +7,11 @@ $("document").ready(function () {
 
   //모달테이블 클릭 이벤트
   $("#findemptable").on("click", "tr", function () {
-    console.log($(this).find("td:eq(1)").text());
+    console.log($(this).find(".empId").val());
     let empName = $(this).find("td:eq(1)").text();
-
-    $("#empid").val(empName);
+    let empId = $(this).find(".empId").val();
+    $("#empName").val(empName);
+    $("#empId").val(empId);
     $("#findempModal").modal("hide");
   });
 
@@ -61,6 +62,7 @@ function findEmp() {
 function empMakeRow(obj, index) {
   let node = `<tr>
                 <td>${index}</td>
+                <input type="hidden" value="${obj.empvo.empId}" class="empId">
                 <td>${obj.empvo.empName}</td>
                 <td>${obj.deptvo.deptName}</td>
               </tr>`;

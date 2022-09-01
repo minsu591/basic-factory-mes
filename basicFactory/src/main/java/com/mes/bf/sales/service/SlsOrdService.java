@@ -37,7 +37,7 @@ public interface SlsOrdService {
 	void orderInsertHd(SlsOrdHdVO vo);
 	
 	//주문관리 바디등록(신규등록)
-	void orderInsertDtl(List<SlsOrdDtlVO> vo);
+	void orderInsertDtl(SlsOrdDtlVO ordDtlVO);
 	
 	//주문관리 바디등록(기존 주문내역 추가등록)
 	void orderDtlAddInsert(SlsOrdDtlVO vo);

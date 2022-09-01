@@ -66,9 +66,13 @@ public class SlsOrdController {
 	//주문관리 등록(신규 주문등록)
 	@PostMapping("/ordManage/hdDtlInsert")
 	public void orderHdDtlInsert(@RequestBody SlsOrdInsertVO vo) {
-		System.out.println("신규 주문등록");
+		//주문 헤더 등록
 		service.orderInsertHd(vo.getSlsOrdHdVO());
-		service.orderInsertDtl(vo.getSlsOrdDtlVO());
+		
+		//주문 디테일 등록
+		for(SlsOrdDtlVO ordDtlVO :vo.getSlsOrdDtlVO()) {
+			service.orderInsertDtl(ordDtlVO);
+		}
 	}
 	
 	//주문관리 등록(기존 주문내역에 추가 등록할 경우)
