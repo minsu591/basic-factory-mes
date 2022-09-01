@@ -58,7 +58,7 @@
 		        
 		WHERE  RSCOUT.RSC_OUT_CLS = 2
 			<if test="rscOutCode != null and rscOutCode != ''">
-		 		AND RSCOUT.RSC_OUT_CODE = '%'||#{rscOutCode}||'%'
+		 		AND RSCOUT.RSC_OUT_CODE LIKE '%'||#{rscOutCode}||'%'
 		 	</if>
 		 	<if test="rscCdCode != null and rscCdCode != ''">
 		 		AND RSCOUT.RSC_CD_CODE = #{rscCdCode}
@@ -122,11 +122,9 @@
 	<update id="OutUpdate">
 		UPDATE BF_RSC_OUT 
 		<set>
+				VEND_CD_CODE = #{vendCdCode}
 			<if test="rscOutDate != null">
-				RSC_OUT_DATE = #{rscOutDate}
-			</if>
-			<if test="vendCdCode != null and vendCdCode != ''">
-				,VEND_CD_CODE = #{vendCdCode}
+				,RSC_OUT_DATE = #{rscOutDate}
 			</if>
 			<if test="rscCdCode != null and rscCdCode != ''">
 				,RSC_CD_CODE = #{rscCdCode}

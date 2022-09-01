@@ -16,6 +16,7 @@ import com.mes.bf.cmn.vo.RscCodeVO;
 import com.mes.bf.rsc.service.FindRscCodeService;
 import com.mes.bf.rsc.service.RscOutService;
 import com.mes.bf.rsc.vo.RscOutVO;
+import com.mes.bf.rsc.vo.RscReturnVO;
 import com.mes.bf.rsc.vo.RscStockVO;
 @Controller
 @RequestMapping("/rsc")
@@ -41,7 +42,14 @@ public class FindRscCodeController {
 	//자재출고 조회
 	@GetMapping(value="/findRscOut", produces= { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<RscOutVO>> findRscOut(@RequestParam Map<String, String> queryParameters){
-		List<RscOutVO> list = rscOutService.exceptOutList(queryParameters.get("rscOutCode"), null, queryParameters.get("rscOutDate"),queryParameters.get("rscOutDate"));
+		List<RscOutVO> list = findRscService.modalOutList(queryParameters.get("rscOutCode"),queryParameters.get("rscOutDate"));
 		return new ResponseEntity<List<RscOutVO>>(list, HttpStatus.OK);
+	}
+	
+	//자재반품 조회
+	@GetMapping(value="/findRscReturn", produces= { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<RscReturnVO>> findRscReturn(@RequestParam Map<String, String> queryParameters){
+		List<RscReturnVO> list = findRscService.modalReturnList(queryParameters.get("rscReturnCode"),queryParameters.get("rscReturnDate"));
+		return new ResponseEntity<List<RscReturnVO>>(list, HttpStatus.OK);
 	}
 }

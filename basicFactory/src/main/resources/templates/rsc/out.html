@@ -7,6 +7,9 @@
 <title>자재출고관리</title>
 </head>
 <body>
+	<script type="text/javascript" th:src="@{/js/modal/rsc/findRscLotManage.js}"></script>
+	<script type="text/javascript" th:src="@{/js/modal/rsc/findVendor.js}"></script>
+	<script type="text/javascript" th:src="@{/js/modal/rsc/findRscOut.js}"></script>
 	<script type="text/javascript" th:src="@{/js/rsc/out.js}"></script>
 	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
 	<link th:href="@{/css/rsc/out.css}" rel="stylesheet" />
@@ -19,8 +22,7 @@
 					<div class="form-inline">
 						<div class="form-group mt-3">
 							<label for="rscOutCode" th:text="출고코드"></label> <input
-								type="text" id="rscOutCode" class="form-control mx-sm-3"
-								readonly>
+								type="text" id="rscOutCode" class="form-control mx-sm-3">
 						</div>
 						<div class="form-group mt-3">
 							<label for="rscOutDate" th:text="출고일자"></label> <input
@@ -36,7 +38,7 @@
 					<button type="button" class="btn  btn-primary" id="subBtn">저장</button>
 					<form>
 						<div class="table-responsive">
-							<table class="table table-hover" id="outInsertTable">
+							<table class="table table-hover" id="InsertTable">
 								<thead>
 									<tr>
 										<th><input type="checkbox" id="allCheck"></th>
@@ -64,7 +66,7 @@
 			</div>
 		</div>
 		<!-- 최근 입력 내용 조회 Modal -->
-		<th:block th:replace="~{/fragments/modal/findRscOut :: findRscOut}" id="modal"></th:block>
+		<th:block th:replace="~{/fragments/modal/rsc/findRscOut :: findRscOut}" id="modal"></th:block>
 		<!-- 거래처조회 Modal -->
 		<th:block th:replace="~{/fragments/modal/findvendor :: findvendor}"></th:block>
 		<!-- Lot번호 조회 Modal -->
