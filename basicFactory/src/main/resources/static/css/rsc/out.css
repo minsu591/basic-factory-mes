@@ -23,12 +23,12 @@ button {
 	margin-top: 0;
 }
 
-#outInsertTable input[type=text]:read-only {
+#InsertTable input[type=text]:read-only {
 	background: #f6f6f6 !important;
 	width: 100% !important
 }
 
-#outInsertTable input[type=text] {
+#InsertTable input[type=text] {
 	height: 2rem;
 	text-align: center;
 	border: 0;
@@ -36,7 +36,7 @@ button {
 	background: rgba(241, 196, 15, 0.1)
 }
 
-#outInsertTable input[type=date] {
+#InsertTable input[type=date] {
 	height: 2rem;
 	text-align: center;
 	border: 0;
@@ -44,7 +44,7 @@ button {
 	background: rgba(241, 196, 15, 0.1)
 }
 
-#outInsertTable td {
+#InsertTable td {
 	padding: 0;
 
 }

@@ -7,6 +7,63 @@
 <title>자재발주조회</title>
 </head>
 <body>
+	<script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
+	<script type="text/javascript" th:src="@{/js/modal/rsc/findResource.js}"></script>
+	<script type="text/javascript" th:src="@{/js/modal/rsc/findRscLot.js}"></script>
+	<script type="text/javascript" th:src="@{/js/rsc/orderList.js}"></script>
+	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
+	<div class="pcoded-main-container">
+		<h1>자재 발주 조회</h1>
+		<hr>
+		<div class="col-xl-12">
+			<div class="card">
+				<div class="card-header">
+					<form>
+						<div class="form-inline">
+							<div class="form-group mt-3">
+								<label for="rscOrderCode" th:text="발주코드"></label> <input type="text"
+									id="rscOrderCode" class="form-control mx-sm-3">
+							</div>
+							<div class="form-group mt-3">
+								<label for="vendor" th:text="거래처코드"></label> <input type="text"
+									id="vendor" class="form-control mx-sm-3" data-toggle="modal"
+									data-target=".bd-example-modal-lg">
+							</div>
+							<div class="form-group mt-3">
+								<label for="vendorName" th:text="거래처"></label> <input
+									type="text" id="vendorName" class="form-control mx-sm-3"
+									readonly>
+							</div>
+						</div>
+						<div class="form-inline">
+							<div class="form-group mt-3">
+								<label for="rscname" th:text="자재명"></label> <input type="text"
+									id="rscname" class="form-control mx-sm-3" readonly>
+							</div>
+							<div class="form-group mt-3">
+								<label for="rsclotno" th:text="자재LOT번호"></label> <input
+									type="text" id="rsclotno" class="form-control mx-sm-3">
+							</div>
+							<button type="button" class="btn  btn-primary" id="search">조회</button>
+							<button type="reset" class="btn  btn-primary">초기화</button>
+						</div>
+					</form>
 
+				</div>
+				<div class="card-body table-border-style">
+					<div class="table-responsive"
+						th:replace="/rsc/table/orderListTable.html :: orderlisttable" id="ordtable">
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 거래처조회 Modal -->
+    <th:block th:replace="~{/fragments/modal/findvendor :: findvendor}"></th:block>
+	<!-- 자재조회 Modal -->
+	<th:block th:replace="~{/fragments/modal/findresource :: findresource}"></th:block>
+	<!-- Lot번호 조회 Modal -->
+	<th:block th:replace="~{/fragments/modal/findRscLot :: findRscLot}"></th:block>
 </body>
 </html>
