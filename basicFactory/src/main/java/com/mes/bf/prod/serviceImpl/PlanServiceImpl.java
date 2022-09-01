@@ -32,6 +32,30 @@ public class PlanServiceImpl implements PlanService {
 	public List<PlanVO> findPlan(String planHdCode) {
 		return mapper.findPlan(planHdCode);
 	}
+	@Override
+	public Integer planHdInsert(PlanHdVO planHdVO) {
+		return mapper.planHdInsert(planHdVO);
+	}
+	@Override
+	public Integer planInsert(PlanVO planVO) {
+		return mapper.planInsert(planVO);
+	}
+	@Override
+	public Integer planHdDelete(String planHdCode) {
+		return mapper.planHdDelete(planHdCode);
+	}
+	@Override
+	public Integer planDtlDelete(String planIdx) {
+		return mapper.planDtlDelete(planIdx);
+	}
+	@Override
+	public Integer planHdUpdate(String priKey, String updCol, String updCont) {
+		return mapper.planHdUpdate(priKey, updCol, updCont);
+	}
+	@Override
+	public Integer planDtlUpdate(String priKey, String updCol, String updCont) {
+		return mapper.planDtlUpdate(priKey, updCol, updCont);
+	}
 	
 
 }
