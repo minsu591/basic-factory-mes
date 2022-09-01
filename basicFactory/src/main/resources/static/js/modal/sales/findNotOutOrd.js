@@ -109,10 +109,10 @@ $("document").ready(function () {
                     <td>${ord.slsOutDtlVO.finPrdCdCode}</td>
                     <td name="finPrdCdName">${ord.slsOutDtlVO.finPrdCdName}</td>
                     <td>${ord.slsOrdDtlVO.slsOrdDtlVol}</td>
-                    <td>${ord.slsOrdDtlVO.slsOrdDtlOutVol}</td> 기출고량
+                    <td>${ord.slsOrdDtlVO.slsOrdDtlOutVol}</td>
+                    <td name="outDtlVol"></td>
                     <td></td>
-                    <td></td>
-                    <td><input type="text" class="lotNo"></td>
+                    <td class="lotNo"></td>
                     <td>${ord.slsOutDtlVO.finPrdCdPrice}</td>
                     <td></td>
                 </tr>`;
