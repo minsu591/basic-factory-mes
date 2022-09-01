@@ -108,11 +108,13 @@
 	
 	<!-- 생산계획 조회시, 주문내역을 참고한 생산계획과 참고하지 않은 생산계획을 조회 -->
 	<select id="findPlanOrd" resultMap="colPlanOrdMap">
-		SELECT PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, PH.PLAN_HD_DATE, PH.EMP_ID,
+		SELECT P.PLAN_IDX, PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, PH.PLAN_HD_DATE, PH.EMP_ID,
 		       P.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME, P.PLAN_PROD_VOL, 
-		       P.PLAN_SDATE, P.PLAN_EDATE, P.PLAN_REMK, P.PLAN_PRE_VOL,
-		       OH.SLS_ORD_HD_NO AS SLS_ORD_HD_NO, OH.VEND_CD_CODE, V.VEND_CD_NM,
-       		   O.SLS_ORD_DTL_VOL, O.SLS_ORD_DTL_DLV_DATE
+		       P.PLAN_SDATE, P.PLAN_EDATE, P.PLAN_REMK,
+		       P.PLAN_PRE_VOL,
+		       OH.SLS_ORD_HD_NO, OH.VEND_CD_CODE,
+		       V.VEND_CD_NM, O.SLS_ORD_DTL_VOL,
+		       O.SLS_ORD_DTL_DLV_DATE
 		FROM BF_PROD_PLAN P
 		JOIN BF_PROD_PLAN_HD PH
 		  ON P.PLAN_HD_CODE = PH.PLAN_HD_CODE
@@ -141,8 +143,6 @@
 		ORDER BY PLAN_HD_DATE DESC
 	</select>
 	
-	
-	
 	<!-- 로그인한 유저가 작성한 생산계획 조회 -->
 	<select id="findMyPlan" resultMap="colPlanMap">
 		SELECT DISTINCT PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, NVL(PH.SLS_ORD_HD_NO,' ') AS SLS_ORD_HD_NO, PH.EMP_ID,
@@ -159,4 +159,41 @@
 		</if>
 		ORDER BY PLAN_HD_CODE DESC
 	</select>
+	
+	<!-- insert -->
+	<insert id="planHdInsert" parameterType="planHdVO">
+		INSERT INTO BF_PROD_PLAN_HD
+		VALUES('PLAN'||LPAD(BF_PROD_PLAN_HD_SEQ.NEXTVAL,3,0),#{planHdName},#{slsOrdHdNo},
+				#{empId},#{planHdDate},#{planHdRemk})
+	</insert>
+	
+	<insert id="planInsert" parameterType="planVO">
+		<selectKey keyProperty="planHdCode" resultType="String" order="BEFORE">
+			SELECT MAX(PLAN_HD_CODE) FROM BF_PROD_PLAN_HD
+		</selectKey>
+		INSERT INTO BF_PROD_PLAN
+		VALUES(BF_PROD_PLAN_SEQ.NEXTVAL,#{planHdCode},#{finPrdCdCode},#{planProdVol},#{planSdate},#{planEdate},#{planRemk},#{planPreVol})
+	</insert>
+	
+	<delete id="planHdDelete">
+		DELETE BF_PROD_PLAN_HD
+		WHERE PLAN_HD_CODE = #{planHdCode}
+	</delete>
+	
+	<delete id="planDtlDelete">
+		DELETE BF_PROD_PLAN
+		WHERE PLAN_IDX = #{planIdx}
+	</delete>
+	
+	<update id="planHdUpdate">
+		UPDATE BF_PROD_PLAN_HD
+		SET ${updCol} = #{updCont}
+		WHERE PLAN_HD_CODE = #{priKey}
+	</update>
+	
+	<update id="planDtlUpdate">
+		UPDATE BF_PROD_PLAN
+		SET ${updCol} = #{updCont}
+		WHERE PLAN_IDX = #{priKey}
+	</update>
 </mapper>

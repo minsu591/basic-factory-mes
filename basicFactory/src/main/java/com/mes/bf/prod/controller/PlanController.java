@@ -10,18 +10,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mes.bf.prod.service.PlanService;
 import com.mes.bf.prod.vo.ColPlanOrdVO;
 import com.mes.bf.prod.vo.ColPlanVO;
+import com.mes.bf.prod.vo.PlanHdDtlVO;
 import com.mes.bf.prod.vo.PlanHdVO;
 import com.mes.bf.prod.vo.PlanVO;
 import com.mes.bf.sales.service.SlsOrdService;
 import com.mes.bf.sales.vo.SlsOrdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdVO;
-import com.mes.bf.sales.vo.SlsOrdPlanVO;
 
 @Controller
 @RequestMapping("/prod")
@@ -91,11 +94,61 @@ public class PlanController {
 		return new ResponseEntity<List<PlanVO>>(plans, HttpStatus.OK);
 	}
 	
+	//계획 헤더 insert, 나머지 insert
+	@PostMapping(value = "/planManage/hd/insert")
+	public ResponseEntity<Integer> planHdInsert(@RequestBody PlanHdDtlVO planHdDtl) {
+		List<PlanVO> plans = planHdDtl.getPlans();
+		int result = service.planHdInsert(planHdDtl.getPlanHdVO());
+		int resultSum = 0;
+		System.out.println(result);
+		if(result == 1) {
+			for(int i = 0; i<plans.size();i++) {
+				int resultEl = service.planInsert(plans.get(i));
+				if(resultEl == 1) {
+					resultSum ++;
+				}
+			}
+		}
+		return new ResponseEntity<Integer>(resultSum,HttpStatus.OK);
+	}
 	
+	@PostMapping(value = "/planManage/insert")
+	public ResponseEntity<Integer> planInsert(@ModelAttribute PlanVO planDtl) {
+		System.out.println("plandtl"+planDtl);
+		int result = service.planInsert(planDtl);
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
 	
+	//계획 헤더 delete
+	@PostMapping(value = "/planManage/hd/delete")
+	public ResponseEntity<Integer> planHdDelete(@RequestParam String planHdCode) {
+		int result = service.planHdDelete(planHdCode);
+		
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	//계획 delete
+	@PostMapping(value = "/planManage/delete")
+	public ResponseEntity<Integer> planDtlDelete(@RequestParam String planIdx) {
+		int result = service.planDtlDelete(planIdx);
+		
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
 	
+	//계획 헤더 update
+	@PostMapping(value = "/planManage/hd/update")
+	public ResponseEntity<Integer> planHdUpdate(@RequestParam String priKey, @RequestParam String updCol, @RequestParam String updCont) {
+		int result = service.planHdUpdate(priKey, updCol, updCont);
+		
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
 	
-	
-	
-	
+	//계획 update
+	@PostMapping(value = "/planManage/update")
+	public ResponseEntity<Integer> planDtlUpdate(@RequestParam String priKey, @RequestParam String updCol, @RequestParam String updCont) {
+		int result = service.planDtlUpdate(priKey, updCol, updCont);
+		
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+
+
 }

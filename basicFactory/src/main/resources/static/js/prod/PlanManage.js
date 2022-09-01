@@ -2,20 +2,26 @@ $("document").ready(function(){
     
 
     //체크박스 체크유무
-    let allCheck = $("#allCheck");
     $("#allCheck").click("change",function(){
         if($("#allCheck").is(":checked")){
-            $("#planManageTable tbody input:checkbox").prop("checked",true);
+            $("#planManageTable tbody input:checkbox[name='chk']").prop("checked",true);
         }else{
-            $("#planManageTable tbody input:checkbox").prop("checked",false);
+            $("#planManageTable tbody input:checkbox[name='chk']").prop("checked",false);
         }
     })
+    $("#planManageTable tbody").on("click","input:checkbox[name='chk']",function(e){
+        let total = $("input[name='chk']").length;
+        let checked = $("input[name='chk']:checked").length;
+        if (total != checked) $("#allCheck").prop("checked",false);
+        else $("#allCheck").prop("checked", true);
+        e.stopPropagation();
+    })
+    $("#planManageTable tbody").on("click","input:checkbox",function(e){
+        e.stopPropagation();
+    })
 
-    $("#planManageTable tbody").on("change","input:checkbox",function(){
-        if(!$("this").is(":checked")){
-            $("#allCheck").prop("checked",false);
-        }
-    });
+
+
 
     //선택삭제 버튼
     $("#deleteBtn").on("click",function(){

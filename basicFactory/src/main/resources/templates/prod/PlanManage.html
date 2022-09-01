@@ -14,7 +14,7 @@
 </head>
 <body>
     <script type="text/javascript" th:src="@{/js/modal/prod/findPlanManageModal.js}"></script>
-    <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/cmn/findIdemp.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/cmn/findTdproduct.js}"></script>
     <script type="text/javascript" th:src="@{/js/prod/PlanManage.js}"></script>
     <script type="text/javascript" th:src="@{/js/prod/planUpdateDB.js}"></script>
@@ -31,7 +31,8 @@
                         </div>
                         <br>
                         <!--새로운 생산계획 만들 때 사용할 정보-->
-                          <form class="form-inline">
+                          <form class="form-inline" id="form">
+                                <input type="hidden" id="planHdCode">
                               <div class="form-group mt-3 leftBtn">
                                   <label for="planDate" th:text="'생산 계획 일자'"></label>
                                   <input type="date" id="planDate" class="form-control mx-sm-3">
@@ -39,14 +40,14 @@
                               <br><br>
                               <div class="form-group mt-3 rightBtn">
                                 <label for="planName" th:text="생산계획명"></label>
-                                <input type="text" id="planName" class="form-control mx-sm-3">                       
+                                <input type="text" id="planName" class="form-control mx-sm-3" name="plan_hd_name">                       
                              </div>
                              <div class="form-group mt-3 leftBtn">
                                 <label for="planRemk" th:text="특이사항"></label>
-                                <input type="text" id="planRemk" class="form-control mx-sm-3">                       
+                                <input type="text" id="planRemk" class="form-control mx-sm-3" name="plan_hd_remk">                       
                              </div>
                                <div class="form-group mt-3">
-                                  <label for="empid" th:text="담당자명"></label>
+                                  <label for="empid" th:text="담당자아이디"></label>
                                   <input type="text" id="empid" class="form-control mx-sm-3"
                                    data-toggle="modal" data-target=".bd-example-modal-lg">
                               </div>
@@ -75,6 +76,7 @@
                                           <th th:text="계획량" name="plan_prod_vol"></th>
                                           <th th:text="'작업계획 시작일자'" name="plan_sdate"></th>
                                           <th th:text="'작업계획 종료일자'" name="plan_edate"></th>
+                                          <th th:text="작업계획비고" name="plan_remk"></th>
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -91,7 +93,7 @@
     <!--미계획된 주문내역 모달창 -->
     <th:block th:replace="~{/fragments/modal/findNotDoneOrd :: findNotDoneOrd}"></th:block>
     <!-- 담당자검색 Modal -->
-    <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
+    <th:block th:replace="~{/fragments/modal/cmn/findIdEmp :: findIdEmp}"></th:block>
     <!--제품코드 검색 modal-->
     <th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
     <script>
