@@ -19,7 +19,8 @@ AND NOT in_dtl_vol = 0
 	<select id="findMchn" resultType="MchnVO">
 		SELECT 
 			mchn.mchn_name,
-			mchn.mchn_stts
+			mchn.mchn_stts,
+			mchn.mchn_code
 		FROM 
 			BF_EQP_MCHN mchn,
 			BF_CMN_LINE_CODE linecode,
@@ -62,5 +63,28 @@ VALUES (
         ) 
 	
 	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 공정테이블 중 포장 조회 -->
+	<select id="findProcessPacking"
+		resultType="com.mes.bf.prod.vo.ProcessVO">
+		SELECT * 
+		FROM 
+			bf_prod_process
+		WHERE 
+			inst_prod_no =
+			#{instProdNo}
+		AND 
+			 process_order=5
+		order by 2,3
+	</select>
+	
 
 </mapper>

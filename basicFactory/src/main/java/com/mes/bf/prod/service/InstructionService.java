@@ -34,25 +34,19 @@ public interface InstructionService {
 	List<VendorCodeVO> findVendorCode(String vendorCode, String vendCdClfy);
 
 	// 공정 상태 조회
-	List<FindProcStatusVO> findProcStatus(String lineName);
+	//List<FindProcStatusVO> findProcStatus(String lineName);
+	List<FindProcStatusVO> findProcStatus(List<String> lineName);
 
 	// 자재 소요 예상량 조회
-	List<VRscNeedQtyVO> findVRscNeedQty(String finPrdCdCode);
+	//List<VRscNeedQtyVO> findVRscNeedQty(String finPrdCdCode);
+	List<VRscNeedQtyVO> findVRscNeedQty(List<String> finPrdCdCode);
 
 	// 생산지시 입력
-	void insertInstruction(InstructionVO vo, InstructionDetailVO detailvo);
-	//생산지시 통합 입력
+	//void insertInstruction(InstructionVO vo, InstructionDetailVO detailvo);
+	// 생산지시 통합 입력
 	void insertInstAndDetail(InstAndDetailVO vo);
-
-	// 공정테이블 데이터 입력
-	void insertProc(String finPrdCdCode);
-
-	// 자재소요예살양 데이터 입력
-	void insertNeedQty(String finPrdCdCode);
 
 	// 자재소요예상량 업데이트
 	void updateNeedQty(String needQty, String rscCdCode);
 
-	// 최초 공정 입고량 업데이트
-	void updateinDtlVol(int indicaVol);
 }

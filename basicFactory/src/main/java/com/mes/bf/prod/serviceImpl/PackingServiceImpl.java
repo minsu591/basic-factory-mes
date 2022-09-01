@@ -9,6 +9,7 @@ import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.prod.mapper.PackingMapper;
 import com.mes.bf.prod.service.PackingService;
 import com.mes.bf.prod.vo.PackingVO;
+import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.sales.vo.SlsInDtlVO;
 
 @Service
@@ -32,6 +33,11 @@ public class PackingServiceImpl implements PackingService {
 	@Override
 	public void insertInDtl(SlsInDtlVO vo) {
 		mapper.insertInDtl(vo);
+	}
+
+	@Override
+	public List<ProcessVO> findProcessPacking(int instProdNo) {
+		return mapper.findProcessPacking(instProdNo);
 	}
 
 }

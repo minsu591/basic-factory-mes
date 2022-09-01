@@ -49,174 +49,175 @@ $(document).ready(function () {
           }
         });
       }
-      if (!check) {
-        //  재고량이 충분할때
-        Swal.fire({
-          icon: "success", // Alert 타입
-          title: "저장이 완료되었습니다.", // Alert 제목
-        }).then((result) => {
-          if (result.isConfirmed) {
-            console.log($("#instdate").val()); //지시작성일자
-            console.log($("#instremk").val()); //특기사항
-            console.log($("#instname").val()); //생산지시명
-            console.log($("#empid").val()); //작업자명
-            let instDate = $("#instdate").val();
-            let empId = $("#empid").val();
-            let instName = $("#instname").val();
-            let instRemk = $("#instRemk").val();
-            let checkbox = $("input:checkbox:checked");
-
-            let detailvo = [];
-            checkbox.each(function (i) {
-              let tr = checkbox.parent().parent().eq(i);
-              let td = tr.children();
-              let prodCode = td.children().eq(1).val(); //제품코드
-              let prodIndicaVol = td.children().eq(10).val(); //지시량
-              let workDate = td.children().eq(12).val(); //작업날짜
-              console.log("prodCode ->" + prodCode);
-              console.log("지시량 ->" + prodIndicaVol);
-              console.log("workDate->" + workDate);
-
-              let instObjDetail = {
-                instProdIndicaVol: prodIndicaVol,
-                finPrdCdCode: prodCode,
-                workDate: workDate,
-              };
-              detailvo.push(instObjDetail);
-            });
-            instObj = {
-              empId: empId,
-              instName: instName,
-              instDate: instDate,
-              instRemk: instRemk,
-            };
-            console.log(instObj);
-            let check = false;
-            $.ajax({
-              url: "insertinstanddetail",
-              method: "POST",
-              contentType: "application/json;charset=utf-8",
-              traditional: true,
-              data: JSON.stringify({
-                vo: instObj,
-                detailvo: detailvo,
-              }),
-              error: function (err) {
-                console.log(err);
-              },
-              success: function (data) {
-                console.log(data);
-              },
-            });
-            // $.ajax({
-            //   url: "insertinstruction",
-            //   method: "POST",
-            //   contentType: "application/json;charset=utf-8",
-            //   async: false, //동기로 처리
-            //   //dataType: "json",
-            //   data: JSON.stringify({
-            //     instobjheader: instobjheader,
-            //     instobjdetail: instobjdetail,
-            //   }),
-            //   error: function (error, status, msg) {
-            //     alert("상태코드 " + status + "에러메시지" + msg);
-            //   },
-            //   success: function (data) {
-            //     console.log(" insert success");
-            //     check = true;
-            //   },
-            // });
-            //자재소요예상량 업데이트
-            // if (check == true) {
-            //   $("#rscStockTable tbody tr").each(function (i) {
-            //     let tr = $(this);
-            //     let td = tr.children();
-            //     console.log(tr);
-            //     let needQty = td.eq(5).text();
-            //     let rscCdCode = td.eq(1).text();
-            //     console.log(needQty);
-            //     console.log(rscCdCode);
-            //     $.ajax({
-            //       url: `updateneedqty`,
-            //       method: "PUT",
-            //       dataType: "json",
-            //       contentType: "application/json;charset=utf-8",
-            //       data: JSON.stringify({
-            //         needQty: needQty,
-            //         rscCdCode: rscCdCode,
-            //       }),
-            //       success: function (data) {
-            //         console.log("update sucess");
-            //       },
-            //     });
-            //   });
-            // }
-
-            // location.reload();
-          }
-        });
-      }
     });
+    if (!check) {
+      //  재고량이 충분할때
+
+      // if (result.isConfirmed) {
+      // console.log($("#instdate").val()); //지시작성일자
+      // console.log($("#instremk").val()); //특기사항
+      // console.log($("#instname").val()); //생산지시명
+      // console.log($("#empid").val()); //작업자명
+      let instDate = $("#instdate").val();
+      let empId = $("#empid").val();
+      let instName = $("#instname").val();
+      let instRemk = $("#instRemk").val();
+      let checkbox = $("input:checkbox:checked");
+      let dataArray = [];
+      checkbox.each(function (i) {
+        let tr = checkbox.parent().parent().eq(i);
+        let td = tr.children();
+        let prodCode = td.children().eq(1).val(); //제품코드
+        let prodIndicaVol = td.children().eq(10).val(); //지시량
+        let workDate = td.children().eq(12).val(); //작업날짜
+        //console.log("prodCode ->" + prodCode);
+        //console.log("지시량 ->" + prodIndicaVol);
+        // console.log("workDate->" + workDate);
+
+        instobjdetail = {
+          instProdIndicaVol: prodIndicaVol,
+          finPrdCdCode: prodCode,
+          workDate: workDate,
+        };
+        dataArray.push(instobjdetail);
+      });
+      instobjheader = {
+        empId: empId,
+        instName: instName,
+        instDate: instDate,
+        instRemk: instRemk,
+      };
+      console.log(instobjheader);
+      console.log(dataArray);
+      let check = false;
+
+      $.ajax({
+        url: "insertinstanddetail",
+        method: "POST",
+        contentType: "application/json;charset=utf-8",
+        async: false, //동기로 처리
+        //dataType: "json",
+        data: JSON.stringify({
+          vo: instobjheader,
+          detailvo: dataArray,
+        }),
+        error: function (error, status, msg) {
+          alert("상태코드 " + status + "에러메시지" + msg);
+        },
+        success: function (data) {
+          console.log(" insert success");
+          check = true;
+        },
+      });
+      saveSuccess();
+      // $.ajax({
+      //   url: "insertinstruction",
+      //   method: "POST",
+      //   contentType: "application/json;charset=utf-8",
+      //   async: false, //동기로 처리
+      //   //dataType: "json",
+      //   data: JSON.stringify({
+      //     instobjheader: instobjheader,
+      //     instobjdetail: instobjdetail,
+      //   }),
+      //   error: function (error, status, msg) {
+      //     alert("상태코드 " + status + "에러메시지" + msg);
+      //   },
+      //   success: function (data) {
+      //     console.log(" insert success");
+      //     check = true;
+      //   },
+      // });
+      //자재소요예상량 업데이트
+      // if (check == true) {
+      //   $("#rscStockTable tbody tr").each(function (i) {
+      //     let tr = $(this);
+      //     let td = tr.children();
+      //     console.log(tr);
+      //     let needQty = td.eq(5).text();
+      //     let rscCdCode = td.eq(1).text();
+      //     console.log(needQty);
+      //     console.log(rscCdCode);
+      //     $.ajax({
+      //       url: `updateneedqty`,
+      //       method: "PUT",
+      //       dataType: "json",
+      //       contentType: "application/json;charset=utf-8",
+      //       data: JSON.stringify({
+      //         needQty: needQty,
+      //         rscCdCode: rscCdCode,
+      //       }),
+      //       success: function (data) {
+      //         console.log("update sucess");
+      //       },
+      //     });
+      //   });
+      // }
+
+      //location.reload();
+
+    };
+    // }
+
   });
+  let lineArray = [];
+  let prodCodeArr = [];
+  let inDtlVol = [];
 
   //지시테이블 클릭 이벤트
   $("#planDetailTable").on("click", "tr", function () {
+
     let prodCode = $(this).find("td:eq(1)").children();
     let prodName = $(this).find("td:eq(2)").children();
     let prodUnit = $(this).find("td:eq(3)").children();
     let lineName = $(this).find("td:eq(11)").children();
     let indicaVol = $(this).find("td:eq(10)").children();
-
     let tr = $(this);
-    let procTabletr = $("#procStatusTable tbody tr").length;
-    if (tr.children().children().is(":checked") == true) {
-      console.log("체크");
 
-      findProcStatus(lineName.val());
-      findRscNeedQty(prodCode.val(), indicaVol.val());
+    if (tr.children().children().is(":checked") == true) {
+      lineArray.push(tr.find("td:eq(11)").children().val());
+      prodCodeArr.push(tr.find("td:eq(1)").children().val());
+      inDtlVol.push(tr.find("td:eq(10)").children().val());
+
     } else if (tr.children().children().is(":checked") == false) {
-      var trNum = $(this).closest("tr").prevAll().length;
-      // console.log("trNum : " + trNum);
-      // console.log(Math.abs(trNum * 5 - procTabletr));
-      // console.log(Math.abs(trNum * 5 - procTabletr + procTabletr));
-      // $("#procStatusTable tbody tr")
-      //   .slice(
-      //     Math.abs(trNum * 5 - procTabletr),
-      //     Math.abs(trNum * 5 - procTabletr + 5)
-      //   )
-      //   .remove();
-      console.log("언체크");
+      lineArray = lineArray.filter((element) => element !== tr.find("td:eq(11)").children().val());
+      prodCodeArr = prodCodeArr.filter((element) => element !== tr.find("td:eq(1)").children().val());
+      inDtlVol = inDtlVol.filter((element) => element !== tr.find("td:eq(10)").children().val());
+
     }
-    // $("#planDetailTable tbody tr").each(function (idx) {
-    //   let tr = $(this);
-    //   if (tr.find("td:eq(0)").children().is(":checked") == true) {
-    //     console.log("쳌 인덱스-> " + idx);
-    //     findProcStatus(lineName.val(), idx);
-    //     findRscNeedQty(prodCode.val(), indicaVol.val());
-    //   } else if (tr.find("td:eq(0)").children().is(":checked") == false) {
-    //     $("#procStatusTable tbody tr")
-    //       .slice(idx * 5, idx * 5 + 5)
-    //       .remove();
-    //     // console.log(index);
-    //     //console.log($("#procStatusTable tbody tr").eq(index));
-    //     //$("#rscStockTable tbody tr").remove();
-    //   }
-    // });
+    let lineArraySet = new Set(lineArray);
+    let prodCodeArrSet = new Set(prodCodeArr);
+    let inDtlVolSet = new Set(inDtlVol);
+    let uniqueLineArray = [...lineArraySet];
+    let uniqueProdCode = [...prodCodeArrSet];
+    let uniqueinDtlVol = [...inDtlVolSet];
+    console.log('라인명->' + uniqueLineArray)
+    console.log('제품코드->' + uniqueProdCode);
+    console.log('지시량->' + uniqueinDtlVol);
+
+
+    //let obj = { rscNeedQty, inDtlVol };
+    //console.log(obj);
+    //자재 재고 조회
+    findRscNeedQty(uniqueProdCode, uniqueinDtlVol);
+    //공정 상태 조회
+    findProcStatus(lineArray);
+    // console.log(lineArray);
 
     //지시량에 값이 입력 됬을 떄 실행
-    indicaVol.bind("input", function () {
-      $("#rscStockTable tbody tr").remove();
-      findRscNeedQty(prodCode.val(), indicaVol.val());
-    });
+
+    // indicaVol.bind("input", function () {
+    //   $("#rscStockTable tbody tr").remove();
+    //   findRscNeedQty(prodCode.val(), indicaVol.val());
+    // });
     //제품코드에 값이 입력됐을 때 실행
     prodCode.bind("input", function () {
-      //console.log($(this).val());
-
-      console.log($(this).val());
       let prodCode = $(this).val();
       findProdName(prodCode, prodName, prodUnit, lineName);
     });
+
   });
+
 
   //제품코드로 제품이름,규격,라인 찾기
   function findProdName(prodCode, prodName, prodUnit, lineName) {
@@ -238,30 +239,58 @@ $(document).ready(function () {
     });
   }
   //공정상태
-  function findProcStatus(lineName) {
+  // function findProcStatus(lineName) {
+  //   $.ajax({
+  //     url: `findprocstatus/${lineName}`,
+  //     method: "GET",
+  //     dataType: "json",
+  //     success: function (data) {
+  //       //console.log(data);
+  //       $("#procStatusTable tbody tr").remove();
+  //       // $("#procStatusTable tbody tr")
+  //       //   .slice(idx * 5, idx * 5 + 5)
+  //       //   .remove();
+  //       for (obj of data) {
+  //         procStatusMakeRow(obj);
+  //       }
+  //     },
+  //   });
+  // }
+  function findProcStatus(lineArray) {
+    // console.log(lineArray);
+    // console.log('파인드프로세스실행')
     $.ajax({
-      url: `findprocstatus/${lineName}`,
+      url: `findprocstatus`,
       method: "GET",
       dataType: "json",
-      success: function (data) {
-        //console.log(data);
+      contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+      data: {
+        lineName: lineArray
+      },
+      error: function (err) {
         $("#procStatusTable tbody tr").remove();
-        // $("#procStatusTable tbody tr")
-        //   .slice(idx * 5, idx * 5 + 5)
-        //   .remove();
+      },
+      success: function (data) {
+        //console.log('지겹다진짜' + data);
+        $("#procStatusTable tbody tr").remove();
         for (obj of data) {
           procStatusMakeRow(obj);
         }
       },
     });
   }
-
-  //자재재고 내역
-  function findRscNeedQty(prodCode, indicaVol) {
+  //자재재고 내역 검색 
+  function findRscNeedQty(uniqueProdCode, indicaVol) {
     $.ajax({
-      url: `findvrscneedqty/${prodCode}`,
+      url: `findvrscneedqty`,
       method: "GET",
       dataType: "json",
+      data: {
+        finPrdCdCode: uniqueProdCode
+      },
+      error: function (err) {
+        $("#rscStockTable tbody tr").remove();
+      },
       success: function (data) {
         console.log(data);
         let index = 0;
@@ -273,6 +302,24 @@ $(document).ready(function () {
       },
     });
   }
+
+  //자재재고 내역
+  // function findRscNeedQty(prodCode, indicaVol) {
+  //   $.ajax({
+  //     url: `findvrscneedqty/${prodCode}`,
+  //     method: "GET",
+  //     dataType: "json",
+  //     success: function (data) {
+  //       // console.log(data);
+  //       let index = 0;
+  //       $("#rscStockTable tbody tr").remove();
+  //       for (obj of data) {
+  //         index += 1;
+  //         rscStockMakeRow(obj, indicaVol, index);
+  //       }
+  //     },
+  //   });
+  // }
 
   function detailTableMakeRow() {
     let node = `<tr>
@@ -304,8 +351,9 @@ $(document).ready(function () {
   }
 
   function rscStockMakeRow(obj, indicaVol, index) {
-    //console.log(obj.rscUseVol);
-    //console.log(indicaVol);
+    // console.log("uniqueProdCode->" + uniqueProdCode);
+    console.log('rscStockMakeRow->' + indicaVol);
+
     let needQty = Math.round(indicaVol * obj.rscUseVol);
 
     let node = `<tr>
@@ -315,6 +363,7 @@ $(document).ready(function () {
       <td>${obj.rscStock}</td>
       <td>${obj.rscCdUnit}</td>
       <td>${needQty}</td>
+      <td><input type="hidden" value="${obj.finPrdCdCode}"</td>
       </tr>`;
     $("#rscStockTable tbody").append(node);
     if (needQty > obj.rscStock) {
@@ -327,5 +376,16 @@ function deleteWarning() {
   Swal.fire({
     icon: "warning", // Alert 타입
     title: "삭제할 항목을 선택하세요.", // Alert 제목
+  });
+}
+
+function saveSuccess() {
+  Swal.fire({
+    icon: "success", // Alert 타입
+    title: "저장 되었습니다.", // Alert 제목
+  }).then((result) => {
+    if (result.isConfirmed) {
+      location.reload();
+    }
   });
 }

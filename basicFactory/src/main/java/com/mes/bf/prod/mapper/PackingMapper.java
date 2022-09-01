@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.prod.vo.PackingVO;
+import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.sales.vo.SlsInDtlVO;
 
 @Mapper
@@ -19,4 +20,7 @@ public interface PackingMapper {
 
 	// 완제품 입고내역 등록
 	void insertInDtl(SlsInDtlVO vo);
+
+	// 포장 공정 조회
+	List<ProcessVO> findProcessPacking(int instProdNo);
 }

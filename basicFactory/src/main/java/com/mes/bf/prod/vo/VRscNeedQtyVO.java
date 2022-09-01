@@ -15,5 +15,6 @@ public class VRscNeedQtyVO {
 	private String rscCdUnit;
 	private double rscUseVol;
 	private String lineCdHdName;
+	private String finPrdCdCode;
 
 }

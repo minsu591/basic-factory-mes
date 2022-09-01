@@ -95,61 +95,68 @@ public class InstructionController {
 				queryParameters.get("vendCdClfy"));
 		return new ResponseEntity<List<VendorCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
+	// 공정상태 조회
+//	@GetMapping(value = "/findprocstatus/{lineName}", produces = { MediaType.APPLICATION_JSON_VALUE })
+//	public ResponseEntity<List<FindProcStatusVO>> findProcStatus(@PathVariable String lineName) {
+//		List<FindProcStatusVO> list = service.findProcStatus(lineName);
+//		return new ResponseEntity<List<FindProcStatusVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+//	}
 
-	@GetMapping(value = "/findprocstatus/{lineName}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<FindProcStatusVO>> findProcStatus(@PathVariable String lineName) {
+	@GetMapping(value = "/findprocstatus")
+	public ResponseEntity<List<FindProcStatusVO>> findProcStatus(
+			@RequestParam(value = "lineName[]") List<String> lineName) {
+		System.out.println(lineName);
 		List<FindProcStatusVO> list = service.findProcStatus(lineName);
-		return new ResponseEntity<List<FindProcStatusVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+
+		return new ResponseEntity<List<FindProcStatusVO>>(list, HttpStatus.OK);
+//		List<FindProcStatusVO> list = service.findProcStatus(lineName);
+//		for(FindProcStatusVO str : list) {
+//			System.out.println(str);
+//		}
+//		return new ResponseEntity<List<FindProcStatusVO>>(list, HttpStatus.OK);
+		// return new ResponseEntity<List<FindProcStatusVO>>(list, HttpStatus.OK);//
+		// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
 	// 제품별 자재 소요 예상량 조회
-	@GetMapping("/findvrscneedqty/{finPrdCdCode}")
-	public ResponseEntity<List<VRscNeedQtyVO>> findVRscNeedQty(@PathVariable String finPrdCdCode) {
+	@GetMapping("/findvrscneedqty")
+	public ResponseEntity<List<VRscNeedQtyVO>> findVRscNeedQty(@RequestParam(value="finPrdCdCode[]") List<String> finPrdCdCode) {
 		List<VRscNeedQtyVO> list = service.findVRscNeedQty(finPrdCdCode);
 		return new ResponseEntity<List<VRscNeedQtyVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
+	// 제품별 자재 소요 예상량 조회
+//	@GetMapping("/findvrscneedqty/{finPrdCdCode}")
+//	public ResponseEntity<List<VRscNeedQtyVO>> findVRscNeedQty(@PathVariable String finPrdCdCode) {
+//		List<VRscNeedQtyVO> list = service.findVRscNeedQty(finPrdCdCode);
+//		return new ResponseEntity<List<VRscNeedQtyVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+//	}
+
 	// 생산지시 등록
-	@PostMapping("/insertinstruction")
-	public void insertInstruction(@RequestBody Map<String, Object> instruction) {
-		// System.out.println(instruction.get("instobjheader"));
-		// System.out.println(instruction.get("instobjdetail"));
-		ObjectMapper m = new ObjectMapper();
-		try {
-			// object -> String 변환
-			String instheader = m.writeValueAsString(instruction.get("instobjheader"));
-			String instdetail = m.writeValueAsString(instruction.get("instobjdetail"));
-			// String -> vo변환
-			InstructionVO instvo = m.readValue(instheader, InstructionVO.class);
-			InstructionDetailVO detailvo = m.readValue(instdetail, InstructionDetailVO.class);
-			// System.out.println(instvo);
-			// System.out.println(detailvo);
-			String finPrdCdCode = detailvo.getFinPrdCdCode();
-			System.out.println(detailvo.getFinPrdCdCode());
-			service.insertInstruction(instvo, detailvo);
-			service.insertProc(finPrdCdCode);
-
-			// 자재소요예상량 데이터 입력
-			service.insertNeedQty(finPrdCdCode);
-
-			// 최초 공정 업데이트
-			service.updateinDtlVol(detailvo.getInstProdIndicaVol());
-
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-
-	}
+//	@PostMapping("/insertinstruction")
+//	public void insertInstruction(@RequestBody Map<String, Object> instruction) {
+//
+//		ObjectMapper m = new ObjectMapper();
+//		try {
+//			// object -> String 변환
+//			String instheader = m.writeValueAsString(instruction.get("instobjheader"));
+//			String instdetail = m.writeValueAsString(instruction.get("instobjdetail"));
+//			// String -> vo변환
+//			InstructionVO instvo = m.readValue(instheader, InstructionVO.class);
+//			InstructionDetailVO detailvo = m.readValue(instdetail, InstructionDetailVO.class);
+//
+//			//service.insertInstruction(instvo, detailvo);
+//		
+//		} catch (JsonProcessingException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 	// 생산지시 등록 통합
 	@PostMapping("/insertinstanddetail")
 	public void insertInstAndDetail(@RequestBody InstAndDetailVO vo) {
-		// System.out.println(instruction.get("instobjheader"));
-		// System.out.println(instruction.get("instobjdetail"));
-		System.out.println(vo);
-//		for(InstructionDetailVO str : vo.getDetailvo()) {
-//			System.out.println(str.getFinPrdCdCode());
-//		}
+		service.insertInstAndDetail(vo);
 	}
 
 	// 자재소요예상량 업데이트

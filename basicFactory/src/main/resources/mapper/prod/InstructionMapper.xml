@@ -108,31 +108,53 @@
 	</select>
 
 	<!-- 공정상태조회 -->
-	<select id="findProcStatus" resultType="findProcStatusVO">
+	<select id="findProcStatus" resultType="findProcStatusVO" parameterType="java.util.List">
 
 		SELECT
-		linecode.line_cd_ord AS lineCdOrd,
-		proccode.proc_cd_name AS procCdName,
-		eqp.mchn_name AS mchnName,
-		eqp.mchn_stts AS mchnStts
+			linecode.line_cd_ord AS lineCdOrd,
+			proccode.proc_cd_name AS procCdName,
+			eqp.mchn_name AS mchnName,
+			eqp.mchn_stts AS mchnStts
 		FROM
-		BF_CMN_LINE_CODE linecode,
-		BF_CMN_PROC_CODE proccode,
-		BF_EQP_MCHN eqp,
-		BF_CMN_LINE_CODE_HD linecodehd
-		WHERE linecode.proc_cd_code =
-		proccode.proc_cd_code AND
-		linecode.mchn_code = eqp.mchn_code AND
-		linecode.line_cd_hd_code =
-		linecodehd.line_cd_hd_code
+			BF_CMN_LINE_CODE linecode,
+			BF_CMN_PROC_CODE proccode,
+			BF_EQP_MCHN eqp,
+			BF_CMN_LINE_CODE_HD linecodehd
+		WHERE 
+			linecode.proc_cd_code =
+			proccode.proc_cd_code 
 		AND
-		line_cd_hd_name LIKE #{lineName}
-		ORDER BY line_cd_ord
+			linecode.mchn_code = 
+			eqp.mchn_code 
+		AND
+			linecode.line_cd_hd_code =
+			linecodehd.line_cd_hd_code
+		AND
+		line_cd_hd_name IN
+		<foreach collection="list" open="(" separator="," close=")" item="item">
+			#{item}
+		</foreach>
+		
+		ORDER BY linecode.line_cd_hd_code,1
 
 	</select>
 
 	<!-- 라인별 자재 소요 예상량 조회 -->
-
+	<select id="findVRscNeedQty" resultType="com.mes.bf.prod.vo.VRscNeedQtyVO" 
+	parameterType="java.util.List">
+	
+	SELECT * 
+	FROM 
+		V_RSC_NEED_QTY
+	WHERE 
+		finPrdCdCode 
+	IN
+		<foreach collection="list" open="(" separator="," close=")" item="item">
+			#{item}
+		</foreach>
+	ORDER BY 6,1
+	</select>
+<!-- 
 	<select id="findVRscNeedQty"
 		resultType="com.mes.bf.prod.vo.VRscNeedQtyVO">
 
@@ -141,32 +163,41 @@
 
 	</select>
 
-
+ -->
 	<!-- 생산지시 헤더 입력 -->
 
 	<insert id="insertInstruction">
 
 		INSERT INTO
-		BF_PROD_INSTRUCTION(inst_no,
-		emp_id,
-		inst_name,
-		inst_date,
-		inst_remk,
-		plan_hd_code)
-		VALUES(BF_PROD_INSTRUCTION_SEQ.nextval,
-		(SELECT emp_id FROM BF_CMN_EMP
-		WHERE emp_name = #{empId}),
-		#{instName},
-		#{instDate},
-		#{instRemk},
-		#{planHdCode}
-		)
+			BF_PROD_INSTRUCTION(
+								inst_no,
+								emp_id,
+								inst_name,
+								inst_date,
+								inst_remk,
+								plan_hd_code
+								)
+		VALUES(
+				BF_PROD_INSTRUCTION_SEQ.nextval,
+				(
+				SELECT 
+					emp_id 
+				FROM 
+					BF_CMN_EMP
+				WHERE 
+					emp_name = #{empId}
+				),
+				#{instName},
+				#{instDate},
+				#{instRemk},
+				#{planHdCode}
+				)
 
 	</insert>
 
 
 	<!-- 생산지시 상세 입력 -->
-	<insert id="insertInstructionDetail">
+<!-- 	<insert id="insertInstructionDetail">
 		<selectKey keyProperty="instNo" order="BEFORE"
 			resultType="int">
 			SELECT MAX(inst_no) FROM BF_PROD_INSTRUCTION
@@ -186,6 +217,31 @@
 		'진행전',
 		#{workDate}
 		)
+	</insert> -->
+	
+	<!-- 생산지시 통합 상세 입력 -->
+	<insert id="insertInstructionDetailList">
+		<selectKey keyProperty="instNo" order="BEFORE"
+			resultType="int">
+			SELECT MAX(inst_no) FROM BF_PROD_INSTRUCTION
+		</selectKey>
+		INSERT INTO
+			BF_PROD_INST_DETAIL(
+								inst_prod_no,
+								fin_prd_cd_code,
+								inst_no,
+								inst_prod_indica_vol,
+								work_scope,
+								work_date
+								)
+		VALUES(
+				BF_PROD_INST_DETAIL_SEQ.nextval,
+				#{finPrdCdCode},
+				#{instNo},
+				#{instProdIndicaVol},
+				'진행전',
+				#{workDate}
+				)
 	</insert>
 
 	<!-- 공정테이블 데이터 입력 -->
@@ -193,38 +249,41 @@
 	<insert id="insertProc">
 		INSERT INTO
 		bf_prod_process (
-		process_no,
-		inst_prod_no,
-		process_order,
-		proc_cd_code,
-		proc_cd_name,
-		mchn_code,
-		mchn_name
-		)
+							process_no,
+							inst_prod_no,
+							process_order,
+							proc_cd_code,
+							proc_cd_name,
+							mchn_code,
+							mchn_name
+						)
 		SELECT
-		BF_PROD_PROCESS_SEQ.nextval,
-		(SELECT MAX(inst_prod_no) FROM BF_PROD_INST_DETAIL),
-		linecode.line_cd_ord,
-		linecode.proc_cd_code,
-		proccode.proc_cd_name,
-		linecode.mchn_code,
-		eqp.mchn_name
+			BF_PROD_PROCESS_SEQ.nextval,
+			(SELECT 
+				MAX(inst_prod_no) 
+			FROM 
+				BF_PROD_INST_DETAIL),
+				linecode.line_cd_ord,
+				linecode.proc_cd_code,
+				proccode.proc_cd_name,
+				linecode.mchn_code,
+				eqp.mchn_name
 		FROM
-		BF_CMN_PROC_CODE proccode,
-		BF_CMN_LINE_CODE linecode,
-		BF_EQP_MCHN eqp,
-		BF_CMN_LINE_CODE_HD linecodehd,
-		BF_CMN_BOM_CODE bomcode
+			BF_CMN_PROC_CODE proccode,
+			BF_CMN_LINE_CODE linecode,
+			BF_EQP_MCHN eqp,
+			BF_CMN_LINE_CODE_HD linecodehd,
+			BF_CMN_BOM_CODE bomcode
 		WHERE
-		proccode.proc_cd_code = linecode.proc_cd_code
+			proccode.proc_cd_code = linecode.proc_cd_code
 		AND
-		eqp.mchn_code = linecode.mchn_code
+			eqp.mchn_code = linecode.mchn_code
 		AND
-		linecodehd.line_cd_hd_code = linecode.line_cd_hd_code
+			linecodehd.line_cd_hd_code = linecode.line_cd_hd_code
 		AND
-		linecodehd.line_cd_hd_code = bomcode.line_cd_hd_code
+			linecodehd.line_cd_hd_code = bomcode.line_cd_hd_code
 		AND
-		bomcode.fin_prd_cd_code = #{finPrdCdCode}
+			bomcode.fin_prd_cd_code = #{finPrdCdCode}
 
 	</insert>
 
@@ -232,15 +291,18 @@
 	<insert id="insertNeedQty">
 		INSERT INTO 
 	BF_PROD_RSC_NEED_QTY (
-					inst_prod_no,
-                    rsc_cd_code,
-					rsc_cd_name,
-					rsc_stock,
-                    rsc_cd_unit,
-					rsc_need_qty,
-					fin_prd_cd_code
-					)
-SELECT (SELECT MAX(inst_prod_no) FROM BF_PROD_INST_DETAIL),
+							inst_prod_no,
+		                    rsc_cd_code,
+							rsc_cd_name,
+							rsc_stock,
+		                    rsc_cd_unit,
+							rsc_need_qty,
+							fin_prd_cd_code
+							)
+SELECT (
+		SELECT MAX(inst_prod_no) 
+		FROM BF_PROD_INST_DETAIL
+		),
         rsccdcode,
         rsccdname,
         rscstock,
@@ -256,8 +318,13 @@ WHERE finprdcdcode = #{finPrdCdCode}
 	<!-- 자재소요예상량 업데이트 -->
 	<update id="updateNeedQty">
 		UPDATE BF_PROD_RSC_NEED_QTY 
-		SET RSC_NEED_QTY = #{needQty}
-		WHERE inst_prod_no = (SELECT MAX(inst_prod_no) FROM BF_PROD_INST_DETAIL)
+		SET 
+			RSC_NEED_QTY = #{needQty}
+		WHERE 
+			inst_prod_no = (SELECT 
+								MAX(inst_prod_no) 
+							FROM 
+								BF_PROD_INST_DETAIL)
 		AND RSC_CD_CODE = #{rscCdCode}
 		
 	</update>
@@ -275,9 +342,5 @@ WHERE finprdcdcode = #{finPrdCdCode}
 		 	process_order = 1
 	
 	</update>
-	
-	
-	
-	
 
 </mapper>

@@ -1,5 +1,4 @@
 //지시작업구분 진행완료로 업데이트 해야함
-//완제품 재고 등록 처리 해야함
 $(document).ready(function () {
   $("#sweetTest").click(function () {
     Swal.fire({
@@ -103,6 +102,7 @@ $(document).ready(function () {
       });
       fltyCnt = 0;
       $("#fltyCnt").val(fltyCnt);
+      fltyinfo();
     } else {
     }
   });
@@ -265,7 +265,7 @@ function startWork() {
   //완료여부
 
   if ($("#empid").val() == "") {
-    alert("작업자 입력하세요");
+    noEmpId();
     return;
   } else {
     $("#empid").prop("readonly", true);
@@ -379,6 +379,7 @@ function endWork() {
     //인터벌 종료
     num = 0;
     clearInterval(work);
+    $("#saveBtn").prop("disabled", false);
     var date = new Date();
     let hours = ("0" + date.getHours()).slice(-2);
     let minutes = ("0" + date.getMinutes()).slice(-2);
@@ -441,13 +442,14 @@ function reloadMchnSttsMakeRow(obj) {
 }
 
 function findMchnStts(finPrdCdCode) {
-  console.log("리로드설비상태 제품코드번호->" + finPrdCdCode);
+  //console.log("리로드설비상태 제품코드번호->" + finPrdCdCode);
   $.ajax({
     url: `findmchn/${finPrdCdCode}`,
     method: "GET",
     dataType: "json",
     success: function (data) {
       // workinsertTableLastChildMakeRow(obj, index);
+      //console.log(data);
       $("#mchnStatus div").remove();
       mchnStatusMakeRow(data);
     },
@@ -455,20 +457,69 @@ function findMchnStts(finPrdCdCode) {
 }
 
 function mchnStatusMakeRow(obj) {
-  let node = `
-  <div>
-    <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
-    <div class="btn btn-outline-primary m-t-15">${obj.mchnStts}</div>
-  </div>`;
+  console.log('프로세스번호->' + $("#processNo").val());
+  let processNo = $("#processNo").val();
+  let node;
+  let instProdNo;
+  $("#packingTable tbody tr").each(function () {
+    if ($(this).find("input:hidden[name=processNo]").val() == processNo) {
+      instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
+    }
+  });
+  console.log('instProdNo ->' + instProdNo)
+  $.ajax({
+    url: `findprocesspacking/${instProdNo}`,
+    method: "GET",
+    dataType: "json",
+    success: function (data) {
 
-  $("#mchnStatus").append(node);
-  if (obj.mchnStts == "진행중") {
-    $("#mchnStatus div")
-      .last()
-      .append(
-        `<span class="spinner-border spinner-border-sm m-l-5" role="status"></span>`
-      );
-  }
+      for (obj2 of data) {
+        console.log('obj2 of data ')
+        if (obj2.mchnCode == obj.mchnCode) {
+          console.log('obj2mc=objmc')
+          if (obj2.completionStatus == 'y') {
+            console.log('if y')
+            node = `<div>
+                    <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
+                    <div class="btn btn-outline-primary m-t-15">진행완료</div>
+                   </div>`;
+            $("#mchnStatus").append(node);
+          } else {
+            node = `<div>
+                     <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
+                     <div class="btn btn-outline-primary m-t-15">${obj.mchnStts}</div>
+                    </div>`;
+            $("#mchnStatus").append(node);
+            if (obj.mchnStts == "진행중") {
+              $("#mchnStatus div")
+                .last()
+                .append(
+                  `<span class="spinner-border spinner-border-sm m-l-5" role="status"></span>`
+                );
+            }
+          }
+        }
+
+      }
+    },
+  });
+
+
+
+  // let node = `
+  // <div>
+  //   <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
+  //   <div class="btn btn-outline-primary m-t-15">${obj.mchnStts}</div>
+  // </div>`;
+
+  // $("#mchnStatus").append(node);
+  // if (obj.mchnStts == "진행중") {
+  //   $("#mchnStatus div")
+  //     .last()
+  //     .append(
+  //       `<span class="spinner-border spinner-border-sm m-l-5" role="status"></span>`
+  //     );
+  //}
 }
 
 
@@ -523,3 +574,17 @@ function saveSucess() {
 
   })
 }
+
+function fltyinfo() {
+  Swal.fire({
+    icon: "success", // Alert 타입
+    title: "불량 등록이 완료되었습니다.", // Alert 제목
+  })
+};
+
+function noEmpId() {
+  Swal.fire({
+    icon: "warning", // Alert 타입
+    title: "작업자가 입력되지 않았습니다.", // Alert 제목
+  })
+};

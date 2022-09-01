@@ -320,6 +320,7 @@ function updateProdVol(processNo, totalProdVol, procCdName) {
     },
   });
 }
+//달성률 업데이트
 function updateAchieRate(processNo, achieRate) {
   $.ajax({
     url: `updateachierate`,
@@ -575,6 +576,7 @@ function addFlty() {  //불량 클릭 버튼 이벤트
 
       //불량량 업데이트문 실행하고 다시 실적량 업데이트 실행함
       updateFltyVol(totalProdVol, processNo, resultFltyVol);
+      fltyinfo();
 
     } else {
     }
@@ -651,7 +653,7 @@ function startWork() {
     });
     selectMchnStts(prodCode);
   } else {
-    alert("이미 시작했어요");
+    warning();
   }
 }
 
@@ -714,6 +716,12 @@ function warning() {
     title: "이미 완료된 작업입니다.", // Alert 제목
   })
 }
+function fltyinfo() {
+  Swal.fire({
+    icon: "success", // Alert 타입
+    title: "불량 등록이 완료되었습니다.", // Alert 제목
+  })
+};
 function noEmpId() {
   Swal.fire({
     icon: "warning", // Alert 타입
