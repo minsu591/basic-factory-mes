@@ -7,47 +7,104 @@
 <body>
   <link th:href="@{/css/prod/FltyPrcs.css}" rel="stylesheet" />
   <script type="text/javascript" th:src="@{/js/prod/FltyPrcsManage.js}"></script>
+  <script type="text/javascript" th:src="@{/js/prod/FltyPrcsMngUpdate.js}"></script>
+    <!-- modal js -->
   <script type="text/javascript" th:src="@{/js/modal/prod/findListFltyPrcs.js}"></script>
-  <script type="text/javascript" th:src="@{/js/modal/prod/findProcFlty.js}"></script>
   <script type="text/javascript" th:src="@{/js/modal/cmn/findFaulty.js}"></script>
   <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
+  <script type="text/javascript" th:src="@{/js/modal/prod/findproduct.js}"></script>
+  <script type="text/javascript" th:src="@{/js/modal/prod/findproccdname.js}"></script>
+  <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
 
   <div class="pcoded-main-container">
     <h1>불량 처리 관리</h1>
-    <hr />
+    <hr>
     <div class="col-xl-12">
       <div class="card">
         <div class="card-header">
-            <button type="button" class="btn btn-primary" id="prodFltyBtn">생산 불량 조회</button>
-            <button type="button" class="btn btn-primary" id="fltyPrcsBtn">불량 처리 내역 조회</button>
-            <div class="rightBtn">
-              <button type="button" class="btn btn-primary" id="">초기화</button>
-              <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
-              <button type="button" class="btn btn-primary" id="addBtn">추가</button>
-              <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
-            </div>
+          <h3>생산 불량 목록</h3>
         </div>
         <div class="card-body table-border-style">
           <div class="table-responsive">
-            <table class="table table-striped" id="fltyPrcsTable">
+            <table class="table table-striped" id="procFltyTable">
               <thead>
                 <tr>
-                  <th><input type="checkbox" id="allCheck"></th>
-                  <th><input type="hidden"></th>
                   <th th:text="공정실적번호"></th>
+                  <th th:text="생산일"></th>
                   <th th:text="제품코드"></th>
                   <th th:text="제품명"></th>
                   <th th:text="불량수"></th>
                   <th th:text="공정명"></th>
                   <th th:text="설비명"></th>
+                  <th th:text="작업자"></th>
+                </tr>
+              </thead>
+              <tbody id="procFltytbody">
+                <tr th:each="pf : ${pf}">
+                  <td th:text="${pf.processPerfomNo}"></td>
+                  <td th:text="${pf.workDate}"></td>
+                  <td th:text="${pf.finPrdCdCode}"></td>
+                  <td th:text="${pf.finPrdCdName}"></td>
+                  <td th:text="${pf.fltyVol}"></td>
+                  <td th:text="${pf.procCdName}"></td>
+                  <td th:text="${pf.mchnName}"></td>
+                  <td th:text="${pf.workerName}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-header">
+          <h3>불량 세부 처리</h3>
+          <form class="form-inline">
+            <div class="form-group mt-3">
+              <label for="processPerfomNo" th:text="공정실적번호"></label>
+              <input type="text" id="processPerfomNo" class="form-control mx-sm-3">
+            </div>
+            <div class="form-group mt-3">
+              <label for="productname" th:text="제품명"></label>
+              <input type="text" id="productname" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
+              <label for="productcode" th:text="제품코드"></label>
+              <input type="text" id="productcode" class="form-control mx-sm-3" readonly>
+            </div>
+            <div class="form-group mt-3">
+              <label for="proccdname" th:text="공정명"></label>
+              <input type="text" id="proccdname" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
+            </div>
+            <div class="form-group mt-3">
+              <label for="mchnname" th:text="설비명"></label>
+              <input type="text" id="mchnname" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
+            </div>
+          </form>
+        </div>
+        <div class="card-body table-border-style">
+          <button type="button" class="btn btn-primary" id="fltyPrcsBtn">불량 처리 내역 조회</button>
+          <div class="rightBtn">
+            <button type="button" class="btn btn-primary" id="">초기화</button>
+            <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
+            <button type="button" class="btn btn-primary" id="addBtn">추가</button>
+            <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped" id="fltyPrcsTable">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" id="allCheck"></th>
+                  <th></th>
                   <th th:text="불량코드"></th>
                   <th th:text="불량명"></th>
-                  <th th:text="불량처리일자"></th>
-                  <th th:text="담당자"></th>
+                  <th th:text="불량수"></th>
+                  <th th:text="불량처리일"></th>
+                  <th th:text="담당자명"></th>
                   <th th:text="비고"></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="fltyPrcstbody">
 
               </tbody>
             </table>
@@ -56,14 +113,25 @@
       </div>
     </div>
   </div>
+
+  <!-- 불량처리내역조회 Modal -->
+  <th:block th:replace="~{/fragments/modal/prod/findListFltyPrcs :: findListFltyPrcs}"></th:block>
   <!-- 불량코드 Modal -->
   <th:block th:replace="~{/fragments/modal/cmn/findFaulty :: findFaulty}"></th:block>
   <!-- 담당자 Modal -->
   <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
-  <!-- 불량처리내역조회 Modal -->
-  <th:block th:replace="~{/fragments/modal/prod/findListFltyPrcs :: findListFltyPrcs}"></th:block>
+  <!-- 완제품 Modal -->
+  <th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
+  <!-- 공정명 Modal -->
+  <th:block th:replace="~{/fragments/modal/findProcCdName :: findProcCdName}"></th:block>
+  <!-- 설비명 Modal -->
+  <th:block th:replace="~{/fragments/modal/findMchnName :: findMchnName}"></th:block>
+  
+
+  <!-- <script type="text/javascript" th:src="@{/js/modal/prod/findProcFlty.js}"></script> -->
+  <!-- <button type="button" class="btn btn-primary" id="prodFltyBtn">생산 불량 조회</button> -->
   <!-- 생산불량조회 Modal -->
-  <th:block th:replace="~{/fragments/modal/prod/findProcFlty :: findProcFlty}"></th:block>
+  <!-- <th:block th:replace="~{/fragments/modal/prod/findProcFlty :: findProcFlty}"></th:block> -->
 
 </body>
 </html>

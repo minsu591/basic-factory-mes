@@ -16,5 +16,8 @@ h1 {
     text-align : right;
 }
 
-#fltyPrcsTable th:nth-of-type(2) { display: none; }   
+#fltyPrcsTable th:nth-of-type(2) { display: none; }
 #fltyPrcsTable td:nth-of-type(2) { display: none; }
+
+#findListFltyPrcsTable th:nth-of-type(2) { display: none; }
+#findListFltyPrcsTable td:nth-of-type(2) { display: none; }
