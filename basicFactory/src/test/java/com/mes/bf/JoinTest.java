@@ -55,15 +55,15 @@ public class JoinTest {
 		System.out.println(service3.findMchn("MCHN001", null));
 	}
 	
-	//@Test
-	void findProcStatus() {
-		System.out.println(service2.findProcStatus("1라인"));
-	}
-
-	//@Test
-	void insertProc() {
-		service2.insertProc("FIN001");
-	}
+//	//@Test
+//	void findProcStatus() {
+//		System.out.println(service2.findProcStatus("1라인"));
+//	}
+//
+//	//@Test
+//	void insertProc() {
+//		service2.insertProc("FIN001");
+//	}
 	
 	//@Test
 	void updateNeedQTY() {
