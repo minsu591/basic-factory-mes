@@ -94,7 +94,6 @@ public class InstructionServiceImpl implements InstructionService {
 	@Transactional
 	public void insertInstAndDetail(InstAndDetailVO vo) {
 		mapper.insertInstruction(vo.getVo());
-		System.out.println("vo.getDetailvo() : " + vo.getDetailvo());
 		for(InstructionDetailVO str : vo.getDetailvo()) {
 			mapper.insertInstructionDetailList(str);
 			mapper.insertNeedQty(str.getFinPrdCdCode());//자재소요예상량입력

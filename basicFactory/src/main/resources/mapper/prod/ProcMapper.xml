@@ -7,11 +7,11 @@
 		SELECT * FROM v_findmchn
 		<where>
 			<if test="mchnCode != null and mchnCode != ''">
-				AND mchn_code LIKE #{mchnCode}
+				AND mchn_code LIKE '%'||#{mchnCode}||'%'
 			</if>
 
 			<if test="mchnName != null and mchnName != ''">
-				AND mchn_name LIKE #{mchnName}
+				AND mchn_name LIKE '%'||#{mchnName}||'%'
 			</if>
 
 		</where>
@@ -54,10 +54,10 @@
 		SELECT * FROM BF_CMN_PROC_CODE
 		<where>
 			<if test="procCdCode != null and procCdCode != ''">
-				AND proc_cd_code LIKE #{procCdCode}
+				AND proc_cd_code LIKE '%'||#{procCdCode}||'%'
 			</if>
 			<if test="procCdName != null and procCdName != ''">
-				AND proc_cd_name LIKE #{procCdName}
+				AND proc_cd_name LIKE '%'||#{procCdName}||'%'
 			</if>
 
 		</where>
@@ -115,7 +115,6 @@
 		NOT linecode.line_cd_ord = 5
 		order by linecode.line_cd_ord
 		
-
 	</select>
 	
 	<!-- 공정명과 작업번호를 받아서 공정테이블 실적량(생산량) 수정 -->
@@ -274,8 +273,9 @@
 	UPDATE 
 		BF_PROD_INST_DETAIL 
 	SET 
-	work_scope = #{workScope} 
-	WHERE inst_prod_no = #{instProdNo}
+		work_scope = #{workScope} 
+	WHERE 
+		inst_prod_no = #{instProdNo}
 	</update>
 	
 </mapper>

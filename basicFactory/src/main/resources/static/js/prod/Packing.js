@@ -1,16 +1,7 @@
 //지시작업구분 진행완료로 업데이트 해야함
 $(document).ready(function () {
-  $("#sweetTest").click(function () {
-    Swal.fire({
-      icon: "success", // Alert 타입
-      title: "저장 되었습니다.", // Alert 제목
-
-    })
-  });
-
   findPacking();
   $("#packingTable").on("click", "tr", function () {
-    //fidndPacking($(this));
 
     if ($(this).find("input:hidden[name=completionStatus]").val() == "y") {
       insertModalData($(this));
@@ -215,30 +206,7 @@ function insertModalData(tr) {
 }
 
 function packingTableMakeRow(obj, index) {
-  [
-    {
-      instProdNo: 24,
-      finPrdCdCode: "FIN001",
-      instNo: 27,
-      instProdIndicaVol: 50,
-      workScope: "지시",
-      workDate: "2020-08-26",
-      processNo: 82,
-      processOrder: 5,
-      procCdCode: "PROC005",
-      procCdName: "포장",
-      mchnCode: "MCHN005",
-      mchnName: "포장기 1호기",
-      inDtlVol: 46,
-      totalProdVol: 0,
-      fltyVol: 0,
-      completionStatus: "n",
-      processRemk: null,
-      virResult: 0,
-      nonResult: 0,
-      achieRate: 0,
-    },
-  ];
+
   let node = `<tr>
               <td>${index}</td>
               <td>${obj.finPrdCdCode}</td>
@@ -504,24 +472,7 @@ function mchnStatusMakeRow(obj) {
     },
   });
 
-
-
-  // let node = `
-  // <div>
-  //   <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
-  //   <div class="btn btn-outline-primary m-t-15">${obj.mchnStts}</div>
-  // </div>`;
-
-  // $("#mchnStatus").append(node);
-  // if (obj.mchnStts == "진행중") {
-  //   $("#mchnStatus div")
-  //     .last()
-  //     .append(
-  //       `<span class="spinner-border spinner-border-sm m-l-5" role="status"></span>`
-  //     );
-  //}
 }
-
 
 //지시 작업구분 업데이트
 function updateWorkScope(instProdNo) {
