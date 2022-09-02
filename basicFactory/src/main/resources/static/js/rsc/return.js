@@ -26,8 +26,6 @@ $("document").ready(function () {
   let outVol = tdinfo.val();
   let price = tdinfo.parent().next().find(".price").val();
   let multiple = outVol * price;
-  console.log(outVol)
-  console.log(price);
   tdinfo.parent().next().next().find("input").val(multiple);
  })
 
@@ -36,8 +34,6 @@ $("document").ready(function () {
   let price = tdinfo.val();
   let outVol = tdinfo.parent().prev().find(".outVol").val();
   let multiple = outVol * price;
-  console.log(outVol)
-  console.log(price);
   tdinfo.parent().next().find("input").val(multiple);
  })
 

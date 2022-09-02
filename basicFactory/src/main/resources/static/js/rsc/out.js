@@ -34,6 +34,7 @@ $("document").ready(function () {
     }
     $("input[name='chk']:checked").each(function (k, val) {
       $(this).parent().parent().remove();
+      $("#allCheck").prop("checked", false);
     });
   });
 
@@ -186,6 +187,7 @@ $("document").ready(function () {
             //완료된 행 삭제
             $("input[name='chk']:checked").each(function (k, val) {
               $(this).parent().parent().remove();
+              $("#allCheck").prop("checked", false);
             });
           }
         })

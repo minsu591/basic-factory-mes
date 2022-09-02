@@ -1,0 +1,98 @@
+@charset "UTF-8";
+
+
+h1 {
+	margin-top: 2%;
+	margin-left: 2%;
+	margin-bottom: 2%;
+}
+
+
+.row {
+
+	margin-left: 0;
+	margin-right: 0;
+}
+
+label {
+	width : 70px;
+}
+
+button {
+	margin-top: 1rem;
+}
+tfoot {
+	border-bottom: 1px solid #e3eaef;
+}
+
+.listTitle {
+	line-height:43px;
+	float:left;
+}
+
+.buttonSet {
+	margin : 0;
+	float : right;
+}
+
+#findempbtn,
+#findPlanbtn {
+	margin-top: 0;
+}
+
+#rscOrderTitle {
+	width : 500px;
+}
+
+#rscOrderRemk {
+	width : 500px;
+}
+
+#InsertTable input[type=text]:read-only {
+	background: #f6f6f6 !important;
+	width: 100% !important
+}
+
+#InsertTable input[type=text] {
+	height: 2rem;
+	text-align: center;
+	border: 0;
+	width: 100%;
+	background: rgba(241, 196, 15, 0.1)
+}
+
+#InsertTable input[type=date] {
+	height: 2rem;
+	text-align: center;
+	border: 0;
+	width: 100%;
+	background: rgba(241, 196, 15, 0.1)
+}
+
+#InsertTable .unit {
+	height: 2rem;
+	text-align: center;
+	background: #f6f6f6 !important;
+	vertical-align:middle;
+}
+
+#InsertTable td {
+	padding: 0;
+
+}
+#totalSum {
+	text-align : right;
+}
+
+.flex-end {
+	justify-content: end;
+
+}
+
+.swal2-container {
+  z-index: 20000 !important;
+}
+
+.warn {
+	background-color: rgba(231, 76, 60, 0.5);
+}
