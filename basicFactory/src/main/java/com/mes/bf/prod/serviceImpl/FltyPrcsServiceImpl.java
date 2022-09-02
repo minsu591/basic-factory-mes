@@ -26,11 +26,25 @@ public class FltyPrcsServiceImpl implements FltyPrcsService{
 	public List<VFindProcPerformVO> procFlty() {
 		return mapper.procFlty();
 	}
+	@Override
+	public int fltyPrcsInsert(FltyPrcsVO vo) {
+		return mapper.fltyPrcsInsert(vo);
+	}
+	@Override
+	public int fltyPrcsDelete(String prikey) {
+		return mapper.fltyPrcsDelete(prikey);
+	}
+	@Override
+	public int fltyPrcsUpdate(String prikey, String updCol, String updCont) {
+		return mapper.fltyPrcsUpdate(prikey, updCol, updCont);
+	}
 	//불량코드 조회
 	@Override
 	public List<FaultyCodeVO> findFltyCode(String faultyCode) {
 		return mapper.findFltyCode(faultyCode);
 	}
+	
+	
 	//불량처리조회
 	@Override
 	public List<FltyPrcsVO> listFltyPrcs() {
@@ -41,9 +55,5 @@ public class FltyPrcsServiceImpl implements FltyPrcsService{
 	public List<FltyPrcsVO> findFltyPrcs(String fltyPrcsSdate, String fltyPrcsEdate, String finPrdCdName) {
 		return mapper.findFltyPrcs(fltyPrcsSdate, fltyPrcsEdate, finPrdCdName);
 	}
-
 	
-	
-	
-
 }

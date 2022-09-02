@@ -23,6 +23,23 @@
         ORDER BY PP.PROCESS_PERFOM_NO
 	</select>
 	
+	<insert id="fltyPrcsInsert" parameterType="fltyPrcs">
+		INSERT INTO BF_PROD_FLTY_PRCS_DETAILS
+		VALUES(BF_PROD_FLTY_PRCS_DETAILS_SEQ.NEXTVAL, #{faultyCdCode}, #{fltyPrcsDate}, 
+				#{fltyPrcsRemk}, #{processPerfomNo}, #{empId})
+	</insert>
+	
+	<update id="fltyPrcsUpdate">
+		UPDATE BF_PROD_FLTY_PRCS_DETAILS 
+		SET ${updCol} = #{updCont}
+		WHERE FLTY_PRCS_NO = #{prikey}
+	</update>
+	
+	<delete id="fltyPrcsDelete">
+		DELETE FORM BF_PROD_FLTY_PRCS_DETAILS
+		WHERE FLTY_PRCS_NO = #{prikey} 
+	</delete>
+	
 	<!-- 불량처리목록(모달창) -->
 	<select id="findlistFltyPrcs" resultType="fltyPrcs">
 		SELECT PP.PROCESS_PERFOM_NO,
@@ -68,22 +85,7 @@
 		</if>
 	</select>
 	
-	<insert id="fltyPrcsInsert" parameterType="fltyPrcs">
-		insert into BF_PROD_FLTY_PRCS_DETAILS
-		values()
-	</insert>
 	
-	<delete id="fltyPrcsDelete">
-		DELETE FORM BF_PROD_FLTY_PRCS_DETAILS
-		WHERE FLTY_PRCS_NO = #{prikey} 
-	</delete>
-	
-	<update id="fltyPrcsUpdate">
-		UPDATE BF_PROD_FLTY_PRCS_DETAILS 
-		SET ${updCol} = #{updCont}
-		WHERE FLTY_PRCS_NO = #{prikey}
-	</update>
-
 	<select id="listFltyPrcs" resultType="fltyPrcs">
 		SELECT PP.PROCESS_PERFOM_NO,
 				FC.FAULTY_CD_CODE, 

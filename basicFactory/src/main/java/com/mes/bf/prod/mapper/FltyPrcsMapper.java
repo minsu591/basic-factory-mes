@@ -21,7 +21,7 @@ public interface FltyPrcsMapper {
 	int fltyPrcsUpdate(String prikey, String updCol, String updCont);
 	
 	//불량코드 조회
-		List<FaultyCodeVO> findFltyCode(String faultyCode);
+	List<FaultyCodeVO> findFltyCode(String faultyCode);
 		
 	//불량처리조회
 	List<FltyPrcsVO> listFltyPrcs();

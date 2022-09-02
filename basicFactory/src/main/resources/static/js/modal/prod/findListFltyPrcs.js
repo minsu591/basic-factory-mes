@@ -95,7 +95,7 @@ $("document").ready(function () {
                     <td id="faultyCode">${faultyCdCode}</td>
                     <td id="faultyName">${faultyName}</td>
                     <td>${fltyVol}</td>
-                    <td>${fltyPrcsDate}</td>
+                    <td><input type="date" value="${fltyPrcsDate}"></td>
                     <td>${empName}</td>
                     <td>${fltyPrcsRemk}</td>
                 </tr>`;

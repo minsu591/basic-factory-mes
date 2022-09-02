@@ -6,9 +6,9 @@
 </head>
 <body>
   <link th:href="@{/css/prod/FltyPrcs.css}" rel="stylesheet" />
+  <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet" />
   <script type="text/javascript" th:src="@{/js/prod/FltyPrcsManage.js}"></script>
-  <script type="text/javascript" th:src="@{/js/prod/FltyPrcsMngUpdate.js}"></script>
-    <!-- modal js -->
+  <!-- modal js -->
   <script type="text/javascript" th:src="@{/js/modal/prod/findListFltyPrcs.js}"></script>
   <script type="text/javascript" th:src="@{/js/modal/cmn/findFaulty.js}"></script>
   <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
@@ -95,13 +95,13 @@
               <thead>
                 <tr>
                   <th><input type="checkbox" id="allCheck"></th>
-                  <th></th>
-                  <th th:text="불량코드"></th>
+                  <th name="flty_prcs_no">불량번호</th>
+                  <th th:text="불량코드" name="faulty_cd_code"></th>
                   <th th:text="불량명"></th>
                   <th th:text="불량수"></th>
-                  <th th:text="불량처리일"></th>
+                  <th th:text="불량처리일" name="flty_prcs_date"></th>
                   <th th:text="담당자명"></th>
-                  <th th:text="비고"></th>
+                  <th th:text="비고" name="flty_prcs_remk"></th>
                 </tr>
               </thead>
               <tbody id="fltyPrcstbody">
