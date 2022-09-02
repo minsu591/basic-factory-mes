@@ -66,3 +66,8 @@ h1 {
 .swal2-container {
   z-index: 20000 !important;
 }
+
+#emergencyBtn {
+  background: #e74c3c;
+  border: #e74c3c;
+}
