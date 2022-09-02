@@ -1,5 +1,5 @@
 $("document").ready(function () {
-  $("#empName").click(function (e) {
+  $("#empid").click(function (e) {
     e.preventDefault();
     findEmp();
     $("#findempModal").modal("show");
@@ -7,11 +7,9 @@ $("document").ready(function () {
 
   //모달테이블 클릭 이벤트
   $("#findemptable").on("click", "tr", function () {
-    console.log($(this).find(".empId").val());
-    let empName = $(this).find("td:eq(1)").text();
-    let empId = $(this).find(".empId").val();
-    $("#empName").val(empName);
-    $("#empId").val(empId);
+    let empId = $(this).find("td:eq(1)").text();
+
+    $("#empid").val(empId);
     $("#findempModal").modal("hide");
   });
 
@@ -27,7 +25,6 @@ $("document").ready(function () {
         dataType: "json",
         data: { empName: empname },
         success: function (data) {
-          console.log(data);
           $("#findemptbody tr").remove();
           let index = 0;
           for (obj of data) {
@@ -62,7 +59,7 @@ function findEmp() {
 function empMakeRow(obj, index) {
   let node = `<tr>
                 <td>${index}</td>
-                <input type="hidden" value="${obj.empvo.empId}" class="empId">
+                <td>${obj.empvo.empId}</td>
                 <td>${obj.empvo.empName}</td>
                 <td>${obj.deptvo.deptName}</td>
               </tr>`;

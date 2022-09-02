@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+
+	<th:block th:fragment="findIdEmp">
+
+		<div class="modal fade" id="findempModal" tabindex="-1" role="dialog"
+			aria-labelledby="findempModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="findempModalLabel">담당자 검색</h3>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-inline">
+							<div class="form-group mt-3">
+								<label for="empName" th:text="담당자명"></label>
+								 <input type="text" id="empName" name="empName" class="form-control mx-sm-3">
+								<button type="submit" class="btn  btn-primary" id="findempbtn" th:text="검색"></button>
+							</div>
+						</div>
+
+						<div class="card-body table-border-style">
+							<div class="table-responsive">
+								<table class="table table-hover" id="findemptable">
+									<thead>
+										<tr>
+											<th></th>
+											<th th:text="담당자아이디"></th>
+											<th th:text="담당자명"></th>
+											<th th:text="부서"></th>
+										</tr>
+									</thead>
+									<tbody id="findemptbody">
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal" th:text="취소"></button>
+						<button type="button" class="btn btn-primary" th:text="선택"
+							id="selectbtn"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</th:block>
+
+</body>
+</html>

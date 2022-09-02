@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.prod.vo.PackingVO;
+import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.sales.vo.SlsInDtlVO;
 
 public interface PackingService {
@@ -16,4 +17,7 @@ public interface PackingService {
 
 	// 완제품 입고내역 등록
 	void insertInDtl(SlsInDtlVO vo);
+
+	// 포장 공정 조회
+	List<ProcessVO> findProcessPacking(int instProdNo);
 }

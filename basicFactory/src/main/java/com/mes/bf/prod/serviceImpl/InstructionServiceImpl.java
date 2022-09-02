@@ -53,35 +53,35 @@ public class InstructionServiceImpl implements InstructionService {
 		return mapper.findVendorCode(vendorCode, vendCdClfy);
 	}
 
+//	@Override
+//	public List<FindProcStatusVO> findProcStatus(String lineName) {
+//		return mapper.findProcStatus(lineName);
+//	}
 	@Override
-	public List<FindProcStatusVO> findProcStatus(String lineName) {
+	public List<FindProcStatusVO> findProcStatus(List<String> lineName) {
 		return mapper.findProcStatus(lineName);
 	}
 
+//	@Override
+//	public List<VRscNeedQtyVO> findVRscNeedQty(String finPrdCdCode) {
+//
+//		return mapper.findVRscNeedQty(finPrdCdCode);
+//	}
+	
 	@Override
-	public List<VRscNeedQtyVO> findVRscNeedQty(String finPrdCdCode) {
-
+	public List<VRscNeedQtyVO> findVRscNeedQty(List<String> finPrdCdCode) {
 		return mapper.findVRscNeedQty(finPrdCdCode);
 	}
 
-	@Override
-	@Transactional
-	public void insertInstruction(InstructionVO vo, InstructionDetailVO detailvo) {
-		mapper.insertInstruction(vo);
-		//mapper.insertInstructionDetail(detailvo);
-
-	}
-
-	@Override
-	public void insertProc(String finPrdCdCode) {
-		mapper.insertProc(finPrdCdCode);
-	}
-
-	@Override
-	public void insertNeedQty(String finPrdCdCode) {
-		mapper.insertNeedQty(finPrdCdCode);
-
-	}
+//	@Override
+//	@Transactional
+//	public void insertInstruction(InstructionVO vo, InstructionDetailVO detailvo) {
+//		mapper.insertInstruction(vo);
+//		mapper.insertInstructionDetail(detailvo);
+//		mapper.insertNeedQty(detailvo.getFinPrdCdCode());//자재소요예상량입력
+//		mapper.insertProc(detailvo.getFinPrdCdCode()); //공정별 데이터 입력
+//		mapper.updateinDtlVol(detailvo.getInstProdIndicaVol());//최초공정 입고량 업데이트
+//	}
 
 	@Override
 	public void updateNeedQty(String needQty, String rscCdCode) {
@@ -89,16 +89,22 @@ public class InstructionServiceImpl implements InstructionService {
 
 	}
 
-	@Override
-	public void updateinDtlVol(int indicaVol) {
-		mapper.updateinDtlVol(indicaVol);
-	}
-
 	//생산지시 통합입력
 	@Override
+	@Transactional
 	public void insertInstAndDetail(InstAndDetailVO vo) {
 		mapper.insertInstruction(vo.getVo());
-		mapper.insertInstructionDetail(vo.getDetailvo());
+		System.out.println("vo.getDetailvo() : " + vo.getDetailvo());
+		for(InstructionDetailVO str : vo.getDetailvo()) {
+			mapper.insertInstructionDetailList(str);
+			mapper.insertNeedQty(str.getFinPrdCdCode());//자재소요예상량입력
+			mapper.insertProc(str.getFinPrdCdCode()); //공정별 데이터 입력
+			mapper.updateinDtlVol(str.getInstProdIndicaVol());//최초공정 입고량 업데이트
+		}
 	}
+
+	
+
+	
 
 }

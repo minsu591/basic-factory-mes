@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.prod.service.PackingService;
 import com.mes.bf.prod.vo.PackingVO;
+import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.sales.vo.SlsInDtlVO;
 
 @RestController
@@ -41,5 +42,14 @@ public class PackingController {
 	public void insertInDtl(@RequestBody SlsInDtlVO vo) {
 		service.insertInDtl(vo);
 	}
+	
+	//
+	@GetMapping("/findprocesspacking/{instProdNo}")
+	ResponseEntity<List<ProcessVO>> findProcessPacking(@PathVariable int instProdNo) {
+		System.out.println(instProdNo);
+		List<ProcessVO> list = service.findProcessPacking(instProdNo);
+		return new ResponseEntity<List<ProcessVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
+	
 	
 }

@@ -59,8 +59,8 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 	}
 
 	@Override
-	public void orderInsertDtl(List<SlsOrdDtlVO> vo) {
-		mapper.orderInsertDtl(vo);
+	public void orderInsertDtl(SlsOrdDtlVO ordDtlVO) {
+		mapper.orderInsertDtl(ordDtlVO);
 		
 	}
 

@@ -7,6 +7,71 @@
 <title>자재반품관리</title>
 </head>
 <body>
+	<script type="text/javascript" th:src="@{/js/modal/rsc/findRscLotManage.js}"></script>
+	<script type="text/javascript" th:src="@{/js/modal/rsc/findVendor.js}"></script>
+	<script type="text/javascript" th:src="@{/js/rsc/return.js}"></script>
+	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
+	<link th:href="@{/css/rsc/out.css}" rel="stylesheet" />
+	<div class="pcoded-main-container">
+		<h1>자재 반품 관리</h1>
+		<hr>
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">
+					<div class="form-inline">
+						<div class="form-group mt-3">
+							<label for="rscReturnCode" th:text="반품코드"></label> <input
+								type="text" id="rscReturnCode" class="form-control mx-sm-3"
+								readonly>
+						</div>
+						<div class="form-group mt-3">
+							<label for="rscReturnDate" th:text="반품일자"></label> <input
+								type="date" id="rscReturnDate" class="form-control mx-sm-3">
+						</div>
+						<button type="button" class="btn  btn-primary" id="search">최근
+							내용 조회</button>
+					</div>
+				</div>
+				<div class="card-body table-border-style">
+					<button type="button" class="btn  btn-primary" id="addRowBtn">추가</button>
+					<button type="button" class="btn  btn-primary" id="delRowBtn">삭제</button>
+					<button type="button" class="btn  btn-primary" id="subBtn">저장</button>
+					<form>
+						<div class="table-responsive">
+							<table class="table table-hover" id="InsertTable">
+								<thead>
+									<tr>
+										<th><input type="checkbox" id="allCheck"></th>
+										<th th:text="반품코드"></th>
+										<th th:text="반품일자"></th>
+										<th th:text="거래처코드"></th>
+										<th th:text="거래처"></th>
+										<th th:text="자재코드"></th>
+										<th th:text="자재명"></th>
+										<th th:text="자재LOT번호"></th>
+										<th th:text="재고수량"></th>
+										<th th:text="반품수량"></th>
+										<th th:text="단가"></th>
+										<th th:text="합계금액"></th>
+										<th th:text="담당자ID"></th>
+										<th th:text="비고"></th>
+									</tr>
+								</thead>
+								<tbody id="returnTable">
 
+								</tbody>
+							</table>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+		<!-- 최근 입력 내용 조회 Modal -->
+		<th:block th:replace="~{/fragments/modal/rsc/findRscReturn :: findRscReturn}" id="modal"></th:block>
+		<!-- 거래처조회 Modal -->
+		<th:block th:replace="~{/fragments/modal/findvendor :: findvendor}"></th:block>
+		<!-- Lot번호 조회 Modal -->
+		<th:block th:replace="~{/fragments/modal/findRscLot :: findRscLot}"></th:block>
 </body>
 </html>

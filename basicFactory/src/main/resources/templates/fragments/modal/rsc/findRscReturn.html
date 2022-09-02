@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+
+	<th:block th:fragment="findRscReturn">
+
+
+		<div class="modal fade" id="findRscOutModal" tabindex="-1"
+			role="dialog" aria-labelledby="findRscOutModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="findRscReturnModalLabel">최근 출고 내역 조회</h3>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-inline">
+							<div class="form-group mt-3">
+								<label for="rscReturnCode" th:text="출고코드"></label> 
+								<input type="text" id="rscReturnCode" name="rscReturnCode"
+									class="form-control mx-sm-3" readonly>
+							</div>
+						</div>
+
+						<div class="card-body table-border-style">
+							<div class="table-responsive">
+								<table class="table table-hover" id="findRscReturnTable">
+									<thead>
+										<tr>
+											<th><input type="checkbox" id="modalAllCheck"></th>
+											<th th:text="반품코드"></th>
+											<th th:text="반품일자"></th>
+											<th th:text="거래처"></th>
+											<th th:text="자재명"></th>
+											<th th:text="반품수량"></th>
+										</tr>
+									</thead>
+									<tbody id="findRscReturntbody">
+									
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+							<button type="button" class="btn  btn-primary" id="addBtn">선택 추가</button>
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</th:block>
+</body>
+</html>
