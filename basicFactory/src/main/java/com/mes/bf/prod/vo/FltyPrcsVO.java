@@ -18,7 +18,7 @@ public class FltyPrcsVO {
 	private String faultyName;		//불량명
 	
 	private Integer fltyVol;		//불량량
-	private Integer processPerformNo;	//공정실적번호
+	private Integer processPerfomNo;	//공정실적번호
 	
 	private String finPrdCdCode;	//완제품코드
 	private String finPrdCdName;	//완제품명

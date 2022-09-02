@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,10 +27,17 @@ public class FltyPrcsController {
 	@Autowired FltyPrcsService service;
 	
 	//불량처리관리 페이지
-	@RequestMapping("/fltyPrcsManage")
-	public ModelAndView fltyPrcsManage() {
-		ModelAndView mav = new ModelAndView("prod/FltyPrcsManage");
-		return mav;
+//	@RequestMapping("/fltyPrcsManage")
+//	public ModelAndView fltyPrcsManage() {
+//		ModelAndView mav = new ModelAndView("prod/FltyPrcsManage");
+//		return mav;
+//	}
+	//불량처리관리 페이지 호출(생산불량 조회)
+	@GetMapping("/fltyPrcsManage")
+	public String procFlty(Model model) {
+		List<VFindProcPerformVO> pf = service.procFlty();
+		model.addAttribute("pf", pf);
+		return "prod/FltyPrcsManage";
 	}
 	
 	//불량처리목록(모달창)
@@ -39,12 +47,16 @@ public class FltyPrcsController {
 		return new ResponseEntity<List<FltyPrcsVO>>(list, HttpStatus.OK);
 	}
 	
-	//생산불량조회
-	@GetMapping("/findProcFlty")
-	public ResponseEntity<List<VFindProcPerformVO>> findProcFlty() {
-		List<VFindProcPerformVO> list = service.findProcFlty();
-		return new ResponseEntity<List<VFindProcPerformVO>>(list, HttpStatus.OK);
+	//불량처리 등록
+	
+	//불량처리 수정
+	@PostMapping(value = "/fltyPrcs/update", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Integer> fltyPrcsUpdate(@RequestParam Map<String, String> QueryParameters) {
+		int result = service.fltyPrcsUpdate(QueryParameters.get("priKey"), QueryParameters.get("updCol"), QueryParameters.get("updCont"));
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
+	
+	//불량처리 삭제
 	
 	//불량코드조회(모달창)
 	@GetMapping(value = "/findFltyCode", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -58,7 +70,6 @@ public class FltyPrcsController {
 	public String fltyPrcsListPage(Model model) {
 		List<FltyPrcsVO> fltyPrcs = service.listFltyPrcs();
 		model.addAttribute("fltyPrcs", fltyPrcs);
-		System.out.println(fltyPrcs);
 		return "prod/FltyPrcs";
 	}
 	//불량처리상세조회

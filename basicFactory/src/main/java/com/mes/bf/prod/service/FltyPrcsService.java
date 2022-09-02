@@ -10,8 +10,13 @@ public interface FltyPrcsService {
 	
 	//불량처리목록
 	List<FltyPrcsVO> findlistFltyPrcs(String fltyPrcsSdate, String fltyPrcsEdate);
-	//생산중불량조회
-	List<VFindProcPerformVO> findProcFlty();
+	//생산불량
+	List<VFindProcPerformVO> procFlty();
+	//불량세부처리
+	int fltyPrcsInsert(FltyPrcsVO vo);
+	int fltyPrcsDelete(String prikey);
+	int fltyPrcsUpdate(String prikey, String updCol, String updCont);
+	
 	//불량코드 조회
 	List<FaultyCodeVO> findFltyCode(String faultyCode);
 	

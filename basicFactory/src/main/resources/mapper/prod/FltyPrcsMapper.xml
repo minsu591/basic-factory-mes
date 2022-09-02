@@ -2,10 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.prod.mapper.FltyPrcsMapper">
 
-	<!-- 생산불량조회(모달창) -->
-	<select id="findProcFlty" resultType="vfindprocperformVO">
+	<!-- 생산불량 -->
+	<select id="procFlty" resultType="vfindprocperformVO">
 		SELECT PP.PROCESS_PERFOM_NO,
-				PP.PROCESS_PERFOM_NO,
 	            IDE.FIN_PRD_CD_CODE, 
 	            FPC.FIN_PRD_CD_NAME,
 	            PP.FLTY_VOL,
@@ -21,7 +20,25 @@
 		JOIN BF_CMN_FINISH_PRODUCT_CODE FPC
 		        ON IDE.FIN_PRD_CD_CODE = FPC.FIN_PRD_CD_CODE
 		WHERE PP.FLTY_VOL > 0
+        ORDER BY PP.PROCESS_PERFOM_NO
 	</select>
+	
+	<insert id="fltyPrcsInsert" parameterType="fltyPrcs">
+		INSERT INTO BF_PROD_FLTY_PRCS_DETAILS
+		VALUES(BF_PROD_FLTY_PRCS_DETAILS_SEQ.NEXTVAL, #{faultyCdCode}, #{fltyPrcsDate}, 
+				#{fltyPrcsRemk}, #{processPerfomNo}, #{empId})
+	</insert>
+	
+	<update id="fltyPrcsUpdate">
+		UPDATE BF_PROD_FLTY_PRCS_DETAILS 
+		SET ${updCol} = #{updCont}
+		WHERE FLTY_PRCS_NO = #{prikey}
+	</update>
+	
+	<delete id="fltyPrcsDelete">
+		DELETE FORM BF_PROD_FLTY_PRCS_DETAILS
+		WHERE FLTY_PRCS_NO = #{prikey} 
+	</delete>
 	
 	<!-- 불량처리목록(모달창) -->
 	<select id="findlistFltyPrcs" resultType="fltyPrcs">
@@ -67,8 +84,8 @@
 			WHERE FAULTY_CD_CODE = #{faultyCode}
 		</if>
 	</select>
-
-
+	
+	
 	<select id="listFltyPrcs" resultType="fltyPrcs">
 		SELECT PP.PROCESS_PERFOM_NO,
 				FC.FAULTY_CD_CODE, 

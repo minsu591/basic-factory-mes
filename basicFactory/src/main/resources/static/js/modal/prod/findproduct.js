@@ -8,8 +8,10 @@ $("document").ready(function () {
   //테이블 클릭 이벤트
   $("#findProductTable").on("click", "tr", function () {
     console.log($(this).find("td:eq(2)").text());
+    let code = $(this).find("td:eq(1)").text();
     let name = $(this).find("td:eq(2)").text();
 
+    $("#productcode").val(code);
     $("#productname").val(name);
     $("#findproductModal").modal("hide");
   });

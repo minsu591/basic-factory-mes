@@ -8,7 +8,7 @@ $("document").ready(function () {
 
   function findProcFlty() {
     $.ajax({
-      url: "findProcFlty",
+      url: "procFlty",
       method: "GET",
       contentType: "application/json;charset=utf-8",
       dataType: "json",
