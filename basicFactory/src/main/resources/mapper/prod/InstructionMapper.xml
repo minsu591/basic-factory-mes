@@ -30,11 +30,12 @@
 	<select id="findEmp" resultMap="FindEmpVO">
 
 		SELECT *
-		FROM BF_CMN_EMP e JOIN bf_cmn_dept d
-		ON e.dept_no = d.dept_no
+		FROM BF_CMN_EMP e 
+		JOIN bf_cmn_dept d
+		  ON e.dept_no = d.dept_no
 		<where>
 			<if test="empName != null and empName !=''">
-				AND LOWER(e.emp_name) LIKE #{empName}
+				AND LOWER(e.emp_name) LIKE '%'||#{empName}||'%'
 			</if>
 		</where>
 
@@ -54,16 +55,17 @@
 
 	<select id="findProduct" resultType="prodCode">
 
-		SELECT * FROM BF_CMN_FINISH_PRODUCT_CODE
-		WHERE rownum > 0
-		<if test="prdCdCode != null and prdCdCode !=''">
-			AND fin_prd_cd_code LIKE #{prdCdCode}
-		</if>
-
-		<if test="prdCdName != null and prdCdName !=''">
-			AND fin_prd_cd_name LIKE #{prdCdName}
-		</if>
-
+		SELECT * 
+		  FROM BF_CMN_FINISH_PRODUCT_CODE
+		<where>
+			<if test="prdCdCode != null and prdCdCode !=''">
+				AND fin_prd_cd_code LIKE '%'||#{prdCdCode}||'%'
+			</if>
+	
+			<if test="prdCdName != null and prdCdName !=''">
+				AND fin_prd_cd_name LIKE '%'||#{prdCdName}||'%'
+			</if>
+		</where>
 
 
 	</select>
@@ -72,21 +74,21 @@
 	<select id="findVInstruction" resultType="vinst">
 
 		SELECT * FROM v_instruction
-
+<!-- instdate 날짜 타입 to_char 수정 -->
 		<where>
 			<if test="instSdate != null and instSdate !=''">
-				<![CDATA[ AND instdate >= #{instSdate} ]]>
+				<![CDATA[ AND TO_CHAR(instdate, 'yyyy-MM-dd') >= #{instSdate} ]]>
 			</if>
 
 			<if test="instEdate != null and instEdate !='' ">
-				 <![CDATA[ AND instdate <= #{instEdate} ]]>
+				 <![CDATA[ AND TO_CHAR(instdate, 'yyyy-MM-dd') <= #{instEdate} ]]>
 			</if>
 
 			<if test="vendorName != null and vendorName != ''">
-				AND vendcdnm LIKE #{vendorName}
+				AND vendcdnm = #{vendorName}
 			</if>
 			<if test="productName != null and productName != ''">
-				AND finPrdCdName LIKE #{productName}
+				AND finPrdCdName = #{productName}
 			</if>
 		</where>
 
@@ -97,13 +99,12 @@
 		SELECT * FROM BF_CMN_VENDOR_CODE
 		<where>
 			<if test="vendorCode != null and vendorCode != ''">
-				AND vend_cd_code LIKE #{vendorCode}
+				AND vend_cd_code LIKE '%'||#{vendorCode}||'%'
 			</if>
 			<if
 				test="vendCdClfy != null and vendCdClfy != '' and vendCdClfy != '전체'">
-				AND vend_cd_clfy LIKE #{vendCdClfy}
+				AND vend_cd_clfy LIKE '%'||#{vendCdClfy}||'%'
 			</if>
-
 		</where>
 	</select>
 
@@ -143,7 +144,13 @@
 	<select id="findVRscNeedQty" resultType="com.mes.bf.prod.vo.VRscNeedQtyVO" 
 	parameterType="java.util.List">
 	
-	SELECT * 
+	SELECT
+			rsccdcode,
+			rsccdname,
+			rscstock,
+			rsccdunit,
+			rscusevol,
+			finprdcdcode
 	FROM 
 		V_RSC_NEED_QTY
 	WHERE 
@@ -154,16 +161,7 @@
 		</foreach>
 	ORDER BY 6,1
 	</select>
-<!-- 
-	<select id="findVRscNeedQty"
-		resultType="com.mes.bf.prod.vo.VRscNeedQtyVO">
 
-		SELECT * FROM V_RSC_NEED_QTY WHERE finPrdCdCode =
-		#{finPrdCdCode}
-
-	</select>
-
- -->
 	<!-- 생산지시 헤더 입력 -->
 
 	<insert id="insertInstruction">
@@ -194,30 +192,6 @@
 				)
 
 	</insert>
-
-
-	<!-- 생산지시 상세 입력 -->
-<!-- 	<insert id="insertInstructionDetail">
-		<selectKey keyProperty="instNo" order="BEFORE"
-			resultType="int">
-			SELECT MAX(inst_no) FROM BF_PROD_INSTRUCTION
-		</selectKey>
-		INSERT INTO
-		BF_PROD_INST_DETAIL(inst_prod_no,
-		fin_prd_cd_code,
-		inst_no,
-		inst_prod_indica_vol,
-		work_scope,
-		work_date)
-		VALUES(
-		BF_PROD_INST_DETAIL_SEQ.nextval,
-		#{finPrdCdCode},
-		#{instNo},
-		#{instProdIndicaVol},
-		'진행전',
-		#{workDate}
-		)
-	</insert> -->
 	
 	<!-- 생산지시 통합 상세 입력 -->
 	<insert id="insertInstructionDetailList">
@@ -258,11 +232,9 @@
 							mchn_name
 						)
 		SELECT
-			BF_PROD_PROCESS_SEQ.nextval,
-			(SELECT 
-				MAX(inst_prod_no) 
-			FROM 
-				BF_PROD_INST_DETAIL),
+				BF_PROD_PROCESS_SEQ.nextval,
+				(SELECT MAX(inst_prod_no) 
+				   FROM	BF_PROD_INST_DETAIL),
 				linecode.line_cd_ord,
 				linecode.proc_cd_code,
 				proccode.proc_cd_name,
@@ -289,35 +261,37 @@
 
 	<!-- 자재소요예상량 데이터입력 -->
 	<insert id="insertNeedQty">
-		INSERT INTO 
-	BF_PROD_RSC_NEED_QTY (
-							inst_prod_no,
-		                    rsc_cd_code,
-							rsc_cd_name,
-							rsc_stock,
-		                    rsc_cd_unit,
-							rsc_need_qty,
-							fin_prd_cd_code
-							)
-SELECT (
-		SELECT MAX(inst_prod_no) 
-		FROM BF_PROD_INST_DETAIL
-		),
-        rsccdcode,
-        rsccdname,
-        rscstock,
-        rsccdunit,
-        rscusevol,
-        finprdcdcode 
-FROM V_RSC_NEED_QTY
-
-WHERE finprdcdcode = #{finPrdCdCode}
+	INSERT INTO 
+		BF_PROD_RSC_NEED_QTY (
+								inst_prod_no,
+			                    rsc_cd_code,
+								rsc_cd_name,
+								rsc_stock,
+			                    rsc_cd_unit,
+								rsc_need_qty,
+								fin_prd_cd_code
+							  )
+	SELECT (
+			SELECT MAX(inst_prod_no) 
+			FROM BF_PROD_INST_DETAIL
+			),
+	        rsccdcode,
+	        rsccdname,
+	        rscstock,
+	        rsccdunit,
+	        rscusevol,
+	        finprdcdcode 
+	FROM 
+		V_RSC_NEED_QTY
+	WHERE 
+		finprdcdcode = #{finPrdCdCode}
 
 	</insert>
 	
 	<!-- 자재소요예상량 업데이트 -->
 	<update id="updateNeedQty">
-		UPDATE BF_PROD_RSC_NEED_QTY 
+		UPDATE 
+			BF_PROD_RSC_NEED_QTY 
 		SET 
 			RSC_NEED_QTY = #{needQty}
 		WHERE 

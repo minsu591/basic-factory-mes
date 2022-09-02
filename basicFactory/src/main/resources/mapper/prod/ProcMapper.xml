@@ -7,11 +7,11 @@
 		SELECT * FROM v_findmchn
 		<where>
 			<if test="mchnCode != null and mchnCode != ''">
-				AND mchn_code LIKE #{mchnCode}
+				AND mchn_code LIKE '%'||#{mchnCode}||'%'
 			</if>
 
 			<if test="mchnName != null and mchnName != ''">
-				AND mchn_name LIKE #{mchnName}
+				AND mchn_name LIKE '%'||#{mchnName}||'%'
 			</if>
 
 		</where>
@@ -26,27 +26,27 @@
 		<where>
 			<if test="workSdate != null and workSdate != ''">
 	 
-				<![CDATA[ AND workdate >= #{workSdate} ]]>
+				<![CDATA[ AND TO_CHAR(workdate, 'yyyy-MM-dd') >= #{workSdate} ]]>
 			</if>
 
 			<if test="workEdate != null and workEdate != ''">
-				<![CDATA[ AND workdate <= #{workEdate} ]]>
+				<![CDATA[ AND TO_CHAR(workdate, 'yyyy-MM-dd') <= #{workEdate} ]]>
 			</if>
 
 			<if test="procCdName != null and procCdName != ''">
-				AND proc_cd_name LIKE #{procCdName}
+				AND proc_cd_name = #{procCdName}
 			</if>
 
 			<if test="mchnName != null and mchnName != ''">
-				AND mchn_name LIKE #{mchnName}
+				AND mchn_name = #{mchnName}
 			</if>
 
 			<if test="empId != null and empId != ''">
-				AND workername LIKE #{empId}
+				AND workername = #{empId}
 			</if>
 			
 		</where>
-		
+		ORDER BY workdate
 	</select>
 
 	<!-- 공정명검색 -->
@@ -54,10 +54,10 @@
 		SELECT * FROM BF_CMN_PROC_CODE
 		<where>
 			<if test="procCdCode != null and procCdCode != ''">
-				AND proc_cd_code LIKE #{procCdCode}
+				AND proc_cd_code LIKE '%'||#{procCdCode}||'%'
 			</if>
 			<if test="procCdName != null and procCdName != ''">
-				AND proc_cd_name LIKE #{procCdName}
+				AND proc_cd_name LIKE '%'||#{procCdName}||'%'
 			</if>
 
 		</where>
@@ -66,8 +66,21 @@
 	<!-- 공정실적관리테이블 조회 -->
 
 	<select id="findProcManage" resultType="ProcManageVO">
-		SELECT * FROM v_procmanage
+		SELECT
+			instno,
+			instprodno,
+			workdate,
+			finprdcdcode,
+			finprdcdname,
+			instprodindicavol,
+			workscope,
+			virresult,
+			nonresult 
+		
+		FROM
+			v_procmanage
 		<where>
+		 	NOT workscope = '진행완료'
 			<if test="finPrdCdName != null and finPrdCdName !=''">
 				AND finPrdCdName LIKE #{finPrdCdName}
 			</if>
@@ -112,10 +125,11 @@
 		AND
 		fin_prd_cd_code = #{finPrdCdCode}
 		AND 
-		NOT linecode.line_cd_ord = 5
+			NOT linecode.line_cd_ord = 5
+		AND
+			NOT bomcode.bom_cd_use = 0
 		order by linecode.line_cd_ord
 		
-
 	</select>
 	
 	<!-- 공정명과 작업번호를 받아서 공정테이블 실적량(생산량) 수정 -->
@@ -271,11 +285,25 @@
 	<!-- 작업구분 업데이트  -->
 	
 	<update id="updateWorkScope" parameterType="InstructionDetailVO">
-	UPDATE 
-		BF_PROD_INST_DETAIL 
-	SET 
-	work_scope = #{workScope} 
-	WHERE inst_prod_no = #{instProdNo}
+		UPDATE 
+			BF_PROD_INST_DETAIL 
+		SET 
+			work_scope = #{workScope} 
+		WHERE 
+			inst_prod_no = #{instProdNo}
 	</update>
+	
+	<!-- 실적량 -> 기실적량 업데이트 -->
+	
+	<update id="updateVirResult" parameterType="com.mes.bf.prod.vo.ProcessVO">
+		UPDATE 
+			BF_PROD_PROCESS
+		SET 
+			vir_result = #{totalProdVol},
+			total_prod_vol = 0
+		WHERE
+			process_no = #{processNo}
+	</update>
+	
 	
 </mapper>

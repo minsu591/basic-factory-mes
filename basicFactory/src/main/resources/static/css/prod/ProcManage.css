@@ -21,7 +21,7 @@ h1 {
 }
 
 .modal-fullsize {
-  width: 90%;
+  width: 85%;
   height: 90%;
   /* margin: 0; */
   padding: 0;
@@ -65,4 +65,9 @@ h1 {
 
 .swal2-container {
   z-index: 20000 !important;
+}
+
+#emergencyBtn {
+  background: #e74c3c;
+  border: #e74c3c;
 }

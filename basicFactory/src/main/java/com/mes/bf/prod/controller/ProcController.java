@@ -181,6 +181,11 @@ public class ProcController {
 		System.out.println(vo);
 		service.updateWorkScope(vo);
 	}
-
+	
+	//실적량 -> 기실적량 업데이트
+	@PutMapping("/updatevirresult")
+	public void updateVirResult(@RequestBody ProcessVO vo) {
+		service.updateVirResult(vo);
+	}
 
 }

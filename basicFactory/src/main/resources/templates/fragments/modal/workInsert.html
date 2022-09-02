@@ -103,6 +103,10 @@
 														id="workEndBtn" onclick="endWork();" disabled>종료</button>
 												</div>
 												<hr>
+													<div style="text-align: center;">
+														<button type="button" class="btn btn-primary" id="emergencyBtn">EMERGENCY</button>
+														<button type="button" class="btn btn-primary" id="reStartBtn" style="display: none;" >재시작</button>
+												</div>
 											</div>
 											<div class="card-body">
 
@@ -138,14 +142,14 @@
 													</table>
 												</div>
 												<div class="form-inline content-center">
-													<button type="submit"
+													<button type="button"
 														class="btn  btn-primary m-l-20 m-r-20 m-b-5" id="addFlty"
 														th:text="불량등록"></button>
 													<input type="number" class="form-control mx-sm-3 time"
 														id="fltyCnt">
-													<button type="submit" class="btn  btn-primary m-l-20 m-b-5"
+													<button type="button" class="btn  btn-primary m-l-20 m-b-5"
 														id="fltyUp">불량(+)</button>
-													<button type="submit"
+													<button type="button"
 														class="btn  btn-primary m-l-10 m-r-20 m-b-5" id="fltyDown">불량(-)</button>
 												</div>
 											</div>

@@ -66,4 +66,7 @@ public interface ProcService {
 	// 자재 사용량 출고내역 등록
 	void insertRscOut(ProdRscOutVO vo);
 
+	// 실적량 -> 기실적량 업데이트
+	void updateVirResult(ProcessVO vo);
+
 }

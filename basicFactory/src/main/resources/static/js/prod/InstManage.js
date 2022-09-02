@@ -171,7 +171,6 @@ $(document).ready(function () {
     let prodName = $(this).find("td:eq(2)").children();
     let prodUnit = $(this).find("td:eq(3)").children();
     let lineName = $(this).find("td:eq(11)").children();
-    let indicaVol = $(this).find("td:eq(10)").children();
     let tr = $(this);
 
     if (tr.children().children().is(":checked") == true) {
@@ -187,22 +186,21 @@ $(document).ready(function () {
     }
     let lineArraySet = new Set(lineArray);
     let prodCodeArrSet = new Set(prodCodeArr);
-    let inDtlVolSet = new Set(inDtlVol);
     let uniqueLineArray = [...lineArraySet];
     let uniqueProdCode = [...prodCodeArrSet];
-    let uniqueinDtlVol = [...inDtlVolSet];
-    console.log('라인명->' + uniqueLineArray)
-    console.log('제품코드->' + uniqueProdCode);
-    console.log('지시량->' + uniqueinDtlVol);
 
+    //console.log('라인명->' + uniqueLineArray)
+    //console.log('제품코드->' + uniqueProdCode);
 
-    //let obj = { rscNeedQty, inDtlVol };
-    //console.log(obj);
     //자재 재고 조회
-    findRscNeedQty(uniqueProdCode, uniqueinDtlVol);
+    findRscNeedQty(uniqueProdCode);
     //공정 상태 조회
     findProcStatus(lineArray);
     // console.log(lineArray);
+
+    $("[name=rscCdCode]").each(function (i) {
+      console.log(i + '번째' + $("[name=rscCdCode]").eq(i).text())
+    })
 
     //지시량에 값이 입력 됬을 떄 실행
 
@@ -238,24 +236,7 @@ $(document).ready(function () {
       },
     });
   }
-  //공정상태
-  // function findProcStatus(lineName) {
-  //   $.ajax({
-  //     url: `findprocstatus/${lineName}`,
-  //     method: "GET",
-  //     dataType: "json",
-  //     success: function (data) {
-  //       //console.log(data);
-  //       $("#procStatusTable tbody tr").remove();
-  //       // $("#procStatusTable tbody tr")
-  //       //   .slice(idx * 5, idx * 5 + 5)
-  //       //   .remove();
-  //       for (obj of data) {
-  //         procStatusMakeRow(obj);
-  //       }
-  //     },
-  //   });
-  // }
+
   function findProcStatus(lineArray) {
     // console.log(lineArray);
     // console.log('파인드프로세스실행')
@@ -280,10 +261,12 @@ $(document).ready(function () {
     });
   }
   //자재재고 내역 검색 
-  function findRscNeedQty(uniqueProdCode, indicaVol) {
+  let finAllStock = [];
+  function findRscNeedQty(uniqueProdCode) {
     $.ajax({
       url: `findvrscneedqty`,
       method: "GET",
+      async: false, //동기로 처리
       dataType: "json",
       data: {
         finPrdCdCode: uniqueProdCode
@@ -292,34 +275,18 @@ $(document).ready(function () {
         $("#rscStockTable tbody tr").remove();
       },
       success: function (data) {
+
         console.log(data);
         let index = 0;
         $("#rscStockTable tbody tr").remove();
+        finAllStock = [];
         for (obj of data) {
           index += 1;
-          rscStockMakeRow(obj, indicaVol, index);
+          rscStockMakeRow(obj, index);
         }
       },
     });
   }
-
-  //자재재고 내역
-  // function findRscNeedQty(prodCode, indicaVol) {
-  //   $.ajax({
-  //     url: `findvrscneedqty/${prodCode}`,
-  //     method: "GET",
-  //     dataType: "json",
-  //     success: function (data) {
-  //       // console.log(data);
-  //       let index = 0;
-  //       $("#rscStockTable tbody tr").remove();
-  //       for (obj of data) {
-  //         index += 1;
-  //         rscStockMakeRow(obj, indicaVol, index);
-  //       }
-  //     },
-  //   });
-  // }
 
   function detailTableMakeRow() {
     let node = `<tr>
@@ -350,25 +317,62 @@ $(document).ready(function () {
     $("#procStatusTable tbody").append(node);
   }
 
-  function rscStockMakeRow(obj, indicaVol, index) {
-    // console.log("uniqueProdCode->" + uniqueProdCode);
-    console.log('rscStockMakeRow->' + indicaVol);
+  function rscStockMakeRow(obj, index) {
+    let finPrdCdCode;
+    let indicaVol2;
+    let needQty;
+    let saveNeedQty;
+    $("#planDetailTable tbody tr").each(function () {
+      let tr = $(this);
+      if (tr.children().children().is(":checked") == true) {
+        finPrdCdCode = tr.find("td:eq(1)").children().val();
+        indicaVol2 = tr.find("td:eq(10)").children().val();
+        if (obj.finPrdCdCode == finPrdCdCode) {
+          needQty = Math.round(indicaVol2 * obj.rscUseVol);
+          saveindicaVol2 = indicaVol2;
+          console.log('saveNeedQty ->' + saveindicaVol2);
+        } else if (obj.finPrdCdCode != finPrdCdCode) {
+          needQty = Math.round(saveindicaVol2 * obj.rscUseVol);
+        }
 
-    let needQty = Math.round(indicaVol * obj.rscUseVol);
+      }
+    });
 
     let node = `<tr>
       <td>${index}</td>
-      <td>${obj.rscCdCode}</td>
+      <td name="rscCdCode">${obj.rscCdCode}</td>
+      <td>${obj.finPrdCdCode}</td>
       <td>${obj.rscCdName}</td>
       <td>${obj.rscStock}</td>
       <td>${obj.rscCdUnit}</td>
       <td>${needQty}</td>
-      <td><input type="hidden" value="${obj.finPrdCdCode}"</td>
       </tr>`;
     $("#rscStockTable tbody").append(node);
-    if (needQty > obj.rscStock) {
-      $("#rscStockTable tbody tr").last().addClass("warn");
+    console.log(finAllStock)
+
+    let flag = true;
+    for (fin of finAllStock) {
+      if (fin.rscCdCode == obj.rscCdCode) {
+        flag = false;
+      }
     }
+    if (flag) {
+      finAllStock.push({
+        rscCdCode: obj.rscCdCode,
+        needQty: needQty
+      });
+    } else {
+      fin.needQty += needQty;
+    }
+
+    for (fin of finAllStock) {
+      if (fin.rscCdCode == obj.rscCdCode) {
+        if (obj.rscStock < fin.needQty) {
+          $("#rscStockTable tbody tr").last().addClass("warn");
+        }
+      }
+    }
+
   }
 });
 

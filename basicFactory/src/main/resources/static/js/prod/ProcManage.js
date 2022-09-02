@@ -181,13 +181,12 @@ function workinsertTableLastChildMakeRow(obj, index) {
 
 //모달창 데이터 입력
 function mchnStatusMakeRow(obj) {
+  console.log('머신스테이터스몇번?')
   let compstts;
   let node;
   $("#workInsertTable tbody tr").each(function () {
     if (obj.mchnCode == $(this).find("input:hidden[name=mchnCode]").val()) {
-
       compstts = $(this).find("input:hidden[name=completionStatus]").val();
-
     }
   })
 
@@ -198,11 +197,10 @@ function mchnStatusMakeRow(obj) {
       <div class="btn btn-outline-primary m-t-15">진행완료</div>
     </div>`;
   } else {
-    node = `
-              <div>
+    node = `<div>
                 <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
                 <div class="btn btn-outline-primary m-t-15">${obj.mchnStts}</div>
-              </div>`;
+            </div>`;
   }
 
   $("#mchnStatus").append(node);

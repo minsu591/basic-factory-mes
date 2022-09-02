@@ -1,143 +1,125 @@
 <!DOCTYPE html>
 <html
   xmlns:th="http://www.thymeleaf.org"
-   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}">
-<head>
-<meta charset="UTF-8">
-</head>  
-<body>
-<script type="text/javascript" th:src="@{/js/prod/ProcManage.js}"></script>
-<script type="text/javascript" th:src="@{/js/modal/prod/findproduct.js}"></script>
-<script type="text/javascript" th:src="@{/js/modal/prod/workInsert.js}"></script>
-<link th:href="@{/css/prod/ProcManage.css}" rel="stylesheet" />  
-  
-  <div class="pcoded-main-container">
-  	<h1>공정 실적 관리</h1>
-  	
-  	
-  	<hr>
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}"
+>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <script type="text/javascript" th:src="@{/js/prod/ProcManage.js}"></script>
+    <script
+      type="text/javascript"
+      th:src="@{/js/modal/prod/findproduct.js}"
+    ></script>
+    <script
+      type="text/javascript"
+      th:src="@{/js/modal/prod/workInsert.js}"
+    ></script>
+    <link th:href="@{/css/prod/ProcManage.css}" rel="stylesheet" />
 
-		<div class="col-xl-12">
-			<div class="card">
-				<div class="card-header">
-					<form class="form-inline">
-						<div class="form-group mt-3">
-							<label for="workDate" th:text="작업일자"></label> <input type="date"
-								id="workDate" class="form-control mx-sm-3">
-						</div>
-						<br> <br>
-						<div class="form-group mt-3">
-							<label for="productname" th:text="제품명"></label> <input type="text" id="productname"
-								class="form-control mx-sm-3" data-toggle="modal"
-								data-target=".bd-example-modal-lg"> 
-						</div>
-						<button type="button" class="btn  btn-primary" id="findProcManageBtn">조회</button>
-					</form>
+    <div class="pcoded-main-container">
+      <h1>공정 실적 관리</h1>
 
-				</div>
+      <hr />
 
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-header">
+            <form class="form-inline">
+              <div class="form-group mt-3">
+                <label for="workDate" th:text="작업일자"></label>
+                <input type="date" id="workDate" class="form-control mx-sm-3" />
+              </div>
+              <br />
+              <br />
+              <div class="form-group mt-3">
+                <label for="productname" th:text="제품명"></label>
+                <input
+                  type="text"
+                  id="productname"
+                  class="form-control mx-sm-3"
+                  data-toggle="modal"
+                  data-target=".bd-example-modal-lg"
+                />
+              </div>
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="findProcManageBtn"
+              >
+                조회
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <hr />
 
-			</div>
-		</div>
-		<hr>
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-header"></div>
+          <div class="card-body table-border-style">
+            <div class="table-responsive">
+              <table class="table table-hover" id="procManageTable">
+                <thead>
+                  <tr>
+                    <th th:text="선택"></th>
+                    <th th:text="순서"></th>
+                    <th th:text="작업시작일"></th>
+                    <th th:text="작업지시번호"></th>
+                    <th th:text="제품코드"></th>
+                    <th th:text="제품명"></th>
+                    <th th:text="지시량"></th>
+                    <th th:text="기실적량"></th>
+                    <th th:text="미실적량"></th>
+                    <th th:text="지시구분"></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
 
-		<div class="col-xl-12">
-			<div class="card">
-				<div class="card-header">				
-				</div>
-				        <div class="card-body table-border-style">
-                        <div class="table-responsive">
-                            <table class="table table-hover" id="procManageTable">
-                                <thead>
-                                    <tr>
-                                        <th th:text="선택"></th>
-                                        <th th:text="순서"></th>
-                                        <th th:text="작업시작일"></th>
-                                        <th th:text="작업지시번호"></th>
-                                        <th th:text="제품코드"></th>
-                                        <th th:text="제품명"></th>
-                                        <th th:text="지시량"></th>
-                                        <th th:text="기실적량"></th>
-                                        <th th:text="미실적량"></th>
-                                        <th th:text="지시구분"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><input type="radio"></td>
-                                        <td th:text="1"></td>                                        
-                                        <td th:text="2022-08-14"></td>
-                                        <td th:text="JISI01"></td>
-                                        <td th:text="PRODUCT01"></td>                                     
-                                        <td th:text="너구리"></td>
-                                        <td th:text="${#numbers.formatInteger(500, 0, 'COMMA')}"></td>
-                                        <td th:text="${#numbers.formatInteger(300, 0, 'COMMA')}"></td>
-                                        <td th:text="${#numbers.formatInteger(9000, 0, 'COMMA')}"></td>
-                                        <td th:text="정상"></td>                                    
-                                    </tr>
-                                    <tr>
-                                        <td><input type="radio"></td>
-                                        <td th:text="1"></td>                                        
-                                        <td th:text="2022-08-14"></td>
-                                        <td th:text="JISI01"></td>
-                                        <td th:text="PRODUCT01"></td>                                     
-                                        <td th:text="너구리"></td>
-                                        <td th:text="${#numbers.formatInteger(500, 0, 'COMMA')}"></td>
-                                        <td th:text="${#numbers.formatInteger(300, 0, 'COMMA')}"></td>
-                                        <td th:text="${#numbers.formatInteger(9000, 0, 'COMMA')}"></td>
-                                        <td th:text="정상"></td>                                    
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-			</div>
-		</div>
-  	
-  	
-  	
-  	
-  	
-  	<div class="col-xl-12">
-			<div class="card">
-				<div class="card-header">		
-				<h4>작업지시자료관리</h4>		
-				</div>
-				        <div class="card-body table-border-style">
-                        <div class="table-responsive">
-                            <table class="table table-hover" id="workInsertTable">
-                                <thead>
-                                    <tr>
-                                        <th th:text="순서"></th>
-                                        <th th:text="공정명"></th>
-                                        <th th:text="설비명"></th>
-                                        <th th:text="입고량"></th>
-                                        <th th:text="기실적량"></th>
-                                        <th th:text="미실적량"></th>
-                                        <th th:text="실적량"></th>
-                                        <th th:text="불량량"></th>
-                                        <th th:text="상태"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-			</div>
-		</div>
-  	
-  	
-  	
-<!--제품검색 Modal -->  	
-<th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
-<!--작업등록 Modal -->
-<th:block th:replace="~{/fragments/modal/workInsert :: workInsert}"></th:block>
-  	
-  </div>
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-header">
+            <h4>작업지시자료관리</h4>
+          </div>
+          <div class="card-body table-border-style">
+            <div class="table-responsive">
+              <table class="table table-hover" id="workInsertTable">
+                <thead>
+                  <tr>
+                    <th th:text="순서"></th>
+                    <th th:text="공정명"></th>
+                    <th th:text="설비명"></th>
+                    <th th:text="입고량"></th>
+                    <th th:text="기실적량"></th>
+                    <th th:text="미실적량"></th>
+                    <th th:text="실적량"></th>
+                    <th th:text="불량량"></th>
+                    <th th:text="상태"></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--제품검색 Modal -->
+      <th:block
+        th:replace="~{/fragments/modal/findproduct :: findproduct}"
+      ></th:block>
+      <!--작업등록 Modal -->
+      <th:block
+        th:replace="~{/fragments/modal/workInsert :: workInsert}"
+      ></th:block>
+    </div>
   </body>
 </html>
