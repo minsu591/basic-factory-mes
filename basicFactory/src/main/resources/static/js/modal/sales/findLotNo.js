@@ -3,79 +3,130 @@ $("document").ready(function () {
   let outLotList = [];            //출고시킬 LOT정보 담기
   let table = $("#findLotTable"); //테이블 정보
   let modIndex = 5;               //수정 적용할 td의 인덱스
+  let outDtlVol = 0;              //출고량 총 합계
+
+  //lot별 완제품 재고 모달창 선택 tr정보 저장
+  let modalTrInfo
+  table.find("tbody").on("click", "tr", function (e) {
+    modalTrInfo = $(this);
+    console.log(modalTrInfo);
+  });
 
   //수정 이벤트
   table.find("tbody").on("click", "td", function (e) {
-    e.stopPropagation();       //현재 이벤트가 캡처링/버블링 단계에서 더 이상 전파되지 않도록
-    let col = $(this).index(); //선택한 컬럼index 저장
-    let tdInfo = $(this);      //선택한 td정보 저장
-    console.log("td정보얌!!!!!!!" + tdInfo);
+    //e.stopPropagation();       //현재 이벤트 상위로 전파 중단
+    let col = $(this).index();   //선택한 컬럼index 저장
+    let tdInfo = $(this);        //선택한 td정보 저장           
     tdInfo.attr("contenteditable", "true"); //수정 가능하도록 설정
 
-    tdInfo.focus(function (e) { //td에 focus되면 클래스 지정(border 생성 css)
+    tdInfo.unbind("focus").bind("focus", function (e) { //td에 focus되면 클래스 지정(border 생성 css)
       tdInfo.addClass("tdBorder");
     });
 
     tdInfo.on("keyup", function (key) { //enter나 esc 누르면 blur
       if (key.keyCode == 13 || key.keyCode == 27) {
-        key.preventDefault();
+        key.preventDefault();           //고유 동작 중단
         tdInfo.blur();
       }
     });
 
-    tdInfo.blur(function (e) {               //td가 focus 잃으면
-      e.preventDefault();
+    tdInfo.unbind("blur").bind("blur",function (e) {               //td가 focus 잃으면
+      e.preventDefault();                   
       tdInfo.attr("contenteditable", "false")//수정 불가
-        .removeClass("tdBorder");
+            .removeClass("tdBorder");
       tdInfo.trigger("change");
       e.stopPropagation();
     });
   });
 
-
-
-  table.find("tbody").on("change", "tr", function (e) { 
+  table.find("tbody").unbind("change").bind("change", "td", function (e) { //모달창의 td가 변경됐을 때
     console.log(e);
     e.preventDefault();
     let col = $(this).index();
-    let finPrdCdCode = $(this).find("td:eq(1)").text();
-    let fnsPrdStkLotNo = $(this).find("td:eq(3)").text();
     let updCol = table.find("thead").find("th:eq(" + col + ")").attr("name");
-    let slsOutDtlVol = parseInt($(this).find("td:eq(5)").text());
+    let finPrdCdCode = modalTrInfo.find("td:eq(1)").text();           //해당 tr의 제품코드
+    let fnsPrdStkVol = modalTrInfo.find("td:eq(4)").text();           //해당 tr의 재고수량
+    let fnsPrdStkLotNo = modalTrInfo.find("td:eq(3)").text();         //해당 tr의 lot번호
+    let slsOutDtlVol = parseInt(modalTrInfo.find("td:eq(5)").text()); //해당 tr의 입력한 출고수량
 
-    console.log("제품코드" + finPrdCdCode);
-    console.log("lot번호" + fnsPrdStkLotNo);
-    console.log("출고량" + slsOutDtlVol);
-
-    if (slsOutDtlVol != null && slsOutDtlVol != '') {
-      checkNewOutLotList(finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol);
-    }
+    console.log("lotNo: " + fnsPrdStkLotNo);
     
+    if (fnsPrdStkVol < slsOutDtlVol) {         //출고량이 재고수량보다 클 경우 
+      alert('출고량이 재고수량보다 많습니다.');
+      modalTrInfo.find("td:eq(5)").text('');
+      return;
+    }
+
+
+    else if (slsOutDtlVol != null && slsOutDtlVol != '') { //모달창에서 출고량이 비어있지 않다면 함수로 값 넘겨서 push처리
+      checkNewOutLotList(finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol);
+    } 
+    e.stopPropagation();
   });
   
   function checkNewOutLotList(finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol) {
-    let outDtlVol = 0;
-    let addTr = [finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol];
-    outLotList.push(addTr);
-    for (lot of outLotList) {
-      if(lot[2] != null && lot[2] != ''){
 
-        console.log('check');
-        outDtlVol += lot[2];
-        console.log("총 합계 출고수량: " + outDtlVol);
-        return;
-      } else {
-        outLotList.pop();
+    let flag = true;
+    for (lot of outLotList) {   //outLotList[addList[], addList[]]
+      if (lot[0] == finPrdCdCode && lot[1] == fnsPrdStkLotNo) {   //outLotList를 for문 돌면서 addList에 대해 같은 값 수정은 기존 배열에서 수정 (추가되지 않고)
+        flag = false;                                             //하나라도 같은 게 있다면 false처리되서 push되지 않도록
+        lot[2] = slsOutDtlVol;
+        break;
       }
     }
-  }
-  
 
-  $("#okBtn").on("click", function () {
-    $("#outMngTable tbody td[name='outDtlVol']").text(outDtlVol);
-    $("#findLotModal").modal("hide");
+    let addList = [finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol];
+
+    if (flag) {
+      outLotList.push(addList);
+    }
+    console.log(outLotList);
+
+    if (addList[2] != null && addList[2] != '') { //출고량이 비어있지 않으면
+     outDtlVol += addList[2];                     //출고량 합
+    } else {
+      return;
+    }
+  }
+
+  //출고관리 테이블 tr클릭 시 정보 저장
+  let lotTdInfo;
+  let outVolTd;
+  let notOutVol;
+  let orderVol = 0;
+  let price;
+  let danga;
+  $("#outMngTable").on("click", "tr", function (e) {
+    outVolTd = $(this).find("td:eq(5)");
+    lotTdInfo = $(this).find("td:eq(7)");
+    notOutVol = $(this).find("td:eq(6)");
+    price = $(this).find("td:eq(9)");
+    orderVol = $(this).find("td:eq(3)").text();
+    danga = $(this).find("td:eq(8)").text();
   });
 
+  //저장했을 때 해당 tr에 총 합계 출고량 입력되도록
+  $("#okBtn").on("click", function (e) {
+    console.log("obBtn클릭");
+    let outVolCheck = modalTrInfo.find("td:eq(5)").text();
+    if (outVolCheck == null || outVolCheck == '') {
+      alert('출고량이 입력되지 않았습니다.');
+      return;
+    }
+    
+    $("#findLotModal").modal("hide");
+    outVolTd.text(outDtlVol);
+    notOutVol.text(orderVol - outDtlVol);
+    price.text(outDtlVol * danga);
+
+    //lot번호가 여러개라면 ㅇㅇㅇ외
+    // if (outLotList.size() > 0) {
+    //   lotTdInfo.text('외' + outLotList.size() +'개');
+    // } else {
+
+    // }
+    outDtlVol = 0;          //총 출고량 초기화
+  });
 
 
 

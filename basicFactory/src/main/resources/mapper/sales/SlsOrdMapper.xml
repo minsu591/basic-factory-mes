@@ -88,7 +88,7 @@
             
         WHERE
         	<if test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
-        		ORDHD.SLS_ORD_HD_DATE BETWEEN  TO_DATE(#{ordSdate}, 'YY/MM/DD') AND TO_DATE(#{ordEdate}, 'YY/MM/DD') + 0.9999
+        		TRUNC(ORDHD.SLS_ORD_HD_DATE) BETWEEN  #{ordSdate} AND #{ordEdate}
         	</if>
         	<if test="vendorName != null and vendorName != ''">
         		AND VEND.VEND_CD_NM = #{vendorName}
@@ -110,7 +110,7 @@
    		JOIN BF_CMN_EMP EMP
    		  ON ORDHD.EMP_ID = EMP.EMP_ID
    		<if test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
-   			WHERE ORDHD.SLS_ORD_HD_DATE BETWEEN  TO_DATE(#{ordSdate}, 'YY/MM/DD') AND TO_DATE(#{ordEdate}, 'YY/MM/DD') + 0.9999
+   			WHERE TRUNC(ORDHD.SLS_ORD_HD_DATE) BETWEEN  #{ordSdate} AND #{ordEdate}
         </if>
         ORDER BY SLS_ORD_HD_DATE DESC, SLS_ORD_HD_NO DESC
    	</select>
@@ -155,7 +155,7 @@
 				  #{slsOrdDtlVol},
 				  0, #{slsOrdDtlVol}, 0)
    	</insert>
-   	
+
    	<!-- 주문관리에서 기존 주문 추가등록 -->
    	<insert id="orderDtlAddInsert" parameterType="slsOrdDtlVO">
    		INSERT INTO BF_SALES_ORD_DTL
@@ -174,12 +174,13 @@
    		WHERE SLS_ORD_DTL_NO = #{priKey}
    	</update>
    	
+   	<!-- 진행 중일 때 삭제 안되도록. -->
    	<!-- 주문관리에서 주문 삭제 -->
    	<delete id="orderDelete">
    		DELETE FROM BF_SALES_ORD_DTL
    		WHERE SLS_ORD_DTL_NO = #{priKey}
    	</delete>
-   	
+
    	<!-- 생산계획에 존재하지 않거나 생산계획에 존재하는데 주문량에 못 미치는 주문내역 조회 -->
    	<select id="findOrderForPlan" resultType="slsOrdHdVO">
    		SELECT DISTINCT OH.SLS_ORD_HD_NO, OH.SLS_ORD_HD_DATE, OH.VEND_CD_CODE,

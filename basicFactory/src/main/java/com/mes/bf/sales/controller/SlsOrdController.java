@@ -43,7 +43,6 @@ public class SlsOrdController {
 	@GetMapping("/findAllOrder")
 	public List<SlsOrdHdDtlVO> findAllOrder() {
 		List<SlsOrdHdDtlVO> list = service.findAllOrder();
-		
 		return list;
 	}
 	
@@ -78,7 +77,6 @@ public class SlsOrdController {
 	//주문관리 등록(기존 주문내역에 추가 등록할 경우)
 	@PostMapping("/ordManage/dtlInsert")
 	public void orderDtlInsert(@RequestBody SlsOrdDtlVO vo) {
-		System.out.println("기존 주문 추가등록");
 		service.orderDtlAddInsert(vo);
 	}
 	

@@ -28,7 +28,7 @@ $("document").ready(function () {
     //td 수정을 적용할 인덱스 (td기준)
     let avArr = [4];
     //notNull이어야하는 (td기준)
-    let notNullList = [2,3,4];
+    let notNullList = [1,2,3,4];
     //primary키인 index
     //let priKeyIdx = 1;
 
@@ -109,7 +109,7 @@ $("document").ready(function () {
         if (priKey != null && priKey != '') {                                   //priKey가 null이면 modifyList에 담기지 않도록 하는 if문
             checkNewModify(priKey, updCol, updCont);
         }
-        console.log(modifyList);
+        console.log("modifyList!!!" + modifyList);
 
         e.stopPropagation();
     });
@@ -304,11 +304,11 @@ $("document").ready(function () {
         });
     });
 
-    function deleteSaveAjax(priKey){
+    function deleteSaveAjax(priKey) {
         $.ajax({
             url: 'ordManage/delete',
             type : 'POST',
-            dataType : 'text',
+            dataType: 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
                 priKey
