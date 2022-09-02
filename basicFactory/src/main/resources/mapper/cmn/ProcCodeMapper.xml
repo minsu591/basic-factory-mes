@@ -24,7 +24,10 @@
 	
 	<delete id="procCodeDelete" parameterType = "String">
 		DELETE BF_CMN_PROC_CODE
-		WHERE PROC_CD_CODE = #{priKey}
+		WHERE PROC_CD_CODE IN
+		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
+		#{priKey}
+		</foreach>
 	</delete>
 	
 </mapper>

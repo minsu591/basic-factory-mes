@@ -148,12 +148,10 @@ $("document").ready(function(){
             }
             
             //삭제용
-            for(priKey of lineDelList){
-                lineDeleteSaveAjax(priKey);
-            }
-            for(priKey of procDelList){
-                procDeleteSaveAjax(priKey);
-            }
+            lineDeleteSaveAjax(lineDelList);
+
+            procDeleteSaveAjax(procDelList);
+
             //수정용
             for(obj of lineModifyList){
                 lineModifySaveAjax(obj);
@@ -372,29 +370,29 @@ $("document").ready(function(){
             }
         });
     }
-
-    function lineDeleteSaveAjax(priKey){
+    function lineDeleteSaveAjax(lineDelList){
+        console.log(lineDelList);
         $.ajax({
             url : 'lineCode/hd/delete',
             type : 'POST',
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
-                priKey : priKey
+                delList : lineDelList
             },
             success : function(result){
                 console.log("삭제 성공");
             }
         })
     }
-    function procDeleteSaveAjax(priKey){
+    function procDeleteSaveAjax(procDelList){
         $.ajax({
             url : 'lineCode/delete',
             type : 'POST',
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
-                priKey : priKey
+                delList : procDelList
             },
             success : function(result){
                 console.log("삭제 성공");

@@ -21,10 +21,14 @@ $("document").ready(function(){
             let priKey = $("#planHdCode").val();
            let updCol = $(this).attr("name");
            let updCont = $(this).val();
-           console.log(priKey);
-           console.log(updCol);
-           console.log(updCont);
            let up = [priKey, updCol, updCont];
+            for(mod of hdModifyList){
+                if(mod[0] == priKey && mod[1] == updCol){
+                    mod[2] = updCont;
+                    return false;
+                }
+            }
+
            hdModifyList.push(up);
            console.log(hdModifyList);
         }
@@ -71,13 +75,12 @@ $("document").ready(function(){
                 for(idx of notNullList){
                     if(col == idx){
                         tdInfo.text(defaultVal);
-                        break;
+                        return false;
                     }
                 }
-            }else{
-                if(checkModifyOrAdd()){
-                    tdInfo.trigger("change");
-                }
+            }
+            if(checkModifyOrAdd()){
+                tdInfo.trigger("change");
             }
             e.stopPropagation();
         });
@@ -88,6 +91,7 @@ $("document").ready(function(){
     table.find("tbody").on("change","td:not(:first-child)",function(e){
         e.preventDefault();
         let flag = checkModifyOrAdd();
+        //수정모드가 아니거나 tr의 대상이 addTr이라면
         if(!flag || $(this).parent().attr("class") =='addTr'){
             return false;
         }
@@ -145,9 +149,7 @@ $("document").ready(function(){
                     return false;
                 }else{
                     //detail 삭제용
-                    for(planIdx of delList){
-                        deleteSaveAjax(planIdx);
-                    }
+                    deleteSaveAjax(delList);
                     //헤더 수정용
                     for(obj of hdModifyList){
                         modifyHdSaveAjax(obj);
@@ -291,7 +293,7 @@ $("document").ready(function(){
             url : 'planManage/insert',
             type : 'POST',
             dataType : 'text',
-            contentType: "application/json; charset=UTF-8;",
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
                 planHdCode,
                 finPrdCdCode,
@@ -399,14 +401,14 @@ $("document").ready(function(){
         }
     });
 
-    function deleteSaveAjax(planIdx){
+    function deleteSaveAjax(delList){
         $.ajax({
             url : 'planManage/delete',
             type : 'POST',
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
-                planIdx
+                delList
             },
             success : function(result){
                 console.log("삭제 성공");
@@ -552,7 +554,7 @@ $("document").ready(function(){
             <td></td>
             <td><input type="date"></td>
             <td><input type="date"></td>
-            <td>${ord.planRemk}</td>
+            <td></td>
         </tr>`
         $("#planManageTable tbody").append(node);
     }

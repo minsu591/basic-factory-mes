@@ -61,7 +61,10 @@
 	
 	<delete id="deptDelete">
 		DELETE BF_CMN_DEPT
-		WHERE DEPT_NO = #{priKey}
+		WHERE DEPT_NO IN
+		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
+		#{priKey}
+		</foreach>
 	</delete>
 	
 	<update id="deptUpdate" parameterType = "String">

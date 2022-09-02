@@ -35,9 +35,10 @@ public class EmpDeptServiceImpl implements EmpDeptService {
 		return mapper.deptInsert(deptName);
 	}
 
+
 	@Override
-	public int deptDelete(String priKey) {
-		return mapper.deptDelete(priKey);
+	public int deptDelete(List<String> delList) {
+		return mapper.deptDelete(delList);
 	}
 
 

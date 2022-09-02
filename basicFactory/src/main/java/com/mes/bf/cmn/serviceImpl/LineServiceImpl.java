@@ -29,10 +29,7 @@ public class LineServiceImpl implements LineService {
 	public int lineCodeHdUpdate(String priKey, String updCol, String updCont) {
 		return mapper.lineCodeHdUpdate(priKey, updCol, updCont);
 	}
-	@Override
-	public int lineCodeHdDelete(String priKey) {
-		return mapper.lineCodeHdDelete(priKey);
-	}
+
 	@Override
 	public int lineCodeInsert(LineCodeVO line) {
 		return mapper.lineCodeInsert(line);
@@ -41,9 +38,14 @@ public class LineServiceImpl implements LineService {
 	public int lineCodeUpdate(String priKey, String updCol, String updCont) {
 		return mapper.lineCodeUpdate(priKey, updCol, updCont);
 	}
+
 	@Override
-	public int lineCodeDelete(String priKey) {
-		return mapper.lineCodeDelete(priKey);
+	public int lineCodeHdDelete(List<String> delList) {
+		return mapper.lineCodeHdDelete(delList);
+	}
+	@Override
+	public int lineCodeDelete(List<String> delList) {
+		return mapper.lineCodeDelete(delList);
 	}
 
 }

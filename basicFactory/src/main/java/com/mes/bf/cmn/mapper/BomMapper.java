@@ -15,12 +15,12 @@ public interface BomMapper {
 	List<BomVO> listBom(String finName);
 	List<BomRscDtlVO> findBomRsc(String bomCode);
 	
-	int bomCodeDelete(String priKey);
+	int bomCodeDelete(List<String> bomDelList);
 	int bomCodeInsert(BomVO bom);
 	int bomCodeUpdate(String priKey, String updCol, String updCont);
 	
-	int bomRscDelete(String priKey);
-	int bomRscInsert(BomRscVO bomRsc);
+	int bomRscDelete(List<String> rscDelList);
+	int bomRscInsert(BomRscVO bomRsc,String type);
 	int bomRscUpdate(String priKey, String updCol, String updCont);
 	
 	List<LineCodeVO> findProcForLine(String lineCode);

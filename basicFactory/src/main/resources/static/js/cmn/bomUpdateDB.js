@@ -1,6 +1,5 @@
 $("document").ready(function(){
     //수정
-
     //수정될거 저장하는 list 정의
     let bomModifyList = [];
     let bomAddList = [];
@@ -20,6 +19,7 @@ $("document").ready(function(){
     let rscNotNullList = [1,3,5,7];
     //primary키인 index
     let bomPriKeyIdx = 1;
+    let clickBomTr;
 
 
     //수정 이벤트
@@ -54,7 +54,7 @@ $("document").ready(function(){
         }
         tdInfo.attr("contenteditable","true");
         //td에 focus가 되면
-        tdInfo.focus(function(e){
+        tdInfo.unbind("focus").bind("focus",function(e){
             defaultVal = tdInfo.text();
             tdInfo.addClass("tdBorder");
         });
@@ -66,7 +66,7 @@ $("document").ready(function(){
             }
         });
         //td에 blur가 되면
-        tdInfo.blur(function(e){
+        tdInfo.unbind("blur").bind("blur",function(e){
             e.preventDefault();
             tdInfo.attr("contenteditable","false")
                     .removeClass("tdBorder");
@@ -108,7 +108,6 @@ $("document").ready(function(){
 
     //필요 자재 목록의 수정이 일어날 때
     rscTable.find("tbody").on("change","td:not(:first-child)",function(e){
-        console.log(e);
         let bomRscIdx = $(this).parent().find("input[class='bomRscIdx']").val();
         //추가된 tr(priKey가 없는)은 제외
         if(bomRscIdx == null || bomRscIdx == ''){
@@ -147,19 +146,16 @@ $("document").ready(function(){
     }
 
     //저장 버튼 이벤트
-    $("#saveBtn").on("click",function(){
+    $("#saveBtn").unbind("click").bind("click",function(){
         if(confirm("저장하시겠습니까?")==true){
             let flag = examineTr();
             if(flag){
                 return false;
             };
             //삭제용
-            for(priKey of bomDelList){
-                bomDeleteSaveAjax(priKey);
-            }
-            for(priKey of rscDelList){
-                rscDeleteSaveAjax(priKey);
-            }
+            console.log(bomDelList);
+            bomDeleteSaveAjax(bomDelList);
+            rscDeleteSaveAjax(rscDelList);
             //수정용
             for(obj of bomModifyList){
                 bomModifySaveAjax(obj);
@@ -168,18 +164,30 @@ $("document").ready(function(){
                 rscModifySaveAjax(obj);
             }
             //추가용
-            bomAddList = bomTable.find("tr[name='addTr']");
+            bomAddList = bomTable.find(".bomAddTr");
+            rscAddList = rscTable.find("tr[class='rscAddTr']");
             for(obj of bomAddList){
-                bomAddSaveAjax(obj);
+                //rsc 뜬 tr이라면 
+                if($(clickBomTr).hasClass("bomAddTr") &&
+                    $(obj).index(".bomAddTr") == $(clickBomTr).index(".bomAddTr")){
+                    rscAddSaveAjaxWithBom(obj,rscAddList);
+                    rscAddList = [];
+                }else{
+                    bomAddSaveAjax(obj);
+                }
             }
-
-            rscAddList = rscTable.find("tr[name='addTr']");
+            
+            //기존에 있는거에 추가,,
             for(obj of rscAddList){
-                let bomCode = $("#bomCode").val();
-                rscAddSaveAjax(bomCode,obj);
+                rscAddSaveAjax(obj);
             }
-
             alert("저장이 완료되었습니다.");
+            bomModifyList = [];
+            bomAddList = [];
+            bomDelList = [];
+            rscModifyList = [];
+            rscAddList = [];
+            rscDelList = [];
             location.reload();
         }
     });
@@ -293,7 +301,7 @@ $("document").ready(function(){
     //추가 버튼 누르면 행 추가
     //bom 추가 버튼
     $("#bomAddBtn").on("click",function(){
-        let node =`<tr name="addTr">`;
+        let node =`<tr class="bomAddTr">`;
         if ($("#bomAllCheck").is(":checked")){
             node += `<td><input type="checkbox" name="bomCb" checked></td>`;
         }else{   
@@ -321,7 +329,7 @@ $("document").ready(function(){
         if(exNull(bomCode) && exNull(lineCode)){
             alert("bom을 선택하고 자재를 추가해주세요.");
         }else{
-            let node = `<tr name="addTr">
+            let node = `<tr class="rscAddTr">
                             <input type="hidden" class="bomRscIdx">
                             <input type="hidden" class="lineCdCode">`
                             
@@ -380,7 +388,7 @@ $("document").ready(function(){
         })
     }
 
-    function rscAddSaveAjax(lineCdHdCode, obj){
+    function rscAddSaveAjax(obj){
         let bomCdCode = $("#bomCode").val();
         let lineCdCode = $(obj).find("input[class='lineCdCode']").val();
         let rscCdCode = $(obj).find("td:eq(5)").text();
@@ -402,8 +410,60 @@ $("document").ready(function(){
             success : function(result){
                 console.log("추가 성공");
             }
+        });
+    }
 
-        })
+    function rscAddSaveAjaxWithBom(bomInfo,rscAddList){
+        let bomCdName = $(bomInfo).find("td:eq(2)").text();
+        let finPrdCdCode = $(bomInfo).find("td:eq(3)").text();
+        let lineCdHdCode = $(bomInfo).find("td:eq(5)").text();
+        let bomCdProdVol = $(bomInfo).find("td:eq(7)").text();
+        let bomCdUnit = $(bomInfo).find("td:eq(8)").text();
+        let bomCdRemk = $(bomInfo).find("td:eq(10)").text();
+
+        let bomCdUse;
+        if($(bomInfo).find("td:eq(9) input[type='checkbox']").is(":checked")){
+            bomCdUse = 1;
+        }else{
+            bomCdUse = 0;
+        }
+
+        let bom = {
+            bomCdName,
+            finPrdCdCode,
+            lineCdHdCode,
+            bomCdProdVol,
+            bomCdUnit,
+            bomCdUse,
+            bomCdRemk,
+        }
+        let bomRscs = [];
+        //for문 돌려서 저장
+        for(obj of rscAddList){
+            let up = {
+                lineCdCode : $(obj).find("input[class='lineCdCode']").val(),
+                rscCdCode : $(obj).find("td:eq(5)").text(),
+                bomRscUseVol : $(obj).find("td:eq(7)").text(),
+                bomRscUnit : $(obj).find("td:eq(8)").text()
+            }
+            bomRscs.push(up);
+        }
+        
+        $.ajax({
+            url : 'bomRsc/with/insert',
+            type : 'POST',
+            dataType : 'text',
+            contentType: "application/json; charset=UTF-8;",
+            data :  JSON.stringify({
+                bom,
+                bomRscs
+            }),
+            success : function(result){
+                if(result == rscAddList.length){
+                    console.log("추가 성공");
+                }
+            }
+        });
     }
 
     //추가 끝
@@ -423,6 +483,7 @@ $("document").ready(function(){
                         bomModifyList.splice(i,1);
                     }
                 }
+                console.log(bomDelList);
             }
         });
     });
@@ -444,28 +505,28 @@ $("document").ready(function(){
     });
     
 
-    function bomDeleteSaveAjax(priKey){
+    function bomDeleteSaveAjax(bomDelList){
         $.ajax({
             url : 'bomCode/delete',
             type : 'POST',
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
-                priKey : priKey
+                bomDelList
             },
             success : function(result){
                 console.log("삭제 성공");
             }
         })
     }
-    function rscDeleteSaveAjax(priKey){
+    function rscDeleteSaveAjax(rscDelList){
         $.ajax({
             url : 'bomRsc/delete',
             type : 'POST',
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
-                priKey : priKey
+                rscDelList
             },
             success : function(result){
                 console.log("삭제 성공");
@@ -480,8 +541,10 @@ $("document").ready(function(){
         let prodVol = $(this).find("td:eq(7)").text();
         let prodUnit = $(this).find("td:eq(8)").text();
         let inputBomCode = $("#bomCode").val();
-        //아래의 bomcode가 채워져있고 bomCode와 아래 bomCode가 동일할 때만 시행 X
-        if(inputBomCode == bomCode && (!exNull(inputBomCode)) ||
+        
+        //현재 bomCode와 선택한 bomCode가 동일하면 변경안되도록
+        //bomCode 제외 다 입력 안되어있으면 rsc 입력 못하도록
+        if((inputBomCode == bomCode && (!exNull(inputBomCode))) ||
             exNull(lineCode) || exNull(finCode) || exNull(prodVol) || exNull(prodUnit)){
             return false;
         }
@@ -491,10 +554,6 @@ $("document").ready(function(){
         $("#prodVol").val(prodVol);
         $("#prodUnit").val(prodUnit);
 
-        if(exNull(bomCode)){
-            return;
-        }
-        
         if($("#bomRscTable tbody tr").length != 0){
             if(confirm('현재 수정한 내용이 모두 삭제됩니다.')==true){
                 rscModifyList = [];
@@ -505,7 +564,11 @@ $("document").ready(function(){
                 return false;
             }
         }
-        selectBomRscAjax(bomCode);
+        clickBomTr = $(this);
+        if(!exNull(bomCode)){
+            //bomCode가 비어있지 않으면 자재내역 불러오기
+            selectBomRscAjax(bomCode);
+        }
     });
 
     function selectBomRscAjax(bomCode){

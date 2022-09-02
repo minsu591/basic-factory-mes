@@ -39,8 +39,8 @@ public class VendorCodeController {
 	
 	//insert, modify, update
 	@PostMapping(value = "/vendorCode/delete", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Integer> deptDelete(@RequestParam Map<String, String> QueryParameters) {
-		int result = vendService.vendorCodeDelete(QueryParameters.get("priKey"));
+	public ResponseEntity<Integer> deptDelete(@RequestParam(value="delList[]") List<String> delList) {
+		int result = vendService.vendorCodeDelete(delList);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 

@@ -7,7 +7,6 @@
 		<result property="bomRscIdx" column="bom_rsc_idx" />
 		<result property="bomCdCode" column="bom_cd_code" />
 		<result property="lineCdCode" column="line_cd_code" />
-		<result property="lineCd" column="line_cd" />
 		<result property="rscCdCode" column="rsc_cd_code" />
 		<result property="rscCdName" column="rsc_cd_name" />
 		<result property="bomRscUseVol" column="bom_rsc_use_vol" />
@@ -91,13 +90,27 @@
 	
 	<delete id="bomCodeDelete">
 		DELETE BF_CMN_BOM_CODE
-		WHERE BOM_CD_CODE = #{priKey}
+		WHERE BOM_CD_CODE IN
+		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
+		#{priKey}
+		</foreach> 
 	</delete>
 	
-	<insert id="bomRscInsert">
-		INSERT INTO BF_CMN_BOM_RSC
-		VALUES(BF_CMN_BOM_RSC_SEQ.NEXTVAL,#{bomCdCode},
-		#{lineCdCode},#{rscCdCode},#{bomRscUseVol},#{bomRscUnit})
+	<insert id="bomRscInsert" parameterType="bomRsc">
+		
+		<choose>
+			<when test='type == "withBom"'>
+			INSERT INTO BF_CMN_BOM_RSC
+			VALUES(BF_CMN_BOM_RSC_SEQ.NEXTVAL, #{bomRsc.bomSelectCode},
+				#{bomRsc.lineCdCode},#{bomRsc.rscCdCode},#{bomRsc.bomRscUseVol},#{bomRsc.bomRscUnit})
+			</when>
+			<otherwise>
+			INSERT INTO BF_CMN_BOM_RSC
+			VALUES(BF_CMN_BOM_RSC_SEQ.NEXTVAL, #{bomRsc.bomCdCode},
+				#{bomRsc.lineCdCode},#{bomRsc.rscCdCode},#{bomRsc.bomRscUseVol},#{bomRsc.bomRscUnit})
+			</otherwise>
+		</choose>
+		
 	</insert>
 	
 	<update id="bomRscUpdate">
@@ -108,7 +121,10 @@
 	
 	<delete id="bomRscDelete">
 		DELETE BF_CMN_BOM_RSC
-		WHERE BOM_RSC_IDX = #{priKey}
+		WHERE BOM_RSC_IDX IN
+		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
+		#{priKey}
+		</foreach> 
 	</delete>
 	
 	<select id="findProcForLine" resultType="lineCodeVO">

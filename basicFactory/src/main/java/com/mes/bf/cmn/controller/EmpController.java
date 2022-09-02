@@ -54,9 +54,10 @@ public class EmpController {
 	}
 	
 	//부서 insert, delete, update
+
 	@PostMapping(value = "/dept/delete", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Integer> deptDelete(@RequestParam Map<String, String> QueryParameters) {
-		int result = service.deptDelete(QueryParameters.get("priKey"));
+	public ResponseEntity<Integer> deptDelete(@RequestParam(value="delList[]") List<String> delList) {
+		int result = service.deptDelete(delList);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 	

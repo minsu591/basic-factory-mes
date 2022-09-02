@@ -110,7 +110,7 @@
 	<select id="findPlanOrd" resultMap="colPlanOrdMap">
 		SELECT P.PLAN_IDX, PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, PH.PLAN_HD_DATE, PH.EMP_ID,
 		       P.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME, P.PLAN_PROD_VOL, 
-		       P.PLAN_SDATE, P.PLAN_EDATE, P.PLAN_REMK,
+		       P.PLAN_SDATE, P.PLAN_EDATE, NVL(P.PLAN_REMK,' ') AS PLAN_REMK,
 		       P.PLAN_PRE_VOL,
 		       OH.SLS_ORD_HD_NO, OH.VEND_CD_CODE,
 		       V.VEND_CD_NM, O.SLS_ORD_DTL_VOL,
@@ -177,12 +177,18 @@
 	
 	<delete id="planHdDelete">
 		DELETE BF_PROD_PLAN_HD
-		WHERE PLAN_HD_CODE = #{planHdCode}
+		WHERE PLAN_HD_CODE IN
+		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
+		#{priKey}
+		</foreach>
 	</delete>
 	
 	<delete id="planDtlDelete">
 		DELETE BF_PROD_PLAN
-		WHERE PLAN_IDX = #{planIdx}
+		WHERE PLAN_IDX IN
+		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
+		#{priKey}
+		</foreach>
 	</delete>
 	
 	<update id="planHdUpdate">

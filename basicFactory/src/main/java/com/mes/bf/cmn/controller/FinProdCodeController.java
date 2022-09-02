@@ -40,8 +40,8 @@ public class FinProdCodeController {
 	
 	//insert, modify, update
 	@PostMapping(value = "/finProdCode/delete", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Integer> deptDelete(@RequestParam Map<String, String> QueryParameters) {
-		int result = service.finProdDelete(QueryParameters.get("priKey"));
+	public ResponseEntity<Integer> finProdDelete(@RequestParam(value="delList[]") List<String> delList) {
+		int result = service.finProdDelete(delList);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 

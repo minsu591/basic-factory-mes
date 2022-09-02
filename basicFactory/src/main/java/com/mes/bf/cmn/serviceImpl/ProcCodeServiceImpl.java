@@ -26,8 +26,8 @@ public class ProcCodeServiceImpl implements ProcCodeService {
 		return mapper.procCodeInsert(procName, procRemk);
 	}
 	@Override
-	public int procCodeDelete(String priKey) {
-		return mapper.procCodeDelete(priKey);
+	public int procCodeDelete(List<String> delList) {
+		return mapper.procCodeDelete(delList);
 	}
 
 }

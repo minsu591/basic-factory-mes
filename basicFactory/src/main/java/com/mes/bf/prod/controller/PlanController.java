@@ -120,17 +120,16 @@ public class PlanController {
 	}
 	
 	//계획 헤더 delete
-	@PostMapping(value = "/planManage/hd/delete")
-	public ResponseEntity<Integer> planHdDelete(@RequestParam String planHdCode) {
-		int result = service.planHdDelete(planHdCode);
-		
+	@PostMapping(value = "/planManage/hd/delete", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Integer> planHdDelete(@RequestParam(value="delList[]") List<String> delList) {
+		int result = service.planHdDelete(delList);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 	//계획 delete
-	@PostMapping(value = "/planManage/delete")
-	public ResponseEntity<Integer> planDtlDelete(@RequestParam String planIdx) {
-		int result = service.planDtlDelete(planIdx);
-		
+
+	@PostMapping(value = "/planManage/delete", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Integer> planDtlDelete(@RequestParam("delList[]") List<String> delList) {
+		int result = service.planDtlDelete(delList);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 	

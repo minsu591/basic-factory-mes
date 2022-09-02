@@ -22,12 +22,12 @@ public class VendorServiceImpl implements VendorService {
 		return mapper.vendorCodeInsert(vendor);
 	}
 	@Override
-	public int vendorCodeDelete(String priKey) {
-		return mapper.vendorCodeDelete(priKey);
-	}
-	@Override
 	public int vendorCodeUpdate(String priKey, String updCol, String updCont) {
 		return mapper.vendorCodeUpdate(priKey, updCol, updCont);
+	}
+	@Override
+	public int vendorCodeDelete(List<String> delList) {
+		return mapper.vendorCodeDelete(delList);
 	}
 
 }

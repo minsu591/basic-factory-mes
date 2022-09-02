@@ -118,9 +118,7 @@ $("document").ready(function(){
             }
             
             //삭제용
-            for(priKey of delList){
-                deleteSaveAjax(priKey);
-            }
+            deleteSaveAjax(delList);
             //수정용
             for(obj of modifyList){
                 modifySaveAjax(obj);
@@ -238,14 +236,14 @@ $("document").ready(function(){
         });
     });
 
-    function deleteSaveAjax(priKey){
+    function deleteSaveAjax(delList){
         $.ajax({
             url : 'finProdCode/delete',
             type : 'POST',
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
-                priKey : priKey
+                delList
             },
             success : function(result){
                 console.log("삭제 성공");

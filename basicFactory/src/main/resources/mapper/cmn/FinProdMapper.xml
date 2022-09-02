@@ -15,7 +15,10 @@
 	
 	<delete id="finProdDelete">
 		DELETE BF_CMN_FINISH_PRODUCT_CODE
-		WHERE FIN_PRD_CD_CODE = #{priKey}
+		WHERE FIN_PRD_CD_CODE IN
+		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
+		#{priKey}
+		</foreach>
 	</delete>
 	
 	<update id="finProdUpdate">
