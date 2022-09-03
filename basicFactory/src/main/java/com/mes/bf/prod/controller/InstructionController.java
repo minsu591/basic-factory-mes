@@ -16,18 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.InstAndDetailVO;
-import com.mes.bf.prod.vo.InstructionDetailVO;
-import com.mes.bf.prod.vo.InstructionVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 import com.mes.bf.prod.vo.VRscNeedQtyVO;
@@ -95,13 +89,8 @@ public class InstructionController {
 				queryParameters.get("vendCdClfy"));
 		return new ResponseEntity<List<VendorCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
-	// 공정상태 조회
-//	@GetMapping(value = "/findprocstatus/{lineName}", produces = { MediaType.APPLICATION_JSON_VALUE })
-//	public ResponseEntity<List<FindProcStatusVO>> findProcStatus(@PathVariable String lineName) {
-//		List<FindProcStatusVO> list = service.findProcStatus(lineName);
-//		return new ResponseEntity<List<FindProcStatusVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
-//	}
 
+	// 공정상태 조회
 	@GetMapping(value = "/findprocstatus")
 	public ResponseEntity<List<FindProcStatusVO>> findProcStatus(
 			@RequestParam(value = "lineName[]") List<String> lineName) {
@@ -109,49 +98,16 @@ public class InstructionController {
 		List<FindProcStatusVO> list = service.findProcStatus(lineName);
 
 		return new ResponseEntity<List<FindProcStatusVO>>(list, HttpStatus.OK);
-//		List<FindProcStatusVO> list = service.findProcStatus(lineName);
-//		for(FindProcStatusVO str : list) {
-//			System.out.println(str);
-//		}
-//		return new ResponseEntity<List<FindProcStatusVO>>(list, HttpStatus.OK);
-		// return new ResponseEntity<List<FindProcStatusVO>>(list, HttpStatus.OK);//
-		// 결과값,상태값 OK = 200, NOTFOUND = 404
+
 	}
 
 	// 제품별 자재 소요 예상량 조회
 	@GetMapping("/findvrscneedqty")
-	public ResponseEntity<List<VRscNeedQtyVO>> findVRscNeedQty(@RequestParam(value="finPrdCdCode[]") List<String> finPrdCdCode) {
+	public ResponseEntity<List<VRscNeedQtyVO>> findVRscNeedQty(
+			@RequestParam(value = "finPrdCdCode[]") List<String> finPrdCdCode) {
 		List<VRscNeedQtyVO> list = service.findVRscNeedQty(finPrdCdCode);
 		return new ResponseEntity<List<VRscNeedQtyVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
-
-	// 제품별 자재 소요 예상량 조회
-//	@GetMapping("/findvrscneedqty/{finPrdCdCode}")
-//	public ResponseEntity<List<VRscNeedQtyVO>> findVRscNeedQty(@PathVariable String finPrdCdCode) {
-//		List<VRscNeedQtyVO> list = service.findVRscNeedQty(finPrdCdCode);
-//		return new ResponseEntity<List<VRscNeedQtyVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
-//	}
-
-	// 생산지시 등록
-//	@PostMapping("/insertinstruction")
-//	public void insertInstruction(@RequestBody Map<String, Object> instruction) {
-//
-//		ObjectMapper m = new ObjectMapper();
-//		try {
-//			// object -> String 변환
-//			String instheader = m.writeValueAsString(instruction.get("instobjheader"));
-//			String instdetail = m.writeValueAsString(instruction.get("instobjdetail"));
-//			// String -> vo변환
-//			InstructionVO instvo = m.readValue(instheader, InstructionVO.class);
-//			InstructionDetailVO detailvo = m.readValue(instdetail, InstructionDetailVO.class);
-//
-//			//service.insertInstruction(instvo, detailvo);
-//		
-//		} catch (JsonProcessingException e) {
-//			e.printStackTrace();
-//		}
-//
-//	}
 
 	// 생산지시 등록 통합
 	@PostMapping("/insertinstanddetail")

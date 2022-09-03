@@ -1,9 +1,8 @@
 //작업 시작 누르면 공정 실적 테이블 등록(시작시간포함)
-//저장 누르면 실적 업데이트 
+//저장 누르면 실적 업데이트
 //
 
 $("document").ready(function () {
-
   $("#closeBtn").click(function () {
     $("#workInsertModal").modal("hide");
   });
@@ -17,23 +16,24 @@ $("document").ready(function () {
 
   //긴급중지버튼 클릭 이벤트
   emergency();
-  //중지후 작업 재시작 
+  //중지후 작업 재시작
   reStart();
   //설비상태 클릭 이벤트
   $("#mchnStatus").on("click", "button", function () {
     let instProdNo;
+    let inputDate;
     $("#procManageTable tbody tr").each(function () {
       if ($(this).find("td:eq(0)").children().prop("checked")) {
         instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
+        inputDate = $(this).find("td:eq(2)").text();
       }
     });
     let statusMchnName = $(this).text();
     findProcess(instProdNo, statusMchnName);
     let processNo = $("#processNo").val();
     //모달 시간과 날짜 입력을 위해 조회
-    getprocPerform(processNo);
+    getprocPerform(processNo, inputDate);
   });
-
 
   $("#workInsertTable").on("click", "button", function () {
     // console.log($(this).text());
@@ -53,10 +53,12 @@ $("document").ready(function () {
         if ($(this).find("td:eq(0)").children().prop("checked")) {
           console.log($(this));
           let instProdNo = $(this).find("input[type=hidden]").val();
+          let inputDate = $(this).find("td:eq(2)").text();
           console.log("instProdNo->" + instProdNo);
+
           findProcess(instProdNo, mchnName);
           //모달데이터 입력
-          getprocPerform(processNo);
+          getprocPerform(processNo, inputDate);
         }
       });
 
@@ -66,90 +68,61 @@ $("document").ready(function () {
 
   //저장버튼
   $("#saveBtn").click(function () {
-    //공정실적 테이블 등록
-    let workDate = $("#instDate").val();
-    let processNo = $("#processNo").val(); //작업번호
-    let inDtlVol = $("#workStateTable tr:eq(1) td").text();//입고량 
-    let virResult = $("#workStateTable tr:eq(2) td").text(); //기실적량
-    let prodVol = $("#workStateTable tr:eq(3) td").text(); //실적량
-    let fltyVol = $("#workStateTable tr:eq(4) td").text(); //불량랑
-    let reulstVol = parseInt(virResult) + parseInt(prodVol);
-    let procPerform = {
-      processNo: processNo,
-      prodVol: reulstVol,
-      fltyVol: fltyVol,
-      workStartTime: workDate + " " + $("#sHours").val() + ":" + $("#sMinutes").val(),
-      workEndTime: workDate + " " + $("#eHours").val() + ":" + $("#eMinutes").val(),
-      workerName: $("#empid").val(),
-      prodDate: workDate,
-    };
-    console.log(procPerform);
-    let check = false;
-    $.ajax({
-      url: "insertprocperform",
-      method: "POST",
-      async: false, //동기로 처리
-      contentType: "application/json;charset=utf-8",
-      dataType: "json",
-      data: JSON.stringify(procPerform),
-      error: function (error, status, msg) {
-        //alert("상태코드 " + status + "에러메시지" + msg);
-        console.log(error);
-        check = true;
-      },
-      success: function (data) {
-        check = true;
-        console.log("success");
-      },
-    });
-    if (check == true) {
-      let processOrder;
-      let procCdName = $("#procCdName").val();
-      $("#workInsertTable tbody tr").each(function () {
-        //console.log($(this).find("td:eq(1)").text())
-        if (procCdName == $(this).find("td:eq(1)").text()) {
-          processOrder = parseInt($(this).find("td:eq(0)").text());
-        }
-      });
-
-      if (processOrder == 1) {
-        let finPrdCdCode;
-        let instProdNo;
-        $("#procManageTable tbody tr").each(function () {
-          if ($(this).find("td:eq(0)").children().prop("checked")) {
-            finPrdCdCode = $(this).find("td:eq(4)").text();
-            instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
-          }
-        });
-        //처리
-        console.log("finRscVO로 넘기는 finPrdCdCode=" + finPrdCdCode);
-        //프로시저호출 자재 재고 등록
-        insertRscVO(finPrdCdCode, inDtlVol, processNo);
-
-        //지시 작업구분 업데이트
-        updateWorkScope(instProdNo);
-      }
-    }
-
     let processOrder;
+    let instProdNo;
     let procCdName = $("#procCdName").val();
     $("#workInsertTable tbody tr").each(function () {
       //console.log($(this).find("td:eq(1)").text())
       if (procCdName == $(this).find("td:eq(1)").text()) {
-        processOrder = $(this).find("td:eq(0)").text();
+        processOrder = parseInt($(this).find("td:eq(0)").text());
       }
     });
-    let nextProcessOrder = parseInt(processOrder) + 1;
-    console.log("프로세스오더->" + nextProcessOrder);
 
-    if (nextProcessOrder < 6) {
+    let workDate = $("#instDate").val();
+    let processNo = $("#processNo").val(); //작업번호
+    let inDtlVol = $("#workStateTable tr:eq(1) td").text(); //입고량
+    let virResult = $("#workStateTable tr:eq(2) td").text(); //기실적량
+    let prodVol = $("#workStateTable tr:eq(3) td").text(); //실적량
+    let fltyVol = $("#workStateTable tr:eq(4) td").text(); //불량랑
+    let reulstVol = parseInt(virResult) + parseInt(prodVol);
 
-      let instProdNo;
+    let updatePerform = {
+      processNo: processNo,
+      prodVol: reulstVol,
+      fltyVol: fltyVol,
+      workEndTime:
+        workDate + " " + $("#eHours").val() + ":" + $("#eMinutes").val(),
+    };
+
+    if (processOrder == 1) {
+      let finPrdCdCode;
       $("#procManageTable tbody tr").each(function () {
         if ($(this).find("td:eq(0)").children().prop("checked")) {
-          instProdNo = $(this).find("input[type=hidden]").val();
+          finPrdCdCode = $(this).find("td:eq(4)").text();
+          instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
         }
       });
+      console.log("프로세스오더찾기에서 인스트프로드노->" + instProdNo);
+      //처리
+      console.log("finRscVO로 넘기는 finPrdCdCode=" + finPrdCdCode);
+      //프로시저호출 자재 재고 등록
+      //insertRscVO(finPrdCdCode, inDtlVol, processNo);
+
+      //지시 작업구분 업데이트
+      // updateWorkScope(instProdNo);
+    }
+
+    let nextProcessOrder = parseInt(processOrder) + 1;
+    console.log("다음프로세스오더->" + nextProcessOrder);
+
+    if (nextProcessOrder < 6) {
+      //현재 instProdNo 찾기
+      $("#procManageTable tbody tr").each(function () {
+        if ($(this).find("td:eq(0)").children().prop("checked")) {
+          instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
+        }
+      });
+
       console.log("저장할 instProdNo->" + instProdNo);
 
       let updateData = {
@@ -160,20 +133,58 @@ $("document").ready(function () {
       console.log(updateData);
       //다음공정 입고량 업데이트
       updateProcIndtlVol(updateData);
+
+      //공정실적 테이블 업데이트
+      console.log("실적 테이블 업데이트 -> 데이터 " + updatePerform);
+      updateprocperform(updatePerform);
       saveSucess();
     } else {
       //포장일 경우?
     }
-
   });
 }); //document end
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////AJAX////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
+//공정실적 등록
+function insertProcPerform(procPerform) {
+  $.ajax({
+    url: "insertprocperform",
+    method: "POST",
+    async: false, //동기로 처리
+    contentType: "application/json;charset=utf-8",
+    dataType: "json",
+    data: JSON.stringify(procPerform),
+    error: function (error, status, msg) {
+      //alert("상태코드 " + status + "에러메시지" + msg);
+      console.log(error);
+    },
+    success: function (data) {
+      console.log("success");
+    },
+  });
+}
 
-//제품명,입고량 ,등 테이블 생성 
+//공정실적 업데이트
+function updateprocperform(updatePerform) {
+  $.ajax({
+    url: "updateprocperform",
+    method: "PUT",
+    contentType: "application/json;charset=utf-8",
+    dataType: "json",
+    data: JSON.stringify(updatePerform),
+    error: function (error, status, msg) {
+      //alert("상태코드 " + status + "에러메시지" + msg);
+      console.log(error);
+    },
+    success: function (data) {
+      console.log("success");
+    },
+  });
+}
+
+//제품명,입고량 ,등 테이블 생성
 function findProcess(instProdNo, MchnName) {
   $.ajax({
     url: `findprocess/${instProdNo}`,
@@ -192,9 +203,8 @@ function findProcess(instProdNo, MchnName) {
   });
 }
 
-
 //모달창 헤더 데이터 입력
-function getprocPerform(processNo) {
+function getprocPerform(processNo, inputDate) {
   $.ajax({
     url: `getprocperform/${processNo}`,
     method: "GET",
@@ -214,8 +224,8 @@ function getprocPerform(processNo) {
       $("#empid").val(data.workerName).prop("readonly", true);
     },
     error: function () {
-      $("#instDate").val("").prop("readonly", false);
-      console.log('에러?');
+      console.log("에러?");
+      $("#instDate").val(inputDate).prop("readonly", false);
       $("#workStartBtn").prop("disabled", false);
       $("#addFlty").prop("disabled", false);
       $("#sHours").val("");
@@ -223,7 +233,6 @@ function getprocPerform(processNo) {
       $("#eHours").val("");
       $("#eMinutes").val("");
       $("#empid").val("").prop("readonly", false);
-
     },
   });
 }
@@ -243,7 +252,7 @@ function updateProcIndtlVol(updateData) {
       console.log("success");
     },
   });
-};
+}
 //설비 완료여부 업데이트
 function updateProcCheck(processNo) {
   $.ajax({
@@ -294,7 +303,7 @@ function selectMchnStts(prodCode) {
     },
   });
 }
-//불량량업데이트 
+//불량량업데이트
 function updateFltyVol(totalProdVol, processNo, resultFltyVol) {
   $.ajax({
     url: `updatefltyvol`,
@@ -313,7 +322,7 @@ function updateFltyVol(totalProdVol, processNo, resultFltyVol) {
   fltyCnt = 0;
   $("#fltyCnt").val(fltyCnt);
 }
-//실적량 업데이트 
+//실적량 업데이트
 function updateProdVol(processNo, totalProdVol, procCdName) {
   $.ajax({
     url: `updateprodvol`,
@@ -345,7 +354,7 @@ function updateAchieRate(processNo, achieRate) {
       console.log("update sucess");
     },
   });
-};
+}
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////AJAX   END /////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -362,18 +371,22 @@ function startinterval() {
   let totalProdVol = 1 + parseInt(prodVol.text());
 
   //rate.html(Math.ceil((totalProdVol / parseInt(inDtlVol.text())) * 100) + "%");
-  rate.html(Math.ceil(((totalProdVol + parseInt(virResult.text())) / parseInt(inDtlVol.text())) * 100) + "%");
+  rate.html(
+    Math.ceil(
+      ((totalProdVol + parseInt(virResult.text())) /
+        parseInt(inDtlVol.text())) *
+        100
+    ) + "%"
+  );
   prodVol.html(num);
   let achieRate = $("#workStateTable tr:eq(5) td").text().slice(0, -1);
   //실적량 업데이트
   updateProdVol(processNo, totalProdVol, procCdName);
 
-
   //달성률 업데이트
   updateAchieRate(processNo, achieRate);
 
-
-  if ((num + parseInt(virResult.text())) == parseInt(inDtlVol.text())) {
+  if (num + parseInt(virResult.text()) == parseInt(inDtlVol.text())) {
     console.log("종료");
     endWork();
   }
@@ -390,12 +403,11 @@ function insertRscVO(finPrdCdCode, inDtlVol, processno) {
       finPrdCdCode: finPrdCdCode,
       inDtlVol: inDtlVol,
       processNo: processNo,
-      empId: empId
+      empId: empId,
     }),
     contentType: "application/json;charset=utf-8",
     success: function (data) {
       console.log(data);
-
     },
   });
 }
@@ -425,7 +437,7 @@ function insertRscOut(rscLotNo, rscCdCode, needQty) {
   let instDate = $("#instDate").val(); // 출고 일자
   let rscOutCls = 1; //출고 분류
   console.log(instDate);
-  let empName = $("#empid").val(); //작업자 이름 
+  let empName = $("#empid").val(); //작업자 이름
   $.ajax({
     url: "insertrscout",
     method: "POST",
@@ -438,22 +450,16 @@ function insertRscOut(rscLotNo, rscCdCode, needQty) {
       rscOutDate: instDate,
       rscOutVol: needQty,
       rscOutCls: rscOutCls,
-      empName: empName
+      empName: empName,
     }),
-    error: function (error, status, msg) {
-
-    },
-    success: function (data) {
-
-    },
+    error: function (error, status, msg) {},
+    success: function (data) {},
   });
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////Make Row //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
-
 
 function workStateTableMakeRow(obj) {
   let inputDate;
@@ -464,7 +470,7 @@ function workStateTableMakeRow(obj) {
       inputDate = $(this).find("td:eq(2)").text();
     }
   });
-  // console.log(inputDate);
+  console.log("inputDate->" + inputDate);
   $("#instDate").val(inputDate);
   $("#procCdName").val(obj.procCdName);
   $("#mchnName").val(obj.mchnName);
@@ -475,7 +481,6 @@ function workStateTableMakeRow(obj) {
   $("#workStateTable tr:eq(4)").append(`<td>${obj.fltyVol}</td>`);
   $("#workStateTable tr:eq(5)").append(`<td>${obj.achieRate}%</td>`);
 }
-
 
 function reloadMchnSttsMakeRow(obj) {
   let node;
@@ -491,13 +496,12 @@ function reloadMchnSttsMakeRow(obj) {
     method: "GET",
     dataType: "json",
     success: function (data) {
-
       for (obj2 of data) {
-        console.log('obj2 of data ')
+        // console.log("obj2 of data ");
         if (obj2.mchnCode == obj.mchnCode) {
-          console.log('obj2mc=objmc')
-          if (obj2.completionStatus == 'y') {
-            console.log('if y')
+          // console.log("obj2mc=objmc");
+          if (obj2.completionStatus == "y") {
+            // console.log("if y");
             node = `<div>
                     <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>
                     <div class="btn btn-outline-primary m-t-15">진행완료</div>
@@ -518,14 +522,12 @@ function reloadMchnSttsMakeRow(obj) {
             }
           }
         }
-
       }
     },
   });
 }
 
 function updateVirResult(processNo, totalProdVol) {
-
   $.ajax({
     url: "updatevirresult",
     method: "PUT",
@@ -543,17 +545,13 @@ function updateVirResult(processNo, totalProdVol) {
   });
 }
 
-
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////Make Row End ///////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 
-
-
 /////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////Functinon /////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
-
 
 //모달창 제품명 입력
 function modalprodName(data) {
@@ -561,10 +559,8 @@ function modalprodName(data) {
   $("#workStateTable tr:eq(0)").append(`<td>${prodName}</td>`);
 }
 
-
 let fltyCnt = 0;
 function fltyCntUp() {
-
   $("#fltyCnt").val(fltyCnt);
   //불량증가
   $("#fltyUp").click(function () {
@@ -585,9 +581,9 @@ function fltyCntDown() {
   });
 }
 
-function addFlty() {  //불량 클릭 버튼 이벤트
+function addFlty() {
+  //불량 클릭 버튼 이벤트
   $("#addFlty").click(function () {
-
     if ($("#fltyCnt").val() == 0) {
       noAddFlty();
       return;
@@ -611,27 +607,25 @@ function addFlty() {  //불량 클릭 버튼 이벤트
       //불량량 업데이트문 실행하고 다시 실적량 업데이트 실행함
       updateFltyVol(totalProdVol, processNo, resultFltyVol);
       fltyinfo();
-
     } else {
     }
   });
 }
 
-
 function emergency() {
   $("#emergencyBtn").click(function () {
     console.log("긴급중지버튼 클릭");
-    $("#reStartBtn").show();//재시작버튼 보이기
+    $("#reStartBtn").show(); //재시작버튼 보이기
     //인터벌중지
     clearInterval(work);
     //현재 실적량 -> 기실적량 업데이트
     //processNo랑 현재 실적량보내줘
     let processNo = $("#processNo").val();
     let virResult = $("#workStateTable tbody tr:eq(2) td").text();
-    let totalProdVol = $("#workStateTable tbody tr:eq(3) td").text();//현재 실적량
+    let totalProdVol = $("#workStateTable tbody tr:eq(3) td").text(); //현재 실적량
     let updateVol = parseInt(totalProdVol) + parseInt(virResult);
-    console.log(processNo)
-    console.log(updateVol)
+    console.log(processNo);
+    console.log(updateVol);
     updateVirResult(processNo, updateVol);
 
     let instProdNo;
@@ -639,8 +633,8 @@ function emergency() {
       if ($(this).find("td:eq(0)").children().prop("checked")) {
         instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
       }
-    })
-    console.log('instProdno->' + instProdNo);
+    });
+    console.log("instProdno->" + instProdNo);
     let mchnName = $("#mchnName").val();
 
     //업데이트후 모달 테이블데이터 다시 로드
@@ -648,17 +642,15 @@ function emergency() {
     num = 0;
     totalProdVol = $("#workStateTable tr:eq(3) td"); //실적량
     // totalProdVol.html(num);
-  })
-
+  });
 }
 //중지후 작업 재시작
 function reStart() {
   $("#reStartBtn").click(function () {
-    console.log("작업 재시작 버튼 클릭")
+    console.log("작업 재시작 버튼 클릭");
     work = setInterval(startinterval, 100);
-  })
+  });
 }
-
 
 let work;
 //작업시작 시간 입력
@@ -676,7 +668,7 @@ function startWork() {
     }
   });
   console.log("컴플리션스테이터스->" + completionStatus);
-  if (completionStatus == 'y') {
+  if (completionStatus == "y") {
     warning();
     return;
   }
@@ -695,18 +687,39 @@ function startWork() {
     $("#instDate").prop("readonly", true);
   }
 
-
   // let virResult = $("#workStateTable tbody tr:eq(2) td").text(); //기실적량
   // let prodVol = $("#workStateTable tbody tr:eq(3) td").text(); //실적량
   // let fltyVol = $("#workStateTable tbody tr:eq(4) td").text(); //불량량
 
   if ($("#sHours").val() == "" && $("#sMinutes").val() == "") {
-    $("#emergencyBtn").show();//긴급중지버튼 보이기
+    $("#emergencyBtn").show(); //긴급중지버튼 보이기
     var date = new Date();
     let hours = ("0" + date.getHours()).slice(-2);
     let minutes = ("0" + date.getMinutes()).slice(-2);
     $("#sHours").val(hours).prop("readonly", true);
     $("#sMinutes").val(minutes).prop("readonly", true);
+
+    //공정실적 테이블 등록
+    let workDate = $("#instDate").val();
+    let processNo = $("#processNo").val(); //작업번호
+    let inDtlVol = $("#workStateTable tr:eq(1) td").text(); //입고량
+    let virResult = $("#workStateTable tr:eq(2) td").text(); //기실적량
+    let prodVol = $("#workStateTable tr:eq(3) td").text(); //실적량
+    let fltyVol = $("#workStateTable tr:eq(4) td").text(); //불량랑
+    let reulstVol = parseInt(virResult) + parseInt(prodVol);
+    let procPerform = {
+      processNo: processNo,
+      prodVol: reulstVol,
+      fltyVol: fltyVol,
+      workStartTime:
+        workDate + " " + $("#sHours").val() + ":" + $("#sMinutes").val(),
+      workerName: $("#empid").val(),
+      prodDate: workDate,
+    };
+    console.log(procPerform);
+    //공정실적 테이블 등록
+    insertProcPerform(procPerform);
+
     //설비코드 찾기
     let mchnCode;
     $("#workInsertTable tbody tr").each(function () {
@@ -737,10 +750,6 @@ function startWork() {
   }
 
   //공정실적테이블 등록
-
-
-
-
 }
 
 //작업종료 시간 입력
@@ -782,56 +791,48 @@ function endWork() {
       console.log("리로드 프로드코드->" + prodCode);
     });
     selectMchnStts(prodCode);
-
   }
-
 } // 작업종료 끝
-
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////Functinon End ///////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 
-
-
 function warning() {
   Swal.fire({
     icon: "warning", // Alert 타입
     title: "이미 완료된 작업입니다.", // Alert 제목
-  })
+  });
 }
 function fltyinfo() {
   Swal.fire({
     icon: "success", // Alert 타입
     title: "불량 등록이 완료되었습니다.", // Alert 제목
-  })
-};
+  });
+}
 function noEmpId() {
   Swal.fire({
     icon: "warning", // Alert 타입
     title: "작업자가 입력되지 않았습니다.", // Alert 제목
-  })
-};
+  });
+}
 function noInDtlVol() {
   Swal.fire({
     icon: "warning", // Alert 타입
     title: "입고가 되지 않은 공정입니다.", // Alert 제목
-  })
+  });
 }
 
 function noAddFlty() {
   Swal.fire({
     icon: "warning", // Alert 타입
     title: "불량 갯수가 0입니다.", // Alert 제목
-  })
+  });
 }
 
 function saveSucess() {
   Swal.fire({
     icon: "success", // Alert 타입
     title: "저장 되었습니다.", // Alert 제목
-
-  })
+  });
 }

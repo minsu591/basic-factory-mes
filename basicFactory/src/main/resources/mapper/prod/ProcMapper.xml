@@ -305,5 +305,19 @@
 			process_no = #{processNo}
 	</update>
 	
+	<!-- 작업종료시간 포함 모든 데이터 업데이트 -->
+	<update id="updateProcPerform" parameterType="ProcessPerformVO">
+		UPDATE 
+		    BF_PROD_PROCESS_PERFORMANCE 
+		SET 
+		    prod_vol = #{prodVol},
+		    flty_vol = #{fltyVol},
+		    work_end_time = to_timestamp(#{workEndTime}, 'yyyy-MM-dd HH24:mi:ss.ff')
+		WHERE 
+			process_no = #{processNo}
+	
+	
+	</update>
+	
 	
 </mapper>

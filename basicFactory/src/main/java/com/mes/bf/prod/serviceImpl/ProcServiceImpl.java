@@ -122,4 +122,10 @@ public class ProcServiceImpl implements ProcService {
 		mapper.updateVirResult(vo);
 	}
 
+	@Override
+	public void updateProcPerform(ProcessPerformVO vo) {
+		mapper.updateProcPerform(vo);
+		
+	}
+
 }
