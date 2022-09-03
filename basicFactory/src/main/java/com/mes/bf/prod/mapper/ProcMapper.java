@@ -72,4 +72,7 @@ public interface ProcMapper {
 	
 	// 실적량 -> 기실적량 업데이트 
 	void updateVirResult(ProcessVO vo);
+	
+	//공정테이블 작업종료시간포함 데이터 업데이트
+	void updateProcPerform(ProcessPerformVO vo);
 }

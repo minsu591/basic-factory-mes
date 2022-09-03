@@ -161,13 +161,6 @@ public class ProcController {
 		return new ResponseEntity<ProcessPerformVO>(vo, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
-//	// 제품명으로 자재 사용량 및 재고량 조
-//	@GetMapping("/findrscvo/{finPrdCdCode}")
-//	public ResponseEntity<List<FindRscVO>> findRscVO(@PathVariable String finPrdCdCode) {
-//		List<FindRscVO> list = service.findRscVO(finPrdCdCode);
-//		return new ResponseEntity<List<FindRscVO>>(list, HttpStatus.OK);
-//	}
-
 	// 자재 사용량 출고내역 등록
 	@PostMapping("/insertrscout")
 	public void insertRscOut(@RequestBody ProdRscOutVO vo) {
@@ -186,6 +179,13 @@ public class ProcController {
 	@PutMapping("/updatevirresult")
 	public void updateVirResult(@RequestBody ProcessVO vo) {
 		service.updateVirResult(vo);
+	}
+	
+	//공정실적 작업종료시간포함 업데이트 
+	@PutMapping("/updateprocperform")
+	public void updateProcPerform(@RequestBody ProcessPerformVO vo) {
+		System.out.println(vo);
+		service.updateProcPerform(vo);
 	}
 
 }
