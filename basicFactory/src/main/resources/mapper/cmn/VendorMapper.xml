@@ -27,6 +27,9 @@
 	
 	<delete id="vendorCodeDelete">
 		DELETE BF_CMN_VENDOR_CODE
-		WHERE VEND_CD_CODE = #{priKey}
+		WHERE VEND_CD_CODE IN
+		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
+		#{priKey}
+		</foreach>
 	</delete>
 </mapper>

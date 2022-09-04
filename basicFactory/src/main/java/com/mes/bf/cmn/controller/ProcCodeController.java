@@ -46,10 +46,10 @@ public class ProcCodeController {
 		int result = service.procCodeInsert(QueryParameters.get("procName"), QueryParameters.get("procRemk"));
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
-	
+
 	@PostMapping(value = "/procCode/delete", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Integer> procCodeDelete(@RequestParam Map<String, String> QueryParameters) {
-		int result = service.procCodeDelete(QueryParameters.get("priKey"));
+	public ResponseEntity<Integer> procCodeDelete(@RequestParam(value="delList[]") List<String> delList) {
+		int result = service.procCodeDelete(delList);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 }

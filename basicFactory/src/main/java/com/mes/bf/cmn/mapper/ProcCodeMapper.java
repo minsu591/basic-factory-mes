@@ -11,5 +11,5 @@ public interface ProcCodeMapper {
 	List<ProcCodeVO> listProcCode(String procName);
 	int procCodeUpdate(String priKey, String updCol, String updCont);
 	int procCodeInsert(String procName, String procRemk);
-	int procCodeDelete(String priKey);
+	int procCodeDelete(List<String> delList);
 }

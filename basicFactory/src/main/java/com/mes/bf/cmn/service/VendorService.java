@@ -8,6 +8,6 @@ public interface VendorService {
 
 	List<VendorCodeVO> listVendor(String vendorName);
 	int vendorCodeInsert(VendorCodeVO vendor);
-	int vendorCodeDelete(String priKey);
+	int vendorCodeDelete(List<String> delList);
 	int vendorCodeUpdate(String priKey,String updCol, String updCont);
 }

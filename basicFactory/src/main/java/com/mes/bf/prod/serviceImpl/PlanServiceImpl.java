@@ -41,12 +41,12 @@ public class PlanServiceImpl implements PlanService {
 		return mapper.planInsert(planVO);
 	}
 	@Override
-	public Integer planHdDelete(String planHdCode) {
-		return mapper.planHdDelete(planHdCode);
+	public Integer planHdDelete(List<String> delList) {
+		return mapper.planHdDelete(delList);
 	}
 	@Override
-	public Integer planDtlDelete(String planIdx) {
-		return mapper.planDtlDelete(planIdx);
+	public Integer planDtlDelete(List<String> delList) {
+		return mapper.planDtlDelete(delList);
 	}
 	@Override
 	public Integer planHdUpdate(String priKey, String updCol, String updCont) {
@@ -56,6 +56,7 @@ public class PlanServiceImpl implements PlanService {
 	public Integer planDtlUpdate(String priKey, String updCol, String updCont) {
 		return mapper.planDtlUpdate(priKey, updCol, updCont);
 	}
+	
 	
 
 }

@@ -7,22 +7,21 @@ $("document").ready(function(){
     let addList = [];
     let delList = [];
     //수정할 테이블
-    let table = $("#deptTable");
+    let table = $("#empTable");
     //notNull이어야하는 idx
-    let notNullList = [2];
+    let notNullList = [1,2,3,4,5,6,7];
     //적용할 인덱스
-    let avArr = [2];
+    let avArr = [1,2,5,6,7,9];
     //프라이머리 키
     let priKeyIdx = 1;
+    let clfyList = ["","관리자","직원"];
 
     //수정 이벤트
-    table.find("tbody").on("click","td",function(e){
+    table.find("tbody").on("click","td:not(:first-child)",function(e){
         e.stopPropagation();
-        let col = $(this).index();
-        let updCol =table.find("thead").find("th:eq("+col+")").attr("name");
-        let priKey = $(this).parent().find("td:eq("+priKeyIdx+")").text();
-        let flag = false;
         let tdInfo = $(this);
+        let col = tdInfo.index();
+        let flag = false;
         let defaultVal = tdInfo.text();
         //적용할 인덱스인지 확인
         for(let i = 0; i<avArr.length;i++){
@@ -36,19 +35,19 @@ $("document").ready(function(){
             return;
         }
         tdInfo.attr("contenteditable","true");
-        tdInfo.focus(function(){
+        tdInfo.unbind("focus").bind("focus",function(){
             defaultVal = tdInfo.text();
+            tdInfo.addClass("tdBorder");
         });
-        tdInfo.addClass("tdBorder");
-        tdInfo.on("keyup",function(key){
+        tdInfo.off("keyup").on("keyup",function(key){
             if(key.keyCode == 13 || key.keyCode == 27){
                 key.preventDefault();
                 tdInfo.blur();
             }
         });
         
-        tdInfo.blur(function(e){
-            e.preventDefault();
+        tdInfo.unbind("blur").bind("blur",function(e){
+            e.preventDefault();            
             tdInfo.attr("contenteditable","false")
                     .removeClass("tdBorder");
             //not null이어야하는 값
@@ -60,12 +59,35 @@ $("document").ready(function(){
                     }
                 }
             }else{
-                if(priKey != null && priKey != ''){
-                    checkNewModify(priKey,updCol,tdInfo.text());
-                }
+                tdInfo.trigger("change");
             }
         });
 
+    });
+
+    table.find("tbody td:not(:first-child)").change(function(){
+        let tdInfo = $(this);
+        let col = tdInfo.index();
+        console.log(col);
+        let updCol =$("#empTable thead").find("th:eq("+col+")").attr("name");
+        let priKey = tdInfo.parent().find("td:eq("+priKeyIdx+")").text();
+        let updCont;
+        if(col == 8){
+            //체크박스 일 때
+            if($(this).find("input[type='checkbox']").is(":checked")){
+                updCont = 1;
+            }else{
+                updCont = 0;
+            }
+        }else if(col == 4){
+            //select box 일 때
+            updCont = $(this).find("select option:selected").val();
+        }else{
+            updCont = $(this).text();
+        }
+        
+        checkNewModify(priKey,updCol,updCont);
+        console.log(modifyList);
     });
 
     function checkNewModify(priKey,updCol,updCont){
@@ -82,15 +104,36 @@ $("document").ready(function(){
     //저장 버튼 이벤트
     $("#saveBtn").on("click",function(){
         let trs = table.find("tbody tr");
-        let result;
         if(confirm("저장하시겠습니까?")==true){
+            let regExp = '';
             //null 검사
             for(tr of trs){
                 for(idx of notNullList){
-                    let content = $(tr).find("td:eq("+idx+")").text();
+                    let content;
+                    if(idx == 4){
+                        //select option인 경우
+                        content = $(tr).find("td:eq("+idx+") select option:selected").val();
+                    }else{
+                        content = $(tr).find("td:eq("+idx+")").text();
+                    }
                     if(content == null || content == ''){
                         alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
-                        return;
+                        return false;
+                    }else if(idx == 6){
+                        //이메일 정규식
+                        regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+                        if(content.match(regExp) == null){
+                            alert("이메일을 올바르게 입력해주세요.");
+                            return false;
+                        }
+                    }else if(idx==7){
+                        //휴대폰번호 정규식
+                        regExp = /^\d{3}-\d{3,4}-\d{4}$/;
+                        console.log(content.match(regExp) == null);
+                        if(content.match(regExp) == null){
+                            alert("휴대폰 번호를 하이픈을 사용하여 올바르게 입력해주세요.");
+                            return false;
+                        }
                     }
                 }
             }
@@ -102,12 +145,13 @@ $("document").ready(function(){
             }
             //추가용
             addList = table.find("tr[name='addTr']");
+            console.log(addList);
             for(obj of addList){
                 addSaveAjax(obj);
             }
 
             alert("저장이 완료되었습니다.");
-            location.reload();
+            //location.reload();
         }
     });
 
@@ -116,7 +160,7 @@ $("document").ready(function(){
         let updCol = obj[1];
         let updCont = obj[2];
         $.ajax({
-            url : 'dept/update',
+            url : 'emp/update',
             type :"POST",
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
@@ -135,43 +179,83 @@ $("document").ready(function(){
     //수정 끝
 
     //추가 버튼 이벤트
-    $("#addBtn").on("click",function(){
+     //추가 버튼 이벤트
+     $("#addBtn").on("click",function(){
         empBlankMakeRow();
     });
 
     function empBlankMakeRow(){
-        let node = `<tr name="addTr">
+        let node = `<tr name='addTr'>
                         <td><input type="checkbox" name="cb"></td>`;
         if($("#allCheck").is(":checked")){
-            node = `<tr>
+            node = `<tr name='addTr'>
                     <td><input type="checkbox" name="cb" checked></td>`;
         }
         node += `<td></td>
                 <td></td>
+                <td class='deptName'></td>`;
+        node += makeSelectForPos('');
+        node += `<td></td>
+                <td></td>
+                <td></td>
+                <td><input type="checkbox"></td>
+                <td></td>
                 </tr>`;
 
-        $("#deptTable tbody").append(node);
+        $("#empTable tbody").append(node);
     }
 
 
     function addSaveAjax(obj){
-        let deptName = $(obj).find("td:eq(2)").text();
-        if(deptName == null && deptName == ''){
-            return;
+        let empId = $(obj).find("td:eq(1)").text();
+        let empPw = $(obj).find("td:eq(2)").text();
+        let deptName = $(obj).find("td:eq(3)").text();
+        let empPos = $(obj).find("td:eq(4) select option:selected").val();
+        let empName = $(obj).find("td:eq(5)").text();
+        let empEmail = $(obj).find("td:eq(6)").text();
+        let empPhone = $(obj).find("td:eq(7)").text();
+        let empRemk = $(obj).find("td:eq(8)").text();
+        let empAuth;
+        if($(obj).find("td:eq(8) input[type='checkbox']").is(":checked")){
+            empAuth = 1;
+        }else{
+            empAuth = 0;
         }
+
         $.ajax({
-            url : 'dept/insert',
+            url : 'emp/insert',
             type : 'POST',
             dataType : 'text',
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
-            data : {
-                deptName : deptName
-            },
+            contentType: "application/json; charset=UTF-8;",
+            data : JSON.stringify({
+                empId,
+                empPw,
+                deptName,
+                empPos,
+                empName,
+                empEmail,
+                empPhone,
+                empRemk,
+                empAuth
+            }),
             success : function(result){
                 console.log("추가 성공");
             }
 
-        })
+        });
+    }
+    
+    function makeSelectForPos(cont){
+        let node = '<td><select>';
+        for(clfy of clfyList){
+            if(clfy == cont){
+                node += `<option value="${clfy}" selected>${clfy}</option>`;
+            }else{
+                node += `<option value="${clfy}">${clfy}</option>`;
+            }
+        }
+        node += '</select></td>';
+        return node;
     }
 
     //추가 끝
@@ -194,11 +278,13 @@ $("document").ready(function(){
     });
 
     function deleteSaveAjax(delList){
+        if(delList.length == 0){
+            return false;
+        }
         $.ajax({
-            url : 'dept/delete',
-            type : 'POST',
+            url : 'emp/delete',
+            type : 'GET',
             dataType : 'text',
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
                 delList
             },

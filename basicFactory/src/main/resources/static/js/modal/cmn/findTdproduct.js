@@ -28,6 +28,9 @@ $("document").ready(function () {
     let name = $(this).find("td:eq(2)").text();
     tdInfo.text(code);
     tdInfo.next().text(name);
+    if(tdInfo.parent().find("input[class='planIdx']").length == 1){
+      tdInfo.trigger("change");
+    }
     $("#findproductModal").modal("hide");
   });
   //제품검색버튼 이벤트

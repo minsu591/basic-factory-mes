@@ -52,9 +52,10 @@ public class LineCodeController {
 	
 	//라인 헤더 insert, update, delete
 	//insert, modify, update
+
 	@PostMapping(value = "/lineCode/hd/delete", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Integer> lineCodeHdDelete(@RequestParam Map<String, String> QueryParameters) {
-		int result = service.lineCodeHdDelete(QueryParameters.get("priKey"));
+	public ResponseEntity<Integer> lineCodeHdDelete(@RequestParam(value="delList[]") List<String> delList) {
+		int result = service.lineCodeHdDelete(delList);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 
@@ -71,12 +72,12 @@ public class LineCodeController {
 	}
 	
 	//라인 insert, modify, update
+
 	@PostMapping(value = "/lineCode/delete", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Integer> lineCodeDelete(@RequestParam Map<String, String> QueryParameters) {
-		int result = service.lineCodeDelete(QueryParameters.get("priKey"));
+	public ResponseEntity<Integer> lineCodeDelete(@RequestParam(value="delList[]") List<String> delList) {
+		int result = service.lineCodeDelete(delList);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
-
 	@PostMapping(value = "/lineCode/insert", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Integer> lineCodeInsert(@ModelAttribute LineCodeVO line) {
 		int result = service.lineCodeInsert(line);

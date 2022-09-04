@@ -14,9 +14,9 @@ public interface LineMapper {
 	//lineHd insert, update, delete
 	int lineCodeHdInsert(String lineName);
 	int lineCodeHdUpdate(String priKey,String updCol, String updCont);
-	int lineCodeHdDelete(String priKey);
+	int lineCodeHdDelete(List<String> delList);
 	
 	int lineCodeInsert(LineCodeVO line);
 	int lineCodeUpdate(String priKey,String updCol, String updCont);
-	int lineCodeDelete(String priKey);
+	int lineCodeDelete(List<String> delList);
 }

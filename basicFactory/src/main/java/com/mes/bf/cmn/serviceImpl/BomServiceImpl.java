@@ -25,8 +25,8 @@ public class BomServiceImpl implements BomService {
 		return mapper.findBomRsc(bomCode);
 	}
 	@Override
-	public int bomCodeDelete(String priKey) {
-		return mapper.bomCodeDelete(priKey);
+	public int bomCodeDelete(List<String> bomDelList) {
+		return mapper.bomCodeDelete(bomDelList);
 	}
 	@Override
 	public int bomCodeInsert(BomVO bom) {
@@ -37,12 +37,12 @@ public class BomServiceImpl implements BomService {
 		return mapper.bomCodeUpdate(priKey, updCol, updCont);
 	}
 	@Override
-	public int bomRscDelete(String priKey) {
-		return mapper.bomRscDelete(priKey);
+	public int bomRscDelete(List<String> rscDelList) {
+		return mapper.bomRscDelete(rscDelList);
 	}
 	@Override
-	public int bomRscInsert(BomRscVO bomRsc) {
-		return mapper.bomRscInsert(bomRsc);
+	public int bomRscInsert(BomRscVO bomRsc,String type) {
+		return mapper.bomRscInsert(bomRsc, type);
 	}
 	@Override
 	public int bomRscUpdate(String priKey, String updCol, String updCont) {

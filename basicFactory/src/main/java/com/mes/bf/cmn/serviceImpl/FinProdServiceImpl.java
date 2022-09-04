@@ -18,8 +18,8 @@ public class FinProdServiceImpl implements FinProdService {
 		return mapper.listFinProd(finName);
 	}
 	@Override
-	public int finProdDelete(String priKey) {
-		return mapper.finProdDelete(priKey);
+	public int finProdDelete(List<String> delList) {
+		return mapper.finProdDelete(delList);
 	}
 	@Override
 	public int finProdUpdate(String priKey, String updCol, String updCont) {

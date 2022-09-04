@@ -9,10 +9,13 @@ xmlns:th="http://www.thymeleaf.org"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Common Emp</title>
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
+    <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet" />
 </head>
 <body>
     <script type="text/javascript" th:src="@{/js/cmn/emp.js}"></script>
+    <script type="text/javascript" th:src="@{/js/cmn/empUpdateDB.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/cmn/findDept.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/cmn/findTdDept.js}"></script>
     <div class="pcoded-main-container">
         <h1>직원 관리</h1>
         <hr>
@@ -51,15 +54,15 @@ xmlns:th="http://www.thymeleaf.org"
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" id="allCheck"></th>
-                                    <th th:text="아이디"></th>
-                                    <th th:text="비밀번호"></th>
-                                    <th th:text="부서명"></th>
-                                    <th th:text="직책"></th>
-                                    <th th:text="직원명"></th>
-                                    <th th:text="이메일"></th>
-                                    <th th:text="연락처"></th>
-                                    <th th:text="계정상태"></th>
-                                    <th th:text="비고"></th>
+                                    <th th:text="아이디" name="emp_id"></th>
+                                    <th th:text="비밀번호" name="emp_pw"></th>
+                                    <th th:text="부서명" name="dept_name"></th>
+                                    <th th:text="직책" name="emp_pos"></th>
+                                    <th th:text="직원명" name="emp_name"></th>
+                                    <th th:text="이메일" name="emp_email"></th>
+                                    <th th:text="연락처" name="emp_phone"></th>
+                                    <th th:text="계정상태" name="emp_auth"></th>
+                                    <th th:text="비고" name="emp_remk"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,8 +70,14 @@ xmlns:th="http://www.thymeleaf.org"
                                     <td><input type="checkbox" name="cb"></td>
                                     <td th:text="${emp.empVO.empId}">mia</td>
                                     <td th:text="${emp.empVO.empPw}">asdf</td>
-                                    <td th:text="${emp.deptVO.deptName}">연구개발</td>
-                                    <td th:text="${emp.empVO.empPos}">관리자</td>
+                                    <td th:text="${emp.deptVO.deptName}" th:class="deptName">연구개발</td>
+                                    <td>
+                                        <select>
+                                            <option value="" th:selected="${emp.empVO.empPos eq ''}"></option>
+                                            <option th:value="관리자" th:selected="${emp.empVO.empPos eq '관리자'}" th:text="관리자"></option>
+                                            <option th:value="직원" th:selected="${emp.empVO.empPos eq '직원'}" th:text="직원"></option>
+                                        </select>
+                                    </td>
                                     <td th:text="${emp.empVO.empName}">김민서</td>
                                     <td th:text="${emp.empVO.empEmail}">mia@yedam.co.kr</td>
                                     <td th:text="${emp.empVO.empPhone}">011-1111-2222</td>
