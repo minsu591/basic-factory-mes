@@ -9,6 +9,7 @@ import com.mes.bf.cmn.mapper.EmpDeptMapper;
 import com.mes.bf.cmn.service.EmpDeptService;
 import com.mes.bf.cmn.vo.DeptVO;
 import com.mes.bf.cmn.vo.EmpDeptVO;
+import com.mes.bf.cmn.vo.EmpVO;
 
 @Service
 public class EmpDeptServiceImpl implements EmpDeptService {
@@ -39,6 +40,26 @@ public class EmpDeptServiceImpl implements EmpDeptService {
 	@Override
 	public int deptDelete(List<String> delList) {
 		return mapper.deptDelete(delList);
+	}
+
+	@Override
+	public int empUpdate(String priKey, String updCol, String updCont) {
+		return mapper.empUpdate(priKey, updCol, updCont);
+	}
+
+	@Override
+	public int empInsert(EmpVO emp) {
+		return mapper.empInsert(emp);
+	}
+
+	@Override
+	public int empDelete(List<String> delList) {
+		return mapper.empDelete(delList);
+	}
+
+	@Override
+	public EmpVO findEmp(String empId) {
+		return mapper.findEmp(empId);
 	}
 
 

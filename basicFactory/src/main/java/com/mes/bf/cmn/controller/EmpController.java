@@ -1,5 +1,9 @@
 package com.mes.bf.cmn.controller;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
 
@@ -11,12 +15,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mes.bf.cmn.service.EmpDeptService;
 import com.mes.bf.cmn.vo.DeptVO;
 import com.mes.bf.cmn.vo.EmpDeptVO;
+import com.mes.bf.cmn.vo.EmpVO;
 
 @Controller
 @RequestMapping("/cmn")
@@ -68,9 +74,82 @@ public class EmpController {
 	}
 	
 	@PostMapping(value = "/dept/update", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Integer> procCodeUpdate(@RequestParam Map<String, String> QueryParameters) {
+	public ResponseEntity<Integer> deptUpdate(@RequestParam Map<String, String> QueryParameters) {
 		int result = service.deptUpdate(QueryParameters.get("priKey"), QueryParameters.get("updCol"), QueryParameters.get("updCont"));
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
+	
+	//직원 insert, delete, update
+	@GetMapping(path = "/emp/delete")
+	public ResponseEntity<Integer> empDelete(@RequestParam(value="delList[]") List<String> delList) {
+		int result = service.empDelete(delList);
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/emp/insert")
+	public ResponseEntity<Integer> empInsert(@RequestBody EmpVO emp) {
+		//비밀번호 암호화 작업 SHA-256
+		String rawPw = emp.getEmpPw();
+		String hex = "";
+		
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+			md.update(rawPw.getBytes());
+			hex = String.format("%064x", new BigInteger(1,md.digest()));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		emp.setEmpPw(hex);
+		int result = service.empInsert(emp);
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/emp/update", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Integer> empUpdate(@RequestParam Map<String, String> QueryParameters) {
+		int result = service.empUpdate(QueryParameters.get("priKey"), QueryParameters.get("updCol"), QueryParameters.get("updCont"));
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
+	//로그인 페이지
+	@GetMapping("/login")
+	public String loginPage() {
+		return "login";
+	}
+	
+	@PostMapping(value = "/login/check")
+	public ResponseEntity<Integer> loginCheck(@RequestBody EmpVO emp) {
+		//아이디와 비밀번호 받아옴
+		MessageDigest md;
+		String empHex = "";
+		String empId = emp.getEmpId();
+		String empPw = emp.getEmpPw();
+		EmpVO empInfo = service.findEmp(empId);
+		int result;
+		if(empInfo == null) {
+			//empInfo가 비었으면
+			System.out.println("존재하는 아이디가 아닙니다.");
+			result = -1;
+		}else {
+			try {
+				md = MessageDigest.getInstance("SHA-256");
+				md.update(empPw.getBytes());
+				empHex = String.format("%064x", new BigInteger(1,md.digest()));
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
+			
+			//empInfo가 존재하는데 비밀번호가 맞지 않으면
+			if(empInfo.getEmpPw() != empHex) {
+				System.out.println("비밀번호가 맞지 않습니다.");
+				result = 0;
+			}else {
+				result = 1;
+			}
+		}
+
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
 	
 }

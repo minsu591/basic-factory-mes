@@ -53,6 +53,16 @@
         ORDER BY DEPT_NO
 	</select>
 	
+	<select id="findEmp" resultType="emp">
+		SELECT D.DEPT_NO, D.DEPT_NAME, E.EMP_ID, E.EMP_PW,
+			   E.EMP_NAME, E.EMP_EMAIL, E.EMP_PHONE, E.EMP_AUTH,
+			   E.EMP_POS, NVL(E.EMP_REMK,' ') AS EMP_REMK
+		FROM BF_CMN_EMP E
+        INNER JOIN BF_CMN_DEPT D
+		ON E.DEPT_NO = D.DEPT_NO
+		WHERE E.EMP_ID = #{empId}
+	</select>
+	
 	<!-- dept insert,delete,update -->
 	<insert id="deptInsert" parameterType="String">
 		INSERT INTO BF_CMN_DEPT
@@ -71,6 +81,31 @@
 		UPDATE BF_CMN_DEPT
 		SET ${updCol} = #{updCont}
 		WHERE DEPT_NO = #{priKey}
+	</update>
+	
+	<!-- emp insert,delete,update -->
+	<insert id="empInsert" parameterType="emp">
+		<selectKey keyProperty="deptNo" resultType="int" order="BEFORE">
+			SELECT DEPT_NO
+			FROM BF_CMN_DEPT
+			WHERE DEPT_NAME = #{deptName}
+		</selectKey>
+		INSERT INTO BF_CMN_EMP
+		VALUES(#{empId}, #{deptNo},#{empPw},#{empName},#{empEmail},#{empPhone},#{empAuth},#{empPos},#{empRemk})
+	</insert>
+	
+	<delete id="empDelete" parameterType="list">
+		DELETE BF_CMN_EMP
+		WHERE EMP_ID IN
+		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
+		#{priKey}
+		</foreach>
+	</delete>
+	
+	<update id="empUpdate" parameterType = "String">
+		UPDATE BF_CMN_EMP
+		SET ${updCol} = #{updCont}
+		WHERE EMP_ID = #{priKey}
 	</update>
 	
 </mapper>

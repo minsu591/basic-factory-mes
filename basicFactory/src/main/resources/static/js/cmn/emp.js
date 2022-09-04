@@ -29,12 +29,12 @@ $("document").ready(function(){
                         <td><input type="checkbox" name="cb"></td>
                         <td>${obj.empVO.empId}</td>
                         <td>${obj.empVO.empPw}</td>
-                        <td>${obj.deptVO.deptName}</td>
-                        <td>${obj.empVO.empPos}</td>
-                        <td>${obj.empVO.empName}</td>
+                        <td>${obj.deptVO.deptName}</td>`;
+        node += makeSelectForPos(obj.empVO.empPos);
+        node += `<td>${obj.empVO.empName}</td>
                         <td>${obj.empVO.empEmail}</td>
                         <td>${obj.empVO.empPhone}</td>
-                        <td>${obj.empVO.empPos}</td>`
+                        <td>${obj.empVO.empPos}</td>`;
         if(obj.empVO.empAuth == 1){
             node += `<td><input type="checkbox" checked></td>`;
         }else{
@@ -45,32 +45,19 @@ $("document").ready(function(){
         $("#empTable tbody").append(node);
     }
 
-    //추가 버튼 이벤트
-    $("#addBtn").on("click",function(){
-        empBlankMakeRow();
-    });
-
-    function empBlankMakeRow(){
-        let node = `<tr>
-                        <td><input type="checkbox" name="cb"></td>`;
-        if($("#allCheck").is(":checked")){
-            node = `<tr>
-                    <td><input type="checkbox" name="cb" checked></td>`;
+    function makeSelectForPos(cont){
+        let node = '<td><select>';
+        for(clfy of clfyList){
+            if(clfy == cont){
+                node += `<option value="${clfy}" selected>${clfy}</option>`;
+            }else{
+                node += `<option value="${clfy}">${clfy}</option>`;
+            }
         }
-        node += `<td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>/td>
-                <td><input type="checkbox" checked></td>
-                <td></td>
-                </tr>`;
-
-        $("#empTable tbody").append(node);
+        node += '</select></td>';
+        return node;
     }
+   
 
     //직원 체크 유무
     $("#allCheck").click("change",function(){
