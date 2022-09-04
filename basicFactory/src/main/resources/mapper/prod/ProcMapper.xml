@@ -138,22 +138,26 @@
 	
 	UPDATE 
 		BF_PROD_PROCESS 
-	SET 
-		total_prod_vol = #{totalProdVol} 
+	<set> 
+		total_prod_vol = #{totalProdVol},
+	<if test="fltyVol != null and fltyVol != ''">
+		flty_vol = #{fltyVol}
+	</if>
+	</set> 
 	WHERE 
 		process_no = #{processNo}
 	
 	</update>
 	
 	<!-- 공정테이블 불량수정 -->
-	<update id="updateFltyVol" parameterType="ProcessVO">
+<!-- 	<update id="updateFltyVol" parameterType="ProcessVO">
 		UPDATE 
 			BF_PROD_PROCESS 
 		SET 
 			flty_vol = #{fltyVol} 
 		WHERE
 			process_no = #{processNo}
-	</update>
+	</update> -->
 	
 
 	<!-- 설비상태 업데이트 -->	
@@ -316,7 +320,7 @@
 		WHERE 
 			process_no = #{processNo}
 	
-	
+
 	</update>
 	
 	

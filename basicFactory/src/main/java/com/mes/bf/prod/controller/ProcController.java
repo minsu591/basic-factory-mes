@@ -109,18 +109,18 @@ public class ProcController {
 		return new ResponseEntity<List<MchnVO>>(list, HttpStatus.OK);
 	}
 
-	// 실적량 업데이트
-	@PutMapping("/updateprodvol") // 파라미터가 JSON이라 파싱필요
+	// process테이블 업데이트
+	@PutMapping("/updateprocess") // 파라미터가 JSON이라 파싱필요
 	public void updateProcVol(@RequestBody ProcessVO vo) {
 		System.out.println(vo);
 		service.updateProcVol(vo);
 	}
 
 	// 공정테이블 불량수정
-	@PutMapping("/updatefltyvol")
-	public void updateFltyVol(@RequestBody ProcessVO vo) {
-		service.updateFltyVol(vo);
-	}
+//	@PutMapping("/updatefltyvol")
+//	public void updateFltyVol(@RequestBody ProcessVO vo) {
+//		service.updateFltyVol(vo);
+//	}
 
 	// 설비상태 업데이트
 	@PutMapping("/updatemchnstts")

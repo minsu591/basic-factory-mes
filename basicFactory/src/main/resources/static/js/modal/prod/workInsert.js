@@ -304,28 +304,29 @@ function selectMchnStts(prodCode) {
   });
 }
 //불량량업데이트
-function updateFltyVol(totalProdVol, processNo, resultFltyVol) {
+// function updateFltyVol(totalProdVol, processNo, resultFltyVol) {
+//   $.ajax({
+//     url: `updatefltyvol`,
+//     method: "PUT",
+//     dataType: "json",
+//     contentType: "application/json;charset=utf-8",
+//     data: JSON.stringify({
+//       totalProdVol: totalProdVol,
+//       processNo: processNo,
+//       fltyVol: resultFltyVol,
+//     }),
+//     success: function (data) {
+//       //console.log("update sucess");
+//     },
+//   });
+//   fltyCnt = 0;
+//   $("#fltyCnt").val(fltyCnt);
+// }
+
+//실적량 및 불량량 업데이트
+function updateProdVol(processNo, totalProdVol, procCdName, fltyVol) {
   $.ajax({
-    url: `updatefltyvol`,
-    method: "PUT",
-    dataType: "json",
-    contentType: "application/json;charset=utf-8",
-    data: JSON.stringify({
-      totalProdVol: totalProdVol,
-      processNo: processNo,
-      fltyVol: resultFltyVol,
-    }),
-    success: function (data) {
-      //console.log("update sucess");
-    },
-  });
-  fltyCnt = 0;
-  $("#fltyCnt").val(fltyCnt);
-}
-//실적량 업데이트
-function updateProdVol(processNo, totalProdVol, procCdName) {
-  $.ajax({
-    url: `updateprodvol`,
+    url: `updateprocess`,
     method: "PUT",
     dataType: "json",
     contentType: "application/json;charset=utf-8",
@@ -333,11 +334,14 @@ function updateProdVol(processNo, totalProdVol, procCdName) {
       processNo: processNo,
       totalProdVol: totalProdVol,
       procCdName: procCdName,
+      fltyVol: fltyVol,
     }),
     success: function (data) {
       console.log("update sucess");
     },
   });
+  fltyCnt = 0;
+  $("#fltyCnt").val(fltyCnt);
 }
 //달성률 업데이트
 function updateAchieRate(processNo, achieRate) {
@@ -365,6 +369,7 @@ function startinterval() {
   let inDtlVol = $("#workStateTable tr:eq(1) td"); //입고량
   let virResult = $("#workStateTable tr:eq(2) td"); //기실적량
   let prodVol = $("#workStateTable tr:eq(3) td"); //실적량
+  let fltyVol = $("#workStateTable tr:eq(4) td"); //불량량
   let rate = $("#workStateTable tr:eq(5) td"); //달성률
   let processNo = $("#processNo").val(); //작업번호
   let procCdName = $("#procCdName").val(); //공정명
@@ -381,7 +386,7 @@ function startinterval() {
   prodVol.html(num);
   let achieRate = $("#workStateTable tr:eq(5) td").text().slice(0, -1);
   //실적량 업데이트
-  updateProdVol(processNo, totalProdVol, procCdName);
+  updateProdVol(processNo, totalProdVol, procCdName, fltyVol.text());
 
   //달성률 업데이트
   updateAchieRate(processNo, achieRate);
@@ -605,7 +610,8 @@ function addFlty() {
       let procCdName = $("#procCdName").val(); //공정명
 
       //불량량 업데이트문 실행하고 다시 실적량 업데이트 실행함
-      updateFltyVol(totalProdVol, processNo, resultFltyVol);
+      //updateFltyVol(totalProdVol, processNo, resultFltyVol);
+      updateProdVol(processNo, totalProdVol, procCdName, resultFltyVol);
       fltyinfo();
     } else {
     }
