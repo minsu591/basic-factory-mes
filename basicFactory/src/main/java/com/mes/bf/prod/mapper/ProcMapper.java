@@ -42,7 +42,7 @@ public interface ProcMapper {
 	void updateProcVol(ProcessVO vo);
 
 	// 공정테이블 불량수정
-	void updateFltyVol(ProcessVO vo);
+	//void updateFltyVol(ProcessVO vo);
 
 	// 설비 상태 진행중 업데이트
 	void updateMchnStts(MchnVO vo);

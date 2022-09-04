@@ -62,12 +62,12 @@ public class ProcServiceImpl implements ProcService {
 		mapper.updateProcVol(vo);
 	}
 
-	@Override
-	@Transactional
-	public void updateFltyVol(ProcessVO vo) {
-		mapper.updateFltyVol(vo);
-		mapper.updateProcVol(vo);
-	}
+//	@Override
+//	@Transactional
+//	public void updateFltyVol(ProcessVO vo) {
+//		mapper.updateFltyVol(vo);
+//		mapper.updateProcVol(vo);
+//	}
 
 	@Override
 	public void updateMchnStts(MchnVO vo) {
