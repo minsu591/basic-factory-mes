@@ -106,6 +106,7 @@ $("document").ready(function(){
     function outMngMakeRow(out){
         let node = `<tr>
                         <td><input type="checkbox"></td>
+                        <input type="hidden" value="${out.slsOutDtlNo}">
                         <td>${out.finPrdCdCode}</td>
                         <td>${out.finPrdCdName}</td>
                         <td>${out.slsOrdDtlVol}</td>

@@ -146,6 +146,7 @@
    		<selectKey keyProperty="slsOrdHdNo" order="BEFORE" resultType="String">
    			SELECT SLS_ORD_HD_NO FROM (SELECT * FROM BF_SALES_ORD_HD ORDER BY SLS_ORD_HD_NO DESC) WHERE ROWNUM=1
    		</selectKey>
+   	
    		
    		INSERT INTO BF_SALES_ORD_DTL VALUES
 	   			  ('SLS_ODDT' || LPAD(BF_SALES_ORD_DTL_SEQ.nextval, 3, 0),

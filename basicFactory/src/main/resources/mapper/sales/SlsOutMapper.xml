@@ -182,7 +182,8 @@
    	
    	<!-- 출고관리에서 출고내역 상세조회 -->
    	<select id="outDtlView" resultType="slsOutDtlVO">
-   		SELECT OUTDTL.SLS_OUT_HD_NO,
+   		SELECT OUTDTL.SLS_OUT_DTL_NO,
+   			   OUTDTL.SLS_OUT_HD_NO,
    			   FNSPRD.FIN_PRD_CD_CODE,
    			   FNSPRD.FIN_PRD_CD_NAME,
    			   ORDDTL.SLS_ORD_DTL_VOL,
@@ -205,4 +206,32 @@
    		WHERE OUTDTL.SLS_OUT_HD_NO = #{slsOutHdNo} 
    			  AND ORDDTL.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
    	</select>
+   	
+   	<!-- 완제품 출고관리에서 헤더 등록 -->
+   	<insert id="outInsertHd" parameterType="slsOutHdVO">
+   		INSERT INTO BF_SALES_OUT_HD
+   		VALUES('SLS_OUT' || LPAD(BF_SALES_OUT_HD_SEQ.nextval, 3, 0),
+   				#{slsOrdHdNo},
+   				#{slsOutHdDate},
+   				#{vendCdCode},
+   				#{empId},
+   				#{slsOutHdRemk})
+   	</insert>
+   	
+<!--    	<insert id="outInsertDtl" parameterType="slsOutDtlVO">
+   		출고번호 가져오기
+   		<selectKey keyProperty="slsOutHdNo" order="BEFORE">
+   			SELECT SLS_OUT_HD_NO FROM (SELECT * FROM BF_SALES_OUT_HD ORDER BY SLS_OUT_HD_NO DESC) WHERE ROWNUM=1
+   		</selectKey>
+   		
+   		INSERT INTO BF_SALES_OUT_DTL VALUES
+   			('SLS_OUTD' || LPAD(BF_SALES_OUT_DTL_SEQ.nextval, 3, 0),
+   			#{slsOutHdNo},
+   			#{finPrdCdCode},
+   			#{fnsPrdStkLotNo},
+   			0,
+   			#{slsOutDtlVol},
+   			)
+   	</insert> -->
+   	
 </mapper>

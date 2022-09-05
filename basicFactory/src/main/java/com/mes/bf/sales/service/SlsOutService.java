@@ -25,4 +25,10 @@ public interface SlsOutService {
 	
 	//출고관리에서 출고내역 상세조회
 	List<SlsOutDtlVO> outDtlView(String slsOutHdNo);
+	
+	//출고관리 헤더등록
+	void outInsertHd(SlsOutHdVO vo);
+	
+	//출고관리 바디등록
+	void outInsertDtl(SlsOutDtlVO vo);
 }

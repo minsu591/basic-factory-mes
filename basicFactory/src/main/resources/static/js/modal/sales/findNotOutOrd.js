@@ -31,7 +31,7 @@ $("document").ready(function () {
 
   //tr 클릭 이벤트
   $("#findNotOutTable").on("click", "tr", function () {
-    //테이블 상단 공통 요소 삽입
+    //출고관리 테이블 상단 공통 요소 삽입
     let slsOrdHdDate = $(this).find("td:first").text();
     let slsOrdHdNo = $(this).find("td:eq(1)").text();
     let vendor = $(this).find("td:eq(2)").text();
@@ -105,7 +105,7 @@ $("document").ready(function () {
   function outMakeRow(ord) {
     
     let node = `<tr>
-                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox" name="cb"></td>
                     <td>${ord.slsOutDtlVO.finPrdCdCode}</td>
                     <td name="finPrdCdName">${ord.slsOutDtlVO.finPrdCdName}</td>
                     <td>${ord.slsOrdDtlVO.slsOrdDtlVol}</td>
