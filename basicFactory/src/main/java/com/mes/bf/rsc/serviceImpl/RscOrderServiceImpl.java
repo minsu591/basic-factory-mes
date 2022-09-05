@@ -13,15 +13,10 @@ import com.mes.bf.rsc.vo.RscOrderVO;
 public class RscOrderServiceImpl implements RscOrderService {
 
 	@Autowired RscOrderMapper rscOrderMapper;
-	
+
 	@Override
-	public List<RscOrderVO> orderTitle() {
-		return rscOrderMapper.orderTitle();
-	}
-	
-	@Override
-	public List<RscOrderVO> orderList() {
-		return rscOrderMapper.orderList();
+	public List<RscOrderVO> orderDetailList(String rscOrderCode) {
+		return rscOrderMapper.orderDetailList(rscOrderCode);
 	}
 
 }

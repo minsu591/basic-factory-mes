@@ -19,5 +19,8 @@ public class RscOrderVO {
 	private int rscOrderSt;
 	private String empId;
 	private String rscOrderDtlRemk;
+	private String rscOrderDtlNo;
 	private String rscOrderRemk;
+	private String vendCdCode;
+	private String vendCdNm;
 }

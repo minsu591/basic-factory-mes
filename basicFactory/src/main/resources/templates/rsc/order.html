@@ -7,9 +7,9 @@
 <title>자재발주관리</title>
 </head>
 <body>
+	<script type="text/javascript" th:src="@{/js/modal/rsc/findRscOrder.js}"></script>
+	<script type="text/javascript" th:src="@{/js/modal/rsc/findRscInTable.js}"></script>
 	<script type="text/javascript" th:src="@{/js/modal/rsc/findVendor.js}"></script>
-	<script type="text/javascript"
-		th:src="@{/js/modal/rsc/findRscInTable.js}"></script>
 	<script type="text/javascript" th:src="@{/js/rsc/order.js}"></script>
 	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
 	<link th:href="@{/css/rsc/order.css}" rel="stylesheet" />
@@ -47,6 +47,7 @@
 						</div>
 						<button type="button" class="btn  btn-primary" id="search">최근
 							내용 조회</button>
+						<button type="button" class="btn  btn-primary" id="subBtn">저장</button>
 					</div>
 				</div>
 				<div class="card-body table-border-style">
@@ -56,7 +57,6 @@
 							<button type="button" class="btn  btn-primary" id="addRowBtn">추가</button>
 							<button type="button" class="btn  btn-primary" id="delRowBtn">선택
 								삭제</button>
-							<button type="button" class="btn  btn-primary" id="subBtn">저장</button>
 						</div>
 					</div>
 					<form>
@@ -93,6 +93,9 @@
 				</div>
 			</div>
 		</div>
+		<!-- 발주조회 Modal -->
+		<th:block
+			th:replace="~{/fragments/modal/rsc/findRscOrder :: findRscOrder}"></th:block>
 		<!-- 자재조회 Modal -->
 		<th:block
 			th:replace="~{/fragments/modal/findresource :: findresource}"></th:block>
