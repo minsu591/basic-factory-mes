@@ -23,10 +23,15 @@
         ORDER BY PP.PROCESS_PERFOM_NO
 	</select>
 	
+	<!-- 불량처리 등록 -->
 	<insert id="fltyPrcsInsert" parameterType="fltyPrcs">
 		INSERT INTO BF_PROD_FLTY_PRCS_DETAILS
-		VALUES(BF_PROD_FLTY_PRCS_DETAILS_SEQ.NEXTVAL, #{faultyCdCode}, #{fltyPrcsDate}, 
-				#{fltyPrcsRemk}, #{processPerfomNo}, #{empId})
+		VALUES(BF_PROD_FLTY_PRCS_DETAILS_SEQ.NEXTVAL, 
+				#{faultyCdCode}, 
+				#{fltyPrcsDate}, 
+				#{fltyPrcsRemk}, 
+				#{processPerfomNo}, 
+				#{empId})
 	</insert>
 	
 	<update id="fltyPrcsUpdate">
@@ -34,11 +39,6 @@
 		SET ${updCol} = #{updCont}
 		WHERE FLTY_PRCS_NO = #{prikey}
 	</update>
-	
-	<delete id="fltyPrcsDelete">
-		DELETE FORM BF_PROD_FLTY_PRCS_DETAILS
-		WHERE FLTY_PRCS_NO = #{prikey} 
-	</delete>
 	
 	<!-- 불량처리목록(모달창) -->
 	<select id="findlistFltyPrcs" resultType="fltyPrcs">
@@ -53,7 +53,7 @@
 	            P.MCHN_NAME,
 	            IDE.FIN_PRD_CD_CODE, 
 	            FPC.FIN_PRD_CD_NAME,
-	            EMP.EMP_NAME
+	            EMP.EMP_ID
 	    FROM BF_PROD_FLTY_PRCS_DETAILS FPD
 	    JOIN BF_CMN_FAULTY_CODE FC
 	        ON FPD.FAULTY_CD_CODE = FC.FAULTY_CD_CODE
@@ -97,7 +97,7 @@
 	            P.MCHN_NAME,
 	            IDE.FIN_PRD_CD_CODE, 
 	            FPC.FIN_PRD_CD_NAME,
-	            EMP.EMP_NAME
+	            EMP.EMP_ID
 	    FROM BF_PROD_FLTY_PRCS_DETAILS FPD
 	    JOIN BF_CMN_FAULTY_CODE FC
 	        ON FPD.FAULTY_CD_CODE = FC.FAULTY_CD_CODE
@@ -125,7 +125,7 @@
 	            P.MCHN_NAME,
 	            IDE.FIN_PRD_CD_CODE, 
 	            FPC.FIN_PRD_CD_NAME,
-	            EMP.EMP_NAME
+	            EMP.EMP_ID
 	    FROM BF_PROD_FLTY_PRCS_DETAILS FPD
 	    JOIN BF_CMN_FAULTY_CODE FC
 	        ON FPD.FAULTY_CD_CODE = FC.FAULTY_CD_CODE
@@ -143,8 +143,9 @@
 		<if test="finPrdCdName != null and finPrdCdName != ''">
 			AND FPC.FIN_PRD_CD_NAME = #{finPrdCdName}
 		</if>
+		<!-- DATE타입은 TO_DATE로  -->
 		<if test="(fltyPrcsSdate != null and fltyPrcsSdate != '') and (fltyPrcsEdate != null and fltyPrcsEdate != '')">
-			AND FPD.FLTY_PRCS_DATE BETWEEN #{fltyPrcsSdate} AND #{fltyPrcsEdate}
+			AND FPD.FLTY_PRCS_DATE BETWEEN  #{fltyPrcsSdate} AND #{fltyPrcsEdate}
 		</if>
 		ORDER BY FLTY_PRCS_DATE
 	</select>

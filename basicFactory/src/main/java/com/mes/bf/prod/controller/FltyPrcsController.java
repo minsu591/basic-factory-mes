@@ -1,5 +1,9 @@
 package com.mes.bf.prod.controller;
-
+/*
+ 작성일
+ 작성자
+ 수정일
+ */
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,6 +53,11 @@ public class FltyPrcsController {
 	}
 	
 	//불량처리 등록
+	@PostMapping("/fltyPrcs/insert")
+	public ResponseEntity<Integer> fltyPrcsInsert(@RequestBody FltyPrcsVO vo) {
+		int result = service.fltyPrcsInsert(vo);
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
 	
 	//불량처리 수정
 	@PostMapping(value = "/fltyPrcs/update", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -55,8 +65,6 @@ public class FltyPrcsController {
 		int result = service.fltyPrcsUpdate(QueryParameters.get("priKey"), QueryParameters.get("updCol"), QueryParameters.get("updCont"));
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
-	
-	//불량처리 삭제
 	
 	//불량코드조회(모달창)
 	@GetMapping(value = "/findFltyCode", produces = { MediaType.APPLICATION_JSON_VALUE })

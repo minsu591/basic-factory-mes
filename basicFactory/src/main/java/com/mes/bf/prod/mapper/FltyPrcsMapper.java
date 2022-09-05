@@ -15,9 +15,9 @@ public interface FltyPrcsMapper {
 	List<FltyPrcsVO> findlistFltyPrcs(String fltyPrcsSdate, String fltyPrcsEdate);
 	//생산불량
 	List<VFindProcPerformVO> procFlty();
-	//불량세부처리
+	//불량세부처리 신규등록
 	int fltyPrcsInsert(FltyPrcsVO vo);
-	int fltyPrcsDelete(String prikey);
+	//불량세부처리 수정
 	int fltyPrcsUpdate(String prikey, String updCol, String updCont);
 	
 	//불량코드 조회

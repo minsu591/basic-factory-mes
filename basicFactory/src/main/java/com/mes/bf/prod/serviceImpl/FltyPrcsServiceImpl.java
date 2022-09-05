@@ -31,10 +31,6 @@ public class FltyPrcsServiceImpl implements FltyPrcsService{
 		return mapper.fltyPrcsInsert(vo);
 	}
 	@Override
-	public int fltyPrcsDelete(String prikey) {
-		return mapper.fltyPrcsDelete(prikey);
-	}
-	@Override
 	public int fltyPrcsUpdate(String prikey, String updCol, String updCont) {
 		return mapper.fltyPrcsUpdate(prikey, updCol, updCont);
 	}

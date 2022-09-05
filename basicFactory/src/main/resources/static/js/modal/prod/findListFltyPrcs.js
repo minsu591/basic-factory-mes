@@ -61,7 +61,7 @@ $("document").ready(function () {
                   <td>${obj.faultyCdCode}</td>
                   <td>${obj.faultyName}</td>
                   <td>${obj.fltyPrcsDate}</td>
-                  <td>${obj.empName}</td>
+                  <td>${obj.empId}</td>
                   <td>${obj.fltyPrcsRemk}</td>
                 </tr>`
     $("#findListFltyPrcstbody").append(node);
@@ -80,7 +80,7 @@ $("document").ready(function () {
     let faultyCdCode = $(this).find("td:eq(8)").text();
     let faultyName = $(this).find("td:eq(9)").text();
     let fltyPrcsDate = $(this).find("td:eq(10)").text();
-    let empName = $(this).find("td:eq(11)").text();
+    let empId = $(this).find("td:eq(11)").text();
     let fltyPrcsRemk = $(this).find("td:last").text();
 
     $("#processPerfomNo").val(processPerfomNo);
@@ -96,7 +96,7 @@ $("document").ready(function () {
                     <td id="faultyName">${faultyName}</td>
                     <td>${fltyVol}</td>
                     <td><input type="date" value="${fltyPrcsDate}"></td>
-                    <td>${empName}</td>
+                    <td>${empId}</td>
                     <td>${fltyPrcsRemk}</td>
                 </tr>`;
 
