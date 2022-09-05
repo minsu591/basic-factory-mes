@@ -46,4 +46,14 @@ public class SlsOutServiceImpl implements SlsOutService {
 	public List<SlsOutDtlVO> outDtlView(String slsOutHdNo) {
 		return mapper.outDtlView(slsOutHdNo);
 	}
+
+	@Override
+	public void outInsertHd(SlsOutHdVO vo) {
+		mapper.outInsertHd(vo);
+	}
+
+	@Override
+	public void outInsertDtl(SlsOutDtlVO vo) {
+		mapper.outInsertDtl(vo);
+	}
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import com.mes.bf.sales.vo.SlsOrdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdVO;
-import com.mes.bf.sales.vo.SlsOrdPlanVO;
 
 public interface SlsOrdService {
 	
