@@ -1,7 +1,3 @@
-//작업 시작 누르면 공정 실적 테이블 등록(시작시간포함)
-//저장 누르면 실적 업데이트
-//
-
 $("document").ready(function () {
   $("#closeBtn").click(function () {
     $("#workInsertModal").modal("hide");
@@ -106,10 +102,9 @@ $("document").ready(function () {
       //처리
       console.log("finRscVO로 넘기는 finPrdCdCode=" + finPrdCdCode);
       //프로시저호출 자재 재고 등록
-      //insertRscVO(finPrdCdCode, inDtlVol, processNo);
-
+      insertRscVO(finPrdCdCode, inDtlVol, processNo);
       //지시 작업구분 업데이트
-      // updateWorkScope(instProdNo);
+      updateWorkScope(instProdNo);
     }
 
     let nextProcessOrder = parseInt(processOrder) + 1;
@@ -380,7 +375,7 @@ function startinterval() {
     Math.ceil(
       ((totalProdVol + parseInt(virResult.text())) /
         parseInt(inDtlVol.text())) *
-        100
+      100
     ) + "%"
   );
   prodVol.html(num);
@@ -457,8 +452,8 @@ function insertRscOut(rscLotNo, rscCdCode, needQty) {
       rscOutCls: rscOutCls,
       empName: empName,
     }),
-    error: function (error, status, msg) {},
-    success: function (data) {},
+    error: function (error, status, msg) { },
+    success: function (data) { },
   });
 }
 

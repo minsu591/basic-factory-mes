@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.mes.bf.cmn.vo.RscCodeVO;
 import com.mes.bf.rsc.service.FindRscCodeService;
 import com.mes.bf.rsc.service.RscOutService;
+import com.mes.bf.rsc.vo.RscOrderVO;
 import com.mes.bf.rsc.vo.RscOutVO;
 import com.mes.bf.rsc.vo.RscReturnVO;
 import com.mes.bf.rsc.vo.RscStockVO;
@@ -39,10 +40,17 @@ public class FindRscCodeController {
 		return new ResponseEntity<List<RscStockVO>>(list, HttpStatus.OK);
 	}
 	
+	//자재발주 조회
+	@GetMapping(value="/findRscOrder", produces= { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<RscOrderVO>> findRscOrder(@RequestParam Map<String, String> queryParameters){
+		List<RscOrderVO> list = findRscService.rscOrderList(queryParameters.get("rscOrderCode"),queryParameters.get("rscOutDate"));
+		return new ResponseEntity<List<RscOrderVO>>(list, HttpStatus.OK);
+	}
+	
 	//자재출고 조회
 	@GetMapping(value="/findRscOut", produces= { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<RscOutVO>> findRscOut(@RequestParam Map<String, String> queryParameters){
-		List<RscOutVO> list = findRscService.modalOutList(queryParameters.get("rscOutCode"),queryParameters.get("rscOutDate"));
+		List<RscOutVO> list = findRscService.modalOutList(queryParameters.get("rscOrderTitle"),queryParameters.get("rscOrderDate"));
 		return new ResponseEntity<List<RscOutVO>>(list, HttpStatus.OK);
 	}
 	

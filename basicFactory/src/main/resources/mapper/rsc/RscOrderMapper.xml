@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.rsc.mapper.RscOrderMapper">
-	<select id="orderTitle" resultType="com.mes.bf.rsc.vo.RscOrderVO">
-		select * from bf_rsc_order
+	<select id="orderDetailList" resultType="com.mes.bf.rsc.vo.RscOrderVO">
+		SELECT DTS.RSC_ORDER_CODE,
+			   DTS.RSC_ORDER_DTL_NO,
+			   DTS.RSC_CD_CODE,
+			   DTS.RSC_ORDER_VOL,
+			   DTS.RSC_ORDER_PRC,
+			   NVL(DTS.RSC_ORDER_DTL_REMK,' ') AS RSC_ORDER_DTL_REMK,
+			   DTS.VEND_CD_CODE,
+			    
+			   VEND.VEND_CD_NM, 
+			   
+			   RSC.RSC_CD_NAME,
+			   RSC.RSC_CD_UNIT
+			   
+          FROM BF_RSC_ORDER_DETAILS DTS
+          LEFT JOIN BF_CMN_VENDOR_CODE VEND
+            ON DTS.VEND_CD_CODE = VEND.VEND_CD_CODE
+          LEFT JOIN BF_CMN_RSC_CODE RSC
+            ON DTS.RSC_CD_CODE = RSC.RSC_CD_CODE
+            
+         WHERE RSC_ORDER_CODE = #{rscOrderCode}
+           AND RSC_ORDER_ST = 0
 	</select>
-	<select id="orderList" resultType="com.mes.bf.rsc.vo.RscOrderVO">
-		select * from BF_RSC_ORDER_DETAILS
-	</select>
-	
 </mapper>

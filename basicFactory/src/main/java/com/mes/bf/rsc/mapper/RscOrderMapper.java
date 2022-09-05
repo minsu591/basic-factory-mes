@@ -8,7 +8,8 @@ import com.mes.bf.rsc.vo.RscOrderVO;
 
 @Mapper
 public interface RscOrderMapper {
-	List<RscOrderVO> orderTitle();
-	List<RscOrderVO> orderList();
+	
+	//발주 리스트 조회
+	List<RscOrderVO> orderDetailList(String rscOrderCode);
 	
 }

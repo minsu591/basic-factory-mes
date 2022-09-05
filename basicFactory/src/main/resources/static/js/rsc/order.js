@@ -24,15 +24,25 @@ $("document").ready(function () {
  $("#InsertTable").on("change", ".orderVol", function () {
   tdinfo = $(this);
   let orderVol = tdinfo.val();
-  let price = tdinfo.parent().next().next().find(".price").val();
-  let multiple = orderVol * price;
-  tdinfo.parent().next().next().next().find("input").val(Number(multiple).toLocaleString('ko-KR')); // 숫자에 , 달기
-  totalprice();
+
+  if (orderVol <= 0){
+    minusWarning();
+    tdinfo.val('');
+  }else{
+    let price = tdinfo.parent().next().next().find(".price").val();
+    let multiple = orderVol * price;
+    tdinfo.parent().next().next().next().find("input").val(Number(multiple).toLocaleString('ko-KR')); // 숫자에 , 달기
+    totalprice();
+  }
  })
 
  $("#InsertTable").on("change", ".price", function () {
   tdinfo = $(this);
   let price = tdinfo.val();
+  if (price < 0){
+    minusWarning();
+    tdinfo.val('');
+  }
   let orderVol = tdinfo.parent().prev().prev().find(".orderVol").val();
   let multiple = orderVol * price;
   tdinfo.parent().next().find("input").val(Number(multiple).toLocaleString('ko-KR')); // 숫자에 , 달기
@@ -82,13 +92,13 @@ $("document").ready(function () {
   let node = `<tr>
 <td><input type="checkbox" name="chk"></td>
 <td><input type="text" class="vendor"></td>
-<td><input type="text" class="vendorName" readonly></td>
+<td><input type="text" class="vendorName" disabled></td>
 <td><input type="text" class="rsccode"></td>
-<td><input type="text" class="rscname" readonly></td>
+<td><input type="text" class="rscname" disabled></td>
 <td><input type="text" class="orderVol"></td>
 <td class="unit"></td>
 <td><input type="text" class="price"></td>
-<td><input type="text" class="totalPrice" readonly></td>
+<td><input type="text" class="totalPrice" disabled></td>
 <td><input type="text"></td>
 </tr>`;
   $("#InsertTable tbody").append(node);
@@ -125,6 +135,14 @@ $("document").ready(function () {
    title: "선택된 항목이 없습니다.", // Alert 제목
    confirmButtonText: "확인",
   })
+ }
+
+ function minusWarning(){
+  Swal.fire({
+    icon: "warning", // Alert 타입
+    title: "0이상의 숫자만 입력할 수 있습니다.", // Alert 제목
+    confirmButtonText: "확인",
+   })
  }
 
 

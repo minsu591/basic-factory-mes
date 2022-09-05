@@ -90,6 +90,9 @@
 			<if test="productName != null and productName != ''">
 				AND finPrdCdName = #{productName}
 			</if>
+			<if test="workScope != null and workScope != ''">
+				AND workscope = #{workScope}
+			</if>
 		</where>
 
 	</select>
@@ -316,5 +319,70 @@
 		 	process_order = 1
 	
 	</update>
-
+	
+	
+	<!-- 생산지시 업데이트 -->
+	
+	<update id="updateInst">
+	
+	
+	</update>
+	
+	<!-- 생산지시 헤더 조회 -->
+	<select id="getInst" resultType="instructionVO">
+		SELECT 
+			inst_no,
+			emp_id,
+			inst_name,
+			inst_date,
+			inst_remk,
+			plan_hd_code
+		FROM 
+			BF_PROD_INSTRUCTION 
+		WHERE inst_no = #{instNo}
+	</select>
+	
+	<!-- 직원 아이디로 직원 이름 찾기 -->
+	<select id="getEmpName" resultType="emp">
+		SELECT 
+			emp_name 
+		FROM 
+			BF_CMN_EMP
+		WHERE emp_id = #{empId}
+	</select>
+	<!-- 생산지시 헤더 업데이트 -->
+	<update id="updateInstHeader">
+		UPDATE 
+			BF_PROD_INSTRUCTION
+		SET
+			emp_id = (
+						SELECT 
+							emp_id 
+						FROM 
+							BF_CMN_EMP 
+						WHERE 
+							emp_name = #{empId}
+					),
+			inst_name = #{instName},
+			inst_date = #{instDate},
+			inst_remk = #{instRemk}
+		WHERE
+			inst_no = #{instNo} 
+	
+	</update>
+	
+	
+	<!-- 생산지시 디테일 업데이트 -->
+	
+	<update id="updateInstDetail">
+		UPDATE
+			BF_PROD_INST_DETAIL
+		SET	
+			fin_prd_cd_code = #{finPrdCdCode},
+			inst_prod_indica_vol = #{instProdIndicaVol},
+			work_date = #{workDate}
+		WHERE
+			inst_prod_no = #{instProdNo}
+	</update>
+	
 </mapper>

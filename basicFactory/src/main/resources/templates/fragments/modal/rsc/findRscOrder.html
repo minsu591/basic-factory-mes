@@ -4,17 +4,15 @@
 <meta charset="UTF-8">
 </head>
 <body>
-
-	<th:block th:fragment="findRscOut">
-
-
-		<div class="modal fade" id="findRscOutModal" tabindex="-1"
-			role="dialog" aria-labelledby="findRscOutModalLabel"
+	<th:block th:fragment="findRscOrder">
+		<div class="modal fade" id="findRscOrderModal" tabindex="-1"
+			role="dialog" aria-labelledby="findRscOrderModalLabel"
 			aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h3 class="modal-title" id="findRscOutModalLabel">최근 출고 내역 조회</h3>
+						<h3 class="modal-title" id="findRscOrderModalLabel">최근 발주 내역
+							조회</h3>
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -23,13 +21,13 @@
 					<div class="modal-body">
 						<div class="form-inline">
 							<div class="form-group mt-3">
-								<label for="rscOutCode" th:text="출고코드"></label> 
-								<input type="text" id="rscOutCd" name="rscOutCode"
+								<label for="rscOrderTtl" th:text="발주명"></label> <input
+									type="text" id="rscOrderTtl" name="rscOrderTtl"
 									class="form-control mx-sm-3">
 							</div>
 							<div class="form-group mt-3">
-								<label for="rscOutDate" th:text="출고일자"></label> 
-								<input type="date" id="rscOutDt" name="rscOutDt"
+								<label for="rscOrderDt" th:text="발주일자"></label> <input
+									type="date" id="rscOrderDt" name="rscOrderDt"
 									class="form-control mx-sm-3">
 							</div>
 							<button type="button" class="btn  btn-primary" id="searchOut">조회</button>
@@ -37,35 +35,28 @@
 
 						<div class="card-body table-border-style">
 							<div class="table-responsive">
-								<table class="table table-hover" id="findRscOutTable">
+								<table class="table table-hover" id="findRscOrderTable">
 									<thead>
 										<tr>
-											<th><input type="checkbox" id="modalAllCheck"></th>
-											<th th:text="출고코드"></th>
-											<th th:text="출고일자"></th>
-											<th th:text="거래처"></th>
-											<th th:text="자재명"></th>
-											<th th:text="출고수량"></th>
+											<th th:text="발주코드"></th>
+											<th th:text="발주일자"></th>
+											<th th:text="발주명"></th>
 										</tr>
 									</thead>
-									<tbody id="findRscOuttbody">
-									
+									<tbody id="findRscOrdertbody">
+
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
-							<button type="button" class="btn  btn-primary" id="addBtn">선택 추가</button>
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">Close</button>
 					</div>
 				</div>
 			</div>
 		</div>
-
-
-
 	</th:block>
 </body>
 </html>
