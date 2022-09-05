@@ -66,18 +66,18 @@ $(document).ready(function () {
     function detailTableMakeRow(obj,finInfoList) {
       let node = `<tr>
           <td><input type="checkbox"></td>
-          <td><input type="text" readonly name="prodCode" value="${obj.finPrdCdCode}" ></td>
-          <td><input type="text" readonly value="${finInfoList[0]}"></td>
-          <td><input type="text" readonly value="${finInfoList[1]}"></td>
-          <td><input type="text" readonly value="${obj.planIdx}"></td>
-          <td><input type="text" readonly value="${obj.planHdCode}"></td>
-          <td><input type="text" readonly value="${obj.planSdate}"></td>
-          <td><input type="text" readonly value="${obj.planEdate}"></td>
-          <td><input type="text" readonly value="${obj.instProdIndicaVol}"></td>
-          <td><input type="text" readonly value="${obj.planProdVol - obj.instProdIndicaVol}"></td>
+          <td><input type="text" disabled name="prodCode" value="${obj.finPrdCdCode}" ></td>
+          <td><input type="text" disabled value="${finInfoList[0]}"></td>
+          <td><input type="text" disabled value="${finInfoList[1]}"></td>
+          <td><input type="text" disabled value="${obj.planIdx}"></td>
+          <td><input type="text" disabled value="${obj.planHdCode}"></td>
+          <td><input type="text" disabled value="${obj.planSdate}"></td>
+          <td><input type="text" disabled value="${obj.planEdate}"></td>
+          <td><input type="text" disabled value="${obj.instProdIndicaVol}"></td>
+          <td><input type="text" disabled value="${obj.planProdVol - obj.instProdIndicaVol}"></td>
           <td><input type="text"></td>
-          <td><input type="text" readonly value="${finInfoList[2]}"></td>
-          <td><input type="text"></td>
+          <td><input type="text" disabled value="${finInfoList[2]}"></td>
+          <td><input type="date"></td>
         </tr>`;
       $("#planDetailTable tbody").append(node);
     }

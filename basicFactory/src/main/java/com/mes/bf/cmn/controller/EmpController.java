@@ -91,7 +91,6 @@ public class EmpController {
 		//비밀번호 암호화 작업 SHA-256
 		String rawPw = emp.getEmpPw();
 		String hex = "";
-		
 		MessageDigest md;
 		try {
 			md = MessageDigest.getInstance("SHA-256");
@@ -107,49 +106,26 @@ public class EmpController {
 	
 	@PostMapping(value = "/emp/update", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Integer> empUpdate(@RequestParam Map<String, String> QueryParameters) {
-		int result = service.empUpdate(QueryParameters.get("priKey"), QueryParameters.get("updCol"), QueryParameters.get("updCont"));
-		return new ResponseEntity<Integer>(result,HttpStatus.OK);
-	}
-	
-	//로그인 페이지
-	@GetMapping("/login")
-	public String loginPage() {
-		return "login";
-	}
-	
-	@PostMapping(value = "/login/check")
-	public ResponseEntity<Integer> loginCheck(@RequestBody EmpVO emp) {
-		//아이디와 비밀번호 받아옴
-		MessageDigest md;
-		String empHex = "";
-		String empId = emp.getEmpId();
-		String empPw = emp.getEmpPw();
-		EmpVO empInfo = service.findEmp(empId);
-		int result;
-		if(empInfo == null) {
-			//empInfo가 비었으면
-			System.out.println("존재하는 아이디가 아닙니다.");
-			result = -1;
-		}else {
+		String type = QueryParameters.get("updCol");
+		String updCont = QueryParameters.get("updCont");
+		if(type == "emp_pw") {
+			MessageDigest md;
 			try {
 				md = MessageDigest.getInstance("SHA-256");
-				md.update(empPw.getBytes());
-				empHex = String.format("%064x", new BigInteger(1,md.digest()));
+				md.update(updCont.getBytes());
+				updCont = String.format("%064x", new BigInteger(1,md.digest()));
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			}
-			
-			//empInfo가 존재하는데 비밀번호가 맞지 않으면
-			if(empInfo.getEmpPw() != empHex) {
-				System.out.println("비밀번호가 맞지 않습니다.");
-				result = 0;
-			}else {
-				result = 1;
-			}
 		}
-
+		int result = service.empUpdate(QueryParameters.get("priKey"), type, updCont);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 	
-	
+	@GetMapping(value="emp/findId")
+	public ResponseEntity<List<EmpDeptVO>> empFindId() {
+		List<EmpDeptVO> result = service.listEmpDept(null, null, null);
+		return new ResponseEntity<List<EmpDeptVO>>(result,HttpStatus.OK);
+	}
+
 }
