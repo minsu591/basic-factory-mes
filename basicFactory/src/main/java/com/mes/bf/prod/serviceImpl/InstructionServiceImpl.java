@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mes.bf.cmn.vo.EmpVO;
 import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.mapper.InstructionMapper;
@@ -33,8 +34,8 @@ public class InstructionServiceImpl implements InstructionService {
 
 	@Override
 	public List<VInstructionVO> findVInstruction(String instSdate, String instEdate, String vendorName,
-			String productName) {
-		return mapper.findVInstruction(instSdate, instEdate, vendorName, productName);
+			String productName,String workScope) {
+		return mapper.findVInstruction(instSdate, instEdate, vendorName, productName,workScope);
 	}
 
 	@Override
@@ -102,8 +103,29 @@ public class InstructionServiceImpl implements InstructionService {
 		}
 	}
 
-	
+	@Override
+	public void updateInst(VInstructionVO vo) {
+		mapper.updateInst(vo);
+	}
 
+	@Override
+	public InstructionVO getInst(int instNo) {
+		return mapper.getInst(instNo);
+	}
+
+	@Override
+	public EmpVO getEmpName(String empId) {
+		return mapper.getEmpName(empId);
+	}
+
+	@Override
+	@Transactional
+	public void updateInstruction(InstAndDetailVO vo) {
+		mapper.updateInstHeader(vo.getVo());
+		for(InstructionDetailVO str : vo.getDetailvo()) {
+			mapper.updateInstDetail(str);
+		}
+	}
 	
 
 }

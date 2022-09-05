@@ -8,8 +8,9 @@
 <body>
 <script type="text/javascript" th:src="@{/js/prod/InstManage.js}"></script>
 <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
+<script type="text/javascript" th:src="@{/js/modal/prod/FindNotInProgressInst.js}"></script>
 <script type="text/javascript" th:src="@{/js/modal/prod/findNotDonePlan.js}"></script>
-	<link th:href="@{/css/prod/InstManage.css}" rel="stylesheet" />
+<link th:href="@{/css/prod/InstManage.css}" rel="stylesheet" />
 
 	<div class="pcoded-main-container">
 		<h1>생산 지시 관리</h1>
@@ -19,7 +20,7 @@
 			<div class="card">
 				<div class="card-header">
 					<div class="form-inline flex-end">
-					<button type="button" class="btn  btn-primary m-t-0 m-r-10">조회</button>
+					<button type="button" class="btn  btn-primary m-t-0 m-r-10" id="findNotInProgInst">조회</button>
 					<button type="button" class="btn  btn-primary m-t-0" id="instSaveBtn">저장</button>
 					</div>
 				</div>
@@ -174,8 +175,8 @@
 <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
 <!-- Modal -->
 <th:block th:replace="~{/fragments/modal/findNotDonePlan :: findNotDonePlan}"></th:block>
-
-	
+<!-- 진행전 지시 조회 -->
+<th:block th:replace="~{/fragments/modal/prod/FindNotInProgressInst :: FindNotInProgressInst}"></th:block>
 	
 </body>
 </html>

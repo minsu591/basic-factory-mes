@@ -1,99 +1,124 @@
 <!DOCTYPE html>
 <html
   xmlns:th="http://www.thymeleaf.org"
-   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}">
-<head>
-<meta charset="UTF-8">
-</head>  
-<body>
-<script type="text/javascript" th:src="@{/js/prod/Proc.js}"></script>
-<script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
-<script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
-<script type="text/javascript" th:src="@{/js/modal/prod/findproccdname.js}"></script>
-<link th:href="@{/css/prod/Proc.css}" rel="stylesheet" />
-  
-  
-  <div class="pcoded-main-container">
-  	<h1>공정 실적 조회</h1>
-  	<hr>
-  	<div class="col-xl-12">
-                <div class="card">
-                    <div class="card-header">
-                        <button type="button" class="btn  btn-primary" id="exportBtn">Excel</button>
-                        <hr class="clear">
-                        <form class="form-inline">
-                            <div class="form-group mt-3">
-                                <label for="instdate">작업일자</label>
-                                <input type="date" id="worksdate" class="form-control mx-sm-3"> ~
-                                <input type="date" id="workedate" class="form-control mx-sm-3">
-                            </div>
-                            <br><br>
-                             <div class="form-group mt-3">
-                                <label for="proccdname">공정명</label>
-                                <input type="text" id="proccdname" class="form-control mx-sm-3"
-                                 data-toggle="modal" data-target=".bd-example-modal-lg">
-                                <label for="mchnname">설비명</label>
-                                <input type="text" id="mchnname" class="form-control mx-sm-3">
-                            </div>
-                            <div class="form-group mt-3">
-                                <label for="empid">작업자</label>
-                                <input type="text" id="empid" class="form-control mx-sm-3">                       
-                            </div>
-                            <button type="button" class="btn  btn-primary" id="findProcBtn">조회</button>
-                        </form>
-            
-                    </div>
-                    <div class="card-body table-border-style">
-                        <div class="table-responsive">
-                            <table class="table table-hover" id="procPerfomTable">
-                                <thead>
-                                    <tr>
-                                        <th th:text="생산지시번호"></th>
-                                        <th th:text="작업번호"></th>
-                                        <th th:text="작업일자"></th>
-                                        <th th:text="제품코드"></th>
-                                        <th th:text="제품명"></th>
-                                        <th th:text="공정명"></th>
-                                        <th th:text="설비명"></th>
-                                        <th th:text="작업자"></th>
-                                        <th th:text="작업량"></th>
-                                        <th th:text="불량량"></th>
-                                        <th th:text="비고"></th>                               
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td th:text="JISI01"></td>
-                                        <td th:text="work01"></td>
-                                        <td th:text="2022-08-22"></td>
-                                        <td th:text="PROUCT1"></td>
-                                        <td th:text="짜파게티"></td>
-                                        <td th:text="반죽공정"></td>
-                                        <td th:text="반죽기1호"></td>                                      
-                                        <td th:text="김종혁"></td>
-                                        <td th:text="500"></td>
-                                        <td th:text="10"></td>
-                                        <td th:text="비고"></td>
-                                        
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}"
+>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <script type="text/javascript" th:src="@{/js/prod/Proc.js}"></script>
+    <script
+      type="text/javascript"
+      th:src="@{/js/modal/prod/findemp.js}"
+    ></script>
+    <script
+      type="text/javascript"
+      th:src="@{/js/modal/prod/findmchnname.js}"
+    ></script>
+    <script
+      type="text/javascript"
+      th:src="@{/js/modal/prod/findproccdname.js}"
+    ></script>
+    <link th:href="@{/css/prod/Proc.css}" rel="stylesheet" />
+
+    <div class="pcoded-main-container">
+      <h1>공정 실적 조회</h1>
+      <hr />
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-header">
+            <button type="button" class="btn btn-primary" id="exportBtn">
+              Excel
+            </button>
+            <hr class="clear" />
+            <form class="form-inline">
+              <div class="form-group mt-3">
+                <label for="instdate">작업일자</label>
+                <input
+                  type="date"
+                  id="worksdate"
+                  class="form-control mx-sm-3"
+                />
+                ~
+                <input
+                  type="date"
+                  id="workedate"
+                  class="form-control mx-sm-3"
+                />
+              </div>
+              <br /><br />
+              <div class="form-group mt-3">
+                <label for="proccdname">공정명</label>
+                <input
+                  type="text"
+                  id="proccdname"
+                  class="form-control mx-sm-3"
+                  data-toggle="modal"
+                  data-target=".bd-example-modal-lg"
+                />
+                <label for="mchnname">설비명</label>
+                <input type="text" id="mchnname" class="form-control mx-sm-3" />
+              </div>
+              <div class="form-group mt-3">
+                <label for="empid">작업자</label>
+                <input type="text" id="empid" class="form-control mx-sm-3" />
+              </div>
+              <button type="button" class="btn btn-primary" id="findProcBtn">
+                조회
+              </button>
+            </form>
+          </div>
+          <div class="card-body table-border-style">
+            <div class="table-responsive">
+              <table class="table table-hover" id="procPerfomTable">
+                <thead>
+                  <tr>
+                    <th th:text="생산지시번호"></th>
+                    <th th:text="작업번호"></th>
+                    <th th:text="작업일자"></th>
+                    <th th:text="제품코드"></th>
+                    <th th:text="제품명"></th>
+                    <th th:text="공정명"></th>
+                    <th th:text="설비명"></th>
+                    <th th:text="작업자"></th>
+                    <th th:text="작업량"></th>
+                    <th th:text="불량량"></th>
+                    <th th:text="비고"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td th:text="JISI01"></td>
+                    <td th:text="work01"></td>
+                    <td th:text="2022-08-22"></td>
+                    <td th:text="PROUCT1"></td>
+                    <td th:text="짜파게티"></td>
+                    <td th:text="반죽공정"></td>
+                    <td th:text="반죽기1호"></td>
+                    <td th:text="김종혁"></td>
+                    <td th:text="500"></td>
+                    <td th:text="10"></td>
+                    <td th:text="비고"></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-  </div>
-  
-  
-<!-- 공정 검색 Modal -->
-<th:block th:replace="~{/fragments/modal/findProcCdName :: findProcCdName}"></th:block>
-<!--  설비검색 Modal -->
-<th:block th:replace="~{/fragments/modal/findMchnName :: findMchnName}"></th:block>
-<!-- 담당자검색 Modal -->    
-<th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
-  
-  
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 공정 검색 Modal -->
+    <th:block
+      th:replace="~{/fragments/modal/findProcCdName :: findProcCdName}"
+    ></th:block>
+    <!--  설비검색 Modal -->
+    <th:block
+      th:replace="~{/fragments/modal/findMchnName :: findMchnName}"
+    ></th:block>
+    <!-- 담당자검색 Modal -->
+    <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
   </body>
 </html>
