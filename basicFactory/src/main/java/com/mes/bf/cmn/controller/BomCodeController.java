@@ -3,6 +3,9 @@ package com.mes.bf.cmn.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +24,7 @@ import com.mes.bf.cmn.vo.BomRscDtlVO;
 import com.mes.bf.cmn.vo.BomRscInsVO;
 import com.mes.bf.cmn.vo.BomRscVO;
 import com.mes.bf.cmn.vo.BomVO;
+import com.mes.bf.cmn.vo.EmpVO;
 import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.LineCodeHdVO;
 import com.mes.bf.cmn.vo.LineCodeVO;
@@ -35,10 +39,17 @@ public class BomCodeController {
 	
 	//페이지 호출
 	@RequestMapping("/bomCode")
-	public String bomCodePage(Model model) {
-		List<BomVO> boms = service.listBom(null);
-		model.addAttribute("boms",boms);
-		return "cmn/BomCode";
+	public String bomCodePage(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		EmpVO emp = (EmpVO) session.getAttribute("emp");
+		if(emp == null) {
+			return "cmn/login";
+		}else {
+			List<BomVO> boms = service.listBom(null);
+			model.addAttribute("boms",boms);
+			return "cmn/BomCode";
+		}
+		
 	}
 	
 	//bom 조건 조회

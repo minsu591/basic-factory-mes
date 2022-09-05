@@ -16,6 +16,7 @@ xmlns:th="http://www.thymeleaf.org"
     <script type="text/javascript" th:src="@{/js/cmn/empUpdateDB.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/cmn/findDept.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/cmn/findTdDept.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/cmn/settingPw.js}"></script>
     <div class="pcoded-main-container">
         <h1>직원 관리</h1>
         <hr>
@@ -45,8 +46,6 @@ xmlns:th="http://www.thymeleaf.org"
                         <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
                         <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
                     </div>
-                    
-        
                 </div>
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
@@ -69,7 +68,7 @@ xmlns:th="http://www.thymeleaf.org"
                                 <tr th:each="emp : ${emps}">
                                     <td><input type="checkbox" name="cb"></td>
                                     <td th:text="${emp.empVO.empId}">mia</td>
-                                    <td th:text="${emp.empVO.empPw}">asdf</td>
+                                    <td th:text="'********'" th:class="password"></td>
                                     <td th:text="${emp.deptVO.deptName}" th:class="deptName">연구개발</td>
                                     <td>
                                         <select>
@@ -83,6 +82,7 @@ xmlns:th="http://www.thymeleaf.org"
                                     <td th:text="${emp.empVO.empPhone}">011-1111-2222</td>
                                     <td><input type="checkbox" th:checked="${emp.empVO.empAuth eq '1'}"></td>
                                     <td th:text="${emp.empVO.empRemk}">011-1111-2222</td>
+                                    <input type="hidden" class="modPw">
                                 </tr>
                             </tbody>
                         </table>
@@ -95,8 +95,7 @@ xmlns:th="http://www.thymeleaf.org"
         </div>
     </div>
     <th:block th:replace="~{/fragments/modal/findDept :: findDept}"></th:block>
+    <th:block th:replace="~{/fragments/modal/cmn/settingPw :: settingPw}"></th:block>
 
-
-    
 </body>
 </html>

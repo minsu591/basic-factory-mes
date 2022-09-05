@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 </head>
 <div th:fragment="sidebarFragment">
+
 	<nav class="pcoded-navbar">
 		<div class="navbar-wrapper">
 			<div class="navbar-content scroll-div">
@@ -12,10 +13,12 @@
 						<img class="img-radius" src="/images/user/avatar-2.jpg"
 							alt="User-Profile-Image" />
 						<div class="user-details">
-							<span>John Doe</span>
+							<span type="text" th:unless="${session.emp} eq null" th:text="${session.emp.empName}"></span>
 							<div id="more-details">
-								UX Designer<i class="fa fa-chevron-down m-l-5"></i>
+								<span type="text" th:unless="${session.emp} eq null" th:text="${session.emp.deptName}" ></span>
+								<i class="fa fa-chevron-down m-l-5"></i>
 							</div>
+							<span type="text" th:unless="${session.emp} eq null" th:text="${session.emp.empPos}" ></span>
 						</div>
 					</div>
 					<div class="collapse" id="nav-user-link">
@@ -25,7 +28,7 @@
 							<li class="list-group-item"><a href="#!"><i
 									class="feather icon-settings m-r-5"></i>Settings</a></li>
 							<li class="list-group-item"><a
-								href="auth-normal-sign-in.html"><i
+								th:href="@{/cmn/login}"><i
 									class="feather icon-log-out m-r-5"></i>Logout</a></li>
 						</ul>
 					</div>
@@ -81,8 +84,6 @@
 					<li class="nav-item pcoded-hasmenu"><a href="#!"
 						class="nav-link "> <span class="pcoded-mtext f-30">설비</span></a>
 						<ul class="pcoded-submenu" style="display: none;">
-							<li><a th:href="@{/cmn/empView}" class="f-20"
-								th:text="'직원 관리'"></a></li>
 							<li><a th:href="@{/eqp/nonOperation}" class="f-20"
 								th:text="설비비가동조회"></a></li>
 							<li><a th:href="@{/eqp/nonOperationManage}" class="f-20"
@@ -96,8 +97,6 @@
 					<li class="nav-item pcoded-hasmenu"><a href="#!"
 						class="nav-link "> <span class="pcoded-mtext f-30">자재</span></a>
 						<ul class="pcoded-submenu" style="display: none;">
-							<li><a th:href="@{/cmn/empView}" class="f-20"
-								th:text="'직원 관리'"></a></li>
 							<li><a th:href="@{/rsc/order}" class="f-20" th:text="자재발주관리"></a></li>
 							<li><a th:href="@{/rsc/orderList}" class="f-20"
 								th:text="자재발주조회"></a></li>
@@ -134,20 +133,6 @@
 								th:text="완제품재고조회"></a></li>
 						</ul></li>
 
-
-
-
-					<li class="nav-item pcoded-hasmenu"><a href="#!"
-						class="nav-link"><span class="pcoded-micon"><i
-								class="feather icon-lock"></i></span><span class="pcoded-mtext">Authentication</span></a>
-						<ul class="pcoded-submenu">
-							<li><a href="auth-signup.html" target="_blank">Sign up</a></li>
-							<li><a href="auth-signin.html" target="_blank">Sign in</a></li>
-						</ul></li>
-					<li class="nav-item"><a href="sample-page.html"
-						class="nav-link"><span class="pcoded-micon"><i
-								class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Sample
-								page</span></a></li>
 				</ul>
 			</div>
 		</div>
