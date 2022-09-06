@@ -2,9 +2,12 @@ package com.mes.bf.prod.vo;
 
 import java.sql.Date;
 
+import org.apache.ibatis.type.Alias;
+
 import lombok.Data;
 //생산지시
 @Data
+@Alias("instructionVO")
 public class InstructionVO {
 	private Integer instNo; //생산지시번
 	private String empId; //직원아이디 

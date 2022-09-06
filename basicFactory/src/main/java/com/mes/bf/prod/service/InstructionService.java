@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.mes.bf.cmn.vo.EmpVO;
 import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.vo.FindEmpVO;
@@ -22,7 +23,8 @@ public interface InstructionService {
 	List<FinProdCodeVO> findProduct(String prdCdCode, String prdCdName);
 
 	// 생산지시조회
-	List<VInstructionVO> findVInstruction(String instSdate, String instEdate, String vendorName, String productName);
+	List<VInstructionVO> findVInstruction(String instSdate, String instEdate, String vendorName, String productName,
+			String workScope);
 
 	// 담당자 검색
 	List<FindEmpVO> findEmp(String empName);
@@ -34,19 +36,33 @@ public interface InstructionService {
 	List<VendorCodeVO> findVendorCode(String vendorCode, String vendCdClfy);
 
 	// 공정 상태 조회
-	//List<FindProcStatusVO> findProcStatus(String lineName);
+	// List<FindProcStatusVO> findProcStatus(String lineName);
 	List<FindProcStatusVO> findProcStatus(List<String> lineName);
 
 	// 자재 소요 예상량 조회
-	//List<VRscNeedQtyVO> findVRscNeedQty(String finPrdCdCode);
+	// List<VRscNeedQtyVO> findVRscNeedQty(String finPrdCdCode);
 	List<VRscNeedQtyVO> findVRscNeedQty(List<String> finPrdCdCode);
 
 	// 생산지시 입력
-	//void insertInstruction(InstructionVO vo, InstructionDetailVO detailvo);
+	// void insertInstruction(InstructionVO vo, InstructionDetailVO detailvo);
 	// 생산지시 통합 입력
 	void insertInstAndDetail(InstAndDetailVO vo);
 
 	// 자재소요예상량 업데이트
 	void updateNeedQty(String needQty, String rscCdCode);
+
+	// 생산지시 업데이트
+	void updateInst(VInstructionVO vo);
+
+	// 생산지시 헤더 조회
+	InstructionVO getInst(int instNo);
+
+	// 직원 아이디로 직원 이름 찾기
+	EmpVO getEmpName(String empId);
+	
+	//생산지시 통합업데이트
+	void updateInstruction(InstAndDetailVO vo);
+	
+	
 
 }

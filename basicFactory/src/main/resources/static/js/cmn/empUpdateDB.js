@@ -11,11 +11,10 @@ $("document").ready(function(){
     //notNull이어야하는 idx
     let notNullList = [1,2,3,4,5,6,7];
     //적용할 인덱스
-    let avArr = [1,2,5,6,7,9];
+    let avArr = [5,6,7,9];
     //프라이머리 키
     let priKeyIdx = 1;
     let clfyList = ["","관리자","직원"];
-
     //수정 이벤트
     table.find("tbody").on("click","td:not(:first-child)",function(e){
         e.stopPropagation();
@@ -68,7 +67,6 @@ $("document").ready(function(){
     table.find("tbody td:not(:first-child)").change(function(){
         let tdInfo = $(this);
         let col = tdInfo.index();
-        console.log(col);
         let updCol =$("#empTable thead").find("th:eq("+col+")").attr("name");
         let priKey = tdInfo.parent().find("td:eq("+priKeyIdx+")").text();
         let updCont;
@@ -82,7 +80,11 @@ $("document").ready(function(){
         }else if(col == 4){
             //select box 일 때
             updCont = $(this).find("select option:selected").val();
-        }else{
+        } else if(col == 2){
+            //비밀번호 일 때
+            updCont = $(this).parent().find("input[class='modPw']").val();
+        }
+        else{
             updCont = $(this).text();
         }
         
@@ -145,7 +147,6 @@ $("document").ready(function(){
             }
             //추가용
             addList = table.find("tr[name='addTr']");
-            console.log(addList);
             for(obj of addList){
                 addSaveAjax(obj);
             }
@@ -165,9 +166,9 @@ $("document").ready(function(){
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
-                priKey : priKey,
-                updCol : updCol,
-                updCont : updCont
+                priKey,
+                updCol,
+                updCont
             },
             success : function(result){
                 console.log("업데이트 완료");
@@ -192,7 +193,7 @@ $("document").ready(function(){
                     <td><input type="checkbox" name="cb" checked></td>`;
         }
         node += `<td></td>
-                <td></td>
+                <td class='password'></td>
                 <td class='deptName'></td>`;
         node += makeSelectForPos('');
         node += `<td></td>
@@ -200,6 +201,7 @@ $("document").ready(function(){
                 <td></td>
                 <td><input type="checkbox"></td>
                 <td></td>
+                <input type="hidden" class="modPw">
                 </tr>`;
 
         $("#empTable tbody").append(node);
@@ -208,7 +210,7 @@ $("document").ready(function(){
 
     function addSaveAjax(obj){
         let empId = $(obj).find("td:eq(1)").text();
-        let empPw = $(obj).find("td:eq(2)").text();
+        let empPw = $(obj).find("input[class='modPw']").val();
         let deptName = $(obj).find("td:eq(3)").text();
         let empPos = $(obj).find("td:eq(4) select option:selected").val();
         let empName = $(obj).find("td:eq(5)").text();

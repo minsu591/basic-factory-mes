@@ -10,7 +10,6 @@ import com.mes.bf.sales.service.SlsOrdService;
 import com.mes.bf.sales.vo.SlsOrdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdVO;
-import com.mes.bf.sales.vo.SlsOrdPlanVO;
 
 @Service
 public class SlsOrdServiceImpl implements SlsOrdService{

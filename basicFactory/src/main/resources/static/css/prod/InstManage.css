@@ -16,7 +16,8 @@ button {
 }
 
 #findempbtn,
-#findPlanbtn {
+#findPlanbtn,
+#FindNotInProgressInstBtn {
   margin-top: 0;
 }
 

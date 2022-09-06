@@ -29,6 +29,19 @@ $(document).ready(function () {
   });
   //저장 버튼 클릭이벤트
   $("#instSaveBtn").click(function () {
+
+    //예외처리
+
+    if ($("#instname").val() == '' || $("#empid").val() == '') {
+      Swal.fire({
+        icon: "warning",
+        title: "입력하지 않은 값이 있습니다."
+      })
+      return;
+    }
+
+
+
     let check = false;
     $("#rscStockTable tbody tr").each(function () {
       if ($(this).hasClass("warn") === true) {
@@ -50,115 +63,140 @@ $(document).ready(function () {
         });
       }
     });
-    if (!check) {
-      //  재고량이 충분할때
 
-      // if (result.isConfirmed) {
-      // console.log($("#instdate").val()); //지시작성일자
-      // console.log($("#instremk").val()); //특기사항
-      // console.log($("#instname").val()); //생산지시명
-      // console.log($("#empid").val()); //작업자명
-      let instDate = $("#instdate").val();
-      let empId = $("#empid").val();
-      let instName = $("#instname").val();
-      let instRemk = $("#instRemk").val();
-      let checkbox = $("input:checkbox:checked");
-      let dataArray = [];
-      checkbox.each(function (i) {
-        let tr = checkbox.parent().parent().eq(i);
-        let td = tr.children();
-        let prodCode = td.children().eq(1).val(); //제품코드
-        let prodIndicaVol = td.children().eq(10).val(); //지시량
-        let workDate = td.children().eq(12).val(); //작업날짜
-        //console.log("prodCode ->" + prodCode);
-        //console.log("지시량 ->" + prodIndicaVol);
-        // console.log("workDate->" + workDate);
+    let instDate = $("#instdate").val();
+    let empId = $("#empid").val();
+    let instName = $("#instname").val();
+    let instRemk = $("#instremk").val();
+    let instNo = $("#instNo").val();
+    let instProdNo = $("#instProdNo").val();
+    let dataArray = [];
+    //  재고량이 충분할때
+    if (!check) {
+      let check2 = false;
+      $("#planDetailTable tbody tr").each(function () {
+        if ($(this).hasClass("updateInst")) {
+          alert("수정하세영 수정 수정");
+          check2 = true;
+        }
+      });
+
+      if (check2 == true) { //수정일 경우
+        instobjheader = {
+          instNo: instNo,
+          empId: empId,
+          instName: instName,
+          instDate: instDate,
+          instRemk: instRemk,
+        };
+
+        let prodCode;
+        let prodIndicaVol;
+        let workDate;
+        $("#planDetailTable tbody tr").each(function () {
+          if ($(this).children().children().is(":checked")) {
+            prodCode = $(this).find("td:eq(1)").children().val();
+            prodIndicaVol = $(this).find("td:eq(10)").children().val();
+            workDate = $(this).find("td:eq(12)").children().val();
+          }
+        })
 
         instobjdetail = {
+          instProdNo: instProdNo,
           instProdIndicaVol: prodIndicaVol,
           finPrdCdCode: prodCode,
           workDate: workDate,
-        };
+        }
         dataArray.push(instobjdetail);
-      });
-      instobjheader = {
-        empId: empId,
-        instName: instName,
-        instDate: instDate,
-        instRemk: instRemk,
-      };
-      console.log(instobjheader);
-      console.log(dataArray);
-      let check = false;
+        console.log(instobjheader)
+        console.log(instobjdetail);
+        //생산지시 수정
+        updateInst(instobjheader, dataArray);
+        updateSuccess();
+        return;
+        //수정
+      } else { // 저장일 경우
+        // let instDate = $("#instdate").val();
+        // let empId = $("#empid").val();
+        // let instName = $("#instname").val();
+        // let instRemk = $("#instRemk").val();
+        let checkbox = $("input:checkbox:checked");
+        //let dataArray = [];
+        checkbox.each(function (i) {
+          let tr = checkbox.parent().parent().eq(i);
+          let td = tr.children();
+          let prodCode = td.children().eq(1).val(); //제품코드
+          let prodIndicaVol = td.children().eq(10).val(); //지시량
+          let workDate = td.children().eq(12).val(); //작업날짜
 
-      $.ajax({
-        url: "insertinstanddetail",
-        method: "POST",
-        contentType: "application/json;charset=utf-8",
-        async: false, //동기로 처리
-        //dataType: "json",
-        data: JSON.stringify({
-          vo: instobjheader,
-          detailvo: dataArray,
-        }),
-        error: function (error, status, msg) {
-          alert("상태코드 " + status + "에러메시지" + msg);
-        },
-        success: function (data) {
-          console.log(" insert success");
-          check = true;
-        },
-      });
-      saveSuccess();
-      // $.ajax({
-      //   url: "insertinstruction",
-      //   method: "POST",
-      //   contentType: "application/json;charset=utf-8",
-      //   async: false, //동기로 처리
-      //   //dataType: "json",
-      //   data: JSON.stringify({
-      //     instobjheader: instobjheader,
-      //     instobjdetail: instobjdetail,
-      //   }),
-      //   error: function (error, status, msg) {
-      //     alert("상태코드 " + status + "에러메시지" + msg);
-      //   },
-      //   success: function (data) {
-      //     console.log(" insert success");
-      //     check = true;
-      //   },
-      // });
-      //자재소요예상량 업데이트
-      // if (check == true) {
-      //   $("#rscStockTable tbody tr").each(function (i) {
-      //     let tr = $(this);
-      //     let td = tr.children();
-      //     console.log(tr);
-      //     let needQty = td.eq(5).text();
-      //     let rscCdCode = td.eq(1).text();
-      //     console.log(needQty);
-      //     console.log(rscCdCode);
-      //     $.ajax({
-      //       url: `updateneedqty`,
-      //       method: "PUT",
-      //       dataType: "json",
-      //       contentType: "application/json;charset=utf-8",
-      //       data: JSON.stringify({
-      //         needQty: needQty,
-      //         rscCdCode: rscCdCode,
-      //       }),
-      //       success: function (data) {
-      //         console.log("update sucess");
-      //       },
-      //     });
-      //   });
-      // }
+          instobjdetail = {
+            instProdIndicaVol: prodIndicaVol,
+            finPrdCdCode: prodCode,
+            workDate: workDate,
+          };
+          dataArray.push(instobjdetail);
+        });
+        instobjheader = {
+          empId: empId,
+          instName: instName,
+          instDate: instDate,
+          instRemk: instRemk,
+        };
+        console.log(instobjheader);
+        console.log(dataArray);
 
-      //location.reload();
+        $.ajax({
+          url: "insertinstanddetail",
+          method: "POST",
+          contentType: "application/json;charset=utf-8",
+          async: false, //동기로 처리
+          //dataType: "json",
+          data: JSON.stringify({
+            vo: instobjheader,
+            detailvo: dataArray,
+          }),
+          error: function (error, status, msg) {
+            alert("상태코드 " + status + "에러메시지" + msg);
+          },
+          success: function (data) {
+            console.log(" insert success");
+            check = true;
+          },
+        });
+        saveSuccess();
+        //자재소요예상량 업데이트
+        // if (check == true) {
+        //   $("#rscStockTable tbody tr").each(function (i) {
+        //     let tr = $(this);
+        //     let td = tr.children();
+        //     console.log(tr);
+        //     let needQty = td.eq(5).text();
+        //     let rscCdCode = td.eq(1).text();
+        //     console.log(needQty);
+        //     console.log(rscCdCode);
+        //     $.ajax({
+        //       url: `updateneedqty`,
+        //       method: "PUT",
+        //       dataType: "json",
+        //       contentType: "application/json;charset=utf-8",
+        //       data: JSON.stringify({
+        //         needQty: needQty,
+        //         rscCdCode: rscCdCode,
+        //       }),
+        //       success: function (data) {
+        //         console.log("update sucess");
+        //       },
+        //     });
+        //   });
+        // }
+
+        //location.reload();
+
+      }
+
+
 
     };
-    // }
-
   });
   let lineArray = [];
   let prodCodeArr = [];
@@ -189,9 +227,6 @@ $(document).ready(function () {
     let uniqueLineArray = [...lineArraySet];
     let uniqueProdCode = [...prodCodeArrSet];
 
-    //console.log('라인명->' + uniqueLineArray)
-    //console.log('제품코드->' + uniqueProdCode);
-
     //자재 재고 조회
     findRscNeedQty(uniqueProdCode);
     //공정 상태 조회
@@ -215,8 +250,27 @@ $(document).ready(function () {
     });
 
   });
+  //생산지시수정
+  function updateInst(instobjheader, instobjdetail) {
 
+    $.ajax({
+      url: "updateinst",
+      method: "POST",
+      contentType: "application/json;charset=utf-8",
+      //dataType: "json",
+      data: JSON.stringify({
+        vo: instobjheader,
+        detailvo: instobjdetail,
+      }),
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        console.log("update success");
+      },
+    });
 
+  };
   //제품코드로 제품이름,규격,라인 찾기
   function findProdName(prodCode, prodName, prodUnit, lineName) {
     $.ajax({
@@ -292,16 +346,16 @@ $(document).ready(function () {
     let node = `<tr>
   <td><input type="checkbox"></td>
   <td><input type="text" name="prodCode"></td>
-  <td><input type="text" readonly></td>
-  <td><input type="text" readonly></td>
-  <td><input type="text" readonly></td>
-  <td><input type="text" readonly></td>
-  <td><input type="text" readonly></td>
-  <td><input type="text" readonly></td>
-  <td><input type="text" readonly></td>
-  <td><input type="text" readonly></td>
+  <td><input type="text" disabled></td>
+  <td><input type="text" disabled></td>
+  <td><input type="text" disabled></td>
+  <td><input type="text" disabled></td>
+  <td><input type="text" disabled></td>
+  <td><input type="text" disabled></td>
+  <td><input type="text" disabled></td>
+  <td><input type="text" disabled></td>
   <td><input type="text"></td>
-  <td><input type="text" readonly></td>
+  <td><input type="text" disabled></td>
   <td><input type="date"></td>
 </tr>`;
     $("#planDetailTable tbody").append(node);
@@ -392,4 +446,16 @@ function saveSuccess() {
       location.reload();
     }
   });
+}
+
+function updateSuccess() {
+  Swal.fire({
+    icon: "success",
+    title: "수정이 완료되었습니다.",
+
+  }).then((result) => {
+    if (result.isConfirmed) {
+      location.reload();
+    }
+  })
 }

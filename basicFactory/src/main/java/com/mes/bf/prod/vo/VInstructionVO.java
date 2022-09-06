@@ -12,6 +12,7 @@ public class VInstructionVO {
 
 	private Date instDate; //지시일자
 	private Integer instNo; //지시번호
+	private Integer instProdNo;
 	private String vendCdNm; //거래처명
 	private String finPrdCdCode; //제품코드
 	private String finPrdCdName; //제품이름
@@ -21,5 +22,7 @@ public class VInstructionVO {
 	private Integer instProdIndicaVol; //지시량
 	private String workScope; //작업구분
 	private Date workDate; //작업일자
+	private String finPrdCdVol;
+	private String finPrdCdUnit;
 
 }

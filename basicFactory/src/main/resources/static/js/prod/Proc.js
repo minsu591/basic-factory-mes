@@ -39,6 +39,7 @@ $(document).ready(function () {
         for (obj of data) {
           ProcPerformMakeRow(obj);
         }
+        page();
       },
     });
   });
@@ -59,6 +60,7 @@ function findAllProcPerform() {
       for (obj of data) {
         ProcPerformMakeRow(obj);
       }
+      page();
     },
   });
 }
@@ -78,4 +80,11 @@ function ProcPerformMakeRow(obj) {
               </tr>
   `;
   $("#procPerfomTable tbody").append(node);
+
+}
+
+function page() {
+  $('#procPerfomTable').each(function () {
+
+  })
 }

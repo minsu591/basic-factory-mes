@@ -3,6 +3,9 @@ package com.mes.bf.prod.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.mes.bf.cmn.vo.EmpVO;
 import com.mes.bf.prod.service.PlanService;
 import com.mes.bf.prod.vo.ColPlanOrdVO;
 import com.mes.bf.prod.vo.ColPlanVO;
@@ -50,8 +54,10 @@ public class PlanController {
 	
 	//생산 계획 관리에서 내 생산계획 조회 모달
 	@GetMapping("/myPlanView")
-	public ResponseEntity<List<ColPlanVO>> planMyView(@RequestParam Map<String, String> QueryParameters){
-		List<ColPlanVO> plans = service.findMyPlan(QueryParameters.get("sdate"), QueryParameters.get("edate"), QueryParameters.get("empId"));
+	public ResponseEntity<List<ColPlanVO>> planMyView(@RequestParam Map<String, String> QueryParameters, HttpServletRequest request){
+		HttpSession session = request.getSession();
+		EmpVO emp = (EmpVO) session.getAttribute("emp");
+		List<ColPlanVO> plans = service.findMyPlan(QueryParameters.get("sdate"), QueryParameters.get("edate"), emp.getEmpId());
 		return new ResponseEntity<List<ColPlanVO>>(plans, HttpStatus.OK);
 	}
 	//생산 계획 관리에서 내 생산계획 상세 조회

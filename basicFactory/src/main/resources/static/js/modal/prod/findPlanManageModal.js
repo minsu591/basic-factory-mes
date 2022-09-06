@@ -10,15 +10,13 @@ $("document").ready(function(){
     function myPlanClick(){
         let sdate = $("#plansdate").val();
         let edate = $("#planedate").val();
-        let empId = '';
         $.ajax({
             url : 'myPlanView',
             method : "GET",
             dataType : "json",
             data : {
                 sdate : sdate,
-                edate : edate,
-                empId : empId
+                edate : edate
             },
             success : function(data){
                 $("#findMyPlanTable tbody tr").remove();
@@ -52,6 +50,7 @@ $("document").ready(function(){
         $("#findNotDoneOrdModal").modal("show");
         notDoneOrdClick();
     })
+    
     $("#findNotDoneOrdSearchBtn").on("click",notDoneOrdClick);
 
     

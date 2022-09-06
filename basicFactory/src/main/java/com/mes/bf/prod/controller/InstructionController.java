@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.mes.bf.cmn.vo.EmpVO;
 import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.InstAndDetailVO;
+import com.mes.bf.prod.vo.InstructionVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 import com.mes.bf.prod.vo.VRscNeedQtyVO;
@@ -78,7 +81,7 @@ public class InstructionController {
 	public ResponseEntity<List<VInstructionVO>> findVInstruction(@RequestParam Map<String, String> queryParameters) {
 		List<VInstructionVO> list = service.findVInstruction(queryParameters.get("instSdate"),
 				queryParameters.get("instEdate"), queryParameters.get("vendorName"),
-				queryParameters.get("productName"));
+				queryParameters.get("productName"),queryParameters.get("workScope"));
 		return new ResponseEntity<List<VInstructionVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
@@ -120,9 +123,27 @@ public class InstructionController {
 	public void todoUpdate(@RequestBody Map<String, String> needQty) {
 		System.out.println(needQty.get("needQty"));
 		System.out.println(needQty.get("rscCdCode"));
-
 		service.updateNeedQty(needQty.get("needQty"), needQty.get("rscCdCode"));
-
 	}
+	
+	//생산 지시 헤더 조회
+	@GetMapping("/getinst/{instNO}")
+	public InstructionVO getInst(@PathVariable int instNO) {
+		return service.getInst(instNO);
+	}
+	
+	//직원 이이디로 직원 이름 찾기
+	@GetMapping("/getempname/{empId}")
+	public EmpVO getEmpName(@PathVariable String empId) {
+		return service.getEmpName(empId);
+	}
+	
+	//생산지시 전체 수정
+	@PostMapping("/updateinst")
+	public void updateInstruction(@RequestBody InstAndDetailVO vo) {
+		System.out.println(vo);
+		service.updateInstruction(vo);
+	}
+	
 
 }

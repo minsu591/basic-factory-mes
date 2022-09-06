@@ -3,8 +3,8 @@ package com.mes.bf.prod.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
+import com.mes.bf.cmn.vo.EmpVO;
 import com.mes.bf.cmn.vo.FinProdCodeVO;
 import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.eqp.vo.MchnVO;
@@ -13,7 +13,6 @@ import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.InstAndDetailVO;
 import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.InstructionVO;
-import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 import com.mes.bf.prod.vo.VRscNeedQtyVO;
@@ -25,7 +24,7 @@ public interface InstructionMapper {
 	List<FinProdCodeVO> findProduct(String prdCdCode, String prdCdName);
 
 	// 생산지시조회
-	List<VInstructionVO> findVInstruction(String instSdate, String instEdate, String vendorName, String productName);
+	List<VInstructionVO> findVInstruction(String instSdate, String instEdate, String vendorName, String productName,String workScope);
 
 	// 담당자 검색
 	List<FindEmpVO> findEmp(String empName);
@@ -67,5 +66,24 @@ public interface InstructionMapper {
 
 	// 최초 공정 입고량 업데이트
 	void updateinDtlVol(int indicaVol);
+	
+	//생산지시 업데이트 
+	void updateInst(VInstructionVO vo);
+	
+	//생산지시 헤더 조회
+	InstructionVO getInst(int instNo);
+	
+	//직원 아이디로 직원 이름 찾기 
+	EmpVO getEmpName(String empId);
+	
+	//생산지시 통합업데이트
+	void updateInstruction(InstAndDetailVO vo);
+	
+	//생산지시 헤더 업데이트
+	void updateInstHeader(InstructionVO vo);
+	
+	//생산지시 디테일 업데이트
+	void updateInstDetail(InstructionDetailVO str);
+	
 
 }

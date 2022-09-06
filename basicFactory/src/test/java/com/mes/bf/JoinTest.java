@@ -35,9 +35,9 @@ public class JoinTest {
 	}
 	
 	//@Test
-	void findVinst() {
-		System.out.println(service2.findVInstruction(null,null,null,null));
-	}
+//	void findVinst() {
+//		System.out.println(service2.findVInstruction(null,null,null,null));
+//	}
 	
 	//@Test
 	void findinputno() {

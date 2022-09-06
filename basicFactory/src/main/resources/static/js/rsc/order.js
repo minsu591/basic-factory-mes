@@ -24,15 +24,25 @@ $("document").ready(function () {
  $("#InsertTable").on("change", ".orderVol", function () {
   tdinfo = $(this);
   let orderVol = tdinfo.val();
-  let price = tdinfo.parent().next().next().find(".price").val();
-  let multiple = orderVol * price;
-  tdinfo.parent().next().next().next().find("input").val(Number(multiple).toLocaleString('ko-KR')); // 숫자에 , 달기
-  totalprice();
+
+  if (orderVol <= 0){
+    minusWarning();
+    tdinfo.val('');
+  }else{
+    let price = tdinfo.parent().next().next().find(".price").val();
+    let multiple = orderVol * price;
+    tdinfo.parent().next().next().next().find("input").val(Number(multiple).toLocaleString('ko-KR')); // 숫자에 , 달기
+    totalprice();
+  }
  })
 
  $("#InsertTable").on("change", ".price", function () {
   tdinfo = $(this);
   let price = tdinfo.val();
+  if (price < 0){
+    minusWarning();
+    tdinfo.val('');
+  }
   let orderVol = tdinfo.parent().prev().prev().find(".orderVol").val();
   let multiple = orderVol * price;
   tdinfo.parent().next().find("input").val(Number(multiple).toLocaleString('ko-KR')); // 숫자에 , 달기
@@ -82,13 +92,13 @@ $("document").ready(function () {
   let node = `<tr>
 <td><input type="checkbox" name="chk"></td>
 <td><input type="text" class="vendor"></td>
-<td><input type="text" class="vendorName" readonly></td>
+<td><input type="text" class="vendorName" disabled></td>
 <td><input type="text" class="rsccode"></td>
-<td><input type="text" class="rscname" readonly></td>
+<td><input type="text" class="rscname" disabled></td>
 <td><input type="text" class="orderVol"></td>
 <td class="unit"></td>
 <td><input type="text" class="price"></td>
-<td><input type="text" class="totalPrice" readonly></td>
+<td><input type="text" class="totalPrice" disabled></td>
 <td><input type="text"></td>
 </tr>`;
   $("#InsertTable tbody").append(node);
@@ -127,6 +137,14 @@ $("document").ready(function () {
   })
  }
 
+ function minusWarning(){
+  Swal.fire({
+    icon: "warning", // Alert 타입
+    title: "0이상의 숫자만 입력할 수 있습니다.", // Alert 제목
+    confirmButtonText: "확인",
+   })
+ }
+
 
  //수정
  $("#outTable").find("input").on("change", function () {
@@ -144,33 +162,24 @@ $("document").ready(function () {
  //등록버튼
 
  $("#subBtn").click(function () {
-  let checked = $("input[name='chk']:checked").length;
-  if (checked == 0) {
-   submitWarning();
-   return;
-  }
   let param = [];
   let info = [];
   let rowData = new Array();
-  let checkbox = $("input[name='chk']:checked");
-  console.log(checkbox)
+  let outTable = $("#outTable")
   // 체크된 체크박스 값을 가져온다
-  checkbox.each(function (i) {
-   // checkbox.parent() : checkbox의 부모는 <td>이다.
-   // checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
-   let tr = checkbox.parent().parent().eq(i);
-   let td = tr.children().children();
+  outTable.each(function (i) {
+   let tr = outTable.children.eq(i); //outTable.chidren() = tr
+   let td = tr.children();
    // 체크된 row의 모든 값을 배열에 담는다.
    rowData.push(tr.text());
 
    // td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
-   let rscOutCode = td.eq(1).val();
-   let rscOutDate = td.eq(2).val();
+   let rscOrderCode = td.eq(1).val();
+   let rscOrderDate = td.eq(2).val();
    let rscCdCode = td.eq(3).val();
-   let rscLotNo = td.eq(5).val();
-   let rscOutVol = td.eq(7).val();
-   let vendCdCode = td.eq(8).val();
-   let rscOutResn = td.eq(10).val();
+   let rscOrderVol = td.eq(5).val();
+   let rscOrderPrc = td.eq(7).val();
+   let rscOrderRemk = td.eq(9).val();
    let empId = td.eq(11).val();
    if (!rscOutDate || !vendCdCode || !rscCdCode || !rscLotNo || !rscOutVol || !empId) {
     Swal.fire({
