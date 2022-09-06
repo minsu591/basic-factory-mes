@@ -6,7 +6,7 @@ $(document).ready(function () {
   emergency();
   //중지후 작업 재시작
   reStart();
-
+  $("#emergencyBtn").hide();
   $("#packingTable").on("click", "tr", function () {
     let instDate = $(this).find("td:eq(7)").text();
     console.log(instDate);
@@ -315,6 +315,7 @@ function startWork() {
     let minutes = ("0" + date.getMinutes()).slice(-2);
     $("#sHours").val(hours).prop("readonly", true);
     $("#sMinutes").val(minutes).prop("readonly", true);
+    $("#emergencyBtn").show();
     //설비코드, 제품코드찾기
     let mchnCode;
     let finPrdCdCode;
@@ -359,6 +360,7 @@ let num = 0;
 function startinterval() {
   num += 1;
   let inDtlVol = $("#workStateTable tr:eq(1) td"); //입고량
+  let virResult = $("#workStateTable tr:eq(2) td"); //기실적량
   let prodVol = $("#workStateTable tr:eq(3) td"); //실적량
   let fltyVol = $("#workStateTable tr:eq(4) td"); //불량량
   let rate = $("#workStateTable tr:eq(5) td"); //달성률
@@ -366,7 +368,13 @@ function startinterval() {
   let procCdName = $("#procCdName").val(); //공정명
   let totalProdVol = 1 + parseInt(prodVol.text());
 
-  rate.html(Math.ceil((totalProdVol / parseInt(inDtlVol.text())) * 100) + "%");
+  rate.html(
+    Math.ceil(
+      ((totalProdVol + parseInt(virResult.text())) /
+        parseInt(inDtlVol.text())) *
+        100
+    ) + "%"
+  );
   prodVol.html(num);
   let achieRate = $("#workStateTable tr:eq(5) td").text().slice(0, -1);
 
@@ -388,7 +396,7 @@ function startinterval() {
     },
   });
 
-  if (num == parseInt(inDtlVol.text())) {
+  if (num + parseInt(virResult.text()) == parseInt(inDtlVol.text())) {
     console.log("종료");
     endWork();
   }

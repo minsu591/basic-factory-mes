@@ -50,3 +50,12 @@ input[type="text"]:read-only {
 #planDetailTable tbody tr input[type="checkbox"] {
   vertical-align: middle;
 }
+
+
+.required {
+  border-color: #e74c3c;
+}
+
+.inputRequired {
+  border: 1px solid #e74c3c;
+}

@@ -1,15 +1,4 @@
 function page() {
-  // var reSortColors = function ($table) {
-  //   $("tbody tr:odd td", $table)
-  //     .removeClass("even")
-  //     .removeClass("listtd")
-  //     .addClass("odd");
-  //   $("tbody tr:even td", $table)
-  //     .removeClass("odd")
-  //     .removeClass("listtd")
-  //     .addClass("even");
-  // };
-
   $(".paginated").each(function () {
     var pagesu = 10; //페이지 번호 갯수
     var currentPage = 0;
@@ -146,7 +135,6 @@ function page() {
         .addClass("clickable");
 
       $($(".page-number")[2]).addClass("pagingactive");
-      reSortColors($table);
     });
 
     $pager

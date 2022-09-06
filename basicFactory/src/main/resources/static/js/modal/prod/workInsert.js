@@ -3,6 +3,7 @@ $("document").ready(function () {
     $("#workInsertModal").modal("hide");
   });
 
+  $("#emergencyBtn").hide();
   //불량증가
   fltyCntUp();
   //불량감소
@@ -42,7 +43,7 @@ $("document").ready(function () {
     $("#workStateTable tr td").remove();
 
     if ($(this).text() == "비가동") {
-      alert("비가동입니다.");
+      nonOpIng();
     } else {
       $("#procManageTable tr").each(function () {
         //console.log("each문 들어옴");
@@ -853,5 +854,11 @@ function saveSucess() {
   Swal.fire({
     icon: "success", // Alert 타입
     title: "저장 되었습니다.", // Alert 제목
+  });
+}
+function nonOpIng() {
+  Swal.fire({
+    icon: "warning",
+    title: "설비 비가동상태입니다.",
   });
 }

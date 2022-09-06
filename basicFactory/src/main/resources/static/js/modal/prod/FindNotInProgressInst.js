@@ -18,8 +18,19 @@ $(document).ready(function () {
   //모달 테이블 클릭 이벤트
   $("#FindNotInProgressInstTable").on("click", "tr", function () {
     //console.log($(this).find("td:eq(1)").text());
-
+    console.log("모달 -> 유니크라인어레이" + uniqueLineArray);
+    uniqueLineArray.splice(0);
+    console.log("모달 -> 자르고->" + uniqueLineArray);
+    lineArray.splice(0);
+    inDtlVol.splice(0);
+    prodCodeArr.splice(0);
+    $("#planDetailTable tbody tr").each(function () {
+      $(this).children().children().prop("checked", false);
+    });
     $("#planDetailTable tbody tr").remove();
+    $("#procStatusTable tbody tr").remove();
+    $("#rscStockTable tbody tr").remove();
+
     planDetailTableMakeRow($(this));
 
     //라인명 입력

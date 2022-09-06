@@ -39,6 +39,7 @@ $(document).ready(function () {
         for (obj of data) {
           ProcPerformMakeRow(obj);
         }
+        $("#remo").remove();
         page();
       },
     });

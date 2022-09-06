@@ -61,6 +61,7 @@ function findvinst() {
       for (obj of data) {
         instMakeRow(obj);
       }
+      $("#remo").remove();
       page();
     },
   });

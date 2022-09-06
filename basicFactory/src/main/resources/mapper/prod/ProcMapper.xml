@@ -46,7 +46,7 @@
 			</if>
 			
 		</where>
-		ORDER BY workdate
+		ORDER BY processperfomno,workdate
 	</select>
 
 	<!-- 공정명검색 -->
