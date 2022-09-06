@@ -192,6 +192,7 @@ $("document").ready(function () {
   function addSaveAjax(tr){
     let processPerfomNo = $("#processPerfomNo").val();
     let faultyCdCode = $(tr).find("td:eq(2)").text();
+    let fltyPrcsVol = $(tr).find("td:eq(4)").text();
     let fltyPrcsDate = $(tr).find("input[type='date']").val();
     let empId = $(tr).find("td:eq(6)").text();
     let fltyPrcsRemk = $(tr).find("td:eq(7)").text();
@@ -203,6 +204,7 @@ $("document").ready(function () {
       data :  JSON.stringify({
         processPerfomNo,
         faultyCdCode,
+        fltyPrcsVol,
         fltyPrcsDate,
         empId,
         fltyPrcsRemk
@@ -211,7 +213,7 @@ $("document").ready(function () {
         console.log("추가 성공");
       },
       error : function(err){
-        console.log(err);
+        //console.log(err);
       }
     })
   }

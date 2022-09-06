@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mes.bf.cmn.vo.FaultyCodeVO;
+import com.mes.bf.prod.vo.FindProcFltyVO;
 import com.mes.bf.prod.vo.FltyPrcsVO;
-import com.mes.bf.prod.vo.VFindProcPerformVO;
 
 @Mapper
 public interface FltyPrcsMapper {
@@ -14,7 +14,7 @@ public interface FltyPrcsMapper {
 	//불량처리목록
 	List<FltyPrcsVO> findlistFltyPrcs(String fltyPrcsSdate, String fltyPrcsEdate);
 	//생산불량
-	List<VFindProcPerformVO> procFlty();
+	List<FindProcFltyVO> procFlty();
 	//불량세부처리 신규등록
 	int fltyPrcsInsert(FltyPrcsVO vo);
 	//불량세부처리 수정

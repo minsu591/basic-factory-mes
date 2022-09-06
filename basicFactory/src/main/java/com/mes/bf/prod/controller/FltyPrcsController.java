@@ -22,8 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.cmn.vo.FaultyCodeVO;
 import com.mes.bf.prod.service.FltyPrcsService;
+import com.mes.bf.prod.vo.FindProcFltyVO;
 import com.mes.bf.prod.vo.FltyPrcsVO;
-import com.mes.bf.prod.vo.VFindProcPerformVO;
 
 @Controller
 @RequestMapping("/prod")
@@ -40,7 +40,7 @@ public class FltyPrcsController {
 	//불량처리관리 페이지 호출(생산불량 조회)
 	@GetMapping("/fltyPrcsManage")
 	public String procFlty(Model model) {
-		List<VFindProcPerformVO> pf = service.procFlty();
+		List<FindProcFltyVO> pf = service.procFlty();
 		model.addAttribute("pf", pf);
 		return "prod/FltyPrcsManage";
 	}

@@ -45,7 +45,7 @@
                   <td th:text="${pf.workDate}"></td>
                   <td th:text="${pf.finPrdCdCode}"></td>
                   <td th:text="${pf.finPrdCdName}"></td>
-                  <td th:text="${pf.fltyVol}"></td>
+                  <td th:text="${pf.fltyVol - pf.fltyPrcsVol}"></td>
                   <td th:text="${pf.procCdName}"></td>
                   <td th:text="${pf.mchnName}"></td>
                   <td th:text="${pf.workerName}"></td>
@@ -98,7 +98,7 @@
                   <th name="flty_prcs_no">불량번호</th>
                   <th th:text="불량코드" name="faulty_cd_code"></th>
                   <th th:text="불량명"></th>
-                  <th th:text="불량수"></th>
+                  <th th:text="불량처리수" name="flty_prcs_vol"></th>
                   <th th:text="불량처리일" name="flty_prcs_date"></th>
                   <th th:text="담당자" name="emp_id"></th>
                   <th th:text="비고" name="flty_prcs_remk"></th>
