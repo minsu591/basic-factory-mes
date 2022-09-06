@@ -1,6 +1,5 @@
 $("document").ready(function(){
-    
-
+    //담당자 input에 값 넣기
     //체크박스 체크유무
     $("#allCheck").click("change",function(){
         if($("#allCheck").is(":checked")){
@@ -19,9 +18,6 @@ $("document").ready(function(){
     $("#planManageTable tbody").on("click","input:checkbox",function(e){
         e.stopPropagation();
     })
-
-
-
 
     //선택삭제 버튼
     $("#deleteBtn").on("click",function(){

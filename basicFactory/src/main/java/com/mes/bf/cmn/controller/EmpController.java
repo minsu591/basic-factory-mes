@@ -108,6 +108,8 @@ public class EmpController {
 	public ResponseEntity<Integer> empUpdate(@RequestParam Map<String, String> QueryParameters) {
 		String type = QueryParameters.get("updCol");
 		String updCont = QueryParameters.get("updCont");
+		System.out.println(updCont);
+		System.out.println(type);
 		if(type == "emp_pw") {
 			MessageDigest md;
 			try {
