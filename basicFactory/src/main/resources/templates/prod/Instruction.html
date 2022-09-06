@@ -10,6 +10,8 @@
 <script type="text/javascript" th:src="@{/js/prod/Instruction.js}"></script>
 <script type="text/javascript" th:src="@{/js/modal/prod/findproduct.js}"></script>
 <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
+<script type="text/javascript" th:src="@{/js/pages/pagination.js}"></script>
+<link th:href="@{/css/pagination.css}" rel="stylesheet" />
 <link th:href="@{/css/prod/Instruction.css}" rel="stylesheet" />
 
   <div class="pcoded-main-container">
@@ -45,7 +47,7 @@
                     </div>
                     <div class="card-body table-border-style">
                         <div class="table-responsive">
-                            <table class="table table-hover" id="instTable">
+                            <table class="table table-hover paginated" id="instTable">
                                 <thead>
                                     <tr>
                                         <th th:text="지시일자"></th>

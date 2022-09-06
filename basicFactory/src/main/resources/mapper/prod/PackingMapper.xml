@@ -14,7 +14,7 @@ WHERE
 AND 
 	detail.fin_prd_cd_code = prodcode.fin_prd_cd_code
 AND 
-	process_order = 5 AND NOT completion_status = 'y'
+	process_order = 5 
 AND 
 	NOT in_dtl_vol = 0
 </select>

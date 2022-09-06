@@ -21,8 +21,12 @@
       type="text/javascript"
       th:src="@{/js/modal/prod/findproccdname.js}"
     ></script>
+    <script
+      type="text/javascript"
+      th:src="@{/js/pages/pagination.js}"
+    ></script>
     <link th:href="@{/css/prod/Proc.css}" rel="stylesheet" />
-
+    <link th:href="@{/css/pagination.css}" rel="stylesheet" />
     <div class="pcoded-main-container">
       <h1>공정 실적 조회</h1>
       <hr />
@@ -72,7 +76,7 @@
           </div>
           <div class="card-body table-border-style">
             <div class="table-responsive">
-              <table class="table table-hover" id="procPerfomTable">
+              <table class="table table-hover paginated" id="procPerfomTable">
                 <thead>
                   <tr>
                     <th th:text="생산지시번호"></th>

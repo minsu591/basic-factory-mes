@@ -7,7 +7,7 @@ $(document).ready(function () {
   let month = ("0" + (today.getMonth() + 1)).slice(-2);
   let day = ("0" + today.getDate()).slice(-2);
   let dateString = year + "-" + month + "-" + day;
-  $("#instdate").val(dateString);
+  $("#instdate").val(dateString).prop("readonly", true);
   //모달창 확인 버튼
   $("#selectbtn").click(function () {
     $("#findempModal").modal("hide");
@@ -29,18 +29,15 @@ $(document).ready(function () {
   });
   //저장 버튼 클릭이벤트
   $("#instSaveBtn").click(function () {
-
     //예외처리
 
-    if ($("#instname").val() == '' || $("#empid").val() == '') {
+    if ($("#instname").val() == "" || $("#empid").val() == "") {
       Swal.fire({
         icon: "warning",
-        title: "입력하지 않은 값이 있습니다."
-      })
+        title: "입력하지 않은 값이 있습니다.",
+      });
       return;
     }
-
-
 
     let check = false;
     $("#rscStockTable tbody tr").each(function () {
@@ -76,12 +73,13 @@ $(document).ready(function () {
       let check2 = false;
       $("#planDetailTable tbody tr").each(function () {
         if ($(this).hasClass("updateInst")) {
-          alert("수정하세영 수정 수정");
+          //alert("수정하세영 수정 수정");
           check2 = true;
         }
       });
 
-      if (check2 == true) { //수정일 경우
+      if (check2 == true) {
+        //수정일 경우
         instobjheader = {
           instNo: instNo,
           empId: empId,
@@ -99,23 +97,24 @@ $(document).ready(function () {
             prodIndicaVol = $(this).find("td:eq(10)").children().val();
             workDate = $(this).find("td:eq(12)").children().val();
           }
-        })
+        });
 
         instobjdetail = {
           instProdNo: instProdNo,
           instProdIndicaVol: prodIndicaVol,
           finPrdCdCode: prodCode,
           workDate: workDate,
-        }
+        };
         dataArray.push(instobjdetail);
-        console.log(instobjheader)
+        console.log(instobjheader);
         console.log(instobjdetail);
         //생산지시 수정
         updateInst(instobjheader, dataArray);
         updateSuccess();
         return;
         //수정
-      } else { // 저장일 경우
+      } else {
+        // 저장일 경우
         // let instDate = $("#instdate").val();
         // let empId = $("#empid").val();
         // let instName = $("#instname").val();
@@ -191,12 +190,8 @@ $(document).ready(function () {
         // }
 
         //location.reload();
-
       }
-
-
-
-    };
+    }
   });
   let lineArray = [];
   let prodCodeArr = [];
@@ -204,7 +199,6 @@ $(document).ready(function () {
 
   //지시테이블 클릭 이벤트
   $("#planDetailTable").on("click", "tr", function () {
-
     let prodCode = $(this).find("td:eq(1)").children();
     let prodName = $(this).find("td:eq(2)").children();
     let prodUnit = $(this).find("td:eq(3)").children();
@@ -215,12 +209,16 @@ $(document).ready(function () {
       lineArray.push(tr.find("td:eq(11)").children().val());
       prodCodeArr.push(tr.find("td:eq(1)").children().val());
       inDtlVol.push(tr.find("td:eq(10)").children().val());
-
     } else if (tr.children().children().is(":checked") == false) {
-      lineArray = lineArray.filter((element) => element !== tr.find("td:eq(11)").children().val());
-      prodCodeArr = prodCodeArr.filter((element) => element !== tr.find("td:eq(1)").children().val());
-      inDtlVol = inDtlVol.filter((element) => element !== tr.find("td:eq(10)").children().val());
-
+      lineArray = lineArray.filter(
+        (element) => element !== tr.find("td:eq(11)").children().val()
+      );
+      prodCodeArr = prodCodeArr.filter(
+        (element) => element !== tr.find("td:eq(1)").children().val()
+      );
+      inDtlVol = inDtlVol.filter(
+        (element) => element !== tr.find("td:eq(10)").children().val()
+      );
     }
     let lineArraySet = new Set(lineArray);
     let prodCodeArrSet = new Set(prodCodeArr);
@@ -234,8 +232,8 @@ $(document).ready(function () {
     // console.log(lineArray);
 
     $("[name=rscCdCode]").each(function (i) {
-      console.log(i + '번째' + $("[name=rscCdCode]").eq(i).text())
-    })
+      console.log(i + "번째" + $("[name=rscCdCode]").eq(i).text());
+    });
 
     //지시량에 값이 입력 됬을 떄 실행
 
@@ -248,11 +246,9 @@ $(document).ready(function () {
       let prodCode = $(this).val();
       findProdName(prodCode, prodName, prodUnit, lineName);
     });
-
   });
   //생산지시수정
   function updateInst(instobjheader, instobjdetail) {
-
     $.ajax({
       url: "updateinst",
       method: "POST",
@@ -269,8 +265,7 @@ $(document).ready(function () {
         console.log("update success");
       },
     });
-
-  };
+  }
   //제품코드로 제품이름,규격,라인 찾기
   function findProdName(prodCode, prodName, prodUnit, lineName) {
     $.ajax({
@@ -300,7 +295,7 @@ $(document).ready(function () {
       dataType: "json",
       contentType: "application/x-www-form-urlencoded; charset=UTF-8",
       data: {
-        lineName: lineArray
+        lineName: lineArray,
       },
       error: function (err) {
         $("#procStatusTable tbody tr").remove();
@@ -314,7 +309,7 @@ $(document).ready(function () {
       },
     });
   }
-  //자재재고 내역 검색 
+  //자재재고 내역 검색
   let finAllStock = [];
   function findRscNeedQty(uniqueProdCode) {
     $.ajax({
@@ -323,13 +318,12 @@ $(document).ready(function () {
       async: false, //동기로 처리
       dataType: "json",
       data: {
-        finPrdCdCode: uniqueProdCode
+        finPrdCdCode: uniqueProdCode,
       },
       error: function (err) {
         $("#rscStockTable tbody tr").remove();
       },
       success: function (data) {
-
         console.log(data);
         let index = 0;
         $("#rscStockTable tbody tr").remove();
@@ -343,6 +337,11 @@ $(document).ready(function () {
   }
 
   function detailTableMakeRow() {
+    let date = new Date(
+      new Date().getTime() - new Date().getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .slice(0, -14);
     let node = `<tr>
   <td><input type="checkbox"></td>
   <td><input type="text" name="prodCode"></td>
@@ -356,7 +355,7 @@ $(document).ready(function () {
   <td><input type="text" disabled></td>
   <td><input type="text"></td>
   <td><input type="text" disabled></td>
-  <td><input type="date"></td>
+  <td><input type="date" min='${date}'></td>
 </tr>`;
     $("#planDetailTable tbody").append(node);
   }
@@ -384,11 +383,10 @@ $(document).ready(function () {
         if (obj.finPrdCdCode == finPrdCdCode) {
           needQty = Math.round(indicaVol2 * obj.rscUseVol);
           saveindicaVol2 = indicaVol2;
-          console.log('saveNeedQty ->' + saveindicaVol2);
+          console.log("saveNeedQty ->" + saveindicaVol2);
         } else if (obj.finPrdCdCode != finPrdCdCode) {
           needQty = Math.round(saveindicaVol2 * obj.rscUseVol);
         }
-
       }
     });
 
@@ -402,7 +400,7 @@ $(document).ready(function () {
       <td>${needQty}</td>
       </tr>`;
     $("#rscStockTable tbody").append(node);
-    console.log(finAllStock)
+    console.log(finAllStock);
 
     let flag = true;
     for (fin of finAllStock) {
@@ -413,7 +411,7 @@ $(document).ready(function () {
     if (flag) {
       finAllStock.push({
         rscCdCode: obj.rscCdCode,
-        needQty: needQty
+        needQty: needQty,
       });
     } else {
       fin.needQty += needQty;
@@ -426,7 +424,6 @@ $(document).ready(function () {
         }
       }
     }
-
   }
 });
 
@@ -452,10 +449,9 @@ function updateSuccess() {
   Swal.fire({
     icon: "success",
     title: "수정이 완료되었습니다.",
-
   }).then((result) => {
     if (result.isConfirmed) {
       location.reload();
     }
-  })
+  });
 }

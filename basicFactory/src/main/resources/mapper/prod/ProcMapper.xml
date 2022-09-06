@@ -73,9 +73,7 @@
 			finprdcdcode,
 			finprdcdname,
 			instprodindicavol,
-			workscope,
-			virresult,
-			nonresult 
+			workscope
 		
 		FROM
 			v_procmanage

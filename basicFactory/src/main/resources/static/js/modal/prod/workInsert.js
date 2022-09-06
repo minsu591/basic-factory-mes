@@ -222,7 +222,7 @@ function getprocPerform(processNo, inputDate) {
       console.log("에러?");
       $("#instDate").val(inputDate).prop("readonly", false);
       $("#workStartBtn").prop("disabled", false);
-      $("#addFlty").prop("disabled", false);
+      $("#addFlty").prop("disabled", true);
       $("#sHours").val("");
       $("#sMinutes").val("");
       $("#eHours").val("");
@@ -375,7 +375,7 @@ function startinterval() {
     Math.ceil(
       ((totalProdVol + parseInt(virResult.text())) /
         parseInt(inDtlVol.text())) *
-      100
+        100
     ) + "%"
   );
   prodVol.html(num);
@@ -452,8 +452,8 @@ function insertRscOut(rscLotNo, rscCdCode, needQty) {
       rscOutCls: rscOutCls,
       empName: empName,
     }),
-    error: function (error, status, msg) { },
-    success: function (data) { },
+    error: function (error, status, msg) {},
+    success: function (data) {},
   });
 }
 
@@ -580,7 +580,7 @@ function fltyCntDown() {
     }
   });
 }
-
+//불량 등록시 실적량 보다 크면 안되게 예외처리
 function addFlty() {
   //불량 클릭 버튼 이벤트
   $("#addFlty").click(function () {
@@ -588,15 +588,17 @@ function addFlty() {
       noAddFlty();
       return;
     }
-
     let fltyVol = $("#workStateTable tr:eq(4) td"); //불량량
+    let prodVol = $("#workStateTable tr:eq(3) td"); //실적량
 
-    if (parseInt(fltyVol.text()) == 0) {
+    if (parseInt($("#fltyCnt").val()) < parseInt(prodVol.text())) {
       //console.log(fltyCnt);
-      fltyVol.html(fltyCnt);
-      let prodVol = $("#workStateTable tr:eq(3) td"); //실적량
-      let result = parseInt(prodVol.text()) - parseInt(fltyVol.text());
-      console.log("실적량 ->" + prodVol.text() + "불량량->" + fltyVol.text());
+      let fltyResult = fltyCnt + parseInt(fltyVol.text());
+      fltyVol.html(fltyResult);
+      let result = parseInt(prodVol.text()) - parseInt($("#fltyCnt").val());
+      console.log(
+        "실적량 ->" + prodVol.text() + "불량량->" + $("#fltyCnt").val()
+      );
       console.log("결과->" + result);
       prodVol.html(result);
       let resultFltyVol = fltyVol.text();
@@ -609,6 +611,9 @@ function addFlty() {
       updateProdVol(processNo, totalProdVol, procCdName, resultFltyVol);
       fltyinfo();
     } else {
+      //불량량이 실적량보다 많다면
+      fltyWarn();
+      return;
     }
   });
 }
@@ -649,6 +654,8 @@ function emergency() {
 function reStart() {
   $("#reStartBtn").click(function () {
     console.log("작업 재시작 버튼 클릭");
+    $("#workStartBtn").prop("disalbed", true);
+    $("#reStartBtn").hide();
     work = setInterval(startinterval, 100);
   });
 }
@@ -759,6 +766,10 @@ function endWork() {
     //인터벌 종료
     num = 0;
     $("#saveBtn").prop("disabled", false);
+    $("#addFlty").prop("disabled", false);
+    $("#workStartBtn").prop("disabled", true);
+    $("#workEndBtn").prop("disabled", true);
+    $("#emergencyBtn").hide();
     clearInterval(work);
     var date = new Date();
     let hours = ("0" + date.getHours()).slice(-2);
@@ -809,6 +820,13 @@ function fltyinfo() {
   Swal.fire({
     icon: "success", // Alert 타입
     title: "불량 등록이 완료되었습니다.", // Alert 제목
+  });
+}
+
+function fltyWarn() {
+  Swal.fire({
+    icon: "warning",
+    title: "불량량이 실적량보다 많습니다.",
   });
 }
 function noEmpId() {

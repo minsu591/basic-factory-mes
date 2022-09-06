@@ -26,7 +26,28 @@ $(document).ready(function () {
     });
   });
 
-  $("#procManageTable").on("click", "tr", function () {
+  $("#procManageTable").on("click", "tr", function (e) {
+    //console.log($(this)[0].tagName);
+    var element = e.target.tagName;
+
+    if (element != "INPUT") {
+      return;
+    }
+    if (
+      $(this)
+        .find('input[type="checkbox"][name="procManageCheck"]')
+        .prop("checked")
+    ) {
+      $('input[type="checkbox"][name="procManageCheck"]').prop(
+        "checked",
+        false
+      );
+
+      $(this)
+        .find('input[type="checkbox"][name="procManageCheck"]')
+        .prop("checked", true);
+    }
+
     if ($(this).find("td:eq(0)").children().prop("checked")) {
       $("#mchnStatus div").remove();
       let instDate = $(this).find("td:eq(2)").text();
@@ -72,12 +93,13 @@ $(document).ready(function () {
           },
         });
       }
-    } else {
+    } else if ($(this).find("td:eq(0)").children().prop("checked") == false) {
       $("#workInsertTable tbody tr").remove();
       console.log("unchecked");
     }
   });
 });
+
 function findProcManage() {
   $.ajax({
     url: `findprocmanage`,
@@ -85,7 +107,7 @@ function findProcManage() {
     dataType: "json",
     contentType: "application/json;charset=utf-8",
     success: function (data) {
-      // console.log(data);
+      console.log(data);
       $("#procManageTable tbody tr").remove();
       let index = 0;
       for (obj of data) {
@@ -98,15 +120,13 @@ function findProcManage() {
 
 function procManageMakeRow(obj, index) {
   let node = `<tr>
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" name="procManageCheck"></td>
                 <td>${index}</td>
                 <td>${obj.workDate}</td>
                 <td>${obj.instNo}</td>
                 <td>${obj.finPrdCdCode}</td>
                 <td>${obj.finPrdCdName}</td>
                 <td>${obj.instProdIndicaVol}</td>
-                <td>${obj.virResult}</td>
-                <td>${obj.nonResult}</td>
                 <td>${obj.workScope}</td>
                 <input type="hidden" name="instProdNo" value="${obj.instProdNo}">
               </tr>`;
@@ -135,16 +155,14 @@ function workinsertTableLastChildMakeRow(obj, index) {
   let compstts;
   $("#workInsertTable tbody tr").each(function () {
     if (obj.mchnCode == $(this).find("input:hidden[name=mchnCode]").val()) {
-
       compstts = $(this).find("input:hidden[name=completionStatus]").val();
-
     }
     // console.log("index" + index);
     //console.log(compstts);
-  })
+  });
 
   if (index == 1) {
-    if (compstts == 'y') {
+    if (compstts == "y") {
       let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
       $("#workInsertTable tbody tr:eq(0)").append(node);
     } else {
@@ -152,8 +170,7 @@ function workinsertTableLastChildMakeRow(obj, index) {
       let tr = $("#workInsertTable tbody tr:eq(0)").append(node);
     }
   } else if (index == 2) {
-
-    if (compstts == 'y') {
+    if (compstts == "y") {
       let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
       $("#workInsertTable tbody tr:eq(1)").append(node);
     } else {
@@ -161,7 +178,7 @@ function workinsertTableLastChildMakeRow(obj, index) {
       let tr = $("#workInsertTable tbody tr:eq(1)").append(node);
     }
   } else if (index == 3) {
-    if (compstts == 'y') {
+    if (compstts == "y") {
       let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
       $("#workInsertTable tbody tr:eq(2)").append(node);
     } else {
@@ -169,7 +186,7 @@ function workinsertTableLastChildMakeRow(obj, index) {
       let tr = $("#workInsertTable tbody tr:eq(2)").append(node);
     }
   } else if (index == 4) {
-    if (compstts == 'y') {
+    if (compstts == "y") {
       let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
       $("#workInsertTable tbody tr:eq(3)").append(node);
     } else {
@@ -181,16 +198,16 @@ function workinsertTableLastChildMakeRow(obj, index) {
 
 //모달창 데이터 입력
 function mchnStatusMakeRow(obj) {
-  console.log('머신스테이터스몇번?')
+  //console.log("머신스테이터스몇번?");
   let compstts;
   let node;
   $("#workInsertTable tbody tr").each(function () {
     if (obj.mchnCode == $(this).find("input:hidden[name=mchnCode]").val()) {
       compstts = $(this).find("input:hidden[name=completionStatus]").val();
     }
-  })
+  });
 
-  if (compstts == 'y') {
+  if (compstts == "y") {
     node = `
     <div>
       <button type="button" class="btn btn-outline-primary m-r-20 m-t-15">${obj.mchnName}</button>

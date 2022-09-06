@@ -80,11 +80,4 @@ function ProcPerformMakeRow(obj) {
               </tr>
   `;
   $("#procPerfomTable tbody").append(node);
-
-}
-
-function page() {
-  $('#procPerfomTable').each(function () {
-
-  })
 }
