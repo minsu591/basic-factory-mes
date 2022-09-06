@@ -140,7 +140,6 @@ $("document").ready(function(){
                     return false;
                 };
 
-                
                 let countTr = table.find("tbody tr").length;
                 if(countTr == 0){
                     //헤더 삭제 ajax
@@ -149,7 +148,9 @@ $("document").ready(function(){
                     return false;
                 }else{
                     //detail 삭제용
-                    deleteSaveAjax(delList);
+                    if(delList.length != 0){
+                        deleteSaveAjax(delList);
+                    }
                     //헤더 수정용
                     for(obj of hdModifyList){
                         modifyHdSaveAjax(obj);

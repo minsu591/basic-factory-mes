@@ -13,6 +13,7 @@ public class FltyPrcsVO {
 	private String fltyPrcsNo;		//순서
 	private Date fltyPrcsDate;		//불량처리일
 	private String fltyPrcsRemk;	//비고
+	private String fltyPrcsVol;		//불량처리수
 	
 	private String faultyCdCode;	//불량코드
 	private String faultyName;		//불량명

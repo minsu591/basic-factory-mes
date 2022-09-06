@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import com.mes.bf.cmn.vo.FaultyCodeVO;
 import com.mes.bf.prod.mapper.FltyPrcsMapper;
 import com.mes.bf.prod.service.FltyPrcsService;
+import com.mes.bf.prod.vo.FindProcFltyVO;
 import com.mes.bf.prod.vo.FltyPrcsVO;
-import com.mes.bf.prod.vo.VFindProcPerformVO;
 
 @Service
 public class FltyPrcsServiceImpl implements FltyPrcsService{
@@ -23,16 +23,12 @@ public class FltyPrcsServiceImpl implements FltyPrcsService{
 	}
 	//생산중불량조회
 	@Override
-	public List<VFindProcPerformVO> procFlty() {
+	public List<FindProcFltyVO> procFlty() {
 		return mapper.procFlty();
 	}
 	@Override
 	public int fltyPrcsInsert(FltyPrcsVO vo) {
 		return mapper.fltyPrcsInsert(vo);
-	}
-	@Override
-	public int fltyPrcsDelete(String prikey) {
-		return mapper.fltyPrcsDelete(prikey);
 	}
 	@Override
 	public int fltyPrcsUpdate(String prikey, String updCol, String updCont) {

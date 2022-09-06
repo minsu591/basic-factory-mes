@@ -57,20 +57,22 @@ $("document").ready(function () {
         });
     });
 
+    let slsOutDtlVol;
     ModalTable.find("tbody").unbind("change").bind("change", "td", function (e) { //모달창의 td가 변경됐을 때
         console.log(e);
         e.preventDefault();
-        let col = $(this).index();
         let finPrdCdCode = modalTrInfo.find("td:eq(1)").text();           //모달 tr의 제품코드
         let fnsPrdStkVol = modalTrInfo.find("td:eq(4)").text();           //모달 tr의 재고수량
         let fnsPrdStkLotNo = modalTrInfo.find("td:eq(3)").text();         //모달 tr의 lot번호
-        let slsOutDtlVol = parseInt(modalTrInfo.find("td:eq(5)").text()); //모달 tr의 입력한 출고수량
-
-        if (fnsPrdStkVol < slsOutDtlVol) {         //출고량이 재고수량보다 클 경우 
-            alert('출고량이 재고수량보다 많습니다.');
-            modalTrInfo.find("td:eq(5)").text('');
-            return;
-        } else if (slsOutDtlVol != null && slsOutDtlVol != '') { //모달창에서 출고량이 비어있지 않다면 함수로 값 넘겨서 push처리
+        slsOutDtlVol = parseInt(modalTrInfo.find("td:eq(5)").text()); //모달 tr의 입력한 출고수량
+        // if (fnsPrdStkVol < slsOutDtlVol) {         //출고량이 재고수량보다 클 경우 
+        //     alert('출고량이 재고수량보다 많습니다.');
+        //     modalTrInfo.find("td:eq(5)").text('');
+        //     return;
+        // } else if (slsOutDtlVol != null && slsOutDtlVol != '') { //모달창에서 출고량이 비어있지 않다면 함수로 값 넘겨서 push처리
+        //     checkNewOutLotList(finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol);
+        // }
+        if(slsOutDtlVol != null && slsOutDtlVol != ''){
             checkNewOutLotList(finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol);
         }
         e.stopPropagation();
@@ -78,6 +80,8 @@ $("document").ready(function () {
 
     function checkNewOutLotList(finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol) {
         let flag = true;
+        let addList;
+        // let priKey = outTabletrInfo.find("input[type='hidden']").val();  //출고관리 테이블 tr의 hidden으로 숨겨준 priKey값
         for (lot of outLotList) {                                     //outLotList[addList[제품코드, lot, 출고량], addList[]]
             if (lot[0] == finPrdCdCode && lot[1] == fnsPrdStkLotNo) {   //outLotList를 for문 돌면서 addList에 대해 같은 값 수정은 기존 배열에서 수정 (추가되지 않고)
                 flag = false;                                             //하나라도 같은 게 있다면 false처리되서 push되지 않도록
@@ -85,23 +89,30 @@ $("document").ready(function () {
                 break;
             }
         }
-
-        let addList = [finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol];
-
-        if (flag) {
-            outLotList.push(addList);
-        }
-
-        console.log(outLotList);
-
-        if (addList[2] != null && addList[2] != '') { //출고량이 비어있지 않으면
-            outDtlVol += addList[2];                     //출고량 합
+        
+        if(priKey == null){
+            addList = [finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol];
+            if (flag) {
+                outLotList.push(addList);
+            }
+    
+            console.log(outLotList);
+    
+            if (addList[2] != null && addList[2] != '') { //출고량이 비어있지 않으면
+                outDtlVol += addList[2];                     //출고량 합
+            } else {
+                return;
+            }
         } else {
-            return;
+            modifyTr = [priKey, finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol];
+            modifyList.push(modifyTr);
+            console.log("modifyList!!!");
+            console.log(modifyList);
         }
     }
 
     //출고관리 테이블 tr클릭 시 정보 저장
+    let priKey;
     let finPrdCdCode;
     let lotTdInfo;
     let outVolTd;
@@ -110,6 +121,7 @@ $("document").ready(function () {
     let price;
     let danga;
     $("#outMngTable").on("click", "tr", function (e) {
+        priKey = $(this).find("input[type='hidden']").val();
         outVolTd = $(this).find("td:eq(5)");
         lotTdInfo = $(this).find("td:eq(7)");
         notOutVol = $(this).find("td:eq(6)");
@@ -135,17 +147,22 @@ $("document").ready(function () {
         //outLotList[addList[제품코드, lot, 출고량], addList[]]
         let sum = 0;
         let lotInfo;
-        for (let i = 0; i < outLotList.length; i++) {
-            if (outLotList[i][0] == finPrdCdCode) {
-                sum += 1;
-                lotInfo = outLotList[i][1];
+        if(priKey == null){
+            for (let i = 0; i < outLotList.length; i++) {
+                if (outLotList[i][0] == finPrdCdCode) {
+                    sum += 1;
+                    lotInfo = outLotList[i][1];
+                }
             }
-        }
-        console.log("sum" + sum);
-        if (sum == 1) {
-            lotTdInfo.text(outLotList[0][1]);
+            
+            if (sum == 1) {
+                lotTdInfo.text(outLotList[0][1]);
+            } else {
+                lotTdInfo.text(lotInfo + "외 " + (sum - 1));
+            }
         } else {
-            lotTdInfo.text(lotInfo + "외 " + (sum - 1));
+            outVolTd.text(modifyTr[3]);
+            price.text(slsOutDtlVol * danga);
         }
         outDtlVol = 0;          //총 출고량 초기화
     });
@@ -153,7 +170,6 @@ $("document").ready(function () {
     //완제품 출고 관리에서 lot별 완제품 재고 모달창
   let lotNoTdInfo;
   $("#outMngTable").on("click", ".lotNo", function (e) {
-    console.log(e);
     e.preventDefault();
     $("#findLotModal").modal("show");
     lotNoTdInfo = $(this);
@@ -237,8 +253,6 @@ $("document").ready(function () {
     let avArr = [5, 7];
     //notNull이어야하는 (td기준)
     let notNullList = [5, 7];
-    //primary키인 index
-    let priKeyIdx = 1;
 
     //수정 이벤트
     table.find("tbody").on("click", "td:not(.lotNo)", function (e) {
@@ -340,19 +354,23 @@ $("document").ready(function () {
                 }
             }
             
-            // //삭제용
-            for (priKey of delList) {
-                deleteSaveAjax(priKey);
+            //삭제용
+            if(delList[0] != null){
+                deleteSaveAjax(delList);
             }
-            // //수정용
-            console.log(modifyList);
-            for (obj of modifyList) {
-                modifySaveAjax(obj);
+
+            //수정용
+            if(priKey != null && priKey != ''){
+                for (obj of modifyList) {
+                    modifySaveAjax(obj);
+                }
             }
+
             //등록용
-            console.log("outLotList" + outLotList);
+            let slsOutHdNo = $("#slsOutHdNo").val();
             if (slsOutHdNo == null || slsOutHdNo == ''){
-                insertSaveAjax(outLotList);
+                console.log("똑독");
+                insertSaveAjax(outLotList, slsOutHdNo);
             }
 
             alert("저장이 완료되었습니다.");
@@ -361,10 +379,38 @@ $("document").ready(function () {
     });
     //수정 끝
 
+    function modifySaveAjax(obj){
+        //checkbox인거
+        let slsOutDtlNo = obj[0];
+        let slsOutDtlVol = obj[3];
+        let slsOutDtlVO = [];
+        let updateDtl = {
+            slsOutDtlNo,
+            slsOutDtlVol
+        }
+        slsOutDtlVO.push(updateDtl);
+        console.log("slsOutDtlVO");
+        console.log(slsOutDtlVO);
+        $.ajax({
+            url: 'outManage/update',
+            type :"PUT",
+            dataType : 'text',
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
+            data : {
+                slsOutDtlNo,
+                slsOutDtlVol
+            },
+            success : function(result){
+                console.log("업데이트 완료");
+            }, error : function(error){
+                alert("서버 오류 : " + error);
+            }
+        })
+    }
+
     //출고 insert
-    function insertSaveAjax(outLotList) {
+    function insertSaveAjax(outLotList, slsOutHdNo) {
         let slsOutHdDate = $("#slsOutHdDate").val();
-        let slsOutHdNo = $("#slsOutHdNo").val();
         let slsOrdHdNo = $("#slsOrdHdNo").val();
         let vendCdCode = $("#vendor").val();
         let empId = $("#empId").val();
@@ -376,7 +422,6 @@ $("document").ready(function () {
             let finPrdCdCode = obj[0];
             let fnsPrdStkLotNo = obj[1];
             let slsOutDtlVol = obj[2];
-            let slsOutDtlPrice = price; //금액.......outLotList에 담는 연구...
             let addDtl = {
                 finPrdCdCode,
                 fnsPrdStkLotNo,
@@ -401,25 +446,39 @@ $("document").ready(function () {
             success: function (result) {
                 console.log("outHdDtl 추가 성공");
             }
-        })
+        });
     }
 
     //선택 삭제 이벤트
     $("#deleteBtn").on("click", function () {
         table.find("tbody input:checkbox[name='cb']").each(function (idx, el) {
-            if ($(el).is(":checked")) {                                 //체크 되어있다면
-                let tr = $(el).parent().parent();                       //[el:input]의 부모=td의 부모=tr을 변수에 저장
-                let priKey = tr.find("input[type = 'hidden']").val();    //tr내 hidden으로 숨겨둔 primaryKey 변수에 저장
-                if (priKey == null) {
-                    tr.remove();
+            if ($(el).is(":checked")) {
+                let tr = $(el).closest('tr');
+                console.log(tr);
+                let priKey = tr.find("input[type='hidden']").val();
+                tr.remove();
+                delList.push(priKey);
+                for (let i = 0; i < modifyList.length; i++) {
+                    if (modifyList[i][0] == priKey) {                   //수정목록의 길이만큼 돌면서[0]번째:priKey값이 같으면 
+                        modifyList.splice(i, 1);                        //[priKey, updCol, updCont]에서 배열 i번재부터 1개의 값을 썰어버림
+                    }
                 }
-                // delList.push(priKey);
-                // for (let i = 0; i < modifyList.length; i++) {
-                //     if (modifyList[i][0] == priKey) {                   //수정목록의 길이만큼 돌면서[0]번째:priKey값이 같으면 
-                //         modifyList.splice(i, 1);                        //[priKey, updCol, updCont]에서 배열 i번재부터 1개의 값을 썰어버림
-                //     }
-                // }
             }
         });
     });
+
+    function deleteSaveAjax(delList) {
+        $.ajax({
+            url: 'outManage/delete',
+            type : 'DELETE',
+            dataType: 'text',
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
+            data : {
+                delList
+            },
+            success: function (result) {
+                console.log("삭제 성공");
+            }
+        });
+    }
 });

@@ -139,8 +139,7 @@
 				</if>
 			</otherwise>
 		</choose>
-		
-		ORDER BY PLAN_HD_DATE DESC
+		ORDER BY PLAN_HD_CODE DESC, PLAN_HD_DATE DESC
 	</select>
 	
 	<!-- 로그인한 유저가 작성한 생산계획 조회 -->

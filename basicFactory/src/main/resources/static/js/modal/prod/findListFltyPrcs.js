@@ -55,13 +55,13 @@ $("document").ready(function () {
                   <td>${obj.processPerfomNo}</td>
                   <td>${obj.finPrdCdCode}</td>
                   <td>${obj.finPrdCdName}</td>
-                  <td>${obj.fltyVol}</td>
+                  <td>${obj.fltyPrcsVol}</td>
                   <td>${obj.procCdName}</td>
                   <td>${obj.mchnName}</td>
                   <td>${obj.faultyCdCode}</td>
                   <td>${obj.faultyName}</td>
                   <td>${obj.fltyPrcsDate}</td>
-                  <td>${obj.empName}</td>
+                  <td>${obj.empId}</td>
                   <td>${obj.fltyPrcsRemk}</td>
                 </tr>`
     $("#findListFltyPrcstbody").append(node);
@@ -74,13 +74,13 @@ $("document").ready(function () {
     let processPerfomNo = $(this).find("td:eq(2)").text();
     let finPrdCdCode = $(this).find("td:eq(3)").text();
     let finPrdCdName = $(this).find("td:eq(4)").text();
-    let fltyVol = $(this).find("td:eq(5)").text();
+    let fltyPrcsVol = $(this).find("td:eq(5)").text();
     let procCdName = $(this).find("td:eq(6)").text();
     let mchnName = $(this).find("td:eq(7)").text();
     let faultyCdCode = $(this).find("td:eq(8)").text();
     let faultyName = $(this).find("td:eq(9)").text();
     let fltyPrcsDate = $(this).find("td:eq(10)").text();
-    let empName = $(this).find("td:eq(11)").text();
+    let empId = $(this).find("td:eq(11)").text();
     let fltyPrcsRemk = $(this).find("td:last").text();
 
     $("#processPerfomNo").val(processPerfomNo);
@@ -94,9 +94,9 @@ $("document").ready(function () {
                     <td>${fltyPrcsNo}</td>
                     <td id="faultyCode">${faultyCdCode}</td>
                     <td id="faultyName">${faultyName}</td>
-                    <td>${fltyVol}</td>
+                    <td>${fltyPrcsVol}</td>
                     <td><input type="date" value="${fltyPrcsDate}"></td>
-                    <td>${empName}</td>
+                    <td>${empId}</td>
                     <td>${fltyPrcsRemk}</td>
                 </tr>`;
 

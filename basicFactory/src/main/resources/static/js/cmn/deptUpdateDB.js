@@ -95,7 +95,9 @@ $("document").ready(function(){
                 }
             }
             //삭제용
-            deleteSaveAjax(delList);
+            if(delList.length != 0){
+                deleteSaveAjax(delList);
+            }
             //수정용
             for(obj of modifyList){
                 modifySaveAjax(obj);

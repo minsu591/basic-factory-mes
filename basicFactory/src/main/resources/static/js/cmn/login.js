@@ -1,4 +1,9 @@
 $("document").ready(function(){
+    $("#empPw").on("keyup",function(key){
+        if(key.keyCode == 13){
+            $("#signInBtn").click();
+        }
+    });
     $("#signInBtn").click(function(){
         let empId = $("#empId").val();
         let empPw = $("#empPw").val();
@@ -16,21 +21,23 @@ $("document").ready(function(){
                 //-1 : 존재하는 아이디가 아님
                 // 0 : 비밀번호 오류
                 // 1 : 로그인
+                console.log("result");
                 if(result == -1){
-                    alert("아이디가 존재하지 않습니다.");
+                    Swal.fire({
+                        icon: "warning",
+                        title: "아이디가 존재하지 않습니다."
+                      });
                 }else if(result == 0){
-                    alert("비밀번호가 올바르지 않습니다.")
+                    Swal.fire({
+                        icon: "warning",
+                        title: "비밀번호가 올바르지 않습니다."
+                      });
                 }else if(result == 1){
-                    let h = window.location.href;
-                    if(h == 'http://localhost/cmn/login'){
-                        location.href = 'http://localhost/cmn/empView';
-                    }else{
-                        location.href = window.location.href;
-                    }
+                    location.href = 'http://localhost/prod/planView';
                 }
 
             }
         })
     })
-
+        
 });

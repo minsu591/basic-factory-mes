@@ -179,7 +179,10 @@
    	<!-- 주문관리에서 주문 삭제 -->
    	<delete id="orderDelete">
    		DELETE FROM BF_SALES_ORD_DTL
-   		WHERE SLS_ORD_DTL_NO = #{priKey}
+   		WHERE SLS_ORD_DTL_NO IN
+   		<foreach item="priKey" collection="list" open="(" separator="," close=")">
+   			#{priKey}
+   		</foreach>
    	</delete>
 
    	<!-- 생산계획에 존재하지 않거나 생산계획에 존재하는데 주문량에 못 미치는 주문내역 조회 -->

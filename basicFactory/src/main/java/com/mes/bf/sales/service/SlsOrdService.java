@@ -30,7 +30,7 @@ public interface SlsOrdService {
 	void orderUpdate(String priKey, String updCol, String updCont);
 	
 	//주문관리 삭제
-	void orderDelete(String priKey);
+	void orderDelete(List<String> delList);
 	
 	//주문관리 헤더등록
 	void orderInsertHd(SlsOrdHdVO vo);

@@ -48,8 +48,8 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 	}
 
 	@Override
-	public void orderDelete(String priKey) {
-		mapper.orderDelete(priKey);
+	public void orderDelete(List<String> delList) {
+		mapper.orderDelete(delList);
 	}
 
 	@Override

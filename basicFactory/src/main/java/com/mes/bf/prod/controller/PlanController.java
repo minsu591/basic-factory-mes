@@ -106,7 +106,6 @@ public class PlanController {
 		List<PlanVO> plans = planHdDtl.getPlans();
 		int result = service.planHdInsert(planHdDtl.getPlanHdVO());
 		int resultSum = 0;
-		System.out.println(result);
 		if(result == 1) {
 			for(int i = 0; i<plans.size();i++) {
 				int resultEl = service.planInsert(plans.get(i));

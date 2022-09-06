@@ -127,7 +127,6 @@ $("document").ready(function () {
 
     //저장 버튼 이벤트
     $("#saveBtn").on("click", function () {
-
         let trs = table.find("tbody tr");
         if(confirm("저장하시겠습니까?")==true){
             //null 검사
@@ -147,9 +146,10 @@ $("document").ready(function () {
             }
             
             //삭제용
-            for(priKey of delList){
-                deleteSaveAjax(priKey);
-            }
+            console.log('delList');
+            console.log(delList);
+            deleteSaveAjax(delList);
+
             //수정용
             console.log(modifyList);
             for (obj of modifyList) {
@@ -290,9 +290,9 @@ $("document").ready(function () {
     //선택 삭제 이벤트
     $("#deleteBtn").on("click",function(){
         table.find("tbody input:checkbox[name='cb']").each(function(idx,el){
-            if($(el).is(":checked")){                                   //체크 되어있다면
-                let tr = $(el).parent().parent();                       //[el:input]의 부모=td의 부모=tr을 변수에 저장
-                let priKey = tr.find("input[type = 'hidden']").val();    //tr내 td에서 위에 선언한 priKeyidx(1)번째의 텍스트 저장
+            if($(el).is(":checked")){                                  
+                let tr = $(el).closest('tr');
+                let priKey = tr.find("input[type='hidden']").val();
                 delList.push(priKey);
                 tr.remove();
                 for(let i = 0; i< modifyList.length; i++){              
@@ -304,19 +304,19 @@ $("document").ready(function () {
         });
     });
 
-    function deleteSaveAjax(priKey) {
+    function deleteSaveAjax(delList) {
         $.ajax({
             url: 'ordManage/delete',
-            type : 'POST',
+            type : 'DELETE',
             dataType: 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
-                priKey
+                delList
             },
             success: function (result) {
-                console.log("삭제완료");
+                console.log("삭제 성공");
             }
-        })
+        });
     }
 
 });

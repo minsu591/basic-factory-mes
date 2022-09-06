@@ -19,4 +19,14 @@ public class RscOrderServiceImpl implements RscOrderService {
 		return rscOrderMapper.orderDetailList(rscOrderCode);
 	}
 
+	@Override
+	public Integer orderInsert(RscOrderVO vo) {
+		return rscOrderMapper.orderInsert(vo);
+	}
+
+	@Override
+	public Integer orderDtInsert(RscOrderVO vo) {
+		return rscOrderMapper.orderDtInsert(vo);
+	}
+
 }

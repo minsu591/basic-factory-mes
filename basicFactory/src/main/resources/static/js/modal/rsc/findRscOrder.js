@@ -45,6 +45,15 @@ $(document).ready(function () {
   $("#findRscOrdertbody").append(node);
  }
 
+
+ //검색버튼
+ $("#searchOut").click(function (){
+  let rscOrderTtl = $("#rscOrderTtl").val();
+  let rscOrderDt = $("#rscOrderDt").val();
+  findRscOrderList(rscOrderTtl, rscOrderDt)
+ })
+
+
  //테이블 클릭이벤트
  $("#findRscOrdertbody").on("click", "tr", function () {
   let rscOrderCode = $(this).find("td:eq(0)").text();
@@ -118,7 +127,7 @@ $(document).ready(function () {
 <td><input type="text" class="rsccode" value="${obj.rscCdCode}"></td>
 <td><input type="text" class="rscname" value="${obj.rscCdName}" disabled></td>
 <td><input type="text" value="${obj.rscOrderVol}"></td>
-<td><input type="text" value="${obj.rscCdUnit}" disabled></td>
+<td><input type="text" class="unit" value="${obj.rscCdUnit}" disabled></td>
 <td><input type="text" class="rscOrderPrc" value="${obj.rscOrderPrc}"></td>
 <td><input type="text" value="${prc}" class="totalPrice" disabled></td>
 <td><input type="text" value="${obj.rscOrderDtlRemk}"></td>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mes.bf.cmn.mapper.BomMapper;
 import com.mes.bf.cmn.service.BomService;
+import com.mes.bf.cmn.vo.BomInsertVO;
 import com.mes.bf.cmn.vo.BomRscDtlVO;
 import com.mes.bf.cmn.vo.BomRscVO;
 import com.mes.bf.cmn.vo.BomVO;
@@ -41,8 +42,8 @@ public class BomServiceImpl implements BomService {
 		return mapper.bomRscDelete(rscDelList);
 	}
 	@Override
-	public int bomRscInsert(BomRscVO bomRsc,String type) {
-		return mapper.bomRscInsert(bomRsc, type);
+	public int bomRscInsert(BomRscVO bomRsc) {
+		return mapper.bomRscInsert(bomRsc);
 	}
 	@Override
 	public int bomRscUpdate(String priKey, String updCol, String updCont) {
@@ -55,6 +56,10 @@ public class BomServiceImpl implements BomService {
 	@Override
 	public List<LineCodeHdVO> findLine() {
 		return mapper.findLine();
+	}
+	@Override
+	public int bomAllInsert(BomInsertVO bomInfo) {
+		return mapper.bomAllInsert(bomInfo);
 	}
 
 }

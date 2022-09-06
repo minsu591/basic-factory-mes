@@ -20,3 +20,6 @@ h3 {
     width : 100%;
     margin : auto;
 }
+.swal2-container {
+  z-index: 20000 !important;
+}

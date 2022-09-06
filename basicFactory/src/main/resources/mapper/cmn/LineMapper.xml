@@ -48,7 +48,16 @@
 	<!-- line insert, delete, update -->
 	<insert id="lineCodeInsert" parameterType ="lineCodeVO">
 		INSERT INTO BF_CMN_LINE_CODE
-		VALUES('LINEDT'||LPAD(BF_CMN_LINE_CODE_SEQ.NEXTVAL,3,'0'),#{lineCdHdCode},#{procCdCode},#{mchnCode},#{lineCdOrd})
+		VALUES('LINEDT'||LPAD(BF_CMN_LINE_CODE_SEQ.NEXTVAL,3,'0')
+		<choose>
+			<when test="lineCdHdCode == null || lineCdHdCode == ''">
+			,(select line_cd_hd_code from BF_CMN_LINE_CODE_HD where line_cd_hd_name = #{lineCdHdName})
+			</when>
+			<otherwise>
+			,#{lineCdHdCode}
+			</otherwise>
+		</choose>
+		,#{procCdCode},#{mchnCode},#{lineCdOrd})
 	</insert>
 	
 	<update id="lineCodeUpdate">
