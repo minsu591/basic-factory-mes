@@ -45,6 +45,15 @@ $(document).ready(function () {
   $("#findRscOrdertbody").append(node);
  }
 
+
+ //검색버튼
+ $("#searchOut").click(function (){
+  let rscOrderTtl = $("#rscOrderTtl").val();
+  let rscOrderDt = $("#rscOrderDt").val();
+  findRscOrderList(rscOrderTtl, rscOrderDt)
+ })
+
+
  //테이블 클릭이벤트
  $("#findRscOrdertbody").on("click", "tr", function () {
   let rscOrderCode = $(this).find("td:eq(0)").text();

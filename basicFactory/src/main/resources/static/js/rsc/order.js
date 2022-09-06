@@ -162,33 +162,24 @@ $("document").ready(function () {
  //등록버튼
 
  $("#subBtn").click(function () {
-  let checked = $("input[name='chk']:checked").length;
-  if (checked == 0) {
-   submitWarning();
-   return;
-  }
   let param = [];
   let info = [];
   let rowData = new Array();
-  let checkbox = $("input[name='chk']:checked");
-  console.log(checkbox)
+  let outTable = $("#outTable")
   // 체크된 체크박스 값을 가져온다
-  checkbox.each(function (i) {
-   // checkbox.parent() : checkbox의 부모는 <td>이다.
-   // checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
-   let tr = checkbox.parent().parent().eq(i);
-   let td = tr.children().children();
+  outTable.each(function (i) {
+   let tr = outTable.children.eq(i); //outTable.chidren() = tr
+   let td = tr.children();
    // 체크된 row의 모든 값을 배열에 담는다.
    rowData.push(tr.text());
 
    // td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
-   let rscOutCode = td.eq(1).val();
-   let rscOutDate = td.eq(2).val();
+   let rscOrderCode = td.eq(1).val();
+   let rscOrderDate = td.eq(2).val();
    let rscCdCode = td.eq(3).val();
-   let rscLotNo = td.eq(5).val();
-   let rscOutVol = td.eq(7).val();
-   let vendCdCode = td.eq(8).val();
-   let rscOutResn = td.eq(10).val();
+   let rscOrderVol = td.eq(5).val();
+   let rscOrderPrc = td.eq(7).val();
+   let rscOrderRemk = td.eq(9).val();
    let empId = td.eq(11).val();
    if (!rscOutDate || !vendCdCode || !rscCdCode || !rscLotNo || !rscOutVol || !empId) {
     Swal.fire({

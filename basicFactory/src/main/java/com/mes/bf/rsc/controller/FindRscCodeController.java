@@ -43,14 +43,14 @@ public class FindRscCodeController {
 	//자재발주 조회
 	@GetMapping(value="/findRscOrder", produces= { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<RscOrderVO>> findRscOrder(@RequestParam Map<String, String> queryParameters){
-		List<RscOrderVO> list = findRscService.rscOrderList(queryParameters.get("rscOrderCode"),queryParameters.get("rscOutDate"));
+		List<RscOrderVO> list = findRscService.rscOrderList(queryParameters.get("rscOrderTitle"),queryParameters.get("rscOrderDate"));
 		return new ResponseEntity<List<RscOrderVO>>(list, HttpStatus.OK);
 	}
 	
 	//자재출고 조회
 	@GetMapping(value="/findRscOut", produces= { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<RscOutVO>> findRscOut(@RequestParam Map<String, String> queryParameters){
-		List<RscOutVO> list = findRscService.modalOutList(queryParameters.get("rscOrderTitle"),queryParameters.get("rscOrderDate"));
+		List<RscOutVO> list = findRscService.modalOutList(queryParameters.get("rscOutCode"),queryParameters.get("rscOutDate"));
 		return new ResponseEntity<List<RscOutVO>>(list, HttpStatus.OK);
 	}
 	
