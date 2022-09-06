@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,9 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.sales.service.SlsOutService;
-import com.mes.bf.sales.vo.SlsOrdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
-import com.mes.bf.sales.vo.SlsOrdInsertVO;
 import com.mes.bf.sales.vo.SlsOutDtlVO;
 import com.mes.bf.sales.vo.SlsOutHdDtlVO;
 import com.mes.bf.sales.vo.SlsOutHdVO;
@@ -98,5 +98,19 @@ public class SlsOutController {
 		for(SlsOutDtlVO outDtlVO :vo.getSlsOutDtlVO()) {
 			service.outInsertDtl(outDtlVO);
 		}
+	}
+	
+	//완제품 출고관리 수정
+	@PutMapping("/outManage/update")
+	public void outUpdate(@RequestParam Map<String, String> param) {
+		System.out.println("들어오나");
+		service.outUpdate(param.get("slsOutDtlNo"),
+						  param.get("slsOutDtlVol"));
+	}
+	
+	@DeleteMapping("/outManage/delete")
+	public void orderDelete(@RequestParam(value="delList[]") List<String> delList) {
+		System.out.println("들어와?");
+		service.outDelete(delList);
 	}
 }

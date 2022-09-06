@@ -31,4 +31,10 @@ public interface SlsOutService {
 	
 	//출고관리 바디등록
 	void outInsertDtl(SlsOutDtlVO vo);
+	
+	//출고관리 수정
+	void outUpdate(String slsOutDtlNo ,String slsOutDtlVol);
+	
+	//출고관리 삭제
+	void outDelete(List<String> delList);
 }
