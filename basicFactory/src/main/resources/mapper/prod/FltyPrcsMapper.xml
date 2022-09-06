@@ -3,30 +3,43 @@
 <mapper namespace="com.mes.bf.prod.mapper.FltyPrcsMapper">
 
 	<!-- 생산불량 -->
-	<select id="procFlty" resultType="vfindprocperformVO">
-		SELECT PP.PROCESS_PERFOM_NO,
-	            IDE.FIN_PRD_CD_CODE, 
-	            FPC.FIN_PRD_CD_NAME,
-	            PP.FLTY_VOL,
-	            P.PROC_CD_NAME,
-	            P.MCHN_NAME,
-	            IDE.WORK_DATE,
-	            PP.WORKER_NAME
-		FROM BF_PROD_PROCESS_PERFORMANCE PP
-		JOIN BF_PROD_PROCESS P
-		        ON PP.PROCESS_NO = P.PROCESS_NO
-		JOIN BF_PROD_INST_DETAIL IDE
-		        ON P.INST_PROD_NO = IDE.INST_PROD_NO
+	<select id="procFlty" resultType="FindProcFlty">
+		select IDE.FIN_PRD_CD_CODE,  
+				P.PROC_CD_NAME, 
+				P.MCHN_NAME, 
+				PP.FLTY_VOL, 
+        		PP.PROCESS_PERFOM_NO, 
+        		NVL(fpd.flty_prcs_vol, '0') AS flty_prcs_vol, 
+        		FPC.FIN_PRD_CD_NAME, 
+        		IDE.WORK_DATE, 
+        		PP.WORKER_NAME
+		from BF_PROD_INST_DETAIL IDE
+		join BF_PROD_PROCESS P
+			on P.INST_PROD_NO = IDE.INST_PROD_NO
+		join BF_PROD_PROCESS_PERFORMANCE PP
+			on PP.PROCESS_NO = P.PROCESS_NO
 		JOIN BF_CMN_FINISH_PRODUCT_CODE FPC
-		        ON IDE.FIN_PRD_CD_CODE = FPC.FIN_PRD_CD_CODE
-		WHERE PP.FLTY_VOL > 0
-        ORDER BY PP.PROCESS_PERFOM_NO
+			ON IDE.FIN_PRD_CD_CODE = FPC.FIN_PRD_CD_CODE
+		left outer join (SELECT PROCESS_PERFOM_NO, SUM(flty_prcs_vol) AS flty_prcs_vol
+		                    from bf_prod_flty_prcs_details
+		                    group by PROCESS_PERFOM_NO) fpd
+			on fpd.process_perfom_no = pp.process_perfom_no
+		where (pp.flty_vol > fpd.flty_prcs_vol
+			and fpd.flty_prcs_vol is not null)
+		or fpd.flty_prcs_vol is null
+		and PP.FLTY_VOL > 0
 	</select>
 	
+	<!-- 불량처리 등록 -->
 	<insert id="fltyPrcsInsert" parameterType="fltyPrcs">
 		INSERT INTO BF_PROD_FLTY_PRCS_DETAILS
-		VALUES(BF_PROD_FLTY_PRCS_DETAILS_SEQ.NEXTVAL, #{faultyCdCode}, #{fltyPrcsDate}, 
-				#{fltyPrcsRemk}, #{processPerfomNo}, #{empId})
+		VALUES(BF_PROD_FLTY_PRCS_DETAILS_SEQ.NEXTVAL, 
+				#{faultyCdCode}, 
+				#{fltyPrcsDate}, 
+				#{fltyPrcsRemk}, 
+				#{processPerfomNo}, 
+				#{empId},
+				${fltyPrcsVol})
 	</insert>
 	
 	<update id="fltyPrcsUpdate">
@@ -34,11 +47,6 @@
 		SET ${updCol} = #{updCont}
 		WHERE FLTY_PRCS_NO = #{prikey}
 	</update>
-	
-	<delete id="fltyPrcsDelete">
-		DELETE FORM BF_PROD_FLTY_PRCS_DETAILS
-		WHERE FLTY_PRCS_NO = #{prikey} 
-	</delete>
 	
 	<!-- 불량처리목록(모달창) -->
 	<select id="findlistFltyPrcs" resultType="fltyPrcs">
@@ -48,12 +56,12 @@
 				FPD.FLTY_PRCS_NO,
 	            FPD.FLTY_PRCS_DATE, 
 	            NVL(FPD.FLTY_PRCS_REMK, ' ') AS FLTY_PRCS_REMK,
-	            PP.FLTY_VOL,
+	            FPD.FLTY_PRCS_VOL,
 	            P.PROC_CD_NAME, 
 	            P.MCHN_NAME,
 	            IDE.FIN_PRD_CD_CODE, 
 	            FPC.FIN_PRD_CD_NAME,
-	            EMP.EMP_NAME
+	            EMP.EMP_ID
 	    FROM BF_PROD_FLTY_PRCS_DETAILS FPD
 	    JOIN BF_CMN_FAULTY_CODE FC
 	        ON FPD.FAULTY_CD_CODE = FC.FAULTY_CD_CODE
@@ -92,12 +100,12 @@
 				FC.FAULTY_NAME,
 	            FPD.FLTY_PRCS_DATE, 
 	            NVL(FPD.FLTY_PRCS_REMK, ' ') AS FLTY_PRCS_REMK,
-	            PP.FLTY_VOL,
+	            FPD.FLTY_PRCS_VOL,
 	            P.PROC_CD_NAME, 
 	            P.MCHN_NAME,
 	            IDE.FIN_PRD_CD_CODE, 
 	            FPC.FIN_PRD_CD_NAME,
-	            EMP.EMP_NAME
+	            EMP.EMP_ID
 	    FROM BF_PROD_FLTY_PRCS_DETAILS FPD
 	    JOIN BF_CMN_FAULTY_CODE FC
 	        ON FPD.FAULTY_CD_CODE = FC.FAULTY_CD_CODE
@@ -120,12 +128,12 @@
 				FC.FAULTY_NAME,
 	            FPD.FLTY_PRCS_DATE, 
 	            NVL(FPD.FLTY_PRCS_REMK, ' ') AS FLTY_PRCS_REMK,
-	            PP.FLTY_VOL,
+	            FPD.FLTY_PRCS_VOL,
 	            P.PROC_CD_NAME, 
 	            P.MCHN_NAME,
 	            IDE.FIN_PRD_CD_CODE, 
 	            FPC.FIN_PRD_CD_NAME,
-	            EMP.EMP_NAME
+	            EMP.EMP_ID
 	    FROM BF_PROD_FLTY_PRCS_DETAILS FPD
 	    JOIN BF_CMN_FAULTY_CODE FC
 	        ON FPD.FAULTY_CD_CODE = FC.FAULTY_CD_CODE
@@ -143,8 +151,9 @@
 		<if test="finPrdCdName != null and finPrdCdName != ''">
 			AND FPC.FIN_PRD_CD_NAME = #{finPrdCdName}
 		</if>
+		<!-- DATE타입은 TO_DATE로  -->
 		<if test="(fltyPrcsSdate != null and fltyPrcsSdate != '') and (fltyPrcsEdate != null and fltyPrcsEdate != '')">
-			AND FPD.FLTY_PRCS_DATE BETWEEN #{fltyPrcsSdate} AND #{fltyPrcsEdate}
+			AND FPD.FLTY_PRCS_DATE BETWEEN  #{fltyPrcsSdate} AND #{fltyPrcsEdate}
 		</if>
 		ORDER BY FLTY_PRCS_DATE
 	</select>

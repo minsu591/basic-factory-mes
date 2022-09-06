@@ -30,13 +30,12 @@ $("document").ready(function () {
   //수정이 되는 list 정의
   let modifyList = [];
   let addList = [];
-  let delList = [];
   //수정할 테이블
   let table = $("#fltyPrcsTable");
   //td 수정을 적용할 인덱스(모달창, input 빼고 오직 td에서 이루워 지는 수정만)
   let avArr = [3,6];
   //notNull인 td
-  let notNullList = [1,2,3,5];
+  let notNullList = [2,3,5];
   //primary키인 index
   let fltyPrcsPriKeyIdx = 1;
 
@@ -64,7 +63,7 @@ $("document").ready(function () {
     tdInfo.attr("contenteditable", "true");
 
     //td에 focus가 되면
-    tdInfo.focus(function(){
+    tdInfo.unbind("focus").bind("focus", function(){  //아직도 일어나고 있는 포커스를 죽이고 다시 포커스
       defaultVal = tdInfo.text();
       tdInfo.addClass("tdBorder");
     });
@@ -78,7 +77,7 @@ $("document").ready(function () {
     });
 
     //td에 blur가 되면(포커스 잃으면)
-    tdInfo.blur(function(e){
+    tdInfo.unbind("blur").bind("blur", function(e){
       e.preventDefault();
       tdInfo.attr("contenteditable", "false").removeClass("tdBorder");
       //not null이여야한느 값이 null이 되면 이전에 입력한 값으로 돌려놓게
@@ -99,25 +98,19 @@ $("document").ready(function () {
 
   //기존에 있는 값들 중에 td변경될 때(체인지이벤트 일어나는 거 갖고 옴)
   table.find("tbody").on("change", "td:not(:first-child)", function (e) {         //조회해온 tbody에 change 이벤트가 발생했을 때, td 첫번째 자식요소를 제외한 나머지 td들이 적용됨
-    console.log(e);
     e.preventDefault();
 
-    let col = $(this).index() - 1;                                              //클릭된 td의 index를 col변수에 저장(숨겨진 td의 index값만 찾음)
+    let col = $(this).index();                                              //클릭된 td의 index를 col변수에 저장(숨겨진 td의 index값만 찾음)
     let priKey = $(this).parent().find("td:eq("+fltyPrcsPriKeyIdx+")").text();  //해당 td의 부모에서 프라이머리키 값이 있는 태그를 찾아 그 값을 저장
-    let upCol = table.find("thead").find("th:eq("+col+")").attr("name");        //th의 col번째 th name값 갖고 옴(수정될 column)
+    let updCol = table.find("thead").find("th:eq("+col+")").attr("name");        //th의 col번째 th name값 갖고 옴(수정될 column)
     let updCont = $(this).text();                                               //해당 td의 text값을 저장(수정될 content);
-    console.log(col);
-    console.log(priKey);
-    console.log(upCol);
-    console.log(updCont);
   
     if(col == 4){                                                               //수정하고 싶은 td를 클릭하면 td text만 가져오게 되어있는데 
       updCont = $(this).find("input[type='date']").val();                       //예외적으로 체크박스나 날짜 데이터는 td안에 input이니까 td안에 input value도 가져오겠다
     }
     if(priKey != null && priKey != '') {                                        //priKey가 null이면 modifyList에 담기지 않도록 하는 if문
-      checkNewModify(priKey, upCol, updCont);
+      checkNewModify(priKey, updCol, updCont);
     }
-    console.log(modifyList);
 
     e.stopPropagation();
   });
@@ -138,31 +131,36 @@ $("document").ready(function () {
     let trs = table.find("tbody tr");
     if(confirm("저장하시겠습니까?") == true) {
       //null 검사
-      for(tr of trs){
-        for(idx of notNullList) {   //tr돌면서 notNullList index가 null인지 검사
-          let content;
-          if(idx == 4) {
-            content = $(tr).find("input[type='date']").val();
-          } else {
-            content = $(tr).find("td:eq("+idx+")").text();
-          }
-          console.log(idx)
-          if(content == null || content == '') {
-            alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요');
-            return;
-          }
-        }
-      }
-
-      //삭제용
+      // for(tr of trs){
+      //   for(idx of notNullList) {   //tr돌면서 notNullList index가 null인지 검사
+      //     let content;
+      //     if(idx == 5) {
+      //       content = $(tr).find("input[type='date']").val();
+      //     } else {
+      //       content = $(tr).find("td:eq("+idx+")").text();
+      //     }
+      //     if(content == null || content == '') {
+      //       alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요');
+      //       return;
+      //     }
+      //   }
+      // }
 
       //수정용
       for(obj of modifyList) {
         modifySaveAjax(obj);
       }
+      //추가용
+      let trs = $("#fltyPrcstbody").find("tr[name='addTr']");
+      let fltyPrcsNo;
+      for(tr of trs){
+        fltyPrcsNo = $(tr).find("td:eq(1)").text();
+        console.log("신규 주문 추가등록!!");
+        addSaveAjax(tr);
+      }
 
-      alert("저장이 왼료되었습니다.");
-      location.reload();
+      alert("저장이 완료되었습니다.");
+      //location.reload();
     }
   });
 
@@ -174,13 +172,13 @@ $("document").ready(function () {
     console.log("modify");
     $.ajax({
       url : 'fltyPrcs/update',
-      type : "PUT",
+      type : "POST",
       dataType : 'text',
       contentType : "application/x-www-form-urlencoded; charset=UTF-8;",
       data : {
-        priKey : priKey,
-        updCol : updCol,
-        updCont : updCont
+        priKey,
+        updCol,
+        updCont
       },
       success : function() {
         console.log("업데이트 완료");
@@ -190,9 +188,35 @@ $("document").ready(function () {
     });
   };
 
+  //불량처리 추가 등록 Ajax
+  function addSaveAjax(tr){
+    let processPerfomNo = $("#processPerfomNo").val();
+    let faultyCdCode = $(tr).find("td:eq(2)").text();
+    let fltyPrcsVol = $(tr).find("td:eq(4)").text();
+    let fltyPrcsDate = $(tr).find("input[type='date']").val();
+    let empId = $(tr).find("td:eq(6)").text();
+    let fltyPrcsRemk = $(tr).find("td:eq(7)").text();
 
-  
-
+    $.ajax({
+      url : 'fltyPrcs/insert',
+      type : 'POST',
+      contentType: "application/json;charset=utf-8",
+      data :  JSON.stringify({
+        processPerfomNo,
+        faultyCdCode,
+        fltyPrcsVol,
+        fltyPrcsDate,
+        empId,
+        fltyPrcsRemk
+      }),
+      success : function(){
+        console.log("추가 성공");
+      },
+      error : function(err){
+        //console.log(err);
+      }
+    })
+  }
 
   //행추가 이벤트
   $("#addBtn").on("click",function(){
@@ -203,22 +227,28 @@ $("document").ready(function () {
                 <td><input type="checkbox" name="chk" checked ></td>`;
     }
     node +=`<td name="flty_prcs_no"></td>
-            <td class=""></td>
-            <td class=""></td>
+            <td class="faultyCode"></td>
+            <td class="faultyName"></td>
             <td></td>
             <td><input type="date"></td>
-            <td class=""></td>
+            <td class="empId"></td>
             <td></td>
         </tr>`;
     $("#fltyPrcstbody").append(node);
   });
 
-  //삭제
-
+  //선택 삭제 이벤트
+  $("#deleteBtn").on("click", function(){
+    $("#fltyPrcstbody").find("input:checkbox[name='chk']").each(function(idx, el){
+      let tr = $(el).closest('tr');
+      if($(el).is(":checked")){
+        tr.remove();
+      }
+    });
+  });
 
   //생산 불량 목록 tr 클릭
   $("#procFltytbody").on("click", "tr", function(e){
-    console.log("hi");
     let procPerfomNo = $(this).find("td:first").text();
     let finCode = $(this).find("td:eq(2)").text();
     let finCdName = $(this).find("td:eq(3)").text();
@@ -233,14 +263,12 @@ $("document").ready(function () {
     
     if($("#fltyPrcstbody tr").length != 0){
       if(confirm('현재 입력한 내용이 모두 삭제됩니다.')==true){
-          fltyPrcsmodifyList = [];
-          fltyPrcsaddList = [];
-          fltyPrcsdelList = [];
-          $("#fltyPrcstbody tr").remove();
+        modifyList = [];
+        addList = [];
+        $("#fltyPrcstbody tr").remove();
       }else{
           return false;
       }
     }
   });
-
 });
