@@ -24,4 +24,36 @@
          WHERE RSC_ORDER_CODE = #{rscOrderCode}
            AND RSC_ORDER_ST = 0
 	</select>
+	
+	<insert id="orderInsert" parameterType="com.mes.bf.rsc.vo.RscOrderVO">
+		INSERT INTO BF_RSC_ORDER
+		
+		VALUES (
+			   'RSC_OD' || LPAD(BF_RSC_ORDER_CODE_SEQ.NEXTVAL,3,0), 
+			   #{rscOrderTitle}, 
+			   #{rscOrderDate}, 
+			   #{rscOrderRemk}, 
+			   #{empId}
+			   )
+	</insert>
+	<insert id="orderDtInsert" parameterType="com.mes.bf.rsc.vo.RscOrderVO">
+		<selectKey keyProperty="rscOrderCode" resultType="String" order="BEFORE">
+			SELECT MAX(RSC_ORDER_CODE)
+			  FROM BF_RSC_ORDER
+		</selectKey>
+		INSERT INTO BF_RSC_ORDER_DETAILS
+		
+		VALUES (
+			   'RSC_DTCD' || LPAD(BF_RSC_ORDER_DETAILS_CODE_SEQ.NEXTVAL,4,0),
+			   #{rscOrderCode},
+			   #{rscCdCode},
+			   #{vendCdCode},
+			   #{rscOrderVol},
+			   0,
+			   #{rscOrderPrc},
+			   0
+			   ,#{rscOrderDtlRemk}
+			   )
+			   
+	</insert>
 </mapper>

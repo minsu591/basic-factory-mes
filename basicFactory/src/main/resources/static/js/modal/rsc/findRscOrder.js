@@ -127,7 +127,7 @@ $(document).ready(function () {
 <td><input type="text" class="rsccode" value="${obj.rscCdCode}"></td>
 <td><input type="text" class="rscname" value="${obj.rscCdName}" disabled></td>
 <td><input type="text" value="${obj.rscOrderVol}"></td>
-<td><input type="text" value="${obj.rscCdUnit}" disabled></td>
+<td><input type="text" class="unit" value="${obj.rscCdUnit}" disabled></td>
 <td><input type="text" class="rscOrderPrc" value="${obj.rscOrderPrc}"></td>
 <td><input type="text" value="${prc}" class="totalPrice" disabled></td>
 <td><input type="text" value="${obj.rscOrderDtlRemk}"></td>
