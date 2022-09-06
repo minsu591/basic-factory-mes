@@ -1,0 +1,16 @@
+.clickable {
+  cursor: pointer;
+}
+
+.hover {
+  text-decoration: underline;
+}
+
+.pagingactive {
+  width: 20px;
+  height: 20px;
+  padding: 5px;
+  background: #1abc9c;
+  color: white;
+  border-radius: 100%;
+}

@@ -39,6 +39,7 @@ $(document).ready(function () {
         for (obj of data) {
           ProcPerformMakeRow(obj);
         }
+        $("#remo").remove();
         page();
       },
     });
@@ -80,11 +81,4 @@ function ProcPerformMakeRow(obj) {
               </tr>
   `;
   $("#procPerfomTable tbody").append(node);
-
-}
-
-function page() {
-  $('#procPerfomTable').each(function () {
-
-  })
 }

@@ -2,13 +2,12 @@ $(document).ready(function () {
   findAllNonOpHistory();
 
   $("#findnonOpHistoryBtn").click(function () {
-
     let sdate = $("#sdate").val();
     let edate = $("#edate").val();
     let mchnName = $("#mchnname").val();
     let nonOpCode = $("#nonopcode").val();
 
-    console.log("sdate->" + sdate)
+    console.log("sdate->" + sdate);
     console.log("edate->" + edate);
     console.log(mchnName);
     console.log(nonOpCode);
@@ -22,7 +21,7 @@ $(document).ready(function () {
         sDate: sdate,
         eDate: edate,
         mchnName: mchnName,
-        nonOpCode: nonOpCode
+        nonOpCode: nonOpCode,
       },
       error: function (error, status, msg) {
         alert("상태코드 " + status + "에러메시지" + msg);
@@ -35,10 +34,7 @@ $(document).ready(function () {
         }
       },
     });
-
-
   });
-
 });
 
 function findAllNonOpHistory() {
@@ -55,6 +51,7 @@ function findAllNonOpHistory() {
       for (obj of data) {
         nonOpHistoryMakeRow(obj);
       }
+      page();
     },
   });
 }

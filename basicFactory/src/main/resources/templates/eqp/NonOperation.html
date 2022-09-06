@@ -10,6 +10,8 @@
 <script type="text/javascript" th:src="@{/js/eqp/NonOperation.js}"></script>
 <script type="text/javascript" th:src="@{/js/modal/eqp/findnonopcode.js}"></script>
 <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
+<script type="text/javascript" th:src="@{/js/pages/pagination.js}"></script>
+<link th:href="@{/css/pagination.css}" rel="stylesheet" />
 <link th:href="@{/css/eqp/NonOperation.css}" rel="stylesheet" />
   <div class="pcoded-main-container">
   	<h1>설비 비가동 조회</h1>
@@ -38,7 +40,7 @@
                     </div>
                     <div class="card-body table-border-style">
                         <div class="table-responsive">
-                            <table class="table table-hover" id="nonOpHistoryTable">
+                            <table class="table table-hover paginated" id="nonOpHistoryTable">
                                 <thead>
                                     <tr>
                                         <th th:text="설비코드"></th>

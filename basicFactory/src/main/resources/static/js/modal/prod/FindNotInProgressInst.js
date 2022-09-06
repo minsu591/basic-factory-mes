@@ -11,17 +11,26 @@ $(document).ready(function () {
     //기존 생산지시 날짜별 조회
     let instSdate = $("#instSdate").val();
     let instEdate = $("#instEdate").val();
-    let workScope = '진행전';
+    let workScope = "진행전";
     findNotInProgInstDate(instSdate, instEdate, workScope);
-
   });
-
 
   //모달 테이블 클릭 이벤트
   $("#FindNotInProgressInstTable").on("click", "tr", function () {
     //console.log($(this).find("td:eq(1)").text());
-
+    console.log("모달 -> 유니크라인어레이" + uniqueLineArray);
+    uniqueLineArray.splice(0);
+    console.log("모달 -> 자르고->" + uniqueLineArray);
+    lineArray.splice(0);
+    inDtlVol.splice(0);
+    prodCodeArr.splice(0);
+    $("#planDetailTable tbody tr").each(function () {
+      $(this).children().children().prop("checked", false);
+    });
     $("#planDetailTable tbody tr").remove();
+    $("#procStatusTable tbody tr").remove();
+    $("#rscStockTable tbody tr").remove();
+
     planDetailTableMakeRow($(this));
 
     //라인명 입력
@@ -33,13 +42,13 @@ $(document).ready(function () {
 
 //기존 생산지시 진행전인 건만 조회
 function findNotInProgInst() {
-  let workScope = '진행전'
+  let workScope = "진행전";
   $.ajax({
     url: `findvinst`,
     method: "GET",
     dataType: "json",
     data: {
-      workScope: workScope
+      workScope: workScope,
     },
     success: function (data) {
       console.log(data);
@@ -48,7 +57,6 @@ function findNotInProgInst() {
       for (obj of data) {
         index += 1;
         FindNotInProgressInstTableMakeRow(obj, index);
-
       }
     },
   });
@@ -62,7 +70,7 @@ function findNotInProgInstDate(instSdate, instEdate, workScope) {
     data: {
       workScope: workScope,
       instSdate: instSdate,
-      instEdate: instEdate
+      instEdate: instEdate,
     },
     success: function (data) {
       console.log(data);
@@ -83,10 +91,11 @@ function findProdName(prodCode) {
     contentType: "application/json;charset=utf-8",
     dataType: "json",
     success: function (data) {
-      $("#planDetailTable tbody tr td:eq(11)").children().val(data.lineCdHdName);
+      $("#planDetailTable tbody tr td:eq(11)")
+        .children()
+        .val(data.lineCdHdName);
     },
-    error: function (error, status, msg) {
-    },
+    error: function (error, status, msg) {},
   });
 }
 //생산지시 헤더 조회
@@ -99,13 +108,14 @@ function getInst(instNo) {
     dataType: "json",
     success: function (data) {
       $("#instdate").val(data.instDate);
-      $("#instremk").val(data.instremk);
+      $("#instremk").val(data.instRemk);
       $("#instname").val(data.instName);
       getEmpName(data.empId);
-      $("#empid").append(`<input type="hidden" id="instNo" value="${data.instNo}">`)
+      $("#empid").append(
+        `<input type="hidden" id="instNo" value="${data.instNo}">`
+      );
     },
-    error: function (error, status, msg) {
-    },
+    error: function (error, status, msg) {},
   });
 }
 //empId로 empName찾기
@@ -119,8 +129,7 @@ function getEmpName(empId) {
       console.log(data);
       $("#empid").val(data.empName);
     },
-    error: function (error, status, msg) {
-    },
+    error: function (error, status, msg) {},
   });
 }
 
@@ -135,36 +144,47 @@ function FindNotInProgressInstTableMakeRow(obj, index) {
                 <td>${obj.instProdIndicaVol}</td>
                 <td>${obj.workScope}</td>
                 <td>${obj.workDate}</td>
-                <input type="hidden" value="${obj.instProdNo}" name="instProdNo">
+                <input type="hidden" value="${
+                  obj.instProdNo
+                }" name="instProdNo">
               </tr>`;
 
-
   $("#FindNotInProgressInstTable tbody").append(node);
-
 }
 
 function planDetailTableMakeRow(tr) {
   let instNo = tr.find("td:eq(2)").text();
   let instProdNo = tr.find("input:hidden[name=instProdNo]").val();
-  console.log('instProdNo ->' + instProdNo);
-  $("#instname").append(`<input type="hidden" value="${instProdNo}" id="instProdNo"`);
+  console.log("instProdNo ->" + instProdNo);
+  $("#instname").append(
+    `<input type="hidden" value="${instProdNo}" id="instProdNo"`
+  );
   getInst(instNo);
-
 
   let node = `<tr class="updateInst">
                 <td><input type="checkbox"></td>
-                <td><input type="text" name="prodCode" value="${tr.find("td:eq(3)").text()}"></td>
-                <td><input type="text" disabled value="${tr.find("td:eq(4)").text()}"></td>
-                <td><input type="text" disabled value="${tr.find("td:eq(5)").text()}"></td>
+                <td><input type="text" name="prodCode" value="${tr
+                  .find("td:eq(3)")
+                  .text()}"></td>
+                <td><input type="text" disabled value="${tr
+                  .find("td:eq(4)")
+                  .text()}"></td>
+                <td><input type="text" disabled value="${tr
+                  .find("td:eq(5)")
+                  .text()}"></td>
                 <td><input type="text" disabled></td>
                 <td><input type="text" disabled></td>
                 <td><input type="text" disabled></td>
                 <td><input type="text" disabled></td>
                 <td><input type="text" disabled></td>
                 <td><input type="text" disabled></td>
-                <td><input type="text" value="${tr.find("td:eq(6)").text()}"></td>
+                <td><input type="text" value="${tr
+                  .find("td:eq(6)")
+                  .text()}"></td>
                 <td><input type="text" disabled></td>
-                <td><input type="date" value="${tr.find("td:eq(8)").text()}"></td>
+                <td><input type="date" value="${tr
+                  .find("td:eq(8)")
+                  .text()}"></td>
                 <input type="hidden" value="${instProdNo}" id="instProdNo">
               </tr>`;
 

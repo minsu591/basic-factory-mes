@@ -11,7 +11,7 @@
 			</if>
 		</where>
 
-
+		ORDER BY mchn_code
 	</select>
 
 

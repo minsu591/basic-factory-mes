@@ -1,6 +1,13 @@
 $(document).ready(function () {
   findAllProcCode();
   findMchnName();
+  let date = new Date(
+    new Date().getTime() - new Date().getTimezoneOffset() * 60000
+  )
+    .toISOString()
+    .slice(0, -14);
+  $("#inputDate").val(date).prop("readonly", true);
+  $("#workEndBtn").prop("disabled", true);
 
   //작업 종료 버튼
   $("#workEndBtn").click(function () {
@@ -9,7 +16,7 @@ $(document).ready(function () {
     let minutes = ("0" + date.getMinutes()).slice(-2);
     $("#eHours").val(hours).prop("readonly", true);
     $("#eMinutes").val(minutes).prop("readonly", true);
-
+    $("#workEndBtn").prop("disabled", true);
     let mchnCode = $("#mchnCode").val();
     $.ajax({
       url: `endmchnstatusupdate/${mchnCode}`,
@@ -32,16 +39,20 @@ $(document).ready(function () {
     if (mchnStatus == "비가동") {
       alert("비가동중입니다.");
     } else if (mchnCode == "") {
-      alert("설비를 선택하세요");
+      selectMchn();
+    } else if ($("#empid").val() == "") {
+      selectemp();
     } else {
       findMchnName();
       let date = new Date();
 
       let hours = ("0" + date.getHours()).slice(-2);
       let minutes = ("0" + date.getMinutes()).slice(-2);
-
+      $("#workStartBtn").prop("disabled", true);
       $("#sHours").val(hours).prop("readonly", true);
       $("#sMinutes").val(minutes).prop("readonly", true);
+      $("#workEndBtn").prop("disabled", false);
+      $("#empid").prop("readonly", true);
       $.ajax({
         url: `startmchnstatusupdate/${mchnCode}`,
         method: "POST",
@@ -134,6 +145,7 @@ $(document).ready(function () {
     });
   });
 
+  //저장버튼 클릭
   $("#saveBtn").click(function () {
     let sHours = $("#sHours").val();
 
@@ -154,6 +166,15 @@ $(document).ready(function () {
     let nonOpRsn = $("#nonOpTable tbody tr").find("td:eq(2)").children().val();
     let remk = $("#nonOpTable tbody tr").find("td:eq(3)").children().val();
     let nonOpMin = eMinutes - sMinutes;
+
+    if (nonOpCode == "" || nonOpRsn == "") {
+      inputDataWarn();
+      return;
+    }
+    if (sHours == "" || eHours == "") {
+      inputDataWarn();
+      return;
+    }
 
     let nonOpHistory = {
       inputNo: inputNo,
@@ -255,4 +276,24 @@ function nonOpTableMakeRow() {
               </tr>`;
 
   $($("#nonOpTable tbody")).append(node);
+}
+
+function selectMchn() {
+  Swal.fire({
+    icon: "warning",
+    title: "설비를 선택하세요",
+  });
+}
+function selectemp() {
+  Swal.fire({
+    icon: "warning",
+    title: "작업자를 입력하세요",
+  });
+}
+
+function inputDataWarn() {
+  Swal.fire({
+    icon: "warning",
+    title: "입력되지 않은 값이 있습니다.",
+  });
 }
