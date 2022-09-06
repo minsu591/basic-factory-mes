@@ -10,8 +10,8 @@
   <script type="text/javascript" th:src="@{/js/prod/FltyPrcsManage.js}"></script>
   <!-- modal js -->
   <script type="text/javascript" th:src="@{/js/modal/prod/findListFltyPrcs.js}"></script>
-  <script type="text/javascript" th:src="@{/js/modal/cmn/findFaulty.js}"></script>
-  <script type="text/javascript" th:src="@{/js/modal/prod/findemp.js}"></script>
+  <script type="text/javascript" th:src="@{/js/modal/cmn/findTdFaulty.js}"></script>
+  <script type="text/javascript" th:src="@{/js/modal/cmn/findTdemp.js}"></script>
   <script type="text/javascript" th:src="@{/js/modal/prod/findproduct.js}"></script>
   <script type="text/javascript" th:src="@{/js/modal/prod/findproccdname.js}"></script>
   <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
@@ -45,7 +45,7 @@
                   <td th:text="${pf.workDate}"></td>
                   <td th:text="${pf.finPrdCdCode}"></td>
                   <td th:text="${pf.finPrdCdName}"></td>
-                  <td th:text="${pf.fltyVol}"></td>
+                  <td th:text="${pf.fltyVol - pf.fltyPrcsVol}"></td>
                   <td th:text="${pf.procCdName}"></td>
                   <td th:text="${pf.mchnName}"></td>
                   <td th:text="${pf.workerName}"></td>
@@ -64,7 +64,7 @@
           <form class="form-inline">
             <div class="form-group mt-3">
               <label for="processPerfomNo" th:text="공정실적번호"></label>
-              <input type="text" id="processPerfomNo" class="form-control mx-sm-3">
+              <input type="text" id="processPerfomNo" name="processPerfomNo" class="form-control mx-sm-3">
             </div>
             <div class="form-group mt-3">
               <label for="productname" th:text="제품명"></label>
@@ -98,9 +98,9 @@
                   <th name="flty_prcs_no">불량번호</th>
                   <th th:text="불량코드" name="faulty_cd_code"></th>
                   <th th:text="불량명"></th>
-                  <th th:text="불량수"></th>
+                  <th th:text="불량처리수" name="flty_prcs_vol"></th>
                   <th th:text="불량처리일" name="flty_prcs_date"></th>
-                  <th th:text="담당자명"></th>
+                  <th th:text="담당자" name="emp_id"></th>
                   <th th:text="비고" name="flty_prcs_remk"></th>
                 </tr>
               </thead>

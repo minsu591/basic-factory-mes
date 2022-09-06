@@ -32,13 +32,13 @@ $("document").ready(function () {
                   <td>${obj.processPerfomNo}</td>
                   <td>${obj.faultyCdCode}</td>
                   <td>${obj.faultyName}</td>
-                  <td>${obj.fltyVol}</td>
+                  <td>${obj.fltyPrcsVol}</td>
                   <td>${obj.finPrdCdCode}</td>
                   <td>${obj.finPrdCdName}</td>
                   <td>${obj.procCdName}</td>
                   <td>${obj.mchnName}</td>
                   <td>${obj.fltyPrcsDate}</td>
-                  <td>${obj.empName}</td>
+                  <td>${obj.empId}</td>
                   <td>${obj.fltyPrcsRemk}</td>
                 </tr>`;
     $("#fplyPrcsTable tbody").append(node);
