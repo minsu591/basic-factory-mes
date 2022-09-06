@@ -126,31 +126,45 @@ $("document").ready(function(){
     $("#saveBtn").on("click",function(){
         let lineTrs = lineTable.find("tbody tr");
         let procTrs = procTable.find("tbody tr");
+        let lineNames = [];
         if(confirm("저장하시겠습니까?")==true){
             //null 검사
             for(tr of lineTrs){
                 for(idx of lineNotNullList){
                     let content = $(tr).find("td:eq("+idx+")").text();
                     if(content == null || content == ''){
-                        alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
+                        alertNull("라인 관리에 공백인 칸이 존재합니다.");
                         return;
+                    }else{
+                        //라인명 중복검사
+                        for(n of lineNames){
+                            if(n == content){
+                                alertNull("라인명이 동일한 행이 있습니다.");
+                                return;
+                            }
+                        }
+                        lineNames.push(content);
                     }
+                    
                 }
             }
             for(tr of procTrs){
                 for(idx of procNotNullList){
                     let content = $(tr).find("td:eq("+idx+")").text();
                     if(content == null || content == ''){
-                        alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
+                        alertNull("공정 관리에 공백인 칸이 존재합니다.");
                         return;
                     }
                 }
             }
             
             //삭제용
-            lineDeleteSaveAjax(lineDelList);
-
-            procDeleteSaveAjax(procDelList);
+            if(lineDelList.length != 0){
+                lineDeleteSaveAjax(lineDelList);
+            }
+            if(procDelList.length != 0){
+                procDeleteSaveAjax(procDelList);
+            }
 
             //수정용
             for(obj of lineModifyList){
@@ -160,21 +174,23 @@ $("document").ready(function(){
                 procModifySaveAjax(obj);
             }
             //추가용
-            lineAddList = lineTable.find("tr[name='addTr']");
-            for(obj of lineAddList){
-                lineAddSaveAjax(obj);
-            }
-            procAddList = procTable.find("tr[name='addTr']");
-            for(obj of procAddList){
-                let lineCdHdCode = $("#procLineCode").val();
-                procAddSaveAjax(lineCdHdCode,obj);
-            }
+            addSaveAjax();
 
-            alert("저장이 완료되었습니다.");
-            location.reload();
+            Swal.fire({
+                icon: "success",
+                title : "저장이 완료되었습니다."
+              }).then(function(){
+                  location.reload();
+              });
         }
     });
-
+    function alertNull(title){
+        Swal.fire({
+            icon: "warning",
+            title,
+            text: "확인 후 다시 저장해주세요."
+          });
+    }
     function lineModifySaveAjax(obj){
         //checkbox인거
         let priKey = obj[0];
@@ -226,10 +242,10 @@ $("document").ready(function(){
     //추가 버튼 누르면 행 추가
     //라인 추가 버튼
     $("#lineAddBtn").on("click",function(){
-        let node = `<tr name='addTr'>
+        let node = `<tr class='addTr'>
             <td><input type="checkbox" name="lineCb"></td>`;
             if($("#lineAllCheck").is(":checked")){
-                node = `<tr>
+                node = `<tr class='addTr'>
                         <td><input type="checkbox" name="lineCb" checked></td>`;
             }
             node += `<td></td>
@@ -276,11 +292,11 @@ $("document").ready(function(){
         if($("#procLineName").val() == ''){
             alert("라인을 선택하고 공정을 추가해주세요.")
         }else{
-            let node = `<tr name='addTr'>
-            <td><input type="checkbox" name="procCb"></td>
-            <input type="hidden" class="lineCdCode" value="">`;
+            let node = `<tr class='addTr'>
+                        <td><input type="checkbox" name="procCb"></td>
+                        <input type="hidden" class="lineCdCode" value="">`;
             if($("#procAllCheck").is(":checked")){
-                node = `<tr>
+                node = `<tr class='addTr'>
                         <td><input type="checkbox" name="procCb" checked></td>`;
             }
             node += `<td>`+no+`</td>
@@ -293,46 +309,55 @@ $("document").ready(function(){
         }
     });
 
-    function lineAddSaveAjax(obj){
-        let lineName = $(obj).find("td:eq(2)").text();
-        
-        $.ajax({
-            url : 'lineCode/hd/insert',
-            type : 'POST',
-            dataType : 'text',
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
-            data : {
-                lineName : lineName
-            },
-            success : function(result){
-                console.log("추가 성공");
+    function addSaveAjax(){
+        lineAddList = lineTable.find("tr[class='addTr']");
+        procAddList = procTable.find("tr[class='addTr']");
+        lines = [];
+        procs = [];
+        if(lineAddList.length == 0 && procAddList.length == 0){
+            return false;
+        }
+
+        for(obj of lineAddList){
+            let lineCdHdName = $(obj).find("td:eq(2)").text();
+            let line = {
+                lineCdHdName
             }
+            lines.push(line);
+        }
+        let lineCdHdCode = $("#procLineCode").val();
+        let lineCdHdName = $("#procLineName").val();
+        for(obj of procAddList){
+            let lineCdOrd = $(obj).find("td:eq(1)").text();
+            let procCdCode = $(obj).find("td:eq(2)").text();
+            let mchnCode = $(obj).find("td:eq(4)").text();
+            let proc = {
+                lineCdHdCode,
+                lineCdHdName,
+                lineCdOrd,
+                procCdCode,
+                mchnCode
+            }
+            procs.push(proc);
+        }
 
-        })
-    }
-
-    function procAddSaveAjax(lineCdHdCode, obj){
-        let procCdCode = $(obj).find("td:eq(2)").text();
-        console.log(procCdCode);
-        let mchnCode = $(obj).find("td:eq(4)").text();
-        let lineCdOrd = $(obj).find("td:eq(1)").text();
-        
         $.ajax({
             url : 'lineCode/insert',
             type : 'POST',
             dataType : 'text',
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
-            data : {
-                lineCdHdCode : lineCdHdCode,
-                procCdCode : procCdCode,
-                mchnCode : mchnCode,
-                lineCdOrd : lineCdOrd
-            },
+            contentType: "application/json; charset=UTF-8;",
+            data : JSON.stringify({
+                line : lines,
+                lineDtl : procs
+            }),
             success : function(result){
-                console.log("추가 성공");
+                if(result == 1){
+                    console.log("추가 성공");
+                }else{
+                    console.log("추가 실패");
+                }
             }
-
-        })
+        });
     }
 
     //추가 끝
@@ -351,6 +376,11 @@ $("document").ready(function(){
 
             if($(el).is(":checked")){
                 let tr = $(el).closest('tr');
+                tr.remove();
+                if($(tr).hasClass("addTr")){
+                    //추가된 행이 삭제된거면 무시
+                    return false;
+                }
                 if(type == 'lineCb'){
                     modifyList = lineModifyList;
                     priKey = tr.find("td:eq("+linePriKeyIdx+")").text();
@@ -361,7 +391,6 @@ $("document").ready(function(){
                     delList = procDelList;
                 }
                 delList.push(priKey);
-                tr.remove();
                 for(let i = 0; i< modifyList.length; i++){
                     if(modifyList[i][0]== priKey){
                         modifyList.splice(i,1);

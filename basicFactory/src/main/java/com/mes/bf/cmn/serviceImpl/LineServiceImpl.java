@@ -9,6 +9,7 @@ import com.mes.bf.cmn.mapper.LineMapper;
 import com.mes.bf.cmn.service.LineService;
 import com.mes.bf.cmn.vo.LineCodeHdVO;
 import com.mes.bf.cmn.vo.LineCodeVO;
+import com.mes.bf.cmn.vo.LineInsertVO;
 
 @Service
 public class LineServiceImpl implements LineService {
@@ -31,10 +32,6 @@ public class LineServiceImpl implements LineService {
 	}
 
 	@Override
-	public int lineCodeInsert(LineCodeVO line) {
-		return mapper.lineCodeInsert(line);
-	}
-	@Override
 	public int lineCodeUpdate(String priKey, String updCol, String updCont) {
 		return mapper.lineCodeUpdate(priKey, updCol, updCont);
 	}
@@ -46,6 +43,14 @@ public class LineServiceImpl implements LineService {
 	@Override
 	public int lineCodeDelete(List<String> delList) {
 		return mapper.lineCodeDelete(delList);
+	}
+	@Override
+	public int lineCodeAllInsert(LineInsertVO lineInfo) {
+		return mapper.lineCodeAllInsert(lineInfo);
+	}
+	@Override
+	public int lineCodeInsert(LineCodeVO line) {
+		return mapper.lineCodeInsert(line);
 	}
 
 }

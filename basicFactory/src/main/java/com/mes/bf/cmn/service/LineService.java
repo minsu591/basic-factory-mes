@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mes.bf.cmn.vo.LineCodeHdVO;
 import com.mes.bf.cmn.vo.LineCodeVO;
+import com.mes.bf.cmn.vo.LineInsertVO;
 
 public interface LineService {
 	List<LineCodeHdVO> listLineCodeHd(String lineName);
@@ -14,6 +15,7 @@ public interface LineService {
 	int lineCodeHdDelete(List<String> delList);
 	
 	int lineCodeInsert(LineCodeVO line);
+	int lineCodeAllInsert(LineInsertVO lineInfo);
 	int lineCodeUpdate(String priKey,String updCol, String updCont);
 	int lineCodeDelete(List<String> delList);
 }

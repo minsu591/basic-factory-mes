@@ -36,26 +36,50 @@ $("document").ready(function(){
     $("#lineTable tbody").on("click","tr",function(){
         let lineCode = $(this).find("td:eq(1)").text();
         let lineName = $(this).find("td:eq(2)").text();
-        $("#procLineCode").val(lineCode);
-        $("#procLineName").val(lineName);
-        if(lineCode == null || lineCode == ''){
+        
+        if((lineName == null || lineName == '') && $("#procLineCode").val()==lineCode){
             return;
         }
-        $.ajax({
-            url : 'lineCode/dtl',
-            methods : 'GET',
-            data : {
-                lineCode : lineCode
-            },
-            dataType : 'json',
-            success :function(result){
-                $("#lineProcTable tbody tr").remove();
-                for(obj of result){
-                    procMakeRow(obj);
-                }
-            }
-        })
+        if($("#lineProcTable tbody").find("tr").length != 0){
+            Swal.fire({
+                icon: "warning",
+                title: "작성중인 내용이 있습니다",
+                text: "삭제하고 진행하겠습니까?",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "확인",
+                cancelButtonText: "취소"
+                }).then((result) =>{
+                    if(result.isConfirmed){
+                        detailSelectAjax(lineCode, lineName);
+                    }
+            });
+        }else{
+            detailSelectAjax(lineCode, lineName);
+        }
     });
+
+    function detailSelectAjax(lineCode, lineName){
+        $("#procLineCode").val(lineCode);
+        $("#procLineName").val(lineName);
+        if(lineCode != null && lineCode != ''){
+            $.ajax({
+                url : 'lineCode/dtl',
+                methods : 'GET',
+                data : {
+                    lineCode
+                },
+                dataType : 'json',
+                success :function(result){
+                    $("#lineProcTable tbody tr").remove();
+                    for(obj of result){
+                        procMakeRow(obj);
+                    }
+                }
+            });
+        }
+    }
 
     //공정 make row
     function procMakeRow(obj){
