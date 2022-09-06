@@ -49,7 +49,7 @@
                                <div class="form-group mt-3">
                                   <label for="empid" th:text="담당자아이디"></label>
                                   <input type="text" id="empid" class="form-control mx-sm-3"
-                                   data-toggle="modal" data-target=".bd-example-modal-lg">
+                                   data-toggle="modal" data-target=".bd-example-modal-lg" th:value="${session.emp.empId}">
                               </div>
                           </form>
                                 

@@ -21,19 +21,6 @@
 						</button>
 					</div>
 					<div class="modal-body">
-
-						<div class="form-inline">
-							<div class="form-group mt-3">
-								<label for="procCdCode" th:text="공정코드"></label> <input
-									type="text" id="procCdCode" name="procCdCode"
-									class="form-control mx-sm-3"> <label for="procCdName"
-									th:text="공정명"></label> <input type="text" id="procCdName"
-									name="procCdName" class="form-control mx-sm-3">
-								<button type="button" class="btn btn-primary" id="findCdNameBtn"
-									th:text="검색"></button>
-							</div>
-						</div>
-
 						<div class="card-body table-border-style">
 							<div class="table-responsive">
 								<table class="table table-hover" id="findProcCdNameTable">
@@ -42,7 +29,6 @@
 											<th></th>
 											<th th:text="공정코드"></th>
 											<th th:text="공정명"></th>
-											<th th:text="비고"></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -50,7 +36,6 @@
 											<td th:text="1"></td>
 											<td th:text="CDCODE01"></td>
 											<td th:text="반죽공정"></td>
-											<td th:text="비고"></td>
 										</tr>
 									</tbody>
 								</table>

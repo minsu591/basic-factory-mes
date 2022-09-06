@@ -10,16 +10,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mes.bf.cmn.service.LineService;
 import com.mes.bf.cmn.vo.LineCodeHdVO;
 import com.mes.bf.cmn.vo.LineCodeVO;
+import com.mes.bf.cmn.vo.LineInsertVO;
 import com.mes.bf.cmn.vo.ProcCodeVO;
-import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.service.ProcService;
 
@@ -59,11 +59,6 @@ public class LineCodeController {
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/lineCode/hd/insert", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Integer> lineCodeHdInsert(@RequestParam Map<String, String> QueryParameters) {
-		int result = service.lineCodeHdInsert(QueryParameters.get("lineName"));
-		return new ResponseEntity<Integer>(result,HttpStatus.OK);
-	}
 	
 	@PostMapping(value = "/lineCode/hd/update", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Integer> lineCodeHdUpdate(@RequestParam Map<String, String> QueryParameters) {
@@ -78,17 +73,39 @@ public class LineCodeController {
 		int result = service.lineCodeDelete(delList);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
-	@PostMapping(value = "/lineCode/insert", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Integer> lineCodeInsert(@ModelAttribute LineCodeVO line) {
-		int result = service.lineCodeInsert(line);
-		return new ResponseEntity<Integer>(result,HttpStatus.OK);
-	}
-	
+
 	@PostMapping(value = "/lineCode/update", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Integer> lineCodeUpdate(@RequestParam Map<String, String> QueryParameters) {
 		int result = service.lineCodeUpdate(QueryParameters.get("priKey"), QueryParameters.get("updCol"), QueryParameters.get("updCont"));
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
+	
+	@PostMapping(value = "/lineCode/insert")
+	public ResponseEntity<Integer> lineCodeAllInsert(@RequestBody LineInsertVO lineInfo) {
+		System.out.println(lineInfo);
+		List<LineCodeHdVO> line = lineInfo.getLine();
+		List<LineCodeVO> lineDtl = lineInfo.getLineDtl();
+		int result = 0;
+		int resultHd = 0;
+		int resultDtl = 0;
+		
+		if(line.size() != 0) {
+			for(int i = 0; i<line.size();i++) {
+				resultHd += service.lineCodeHdInsert(line.get(i).getLineCdHdName());
+			}
+		}
+		if(lineDtl.size() != 0) {
+			for(int i = 0; i<lineDtl.size();i++) {
+				resultDtl += service.lineCodeInsert(lineDtl.get(i));
+			}
+		}
+		if(resultDtl == lineDtl.size() && resultHd == line.size()) {
+			result = 1;
+		}
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
+	
 	
 	// 설비명 조회
 	@GetMapping(value = "/findmchn", produces = { MediaType.APPLICATION_JSON_VALUE })

@@ -9,6 +9,7 @@ import lombok.Data;
 public class BomRscVO {
 	private Integer bomRscIdx;
 	private String bomCdCode;
+	private String bomCdName;
 	private String lineCdCode;
 	private String lineCdName;
 	private String rscCdCode;

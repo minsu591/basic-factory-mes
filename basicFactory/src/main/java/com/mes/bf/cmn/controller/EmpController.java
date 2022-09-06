@@ -108,7 +108,7 @@ public class EmpController {
 	public ResponseEntity<Integer> empUpdate(@RequestParam Map<String, String> QueryParameters) {
 		String type = QueryParameters.get("updCol");
 		String updCont = QueryParameters.get("updCont");
-		if(type == "emp_pw") {
+		if(type.equals("emp_pw")) {
 			MessageDigest md;
 			try {
 				md = MessageDigest.getInstance("SHA-256");

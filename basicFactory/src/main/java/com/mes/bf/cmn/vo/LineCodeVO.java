@@ -9,6 +9,7 @@ import lombok.Data;
 public class LineCodeVO {
 	private String lineCdCode;
 	private String lineCdHdCode;
+	private String lineCdHdName;
 	private String procCdCode;
 	private String procCdName;
 	private String mchnCode;
