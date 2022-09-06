@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -89,9 +90,10 @@ public class SlsOrdController {
 	}
 	
 	//주문관리 삭제
-	@PostMapping("/ordManage/delete")
-	public void orderDelete(@RequestParam Map<String, String> params) {
-		service.orderDelete(params.get("priKey"));
+	@DeleteMapping("/ordManage/delete")
+	public void orderDelete(@RequestParam(value="delList[]") List<String> delList) {
+		System.out.println("들어와?");
+		service.orderDelete(delList);
 	}
 	
 	//주문관리에서 주문내역 조회 모달

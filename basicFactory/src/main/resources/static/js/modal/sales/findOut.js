@@ -34,6 +34,7 @@ $("document").ready(function(){
         //테이블 상단 공통 요소 삽입
         let slsOutHdDate = $(this).find("td:first").text();
         let slsOutHdNo = $(this).find("td:eq(1)").text();
+        let slsOrdHdNo = $(this).find("td:eq(2)").text();
         let vendor = $(this).find("td:eq(3)").text();
         let vendorName = $(this).find("td:eq(4)").text();
         let empName = $(this).find("td:eq(5)").text();
@@ -41,7 +42,8 @@ $("document").ready(function(){
 
         $("#slsOutHdDate").val(slsOutHdDate);
         $("#slsOutHdDate").attr("readonly",true);
-        $("#slsOutHdNo").val(slsOutHdNo)
+        $("#slsOutHdNo").val(slsOutHdNo);
+        $("#slsOrdHdNo").val(slsOrdHdNo);
         $("#vendor").val(vendor);
         $("#vendorName").val(vendorName);
         $("#vendorName").attr("readonly", true);
@@ -105,7 +107,7 @@ $("document").ready(function(){
     //출고내역 조회 모달을 통한 데이터 출력
     function outMngMakeRow(out){
         let node = `<tr>
-                        <td><input type="checkbox"></td>
+                        <td><input type="checkbox" name="cb"></td>
                         <input type="hidden" value="${out.slsOutDtlNo}">
                         <td>${out.finPrdCdCode}</td>
                         <td>${out.finPrdCdName}</td>

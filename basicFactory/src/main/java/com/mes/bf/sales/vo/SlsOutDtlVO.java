@@ -18,4 +18,5 @@ public class SlsOutDtlVO {
 	private Integer slsOrdDtlNotOutVol; //미출고량
 	private Integer finPrdCdPrice;		//단가
 	private Integer slsOutDtlPrice; 	//금액
+
 }

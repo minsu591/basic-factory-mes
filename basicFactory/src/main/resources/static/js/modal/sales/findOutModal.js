@@ -1,4 +1,5 @@
 $("document").ready(function(){
+
     //반품관리에서 출고조회 시 출고내역 모달창
     $("#findOutModalBtn").on("click",function(e){
         $("#findOutModal").modal("show");
@@ -114,8 +115,8 @@ $("document").ready(function(){
                         <td>${out.finPrdCdPrice}</td>
                         <td></td>
                         <td>
-                            <select name="prcCls" name="prcCls" class="form-control mx-sm-4">
-                            <option>선택</option>
+                            <select name="prcCls" name="prcCls">
+                            <option></option>
                             <option value="0">폐기</option>
                             <option value="1">입고</option>
                             <option value="2">거부</option>
