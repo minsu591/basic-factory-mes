@@ -45,7 +45,7 @@ $("#findRscTable").on("click", "tr", function () {
   let rscCdUnit = $(this).find("input[type=hidden]").val();
   tdinfo.val(rscCdCode);
   tdinfo.parent().next().find("input").val(rscCdName);
-  tdinfo.parent().next().next().next().text(rscCdUnit);
+  tdinfo.parent().next().next().next().find(".unit").val(rscCdUnit);
 
 
 

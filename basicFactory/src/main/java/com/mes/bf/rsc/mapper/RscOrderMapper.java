@@ -12,4 +12,8 @@ public interface RscOrderMapper {
 	//발주 리스트 조회
 	List<RscOrderVO> orderDetailList(String rscOrderCode);
 	
+	//헤더, 디테일 insert
+	Integer orderInsert(RscOrderVO vo);
+	Integer orderDtInsert(RscOrderVO vo);
+	
 }
