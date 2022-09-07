@@ -37,6 +37,13 @@ public class InspcController {
 		return new ResponseEntity<List<InspcVO>>(list, HttpStatus.OK);
 	}
 	
+	//설비점검대상조회(모달창)
+	@GetMapping(value = "/findNxtDate", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<InspcVO>> findNxtDate(){
+		List<InspcVO> list = service.findNxtDate();
+		return new ResponseEntity<List<InspcVO>>(list, HttpStatus.OK);
+	}
+	
 	//점검조회
 	@RequestMapping("/inspcList")
 	public String MchnListPage(Model model) {

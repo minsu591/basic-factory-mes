@@ -20,6 +20,11 @@ public class InspcServiceImpl implements InspcService{
 	}
 	
 	@Override
+	public List<InspcVO> findNxtDate() {
+		return mapper.findNxtDate();
+	}
+	
+	@Override
 	public List<InspcVO> listInspc() {
 		return mapper.listInspc();
 	}
@@ -28,6 +33,7 @@ public class InspcServiceImpl implements InspcService{
 	public List<InspcVO> findListInspc(String inspcSdate, String inspcEdate, String mchnCode) {
 		return mapper.findListInspc(inspcSdate, inspcEdate, mchnCode);
 	}
+
 
 
 }
