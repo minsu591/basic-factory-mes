@@ -7,10 +7,18 @@
 }
 
 .pagingactive {
-  width: 20px;
-  height: 20px;
-  padding: 5px;
+  padding: 5px 10px 5px 10px;
   background: #1abc9c;
   color: white;
+  border-radius: 100%;
+}
+
+.page-number {
+  padding: 5px 10px 5px 10px;
+}
+
+.page-number:hover {
+  padding: 5px 10px 5px 10px;
+  background: #e9e9e9;
   border-radius: 100%;
 }
