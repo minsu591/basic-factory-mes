@@ -45,8 +45,8 @@ $("document").ready(function () {
         $("#vendor").val(vendor);
         $("#vendorName").val(vendorName);
         $("#vendorName").attr("readonly", true);
-        $("#empid").val(empName);
-        $("#empid").attr("readonly",true);
+        $("#empName").val(empName);
+        $("#empName").attr("readonly",true);
         $("#remk").val(remk);
 
         //테이블 삽입
