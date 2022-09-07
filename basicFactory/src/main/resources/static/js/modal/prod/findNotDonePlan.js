@@ -52,6 +52,9 @@ $(document).ready(function () {
             planHdCode : planHdCode
         },
         success : function(data){
+          lineArray.splice(0);
+          inDtlVol.splice(0);
+          prodCodeArr.splice(0);
           $("#planDetailTable tbody tr").remove();
           for(obj of data){
             let finInfoList = finInfo(obj.finPrdCdCode);

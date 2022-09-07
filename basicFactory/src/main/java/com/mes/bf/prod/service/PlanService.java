@@ -19,7 +19,7 @@ public interface PlanService {
 	Integer planInsert(PlanVO planVO);
 	
 	//plan 헤더 delete
-	Integer planHdDelete(List<String> delList);
+	Integer planHdDelete(PlanHdVO headerInfo);
 	Integer planDtlDelete(List<String> delList);
 	
 	//plan update

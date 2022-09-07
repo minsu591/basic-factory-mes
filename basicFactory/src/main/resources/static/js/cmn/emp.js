@@ -28,13 +28,12 @@ $("document").ready(function(){
         let node = `<tr>
                         <td><input type="checkbox" name="cb"></td>
                         <td>${obj.empVO.empId}</td>
-                        <td>${obj.empVO.empPw}</td>
+                        <td>********</td>
                         <td>${obj.deptVO.deptName}</td>`;
         node += makeSelectForPos(obj.empVO.empPos);
         node += `<td>${obj.empVO.empName}</td>
                         <td>${obj.empVO.empEmail}</td>
-                        <td>${obj.empVO.empPhone}</td>
-                        <td>${obj.empVO.empPos}</td>`;
+                        <td>${obj.empVO.empPhone}</td>`;
         if(obj.empVO.empAuth == 1){
             node += `<td><input type="checkbox" checked></td>`;
         }else{

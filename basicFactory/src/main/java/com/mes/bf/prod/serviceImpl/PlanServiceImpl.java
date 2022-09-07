@@ -41,8 +41,8 @@ public class PlanServiceImpl implements PlanService {
 		return mapper.planInsert(planVO);
 	}
 	@Override
-	public Integer planHdDelete(List<String> delList) {
-		return mapper.planHdDelete(delList);
+	public Integer planHdDelete(PlanHdVO headerInfo) {
+		return mapper.planHdDelete(headerInfo);
 	}
 	@Override
 	public Integer planDtlDelete(List<String> delList) {

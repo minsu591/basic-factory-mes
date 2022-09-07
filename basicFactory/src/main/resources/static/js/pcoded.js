@@ -5,9 +5,11 @@ $(document).ready(function () {
     togglemenulayout();
   }
   menuhrres();
+
   var vw = $(window)[0].innerWidth;
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="popover"]').popover();
+  
   $(".to-do-list input[type=checkbox]").on("click", function () {
     if ($(this).prop("checked")) $(this).parent().addClass("done-task");
     else $(this).parent().removeClass("done-task");
@@ -291,7 +293,6 @@ function togglemenu() {
     }
   }
 }
-// ===============
 
 // toggle full screen
 function toggleFullScreen() {
@@ -573,6 +574,7 @@ $.fn.pcodedmenu = function (settings) {
               }
             }
           });
+
           $(".pcoded-submenu > li").on("click", function (e) {
             e.stopPropagation();
             var str = $(this).closest(".pcoded-submenu").length;

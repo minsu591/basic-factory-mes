@@ -176,15 +176,12 @@
 	
 	<delete id="planHdDelete">
 		DELETE BF_PROD_PLAN_HD
-		WHERE PLAN_HD_CODE IN
-		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
-		#{priKey}
-		</foreach>
+		WHERE PLAN_HD_CODE = #{planHdCode}
 	</delete>
 	
 	<delete id="planDtlDelete">
 		DELETE BF_PROD_PLAN
-		WHERE PLAN_IDX IN
+		WHERE PLAN_IDX = 
 		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
 		#{priKey}
 		</foreach>
