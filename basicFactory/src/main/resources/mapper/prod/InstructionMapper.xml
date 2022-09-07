@@ -385,4 +385,13 @@
 			inst_prod_no = #{instProdNo}
 	</update>
 	
+	<!-- 생산지시 삭제 -->
+	<delete id="deleteInst">
+		DELETE
+		FROM
+			BF_PROD_INSTRUCTION
+		WHERE inst_no = #{instNo}
+	</delete>
+	
+	
 </mapper>

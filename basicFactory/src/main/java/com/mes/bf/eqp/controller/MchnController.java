@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.eqp.service.MchnService;
 import com.mes.bf.eqp.vo.MchnVO;
@@ -21,6 +22,13 @@ import com.mes.bf.eqp.vo.MchnVO;
 public class MchnController {
 	
 	@Autowired MchnService service;
+	
+	//설비관리
+	@RequestMapping("/mchnManage")
+	public ModelAndView mchnManage() {
+		ModelAndView mav = new ModelAndView("eqp/MchnManage");
+		return mav;
+	}
 	
 	//설비 조회
 	@RequestMapping("/mchnList")

@@ -1,8 +1,10 @@
 $("document").ready(function () {
   //완제품 출고 관리에서 미출고 조회 시 주문내역 모달창
   $("#findNotOutBtn").on("click", function (e) {
+    
     $("#findNotOutModal").modal("show");
     findNotOutClick();
+
   });
 
   $("#NotOutBtn").on("click", findNotOutClick);
@@ -37,6 +39,7 @@ $("document").ready(function () {
     let vendor = $(this).find("td:eq(2)").text();
     let vendorName = $(this).find("td:eq(3)").text();
     let empName = $(this).find("td:eq(4)").text();
+    let empId = $(this).find(".empId").val();
     let remk = $(this).find("td:last").text();
 
     $("#slsOrdHdDate").val(slsOrdHdDate);
@@ -45,6 +48,7 @@ $("document").ready(function () {
     $("#vendor").val(vendor);
     $("#vendorName").val(vendorName);
     $("#vendorName").attr("readonly", true);
+    $("#empId").val(empId);
     $("#empName").val(empName);
     $("#empName").attr("readonly", true);
     $("#remk").val(remk);
@@ -63,13 +67,14 @@ $("document").ready(function () {
     })
   });
 
-  //주문내역 조회 모달 내에 데이터 출력 make row
+  //미출고 주문내역 조회 모달 내에 데이터 출력 make row
   function modalMakeRow(obj) {
     let node = `<tr>
                     <td>${obj.slsOrdHdDate}</td>
                     <td>${obj.slsOrdHdNo}</td>
                     <td>${obj.vendCdCode}</td>
                     <td>${obj.vendCdNm}</td>
+                    <input type="hidden" class="empId" value="${obj.empId}">
                     <td>${obj.empName}</td>
                     <td>${obj.slsOrdHdRemk}</td>
                 </tr>`
@@ -103,7 +108,6 @@ $("document").ready(function () {
 
   //미출고 주문내역 조회 모달을 통한 데이터 출력
   function outMakeRow(ord) {
-    
     let node = `<tr>
                     <td><input type="checkbox" name="cb"></td>
                     <td>${ord.slsOutDtlVO.finPrdCdCode}</td>

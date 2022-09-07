@@ -85,5 +85,6 @@ public interface InstructionMapper {
 	//생산지시 디테일 업데이트
 	void updateInstDetail(InstructionDetailVO str);
 	
-
+	//생산지시 삭제 
+	void deleteInst(InstructionVO vo);
 }
