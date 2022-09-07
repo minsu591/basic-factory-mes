@@ -11,6 +11,14 @@ $(document).ready(function () {
   //실적조회테이블
   findAllProcPerform();
 
+  $("#worksdate").change(function () {
+    $("#workedate").prop("min", $("#worksdate").val())
+  });
+
+  $("#workedate").change(function () {
+    $("#worksdate").prop("max", $("#workedate").val())
+  });
+
   $("#findProcBtn").click(function () {
     let workSdate = $("#worksdate").val();
     let workEdate = $("#workedate").val();

@@ -11,6 +11,16 @@ $(document).ready(function () {
   //생산지시테이블 초기데이터 입력
   findvinst();
 
+  $("#instsdate").change(function () {
+    let instSdate = $("#instsdate").val();
+    $("#instedate").prop("min", instSdate);
+  })
+
+  $("#instedate").change(function () {
+    $("#instsdate").prop("max", $("#instedate").val());
+  })
+
+
   $("#findInstBtn").click(function () {
     let sdate = $("#instsdate").val();
     let edate = $("#instedate").val();
