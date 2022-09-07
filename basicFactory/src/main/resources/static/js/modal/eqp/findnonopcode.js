@@ -5,6 +5,14 @@ $("document").ready(function () {
     $("#findnonOpCodeModal").modal("show");
   });
 
+  $("#sdate").change(function () {
+    $("#edate").prop("min", $("#sdate").val())
+  })
+
+  $("#edate").change(function () {
+    $("#sdate").prop("max", $("#edate").val());
+  })
+
   $("#findNonOpCodebtn").click(function () {
     let code = $("#nonOpCode").val();
     console.log("nonOpCode-> " + code);

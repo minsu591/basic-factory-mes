@@ -16,7 +16,9 @@ AND
 AND 
 	process_order = 5 
 AND 
-	NOT in_dtl_vol = 0
+	NOT in_dtl_vol = 0	
+AND 
+	NOT completion_status = 'y'
 </select>
 
 <!-- 제품코드로 설비명,상태 조회 -->

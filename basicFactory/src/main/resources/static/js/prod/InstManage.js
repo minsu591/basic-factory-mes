@@ -44,7 +44,7 @@ $(document).ready(function () {
       lineArray.splice(lineIndex, 1);
       inDtlVol.splice(inDtlVolIndex, 1);
       prodCodeArr.splice(procCodeIndex, 1);
-      $(this).parent().parent().remove();
+      deleteCheck($(this).parent().parent());
 
     });
 
@@ -67,7 +67,12 @@ $(document).ready(function () {
           closeOnClickOutside: false,
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location = "/rsc/order";
+
+            let form = `<form style="display: none" action="/rsc/order" method="POST" id="form"></form>`;
+            let val1 = `<input type="hidden" value='10'>`
+            //form.append(val1);
+            $("#form").submit();
+            //window.location = "/rsc/order?test=1";
           }
         });
       }
@@ -516,11 +521,62 @@ function deleteWarning() {
     title: "삭제할 항목을 선택하세요.", // Alert 제목
   });
 }
+function deleteCheck(tr) {
+  Swal.fire({
+    icon: "warning",
+    title: "생산지시가 삭제됩니다.",
+    text: "정말 삭제하시겠습니까?",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "확인",
+    cancelButtonText: "취소",
+    closeOnClickOutside: false,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log('instNO->' + $("#instNo").val())
+      deleteInst($("#instNo").val());
+      tr.remove();
+      deleteSuccess();
+    }
+  });
+}
+
+//생산지시삭제 
+function deleteInst(instNo) {
+  $.ajax({
+    url: "deleteinst",
+    method: "DELETE",
+    contentType: "application/json;charset=utf-8",
+    dataType: "text",
+    data: JSON.stringify({
+      instNo: instNo
+    }),
+    error: function (error, status, msg) {
+      alert("상태코드 " + status + "에러메시지" + msg);
+    },
+    // success: function (data) {
+    //   console.log(" delete success");
+    // },
+  });
+}
+
 
 function saveSuccess() {
   Swal.fire({
     icon: "success", // Alert 타입
     title: "저장 되었습니다.", // Alert 제목
+  }).then((result) => {
+    if (result.isConfirmed) {
+      location.reload();
+    }
+  });
+}
+
+function deleteSuccess() {
+  Swal.fire({
+    icon: "success", // Alert 타입
+    title: "삭제 되었습니다.", // Alert 제목
   }).then((result) => {
     if (result.isConfirmed) {
       location.reload();

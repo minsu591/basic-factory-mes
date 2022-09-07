@@ -63,6 +63,7 @@ public interface InstructionService {
 	//생산지시 통합업데이트
 	void updateInstruction(InstAndDetailVO vo);
 	
-	
+	//생산지시 삭제 
+	void deleteInst(InstructionVO vo);
 
 }

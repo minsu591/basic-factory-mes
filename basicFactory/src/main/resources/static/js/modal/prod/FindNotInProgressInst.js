@@ -95,7 +95,7 @@ function findProdName(prodCode) {
         .children()
         .val(data.lineCdHdName);
     },
-    error: function (error, status, msg) {},
+    error: function (error, status, msg) { },
   });
 }
 //생산지시 헤더 조회
@@ -115,7 +115,7 @@ function getInst(instNo) {
         `<input type="hidden" id="instNo" value="${data.instNo}">`
       );
     },
-    error: function (error, status, msg) {},
+    error: function (error, status, msg) { },
   });
 }
 //empId로 empName찾기
@@ -129,7 +129,7 @@ function getEmpName(empId) {
       console.log(data);
       $("#empid").val(data.empName);
     },
-    error: function (error, status, msg) {},
+    error: function (error, status, msg) { },
   });
 }
 
@@ -144,15 +144,19 @@ function FindNotInProgressInstTableMakeRow(obj, index) {
                 <td>${obj.instProdIndicaVol}</td>
                 <td>${obj.workScope}</td>
                 <td>${obj.workDate}</td>
-                <input type="hidden" value="${
-                  obj.instProdNo
-                }" name="instProdNo">
+                <input type="hidden" value="${obj.instProdNo
+    }" name="instProdNo">
               </tr>`;
 
   $("#FindNotInProgressInstTable tbody").append(node);
 }
 
 function planDetailTableMakeRow(tr) {
+  let date = new Date(
+    new Date().getTime() - new Date().getTimezoneOffset() * 60000
+  )
+    .toISOString()
+    .slice(0, -14);
   let instNo = tr.find("td:eq(2)").text();
   let instProdNo = tr.find("input:hidden[name=instProdNo]").val();
   console.log("instProdNo ->" + instProdNo);
@@ -164,14 +168,14 @@ function planDetailTableMakeRow(tr) {
   let node = `<tr class="updateInst">
                 <td><input type="checkbox"></td>
                 <td><input type="text" name="prodCode" value="${tr
-                  .find("td:eq(3)")
-                  .text()}"></td>
+      .find("td:eq(3)")
+      .text()}"></td>
                 <td><input type="text" disabled value="${tr
-                  .find("td:eq(4)")
-                  .text()}"></td>
+      .find("td:eq(4)")
+      .text()}"></td>
                 <td><input type="text" disabled value="${tr
-                  .find("td:eq(5)")
-                  .text()}"></td>
+      .find("td:eq(5)")
+      .text()}"></td>
                 <td><input type="text" disabled></td>
                 <td><input type="text" disabled></td>
                 <td><input type="text" disabled></td>
@@ -179,13 +183,14 @@ function planDetailTableMakeRow(tr) {
                 <td><input type="text" disabled></td>
                 <td><input type="text" disabled></td>
                 <td><input type="text" value="${tr
-                  .find("td:eq(6)")
-                  .text()}"></td>
+      .find("td:eq(6)")
+      .text()}"></td>
                 <td><input type="text" disabled></td>
-                <td><input type="date" value="${tr
-                  .find("td:eq(8)")
-                  .text()}"></td>
+                <td><input type="date" min="${date}" value="${tr
+      .find("td:eq(8)")
+      .text()}"></td>
                 <input type="hidden" value="${instProdNo}" id="instProdNo">
+                <input type="hidden" value="${instNo}" id="instNo">
               </tr>`;
 
   $("#planDetailTable tbody").append(node);
