@@ -15,9 +15,21 @@ $(document).ready(function () {
     }
   });
 
-  //선택삭제 버튼
+  //선택 삭제 이벤트
   $("#deleteBtn").on("click", function () {
-    let trs = $("#rtnMngTable tbody tr");
-
+    table.find("tbody input:checkbox[name='cb']").each(function (idx, el) {
+      if ($(el).is(":checked")) {
+        let tr = $(el).closest('tr');
+        console.log(tr);
+        let priKey = tr.find("input[type='hidden']").val();
+        tr.remove();
+        delList.push(priKey);
+        for (let i = 0; i < modifyList.length; i++) {
+          if (modifyList[i][0] == priKey) {
+            modifyList.splice(i, 1);
+          }
+        }
+      }
+    });
   });
 });
