@@ -2,6 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.eqp.mapper.InspcMapper">
 
+	<!-- 설비점검내역(모달창) -->
+	<select id="findInspcList" resultType="inspc">
+		SELECT I.INSPC_NO, 
+				M.MCHN_CODE, 
+				M.MCHN_NAME, 
+				I.INSPC_SDATE, 
+				I.INSPC_EDATE, 
+				I.INSPC_ACTN_PNT, 
+				NVL(I.INSPC_ACTN_RSN, ' ') AS  INSPC_ACTN_RSN,
+				E.EMP_ID, 
+				NVL(I.INSPC_REMK, ' ') AS INSPC_REMK
+			FROM BF_EQP_INSPC I
+			JOIN BF_EQP_MCHN M
+			    ON I.MCHN_CODE = M.MCHN_CODE
+			JOIN BF_CMN_EMP E
+			    ON E.EMP_ID = I.EMP_ID
+		<if test="(inspcSdate != null and inspcSdate != '') and (inspcEdate != null and inspcEdate != '')">
+			AND I.INSPC_EDATE BETWEEN TO_DATE(#{inspcSdate}, 'YY/MM/DD') AND TO_DATE(#{inspcEdate}, 'YY/MM/DD')
+		</if>
+	</select>
+
 	<select id="listInspc" resultType="inspc">
 		SELECT INP.MCHN_CODE, 
             	MC.MCHN_NAME, 
@@ -10,9 +31,9 @@
             	MC.MCHN_INSPC_CYCLE, 
             	INP.INSPC_NXT_DATE, 
             	INP.INSPC_ACTN_PNT, 
-            	INP.INSPC_ACTN_RSN, 
+            	NVL(INP.INSPC_ACTN_RSN, ' ') AS INSPC_ACTN_RSN, 
             	EMP.EMP_NAME,
-            	INP.INSPC_REMK
+            	NVL(INP.INSPC_REMK, ' ') AS INSPC_REMK
 		FROM BF_EQP_INSPC INP JOIN BF_EQP_MCHN MC
 			ON INP.MCHN_CODE = MC.MCHN_CODE
 		JOIN BF_CMN_EMP EMP
@@ -27,9 +48,9 @@
             	MC.MCHN_INSPC_CYCLE, 
             	INP.INSPC_NXT_DATE, 
             	INP.INSPC_ACTN_PNT, 
-            	INP.INSPC_ACTN_RSN, 
+            	NVL(INP.INSPC_ACTN_RSN, ' ') AS INSPC_ACTN_RSN, 
             	EMP.EMP_NAME,
-            	INP.INSPC_REMK
+            	NVL(INP.INSPC_REMK, ' ') AS INSPC_REMK
 		FROM BF_EQP_INSPC INP JOIN BF_EQP_MCHN MC
 			ON INP.MCHN_CODE = MC.MCHN_CODE
 		JOIN BF_CMN_EMP EMP

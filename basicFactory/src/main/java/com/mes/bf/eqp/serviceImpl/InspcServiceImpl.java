@@ -15,6 +15,11 @@ public class InspcServiceImpl implements InspcService{
 	@Autowired InspcMapper mapper;
 
 	@Override
+	public List<InspcVO> findInspcList(String inspcSdate, String inspcEdate) {
+		return mapper.findInspcList(inspcSdate, inspcEdate);
+	}
+	
+	@Override
 	public List<InspcVO> listInspc() {
 		return mapper.listInspc();
 	}
@@ -23,5 +28,6 @@ public class InspcServiceImpl implements InspcService{
 	public List<InspcVO> findListInspc(String inspcSdate, String inspcEdate, String mchnCode) {
 		return mapper.findListInspc(inspcSdate, inspcEdate, mchnCode);
 	}
+
 
 }
