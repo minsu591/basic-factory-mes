@@ -87,14 +87,14 @@ public class RscOrderController {
 	
 	@RequestMapping("/orderList")
 	public void orderList(Model model) {
-		List<RscOrderVO> olist = rscOrderService.orderList(null, null, null);
+		List<RscOrderVO> olist = rscOrderService.orderList(null, null, null, null, null);
 		model.addAttribute("olist",olist);
 	}
 	
 	@RequestMapping(value = "/orderListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public String orderTableList(@RequestParam Map<String, String> QueryParameters, Model model) {
 		List<RscOrderVO> olist = rscOrderService.orderList(QueryParameters.get("rscOrderCode"), QueryParameters.get("rscCdCode"), 
-				QueryParameters.get("vendCdCode"));
+				QueryParameters.get("vendCdCode"), QueryParameters.get("rscOrderSDate"), QueryParameters.get("rscOrderEDate"));
 		model.addAttribute("olist", olist);
 		return "rsc/table/orderListTable";
 	}

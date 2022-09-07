@@ -9,7 +9,8 @@ $(document).ready(function(){
   let rscOrderCode = $("#rscOrderCode").val();
   let rscCdCode = $("#rsccode").val();
   let vendCdCode = $("#vendor").val();
-  console.log(rscCdCode);
+  let rscOrderSDate = $("#rscOrderSDate").val();
+  let rscOrderEDate = $("#rscOrderEDate").val();
   $.ajax({
    url : "orderListTable",
    method : "GET",
@@ -17,7 +18,9 @@ $(document).ready(function(){
    data: {
     rscOrderCode: rscOrderCode,
      rscCdCode: rscCdCode,
-     vendCdCode: vendCdCode
+     vendCdCode: vendCdCode,
+     rscOrderSDate: rscOrderSDate,
+     rscOrderEDate: rscOrderEDate
    },
    success: function(data){
     $("#ordtable").replaceWith(data);
@@ -28,5 +31,7 @@ $(document).ready(function(){
   $("#rscname").val(null);
   $("#vendor").val(null);
   $("#vendorName").val(null);
+  $("#rscOrderSDate").val(null);
+  $("#rscOrderEDate").val(null);
  }
 })

@@ -116,7 +116,10 @@
 			<if test="vendCdCode != null and vendCdCode != ''">
 				AND DT.VEND_CD_CODE = #{vendCdCode}
 			</if>
+			<if test="(rscOrderSDate!= null and rscOrderSDate!= '') and (rscOrderEDate!= null and rscOrderEDate!= '')">
+				AND OD.RSC_ORDER_DATE BETWEEN #{rscOrderSDate} AND TO_DATE(#{rscOrderEDate})+1
+			</if>
 		</where>
-		ORDER BY 1
+		ORDER BY 1 DESC
 	</select>
 </mapper>
