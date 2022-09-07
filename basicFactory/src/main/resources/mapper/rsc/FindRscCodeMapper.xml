@@ -45,7 +45,9 @@
 
 	<!-- 자재 발주 모달 -->
 	<select id="rscOrderList" resultType="com.mes.bf.rsc.vo.RscOrderVO">
-		SELECT OD.*, RSC_ORDER_ST
+		SELECT OD.*, 
+		
+			   RSC_ORDER_ST
 		
 		  FROM BF_RSC_ORDER OD
 		  JOIN (SELECT RSC_ORDER_CODE, 
@@ -55,6 +57,7 @@
          	ON OD.RSC_ORDER_CODE = SM.RSC_ORDER_CODE
 		<where>
 			   RSC_ORDER_ST = 0
+		   AND EMP_ID = #{empId}
 			<if test="rscOrderTitle != null and rscOrderTitle != ''">
 				AND RSC_ORDER_TITLE LIKE '%'|| #{rscOrderTitle} ||'%'
 			</if>
@@ -62,7 +65,34 @@
 				AND RSC_ORDER_DATE = #{rscOrderDate}
 			</if>
 		</where>
-		ORDER  BY 1
+		ORDER  BY 1 DESC
+	</select>
+	
+	<!-- 자재 검사 모달 -->
+	<select id="rscOrderInspList" resultType="com.mes.bf.rsc.vo.RscOrderVO">
+		SELECT OD.*, 
+			   RSC_ORDER_ST
+		
+		  FROM BF_RSC_ORDER OD
+		  JOIN (SELECT RSC_ORDER_CODE, 
+		  			   SUM(RSC_ORDER_ST) AS RSC_ORDER_ST,
+		  			   COUNT(*) AS COUNT
+          		  FROM BF_RSC_ORDER_DETAILS
+         		 GROUP BY RSC_ORDER_CODE) SM
+         	ON OD.RSC_ORDER_CODE = SM.RSC_ORDER_CODE
+		<where>
+			   (COUNT*2) != RSC_ORDER_ST
+			<if test="rscOrderCode != null and rscOrderCode != ''">
+				AND OD.RSC_ORDER_CODE LIKE '%'|| #{rscOrderCode} ||'%'
+			</if>
+			<if test="rscOrderTitle != null and rscOrderTitle != ''">
+				AND RSC_ORDER_TITLE LIKE '%'|| #{rscOrderTitle} ||'%'
+			</if>
+			<if test="rscOrderDate != null and rscOrderDate != ''">
+				AND RSC_ORDER_DATE = #{rscOrderDate}
+			</if>
+		</where>
+		ORDER  BY 1 DESC
 	</select>
 
 	<select id="modalOutList"

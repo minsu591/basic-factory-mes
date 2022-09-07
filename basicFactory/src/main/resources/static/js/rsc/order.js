@@ -1,5 +1,6 @@
 $("document").ready(function () {
  let tdinfo;
+ inputRemover();
 
  //체크박스 체크유무
  $("#allCheck").click("change", function () {
@@ -191,7 +192,8 @@ $("document").ready(function () {
       success : function(result){
         console.log(result);
         if(orders.length == result){
-          console.log("추가 성공");
+          submitComplete();
+          inputRemover();
         }
       }
     })
@@ -240,12 +242,26 @@ $("document").ready(function () {
       success : function(result){
         console.log(result);
         if(orders.length == result){
-          console.log("업데이트 성공");
+          submitComplete();
+          inputRemover();
         }
       }
     })
   }
  })
+
+ function inputRemover(){
+   $("#outTable tr").remove();
+   $("#rscOrderCode").val(null);
+   $("#rscOrderTitle").val(null);
+   $("#totalSum").text(null);
+
+   //기본 날짜 오늘 지정
+   let date = new Date();
+  date = date.toISOString().slice(0, 10);
+  $("#rscOrderDate").val(date);
+  
+ }
 
 
  function deleteWarning() {
@@ -278,6 +294,14 @@ $("document").ready(function () {
     html: '발주일자, 담당자ID, 발주명은 <br/> 기본 입력사항입니다.',
     icon: 'warning',                       // Alert 타입
 
+    confirmButtonText: '확인' // confirm 버튼 텍스트 지정
+   });
+ }
+
+ function submitComplete(){
+  Swal.fire({
+    title: '저장 되었습니다.',
+    icon: 'success',                       // Alert 타입
     confirmButtonText: '확인' // confirm 버튼 텍스트 지정
    });
  }

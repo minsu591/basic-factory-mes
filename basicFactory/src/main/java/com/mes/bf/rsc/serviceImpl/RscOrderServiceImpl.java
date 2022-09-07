@@ -45,8 +45,8 @@ public class RscOrderServiceImpl implements RscOrderService {
 	}
 
 	@Override
-	public List<RscOrderVO> orderList(String rscOrderCode, String rscCdCode,String vendCdCode) {
-		return rscOrderMapper.orderList(rscOrderCode, rscCdCode, vendCdCode);
+	public List<RscOrderVO> orderList(String rscOrderCode, String rscCdCode,String vendCdCode, String rscOrderSDate, String rscOrderEDate) {
+		return rscOrderMapper.orderList(rscOrderCode, rscCdCode, vendCdCode, rscOrderSDate, rscOrderEDate);
 	}
 
 }

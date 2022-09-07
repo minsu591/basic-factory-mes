@@ -3,6 +3,9 @@ package com.mes.bf.rsc.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.mes.bf.cmn.vo.EmpVO;
 import com.mes.bf.cmn.vo.RscCodeVO;
 import com.mes.bf.rsc.service.FindRscCodeService;
 import com.mes.bf.rsc.service.RscOutService;
@@ -42,8 +46,17 @@ public class FindRscCodeController {
 	
 	//자재발주 조회
 	@GetMapping(value="/findRscOrder", produces= { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<RscOrderVO>> findRscOrder(@RequestParam Map<String, String> queryParameters){
-		List<RscOrderVO> list = findRscService.rscOrderList(queryParameters.get("rscOrderTitle"),queryParameters.get("rscOrderDate"));
+	public ResponseEntity<List<RscOrderVO>> findRscOrder(HttpServletRequest request, @RequestParam Map<String, String> queryParameters) throws NoSuchFieldException, SecurityException{
+		HttpSession session = request.getSession();
+		EmpVO vo = (EmpVO) session.getAttribute("emp");
+		List<RscOrderVO> list = findRscService.rscOrderList(queryParameters.get("rscOrderTitle"),queryParameters.get("rscOrderDate"), vo.getEmpId());
+		return new ResponseEntity<List<RscOrderVO>>(list, HttpStatus.OK);
+	}
+	
+	//자재검사 조회 modal
+	@GetMapping(value="/findRscOrderInsp", produces= { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<RscOrderVO>> findRscOrderInsp(@RequestParam Map<String, String> queryParameters) throws NoSuchFieldException, SecurityException{
+		List<RscOrderVO> list = findRscService.rscOrderInspList(queryParameters.get("rscOrderCode"), queryParameters.get("rscOrderTitle"), queryParameters.get("rscOrderDate"));
 		return new ResponseEntity<List<RscOrderVO>>(list, HttpStatus.OK);
 	}
 	

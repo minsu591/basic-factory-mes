@@ -8,6 +8,7 @@
 </head>
 <body>
 <body>
+	<script type="text/javascript" th:src="@{/js/modal/rsc/findRscOrderInsp.js}"></script>
 	<script type="text/javascript" th:src="@{/js/modal/rsc/findVendor.js}"></script>
 	<script type="text/javascript"
 		th:src="@{/js/modal/rsc/findRscInTable.js}"></script>
@@ -67,6 +68,8 @@
 				</div>
 			</div>
 		</div>
+		<!-- 발주코드자료 Modal -->
+		<th:block th:replace="~{/fragments/modal/rsc/findRscOrderInsp :: findRscOrderInsp}"></th:block>
 		<!-- 자재조회 Modal -->
 		<th:block
 			th:replace="~{/fragments/modal/findresource :: findresource}"></th:block>

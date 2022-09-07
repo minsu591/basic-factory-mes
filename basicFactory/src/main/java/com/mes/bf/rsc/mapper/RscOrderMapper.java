@@ -22,5 +22,5 @@ public interface RscOrderMapper {
 	Integer orderDtReInsert(RscOrderVO vo); //디테일 내용 재insert
 	
 	//조회페이지 출력
-	List<RscOrderVO> orderList(String rscOrderCode, String rscCdCode, String vendCdCode);
+	List<RscOrderVO> orderList(String rscOrderCode, String rscCdCode, String vendCdCode, String rscOrderSDate, String rscOrderEDate);
 }
