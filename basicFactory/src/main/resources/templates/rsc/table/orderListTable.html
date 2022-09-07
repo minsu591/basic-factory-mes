@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 <meta charset="UTF-8">
 <div th:fragment="orderlisttable" id="ordtable">
@@ -8,13 +8,7 @@
 			<tr>
 				<th th:text="발주코드"></th>
 				<th th:text="발주일자"></th>
-				<th colspan="7" th:text="발주명"></th>
-				<th th:text="담당자"></th>
-				
-			</tr>
-			<tr>
-				<th></th>
-				<th></th>
+				<th th:text="발주명"></th>
 				<th th:text="발주품목"></th>
 				<th th:text="거래처"></th>
 				<th th:text="발주수량"></th>
@@ -23,23 +17,26 @@
 				<th th:text="금액"></th>
 				<th th:text="상태"></th>
 				<th th:text="비고"></th>
+				<th th:text="담당자"></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr th:each="olist : ${olist}">
-				<td th:text="${stock.rscCdCode}"></td>
-				<td th:text="${stock.rscCdName}"></td>
-				<td th:text="${stock.rscCdClfy}"></td>
-				<td th:text="${stock.rscLotNo}"></td>
-				<td th:text="${stock.rscInVol}"></td>
-				<td th:text="${stock.rscOutVol}"></td>
-				<td th:text="${stock.rscStock}"></td>
-				<td th:text="${stock.rscCdUnit}"></td>
-				<td><input type="checkbox"
-					th:checked="#{stock.rscStockUse eq '1'}" checked
-					onClick="return false;"></td>
+				<td th:text="${olist.rscOrderCode}"></td>
+				<td th:text="${olist.rscOrderDate}"></td>
+				<td th:text="${olist.rscOrderTitle}"></td>
+				<td th:text="${olist.rscCdName}"></td>
+				<td th:text="${olist.vendCdNm}"></td>
+				<td th:text="${olist.rscOrderVol}"></td>
+				<td th:text="${olist.rscOrderArv}"></td>
+				<td th:text="${olist.rscCdUnit}"></td>
+				<td th:text="${olist.rscOrderPrc}"></td>
+				<td th:text="${olist.rscOrderSt}"></td>
+				<td th:text="${olist.rscOrderDtlRemk}"></td>
+				<td th:text="${olist.empId}"></td>
 			</tr>
 		</tbody>
 	</table>
+	</div>
 </head>
 </html>

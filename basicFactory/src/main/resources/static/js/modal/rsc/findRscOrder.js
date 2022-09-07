@@ -83,7 +83,6 @@ $(document).ready(function () {
     alert("상태코드 " + status + "에러메시지" + msg);
    },
    success: function (data) {
-    console.log($("#outTable tr").length)
     if($("#outTable tr").length > 0){
      Swal.fire({
       icon: "warning",
@@ -128,7 +127,7 @@ $(document).ready(function () {
 <td><input type="text" class="rscname" value="${obj.rscCdName}" disabled></td>
 <td><input type="text" value="${obj.rscOrderVol}"></td>
 <td><input type="text" class="unit" value="${obj.rscCdUnit}" disabled></td>
-<td><input type="text" class="rscOrderPrc" value="${obj.rscOrderPrc}"></td>
+<td><input type="text" class="price" value="${obj.rscOrderPrc}"></td>
 <td><input type="text" value="${prc}" class="totalPrice" disabled></td>
 <td><input type="text" value="${obj.rscOrderDtlRemk}"></td>
 <input type="hidden" value="${obj.rscOrderDtlNo}">
@@ -153,6 +152,7 @@ $(document).ready(function () {
   let sum;
   for (let i = 0; i < tr.length; i++) {
    let totalprice = tr.eq(i).children().find(".totalPrice").val();
+   console.log(typeof(totalprice));
    if(!totalprice){
     totalprice = 0;
    }else{

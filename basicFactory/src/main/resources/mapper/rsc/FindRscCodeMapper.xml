@@ -45,9 +45,16 @@
 
 	<!-- 자재 발주 모달 -->
 	<select id="rscOrderList" resultType="com.mes.bf.rsc.vo.RscOrderVO">
-		SELECT * 
-		  FROM BF_RSC_ORDER
+		SELECT OD.*, RSC_ORDER_ST
+		
+		  FROM BF_RSC_ORDER OD
+		  JOIN (SELECT RSC_ORDER_CODE, 
+		  			   SUM(RSC_ORDER_ST) AS RSC_ORDER_ST
+          		  FROM BF_RSC_ORDER_DETAILS
+         		 GROUP BY RSC_ORDER_CODE) SM
+         	ON OD.RSC_ORDER_CODE = SM.RSC_ORDER_CODE
 		<where>
+			   RSC_ORDER_ST = 0
 			<if test="rscOrderTitle != null and rscOrderTitle != ''">
 				AND RSC_ORDER_TITLE LIKE '%'|| #{rscOrderTitle} ||'%'
 			</if>
