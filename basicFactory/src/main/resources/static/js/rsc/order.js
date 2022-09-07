@@ -90,7 +90,7 @@ $("document").ready(function () {
   }
   totalprice();
  });
-
+ 
  function detailTableMakeRow() {
   let node = `<tr>
 <td><input type="checkbox" name="chk"></td>
@@ -124,41 +124,6 @@ $("document").ready(function () {
   }
  })
 
- function deleteWarning() {
-  Swal.fire({
-   icon: "warning", // Alert 타입
-   title: "삭제할 항목을 선택하세요.", // Alert 제목
-   confirmButtonText: "확인"
-  })
- }
-
- function submitWarning() {
-  Swal.fire({
-   icon: "warning", // Alert 타입
-   title: "선택된 항목이 없습니다.", // Alert 제목
-   confirmButtonText: "확인",
-  })
- }
-
- function minusWarning(){
-  Swal.fire({
-    icon: "warning", // Alert 타입
-    title: "0이상의 숫자만 입력할 수 있습니다.", // Alert 제목
-    confirmButtonText: "확인",
-   })
- }
-
- function insertHeaderWarning(){
-  Swal.fire({
-    title: '필수 항목 미입력',
-    html: '발주일자, 담당자ID, 발주명은 <br/> 기본 입력사항입니다.',
-    icon: 'warning',                       // Alert 타입
-
-    confirmButtonText: '확인' // confirm 버튼 텍스트 지정
-   });
- }
-
-
  
  
  //등록버튼
@@ -170,14 +135,12 @@ $("document").ready(function () {
   let rscOrderDate = $("#rscOrderDate").val();
   let empId = $("#empId").val();
   let rscOrderTitle = $("#rscOrderTitle").val();
-  let rscOrderRemk = $("#rscOrderRemk").val();
   //헤더 정보 저장
   let rscOrderVO = {
     rscOrderCode,
     rscOrderDate,
     empId,
     rscOrderTitle,
-    rscOrderRemk
   }
 
   //필수항목 미기재시 리턴
@@ -195,7 +158,7 @@ $("document").ready(function () {
       let rscOrderPrc = $(obj).children().eq(7).find("input").val();
       let rscOrderDtlRemk = $(obj).children().eq(9).find("input").val();
 
-      //필수사항 공백일 경우 리턴
+      //필수사항 미기재시 리턴
       if (!vendCdCode || !rscCdCode || !rscOrderVol || !rscOrderPrc){
         Swal.fire({
           icon: "warning", // Alert 타입
@@ -233,84 +196,91 @@ $("document").ready(function () {
       }
     })
   }else { // 수정 - 세부내역 전부 delete 후 insert
-    console.log("수정으로넘어감")
+    //해당 발주코드를 가진 dt테이블의 내용을 모두 삭제
+    //디테일 리스트의 내용을 모두 insert
+    let orders = [];
+    let outTable = $("#InsertTable").find("tbody tr");
+    for (obj of outTable) {
+      let vendCdCode = $(obj).children().eq(1).find("input").val();
+      let rscCdCode = $(obj).children().eq(3).find("input").val();
+      let rscOrderVol = $(obj).children().eq(5).find("input").val();
+      let rscOrderPrc = $(obj).children().eq(7).find("input").val();
+      let rscOrderDtlRemk = $(obj).children().eq(9).find("input").val();
+
+      //필수사항 공백일 경우 리턴
+      if (!vendCdCode || !rscCdCode || !rscOrderVol || !rscOrderPrc){
+        Swal.fire({
+          icon: "warning", // Alert 타입
+          title: "입력되지 않은 값이 있습니다.", // Alert 제목
+          html: "거래처코드, 자재코드, <br/>발주수량, 단가는<br/>기본 입력사항입니다.",
+          confirmButtonText: "확인"
+         })
+         return;
+      } else {
+        //디테일 리스트 저장
+        let order = {
+          vendCdCode,
+          rscCdCode,
+          rscOrderVol,
+          rscOrderPrc,
+          rscOrderDtlRemk
+        }
+        orders.push(order);
+      }
+    }
+    $.ajax({
+      url : 'orderUpdate',
+      type : 'POST',
+      dataType : 'text',
+      data : JSON.stringify({
+        rscOrderVO,
+        orders
+      }),
+      contentType : 'application/json; charset=UTF-8',
+      success : function(result){
+        console.log(result);
+        if(orders.length == result){
+          console.log("업데이트 성공");
+        }
+      }
+    })
   }
-  // let param = [];
-  // let info = [];
-  // let rowData = new Array();
-  // // 체크된 체크박스 값을 가져온다
-  // outTable.each(function (i) {
-  //  let tr = outTable.children.eq(i); 
-  //  let td = tr.children();
-  //  // 체크된 row의 모든 값을 배열에 담는다.
-  //  rowData.push(tr.text());
-
-  //  // td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
-
-  //  let empId = td.eq(11).val();
-  //  if (!rscOutDate || !vendCdCode || !rscCdCode || !rscLotNo || !rscOutVol || !empId) {
-  //   Swal.fire({
-  //    icon: "warning", // Alert 타입
-  //    title: "입력되지 않은 값이 있습니다.", // Alert 제목
-  //    html: "출고일자, 자재코드, <br/>자재LOT번호, 출고수량, 담당자는<br/>기본 입력사항입니다.",
-  //    confirmButtonText: "확인"
-  //   })
-  //  } else if (rscOutVol < 0) {
-  //   Swal.fire({
-  //    icon: "warning", // Alert 타입
-  //    title: "입력값 오류", // Alert 제목
-  //    html: "출고수량은 0 이상만 입력 가능합니다.",
-  //    confirmButtonText: "확인"
-  //   })
-  //  } else {
-  //   if (!rscOutCode) {
-  //    rscOutCode = null;
-  //   } else if (!vendCdCode) {
-  //    vendCdCode = null;
-  //   }
-
-  //   info = {
-  //    rscOutCode: rscOutCode,
-  //    rscOutDate: rscOutDate,
-  //    vendCdCode: vendCdCode,
-  //    rscCdCode: rscCdCode,
-  //    rscLotNo: rscLotNo,
-  //    rscOutVol: rscOutVol,
-  //    rscOutResn: rscOutResn,
-  //    empId: empId
-  //   }
-
-  //   param.push(info);
-  //   console.log(info);
-  //   console.log(rowData);
-
-  //   console.log(param);
-
-
-  //   $.ajax({
-  //    url: "outInAndUp",
-  //    method: "POST",
-  //    headers: { "content-type": "application/json" },
-  //    data: JSON.stringify(param),
-  //    dataType: "text",
-  //    error: function (error, status, msg) {
-  //     alert("상태코드 " + status + "에러메시지" + msg);
-  //    },
-  //    success: function () {
-  //     alert("등록처리완료");
-  //     //완료된 행 삭제
-  //     $("input[name='chk']:checked").each(function (k, val) {
-  //      $(this).parent().parent().remove();
-  //      $("#allCheck").prop("checked", false);
-  //     });
-  //    }
-  //   })
-  //  }
-
-  // });
-
-
  })
+
+
+ function deleteWarning() {
+  Swal.fire({
+   icon: "warning", // Alert 타입
+   title: "삭제할 항목을 선택하세요.", // Alert 제목
+   confirmButtonText: "확인"
+  })
+ }
+
+ function submitWarning() {
+  Swal.fire({
+   icon: "warning", // Alert 타입
+   title: "선택된 항목이 없습니다.", // Alert 제목
+   confirmButtonText: "확인",
+  })
+ }
+
+ function minusWarning(){
+  Swal.fire({
+    icon: "warning", // Alert 타입
+    title: "0이상의 숫자만 입력할 수 있습니다.", // Alert 제목
+    confirmButtonText: "확인",
+   })
+ }
+
+ function insertHeaderWarning(){
+  Swal.fire({
+    title: '필수 항목 미입력',
+    html: '발주일자, 담당자ID, 발주명은 <br/> 기본 입력사항입니다.',
+    icon: 'warning',                       // Alert 타입
+
+    confirmButtonText: '확인' // confirm 버튼 텍스트 지정
+   });
+ }
 
 
 })
