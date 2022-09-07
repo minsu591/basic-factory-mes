@@ -1,7 +1,7 @@
 $("document").ready(function () {
   //완제품 출고 관리에서 미출고 조회 시 주문내역 모달창
   $("#findNotOutBtn").on("click", function (e) {
-    
+    $("#slsOutHdNo").val('');
     $("#findNotOutModal").modal("show");
     findNotOutClick();
 

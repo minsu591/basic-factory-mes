@@ -110,13 +110,14 @@ $("document").ready(function () {
     let finPrdCdCode;
     let lotTdInfo;
     let outVolTd;
+    let preVol;
     let notOutVol;
     let orderVol = 0;
     let price;
     let danga;
     $("#outMngTable").on("click", "tr", function (e) {
         priKey = $(this).find("input[type='hidden']").val();
-        console.log("priKey!!!"+priKey);
+        preVol = $(this).find("td:eq(4)").text();
         outVolTd = $(this).find("td:eq(5)");
         lotTdInfo = $(this).find("td:eq(7)");
         notOutVol = $(this).find("td:eq(6)");
@@ -137,7 +138,7 @@ $("document").ready(function () {
 
         $("#findLotModal").modal("hide");
         outVolTd.text(outDtlVol);
-        notOutVol.text(orderVol - outDtlVol);
+        notOutVol.text(orderVol - preVol - outDtlVol);
         price.text(outDtlVol * danga);
         //outLotList[addList[제품코드, lot, 출고량], addList[]]
         let sum = 0;
@@ -393,9 +394,7 @@ $("document").ready(function () {
             slsOutDtlNo,
             slsOutDtlVol
         }
-        slsOutDtlVO.push(updateDtl);
-        console.log("slsOutDtlVO");
-        console.log(slsOutDtlVO);
+
         $.ajax({
             url: 'outManage/update',
             type :"PUT",

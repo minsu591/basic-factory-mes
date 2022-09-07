@@ -117,7 +117,7 @@ $("document").ready(function(){
                         <td>${out.slsOrdDtlVol}</td>
                         <td>${out.slsOutDtlPrvsVol}</td>
                         <td>${out.slsOutDtlVol}</td>
-                        <td>${out.slsOrdDtlVol - out.slsOutDtlVol}</td>
+                        <td>${(out.slsOrdDtlVol - out.slsOutDtlPrvsVol) - out.slsOutDtlVol}</td>
                         <td class="lotNo">${out.fnsPrdStkLotNo}</td>
                         <td>${out.finPrdCdPrice}</td>
                         <td>${out.slsOutDtlVol * out.finPrdCdPrice}</td>

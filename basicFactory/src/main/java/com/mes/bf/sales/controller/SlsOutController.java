@@ -94,8 +94,12 @@ public class SlsOutController {
 	public void outHdDtlInsert(@RequestBody SlsOutInsertVO vo) {
 		//출고 헤더 등록
 		service.outInsertHd(vo.getSlsOutHdVO());
+		String slsOrdHdNo = vo.getSlsOutHdVO().getSlsOrdHdNo();
 		//출고 디테일 등록
 		for(SlsOutDtlVO outDtlVO :vo.getSlsOutDtlVO()) {
+			outDtlVO.setSlsOrdHdNo(slsOrdHdNo);
+			System.out.println("주문번호 여기 있다!!!!");
+			System.out.println(slsOrdHdNo);
 			service.outInsertDtl(outDtlVO);
 		}
 	}
@@ -110,7 +114,6 @@ public class SlsOutController {
 	
 	@DeleteMapping("/outManage/delete")
 	public void orderDelete(@RequestParam(value="delList[]") List<String> delList) {
-		System.out.println("들어와?");
 		service.outDelete(delList);
 	}
 }
