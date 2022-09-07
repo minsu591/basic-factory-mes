@@ -126,6 +126,12 @@ public class InstructionServiceImpl implements InstructionService {
 			mapper.updateInstDetail(str);
 		}
 	}
+
+	@Override
+	public void deleteInst(InstructionVO vo) {
+		mapper.deleteInst(vo);
+		
+	}
 	
 
 }

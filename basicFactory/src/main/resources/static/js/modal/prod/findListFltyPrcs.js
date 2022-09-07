@@ -38,7 +38,6 @@ $("document").ready(function () {
         fltyPrcsEdate: fltyPrcsEdate,
       },
       success: function (data) {
-        console.log(data);
         $("#findListFltyPrcstbody tr").remove();
         for (obj of data) {
           modalMakeRow(obj);
@@ -92,8 +91,8 @@ $("document").ready(function () {
     let node = `<tr>
                     <td><input type="checkbox" name="chk"></td>
                     <td>${fltyPrcsNo}</td>
-                    <td id="faultyCode">${faultyCdCode}</td>
-                    <td id="faultyName">${faultyName}</td>
+                    <td class="faultyCode">${faultyCdCode}</td>
+                    <td class="faultyName">${faultyName}</td>
                     <td>${fltyPrcsVol}</td>
                     <td><input type="date" value="${fltyPrcsDate}"></td>
                     <td>${empId}</td>

@@ -1,4 +1,15 @@
 function page() {
+  // var reSortColors = function ($table) {
+  //   $("tbody tr:odd td", $table)
+  //     .removeClass("even")
+  //     .removeClass("listtd")
+  //     .addClass("odd");
+  //   $("tbody tr:even td", $table)
+  //     .removeClass("odd")
+  //     .removeClass("listtd")
+  //     .addClass("even");
+  // };
+
   $(".paginated").each(function () {
     var pagesu = 10; //페이지 번호 갯수
     var currentPage = 0;
@@ -72,9 +83,7 @@ function page() {
         .addClass("clickable");
 
       // [이전]
-      $(
-        '<span class="page-number" cursor: "pointer">&nbsp;&nbsp;&nbsp;[이전]&nbsp;</span>'
-      )
+      $('<span class="page-number" cursor: "pointer">[이전]</span>')
         .bind("click", { newPage: page }, function (event) {
           if (currentPage == 0) return;
           currentPage = currentPage - 1;
@@ -89,9 +98,7 @@ function page() {
 
       // [1,2,3,4,5,6,7,8]
       for (var page = nowp; page < endp; page++) {
-        $(
-          '<span class="page-number" cursor: "pointer" style="margin-left: 8px;"></span>'
-        )
+        $('<span class="page-number" cursor: "pointer"></span>')
           .text(page + 1)
           .bind("click", { newPage: page }, function (event) {
             currentPage = event.data["newPage"];
@@ -106,9 +113,7 @@ function page() {
       }
 
       // [다음]
-      $(
-        '<span class="page-number" cursor: "pointer">&nbsp;&nbsp;&nbsp;[다음]&nbsp;</span>'
-      )
+      $('<span class="page-number" cursor: "pointer">[다음]</span>')
         .bind("click", { newPage: page }, function (event) {
           if (currentPage == numPages - 1) return;
           currentPage = currentPage + 1;
@@ -122,7 +127,7 @@ function page() {
         .addClass("clickable");
 
       // [끝]
-      $('<span class="page-number" cursor: "pointer">&nbsp;[끝]</span>')
+      $('<span class="page-number" cursor: "pointer">[끝]</span>')
         .bind("click", { newPage: page }, function (event) {
           currentPage = numPages - 1;
           $table.trigger("repaginate");
