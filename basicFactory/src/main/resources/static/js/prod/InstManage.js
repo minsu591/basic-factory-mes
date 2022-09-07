@@ -37,8 +37,17 @@ $(document).ready(function () {
       return;
     }
     $("input[type='checkbox']:checked").each(function (k, val) {
+      let lineIndex = lineArray.indexOf($(this).parent().parent().find("td:eq(11)").children().val())
+      let inDtlVolIndex = inDtlVol.indexOf($(this).parent().parent().find("td:eq(10)").children().val());
+      let procCodeIndex = inDtlVol.indexOf($(this).parent().parent().find("td:eq(1)").children().val());
+      //선택한 값만 삭제
+      lineArray.splice(lineIndex, 1);
+      inDtlVol.splice(inDtlVolIndex, 1);
+      prodCodeArr.splice(procCodeIndex, 1);
       $(this).parent().parent().remove();
+
     });
+
   });
   //저장 버튼 클릭이벤트
   $("#instSaveBtn").click(function () {
