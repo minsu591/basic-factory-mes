@@ -1,3 +1,4 @@
+let clfyList = ["","관리자","직원"];
 
 $("document").ready(function(){
     //수정
@@ -14,7 +15,7 @@ $("document").ready(function(){
     let avArr = [5,6,7,9];
     //프라이머리 키
     let priKeyIdx = 1;
-    let clfyList = ["","관리자","직원"];
+    
     //수정 이벤트
     table.find("tbody").on("click","td:not(:first-child)",function(e){
         e.stopPropagation();
@@ -154,7 +155,7 @@ $("document").ready(function(){
             }
 
             alert("저장이 완료되었습니다.");
-            //location.reload();
+            location.reload();
         }
     });
 

@@ -1,8 +1,12 @@
 $("document").ready(function () {
   $("#empid").click(function (e) {
+    //생산계획관리에서 내 계획 조회시, empId 입력 input 클릭하면 모달창 막기
     e.preventDefault();
-    findEmp();
-    $("#findempModal").modal("show");
+    if(!$(this).closest("form").hasClass("myPlan")){
+      findEmp();
+      $("#findempModal").modal("show");
+    }
+    
   });
 
   //모달테이블 클릭 이벤트
