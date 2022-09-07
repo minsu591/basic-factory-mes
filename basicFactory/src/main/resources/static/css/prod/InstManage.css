@@ -28,7 +28,7 @@ input[type="text"]:read-only {
 
 #planDetailTable input[type="text"],
 #planDetailTable input[type="date"] {
-  height: 2rem;
+  height: 2.5rem;
   text-align: center;
   border: 0;
   width: 100%;
@@ -50,7 +50,6 @@ input[type="text"]:read-only {
 #planDetailTable tbody tr input[type="checkbox"] {
   vertical-align: middle;
 }
-
 
 .required {
   border-color: #e74c3c;

@@ -361,7 +361,7 @@ $(document).ready(function () {
       .toISOString()
       .slice(0, -14);
     let node = `<tr>
-  <td><input type="checkbox"></td>
+  <td><input type="checkbox" style="margin-top:1rem;"></td>
   <td><input type="text" name="prodCode"></td>
   <td><input type="text" disabled></td>
   <td><input type="text" disabled></td>

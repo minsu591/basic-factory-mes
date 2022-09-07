@@ -23,7 +23,7 @@ h1 {
 }
 
 #nonOpTable input[type="text"] {
-  height: 2rem;
+  height: 2.5rem;
   text-align: center;
   border: solid 1px #e2e5e8;
   width: 100%;
