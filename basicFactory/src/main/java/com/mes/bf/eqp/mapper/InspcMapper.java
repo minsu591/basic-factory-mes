@@ -14,6 +14,8 @@ public interface InspcMapper {
 	
 	//설비점검내역(모달창)
 	List<InspcVO> findInspcList(String inspcSdate, String inspcEdate);
+	//설비점검대상조회(모달창)
+	List<InspcVO> findNxtDate();
 	
 	//설비점검조회
 	List<InspcVO> listInspc();

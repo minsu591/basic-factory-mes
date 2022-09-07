@@ -9,6 +9,7 @@
   <script type="text/javascript" th:src="@{/js/eqp/InspcManage.js}"></script>
   <!-- modal js -->
   <script type="text/javascript" th:src="@{/js/modal/eqp/findInspcList.js}"></script>
+  <script type="text/javascript" th:src="@{/js/modal/eqp/findInspcNxtDate.js}"></script>
 
   <div class="pcoded-main-container">
     <h1>설비 점검 관리</h1>
@@ -60,7 +61,8 @@
 
   <!-- 점검내역조회 Modal -->
   <th:block th:replace="~{/fragments/modal/eqp/findInspcList :: findInspcList}"></th:block>
-  
+  <!-- 점검대상조회 Modal -->
+  <th:block th:replace="~{/fragments/modal/eqp/findInspcNxtDate :: findNxtDate}"></th:block>
 
 </body>
 </html>
