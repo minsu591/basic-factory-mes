@@ -258,7 +258,7 @@ function findAllProcCode() {
 
 //설비테이블 행추가
 function mchnMakeRow(obj) {
-  let node = `<tr>                 
+  let node = `<tr style="cursor:pointer;">                 
                    <td>${obj.mchnCode}</td>
                    <td>${obj.mchnName}</td>
                    <td>${obj.procCdName}</td>
