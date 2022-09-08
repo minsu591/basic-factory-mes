@@ -37,6 +37,7 @@ $("document").ready(function(){
         let slsOrdHdNo = $(this).find("td:eq(2)").text();
         let vendor = $(this).find("td:eq(3)").text();
         let vendorName = $(this).find("td:eq(4)").text();
+        let empId = $(this).find(".empId").val();
         let empName = $(this).find("td:eq(5)").text();
         let remk = $(this).find("td:last").text();
 
@@ -47,8 +48,9 @@ $("document").ready(function(){
         $("#vendor").val(vendor);
         $("#vendorName").val(vendorName);
         $("#vendorName").attr("readonly", true);
-        $("#empid").val(empName);
-        $("#empid").attr("readonly",true);
+        $("#empId").val(empId);
+        $("#empName").val(empName);
+        $("#empName").attr("readonly",true);
         $("#remk").val(remk);
 
         //테이블 삽입
@@ -73,6 +75,7 @@ $("document").ready(function(){
                         <td>${obj.slsOrdHdNo}</td>
                         <td>${obj.vendCdCode}</td>
                         <td>${obj.vendCdNm}</td>
+                        <input type="hidden" class="empId" value="${obj.empId}">
                         <td>${obj.empName}</td>
                         <td>${obj.slsOutHdRemk}</td>
                     </tr>`
@@ -114,7 +117,7 @@ $("document").ready(function(){
                         <td>${out.slsOrdDtlVol}</td>
                         <td>${out.slsOutDtlPrvsVol}</td>
                         <td>${out.slsOutDtlVol}</td>
-                        <td>${out.slsOrdDtlVol - out.slsOutDtlVol}</td>
+                        <td>${(out.slsOrdDtlVol - out.slsOutDtlPrvsVol) - out.slsOutDtlVol}</td>
                         <td class="lotNo">${out.fnsPrdStkLotNo}</td>
                         <td>${out.finPrdCdPrice}</td>
                         <td>${out.slsOutDtlVol * out.finPrdCdPrice}</td>

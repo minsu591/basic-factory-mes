@@ -16,7 +16,10 @@ public interface FindRscCodeService {
 	List<RscStockVO> rscLotNoList(String rscCdCode, String rscCdName);
 	
 	//최근 발주리스트 조회
-	List<RscOrderVO> rscOrderList(String rscOrderTitle, String rscOrderDate);
+	List<RscOrderVO> rscOrderList(String rscOrderTitle, String rscOrderDate, String empId);
+	
+	//검사관리용 발주리스트 조회
+	List<RscOrderVO> rscOrderInspList(String rscOrderCode, String rscOrderTitle, String rscOrderDate);
 	
 	//최근 출고리스트 조회
 	List<RscOutVO> modalOutList(String rscOutCode, String rscOutDate);

@@ -1,21 +1,25 @@
-$(document).ready(function () {
+$(document).ready(function(){
+  //조회버튼 모달 팝업
+  $("#search").click(function (e) {
+   e.preventDefault();
+   findRscOrderInspList();
+   $("#findRscOrderInspModal").modal("show");
+ 
+  })
 
- //조회버튼 모달 팝업
- $("#search").click(function (e) {
-  e.preventDefault();
-  findRscOrderList(null, null);
-  $("#findRscOrderModal").modal("show");
+   //발주목록 리스트 출력
+ function findRscOrderInspList() {
+  let rscOrderCd = $("#rscOrderCd").val();
+  let rscOrderTtl = $("#rscOrderTtl").val();
+  let rscOrderDt = $("#rscOrderDt").val();
 
- })
-
- //발주목록 리스트 출력
- function findRscOrderList(rscOrderTtl, rscOrderDt) {
   $.ajax({
-   url: "findRscOrder",
+   url: "findRscOrderInsp",
    method: "GET",
    contentType: "application/json;charset=utf-8",
    dataType: "json",
    data: {
+    rscOrderCode: rscOrderCd,
     rscOrderTitle: rscOrderTtl,
     rscOrderDate: rscOrderDt
    },
@@ -23,34 +27,30 @@ $(document).ready(function () {
     alert("상태코드 " + status + "에러메시지" + msg);
    },
    success: function (data) {
-    $("#findRscOrdertbody tr").remove();
+    $("#findRscOrderInsptbody tr").remove();
     let index = 0;
     for (obj of data) {
      index += 1;
-     makeRscOrderRow(obj, index);
+     makeRscOrderInspRow(obj, index);
     }
    },
   });
  }
 
- //발주목록 행생성
- function makeRscOrderRow(obj, index) {
-  let node = `<tr>
-            <td>${obj.rscOrderCode}</td>
-            <td>${obj.rscOrderDate}</td>
-            <td>${obj.rscOrderTitle}</td>
-            <input type="hidden" value="${obj.rscOrderRemk}" name="orderRemk">
-            <input type="hidden" value="${obj.empId}" name="empId">
-          </tr>`;
-  $("#findRscOrdertbody").append(node);
- }
-
+  //발주목록 행생성
+  function makeRscOrderInspRow(obj, index) {
+   let node = `<tr>
+             <td>${obj.rscOrderCode}</td>
+             <td>${obj.rscOrderDate}</td>
+             <td>${obj.rscOrderTitle}</td>
+           </tr>`;
+   $("#findRscOrderInsptbody").append(node);
+  }
+ 
 
  //검색버튼
  $("#searchOut").click(function (){
-  let rscOrderTtl = $("#rscOrderTtl").val();
-  let rscOrderDt = $("#rscOrderDt").val();
-  findRscOrderList(rscOrderTtl, rscOrderDt)
+  findRscOrderInspList();
  })
 
 
@@ -59,17 +59,12 @@ $(document).ready(function () {
   let rscOrderCode = $(this).find("td:eq(0)").text();
   let rscOrderDate = $(this).find("td:eq(1)").text();
   let rscOrderTitle = $(this).find("td:eq(2)").text();
-  let rscOrderRemk = $(this).find("input[name='orderRemk']").val();
-  let empId = $(this).find("input[name='empId']").val();
   $("#rscOrderCode").val(rscOrderCode);
   $("#rscOrderDate").val(rscOrderDate);
   $("#rscOrderTitle").val(rscOrderTitle);
-  if (rscOrderRemk == 'null'){
-   rscOrderRemk = '';
-  }
-  $("#rscOrderRemk").val(rscOrderRemk);
-  $("#empId").val(empId);
+//여기까지 수정완료
 
+  
   //발주목록 상세 내역 불러오기
   $.ajax({
    url: "orderDetailsList",
@@ -113,7 +108,7 @@ $(document).ready(function () {
    },
   });
 
-  $("#findRscOrderModal").modal("hide");
+  $("#findRscOrderInspModal").modal("hide");
  });
 
  
@@ -133,7 +128,6 @@ $(document).ready(function () {
 <input type="hidden" value="${obj.rscOrderDtlNo}">
 </tr>`;
   $("#InsertTable tbody").append(node);
-  totalprice();
  }
 
 
@@ -144,23 +138,5 @@ $(document).ready(function () {
    confirmButtonText: "확인",
   })
  }
- function totalprice() {
-  let priceList=[];
-  let total = $("#outTableTfoot").children().find("#totalSum");
-  let tr = $("#outTable").children();
-  let totalprice;
-  let sum;
-  for (let i = 0; i < tr.length; i++) {
-   let totalprice = tr.eq(i).children().find(".totalPrice").val();
-   console.log(typeof(totalprice));
-   if(!totalprice){
-    totalprice = 0;
-   }else{
-    totalprice = totalprice.split(",").join(""); //콤마 제거
-   }
-   priceList.push(Number(totalprice)); //String -> Number 전환
-  }
-  sum = priceList.reduce((a,b) => (a+b));
-  total.text(sum.toLocaleString('ko-KR'));
- }
+
 })

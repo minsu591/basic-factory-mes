@@ -16,4 +16,11 @@ public interface RscOrderMapper {
 	Integer orderInsert(RscOrderVO vo);
 	Integer orderDtInsert(RscOrderVO vo);
 	
+	//수정
+	Integer orderHdUpdate(RscOrderVO vo); //헤더 업데이트
+	Integer orderDtDelete(String RscOrderCode); //디테일 내용 삭제
+	Integer orderDtReInsert(RscOrderVO vo); //디테일 내용 재insert
+	
+	//조회페이지 출력
+	List<RscOrderVO> orderList(String rscOrderCode, String rscCdCode, String vendCdCode, String rscOrderSDate, String rscOrderEDate);
 }

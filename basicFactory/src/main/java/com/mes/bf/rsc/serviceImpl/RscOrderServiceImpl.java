@@ -29,4 +29,24 @@ public class RscOrderServiceImpl implements RscOrderService {
 		return rscOrderMapper.orderDtInsert(vo);
 	}
 
+	@Override
+	public Integer orderHdUpdate(RscOrderVO vo) {
+		return rscOrderMapper.orderHdUpdate(vo);
+	}
+
+	@Override
+	public Integer orderDtDelete(String RscOrderCode) {
+		return rscOrderMapper.orderDtDelete(RscOrderCode);
+	}
+
+	@Override
+	public Integer orderDtReInsert(RscOrderVO vo) {
+		return rscOrderMapper.orderDtInsert(vo);
+	}
+
+	@Override
+	public List<RscOrderVO> orderList(String rscOrderCode, String rscCdCode,String vendCdCode, String rscOrderSDate, String rscOrderEDate) {
+		return rscOrderMapper.orderList(rscOrderCode, rscCdCode, vendCdCode, rscOrderSDate, rscOrderEDate);
+	}
+
 }

@@ -33,7 +33,7 @@ $(document).ready(function () {
                     <td>${obj.slsOutDtlVO.slsOrdDtlVol}</td>
                     <td>${obj.slsOutDtlVO.slsOutDtlPrvsVol}</td>
                     <td>${obj.slsOutDtlVO.slsOutDtlVol}</td>
-                    <td>${obj.slsOutDtlVO.slsOrdDtlNotOutVol}</td>
+                    <td>${(obj.slsOutDtlVO.slsOrdDtlVol - obj.slsOutDtlVO.slsOutDtlPrvsVol) - obj.slsOutDtlVO.slsOutDtlVol}</td>
                     <td>${obj.slsOutDtlVO.fnsPrdStkLotNo}</td>
                     <td>${obj.slsOutDtlVO.finPrdCdPrice}</td>
 					          <td>${obj.slsOutDtlVO.slsOutDtlPrice}</td>

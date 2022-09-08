@@ -28,8 +28,13 @@ public class FindRscCodeServiceImpl implements FindRscCodeService{
 	}
 	
 	@Override
-	public List<RscOrderVO> rscOrderList(String rscOrderTitle, String rscOrderDate) {
-		return rscCodeMapper.rscOrderList(rscOrderTitle, rscOrderDate);
+	public List<RscOrderVO> rscOrderList(String rscOrderTitle, String rscOrderDate, String empId) {
+		return rscCodeMapper.rscOrderList(rscOrderTitle, rscOrderDate, empId);
+	}
+
+	@Override
+	public List<RscOrderVO> rscOrderInspList(String rscOrderCode, String rscOrderTitle, String rscOrderDate) {
+		return rscCodeMapper.rscOrderInspList(rscOrderCode, rscOrderTitle, rscOrderDate);
 	}
 
 	@Override

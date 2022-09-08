@@ -66,12 +66,26 @@
                                         <td th:text="${plan.planHdVO.planHdName}">짜파게티 100개</td>
                                         <td th:text="${plan.planHdVO.planHdDate}">2022-07-30</td>
                                         <td th:text="${plan.planHdVO.empId}">김민서</td>
-                                        <td th:text="${#strings.defaultString(plan.colOrdVO.slsOrdHdNo,' ')}">주문코드</td>
-                                        <td th:text="${#strings.defaultString(plan.colOrdVO.vendCdNm,' ')}">거래처명</td>
-                                        <td th:text="${#strings.defaultString(plan.colOrdVO.slsOrdDtlDlvDate,' ')}">납기일자</td>
+                                        <th:block th:if="${plan.planVO.planPreVol eq null}">
+                                            <!--planPreVol이 비어있으면 주문코드 거래처명 납기일자 출력X-->
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </th:block>
+                                        <th:block th:unless="${plan.planVO.planPreVol eq null}">
+                                            <td th:text="${#strings.defaultString(plan.colOrdVO.slsOrdHdNo,' ')}">주문코드</td>
+                                            <td th:text="${#strings.defaultString(plan.colOrdVO.vendCdNm,' ')}">거래처명</td>
+                                            <td th:text="${#strings.defaultString(plan.colOrdVO.slsOrdDtlDlvDate,' ')}">납기일자</td>
+                                        </th:block>
                                         <td th:text="${plan.planVO.finPrdCdCode}">제품코드</td>
                                         <td th:text="${plan.planVO.finPrdCdName}">제품명</td>
-                                        <td th:text="${#strings.defaultString(plan.colOrdVO.slsOrdDtlVol,' ')}">주문량</td>
+                                        <th:block th:if="${plan.planVO.planPreVol eq null}">
+                                            <td></td>
+                                        </th:block>
+                                        <th:block th:unless="${plan.planVO.planPreVol eq null}">
+                                            <td th:text="${#strings.defaultString(plan.colOrdVO.slsOrdDtlVol,' ')}">주문량</td>
+                                        </th:block>
+                
                                         <td th:text="${plan.planVO.planProdVol}">계획량</td>
                                         <td th:text="${plan.planVO.planSdate}">작업계획 시작일자</td>
                                         <td th:text="${plan.planVO.planEdate}">작업계획 종료일자</td>

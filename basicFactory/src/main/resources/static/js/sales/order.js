@@ -32,7 +32,7 @@ $(document).ready(function () {
                     <td>${obj.slsOrdDtlVO.slsOrdDtlDlvDate}</td>
                     <td>${obj.slsOrdDtlVO.slsOrdDtlVol}</td>
                     <td>${obj.slsOrdDtlVO.slsOrdDtlOutVol}</td>
-                    <td>${obj.slsOrdDtlVO.slsOrdDtlNotOutVol}</td>
+                    <td>${obj.slsOrdDtlVO.slsOrdDtlVol - obj.slsOrdDtlVO.slsOrdDtlOutVol}</td>
                     <td>${obj.slsOrdHdVO.empName}</td>
 					<td>${obj.slsOrdHdVO.slsOrdHdRemk}</td>
                 </tr>`;

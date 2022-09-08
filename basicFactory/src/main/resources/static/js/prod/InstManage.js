@@ -4,6 +4,7 @@ let lineArray = [];
 let prodCodeArr = [];
 let inDtlVol = [];
 $(document).ready(function () {
+  $("#empid").prop("disabled", true);
   //지시일자 기본값 세팅
   let today = new Date();
   let year = today.getFullYear();
@@ -37,17 +38,21 @@ $(document).ready(function () {
       return;
     }
     $("input[type='checkbox']:checked").each(function (k, val) {
-      let lineIndex = lineArray.indexOf($(this).parent().parent().find("td:eq(11)").children().val())
-      let inDtlVolIndex = inDtlVol.indexOf($(this).parent().parent().find("td:eq(10)").children().val());
-      let procCodeIndex = inDtlVol.indexOf($(this).parent().parent().find("td:eq(1)").children().val());
+      let lineIndex = lineArray.indexOf(
+        $(this).parent().parent().find("td:eq(11)").children().val()
+      );
+      let inDtlVolIndex = inDtlVol.indexOf(
+        $(this).parent().parent().find("td:eq(10)").children().val()
+      );
+      let procCodeIndex = inDtlVol.indexOf(
+        $(this).parent().parent().find("td:eq(1)").children().val()
+      );
       //선택한 값만 삭제
       lineArray.splice(lineIndex, 1);
       inDtlVol.splice(inDtlVolIndex, 1);
       prodCodeArr.splice(procCodeIndex, 1);
       deleteCheck($(this).parent().parent());
-
     });
-
   });
   //저장 버튼 클릭이벤트
   $("#instSaveBtn").click(function () {
@@ -67,9 +72,8 @@ $(document).ready(function () {
           closeOnClickOutside: false,
         }).then((result) => {
           if (result.isConfirmed) {
-
             let form = `<form style="display: none" action="/rsc/order" method="POST" id="form"></form>`;
-            let val1 = `<input type="hidden" value='10'>`
+            let val1 = `<input type="hidden" value='10'>`;
             //form.append(val1);
             $("#form").submit();
             //window.location = "/rsc/order?test=1";
@@ -534,7 +538,7 @@ function deleteCheck(tr) {
     closeOnClickOutside: false,
   }).then((result) => {
     if (result.isConfirmed) {
-      console.log('instNO->' + $("#instNo").val())
+      console.log("instNO->" + $("#instNo").val());
       deleteInst($("#instNo").val());
       tr.remove();
       deleteSuccess();
@@ -542,7 +546,7 @@ function deleteCheck(tr) {
   });
 }
 
-//생산지시삭제 
+//생산지시삭제
 function deleteInst(instNo) {
   $.ajax({
     url: "deleteinst",
@@ -550,7 +554,7 @@ function deleteInst(instNo) {
     contentType: "application/json;charset=utf-8",
     dataType: "text",
     data: JSON.stringify({
-      instNo: instNo
+      instNo: instNo,
     }),
     error: function (error, status, msg) {
       alert("상태코드 " + status + "에러메시지" + msg);
@@ -560,7 +564,6 @@ function deleteInst(instNo) {
     // },
   });
 }
-
 
 function saveSuccess() {
   Swal.fire({

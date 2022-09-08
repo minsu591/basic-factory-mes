@@ -23,8 +23,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 		EmpVO emp = (EmpVO) session.getAttribute("emp");
 		if(emp == null) {
-			System.out.println(emp);
 			response.sendRedirect("/cmn/login");
+			return false;
 		}
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}

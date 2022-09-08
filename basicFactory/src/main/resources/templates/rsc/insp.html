@@ -8,14 +8,15 @@
 </head>
 <body>
 <body>
+	<script type="text/javascript" th:src="@{/js/modal/rsc/findRscOrderInsp.js}"></script>
 	<script type="text/javascript" th:src="@{/js/modal/rsc/findVendor.js}"></script>
 	<script type="text/javascript"
 		th:src="@{/js/modal/rsc/findRscInTable.js}"></script>
-	<script type="text/javascript" th:src="@{/js/rsc/order.js}"></script>
+	<script type="text/javascript" th:src="@{/js/rsc/insp.js}"></script>
 	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
 	<link th:href="@{/css/rsc/order.css}" rel="stylesheet" />
 	<div class="pcoded-main-container">
-		<h1>자재 발주 관리</h1>
+		<h1>자재 검사 관리</h1>
 		<hr>
 		<div class="col-sm-12">
 			<div class="card">
@@ -34,8 +35,8 @@
 						<h4 class="listTitle">검사 내용 등록</h4>
 						<div class="buttonSet">
 							<button type="button" class="btn  btn-primary" id="addRowBtn">추가</button>
-							<button type="button" class="btn  btn-primary" id="delRowBtn">초기화
-								삭제</button>
+							<button type="button" class="btn  btn-primary" id="delRowBtn">선택삭제</button>
+							<button type="button" class="btn  btn-primary" id="resetBtn">초기화</button>
 							<button type="button" class="btn  btn-primary" id="subBtn">저장</button>
 						</div>
 					</div>
@@ -49,10 +50,10 @@
 										<th th:text="검사날짜"></th>
 										<th th:text="자재코드"></th>
 										<th th:text="자재명"></th>
+										<th th:text="단위"></th>
 										<th th:text="검사수량"></th>
 										<th th:text="불량수량"></th>
 										<th th:text="합격수량"></th>
-										<th th:text="단위"></th>
 										<th th:text="검사자"></th>
 										<th th:text="비고"></th>
 									</tr>
@@ -67,6 +68,8 @@
 				</div>
 			</div>
 		</div>
+		<!-- 발주코드자료 Modal -->
+		<th:block th:replace="~{/fragments/modal/rsc/findRscOrderInsp :: findRscOrderInsp}"></th:block>
 		<!-- 자재조회 Modal -->
 		<th:block
 			th:replace="~{/fragments/modal/findresource :: findresource}"></th:block>

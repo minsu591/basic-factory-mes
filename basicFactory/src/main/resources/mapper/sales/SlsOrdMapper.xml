@@ -20,7 +20,6 @@
 		<result property="slsOrdDtlDlvDate" column="sls_ord_dtl_dlv_date"/>
 		<result property="slsOrdDtlVol" column="sls_ord_dtl_vol"/>
 		<result property="slsOrdDtlOutVol" column="sls_ord_dtl_out_vol"/>
-		<result property="slsOrdDtlNotOutVol" column="sls_ord_dtl_not_out_vol"/>
 		<result property="slsOrdDtlPrgCls" column="sls_ord_dtl_prg_cls"/>
 	</resultMap>
 	
@@ -48,7 +47,6 @@
                ORDDTL.SLS_ORD_DTL_DLV_DATE,
                ORDDTL.SLS_ORD_DTL_VOL,
                ORDDTL.SLS_ORD_DTL_OUT_VOL,
-               ORDDTL.SLS_ORD_DTL_NOT_OUT_VOL,
                EMP.EMP_NAME,
                NVL(ORDHD.SLS_ORD_HD_REMK, ' ') AS SLS_ORD_HD_REMK
 		FROM BF_SALES_ORD_HD ORDHD
@@ -73,7 +71,6 @@
                ORDDTL.SLS_ORD_DTL_DLV_DATE,
                ORDDTL.SLS_ORD_DTL_VOL,
                ORDDTL.SLS_ORD_DTL_OUT_VOL,
-               ORDDTL.SLS_ORD_DTL_NOT_OUT_VOL,
                EMP.EMP_NAME,
                NVL(ORDHD.SLS_ORD_HD_REMK, ' ') AS SLS_ORD_HD_REMK
 		FROM BF_SALES_ORD_HD ORDHD
@@ -121,8 +118,7 @@
    			   FNSPRD.FIN_PRD_CD_CODE,
    			   FNSPRD.FIN_PRD_CD_NAME,
    			   ORDDTL.SLS_ORD_DTL_DLV_DATE,
-   			   ORDDTL.SLS_ORD_DTL_VOL,
-   			   ORDDTL.SLS_ORD_DTL_NOT_OUT_VOL
+   			   ORDDTL.SLS_ORD_DTL_VOL
    		FROM BF_SALES_ORD_HD ORDHD 
    		JOIN BF_SALES_ORD_DTL ORDDTL
    		  ON ORDHD.SLS_ORD_HD_NO = ORDDTL.SLS_ORD_HD_NO
@@ -154,7 +150,8 @@
 				  #{finPrdCdCode},
 				  #{slsOrdDtlDlvDate},
 				  #{slsOrdDtlVol},
-				  0, #{slsOrdDtlVol}, 0)
+				  0,
+				  0)
    	</insert>
 
    	<!-- 주문관리에서 기존 주문 추가등록 -->
@@ -165,7 +162,7 @@
    			   #{finPrdCdCode},
    			   #{slsOrdDtlDlvDate},
    			   #{slsOrdDtlVol},
-   			   0, #{slsOrdDtlVol}, 0)
+   			   0, 0)
    	</insert>
    	
    	<!-- 주문관리에서 주문 수정 -->

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mes.bf.rsc.service.RscOrderService;
 import com.mes.bf.rsc.vo.RscOrderDtlVO;
 import com.mes.bf.rsc.vo.RscOrderVO;
+import com.mes.bf.rsc.vo.RscOutVO;
 
 @Controller
 @RequestMapping("/rsc")
@@ -60,7 +62,40 @@ public class RscOrderController {
 		return new ResponseEntity<Integer>(resultSum,HttpStatus.OK);
 	}
 	
+	//발주 헤더 존재 : 수정 >> 세부내역 전부 delete 후 insert
+	@PostMapping(value = "/orderUpdate")
+	public ResponseEntity<Integer> orderUpdate(@RequestBody RscOrderDtlVO vo){
+		List<RscOrderVO> orders = vo.getOrders();
+		System.out.println(orders);
+		//헤더 정보를 업데이트
+		int result = rscOrderService.orderHdUpdate(vo.getRscOrderVO());
+		System.out.println("헤더 수정 결과 : " + result);
+		int resultSum = 0;
+		//디테일 정보를 delete
+		if (result == 1) {
+			int resultDelete = rscOrderService.orderDtDelete(vo.getRscOrderVO().getRscOrderCode());
+			for (int i = 0; i < orders.size(); i++ ) {
+				int resultInsert = rscOrderService.orderDtReInsert(orders.get(i));
+				if (resultInsert == 1) {
+					resultSum ++;
+				}
+			}
+		}
+		//새로운 정보를 insert
+		return new ResponseEntity<Integer>(resultSum,HttpStatus.OK);
+	}
+	
 	@RequestMapping("/orderList")
-	public void orderList() {
+	public void orderList(Model model) {
+		List<RscOrderVO> olist = rscOrderService.orderList(null, null, null, null, null);
+		model.addAttribute("olist",olist);
+	}
+	
+	@RequestMapping(value = "/orderListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public String orderTableList(@RequestParam Map<String, String> QueryParameters, Model model) {
+		List<RscOrderVO> olist = rscOrderService.orderList(QueryParameters.get("rscOrderCode"), QueryParameters.get("rscCdCode"), 
+				QueryParameters.get("vendCdCode"), QueryParameters.get("rscOrderSDate"), QueryParameters.get("rscOrderEDate"));
+		model.addAttribute("olist", olist);
+		return "rsc/table/orderListTable";
 	}
 }

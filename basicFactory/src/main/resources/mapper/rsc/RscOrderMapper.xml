@@ -32,7 +32,7 @@
 			   'RSC_OD' || LPAD(BF_RSC_ORDER_CODE_SEQ.NEXTVAL,3,0), 
 			   #{rscOrderTitle}, 
 			   #{rscOrderDate}, 
-			   #{rscOrderRemk}, 
+			   null , 
 			   #{empId}
 			   )
 	</insert>
@@ -56,4 +56,70 @@
 			   )
 			   
 	</insert>
+	
+	<update id="orderHdUpdate">
+		UPDATE BF_RSC_ORDER
+		
+		   SET RSC_ORDER_DATE = #{rscOrderDate},
+		       RSC_ORDER_TITLE = #{rscOrderTitle},
+		       EMP_ID = #{empId}
+		
+		WHERE RSC_ORDER_CODE = #{rscOrderCode}
+	
+	</update>
+	
+	<delete id="orderDtDelete">
+		DELETE 
+		
+		  FROM BF_RSC_ORDER_DETAILS
+		
+		 WHERE RSC_ORDER_CODE = #{rscOrderCode}
+	
+	</delete>
+	
+	<insert id="orderDtReInsert">
+		INSERT INTO BF_RSC_ORDER_DETAILS
+		
+		VALUES (
+			   'RSC_DTCD' || LPAD(BF_RSC_ORDER_DETAILS_CODE_SEQ.NEXTVAL,4,0),
+			   #{rscOrderCode},
+			   #{rscCdCode},
+			   #{vendCdCode},
+			   #{rscOrderVol},
+			   0,
+			   #{rscOrderPrc},
+			   0
+			   ,#{rscOrderDtlRemk}
+			   )
+	</insert>
+	
+	<select id="orderList" resultType="com.mes.bf.rsc.vo.RscOrderVO">
+		SELECT OD.*, 
+			   DT.*, 
+			   RSC.RSC_CD_NAME, 
+			   VEND.VEND_CD_NM
+		
+		  FROM BF_RSC_ORDER OD
+		  JOIN BF_RSC_ORDER_DETAILS DT
+		    ON OD.RSC_ORDER_CODE = DT.RSC_ORDER_CODE
+		  JOIN BF_CMN_RSC_CODE RSC
+		    ON RSC.RSC_CD_CODE = DT.RSC_CD_CODE
+		  JOIN BF_CMN_VENDOR_CODE VEND
+		    ON VEND.VEND_CD_CODE = DT.VEND_CD_CODE
+		<where>
+			<if test="rscOrderCode != null and rscOrderCode != ''">
+				AND OD.RSC_ORDER_CODE LIKE '%' || #{rscOrderCode} || '%'
+			</if>
+			<if test="rscCdCode != null and rscCdCode != ''">
+				AND DT.RSC_CD_CODE = #{rscCdCode}
+			</if>
+			<if test="vendCdCode != null and vendCdCode != ''">
+				AND DT.VEND_CD_CODE = #{vendCdCode}
+			</if>
+			<if test="(rscOrderSDate!= null and rscOrderSDate!= '') and (rscOrderEDate!= null and rscOrderEDate!= '')">
+				AND OD.RSC_ORDER_DATE BETWEEN #{rscOrderSDate} AND TO_DATE(#{rscOrderEDate})+1
+			</if>
+		</where>
+		ORDER BY 1 DESC
+	</select>
 </mapper>

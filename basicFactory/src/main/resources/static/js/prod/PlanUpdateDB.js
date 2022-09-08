@@ -1,3 +1,9 @@
+var now_utc = Date.now() // 지금 날짜를 밀리초로
+// getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환
+var timeOff = new Date().getTimezoneOffset()*60000; // 분단위를 밀리초로 변환
+// new Date(now_utc-timeOff).toISOString()은 '2022-05-11T18:09:38.134Z'를 반환
+var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
+
 $("document").ready(function(){
     //수정
 
@@ -12,7 +18,10 @@ $("document").ready(function(){
     let avArr = [8,11];
     //notNull이어야하는 idx
     let notNullList = [2,8,9,10];
-
+    //planDate에 today 설정
+    $("#planDate").val(today);
+    $("#planDate").attr("disabled",true);
+    let empId = $("#empid").val();
 
     //input 수정 이벤트
     $("#form input").change(function(){
@@ -143,6 +152,7 @@ $("document").ready(function(){
                 let countTr = table.find("tbody tr").length;
                 if(countTr == 0){
                     //헤더 삭제 ajax
+                    //tbody 안에 내용이 없으면 헤더 삭제
                     let planHdCode = $("#planHdCode").val();
                     deleteHdSaveAjax(planHdCode);
                     return false;
@@ -151,18 +161,18 @@ $("document").ready(function(){
                     if(delList.length != 0){
                         deleteSaveAjax(delList);
                     }
-                    //헤더 수정용
-                    for(obj of hdModifyList){
-                        modifyHdSaveAjax(obj);
-                    }
-                    //detail 수정용
-                    for(obj of modifyList){
-                        modifySaveAjax(obj);
-                    }
-                    //detail 추가용
-                    for(obj of addList){
-                        addSaveAjax(obj);
-                    }
+                }
+                //헤더 수정용
+                for(obj of hdModifyList){
+                    modifyHdSaveAjax(obj);
+                }
+                //detail 수정용
+                for(obj of modifyList){
+                    modifySaveAjax(obj);
+                }
+                //detail 추가용
+                for(obj of addList){
+                    addSaveAjax(obj);
                 }
                 
             }else{
@@ -182,7 +192,7 @@ $("document").ready(function(){
             }
 
             alert("저장이 완료되었습니다.");
-            //location.reload();
+            location.reload();
         }
     });
 
@@ -270,8 +280,8 @@ $("document").ready(function(){
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><input type="date"></td>
-                <td><input type="date"></td>
+                <td><input type="date" min=${today}></td>
+                <td><input type="date" min=${today}></td>
                 <td></td>
                 </tr>`
         $("#planManageTable tbody").append(node);
@@ -320,7 +330,7 @@ $("document").ready(function(){
             let planProdVol = $(obj).find("td:eq(8)").text();
             let planSdate = $(obj).find("td:eq(9) input").val();
             let planEdate = $(obj).find("td:eq(10) input").val();
-            let planRemk = $(obj).find("td:eq(2)").text();
+            let planRemk = $(obj).find("td:eq(11)").text();
             let planPreVol = $(obj).find("td:eq(6)").text();
 
             let slsOrdHdNoForPlan = $(obj).find("td:eq(1)").text();
@@ -422,10 +432,10 @@ $("document").ready(function(){
             url : 'planManage/hd/delete',
             type : 'POST',
             dataType : 'text',
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
-            data : {
+            contentType: "application/json; charset=UTF-8;",
+            data : JSON.stringify({
                 planHdCode
-            },
+            }),
             success : function(result){
                 console.log("삭제 성공");
             }
@@ -470,7 +480,7 @@ $("document").ready(function(){
 
     function sucFun(result,type,trInfo){
         let modifyAddflag;
-        if($("#planDate").is("[readonly]")){
+        if($("#form").hasClass("myPlan")){
             modifyAddflag = true;
         }else{
             modifyAddflag = false;
@@ -490,9 +500,9 @@ $("document").ready(function(){
             //1. 수정이면 readonly true
             
             if(type == 'plan'){
+                $("#form").addClass("myPlan");
                 //바꿀게 수정일 때
-                $("#planDate").attr("readonly",true);
-                $("#empid").attr("readonly",true);
+                $("#empid").attr("disabled",true);
 
                 let planHdCode = trInfo.find("td:eq(0)").text();
                 let planHdDate = trInfo.find("td:eq(3)").text();
@@ -506,16 +516,17 @@ $("document").ready(function(){
                 $("#planRemk").val(planRemk);
                 $("#empid").val(empId);
             }else if(type =='order'){
+                $("#form").removeClass("myPlan");
+
                 //바꿀게 주문일때
                 if(modifyAddflag){
                     $("#planHdCode").val('');
-                    $("#planDate").val('');
+                    $("#planDate").val(today);
                     $("#planName").val('');
                     $("#planRemk").val('');
-                    $("#empid").val('');
+                    $("#empid").val(empId);
                 }
-                $("#planDate").attr("readonly",false);
-                $("#empid").attr("readonly",false);
+                $("#empid").attr("disabled",false);
             }
             
 
@@ -553,8 +564,8 @@ $("document").ready(function(){
             <td>${ord.planPreVol}</td>
             <td>${ord.slsOrdDtlVol-ord.planPreVol}</td>
             <td></td>
-            <td><input type="date"></td>
-            <td><input type="date"></td>
+            <td><input type="date" min=${today}></td>
+            <td><input type="date" min=${today}></td>
             <td></td>
         </tr>`
         $("#planManageTable tbody").append(node);
@@ -599,8 +610,8 @@ $("document").ready(function(){
                     <td>${planNoVol}</td>`
         }
         node += `<td>${ord.planVO.planProdVol}</td>
-                <td><input type="date" value="${ord.planVO.planSdate}"></td>
-                <td><input type="date" value="${ord.planVO.planEdate}"></td>
+                <td><input type="date" value="${ord.planVO.planSdate}" min=${today}></td>
+                <td><input type="date" value="${ord.planVO.planEdate}" min=${today}></td>
                 <td>${ord.planVO.planRemk}</td>
                 <input type="hidden" class="planIdx" value="${ord.planVO.planIdx}">
             </tr>`;

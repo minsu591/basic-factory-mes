@@ -5,6 +5,7 @@
     layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
+    <link th:href="@{/css/sales/out.css}" rel="stylesheet" />
 </head>
 <body>
     <script type="text/javascript" th:src="@{/js/sales/outManage.js}"></script>
@@ -22,7 +23,7 @@
             <div class="card">
                 <div class="card-header">
                     <!-- 새로운 완제품 출고 등록폼-->
-                    <form class="form-inline">
+                    <div class="form-inline">
                         <div class="form-group mt-3">
                             <label for="slsOutHdDate" th:text="출고일자"></label>
                             <input type="date" id="slsOutHdDate" class="form-control mx-sm-3">
@@ -34,10 +35,14 @@
                         </div>
 
                         <div class="form-group mt-3">
-                            <labe for="slsOrdHdNo" th:text="주문번호"></labe>
-                            <input type="text" id="slsOrdHdNo" name="slsOrdHdNo" class="form-control mx-sm-3" readonly>
+                            <label for="empid" th:text="담당자명"></label>
+                            <input type="hidden" id="empId" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
+                            <input type="text" id="empName" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
                         </div>
-
+                        <button type="button" class="btn btn-primary" id="findOutMngBtn">출고 조회</button>
+                    </div>
+                    
+                    <div class="form-inline">
                         <div class="form-group mt-3">
                             <label for="vendor" th:text="거래처"></label>
                             <input type="text" id="vendor" class="form-control mx-sm-3"
@@ -45,25 +50,20 @@
                             <label for="vendorName" th:text="거래처명"></label>
                             <input type="text" id="vendorName" class="form-control mx-sm-3" readonly>
                         </div>
-
-                        <div class="form-group mt-3">
-                            <label for="empid" th:text="담당자명"></label>
-                            <input type="hidden" id="empId" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
-                            <input type="text" id="empName" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
-                        </div>
-
                         <div class="form-group mt-3">
                             <label for="remk" th:text="비고"></label>
                             <input type="text" id="remk" class="form-control mx-sm-3">
                         </div>
-
-                    </form>
+                        <div class="form-group mt-3">
+                            <input type="hidden" id="slsOrdHdNo" name="slsOrdHdNo" class="form-control mx-sm-3" readonly>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body table-border-style">
                     <div class="rightBtn">
                         <div class="rightBtn">
                             <button type="button" class="btn btn-primary" id="findNotOutBtn">미출고 주문조회</button>
-                        	<button type="button" class="btn btn-primary" id="findOutMngBtn">조회</button>
+                        	<!-- <button type="button" class="btn btn-primary" id="findOutMngBtn">출고 조회</button> -->
                             <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
                             <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
                         </div>

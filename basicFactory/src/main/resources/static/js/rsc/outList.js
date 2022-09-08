@@ -1,4 +1,5 @@
 $("document").ready(function(){
+  $("#rscOrderDate").val(date);
  
  //조회버튼 실행
  $("#search").click(function(){

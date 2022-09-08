@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>점검 대상 조회(모달창)</title>
+</head>
+<body>
+  <link th:href="@{/css/eqp/Inspc.css}" rel="stylesheet" />
+
+  <th:block th:fragment="findNxtDate">
+		<div class="modal fade" id="findNxtDateModal" tabindex="-1" role="dialog"
+			aria-labelledby="findNxtDateModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="findNxtDateModalLabel">점검 내역</h3>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<!-- <div class="form-inline">
+							<div class="form-group mt-3">
+								<label for="inspcDate" th:text="설비점검일"></label>
+                <input type="date" id="inspcSdate" class="form-control mx-sm-3" /> ~
+                <input type="date" id="inspcEdate" class="form-control mx-sm-3" />
+								<button type="button" class="btn  btn-primary" id="selectBtn" th:text="조회"></button>
+							</div>
+						</div>
+						<hr> -->
+						<div class="card-body table-border-style">
+							<div class="table-responsive">
+								<table class="table table-hover" id="findNxtDateTable">
+									<thead>
+										<tr>
+											<th><input type="checkbox" id="allCheck"></th>
+											<th th:text="설비코드"></th>
+											<th th:text="설비명"></th>
+                      <th th:text="정기점검일"></th>
+										</tr>
+									</thead>
+									<tbody id="findNxtDateTbody">
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal" th:text="취소"></button>
+						<button type="button" class="btn btn-primary" th:text="선택"
+							id="selectbtn"></button>
+					</div> -->
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+</body>
+</html>

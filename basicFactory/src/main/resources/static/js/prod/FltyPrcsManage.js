@@ -160,7 +160,7 @@ $("document").ready(function () {
       }
 
       alert("저장이 완료되었습니다.");
-      //location.reload();
+      location.reload();
     }
   });
 

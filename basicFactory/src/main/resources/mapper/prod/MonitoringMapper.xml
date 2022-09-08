@@ -23,7 +23,7 @@ WHERE
 	AND 
 	TO_CHAR(detail.work_date,'yyyy-mm-dd') = #{toDay}
 ORDER BY 
-	proc.process_order
+	prodName,proc.process_order
 </select>
 
 </mapper>
