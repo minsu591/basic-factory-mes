@@ -40,7 +40,8 @@ public class RscCodeController {
 	//자재코드 조회(모달창)
 	@GetMapping(value="/findResourceCode", produces= { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<RscCodeVO>> findResource(@RequestParam Map<String, String> queryParameters){
-		List<RscCodeVO> list = findRscService.rscCodeList(queryParameters.get("rscCdName"), queryParameters.get("rscCdClfy"));
+		List<RscCodeVO> list = findRscService.rscCodeList(queryParameters.get("rscCdName"), queryParameters.get("rscCdClfy"),
+														queryParameters.get("rscCdCode"));
 		return new ResponseEntity<List<RscCodeVO>>(list, HttpStatus.OK);
 	}
 
