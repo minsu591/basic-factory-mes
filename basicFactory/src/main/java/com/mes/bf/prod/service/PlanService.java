@@ -8,8 +8,8 @@ import com.mes.bf.prod.vo.PlanHdVO;
 import com.mes.bf.prod.vo.PlanVO;
 
 public interface PlanService {
-	List<PlanHdVO> findPlanInst(String startDate, String endDate);
-	List<ColPlanVO> findMyPlan(String startDate, String endDate, String empId);
+	List<PlanHdVO> findPlanInst(String startDate, String endDate, String empId);
+	List<ColPlanOrdVO> findMyPlan(String planHdCode);
 	List<ColPlanOrdVO> findPlanOrd(String startDate, String endDate, String data);
 	List<PlanVO> findPlan(String planHdCode);
 	

@@ -44,6 +44,7 @@ $(document).ready(function () {
     //미지시 생산계획 검색 모달 테이블 클릭이벤트
     $("#findNotDonePlanTable").on("click", "tr", function(){
       let planHdCode = $(this).find("td:eq(0)").text();
+      console.log(planHdCode);
       $.ajax({
         url : 'planNotDoneView/dtl',
         type : 'GET',

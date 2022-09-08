@@ -17,6 +17,7 @@ import com.mes.bf.cmn.vo.LineCodeVO;
 @Service
 public class BomServiceImpl implements BomService {
 	@Autowired BomMapper mapper;
+	
 	@Override
 	public List<BomVO> listBom(String finName) {
 		return mapper.listBom(finName);

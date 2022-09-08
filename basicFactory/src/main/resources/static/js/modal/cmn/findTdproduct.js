@@ -10,17 +10,18 @@ $("document").ready(function () {
 
   //테이블 클릭 이벤트
   $("#findProductTable").on("click", "tr", function () {
-    //지금 클릭한 finCode
+    //생산계획 관리
+    //지금 클릭한 finCode가 이미 추가된 완제품코드인지 확인
     let code = $(this).find("td:eq(1)").text();
-    //이미 추가된 완제품코드인지 확인
     let trs = tdInfo.closest('tbody').find("tr");
     for(tr of trs){
-      ordCode = $(tr).find("td:eq(1)").text();
-      if(ordCode == null || ordCode == ''){
-        if($(tr).find("td:eq(2)").text() == code){
-          alert('이미 추가된 제품코드입니다.')
-          return false;
-        };
+      if($(tr).find("td:eq(2)").text() == code){
+        Swal.fire({
+          icon: "warning",
+          title: "이미 추가된 제품코드입니다",
+          text: "다시 선택해주세요"
+        });
+        return false;
       }
     }
 

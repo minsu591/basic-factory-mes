@@ -17,12 +17,12 @@ public class PlanServiceImpl implements PlanService {
 	@Autowired PlanMapper mapper;
 
 	@Override
-	public List<PlanHdVO> findPlanInst(String startDate, String endDate) {
-		return mapper.findPlanInst(startDate, endDate);
+	public List<PlanHdVO> findPlanInst(String startDate, String endDate, String empId) {
+		return mapper.findPlanInst(startDate, endDate, empId);
 	}
 	@Override
-	public List<ColPlanVO> findMyPlan(String startDate, String endDate, String empId) {
-		return mapper.findMyPlan(startDate, endDate, empId);
+	public List<ColPlanOrdVO> findMyPlan(String planHdCode) {
+		return mapper.findMyPlan(planHdCode);
 	}
 	@Override
 	public List<ColPlanOrdVO> findPlanOrd(String startDate, String endDate, String data) {

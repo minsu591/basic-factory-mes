@@ -66,10 +66,10 @@
 			</when>
 		</choose>
 	</sql>
-	<!-- 지시에 존재하지 않거나 지시량이 계획량에 못 미치는 생산계획 조회 -->
+	<!-- 지시에 존재하지 않거나 지시량이 계획량에 못 미치는 생산계획헤더 조회 -->
 	<select id="findPlanInst" resultType="planHdVO"
 		parameterType="String">
-		SELECT DISTINCT PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, PH.EMP_ID, PH.PLAN_HD_DATE
+		SELECT DISTINCT PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, PH.EMP_ID, PH.PLAN_HD_DATE, NVL(PH.PLAN_HD_REMK,' ') AS PLAN_HD_REMK
 		FROM BF_PROD_PLAN_HD PH
 		   JOIN BF_PROD_PLAN P
 		     ON P.PLAN_HD_CODE = PH.PLAN_HD_CODE
@@ -81,12 +81,16 @@
 			                GROUP BY I.PLAN_HD_CODE, ID.FIN_PRD_CD_CODE) I
 		     ON I.PLAN_HD_CODE = PH.PLAN_HD_CODE
 		        AND P.FIN_PRD_CD_CODE = I.FIN_PRD_CD_CODE
-		WHERE (P.PLAN_PROD_VOL > I.INST_PROD_INDICA_VOL
+		WHERE ((P.PLAN_PROD_VOL > I.INST_PROD_INDICA_VOL
 		       AND I.INST_PROD_INDICA_VOL IS NOT NULL)
-		   OR I.INST_PROD_INDICA_VOL IS NULL
+		   OR I.INST_PROD_INDICA_VOL IS NULL)
 		<include refid="ifPlanDate" />
+		<if test="empId != null and empId != ''">
+			AND emp_id = #{empId}
+			</if>
 	</select>
 	
+	<!-- 지시에 존재하지 않거나 지시량이 계획량에 못 미치는 생산계획 detail 조회  -->
 	<select id="findPlan" resultType="planVO">
 		SELECT P.PLAN_IDX, P.PLAN_HD_CODE, P.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME, P.PLAN_SDATE, P.PLAN_EDATE, P.PLAN_PROD_VOL, NVL(I.INST_PROD_INDICA_VOL,0) AS INST_PROD_INDICA_VOL
 		FROM BF_PROD_PLAN P
@@ -142,21 +146,32 @@
 		ORDER BY PLAN_HD_CODE DESC, PLAN_HD_DATE DESC
 	</select>
 	
-	<!-- 로그인한 유저가 작성한 생산계획 조회 -->
-	<select id="findMyPlan" resultMap="colPlanMap">
-		SELECT DISTINCT PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, NVL(PH.SLS_ORD_HD_NO,' ') AS SLS_ORD_HD_NO, PH.EMP_ID,
-		       PH.PLAN_HD_DATE, NVL(PH.PLAN_HD_REMK,' ') AS PLAN_HD_REMK
+	<!-- 지시에 들어가지 않은  -->
+	<select id="findMyPlan" resultMap="colPlanOrdMap">
+		SELECT P.PLAN_IDX, P.PLAN_HD_CODE, P.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME, P.PLAN_SDATE, P.PLAN_EDATE,
+		        P.PLAN_PROD_VOL, NVL(I.INST_PROD_INDICA_VOL,0) AS INST_PROD_INDICA_VOL,
+		        P.PLAN_PRE_VOL, O.SLS_ORD_DTL_VOL, O.SLS_ORD_DTL_DLV_DATE, O.SLS_ORD_HD_NO, NVL(P.PLAN_REMK,' ') AS PLAN_REMK
 		FROM BF_PROD_PLAN P
-		  JOIN BF_PROD_PLAN_HD PH
-		   ON P.PLAN_HD_CODE = PH.PLAN_HD_CODE
-		  JOIN BF_CMN_FINISH_PRODUCT_CODE F
-		   ON P.FIN_PRD_CD_CODE = F.FIN_PRD_CD_CODE
-		   WHERE 1=1
-		<include refid="ifPlanDate" />
-		<if test="empId != null and empId != ''">
-			AND PH.EMP_ID = #{empId}
-		</if>
-		ORDER BY PLAN_HD_CODE DESC
+            JOIN BF_PROD_PLAN_HD PH
+              ON PH.PLAN_HD_CODE = P.PLAN_HD_CODE
+            JOIN BF_CMN_FINISH_PRODUCT_CODE F
+		      ON F.FIN_PRD_CD_CODE = P.FIN_PRD_CD_CODE
+            LEFT OUTER JOIN (SELECT OH.SLS_ORD_HD_NO, OD.FIN_PRD_CD_CODE, OD.SLS_ORD_DTL_VOL, OD.SLS_ORD_DTL_DLV_DATE
+	                         FROM BF_SALES_ORD_HD OH
+	                            JOIN BF_SALES_ORD_DTL OD
+	                             ON OH.SLS_ORD_HD_NO = OD.SLS_ORD_HD_NO) O
+              ON O.SLS_ORD_HD_NO = PH.SLS_ORD_HD_NO
+                 AND O.FIN_PRD_CD_CODE = P.FIN_PRD_CD_CODE
+		    LEFT OUTER JOIN (SELECT I.FIN_PRD_CD_CODE, IH.PLAN_HD_CODE, SUM(I.INST_PROD_INDICA_VOL) AS INST_PROD_INDICA_VOL
+		                        FROM BF_PROD_INSTRUCTION IH
+		                           JOIN BF_PROD_INST_DETAIL I
+		                            ON IH.INST_NO = I.INST_NO
+		                     WHERE IH.PLAN_HD_CODE IS NOT NULL
+		                     GROUP BY IH.PLAN_HD_CODE, I.FIN_PRD_CD_CODE) I
+		      ON P.PLAN_HD_CODE = I.PLAN_HD_CODE
+		           AND P.FIN_PRD_CD_CODE = I.FIN_PRD_CD_CODE
+		WHERE I.INST_PROD_INDICA_VOL IS NULL
+				AND P.PLAN_HD_CODE = #{planHdCode}
 	</select>
 	
 	<!-- insert -->

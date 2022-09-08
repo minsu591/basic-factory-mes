@@ -18,8 +18,8 @@
 					<div class="modal-body">
 						<div class="form-inline">
 							<div class="form-group mt-3">
-								<label for="ordDate" th:text="납기일자"></label>
-								<input type="date" id="ordSdate" name="ordSdate" class="form-control mx-sm-3">
+								<label for="ordDate" th:text="주문일자"></label>
+								<input type="date" id="ordSdate" name="ordSdate" class="form-control mx-sm-3"> ~ 
 								<input type="date" id="ordEdate" name="ordEdate" class="form-control mx-sm-3">
 								<button type="button" class="btn btn-primary" id="findNotDoneOrdSearchBtn" th:text="조회"></button>
 							</div>
@@ -30,8 +30,8 @@
 								<table class="table table-hover" id="findNotDoneOrdTable">
 									<thead>
 										<tr>
-											<th th:text="주문코드"></th>
 											<th th:text="주문일자"></th>
+											<th th:text="주문코드"></th>
 											<th th:text="거래처코드"></th>
 											<th th:text="거래처명"></th>
 											<th th:text="'담당자 아이디'"></th>
@@ -44,12 +44,6 @@
 								</table>
 							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal" th:text="취소"></button>
-						<button type="button" class="btn btn-primary" th:text="선택"
-							id="selectbtn"></button>
 					</div>
 				</div>
 			</div>

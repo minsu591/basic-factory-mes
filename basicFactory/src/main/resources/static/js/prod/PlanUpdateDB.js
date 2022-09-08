@@ -49,7 +49,13 @@ $("document").ready(function(){
         let tdInfo = $(this);
         let col = tdInfo.index();
         let flag = false;
-        let defaultVal;
+        let defaultVal = tdInfo.text();
+
+        //저장을 한 번해서 공백이라고 경고 border가 띄워진거에 포커스 오면 해당 클래스 삭제
+        if(tdInfo.hasClass("nullTd")){
+            tdInfo.removeClass("nullTd");
+        }
+
         //적용할 인덱스인지 확인
         for(let i = 0; i<avArr.length;i++){
             if(col == avArr[i]){
@@ -62,11 +68,9 @@ $("document").ready(function(){
             return;
         }
         tdInfo.attr("contenteditable","true");
-        //td에 focus가 되면
-        tdInfo.focus(function(e){
-            defaultVal = tdInfo.text();
-            tdInfo.addClass("tdBorder");
-        });
+        tdInfo.addClass("tdBorder");
+        tdInfo.focus();
+
         //enter나 esc 누르면 blur되도록
         tdInfo.on("keyup",function(key){
             if(key.keyCode == 13 || key.keyCode == 27){
@@ -75,7 +79,7 @@ $("document").ready(function(){
             }
         });
         //td에 blur가 되면
-        tdInfo.blur(function(e){
+        tdInfo.unbind("blur").bind("blur",function(e){
             e.preventDefault();
             tdInfo.attr("contenteditable","false")
                     .removeClass("tdBorder");
@@ -86,6 +90,21 @@ $("document").ready(function(){
                         tdInfo.text(defaultVal);
                         return false;
                     }
+                }
+            }
+            //주문번호 참고해오면
+            //미계획량 : notPlanVol
+            let notPlanVol = tdInfo.closest("tr").find("td:eq(7)").text();
+            if(notPlanVol != null && notPlanVol != ''){
+                if(notPlanVol < tdInfo.text()){
+                    //계획량이 주문량보다 클 때 경고
+                    Swal.fire({
+                        icon: "error",
+                        title: "미계획량보다 계획량이 큽니다",
+                        text: "다시 입력해주세요"
+                    });
+                    tdInfo.text(defaultVal);
+                    return false;
                 }
             }
             if(checkModifyOrAdd()){
@@ -105,7 +124,7 @@ $("document").ready(function(){
             return false;
         }
         let col = $(this).index();
-        let priKey = $(this).closest('tr').find("input[class='planIdx']").val();
+        let priKey = $(this).closest('tr').find("input[name='planIdx']").val();
         let updCol =table.find("thead").find("th:eq("+col+")").attr("name");
         let updCont;
         if($(this).find("input[type=date]").length == 1){
@@ -134,69 +153,103 @@ $("document").ready(function(){
     }
     //저장 버튼 이벤트
     $("#saveBtn").on("click",function(){
-        if(confirm("저장하시겠습니까?")==true){
-            //추가인지 수정인지 확인
-            let modifyAddFlag = checkModifyOrAdd();
-            addList = $("#planManageTable tbody").find(".addTr");
-            if(modifyAddFlag){
-                //수정
+        Swal.fire({
+            icon: "question",
+            title: "저장하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "확인",
+            cancelButtonText: "취소",
+            closeOnClickOutside: false,
+          }).then((result) =>{
+            if(result.isConfirmed){
+                //추가인지 수정인지 확인
+                let modifyAddFlag = checkModifyOrAdd();
+                addList = $("#planManageTable tbody").find(".addTr");
+                console.log(addList);
+                let planName = $("#planName").val();
+                //생산계획명 검사
                 if(exNull(planName)){
-                    alert('헤더에 공백이 존재합니다. 확인 후 다시 저장해주세요.');
+                    $("#planName").addClass("nullTd");
+                    Swal.fire({
+                        icon: "warning",
+                        title: "생산계획명이 비었습니다",
+                        text: "확인 후 다시 저장해주세요"
+                    });
                     return false;
                 }
-                //tr의 null 검사
-                if(forNull()){
-                    return false;
-                };
+                if(modifyAddFlag){
+                    //수정
+                    //tr의 null 검사
+                    if(forNull()){
+                        return false;
+                    };
 
-                let countTr = table.find("tbody tr").length;
-                if(countTr == 0){
-                    //헤더 삭제 ajax
-                    //tbody 안에 내용이 없으면 헤더 삭제
-                    let planHdCode = $("#planHdCode").val();
-                    deleteHdSaveAjax(planHdCode);
-                    return false;
-                }else{
-                    //detail 삭제용
-                    if(delList.length != 0){
-                        deleteSaveAjax(delList);
+                    let countTr = table.find("tbody tr").length;
+                    if(countTr == 0){
+                        //헤더 삭제 ajax
+                        //tbody 안에 내용이 없으면 헤더 삭제
+                        let planHdCode = $("#planHdCode").val();
+                        deleteHdSaveAjax(planHdCode);
+                        return false;
+                    }else{
+                        //detail 삭제용
+                        if(delList.length != 0){
+                            deleteSaveAjax(delList);
+                        }
                     }
-                }
-                //헤더 수정용
-                for(obj of hdModifyList){
-                    modifyHdSaveAjax(obj);
-                }
-                //detail 수정용
-                for(obj of modifyList){
-                    modifySaveAjax(obj);
-                }
-                //detail 추가용
-                for(obj of addList){
-                    addSaveAjax(obj);
-                }
-                
-            }else{
-                //추가
-                let planDate = $("#planDate").val();
-                let empid = $("#empid").val();
-                if(exNull(planDate) || exNull(empid)){
-                    alert('헤더에 공백이 존재합니다. 확인 후 다시 저장해주세요.');
-                    return false;
-                }
-                //tr의 null 검사
-                if(forNull()){
-                    return false;
-                };
+                    //헤더 수정용
+                    for(obj of hdModifyList){
+                        modifyHdSaveAjax(obj);
+                    }
+                    //detail 수정용
+                    for(obj of modifyList){
+                        modifySaveAjax(obj);
+                    }
+                    //detail 추가용
+                    for(obj of addList){
+                        addSaveAjax(obj);
+                    }
+                    
+                }else{
+                    //추가
+                    let empid = $("#empid").val();
+                    if(exNull(empid)){
+                        Swal.fire({
+                            icon: "warning",
+                            title: "담당자 아이디가 비었습니다",
+                            text: "확인 후 다시 저장해주세요"
+                        });
+                        return false;
+                    }
+                    //tr의 null 검사
+                    if(forNull()){
+                        return false;
+                    };
 
-                addSaveAjaxWithHd();
-            }
+                    addSaveAjaxWithHd();
+                }
 
-            alert("저장이 완료되었습니다.");
-            location.reload();
-        }
+                Swal.fire({
+                    icon: "success",
+                    title: "저장이 완료되었습니다",
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "확인",
+                    closeOnClickOutside: false,
+                }).then((result) =>{
+                    location.reload();
+                });
+           }else{
+            return;
+           }
+          });
+        
     });
 
     function forNull(){
+        let flag = false;
         let trs = table.find("tbody tr");
         //null 검사
         for(tr of trs){
@@ -210,10 +263,20 @@ $("document").ready(function(){
                 }
 
                 if(content == null || content == ''){
-                    alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
-                    return true;
+                    $(td).addClass("nullTd");
+                    flag = true;
                 }
             }
+        }
+        if(flag){
+            Swal.fire({
+                icon: "error",
+                title: "비어있는 데이터가 존재합니다",
+                text: "확인하고 다시 저장해주세요"
+              });
+            return true;
+        }else{
+            return false;
         }
     }
     function modifySaveAjax(obj){
@@ -273,16 +336,16 @@ $("document").ready(function(){
                     <td><input type="checkbox" name="chk" checked></td>`
         }
         node += `<td></td>
-                <td class="finPrdCdCode"></td>
+                <td class="finPrdCdCode canModifyTd"></td>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td><input type="date" min=${today}></td>
-                <td><input type="date" min=${today}></td>
-                <td></td>
+                <td class="canModifyTd"></td>
+                <td class="canModifyTd"><input type="date" min=${today}></td>
+                <td class="canModifyTd"><input type="date" min=${today}></td>
+                <td class="canModifyTd"></td>
                 </tr>`
         $("#planManageTable tbody").append(node);
     });
@@ -393,7 +456,7 @@ $("document").ready(function(){
             if($(el).is(":checked")){
                 if(flag && tr.attr('class') !='addTr'){
                     //수정 중일 때
-                    let priKey = tr.find("input[class='planIdx']").val();
+                    let priKey = tr.find("input[name='planIdx']").val();
                     delList.push(priKey);
                     for(let i = 0; i< modifyList.length; i++){
                         if(modifyList[i][0]== priKey){
@@ -402,7 +465,6 @@ $("document").ready(function(){
                     }
                 }
                 tr.remove();
-                console.log(delList);
             }
             
         });
@@ -445,7 +507,7 @@ $("document").ready(function(){
     //미계획 주문내역 tr 클릭 이벤트
     $("#findNotDoneOrdTable").on("click","tr",function(){
         let trInfo = $(this);
-        let slsOrdHdNo = $(this).find("td:eq(0)").text();
+        let slsOrdHdNo = $(this).find("td:eq(1)").text();
         $.ajax({
             url : 'notDoneOrd/dtl',
             method : 'GET',
@@ -463,13 +525,13 @@ $("document").ready(function(){
     $("#findMyPlanTable").on("click","tr", function(){
         //테이블 상단 공통 요소 삽입
         let trInfo = $(this);
-        let planCode = trInfo.find("td:eq(0)").text();
+        let planHdCode = trInfo.find("td:eq(1)").text();
         //테이블 삽입
         $.ajax({
             url : 'myPlanView/dtl',
             method : 'GET',
             data : {
-                planCode
+                planHdCode
             },
             success : function(result){
                 sucFun(result,"plan",trInfo);
@@ -479,79 +541,91 @@ $("document").ready(function(){
     });
 
     function sucFun(result,type,trInfo){
+
+        if($("#planManageTable tbody").children().length != 0){
+            Swal.fire({
+                icon: "question",
+                title: "수정한 정보가 모두 사라집니다.",
+                text: "삭제하고 진행하겠습니까?",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "확인",
+                cancelButtonText: "취소",
+                closeOnClickOutside: false,
+              }).then((ans) =>{
+                if(ans.isConfirmed){
+                    changeTbody(result,type,trInfo);
+                }else{
+                        return;
+                }
+            });
+        }else{
+            changeTbody(result,type,trInfo);
+        }
+
+    }
+
+    function changeTbody(result,type,trInfo){
         let modifyAddflag;
         if($("#form").hasClass("myPlan")){
             modifyAddflag = true;
         }else{
             modifyAddflag = false;
         }
-        //경고창 띄워주기
-        let alertFlag = false;
-        if($("#planManageTable tbody").children().length != 0){
-            if(confirm("수정한 정보가 모두 사라집니다. 진행하시겠습니까?")==true){
-                alertFlag = true;
+        //칸에 아무것도 없으면 유지,
+        //칸에 뭐가 있는데
+        //1. 수정이면 readonly true
+        
+        if(type == 'plan'){
+            $("#form").addClass("myPlan");
+            //바꿀게 수정일 때
+            $("#empid").attr("disabled",true);
+
+            let planHdCode = trInfo.find("td:eq(1)").text();
+            let planHdDate = trInfo.find("td:eq(0)").text();
+            let planHdName = trInfo.find("td:eq(2)").text();
+            let planRemk = trInfo.find("td:last").text();
+            let empId = trInfo.find("td:eq(4)").text();
+
+            $("#planHdCode").val(planHdCode);
+            $("#planDate").val(planHdDate);
+            $("#planName").val(planHdName);
+            $("#planRemk").val(planRemk);
+            $("#empid").val(empId);
+        }else if(type =='order'){
+            $("#form").removeClass("myPlan");
+
+            //바꿀게 주문일때
+            if(modifyAddflag){
+                $("#planHdCode").val('');
+                $("#planDate").val(today);
+                $("#planName").val('');
+                $("#planRemk").val('');
+                $("#empid").val(empId);
+            }
+            $("#empid").attr("disabled",false);
+        }
+        modifyList = [];
+        addList = [];
+        delList = [];
+        $("#planManageTable tbody tr").remove();
+        if(type == 'order'){
+            for(ord of result){
+                ordMakeRowForNotDone(ord);
             }
         }else{
-            alertFlag = true;
+            for(ord of result){
+                ordMakeRowForPlan(ord);
+            }
         }
-        if(alertFlag){
-            //칸에 아무것도 없으면 유지,
-            //칸에 뭐가 있는데
-            //1. 수정이면 readonly true
-            
-            if(type == 'plan'){
-                $("#form").addClass("myPlan");
-                //바꿀게 수정일 때
-                $("#empid").attr("disabled",true);
-
-                let planHdCode = trInfo.find("td:eq(0)").text();
-                let planHdDate = trInfo.find("td:eq(3)").text();
-                let planHdName = trInfo.find("td:eq(1)").text();
-                let planRemk = trInfo.find("td:last").text();
-                let empId = trInfo.find("td:eq(4)").text();
-
-                $("#planHdCode").val(planHdCode);
-                $("#planDate").val(planHdDate);
-                $("#planName").val(planHdName);
-                $("#planRemk").val(planRemk);
-                $("#empid").val(empId);
-            }else if(type =='order'){
-                $("#form").removeClass("myPlan");
-
-                //바꿀게 주문일때
-                if(modifyAddflag){
-                    $("#planHdCode").val('');
-                    $("#planDate").val(today);
-                    $("#planName").val('');
-                    $("#planRemk").val('');
-                    $("#empid").val(empId);
-                }
-                $("#empid").attr("disabled",false);
-            }
-            
-
-            modifyList = [];
-            addList = [];
-            delList = [];
-            $("#planManageTable tbody tr").remove();
-            if(type == 'order'){
-                for(ord of result){
-                    ordMakeRowForNotDone(ord);
-                }
-            }else{
-                for(ord of result){
-                    ordMakeRowForPlan(ord);
-                }
-            }
-            
-            if(type == 'order'){
-                $("#findNotDoneOrdModal").modal("hide");
-            }else{
-                $("#findMyPlanModal").modal("hide");
-            }
+        
+        if(type == 'order'){
+            $("#findNotDoneOrdModal").modal("hide");
+        }else{
+            $("#findMyPlanModal").modal("hide");
         }
     }
-
     //미계획 주문내역 조회 모달을 통한 데이터 출력
     function ordMakeRowForNotDone(ord){
         let node = `<tr>
@@ -563,10 +637,10 @@ $("document").ready(function(){
             <td>${ord.slsOrdDtlVol}</td>
             <td>${ord.planPreVol}</td>
             <td>${ord.slsOrdDtlVol-ord.planPreVol}</td>
-            <td></td>
-            <td><input type="date" min=${today}></td>
-            <td><input type="date" min=${today}></td>
-            <td></td>
+            <td class="canModifyTd"></td>
+            <td class="canModifyTd"><input type="date" min=${today}></td>
+            <td class="canModifyTd"><input type="date" min=${today}></td>
+            <td class="canModifyTd"></td>
         </tr>`
         $("#planManageTable tbody").append(node);
     }
@@ -598,7 +672,7 @@ $("document").ready(function(){
             }
             node += `<td>${slsOrdHdNo}</td>`
             if(slsOrdHdNo == null || slsOrdHdNo == ''){
-                node += `<td class="finPrdCdCode">${ord.planVO.finPrdCdCode}</td>`
+                node += `<td class="finPrdCdCode canModifyTd">${ord.planVO.finPrdCdCode}</td>`
             }else{
                 node += `<td>${ord.planVO.finPrdCdCode}</td>`
             }
@@ -609,17 +683,18 @@ $("document").ready(function(){
                     <td>${planPreVol}</td>
                     <td>${planNoVol}</td>`
         }
-        node += `<td>${ord.planVO.planProdVol}</td>
-                <td><input type="date" value="${ord.planVO.planSdate}" min=${today}></td>
-                <td><input type="date" value="${ord.planVO.planEdate}" min=${today}></td>
-                <td>${ord.planVO.planRemk}</td>
-                <input type="hidden" class="planIdx" value="${ord.planVO.planIdx}">
+        node += `<td class="canModifyTd">${ord.planVO.planProdVol}</td>
+                <td class="canModifyTd"><input type="date" value="${ord.planVO.planSdate}" min=${today}></td>
+                <td class="canModifyTd"><input type="date" value="${ord.planVO.planEdate}" min=${today}></td>
+                <td class="canModifyTd">${ord.planVO.planRemk}</td>
+                <input type="hidden" name="planIdx" value="${ord.planVO.planIdx}">
             </tr>`;
         $("#planManageTable tbody").append(node);
     }
 
     function checkModifyOrAdd(){
-        if($("#planDate").is("[readonly]")){
+        if($("#form").hasClass("myPlan")){
+            //form에 myPlan class가 있으면 수정할 수 있음
             return true;
         }else{
             return false;

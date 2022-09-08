@@ -11,9 +11,10 @@ import com.mes.bf.prod.vo.PlanVO;
 
 @Mapper
 public interface PlanMapper {
-	List<PlanHdVO> findPlanInst(String startDate, String endDate);
+	List<PlanHdVO> findPlanInst(String startDate, String endDate, String empId);
 	//planType이 head일 때 생산계획헤더 출력, null일 때 생산계획 세부 내역 출력
-	List<ColPlanVO> findMyPlan(String startDate, String endDate, String empId);
+	List<ColPlanOrdVO> findMyPlan(String planHdCode);
+	
 	List<ColPlanOrdVO> findPlanOrd(String startDate, String endDate, String data);
 	List<PlanVO> findPlan(String planHdCode);
 	
