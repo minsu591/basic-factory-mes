@@ -18,8 +18,8 @@ public class FindRscCodeServiceImpl implements FindRscCodeService{
 	@Autowired FindRscCodeMapper rscCodeMapper;
 	
 	@Override
-	public List<RscCodeVO> rscCodeList(String rscCdName, String rscCdClfy) {
-		return rscCodeMapper.rscCodeList(rscCdName, rscCdClfy);
+	public List<RscCodeVO> rscCodeList(String rscCdName, String rscCdClfy,String rscCdCode) {
+		return rscCodeMapper.rscCodeList(rscCdName, rscCdClfy, rscCdCode);
 	}
 
 	@Override

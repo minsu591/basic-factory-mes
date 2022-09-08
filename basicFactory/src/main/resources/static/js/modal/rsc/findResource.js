@@ -35,15 +35,13 @@ $("document").ready(function () {
     });
   });
 
-
- //자재코드 검색 테이블 클릭이벤트
- $("#findRscTable").on("click", "tr", function () {
-   let rscCdCode = $(this).find("td:eq(1)").text();
-   let rscCdName = $(this).find("td:eq(2)").text();
-   $("#rsccode").val(rscCdCode);
-   $("#rscname").val(rscCdName);
-   $("#rsclotno").val(null);
-
+  //자재코드 검색 테이블 클릭이벤트
+  $("#findRscTable").on("click", "tr", function () {
+    let rscCdCode = $(this).find("td:eq(1)").text();
+    let rscCdName = $(this).find("td:eq(2)").text();
+    $("#rsccode").val(rscCdCode);
+    $("#rscname").val(rscCdName);
+    $("#rsclotno").val(null);
 
     $("#findresourceModal").modal("hide");
   });
@@ -78,12 +76,12 @@ function findRscCode() {
 //자재조회 행생성
 function makeRscCodeRow(obj, index) {
   let st = null;
-  if( obj.rscCdUse == 1){
+  if (obj.rscCdUse == 1) {
     st = `<input type="checkbox" checked onClick="return false;">`;
-  }else{
+  } else {
     st = `<input type="checkbox" onClick="return false;">`;
   }
- let node = `<tr>
+  let node = `<tr>
              <td>${index}</td>
              <td>${obj.rscCdCode}</td>
              <td>${obj.rscCdName}</td>

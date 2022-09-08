@@ -3,7 +3,7 @@ $("document").ready(function () {
 
   let tdinfo;
   inputRemover();
-  addRowBtn();
+
   //체크박스 체크유무
   $("#allCheck").click("change", function () {
     if ($("#allCheck").is(":checked")) {
@@ -83,11 +83,9 @@ $("document").ready(function () {
   }
 
   //추가버튼
-  function addRowBtn() {
-    $("#addRowBtn").click(function () {
-      detailTableMakeRow();
-    });
-  }
+  $("#addRowBtn").click(function () {
+    detailTableMakeRow();
+  });
 
   //삭제 버튼
   $("#delRowBtn").click(function () {
@@ -247,7 +245,7 @@ $("document").ready(function () {
   });
 
   function inputRemover() {
-    $("#outTable tr").remove();
+    //$("#outTable tr").remove();
     $("#rscOrderCode").val(null);
     $("#rscOrderTitle").val(null);
     $("#totalSum").text(null);
@@ -313,15 +311,18 @@ function findLocalStorage() {
 
       detailTableMakeRow(order.rscCdCode, order.rscOrderVol);
     }
-    localStorage.clear();
+    //localStorage.clear();
   } else {
     console.log("아무일도 없없다");
   }
 }
 
 function detailTableMakeRow(rscCdCode, rscOrderVol) {
-  console.log("메이크로우 호출");
   console.log("makerow->" + rscCdCode);
+  if (rscCdCode != undefined) {
+    findRscName(rscCdCode);
+  }
+
   let node = `<tr>
 <td><input type="checkbox" name="chk"></td>
 <td><input type="text" class="vendor"></td>
@@ -340,4 +341,31 @@ function detailTableMakeRow(rscCdCode, rscOrderVol) {
 </tr>`;
 
   $("#outTable").append(node);
+}
+
+function findRscName(rscCdCode) {
+  $.ajax({
+    url: "findResourceCode",
+    method: "GET",
+    contentType: "application/json;charset=utf-8",
+    dataType: "json",
+    data: {
+      rscCdCode: rscCdCode,
+    },
+    error: function (error, status, msg) {
+      alert("상태코드 " + status + "에러메시지" + msg);
+    },
+    success: function (data) {
+      console.log(data);
+      $("#outTable tr").each(function () {
+        for (obj of data) {
+          if (obj.rscCdCode == $(this).find("td:eq(3)").children().val()) {
+            console.log("들어옴");
+            $(this).find("td:eq(4)").children().val(obj.rscCdName);
+            $(this).find("td:eq(6)").children().val(obj.rscCdUnit);
+          }
+        }
+      });
+    },
+  });
 }

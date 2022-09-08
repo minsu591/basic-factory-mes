@@ -10,7 +10,7 @@ import com.mes.bf.rsc.vo.RscStockVO;
 
 public interface FindRscCodeService {
 	//자재코드 조회
-	List<RscCodeVO> rscCodeList(String rscCdName, String rscCdClfy);
+	List<RscCodeVO> rscCodeList(String rscCdName, String rscCdClfy, String rscCdCode);
 	
 	//자재LOT번호 조회
 	List<RscStockVO> rscLotNoList(String rscCdCode, String rscCdName);

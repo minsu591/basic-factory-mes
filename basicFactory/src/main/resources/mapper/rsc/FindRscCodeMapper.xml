@@ -14,6 +14,9 @@
 				test="rscCdClfy != null and rscCdClfy!= '' and rscCdClfy != '전체'">
 				AND RSC_CD_CLFY = #{rscCdClfy}
 			</if>
+			<if test="rscCdCode != null and rscCdCode != ''">
+				AND rsc_cd_code = #{rscCdCode}
+			</if>
 		</where>
 		ORDER BY RSC_CD_CODE DESC
 	</select>
