@@ -72,11 +72,7 @@ $(document).ready(function () {
           closeOnClickOutside: false,
         }).then((result) => {
           if (result.isConfirmed) {
-            let form = `<form style="display: none" action="/rsc/order" method="POST" id="form"></form>`;
-            let val1 = `<input type="hidden" value='10'>`;
-            //form.append(val1);
-            $("#form").submit();
-            //window.location = "/rsc/order?test=1";
+            moveOrderPage();
           }
         });
       }
@@ -563,6 +559,25 @@ function deleteInst(instNo) {
     //   console.log(" delete success");
     // },
   });
+}
+//자재발주페이지 이동
+function moveOrderPage() {
+  let orderArray = [];
+  $("#rscStockTable tbody tr").each(function () {
+    if ($(this).hasClass("warn")) {
+      let obj = {
+        rscCdCode: $(this).find("td:eq(1)").text(),
+        rscOrderVol: $(this).find("td:eq(6)").text(),
+      };
+      orderArray.push(obj);
+    }
+  });
+
+  localStorage.setItem("instOrder", JSON.stringify(orderArray));
+  //let instOrder = JSON.parse(localStorage.getItem("instOrder"));
+  //localStorage.clear();
+  //console.log(instOrder);
+  window.location = `/rsc/order`;
 }
 
 function saveSuccess() {
