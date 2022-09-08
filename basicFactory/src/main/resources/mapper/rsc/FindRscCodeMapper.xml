@@ -97,6 +97,38 @@
 		</where>
 		ORDER  BY 1 DESC
 	</select>
+	
+	<select id="rscInspList" resultType="com.mes.bf.rsc.vo.RscInspVO">
+		SELECT INSP.RSC_INSP_CODE,
+			   INSP.RSC_INSP_DATE,
+			   INSP.RSC_ORDER_CODE,
+			   INSP.RSC_CD_CODE,
+			   INSP.RSC_INSP_VOL,
+			   INSP.RSC_INFER_VOL,
+			   INSP.RSC_PASS_VOL,
+			   INSP.EMP_ID,
+			   NVL(INSP.RSC_INSP_REMK,'') AS RSC_INSP_REMK,
+			   
+			   RSC.RSC_CD_NAME,
+			   RSC.RSC_CD_UNIT
+		
+		  FROM BF_RSC_INSP INSP
+		  JOIN BF_CMN_RSC_CODE RSC
+		    ON INSP.RSC_CD_CODE = RSC.RSC_CD_CODE
+		  
+		 <where>
+			 <if test="rscCdCode != null and rscCdCode != ''">
+			 	AND INSP.RSC_CD_CODE LIKE '%' || #{rscCdCode} || '%'
+			 </if>
+			 <if test="rscCdName != null and rscCdName != ''">
+			 	AND RSC.RSC_CD_NAME LIKE '%' || #{rscCdName} || '%'
+			 </if>
+			 <if test="rscInspDate != null and rscInspDate != ''">
+			 	AND INSP.RSC_INSP_DATE = #{rscInspDate}
+			 </if>
+		 </where>
+		 ORDER BY RSC_INSP_CODE DESC
+	</select>
 
 	<select id="modalOutList"
 		resultType="com.mes.bf.rsc.vo.RscOutVO">

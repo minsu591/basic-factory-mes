@@ -8,10 +8,13 @@
 </head>
 <body>
 <body>
-	<script type="text/javascript" th:src="@{/js/modal/rsc/findRscOrderInsp.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/js/modal/rsc/findRscOrderInsp.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/js/modal/rsc/findRscInsp.js}"></script>
 	<script type="text/javascript" th:src="@{/js/modal/rsc/findVendor.js}"></script>
 	<script type="text/javascript"
-		th:src="@{/js/modal/rsc/findRscInTable.js}"></script>
+		th:src="@{/js/modal/rsc/findResource.js}"></script>
 	<script type="text/javascript" th:src="@{/js/rsc/insp.js}"></script>
 	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
 	<link th:href="@{/css/rsc/order.css}" rel="stylesheet" />
@@ -23,11 +26,18 @@
 				<div class="card-header">
 					<div class="form-inline">
 						<div class="form-group mt-3">
-							<label for="rscOrderCode" th:text="발주코드"></label> <input
-								type="text" id="rscOrderCode" class="form-control mx-sm-3"
-								readonly>
-						<button type="button" class="btn  btn-primary" id="search">조회</button>
+							<label for="rsccode" th:text="자재코드"></label> <input type="text"
+								id="rsccode" class="form-control mx-sm-3">
 						</div>
+						<div class="form-group mt-3">
+							<label for="rscname" th:text="자재명"></label> <input type="text"
+								id="rscname" class="form-control mx-sm-3" disabled>
+						</div>
+						<div class="form-group mt-3">
+							<label for="rscInspDate" th:text="검사일자"></label> <input
+								type="date" id="rscInspDate" class="form-control mx-sm-3">
+						</div>
+						<button type="button" class="btn  btn-primary" id="search">조회</button>
 					</div>
 				</div>
 				<div class="card-body table-border-style">
@@ -46,6 +56,7 @@
 								<thead>
 									<tr>
 										<th><input type="checkbox" id="allCheck"></th>
+										<th th:text="발주코드"></th>
 										<th th:text="검사코드"></th>
 										<th th:text="검사날짜"></th>
 										<th th:text="자재코드"></th>
@@ -69,7 +80,11 @@
 			</div>
 		</div>
 		<!-- 발주코드자료 Modal -->
-		<th:block th:replace="~{/fragments/modal/rsc/findRscOrderInsp :: findRscOrderInsp}"></th:block>
+		<th:block
+			th:replace="~{/fragments/modal/rsc/findRscInsp :: findRscInsp}"></th:block>
+		<!-- 발주코드자료 Modal -->
+		<th:block
+			th:replace="~{/fragments/modal/rsc/findRscOrderInsp :: findRscOrderInsp}"></th:block>
 		<!-- 자재조회 Modal -->
 		<th:block
 			th:replace="~{/fragments/modal/findresource :: findresource}"></th:block>

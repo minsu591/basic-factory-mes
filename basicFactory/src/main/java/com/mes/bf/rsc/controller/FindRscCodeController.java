@@ -19,6 +19,7 @@ import com.mes.bf.cmn.vo.EmpVO;
 import com.mes.bf.cmn.vo.RscCodeVO;
 import com.mes.bf.rsc.service.FindRscCodeService;
 import com.mes.bf.rsc.service.RscOutService;
+import com.mes.bf.rsc.vo.RscInspVO;
 import com.mes.bf.rsc.vo.RscOrderVO;
 import com.mes.bf.rsc.vo.RscOutVO;
 import com.mes.bf.rsc.vo.RscReturnVO;
@@ -59,6 +60,13 @@ public class FindRscCodeController {
 	public ResponseEntity<List<RscOrderVO>> findRscOrderInsp(@RequestParam Map<String, String> queryParameters) throws NoSuchFieldException, SecurityException{
 		List<RscOrderVO> list = findRscService.rscOrderInspList(queryParameters.get("rscOrderCode"), queryParameters.get("rscOrderTitle"), queryParameters.get("rscOrderDate"));
 		return new ResponseEntity<List<RscOrderVO>>(list, HttpStatus.OK);
+	}
+	
+	//이전 검사 조회
+	@GetMapping(value="/findRscInsp", produces= { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<RscInspVO>> findRscInsp(@RequestParam Map<String, String> queryParameters) throws NoSuchFieldException, SecurityException{
+		List<RscInspVO> list = findRscService.rscInspList(queryParameters.get("rscCdCode"), queryParameters.get("rscCdName"), queryParameters.get("rscInspDate"));
+		return new ResponseEntity<List<RscInspVO>>(list, HttpStatus.OK);
 	}
 	
 	//자재출고 조회

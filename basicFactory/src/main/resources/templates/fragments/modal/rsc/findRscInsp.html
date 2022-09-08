@@ -5,13 +5,13 @@
 </head>
 <body>
 	<th:block th:fragment="findRscInsp">
-		<div class="modal fade" id="findRscOrderModal" tabindex="-1"
-			role="dialog" aria-labelledby="findRscOrderModalLabel"
+		<div class="modal fade" id="findRscInspModal" tabindex="-1"
+			role="dialog" aria-labelledby="findRscInspModalLabel"
 			aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h3 class="modal-title" id="findRscOrderModalLabel">최근 발주 내역
+						<h3 class="modal-title" id="findRscInspModalLabel">최근 검사 내역
 							조회</h3>
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="Close">
@@ -21,13 +21,18 @@
 					<div class="modal-body">
 						<div class="form-inline">
 							<div class="form-group mt-3">
-								<label for="rscOrderTtl" th:text="발주명"></label> <input
-									type="text" id="rscOrderTtl" name="rscOrderTtl"
+								<label for="rsccode" th:text="자재코드"></label> <input
+									type="text" id="rsccode" name="rsccode"
 									class="form-control mx-sm-3">
 							</div>
 							<div class="form-group mt-3">
-								<label for="rscOrderDt" th:text="발주일자"></label> <input
-									type="date" id="rscOrderDt" name="rscOrderDt"
+								<label for="rscname" th:text="자재명"></label> <input
+									type="test" id="rscname" name="rscname"
+									class="form-control mx-sm-3">
+							</div>
+							<div class="form-group mt-3">
+								<label for="rscInspDt" th:text="검사일자"></label> <input
+									type="date" id="rscInspDt" name="rscInspDt"
 									class="form-control mx-sm-3">
 							</div>
 							<button type="button" class="btn  btn-primary" id="searchOut">조회</button>
@@ -35,15 +40,17 @@
 
 						<div class="card-body table-border-style">
 							<div class="table-responsive">
-								<table class="table table-hover" id="findRscOrderTable">
+								<table class="table table-hover" id="findRscInspTable">
 									<thead>
 										<tr>
-											<th th:text="발주코드"></th>
-											<th th:text="발주일자"></th>
-											<th th:text="발주명"></th>
+											<th th:text="검사코드"></th>
+											<th th:text="검사일자"></th>
+											<th th:text="자재코드"></th>
+											<th th:text="자재명"></th>
+											<th th:text="검사수량"></th>
 										</tr>
 									</thead>
-									<tbody id="findRscOrdertbody">
+									<tbody id="findRscIsnptbody">
 
 									</tbody>
 								</table>

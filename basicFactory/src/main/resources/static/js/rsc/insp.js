@@ -1,51 +1,52 @@
-$(document).ready(function(){
+$(document).ready(function () {
   let tdinfo;
 
- //체크박스 체크유무
- $("#allCheck").click("change", function () {
-  if ($("#allCheck").is(":checked")) {
-   $("#InsertTable tbody input:checkbox").prop("checked", true);
-  } else {
-   $("#InsertTable tbody input:checkbox").prop("checked", false);
-  }
- })
+  //체크박스 체크유무
+  $("#allCheck").click("change", function () {
+    if ($("#allCheck").is(":checked")) {
+      $("#InsertTable tbody input:checkbox").prop("checked", true);
+    } else {
+      $("#InsertTable tbody input:checkbox").prop("checked", false);
+    }
+  })
 
- $("#InsertTable").on("change", "input[name=chk]", function () {
-  let total = $("input[name=chk]").length;
-  let checked = $("input[name=chk]:checked").length;
-  if ((total != checked)) {
-   $("#allCheck").prop("checked", false);
-  } else {
-   $("#allCheck").prop("checked", true);
-  }
- })
+  $("#InsertTable").on("change", "input[name=chk]", function () {
+    let total = $("input[name=chk]").length;
+    let checked = $("input[name=chk]:checked").length;
+    if ((total != checked)) {
+      $("#allCheck").prop("checked", false);
+    } else {
+      $("#allCheck").prop("checked", true);
+    }
+  })
 
   //추가버튼
   $("#addRowBtn").click(function () {
-   detailTableMakeRow();
+    detailTableMakeRow();
   });
 
-   //삭제 버튼
- $("#delRowBtn").click(function () {
-  if ($("input[type='checkbox']:checked").length === 0) {
-   deleteWarning();
-   return;
-  }
-  $("input[name='chk']:checked").each(function (k, val) {
-   $(this).parent().parent().remove();
+  //삭제 버튼
+  $("#delRowBtn").click(function () {
+    if ($("input[type='checkbox']:checked").length === 0) {
+      deleteWarning();
+      return;
+    }
+    $("input[name='chk']:checked").each(function (k, val) {
+      $(this).parent().parent().remove();
+    });
+    $("#allCheck").prop("checked", false);
   });
-  $("#allCheck").prop("checked", false);
- });
 
- //초기화버튼
- $("#resetBtn").click(function(){
-  $("#outTable tr").remove();
- })
+  //초기화버튼
+  $("#resetBtn").click(function () {
+    $("#outTable tr").remove();
+  })
 
- //추가버튼 행만들기
- function detailTableMakeRow() {
-  let node = `<tr>
+  //추가버튼 행만들기
+  function detailTableMakeRow() {
+    let node = `<tr>
 <td><input type="checkbox" name="chk"></td>
+<td><input type="text" class="rscOrderCode"></td>
 <td><input type="text" class="rscInspCode" disabled></td>
 <td><input type="date" class="rscInspDate"></td>
 <td><input type="text" class="rsccode"></td>
@@ -57,16 +58,153 @@ $(document).ready(function(){
 <td><input type="text" class="empId"></td>
 <td><input type="text" class="remk"></td>
 </tr>`;
-  $("#InsertTable tbody").append(node);
- }
+    $("#InsertTable tbody").append(node);
+  }
+
+  //통과 수량 계산
+  $("#InsertTable").on("change", ".inspVol", function () {
+    tdinfo = $(this);
+    let inspVol = tdinfo.val();
+    let inferVol = tdinfo.parent().next().find(".inferVol").val();
+    if (inspVol < 0) {
+      minusWarning();
+      tdinfo.val(null);
+    } else if (inspVol < inferVol) {
+      passVolWarning();
+      tdinfo.val(null);
+      return;
+    } else {
+      let passVol = inspVol - inferVol;
+      tdinfo
+        .parent()
+        .next().next()
+        .find(".passVol")
+        .val(passVol);
+    }
+  });
+
+  $("#InsertTable").on("change", ".inferVol", function () {
+    tdinfo = $(this);
+    let inspVol = tdinfo.parent().prev().find(".inspVol").val();
+    let inferVol = tdinfo.val();
+    if (inferVol < 0) {
+      minusWarning();
+      tdinfo.val(null);
+    } else if (inspVol < inferVol) {
+      passVolWarning();
+      tdinfo.val(null);
+
+    } else {
+      let passVol = inspVol - inferVol;
+      tdinfo
+        .parent()
+        .next()
+        .find(".passVol")
+        .val(passVol);
+
+    }
+  });
 
 
- function deleteWarning() {
-  Swal.fire({
-   icon: "warning", // Alert 타입
-   title: "삭제할 항목을 선택하세요.", // Alert 제목
-   confirmButtonText: "확인"
-  })
- }
+  //등록버튼
+  $("#subBtn").click(function () {
+    let inspList = [];
+    let outTable = $("#InsertTable").find("tbody tr");
+    for (obj of outTable) {
+      let rscOrderCode = $(obj).children().eq(1).find(".rscOrderCode").val();
+      let rscInspCode = $(obj).children().eq(2).find(".rscInspCode").val();
+      let rscInspDate = $(obj).children().eq(3).find(".rscInspDate").val();
+      let rscCdCode = $(obj).children().eq(4).find(".rsccode").val();
+      let rscInspVol = $(obj).children().eq(7).find(".inspVol").val();
+      let rscInferVol = $(obj).children().eq(8).find(".inferVol").val();
+      let rscpassVol = $(obj).children().eq(9).find(".passVol").val();
+      let empId = $(obj).children().eq(10).find(".empId").val();
+      let rscInspRemk = $(obj).children().eq(11).find(".remk").val();
+      let rscOrderDtlNo = $(obj).find(".rscOrderDtlNo").val();
 
+      if (!rscInspCode) {
+        rscInspCode = null;
+      }
+      if (!rscInspRemk){
+        rscInspRemk = null;
+      }
+
+      if (!rscOrderCode || !rscInspDate || !rscCdCode || !rscInspVol || !rscInferVol || !empId) {
+        Swal.fire({
+          icon: "warning", // Alert 타입
+          title: "입력되지 않은 값이 있습니다.", // Alert 제목
+          html: "발주코드, 자재코드, <br/>검사수량, 불량수량, 검사자는<br/>기본 입력사항입니다.",
+          confirmButtonText: "확인",
+        });
+        return;
+      } else {
+        //리스트에 저장
+        let insp = {
+          rscInspCode,
+          rscOrderCode,
+          rscOrderDtlNo,
+          rscCdCode,
+          rscInspDate,
+          rscInspVol,
+          rscInferVol,
+          rscInspRemk,
+          empId
+        };
+        inspList.push(insp);
+        console.log(insp);
+      }
+    }
+    console.log(inspList);
+    $.ajax({
+      url: "inspInAndUp",
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      dataType: "text",
+      data: JSON.stringify(inspList),
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (result) {
+        console.log(result);
+        if (inspList.length == result) {
+          submitComplete();
+          $("#outTable tr").remove();
+        }
+      }
+
+    })
+  });
+
+
+  function submitComplete() {
+    Swal.fire({
+      title: "저장 되었습니다.",
+      icon: "success", // Alert 타입
+      confirmButtonText: "확인", // confirm 버튼 텍스트 지정
+    });
+  }
+
+  function deleteWarning() {
+    Swal.fire({
+      icon: "warning", // Alert 타입
+      title: "삭제할 항목을 선택하세요.", // Alert 제목
+      confirmButtonText: "확인"
+    })
+  }
+
+  function minusWarning() {
+    Swal.fire({
+      icon: "warning", // Alert 타입
+      title: "0이상의 숫자만 입력할 수 있습니다.", // Alert 제목
+      confirmButtonText: "확인"
+    })
+  }
+
+  function passVolWarning() {
+    Swal.fire({
+      icon: "warning", // Alert 타입
+      title: "불량수량은 입고수량을 넘을 수 없습니다.", // Alert 제목
+      confirmButtonText: "확인"
+    })
+  }
 })
