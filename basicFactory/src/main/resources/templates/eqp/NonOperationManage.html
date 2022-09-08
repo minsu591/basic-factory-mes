@@ -76,8 +76,8 @@
 							<input type="date" id="inputDate" class="form-control mx-sm-3">
 							<label for="inputNo">입력번호</label> 
 							<input type="text" id="inputNo" class="form-control mx-sm-3" readonly>
-							<label for="empid">작업자</label> 
-							<input type="text" id="empid" class="form-control mx-sm-3">
+							<!-- <label for="empid">작업자</label> --> 
+							<input type="hidden" id="empid" class="form-control mx-sm-3" th:value="${session.emp.empName}">
 													
 						</div>
 						
