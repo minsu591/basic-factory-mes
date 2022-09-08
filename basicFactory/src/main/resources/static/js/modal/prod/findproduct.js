@@ -73,7 +73,7 @@ function findProduct() {
 }
 //초기데이터
 function productMakeRow(obj, index) {
-  let node = `<tr>
+  let node = `<tr style="cursor:pointer;">
 								<td>${index}</td>
 								<td>${obj.finPrdCdCode}</td>
 								<td>${obj.finPrdCdName}</td>

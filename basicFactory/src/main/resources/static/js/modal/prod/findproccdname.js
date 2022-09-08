@@ -67,7 +67,7 @@ function findAllProcCode() {
   });
 }
 function makeProcCodeRow(obj, index) {
-  let node = `<tr>
+  let node = `<tr style="cursor:pointer;">
   <td>${index}</td>
   <td>${obj.procCdCode}</td>
   <td>${obj.procCdName}</td>

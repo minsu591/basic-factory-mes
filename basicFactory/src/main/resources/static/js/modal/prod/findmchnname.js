@@ -71,7 +71,7 @@ function findMchnName() {
 }
 
 function mchnMakeRow(obj, index) {
-  let node = `<tr>
+  let node = `<tr style="cursor:pointer;">
                  <td>${index}</td>
                  <td>${obj.mchnCode}</td>
                  <td>${obj.mchnName}</td>

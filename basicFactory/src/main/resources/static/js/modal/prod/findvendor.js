@@ -44,15 +44,13 @@ $("document").ready(function () {
 
     $("#findvendorModal").modal("hide");
   });
-  
+
   //vendor input 내용이 사라지면 vendorName 내용도 사라지는 이벤트
-	$("#vendor").on("change",function(){
-	    if($("#vendor").val()==''){
-	        $("#vendorName").val('');
-	    }
-	});
-  
-  
+  $("#vendor").on("change", function () {
+    if ($("#vendor").val() == "") {
+      $("#vendorName").val("");
+    }
+  });
 });
 function findVendorCode() {
   $.ajax({
@@ -76,7 +74,7 @@ function findVendorCode() {
 }
 //거래처조회 행생성
 function makeVendorCodeRow(obj, index) {
-  let node = `<tr>
+  let node = `<tr style="cursor:pointer;">
               <td>${index}</td>
               <td>${obj.vendCdCode}</td>
               <td>${obj.vendCdNm}</td>

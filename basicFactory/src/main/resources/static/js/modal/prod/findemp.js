@@ -59,7 +59,7 @@ function findEmp() {
 }
 //초기데이터
 function empMakeRow(obj, index) {
-  let node = `<tr>
+  let node = `<tr style="cursor:pointer;">
                 <td>${index}</td>
                 <td>${obj.empvo.empName}</td>
                 <td>${obj.deptvo.deptName}</td>
