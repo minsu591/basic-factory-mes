@@ -3,6 +3,9 @@ package com.mes.bf.prod.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -46,7 +49,9 @@ public class InstructionController {
 
 	// 생산 지시 관리페이지 이동
 	@RequestMapping("/instmanagement")
-	public ModelAndView instma() {
+	public ModelAndView instma(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.getAttribute("emp");
 		ModelAndView mav = new ModelAndView("prod/InstManage");
 		return mav;
 	}
