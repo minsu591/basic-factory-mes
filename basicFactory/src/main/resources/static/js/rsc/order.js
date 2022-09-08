@@ -311,7 +311,7 @@ function findLocalStorage() {
 
       detailTableMakeRow(order.rscCdCode, order.rscOrderVol);
     }
-    //localStorage.clear();
+    localStorage.clear();
   } else {
     console.log("아무일도 없없다");
   }
