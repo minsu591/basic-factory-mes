@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.mes.bf.cmn.vo.RscCodeVO;
 import com.mes.bf.rsc.mapper.FindRscCodeMapper;
 import com.mes.bf.rsc.service.FindRscCodeService;
+import com.mes.bf.rsc.vo.RscInspVO;
 import com.mes.bf.rsc.vo.RscOrderVO;
 import com.mes.bf.rsc.vo.RscOutVO;
 import com.mes.bf.rsc.vo.RscReturnVO;
@@ -35,6 +36,11 @@ public class FindRscCodeServiceImpl implements FindRscCodeService{
 	@Override
 	public List<RscOrderVO> rscOrderInspList(String rscOrderCode, String rscOrderTitle, String rscOrderDate) {
 		return rscCodeMapper.rscOrderInspList(rscOrderCode, rscOrderTitle, rscOrderDate);
+	}
+	
+	@Override
+	public List<RscInspVO> rscInspList(String rscCdCode, String rscCdName, String rscInspDate) {
+		return rscCodeMapper.rscInspList(rscCdCode, rscCdName, rscInspDate);
 	}
 
 	@Override

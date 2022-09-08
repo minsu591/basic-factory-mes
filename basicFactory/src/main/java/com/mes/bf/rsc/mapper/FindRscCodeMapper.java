@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mes.bf.cmn.vo.RscCodeVO;
+import com.mes.bf.rsc.vo.RscInspVO;
 import com.mes.bf.rsc.vo.RscOrderVO;
 import com.mes.bf.rsc.vo.RscOutVO;
 import com.mes.bf.rsc.vo.RscReturnVO;
@@ -22,6 +23,9 @@ public interface FindRscCodeMapper {
 	
 	//검사관리용 발주리스트 조회
 	List<RscOrderVO> rscOrderInspList(String rscOrderCode, String rscOrderTitle, String rscOrderDate);
+	
+	//검사관리 직전등록 리스트 조회
+	List<RscInspVO> rscInspList(String rscCdCode, String rscCdName, String rscInspDate);
 	
 	//최근 출고리스트 조회
 	List<RscOutVO> modalOutList(String rscOutCode, String rscOutDate);

@@ -9,6 +9,8 @@ public class RscInspVO {
 
 	private String rscInspCode;
 	private Date rscInspDate;
+	private String rscOrderCode;
+	private String rscOrderDtlNo;
 	private String rscCdCode;
 	private String rscCdName;
 	private String rscCdUnit;
@@ -16,6 +18,7 @@ public class RscInspVO {
 	private int rscInferVol;
 	private int rscPassVol;
 	private int rscInspSt;
+	private String empId;
 	private String empName;
 	private String rscInspRemk;
 }

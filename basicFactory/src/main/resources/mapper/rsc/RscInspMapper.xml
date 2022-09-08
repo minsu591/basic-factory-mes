@@ -1,6 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.rsc.mapper.RscInspMapper">
+	<select id="inspListLoad" resultType="com.mes.bf.rsc.vo.RscOrderVO">
+		SELECT DTS.RSC_ORDER_CODE,
+			   DTS.RSC_ORDER_DTL_NO,
+			   DTS.RSC_CD_CODE,
+			   DTS.RSC_ORDER_VOL,
+			    
+			   RSC.RSC_CD_NAME,
+			   RSC.RSC_CD_UNIT
+			   
+          FROM BF_RSC_ORDER_DETAILS DTS
+          LEFT JOIN BF_RSC_ORDER OD
+            ON DTS.RSC_ORDER_CODE = OD.RSC_ORDER_CODE
+          LEFT JOIN BF_CMN_RSC_CODE RSC
+            ON DTS.RSC_CD_CODE = RSC.RSC_CD_CODE
+   		<where>
+   			RSC_ORDER_VOL != RSC_ORDER_ARV
+   			<if test="rscOrderCode != null and rscOrderCode != ''">
+   				AND DTS.RSC_ORDER_CODE LIKE '%' || #{rscOrderCode} || '%'
+   			</if>
+   			<if test="rscOrderTitle != null and rscOrderTitle != ''">
+   				AND OD.RSC_ORDER_TITLE LIKE '%' || #{rscOrderTitle} || '%'
+   			</if>
+   			<if test="rscOrderDate != null and rscOrderDate != ''">
+   				AND OD.RSC_ORDER_DATE = #{rscOrderDate}
+   			</if>
+   		</where>
+   		ORDER BY DTS.RSC_ORDER_DTL_NO
+	</select>
+	
+	<insert id="inspInsert" parameterType="com.mes.bf.rsc.vo.RscInspVO">
+		INSERT 
+		  INTO BF_RSC_INSP
+		  
+		VALUES (
+		   	   'RSC_INSP' || LPAD(BF_RSC_INSP_SEQ.NEXTVAL,4,0),
+			   #{rscOrderCode},
+		   	   #{rscOrderDtlNo},
+		   	   #{rscCdCode},
+		   	   #{rscInspDate},
+		   	   #{rscInspVol},
+		   	   #{rscInferVol},
+		   	   (#{rscInspVol} - #{rscInferVol}),
+		   	   0,
+		   	   #{rscInspRemk},
+		   	   #{empId}
+		   	   ) 
+	</insert>
+	 
+	<update id="inspUpdate" parameterType="com.mes.bf.rsc.vo.RscInspVO">
+		UPDATE BF_RSC_INSP
+		
+		   SET RSC_INSP_DATE = #{rscInspDate},
+		   	   RSC_INSP_VOL = #{rscInspVol},
+		   	   RSC_INFER_VOL = #{rscInferVol},
+		   	   RSC_PASS_VOL = (#{rscInspVol} - #{rscInferVol}),
+		   	   RSC_INSP_REMK = #{rscInspRemk},
+		   	   EMP_ID = #{empId}
+		
+		 WHERE RSC_INSP_CODE = #{rscInspCode}
+	</update>
+
 	<select id="inspList" resultType="com.mes.bf.rsc.vo.RscInspVO">
 		SELECT INSP.RSC_INSP_CODE, 
 			   INSP.RSC_INSP_DATE, 
