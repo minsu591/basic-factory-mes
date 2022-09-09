@@ -53,9 +53,14 @@ $(document).ready(function () {
             planHdCode : planHdCode
         },
         success : function(data){
+          //생산지시 array 삭제
           lineArray.splice(0);
           inDtlVol.splice(0);
           prodCodeArr.splice(0);
+          //테이블 삭제
+          $("#procStatusTable tbody tr").remove();
+          $("#rscStockTable tbody tr").remove();
+          
           $("#planDetailTable tbody tr").remove();
           for(obj of data){
             let finInfoList = finInfo(obj.finPrdCdCode);

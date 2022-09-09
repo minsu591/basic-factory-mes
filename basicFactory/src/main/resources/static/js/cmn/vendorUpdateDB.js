@@ -24,6 +24,12 @@ $("document").ready(function(){
         let flag = false;
         let tdInfo = $(this);
         let defaultVal;
+
+        //nullTd class 제거
+        if(tdInfo.hasClass("nullTd")){
+            tdInfo.removeClass("nullTd");
+        }
+
         //적용할 인덱스인지 확인
         for(let i = 0; i<avArr.length;i++){
             if(col == avArr[i]){
@@ -35,12 +41,13 @@ $("document").ready(function(){
         if(!flag){
             return;
         }
+
         tdInfo.attr("contenteditable","true");
         //td에 focus가 되면
-        tdInfo.focus(function(e){
-            defaultVal = tdInfo.text();
-            tdInfo.addClass("tdBorder");
-        });
+        tdInfo.focus();
+        defaultVal = tdInfo.text();
+        tdInfo.addClass("tdBorder");
+        
         //enter나 esc 누르면 blur되도록
         tdInfo.on("keyup",function(key){
             if(key.keyCode == 13 || key.keyCode == 27){
@@ -49,7 +56,7 @@ $("document").ready(function(){
             }
         });
         //td에 blur가 되면
-        tdInfo.blur(function(e){
+        tdInfo.unbind("blur").bind("blur",function(e){
             e.preventDefault();
             tdInfo.attr("contenteditable","false")
                     .removeClass("tdBorder");
@@ -58,11 +65,14 @@ $("document").ready(function(){
                 for(idx of notNullList){
                     if(col == idx){
                         tdInfo.text(defaultVal);
-                        break;
+                        return false;
                     }
                 }
-            }else{
+            }
+            //addTr은 수정에 들어가지 않게 막기
+            if(tdInfo.closest("tr").attr("name")!='addTr'){
                 tdInfo.trigger("change");
+                console.log("change");
             }
             e.stopPropagation();
         });
@@ -117,36 +127,70 @@ $("document").ready(function(){
     //저장 버튼 이벤트
     $("#saveBtn").on("click",function(){
         let trs = table.find("tbody tr");
-        if(confirm("저장하시겠습니까?")==true){
-            //null 검사
-            for(tr of trs){
-                for(idx of notNullList){
-                    let content = $(tr).find("td:eq("+idx+")").text();
-                    if(content == null || content == ''){
-                        alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
-                        return;
+        let nullFlag = false;
+        Swal.fire({
+            icon: "question",
+            title: "저장하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "확인",
+            cancelButtonText: "취소",
+            closeOnClickOutside: false,
+          }).then((result) =>{
+            if(result.isConfirmed){
+                //null 검사
+                for(tr of trs){
+                    for(idx of notNullList){
+                        let content = $(tr).find("td:eq("+idx+")").text();
+                        if(idx == 3){
+                            content =$(tr).find("td:eq("+idx+") select option:selected").val();
+                        }
+                        if(content == null || content == ''){
+                            $(tr).find("td:eq("+idx+")").addClass("nullTd");
+                            nullFlag = true;
+                        }
                     }
                 }
-            }
-            
-            //삭제용
-            if(delList.length != 0){
-                deleteSaveAjax(delList);
-            }
+                if(nullFlag){
+                    Swal.fire({
+                        icon: "error",
+                        title: "비어있는 데이터가 존재합니다",
+                        text: "확인하고 다시 저장해주세요"
+                    });
+                    return false;
+                }
 
-            //수정용
-            for(obj of modifyList){
-                modifySaveAjax(obj);
-            }
-            //추가용
-            addList = table.find("tr[name='addTr']");
-            for(obj of addList){
-                addSaveAjax(obj);
-            }
 
-            alert("저장이 완료되었습니다.");
-            location.reload();
-        }
+                //삭제용
+                if(delList.length != 0){
+                    deleteSaveAjax(delList);
+                }
+
+                //수정용
+                for(obj of modifyList){
+                    modifySaveAjax(obj);
+                }
+                //추가용
+                addList = table.find("tr[name='addTr']");
+                for(obj of addList){
+                    addSaveAjax(obj);
+                }
+
+                Swal.fire({
+                    icon: "success",
+                    title: "저장이 완료되었습니다",
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "확인",
+                    closeOnClickOutside: false,
+                }).then((result) =>{
+                    location.reload();
+                });
+            }else{
+                return;
+            }
+        });
     });
 
     function modifySaveAjax(obj){
@@ -178,12 +222,12 @@ $("document").ready(function(){
     $("#addBtn").on("click",function(e){
         e.preventDefault();
         let node = `<tr name="addTr">
-                        <td><input type="checkbox" name="chk"></td>`;
+                        <td class="cantModifyTd"><input type="checkbox" name="chk"></td>`;
         if ($("#allCheck").is(":checked")){
             node = `<tr>
-                        <td><input type="checkbox" name="chk" checked></td>`;
+                        <td class="cantModifyTd"><input type="checkbox" name="chk" checked></td>`;
         }
-        node +=`<td></td>
+        node +=`<td class="cantModifyTd"></td>
                 <td class="empId"></td>`;
         node += makeSelectForClfy('');
         node += `<td></td>

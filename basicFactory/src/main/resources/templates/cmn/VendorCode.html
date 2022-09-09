@@ -51,10 +51,10 @@ xmlns:th="http://www.thymeleaf.org"
                                     <th th:text="비고" th:name="vend_cd_remk"></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="canModifyTbody">
                                 <tr th:each="vend : ${vendors}">
-                                    <td><input type="checkbox" name="chk"></td>
-                                    <td th:text="${vend.vendCdCode}">VEND001</td>
+                                    <td class="cantModifyTd"><input type="checkbox" name="chk"></td>
+                                    <td th:text="${vend.vendCdCode}" class="cantModifyTd">VEND001</td>
                                     <td th:text="${vend.empId}" th:class="empId">mia</td>
                                     <td>
                                         <select th:value="${vend.vendCdClfy}">

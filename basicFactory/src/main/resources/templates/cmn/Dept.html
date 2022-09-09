@@ -42,14 +42,14 @@ xmlns:th="http://www.thymeleaf.org"
                                 <tr>
                                     <th><input type="checkbox" id="allCheck"></th>
                                     <th th:text="부서코드"></th>
-                                    <th th:text="부서명"></th>
+                                    <th th:text="부서명" th:name = "dept_name"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="dept : ${depts}">
                                     <td><input type="checkbox" name="cb"></td>
                                     <td th:text="${dept.deptNo}">부서코드</td>
-                                    <td th:text="${dept.deptName}">부서명</td>
+                                    <td th:text="${dept.deptName}" class="canModifyTd">부서명</td>
                                 </tr>
                             </tbody>
                         </table>

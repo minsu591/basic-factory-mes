@@ -27,8 +27,8 @@ $("document").ready(function(){
         let node = `<tr>
                         <td><input type="checkbox" name="cb"></td>
                         <td>${obj.procCdCode}</td>
-                        <td>${obj.procCdName}</td>
-                        <td>${obj.procCdRemk}</td>`;
+                        <td class="canModifyTd">${obj.procCdName}</td>
+                        <td class="canModifyTd">${obj.procCdRemk}</td>`;
         $("#procTable tbody").append(node);
     }
 

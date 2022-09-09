@@ -14,7 +14,6 @@ xmlns:th="http://www.thymeleaf.org"
 <body>
     <script type="text/javascript" th:src="@{/js/cmn/emp.js}"></script>
     <script type="text/javascript" th:src="@{/js/cmn/empUpdateDB.js}"></script>
-    <script type="text/javascript" th:src="@{/js/modal/cmn/findDept.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/cmn/findTdDept.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/cmn/settingPw.js}"></script>
     <div class="pcoded-main-container">
@@ -64,11 +63,11 @@ xmlns:th="http://www.thymeleaf.org"
                                     <th th:text="비고" name="emp_remk"></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody th:class="canModifyTbody">
                                 <tr th:each="emp : ${emps}">
-                                    <td><input type="checkbox" name="cb"></td>
-                                    <td th:text="${emp.empVO.empId}">mia</td>
-                                    <td th:text="'********'" th:class="password"></td>
+                                    <td th:class="cantModifyTd"><input type="checkbox" name="cb"></td>
+                                    <td th:class="cantModifyTd" th:text="${emp.empVO.empId}">mia</td>
+                                    <td th:text="'********'" th:class="modifyPassword"></td>
                                     <td th:text="${emp.deptVO.deptName}" th:class="deptName">연구개발</td>
                                     <td>
                                         <select>

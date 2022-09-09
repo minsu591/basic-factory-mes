@@ -23,6 +23,12 @@ $("document").ready(function(){
         let col = tdInfo.index();
         let flag = false;
         let defaultVal = tdInfo.text();
+
+        //nullTd class 제거
+        if(tdInfo.hasClass("nullTd")){
+            tdInfo.removeClass("nullTd");
+        }
+
         //적용할 인덱스인지 확인
         for(let i = 0; i<avArr.length;i++){
             if(col == avArr[i]){
@@ -35,14 +41,14 @@ $("document").ready(function(){
             return;
         }
         tdInfo.attr("contenteditable","true");
-        tdInfo.unbind("focus").bind("focus",function(){
-            defaultVal = tdInfo.text();
-            tdInfo.addClass("tdBorder");
-        });
+        tdInfo.focus();
+        defaultVal = tdInfo.text();
+        tdInfo.addClass("tdBorder");
+
         tdInfo.off("keyup").on("keyup",function(key){
             if(key.keyCode == 13 || key.keyCode == 27){
                 key.preventDefault();
-                tdInfo.blur();
+                tdInfo.unbind("blur").bind("blur");
             }
         });
         
@@ -58,9 +64,11 @@ $("document").ready(function(){
                         break;
                     }
                 }
-            }else{
+            }
+            if(tdInfo.closest("tr").attr("name")!='addTr'){
                 tdInfo.trigger("change");
             }
+            
         });
 
     });
@@ -107,56 +115,99 @@ $("document").ready(function(){
     //저장 버튼 이벤트
     $("#saveBtn").on("click",function(){
         let trs = table.find("tbody tr");
-        if(confirm("저장하시겠습니까?")==true){
-            let regExp = '';
-            //null 검사
-            for(tr of trs){
-                for(idx of notNullList){
-                    let content;
-                    if(idx == 4){
-                        //select option인 경우
-                        content = $(tr).find("td:eq("+idx+") select option:selected").val();
-                    }else{
-                        content = $(tr).find("td:eq("+idx+")").text();
-                    }
-                    if(content == null || content == ''){
-                        alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
-                        return false;
-                    }else if(idx == 6){
-                        //이메일 정규식
-                        regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-                        if(content.match(regExp) == null){
-                            alert("이메일을 올바르게 입력해주세요.");
-                            return false;
+        Swal.fire({
+            icon: "question",
+            title: "저장하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "확인",
+            cancelButtonText: "취소"
+          }).then((result) =>{
+            if(result.isConfirmed){
+                let regExp = '';
+                let nullFlag = 0;
+                //null 검사
+                for(tr of trs){
+                    for(idx of notNullList){
+                        let content;
+                        //select option인 경우의 content
+                        if(idx == 4){
+                            content = $(tr).find("td:eq("+idx+") select option:selected").val();
+                        }else{
+                            content = $(tr).find("td:eq("+idx+")").text();
                         }
-                    }else if(idx==7){
-                        //휴대폰번호 정규식
-                        regExp = /^\d{3}-\d{3,4}-\d{4}$/;
-                        console.log(content.match(regExp) == null);
-                        if(content.match(regExp) == null){
-                            alert("휴대폰 번호를 하이픈을 사용하여 올바르게 입력해주세요.");
-                            return false;
+
+                        if(content == null || content == ''){
+                            nullFlag = 1;
+                            $(tr).find("td:eq("+idx+")").addClass("nullTd");
+                        }else if(idx == 6){
+                            //이메일 정규식
+                            regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+                            if(content.match(regExp) == null){
+                                nullFlag = 2;
+                                $(tr).find("td:eq("+idx+")").addClass("nullTd");
+                            }
+                        }else if(idx==7){
+                            //휴대폰번호 정규식
+                            regExp = /^\d{3}-\d{3,4}-\d{4}$/;
+                            if(content.match(regExp) == null){
+                                nullFlag = 3;
+                                $(tr).find("td:eq("+idx+")").addClass("nullTd");
+                            }
                         }
                     }
                 }
-            }
-            //삭제용
-            if(delList.length != 0){
-                deleteSaveAjax(delList);
-            }
-            //수정용
-            for(obj of modifyList){
-                modifySaveAjax(obj);
-            }
-            //추가용
-            addList = table.find("tr[name='addTr']");
-            for(obj of addList){
-                addSaveAjax(obj);
-            }
 
-            alert("저장이 완료되었습니다.");
-            location.reload();
-        }
+                if(nullFlag > 0){
+                    if(nullFlag == 1){
+                        Swal.fire({
+                            icon: "error",
+                            title: "비어있는 데이터가 존재합니다",
+                            text: "확인 후 다시 저장해주세요"
+                        });
+                    }else if(nullFlag == 2){
+                        Swal.fire({
+                            icon: "error",
+                            title: "이메일을 올바르게 입력해주세요",
+                            text: "수정 후 다시 저장해주세요"
+                        });
+                    }else if(nullFlag == 3){
+                        Swal.fire({
+                            icon: "error",
+                            title: "휴대폰 번호를 올바르게 입력해주세요",
+                            text: "하이픈을 포함한 휴대폰 번호를 입력해주세요"
+                        });
+                    }
+                    return false;
+                }
+
+                //삭제용
+                if(delList.length != 0){
+                    deleteSaveAjax(delList);
+                }
+                //수정용
+                for(obj of modifyList){
+                    modifySaveAjax(obj);
+                }
+                //추가용
+                addList = table.find("tr[name='addTr']");
+                for(obj of addList){
+                    addSaveAjax(obj);
+                }
+
+                Swal.fire({
+                    icon: "success",
+                    title: "저장이 완료되었습니다",
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "확인",
+                    closeOnClickOutside: false,
+                }).then((result) =>{
+                    location.reload();
+                });
+            }
+        });
     });
 
     function modifySaveAjax(obj){
@@ -190,13 +241,13 @@ $("document").ready(function(){
 
     function empBlankMakeRow(){
         let node = `<tr name='addTr'>
-                        <td><input type="checkbox" name="cb"></td>`;
+                        <td class="cantModifyTd"><input type="checkbox" name="cb"></td>`;
         if($("#allCheck").is(":checked")){
             node = `<tr name='addTr'>
-                    <td><input type="checkbox" name="cb" checked></td>`;
+                    <td class="cantModifyTd"><input type="checkbox" name="cb" checked></td>`;
         }
-        node += `<td></td>
-                <td class='password'></td>
+        node += `<td class='modifyEmpId'></td>
+                <td class='modifyPassword'></td>
                 <td class='deptName'></td>`;
         node += makeSelectForPos('');
         node += `<td></td>
