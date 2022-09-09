@@ -58,6 +58,7 @@
 		  ON VEND.VEND_CD_CODE = ORDHD.VEND_CD_CODE
         JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
           ON FNSPRD.FIN_PRD_CD_CODE = ORDDTL.FIN_PRD_CD_CODE
+<!--         WHERE 10 >= ROWNUM -->
         ORDER BY SLS_ORD_HD_DATE DESC, SLS_ORD_HD_NO DESC
 	</select>
 	
@@ -106,8 +107,11 @@
    		  ON ORDHD.VEND_CD_CODE = VEND.VEND_CD_CODE
    		JOIN BF_CMN_EMP EMP
    		  ON ORDHD.EMP_ID = EMP.EMP_ID
+   		JOIN BF_SALES_ORD_DTL ORDDTL
+   		  ON ORDDTL.SLS_ORD_HD_NO = ORDHD.SLS_ORD_HD_NO
+   		WHERE ORDDTL.SLS_ORD_DTL_PRG_CLS = 0
    		<if test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
-   			WHERE TRUNC(ORDHD.SLS_ORD_HD_DATE) BETWEEN  #{ordSdate} AND #{ordEdate}
+   			AND TRUNC(ORDHD.SLS_ORD_HD_DATE) BETWEEN  #{ordSdate} AND #{ordEdate}
         </if>
         ORDER BY SLS_ORD_HD_DATE DESC, SLS_ORD_HD_NO DESC
    	</select>
@@ -125,6 +129,7 @@
    		JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
    		  ON FNSPRD.FIN_PRD_CD_CODE = ORDDTL.FIN_PRD_CD_CODE
    		WHERE ORDDTL.SLS_ORD_HD_NO = #{slsOrdHdNo}
+   		  AND ORDDTL.SLS_ORD_DTL_PRG_CLS = 0
    	</select>
    	
    	<!-- 주문관리에서 신규 등록 -->
@@ -172,8 +177,13 @@
    		WHERE SLS_ORD_DTL_NO = #{priKey}
    	</update>
    	
-   	<!-- 진행 중일 때 삭제 안되도록. -->
-   	<!-- 주문관리에서 주문 삭제 -->
+   	<!-- 주문 헤더 삭제 -->
+   	<delete id="orderHdDelete">
+   		DELETE FROM BF_SALES_ORD_HD
+   		WHERE SLS_ORD_HD_NO = #{slsOrdHdNo}
+   	</delete>
+   	
+   	<!-- 주문관리에서 주문 디테일 삭제 -->
    	<delete id="orderDelete">
    		DELETE FROM BF_SALES_ORD_DTL
    		WHERE SLS_ORD_DTL_NO IN

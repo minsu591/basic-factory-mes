@@ -29,7 +29,10 @@ public interface SlsOrdService {
 	//주문관리 수정
 	void orderUpdate(String priKey, String updCol, String updCont);
 	
-	//주문관리 삭제
+	//주문관리 헤더 삭제
+	void orderHdDelete(String slsOrdHdNo);
+	
+	//주문관리 바디 삭제
 	void orderDelete(List<String> delList);
 	
 	//주문관리 헤더등록

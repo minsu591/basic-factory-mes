@@ -11,4 +11,7 @@ public interface SlsStockService {
 	
 	//제품별, LOT번호별 조회
 	List<SlsStockVO> findStock(String prdName, String lotNo);
+	
+	//완제품 출고 수정 시 재고 조건 조회
+	List<SlsStockVO>findOutUpdateStock(String slsOutHdNo, String finPrdCdCode);
 }

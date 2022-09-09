@@ -109,6 +109,8 @@ $("document").ready(function(){
     
     //출고내역 조회 모달을 통한 데이터 출력
     function outMngMakeRow(out){
+        console.log(out);
+        //out.slsOutCount가 1보다 크면 > 1 -> td에 
         let node = `<tr>
                         <td><input type="checkbox" name="cb"></td>
                         <input type="hidden" value="${out.slsOutDtlNo}">
@@ -117,9 +119,13 @@ $("document").ready(function(){
                         <td>${out.slsOrdDtlVol}</td>
                         <td>${out.slsOutDtlPrvsVol}</td>
                         <td>${out.slsOutDtlVol}</td>
-                        <td>${(out.slsOrdDtlVol - out.slsOutDtlPrvsVol) - out.slsOutDtlVol}</td>
-                        <td class="lotNo">${out.fnsPrdStkLotNo}</td>
-                        <td>${out.finPrdCdPrice}</td>
+                        <td>${(out.slsOrdDtlVol - out.slsOutDtlPrvsVol) - out.slsOutDtlVol}</td>`;
+                if(out.slsOutCount > 1){
+                    node +=  `<td class="lotNo">${out.fnsPrdStkLotNo} 외 ${out.slsOutCount -1}</td>`;
+                } else {
+                    node +=  `<td class="lotNo">${out.fnsPrdStkLotNo}</td>`;
+                }
+            node += `   <td>${out.finPrdCdPrice}</td>
                         <td>${out.slsOutDtlVol * out.finPrdCdPrice}</td>
                     </tr>`;
         $("#outMngTable tbody").append(node);

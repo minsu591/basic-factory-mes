@@ -25,6 +25,7 @@
 		<result property="slsRtnDtlBaseVol" column="sls_rtn_dtl_base_vol" />
 		<result property="slsRtnDtlPrcCls" column="sls_rtn_dtl_prc_cls"/>
 		<result property="slsRtnDtlResn" column="sls_rtn_resn"/>
+		<result property="slsOutDtlVol" column="sls_out_dtl_vol"/>
 	</resultMap>
 	
 	<resultMap type="slsRtnHdDtlVO" id="rtnHdDtlMap">
@@ -85,7 +86,7 @@
       
      WHERE
     	<if test="(rtnSdate != null and rtnSdate != '') and (rtnEdate != null and rtnEdate != '')">
-    		OUTHD.SLS_OUT_HD_DATE BETWEEN  TO_DATE(#{rtnSdate}, 'YY/MM/DD') AND TO_DATE(#{rtnEdate}, 'YY/MM/DD') + 0.9999
+    		TRUNC(OUTHD.SLS_OUT_HD_DATE) BETWEEN  #{rtnSdate} AND #{rtnEdate}
     	</if>
     	<if test="vendorName != null and vendorName != ''">
     		AND VEND.VEND_CD_NM = #{vendorName}
@@ -101,6 +102,7 @@
 			   RTNHD.SLS_RTN_HD_DATE,
 			   VEND.VEND_CD_CODE,
 			   VEND.VEND_CD_NM,
+			   EMP.EMP_ID,
 			   EMP.EMP_NAME,
 			   NVL(RTNHD.SLS_RTN_HD_REMK, ' ') AS SLS_RTN_HD_REMK
 		FROM BF_SALES_RTN_HD RTNHD
@@ -112,16 +114,22 @@
 		<if test="(rtnSdate != null and rtnSdate != '') and (rtnEdate != null and rtnEdate !='')">
 			WHERE SLS_RTN_HD_DATE BETWEEN  TO_DATE(#{rtnSdate}, 'YY/MM/DD') AND TO_DATE(#{rtnEdate}, 'YY/MM/DD') + 0.9999
 		</if>
+		
+		ORDER BY SLS_RTN_HD_NO DESC
 	</select>
 	
 	<!-- 완제품 반품 관리에서 반품내역 상세조회 -->
 	<select id="returnDtlView" resultMap="rtnHdDtlMap">
-		SELECT FNSPRD.FIN_PRD_CD_CODE,
+		SELECT RTNDTL.SLS_RTN_DTL_NO,
+			   FNSPRD.FIN_PRD_CD_CODE,
 			   FNSPRD.FIN_PRD_CD_NAME,
 			   RTNHD.SLS_OUT_HD_NO,
+               OUTDTL.FNS_PRD_STK_LOT_NO,
+               OUTDTL.SLS_OUT_DTL_VOL,
 			   RTNDTL.SLS_RTN_DTL_BASE_VOL,
 			   RTNDTL.SLS_RTN_DTL_VOL,
 			   FNSPRD.FIN_PRD_CD_PRICE,
+			   RTNDTL.SLS_RTN_DTL_PRICE,
 			   RTNDTL.SLS_RTN_DTL_PRC_CLS,
 			   RTNDTL.SLS_RTN_RESN
 		FROM BF_SALES_RTN_HD RTNHD
@@ -129,7 +137,58 @@
 		  ON RTNDTL.SLS_RTN_HD_NO = RTNHD.SLS_RTN_HD_NO
 		JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
 		  ON FNSPRD.FIN_PRD_CD_CODE = RTNDTL.FIN_PRD_CD_CODE
-		
+        JOIN BF_SALES_OUT_DTL OUTDTL
+          ON OUTDTL.SLS_OUT_HD_NO = RTNHD.SLS_OUT_HD_NO
+	    JOIN BF_CMN_EMP EMP
+	      ON RTNHD.EMP_ID = EMP.EMP_ID
+          
 		WHERE RTNHD.SLS_RTN_HD_NO = #{slsRtnHdNo}
+        AND OUTDTL.FNS_PRD_STK_LOT_NO = RTNDTL.FNS_PRD_STK_LOT_NO
 	</select>
+	
+	<!-- 완제품 반품관리에서 헤더 등록 -->
+	<insert id="rtnInsertHd" parameterType="SlsRtnHdVO">
+		INSERT INTO BF_SALES_RTN_HD
+		VALUES('SLS_RTN' || LPAD(BF_SALES_RTN_HD_SEQ.nextval, 3, 0),
+				#{slsOutHdNo},
+				#{slsRtnHdDate},
+				#{vendCdCode},
+				#{empId},
+				#{slsRtnHdRemk})
+	</insert>
+	
+	<!-- 완제품 반품관리에서 바디등록 -->
+	<insert id="rtnInsertDtl" parameterType="SlsRtnDtlVO">
+		<selectKey keyProperty="slsRtnHdNo" order="BEFORE" resultType="String">
+                SELECT SLS_RTN_HD_NO
+				FROM (SELECT SLS_RTN_HD_NO FROM BF_SALES_RTN_HD ORDER BY SLS_RTN_HD_NO DESC)
+				WHERE ROWNUM=1
+   		</selectKey>
+   		
+   		INSERT INTO BF_SALES_RTN_DTL
+   		VALUES ('SLS_RTND'|| LPAD(BF_SALES_OUT_DTL_SEQ.nextval, 3, 0),
+   				#{slsRtnHdNo},
+   				#{finPrdCdCode},
+   				#{fnsPrdStkLotNo},
+   				#{slsRtnDtlBaseVol},
+   				#{slsRtnDtlVol},
+   				#{slsRtnDtlPrice},
+   				#{slsRtnDtlPrcCls},
+   				#{slsRtnDtlResn})
+	</insert>
+	
+	<!-- 완제품 반품관리 헤더 삭제 -->
+	<delete id="rtnHdDelete">
+		DELETE FROM BF_SALES_RTN_HD
+		WHERE SLS_RTN_HD_NO = #{priKey}
+	</delete>
+	
+	<!-- 완제품 반품관리 디테일 삭제 -->
+	<delete id="rtnDelete">
+		DELETE FROM BF_SALES_RTN_DTL
+		WHERE SLS_RTN_DTL_NO IN
+   		<foreach item="priKey" collection="list" open="(" separator="," close=")">
+   			#{priKey}
+   		</foreach>
+	</delete>
 </mapper>

@@ -8,7 +8,6 @@ import lombok.Data;
 @Alias("slsOutDtlVO")
 public class SlsOutDtlVO {
 	private String slsOutDtlNo;			//출고내역번호
-	//추가
 	private String slsOrdHdNo;		    //주문번호
 	private String slsOutHdNo;			//출고번호
 	private String finPrdCdCode;		//완제품코드
@@ -19,5 +18,6 @@ public class SlsOutDtlVO {
 	private Integer slsOutDtlVol;		//출고량
 	private Integer finPrdCdPrice;		//단가
 	private Integer slsOutDtlPrice; 	//금액
-
+	private Integer slsOutCount;		//
+	private Integer slsRtnDtlVol; 		//반품량(기반품)
 }

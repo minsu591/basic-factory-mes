@@ -108,8 +108,9 @@ $("document").ready(function () {
 
   //미출고 주문내역 조회 모달을 통한 데이터 출력
   function outMakeRow(ord) {
-    let node = `<tr>
+    let node = `<tr class="notOut">
                     <td><input type="checkbox" name="cb"></td>
+                    <input type="hidden" >
                     <td>${ord.slsOutDtlVO.finPrdCdCode}</td>
                     <td name="finPrdCdName">${ord.slsOutDtlVO.finPrdCdName}</td>
                     <td>${ord.slsOrdDtlVO.slsOrdDtlVol}</td>

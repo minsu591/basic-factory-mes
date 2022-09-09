@@ -18,4 +18,5 @@ public class SlsRtnDtlVO {
 	private Integer slsRtnDtlBaseVol;//기반품량
 	private Integer slsRtnDtlPrcCls; //처리구분
 	private String slsRtnDtlResn;	 //반품사유
+	private String slsOutDtlVol; 	 //출고량
 }

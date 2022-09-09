@@ -46,6 +46,7 @@ public class SlsStockController {
 	@GetMapping("/findStock")
 	public List<SlsStockVO> findStock(@RequestParam String prdName, String lotNo){
 		List<SlsStockVO> list = service.findStock(prdName, lotNo);
+		System.out.println(list);
 		return list;
 	}
 	
@@ -54,6 +55,16 @@ public class SlsStockController {
 	public ResponseEntity<List<FinProdCodeVO>> findProduct(@RequestParam Map<String, String> QueryParameters) {
 		List<FinProdCodeVO> list = instService.findProduct(QueryParameters.get("prdCdCode"), QueryParameters.get("prdCdName"));
 		return new ResponseEntity<List<FinProdCodeVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
+	
+	//완제품 출고 수정 시 재고 조건 조회
+	@GetMapping("/findOutUpdateStock")
+	public List<SlsStockVO> findOutUpdateStock(@RequestParam Map<String, String> param){
+
+		List<SlsStockVO> list = service.findOutUpdateStock(param.get("slsOutHdNo"),
+														   param.get("finPrdCdCode"));
+		System.out.println(list);
+		return list;
 	}
 	
 }

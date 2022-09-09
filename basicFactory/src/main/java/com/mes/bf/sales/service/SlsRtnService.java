@@ -2,6 +2,7 @@ package com.mes.bf.sales.service;
 
 import java.util.List;
 
+import com.mes.bf.sales.vo.SlsRtnDtlVO;
 import com.mes.bf.sales.vo.SlsRtnHdDtlVO;
 import com.mes.bf.sales.vo.SlsRtnHdVO;
 
@@ -18,4 +19,16 @@ public interface SlsRtnService {
 	
 	//반품관리에서 반품내역 상세조회
 	List<SlsRtnHdDtlVO> returnDtlView(String slsRtnHdNo);
+	
+	//반품 헤더 등록
+	void rtnInsertHd(SlsRtnHdVO vo);
+	
+	//반품 바디 등록
+	void rtnInsertDtl(SlsRtnDtlVO vo);
+	
+	//반품 헤더 삭제
+	void rtnHdDelete(String slsRtnHdNo);
+	
+	//반품 디테일 삭제
+	void rtnDelete(List<String> delList);
 }

@@ -23,6 +23,7 @@ $(document).ready(function () {
   }
   
   function returnMakeRow(obj) {
+    let slsRtnDtlPrcCls = obj.slsRtnDtlVO.slsRtnDtlPrcCls;
     let node = `<tr>
                     <td>${obj.slsRtnHdVO.slsRtnHdDate}</td>
                     <td>${obj.slsRtnHdVO.slsRtnHdNo}</td>
@@ -32,11 +33,17 @@ $(document).ready(function () {
                     <td>${obj.slsRtnHdVO.slsOutHdNo}</td>
                     <td>${obj.slsRtnDtlVO.slsRtnDtlVol}</td>
                     <td>${obj.slsRtnDtlVO.slsFinPrdCdPrice}</td>
-                    <td>${obj.slsRtnDtlVO.slsRtnDtlPrice}</td>
-                    <td>${obj.slsRtnDtlVO.slsRtnDtlPrcCls}</td>
-                    <td>${obj.slsRtnDtlVO.slsRtnDtlResn}</td>
-                    <td>${obj.slsRtnHdVO.empName}</td>
-					          <td>${obj.slsRtnHdVO.slsRtnHdRemk}</td>
+                    <td>${obj.slsRtnDtlVO.slsRtnDtlPrice}</td>`
+        if(slsRtnDtlPrcCls == 0) {
+          node += `<td>폐기</td>`;
+        } else if(slsRtnDtlPrcCls == 1) {
+          node += `<td>입고</td>`;
+        } else {
+          node += `<td>거부</td>`;
+        }
+          node +=   `<td>${obj.slsRtnDtlVO.slsRtnDtlResn}</td>
+                     <td>${obj.slsRtnHdVO.empName}</td>
+					           <td>${obj.slsRtnHdVO.slsRtnHdRemk}</td>
                 </tr>`;
     $("#returnTable tbody").append(node);
   }
@@ -50,6 +57,8 @@ $(document).ready(function () {
     let rtnSdate = $("#rtnSdate").val();
     let rtnEdate = $("#rtnEdate").val();
     let prcCls = $('#prcCls').val();
+    console.log("처리구분");
+    console.log(prcCles);
     let vendorName = $("#vendorName").val();
     
     console.log(prcCls);

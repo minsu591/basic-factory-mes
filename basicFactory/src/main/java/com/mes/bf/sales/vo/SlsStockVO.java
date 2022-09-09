@@ -18,4 +18,6 @@ public class SlsStockVO {
 	private Integer fnsPrdStkVol;	//재고량
 	private Integer fnsPrdStkSt;	//상태
 	private String slsInDtlRemk;	//비고
+	private String slsOutDtlNo;		//출고내역번호
+	private Integer slsOutDtlVol;   //출고량
 }

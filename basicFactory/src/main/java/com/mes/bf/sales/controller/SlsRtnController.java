@@ -4,15 +4,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.sales.service.SlsRtnService;
+import com.mes.bf.sales.vo.SlsRtnDtlVO;
 import com.mes.bf.sales.vo.SlsRtnHdDtlVO;
 import com.mes.bf.sales.vo.SlsRtnHdVO;
+import com.mes.bf.sales.vo.SlsRtnInsertVO;
 
 @RestController
 @RequestMapping("/sls")
@@ -64,5 +69,28 @@ public class SlsRtnController {
 	public List<SlsRtnHdDtlVO> returnDtlView(@RequestParam Map<String, String> param){
 		List<SlsRtnHdDtlVO> list = service.returnDtlView(param.get("slsRtnHdNo"));
 		return list;
+	}
+	
+	//완제품 반품관리 등록
+	@PostMapping("/rtnManage/hdDtlInsert")
+	public void hdDtlInsert(@RequestBody SlsRtnInsertVO vo) {
+		//출고 헤더 등록
+		service.rtnInsertHd(vo.getSlsRtnHdVO());
+		//출고 디테일 등록
+		for(SlsRtnDtlVO rtnDtlVO : vo.getSlsRtnDtlVO()) {
+			service.rtnInsertDtl(rtnDtlVO);
+		}
+	}
+	
+	//반품관리 헤더 삭제
+	@DeleteMapping("/rtnManage/hd/delete")
+	public void rtnHdDelete(@RequestBody SlsRtnHdVO vo) {
+		service.rtnHdDelete(vo.getSlsRtnHdNo());
+	}
+	
+	//반품관리 디테일 삭제
+	@DeleteMapping("/rtnManage/delete")
+	public void rtnDelete(@RequestParam(value="delList[]") List<String> delList) {
+		service.rtnDelete(delList);
 	}
 }

@@ -73,5 +73,10 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 		return mapper.findOrderForPlanDtl(slsOrdHdNo);
 	}
 
+	@Override
+	public void orderHdDelete(String slsOrdHdNo) {
+		mapper.orderHdDelete(slsOrdHdNo);
+	}
+
 
 }

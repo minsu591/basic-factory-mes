@@ -89,10 +89,15 @@ public class SlsOrdController {
 										 params.get("updCont"));
 	}
 	
-	//주문관리 삭제
+	//주문관리 헤더 삭제
+	@DeleteMapping("/ordManage/hd/delete")
+	public void orderHdDelete(@RequestBody SlsOrdHdVO vo) {
+		service.orderHdDelete(vo.getSlsOrdHdNo());
+		System.out.println(vo.getSlsOrdHdNo());
+	}
+	//주문관리 디테일 삭제
 	@DeleteMapping("/ordManage/delete")
 	public void orderDelete(@RequestParam(value="delList[]") List<String> delList) {
-		System.out.println("들어와?");
 		service.orderDelete(delList);
 	}
 	

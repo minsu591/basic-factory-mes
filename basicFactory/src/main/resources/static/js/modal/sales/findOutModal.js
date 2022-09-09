@@ -6,7 +6,7 @@ $("document").ready(function(){
         findOutClick();
     });
 
-    $("#findOutBtn").on("click", findOutClick);
+    $("#findOutBtn").on("click", findOutClick); //모달창에서 조회 눌렀을 때
 
     function findOutClick(){
         let outSdate = $("#outSdate").val();
@@ -33,26 +33,26 @@ $("document").ready(function(){
     //tr 클릭 이벤트
     $("#findOutTable").on("click","tr", function(){
         //테이블 상단 공통 요소 삽입
-        let slsOutHdDate = $(this).find("td:first").text();
         let slsOutHdNo = $(this).find("td:eq(1)").text();
         let vendor = $(this).find("td:eq(3)").text();
         let vendorName = $(this).find("td:eq(4)").text();
+        let empId = $(this).find(".empId").val();
         let empName = $(this).find("td:eq(5)").text();
         let remk = $(this).find("td:last").text();
 
-        $("#slsOutHdDate").val(slsOutHdDate);
-        $("#slsOutHdDate").attr("readonly",true);
-        $("#slsOutHdNo").val(slsOutHdNo)
+        $("#slsOutHdNo").val(slsOutHdNo);
         $("#vendor").val(vendor);
+        $("#vendor").attr("readonly", true);
         $("#vendorName").val(vendorName);
         $("#vendorName").attr("readonly", true);
-        $("#empid").val(empName);
-        $("#empid").attr("readonly",true);
+        $("#empId").val(empId);
+        $("#empName").val(empName);
+        $("#empName").attr("readonly",true);
         $("#remk").val(remk);
 
         //테이블 삽입
         $.ajax({
-            url: 'outView/dtl',
+            url: 'outView/dtl/return',
             method : 'GET',
             data : {
                 slsOutHdNo: slsOutHdNo
@@ -72,6 +72,7 @@ $("document").ready(function(){
                         <td>${obj.slsOrdHdNo}</td>
                         <td>${obj.vendCdCode}</td>
                         <td>${obj.vendCdNm}</td>
+                        <input type="hidden" class="empId" value="${obj.empId}">
                         <td>${obj.empName}</td>
                         <td>${obj.slsOutHdRemk}</td>
                     </tr>`
@@ -105,17 +106,19 @@ $("document").ready(function(){
     
     //출고내역 조회 모달을 통한 데이터 출력
     function rtnMngMakeRow(out){
-        let node = `<tr>
-                        <td><input type="checkbox"></td>
+        let node = `<tr class="out">
+                        <td><input type="checkbox" name="cb"></td>
                         <td>${out.finPrdCdCode}</td>
                         <td>${out.finPrdCdName}</td>
                         <td>${out.slsOutHdNo}</td>
-                        <td>0</td>
+                        <td>${out.fnsPrdStkLotNo}</td>
+                        <td>${out.slsOutDtlVol}</td>
+                        <td>${out.slsRtnDtlVol}</td>
                         <td></td>
                         <td>${out.finPrdCdPrice}</td>
                         <td></td>
                         <td>
-                            <select name="prcCls" name="prcCls">
+                            <select name="prcCls">
                             <option></option>
                             <option value="0">폐기</option>
                             <option value="1">입고</option>

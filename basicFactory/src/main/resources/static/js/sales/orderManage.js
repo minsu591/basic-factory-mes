@@ -21,6 +21,7 @@ $("document").ready(function () {
 
     //수정될거 저장하는 list 정의
     let modifyList = [];
+    let hdModifyList = [];
     let addList = [];
     let delList = [];
     //수정할 테이블
@@ -29,10 +30,8 @@ $("document").ready(function () {
     let avArr = [4];
     //notNull이어야하는 (td기준)
     let notNullList = [1,2,3,4];
-    //primary키인 index
-    //let priKeyIdx = 1;
 
-    //수정 이벤트
+    //td 수정 이벤트
     table.find("tbody").on("click","td",function(e){
         e.stopPropagation();
         let col = $(this).index() -1; //input값 -1
@@ -109,7 +108,6 @@ $("document").ready(function () {
         if (priKey != null && priKey != '') {                                   //priKey가 null이면 modifyList에 담기지 않도록 하는 if문
             checkNewModify(priKey, updCol, updCont);
         }
-        console.log("modifyList!!!" + modifyList);
 
         e.stopPropagation();
     });
@@ -146,32 +144,56 @@ $("document").ready(function () {
             }
             
             //삭제용
-            console.log('delList');
-            console.log(delList);
-            deleteSaveAjax(delList);
+            let countTr = table.find("tbody tr").length;
+            if(countTr == 0){
+                //tbody 안에 내용이 없으면 헤더 삭제 ajax
+                let slsOrdHdNo = $("#slsOrdHdNo").val();
+                deleteHdSaveAjax(slsOrdHdNo);
+                return false;
+            } else {
+                //detail 삭제
+                if(delList.length != 0){
+                    deleteSaveAjax(delList);
+                }
+            }
 
             //수정용
             console.log(modifyList);
             for (obj of modifyList) {
                 modifySaveAjax(obj);
             }
-            //추가용(추가 후 저장누르면 name이 'addTr'인 tr을 addList에 추가하여 Ajax실행)
+            //추가용(추가 후 저장누르면 name이 'addTr'인 tr을 addList에 추가하여 Ajax실행
+            //동일한 제품이 담겨있을 경우 alert창
             let slsOrdHdNo = $("#slsOrdHdNo").val();
-            addList = table.find("tr[name='addTr']");
-            if (slsOrdHdNo == null || slsOrdHdNo == '') {
-                console.log("신규 주문 추가등록!!");
-                //1. 헤더 넣고 여러개 인서트
-                addHdSaveAjax(addList);
-            } else {
-                console.log("기존 주문 추가등록!!");
-                //2. 있는 헤더 가져다가 인서트
-                for (obj of addList) {
-                    addDtlSaveAjax(obj, slsOrdHdNo);
-                }
-            }
+            let vendCdCode = $("#vendor").val();
+            let empName = $("#empName").val();
 
-            alert("저장이 완료되었습니다.");
-            location.reload();
+            addList = table.find("tr[name='addTr']");
+            if(vendCdCode == '' || empName == ''){
+                requiredWarn();
+
+                if(vendCdCode == ''){
+                    $("#vendor").addClass("inputRequired");
+                }
+                if(empName == ''){
+                    $("#empName").addClass("inputRequired");
+                }
+                return;
+            } else {
+
+                if (slsOrdHdNo == null || slsOrdHdNo == '') {
+                    console.log("신규 주문 추가등록!!");
+                    //1. 헤더 넣고 여러개 인서트
+                    addHdSaveAjax(addList);
+                } else {
+                    console.log("기존 주문 추가등록!!");
+                    //2. 있는 헤더 가져다가 인서트
+                    for (obj of addList) {
+                        addDtlSaveAjax(obj, slsOrdHdNo);
+                    }
+                }
+              }
+              saveSuccess();
         }
     });
 
@@ -261,9 +283,6 @@ $("document").ready(function () {
 
     //기존 주문 추가 등록Ajax
     function addDtlSaveAjax(obj, slsOrdHdNo) {
-        console.log("addDtl");
-        //주문일자, 거래처 코드, 담당자 입력
-        //let slsOrdHdNo = $("#slsOrdHdNo").val(); 위에 선언함
         let finPrdCdCode = $(obj).find("td:eq(1)").text();
         let slsOrdDtlDlvDate = $(obj).find("input[type='date']").val();
         let slsOrdDtlVol = $(obj).find("td:eq(4)").text();
@@ -304,6 +323,21 @@ $("document").ready(function () {
         });
     });
 
+    function deleteHdSaveAjax(slsOrdHdNo){
+        $.ajax({
+            url : 'ordManage/hd/delete',
+            type : 'DELETE',
+            dataType : 'text',
+            contentType: "application/json; charset=UTF-8;",
+            data : JSON.stringify({
+                slsOrdHdNo
+            }),
+            success : function(result){
+                console.log("삭제 성공");
+            }
+        });
+    }
+
     function deleteSaveAjax(delList) {
         $.ajax({
             url: 'ordManage/delete',
@@ -317,6 +351,55 @@ $("document").ready(function () {
                 console.log("삭제 성공");
             }
         });
+    }
+
+    //alert
+    function saveSuccess() {
+        Swal.fire({
+          icon: "success", // Alert 타입
+          title: "저장 되었습니다.", // Alert 제목
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.reload();
+          }
+        });
+      }
+      
+    function deleteSuccess() {
+    Swal.fire({
+        icon: "success", // Alert 타입
+        title: "삭제 되었습니다.", // Alert 제목
+    }).then((result) => {
+        if (result.isConfirmed) {
+        location.reload();
+        }
+    });
+    }
+    
+    function updateSuccess() {
+    Swal.fire({
+        icon: "success",
+        title: "수정이 완료되었습니다.",
+    }).then((result) => {
+        if (result.isConfirmed) {
+        location.reload();
+        }
+    });
+    }
+    
+    function notChecked() {
+    Swal.fire({
+        icon: "warning",
+        title: "체크된 데이터가 없습니다.",
+    });
+    return;
+    }
+    function requiredWarn() {
+    Swal.fire({
+        icon: "warning",
+        title: "입력하지 않은 값이 있습니다.",
+    });
+    return;
     }
 
 });

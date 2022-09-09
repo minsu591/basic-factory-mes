@@ -25,6 +25,7 @@
 		<result property="slsOutDtlVol" column="sls_out_dtl_vol"/>
 		<result property="finPrdCdPrice" column="fin_prd_cd_price"/>
 		<result property="slsOutDtlPrice" column="sls_out_dtl_price"/>
+		<result property="slsRtnDtlVol" column="sls_rtn_dtl_vol" />
 	</resultMap>
 	
 	<resultMap type="slsOrdDtlVO" id="ordDtlMap">
@@ -177,15 +178,15 @@
    	
    	<!-- 출고관리에서 출고내역 상세조회 -->
    	<select id="outDtlView" resultType="slsOutDtlVO">
-   		SELECT OUTDTL.SLS_OUT_DTL_NO,
-   			   OUTDTL.SLS_OUT_HD_NO,
+		SELECT OUTDTL.SLS_OUT_HD_NO,
    			   FNSPRD.FIN_PRD_CD_CODE,
    			   FNSPRD.FIN_PRD_CD_NAME,
    			   ORDDTL.SLS_ORD_DTL_VOL,
-   			   OUTDTL.SLS_OUT_DTL_PRVS_VOL,
-   			   OUTDTL.SLS_OUT_DTL_VOL,
-   			   OUTDTL.FNS_PRD_STK_LOT_NO,
-   			   FNSPRD.FIN_PRD_CD_PRICE
+               MIN(FNSPRDSK.FNS_PRD_STK_LOT_NO) AS FNS_PRD_STK_LOT_NO,
+   			   MIN(OUTDTL.SLS_OUT_DTL_PRVS_VOL) AS SLS_OUT_DTL_PRVS_VOL,
+   			   SUM(OUTDTL.SLS_OUT_DTL_VOL) AS SLS_OUT_DTL_VOL,
+   			   FNSPRD.FIN_PRD_CD_PRICE,
+               COUNT(*) AS SLS_OUT_COUNT
    		FROM BF_SALES_OUT_DTL OUTDTL
    		JOIN BF_SALES_OUT_HD OUTHD
    		  ON OUTHD.SLS_OUT_HD_NO = OUTDTL.SLS_OUT_HD_NO
@@ -197,9 +198,12 @@
    		  ON FNSPRD.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
    		JOIN BF_SALES_FINISH_PRODUCT_STOK FNSPRDSK
    		  ON FNSPRDSK.FNS_PRD_STK_LOT_NO = OUTDTL.FNS_PRD_STK_LOT_NO
-   		
-   		WHERE OUTDTL.SLS_OUT_HD_NO = #{slsOutHdNo} 
-   			  AND ORDDTL.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
+   		WHERE OUTDTL.SLS_OUT_HD_NO = #{slsOutHdNo} AND ORDDTL.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
+        GROUP BY OUTDTL.SLS_OUT_HD_NO,
+                 FNSPRD.FIN_PRD_CD_CODE,
+                 FNSPRD.FIN_PRD_CD_NAME,
+                 ORDDTL.SLS_ORD_DTL_VOL,
+                 FNSPRD.FIN_PRD_CD_PRICE
    	</select>
    	
    	<!-- 완제품 출고관리에서 헤더 등록 -->
@@ -213,6 +217,7 @@
    				#{slsOutHdRemk})
    	</insert>
    	
+   	<!-- 바디등록 -->
 	<insert id="outInsertDtl" parameterType="slsOutDtlVO">
    		<!-- 주문번호에 해당하는 제품 출고량 가져오기 (기출고량 입력하기 위한) -->
    		<selectKey keyProperty="slsOutDtlPrvsVol" order="BEFORE" resultType="Integer">
@@ -238,12 +243,21 @@
    			  )
    	</insert>
    	
+   	<!-- 완제품 출고 수정 -->
    	<update id="outUpdate">
    		UPDATE BF_SALES_OUT_DTL
    		SET SLS_OUT_DTL_VOL = #{slsOutDtlVol}
    		WHERE SLS_OUT_DTL_NO = #{slsOutDtlNo}
    	</update>
    	
+   	
+   	<!-- 완제품 출고 헤더 삭제 -->
+	<delete id="rtnHdDelete">
+		DELETE FROM BF_SALES_OUT_HD
+		WHERE SLS_OUT_HD_NO = #{priKey}
+	</delete>
+	
+   	<!-- 완제품 출고 디테일 삭제 -->
    	<delete id="outDelete">
    		DELETE FROM BF_SALES_OUT_DTL
    		WHERE SLS_OUT_DTL_NO IN
@@ -251,4 +265,33 @@
    			#{priKey}
    		</foreach>
    	</delete>
+   	
+   	<!-- 반품관리에서 출고조회 모달 -->
+   	<select id="outDtlViewToReturn" resultType="slsOutDtlVO">
+   		SELECT FNSPRD.FIN_PRD_CD_CODE, 
+               FNSPRD.FIN_PRD_CD_NAME,
+               OUTDTL.SLS_OUT_HD_NO,
+               OUTDTL.FNS_PRD_STK_LOT_NO, 
+               OUTDTL.SLS_OUT_DTL_VOL,
+               SUM(RTNDTL.SLS_RTN_DTL_VOL) AS SLS_RTN_DTL_VOL,
+               FNSPRD.FIN_PRD_CD_PRICE
+               
+   		FROM BF_SALES_OUT_DTL OUTDTL
+   		JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
+   		  ON FNSPRD.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
+   		JOIN BF_SALES_FINISH_PRODUCT_STOK FNSPRDSK
+   		  ON FNSPRDSK.FNS_PRD_STK_LOT_NO = OUTDTL.FNS_PRD_STK_LOT_NO
+        JOIN BF_SALES_RTN_DTL RTNDTL
+          ON RTNDTL.FNS_PRD_STK_LOT_NO = OUTDTL.FNS_PRD_STK_LOT_NO
+          
+   		WHERE OUTDTL.SLS_OUT_HD_NO = #{slsOutHdNo}
+   		
+        GROUP BY FNSPRD.FIN_PRD_CD_CODE,
+                         FNSPRD.FIN_PRD_CD_NAME,
+                         OUTDTL.SLS_OUT_HD_NO,
+                         OUTDTL.FNS_PRD_STK_LOT_NO,
+                         OUTDTL.SLS_OUT_DTL_VOL,
+                         FNSPRD.FIN_PRD_CD_PRICE
+   	</select>
+   	
 </mapper>
