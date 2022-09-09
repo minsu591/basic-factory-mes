@@ -23,7 +23,7 @@ public interface SlsOutService {
 	//출고관리에서 출고조회 모달
 	List<SlsOutHdVO> outView(String outSdate, String outEdate);
 	
-	//출고관리에서 출고내역 상세조회
+	//출고관리에서 출고내역 상세조회(중복 제품 합쳐서)
 	List<SlsOutDtlVO> outDtlView(String slsOutHdNo);
 	
 	//출고관리 헤더등록
@@ -35,6 +35,12 @@ public interface SlsOutService {
 	//출고관리 수정
 	void outUpdate(String slsOutDtlNo ,String slsOutDtlVol);
 	
-	//출고관리 삭제
+	//출고관리 헤더 삭제
+	void outHdDelete(String slsOutHdNo);
+	
+	//출고관리 디테일 삭제
 	void outDelete(List<String> delList);
+	
+	//반품관리에서 출고내역 상세조회(중복 제품 모두)
+	List<SlsOutDtlVO> outDtlViewToReturn(String slsOutHdNo);
 }

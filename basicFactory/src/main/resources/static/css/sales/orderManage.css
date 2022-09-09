@@ -22,3 +22,11 @@ h1 {
     float : right;
     margin-bottom : 0.3%;
 }
+
+.required{
+	border-color: #e743c3;
+}
+
+.inputRequired {
+	border: 1px solid #e74c3c;
+}

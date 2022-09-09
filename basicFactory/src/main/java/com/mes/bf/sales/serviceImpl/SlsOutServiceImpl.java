@@ -61,11 +61,19 @@ public class SlsOutServiceImpl implements SlsOutService {
 	public void outUpdate(String slsOutDtlNo, String slsOutDtlVol) {
 		mapper.outUpdate(slsOutDtlNo, slsOutDtlVol);
 	}
+	
+	@Override
+	public void outHdDelete(String slsOutHdNo) {
+		mapper.outHdDelete(slsOutHdNo);
+	}
 
 	@Override
 	public void outDelete(List<String> delList) {
 		mapper.outDelete(delList);
 	}
 
-
+	@Override
+	public List<SlsOutDtlVO> outDtlViewToReturn(String slsOutHdNo) {
+		return mapper.outDtlViewToReturn(slsOutHdNo);
+	}
 }

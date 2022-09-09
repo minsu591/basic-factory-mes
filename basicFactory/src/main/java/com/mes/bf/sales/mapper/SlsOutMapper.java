@@ -20,5 +20,7 @@ public interface SlsOutMapper {
 	void outInsertHd(SlsOutHdVO vo);
 	void outInsertDtl(SlsOutDtlVO vo);
 	void outUpdate(String slsOutDtlNo, String slsOutDtlVol);
+	void outHdDelete(String slsOutHdNo);
 	void outDelete(List<String> delList);
+	List<SlsOutDtlVO> outDtlViewToReturn(String slsOutHdNo);
 }

@@ -86,6 +86,7 @@ public class SlsOutController {
 	@RequestMapping("/outView/dtl")
 	public List<SlsOutDtlVO> outDtlView(@RequestParam Map<String, String> param){
 		List<SlsOutDtlVO> list = service.outDtlView(param.get("slsOutHdNo"));
+		System.out.println(list);
 		return list;
 	}
 	
@@ -98,8 +99,6 @@ public class SlsOutController {
 		//출고 디테일 등록
 		for(SlsOutDtlVO outDtlVO :vo.getSlsOutDtlVO()) {
 			outDtlVO.setSlsOrdHdNo(slsOrdHdNo);
-			System.out.println("주문번호 여기 있다!!!!");
-			System.out.println(slsOrdHdNo);
 			service.outInsertDtl(outDtlVO);
 		}
 	}
@@ -107,13 +106,29 @@ public class SlsOutController {
 	//완제품 출고관리 수정
 	@PutMapping("/outManage/update")
 	public void outUpdate(@RequestParam Map<String, String> param) {
-		System.out.println("들어오나");
+		//완제품 재고의 재고수량을 바꾸기
+		//주문내역의 출고량 바꾸기
 		service.outUpdate(param.get("slsOutDtlNo"),
 						  param.get("slsOutDtlVol"));
 	}
 	
+	//완제품 출고관리 헤더 삭제
+	@DeleteMapping("/outManage/dtl/delete")
+	public void outHdDelete(@RequestBody SlsOutHdVO vo) {
+		service.outHdDelete(vo.getSlsOutHdNo());
+	}
+	//완제품 출고관리 삭제
 	@DeleteMapping("/outManage/delete")
-	public void orderDelete(@RequestParam(value="delList[]") List<String> delList) {
+	public void outDelete(@RequestParam(value="delList[]") List<String> delList) {
 		service.outDelete(delList);
+	}
+	
+	//완제품 반품 관리에서 출고 상세조회
+	@GetMapping("/outView/dtl/return")
+	public List<SlsOutDtlVO> outDtlViewToReturn(@RequestParam Map<String, String> param) {
+		System.out.println("출고번호" + param.get("slsOutHdNo"));
+		List<SlsOutDtlVO> list = service.outDtlViewToReturn(param.get("slsOutHdNo"));
+		System.out.println(list);
+		return list;
 	}
 }

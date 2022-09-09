@@ -23,4 +23,9 @@ public class SlsStockServiceImpl implements SlsStockService{
 	public List<SlsStockVO> findStock(String prdName, String lotNo) {
 		return mapper.findStock(prdName, lotNo);
 	}
+
+	@Override
+	public List<SlsStockVO> findOutUpdateStock(String slsOutHdNo, String finPrdCdCode) {
+		return mapper.findOutUpdateStock(slsOutHdNo, finPrdCdCode);
+	}
 }

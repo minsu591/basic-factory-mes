@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mes.bf.sales.mapper.SlsRtnMapper;
 import com.mes.bf.sales.service.SlsRtnService;
+import com.mes.bf.sales.vo.SlsRtnDtlVO;
 import com.mes.bf.sales.vo.SlsRtnHdDtlVO;
 import com.mes.bf.sales.vo.SlsRtnHdVO;
 
@@ -33,5 +34,25 @@ public class SlsRtnServiceImpl implements SlsRtnService{
 	@Override
 	public List<SlsRtnHdDtlVO> returnDtlView(String slsRtnHdNo) {
 		return mapper.returnDtlView(slsRtnHdNo);
+	}
+
+	@Override
+	public void rtnInsertHd(SlsRtnHdVO vo) {
+		mapper.rtnInsertHd(vo);
+	}
+
+	@Override
+	public void rtnInsertDtl(SlsRtnDtlVO vo) {
+		mapper.rtnInsertDtl(vo);
+	}
+
+	@Override
+	public void rtnHdDelete(String slsRtnHdNo) {
+		mapper.rtnHdDelete(slsRtnHdNo);
+	}
+
+	@Override
+	public void rtnDelete(List<String> delList) {
+		mapper.rtnDelete(delList);
 	}
 }

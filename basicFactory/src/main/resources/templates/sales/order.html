@@ -9,6 +9,7 @@
 <body>
     <script type="text/javascript" th:src="@{/js/sales/order.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
+    <script type="text/javascript" th:src="@{/js/pages/pagination.js}"></script>
     <link th:href="@{/css/sales/order.css}" rel="stylesheet" />
 
     <div class="pcoded-main-container">
@@ -36,7 +37,7 @@
                 </div>
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
-                        <table class="table table-striped" id="orderTable">
+                        <table class="table table-hover paginated" id="orderTable">
                             <thead>
                                 <tr>
                                     <th th:text="주문일자"></th>
