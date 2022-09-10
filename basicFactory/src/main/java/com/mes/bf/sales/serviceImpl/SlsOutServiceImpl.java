@@ -76,4 +76,9 @@ public class SlsOutServiceImpl implements SlsOutService {
 	public List<SlsOutDtlVO> outDtlViewToReturn(String slsOutHdNo) {
 		return mapper.outDtlViewToReturn(slsOutHdNo);
 	}
+
+	@Override
+	public int checkOrder(String slsOrdHdNo) {
+		return mapper.checkOrder(slsOrdHdNo);
+	}
 }

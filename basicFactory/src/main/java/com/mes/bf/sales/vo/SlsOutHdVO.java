@@ -17,4 +17,5 @@ public class SlsOutHdVO {
 	private String empId;		//담당자
 	private String empName;		//담당자이름
 	private String slsOutHdRemk;//비고
+	private Integer checkOrdCount;
 }

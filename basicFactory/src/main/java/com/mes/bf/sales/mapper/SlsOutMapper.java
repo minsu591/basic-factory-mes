@@ -23,4 +23,5 @@ public interface SlsOutMapper {
 	void outHdDelete(String slsOutHdNo);
 	void outDelete(List<String> delList);
 	List<SlsOutDtlVO> outDtlViewToReturn(String slsOutHdNo);
+	int checkOrder(String slsOrdHdNo);
 }

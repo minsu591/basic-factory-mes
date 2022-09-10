@@ -293,5 +293,11 @@
                          OUTDTL.SLS_OUT_DTL_VOL,
                          FNSPRD.FIN_PRD_CD_PRICE
    	</select>
+   	<!-- 반품관리에서  -->
+   	<select id="checkOrder" resultType="Integer">
+   		SELECT COUNT(SLS_ORD_HD_NO) AS CHECK_ORD_COUNT
+   		FROM BF_SALES_OUT_HD
+   		WHERE SLS_ORD_HD_NO = #{slsOrdHdNo}
+   	</select>
    	
 </mapper>

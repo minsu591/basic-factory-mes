@@ -41,7 +41,8 @@ $("document").ready(function () {
 
         $("#slsOrdHdDate").val(slsOrdHdDate);
         $("#slsOrdHdDate").attr("readonly",true);
-        $("#slsOrdHdNo").val(slsOrdHdNo)
+        $("#slsOrdHdNo").val(slsOrdHdNo);
+        $("#slsOrdHdNo").attr("readonly",true);
         $("#vendor").val(vendor);
         $("#vendorName").val(vendorName);
         $("#vendorName").attr("readonly", true);

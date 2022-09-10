@@ -18,6 +18,6 @@ public class SlsOutDtlVO {
 	private Integer slsOutDtlVol;		//출고량
 	private Integer finPrdCdPrice;		//단가
 	private Integer slsOutDtlPrice; 	//금액
-	private Integer slsOutCount;		//
+//	private Integer slsOutCount;		//
 	private Integer slsRtnDtlVol; 		//반품량(기반품)
 }

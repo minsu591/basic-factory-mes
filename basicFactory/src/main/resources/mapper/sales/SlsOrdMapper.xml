@@ -170,7 +170,14 @@
    			   0, 0)
    	</insert>
    	
-   	<!-- 주문관리에서 주문 수정 -->
+   	<!-- 주문 헤더 수정 -->
+   	<update id="orderHdUpdate">
+   		UPDATE BF_SALES_ORD_HD
+   		SET ${updCol} = #{updCont}
+   		WHERE SLS_ORD_HD_NO = #{priKey}
+   	</update>
+   	
+   	<!-- 주문 디테일 수정 -->
    	<update id="orderUpdate">
    		UPDATE BF_SALES_ORD_DTL
    		SET ${updCol} = #{updCont}

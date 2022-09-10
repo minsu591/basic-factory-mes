@@ -26,7 +26,10 @@ public interface SlsOrdService {
 	//생산계획관리의 미계획 주문내역 상세 조회
 	List<SlsOrdDtlVO> findOrderForPlanDtl(String slsOrdHdNo);
 	
-	//주문관리 수정
+	//주문관리 헤더 수정
+	void orderHdUpdate(String priKey, String updCol, String updCont);
+	
+	//주문관리 디테일 수정
 	void orderUpdate(String priKey, String updCol, String updCont);
 	
 	//주문관리 헤더 삭제

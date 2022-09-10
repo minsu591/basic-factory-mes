@@ -16,6 +16,7 @@ public interface SlsOrdMapper {
 	List<SlsOrdHdDtlVO> findDtlOrder (String slsOrdHdNo);
 	List<SlsOrdHdVO> findOrderForPlan(String ordSdate, String ordEdate);
 	List<SlsOrdDtlVO> findOrderForPlanDtl(String slsOrdHdNo);
+	void orderHdUpdate(String priKey, String updCol, String updCont);
 	void orderUpdate(String priKey, String updCol, String updCont);
 	void orderHdDelete(String slsOrdHdNo);
 	void orderDelete(List<String> delList);
