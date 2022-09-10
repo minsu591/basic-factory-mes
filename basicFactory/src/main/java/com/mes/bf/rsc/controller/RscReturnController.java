@@ -11,13 +11,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.rsc.service.RscReturnService;
+import com.mes.bf.rsc.vo.RscOutVO;
 import com.mes.bf.rsc.vo.RscReturnVO;
 
 @Controller
@@ -31,6 +35,29 @@ public class RscReturnController {
 	@RequestMapping("/return")
 	public ModelAndView returnPage() {
 		return new ModelAndView("rsc/return");
+	}
+	
+	//반품 등록 & 수정
+	@RequestMapping(value="/ReturnInAndUp", method = RequestMethod.POST)
+	@ResponseBody
+	public String outInAndUp(@RequestBody List<RscReturnVO> list) {
+		int insert = 0;
+		int update = 0;
+		int result = 0;
+		System.out.println(list);
+		System.out.println(list.get(0));
+		for(int i = 0; i < list.size() ; i++) {
+			if(list.get(i).getRscReturnCode() == null) {
+				rscReturnService.returnInsert(list.get(i));	
+				insert++;
+			}else {
+				rscReturnService.returnUpdate(list.get(i));
+				result = rscReturnService.returnUpdate(list.get(i));
+				update++;
+			}
+		}
+		System.out.println("insert"+ insert + "update" + update);
+		return "rsc/return";
 	}
 	
 	@RequestMapping("/returnList")

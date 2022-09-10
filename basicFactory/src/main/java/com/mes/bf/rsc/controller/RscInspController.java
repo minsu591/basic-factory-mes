@@ -64,6 +64,13 @@ public class RscInspController {
 		return new ResponseEntity<Integer>(resultSum,HttpStatus.OK);
 	}
 	
+	//tr 눌러 outTable로 단건출력
+	@RequestMapping("/findRscInspToTable")
+	public ResponseEntity<List<RscInspVO>> findRscInspToTable(@RequestParam Map<String, String> QueryParameters) {
+		List<RscInspVO> list = rscInspService.inspList(QueryParameters.get("rscInspCode"), null,null,null);
+		System.out.println(list);
+		return new ResponseEntity<List<RscInspVO>>(list, HttpStatus.OK);
+	}
 	@RequestMapping("/inspList")
 	public void inspList(Model model) {
 		List<RscInspVO> inspList = rscInspService.inspList(null, null, null, null);
