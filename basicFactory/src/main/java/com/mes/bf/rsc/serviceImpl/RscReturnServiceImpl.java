@@ -19,4 +19,14 @@ public class RscReturnServiceImpl implements RscReturnService {
 		return rscRetrunMapper.returnList(rscReturnCode, vendor, rscReturnSDate, rscReturnEDate);
 	}
 
+	@Override
+	public int returnInsert(RscReturnVO vo) {
+		return rscRetrunMapper.returnInsert(vo);
+	}
+
+	@Override
+	public int returnUpdate(RscReturnVO vo) {
+		return rscRetrunMapper.returnUpdate(vo);
+	}
+
 }

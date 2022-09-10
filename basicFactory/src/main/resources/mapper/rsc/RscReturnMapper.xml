@@ -39,4 +39,38 @@
 		 </where>
 		ORDER  BY 1 DESC
 	</select>
+	
+	
+	<insert id="returnInsert" parameterType="com.mes.bf.rsc.vo.RscReturnVO">
+		INSERT INTO BF_RSC_RETURN
+		
+		VALUES (
+				'RSC_RTN' || LPAD(BF_RSC_RETURN_SEQ.nextval,3,0),
+				#{rscCdCode},
+				#{rscLotNo},
+				#{rscReturnDate},
+				#{rscReturnVol},
+				'처리고민',
+				#{rscReturnPrc},
+				#{rscReturnRemk},
+				#{empId},
+				#{vendCdCode}
+				)
+	</insert>
+	
+	<update id="returnUpdate" parameterType="com.mes.bf.rsc.vo.RscReturnVO">
+		UPDATE BF_RSC_RETURN
+		<set>
+			RSC_RETURN_DATE = #{rscReturnDate}
+			,VEND_CD_CODE = #{vendCdCode}
+			,RSC_CD_CODE = #{rscCdCode}
+			,RSC_LOT_NO = #{rscLotNo}
+			,RSC_RETURN_VOL = #{rscReturnVol}
+			,RSC_RETURN_PRC = #{rscReturnPrc}
+			,EMP_ID = #{empId}
+			,RSC_RETURN_REMK = #{rscReturnRemk}
+		</set>
+		WHERE RSC_RETURN_CODE = #{rscReturnCode}
+	</update>
+	
 </mapper>

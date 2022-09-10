@@ -128,44 +128,44 @@ $("document").ready(function () {
      rowData.push(tr.text());
 
      // td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
-     let rscOutCode = td.eq(1).val();
-     let rscOutDate = td.eq(2).val();
-     let rscCdCode = td.eq(3).val();
-     let rscLotNo = td.eq(5).val();
-     let rscOutVol = td.eq(7).val();
-     let vendCdCode = td.eq(8).val();
-     let rscOutResn = td.eq(10).val();
-     let empId = td.eq(11).val();
-     if (!rscOutDate || !vendCdCode || !rscCdCode || !rscLotNo || !rscOutVol || !empId) {
+     let rscReturnCode = td.eq(1).val();
+     let rscReturnDate = td.eq(2).val();
+     let vendCdCode = td.eq(3).val();
+     let rscCdCode = td.eq(5).val();
+     let rscLotNo = td.eq(7).val();
+     let rscReturnVol = td.eq(9).val();
+     let rscReturnPrc = td.eq(10).val();
+     let empId = td.eq(12).val();
+     let rscReturnRemk = td.eq(13).val();
+     if (!rscReturnDate || !vendCdCode || !rscLotNo || !rscReturnVol || !rscReturnPrc || !empId) {
        Swal.fire({
          icon: "warning", // Alert 타입
          title: "입력되지 않은 값이 있습니다.", // Alert 제목
-         html: "출고일자, 자재코드, <br/>자재LOT번호, 출고수량, 담당자는<br/>기본 입력사항입니다.",
+         html: "반품일자, 거래처코드, 자재LOT번호,<br/> 반품수량, 금액, 담당자는<br/>기본 입력사항입니다.",
          confirmButtonText: "확인"
        })
-     } else if (rscOutVol < 0) {
+     } else if (rscReturnVol < 0) {
        Swal.fire({
          icon: "warning", // Alert 타입
          title: "입력값 오류", // Alert 제목
-         html: "출고수량은 0 이상만 입력 가능합니다.",
+         html: "반품수량은 0 이상만 입력 가능합니다.",
          confirmButtonText: "확인"
        })
      } else {
-       if (!rscOutCode) {
-         rscOutCode = null;
-       } else if (!vendCdCode) {
-         vendCdCode = null;
+       if (!rscReturnCode) {
+        rscReturnCode = null;
        }
 
        info = {
-         rscOutCode: rscOutCode,
-         rscOutDate: rscOutDate,
+        rscReturnCode: rscReturnCode,
+        rscReturnDate: rscReturnDate,
          vendCdCode: vendCdCode,
          rscCdCode: rscCdCode,
          rscLotNo: rscLotNo,
-         rscOutVol: rscOutVol,
-         rscOutResn: rscOutResn,
-         empId: empId
+         rscReturnVol: rscReturnVol,
+         rscReturnPrc: rscReturnPrc,
+         empId: empId,
+         rscReturnRemk : rscReturnRemk
        }
 
        param.push(info);
@@ -176,7 +176,7 @@ $("document").ready(function () {
 
 
        $.ajax({
-         url: "outInAndUp",
+         url: "ReturnInAndUp",
          method: "POST",
          headers: { "content-type": "application/json" },
          data: JSON.stringify(param),

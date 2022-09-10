@@ -65,12 +65,15 @@
 	<select id="inspList" resultType="com.mes.bf.rsc.vo.RscInspVO">
 		SELECT INSP.RSC_INSP_CODE, 
 			   INSP.RSC_INSP_DATE, 
+			   INSP.RSC_ORDER_CODE,
+			   INSP.RSC_ORDER_DTL_NO,
 			   INSP.RSC_CD_CODE, 
 			   INSP.RSC_INSP_VOL,
                INSP.RSC_INFER_VOL, 
                INSP.RSC_PASS_VOL,
                INSP.RSC_INSP_ST, 
                INSP.RSC_INSP_REMK,
+               INSP.EMP_ID,
                
 			   RSCCODE.RSC_CD_NAME, 
                RSCCODE.RSC_CD_UNIT, 

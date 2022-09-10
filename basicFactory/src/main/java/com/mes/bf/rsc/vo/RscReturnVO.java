@@ -11,10 +11,12 @@ public class RscReturnVO {
 	private Date rscReturnDate;
 	private String rscCdCode;
 	private String rscCdName;
+	private String rscLotNo;
 	private int rscReturnVol;
 	private String rscCdUnit;
 	private int rscReturnPrc;
 	private String rscReturnResn;
+	private String empId;
 	private String empName;
 	private String rscReturnRemk;
 	private String vendCdCode;

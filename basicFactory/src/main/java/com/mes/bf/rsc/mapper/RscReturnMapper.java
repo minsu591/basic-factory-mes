@@ -9,4 +9,8 @@ import com.mes.bf.rsc.vo.RscReturnVO;
 @Mapper
 public interface RscReturnMapper {
 	List<RscReturnVO> returnList(String rscReturnCode, String vendor, String rscReturnSDate, String rscReturnEDate);	
+	
+	//등록&수정
+	int returnInsert(RscReturnVO vo);
+	int returnUpdate(RscReturnVO vo);
 }

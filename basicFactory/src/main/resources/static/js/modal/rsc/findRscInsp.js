@@ -3,15 +3,22 @@ $(document).ready(function(){
   $("#search").on("click", function (e) {
     e.preventDefault();
     findRscInspList();
+    let rsccode = $("#rsccode").val();
+    let rscname = $("#rscname").val();
+    let rscdt = $("#rscInspDate").val();
+    $("#rscCd").val(rsccode);
+    $("#rscNm").val(rscname);
+    $("#rscInspDt").val(rscdt);
     $("#findRscInspModal").modal("show");
   
    })
  
     //발주목록 리스트 출력
   function findRscInspList() {
-   let rscCdCode = $("#rsccode").val();
-   let rscCdName = $("#rscname").val();
+   let rscCdCode = $("#rscCd").val();
+   let rscCdName = $("#rscNm").val();
    let rscInspDt = $("#rscInspDt").val();
+   console.log(rscCdName)
  
    $.ajax({
     url: "findRscInsp",
@@ -46,12 +53,6 @@ $(document).ready(function(){
               <td>${obj.rscCdCode}</td>
               <td>${obj.rscCdName}</td>
               <td>${obj.rscInspVol}</td>
-              <input type="hidden" name="rscOrderCode" value="${obj.rscOrderCode}">
-              <input type="hidden" name="rscInferVol" value="${obj.rscInferVol}">
-              <input type="hidden" name="rscPassVol" value="${obj.rscPassVol}">
-              <input type="hidden" name="empId" value="${obj.empId}">
-              <input type="hidden" name="rscInspRemk" value="${obj.rscInspRemk}">
-              <input type="hidden" name="rscCdUnit" value="${obj.rscCdUnit}">
             </tr>`;
     $("#findRscInsptbody").append(node);
    }
@@ -64,59 +65,53 @@ $(document).ready(function(){
  
  
   //테이블 클릭이벤트
-  $("#findRscOrderInsptbody").on("click", "tr", function () {
-   let rscOrderCode = $(this).find("td:eq(0)").text();
-   let rscOrderDate = $(this).find("td:eq(1)").text();
-   let rscOrderTitle = $(this).find("td:eq(2)").text();
-   $("#rscOrderCode").val(rscOrderCode);
- //여기까지 수정완료
+  $("#findRscInsptbody").on("click", "tr", function () {
+   let rscInspCode = $(this).find("td:eq(0)").text();
  
-   
    //발주목록 상세 내역 불러오기
    $.ajax({
-    url: "inspListLoad",
+    url: "findRscInspToTable",
     method: "GET",
     contentType: "application/json;charset=utf-8",
     dataType: "json",
     data: {
-     rscOrderCode: rscOrderCode,
-     rscOrderDate: rscOrderDate,
-     rscOrderTitle: rscOrderTitle
+      rscInspCode: rscInspCode,
     },
     error: function (error, status, msg) {
      alert("상태코드 " + status + "에러메시지" + msg);
     },
     success: function (data) {
-     if(data.length == 0){
-       return;
-     }
-      let trSize = $("#outTable tr").length - 1;
-      $("#outTable tr").eq(trSize).remove();
-      for (obj of data) {
-       outListInsert(obj);
-      }
       console.log(data)
+     let index = 0;
+     for (obj of data) {
+      index += 1;
+      outListInsert(obj, index);
+     }
     },
    });
  
-   $("#findRscOrderInspModal").modal("hide");
+   $("#findRscInspModal").modal("hide");
   });
  
   
   function outListInsert(obj) {
+    let remk = '';
+    if (obj.rscInspRemk != null){
+      remk = obj.rscInspRemk;
+    }
    let node = `<tr>
    <td><input type="checkbox" name="chk"></td>
    <td><input type="text" class="rscOrderCode" value="${obj.rscOrderCode}" disabled></td>
-   <td><input type="text" class="rscInspCode" disabled></td>
-   <td><input type="date" class="rscInspDate"></td>
+   <td><input type="text" class="rscInspCode" value="${obj.rscInspCode}" disabled></td>
+   <td><input type="date" class="rscInspDate" value="${obj.rscInspDate}"></td>
    <td><input type="text" class="rsccode" value="${obj.rscCdCode}" disabled></td>
    <td><input type="text" class="rscname" value="${obj.rscCdName}"disabled></td>
    <td><input type="text" class="unit" value="${obj.rscCdUnit}" disabled></td>
-   <td><input type="text" class="inspVol" value="${obj.rscOrderVol}"></td>
-   <td><input type="text" class="inferVol"></td>
-   <td><input type="text" class="passVol" disabled></td>
-   <td><input type="text" class="empId"></td>
-   <td><input type="text" class="remk"></td>
+   <td><input type="text" class="inspVol" value="${obj.rscInspVol}"></td>
+   <td><input type="text" class="inferVol" value="${obj.rscInferVol}"></td>
+   <td><input type="text" class="passVol" value="${obj.rscPassVol}" disabled></td>
+   <td><input type="text" class="empId" value="${obj.empId}"></td>
+   <td><input type="text" class="remk" value="${remk}"></td>
    <input type="hidden" class="rscOrderDtlNo" value="${obj.rscOrderDtlNo}">
    <input type="hidden" class="rscOrderVol" value="${obj.rscOrderVol}">
    </tr>`;
