@@ -81,12 +81,19 @@ public class SlsOrdController {
 		service.orderDtlAddInsert(vo);
 	}
 	
-	//주문관리 수정
+	//주문관리 헤더 수정
+	@PutMapping("/outManage/hd/update")
+	public void orderHdUpdate(@RequestParam Map<String, String> params) {
+		service.orderHdUpdate(params.get("priKey"),
+							  params.get("updCol"),
+							  params.get("updCont"));
+	}
+	//주문관리 디테일 수정
 	@PutMapping("/ordManage/update")
 	public void orderUpdate(@RequestParam Map<String, String> params) {
-					service.orderUpdate(params.get("priKey"),
-										 params.get("updCol"),
-										 params.get("updCont"));
+		service.orderUpdate(params.get("priKey"),
+							 params.get("updCol"),
+							 params.get("updCont"));
 	}
 	
 	//주문관리 헤더 삭제

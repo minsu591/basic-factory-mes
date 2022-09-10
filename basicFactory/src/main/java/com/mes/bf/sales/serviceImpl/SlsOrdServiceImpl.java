@@ -42,6 +42,11 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 	}
 
 	@Override
+	public void orderHdUpdate(String priKey, String updCol, String updCont) {
+		mapper.orderHdUpdate(priKey, updCol, updCont);
+	}
+	
+	@Override
 	public void orderUpdate(String priKey, String updCol, String updCont) {
 		mapper.orderUpdate(priKey, updCol, updCont);
 		
@@ -77,6 +82,5 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 	public void orderHdDelete(String slsOrdHdNo) {
 		mapper.orderHdDelete(slsOrdHdNo);
 	}
-
 
 }

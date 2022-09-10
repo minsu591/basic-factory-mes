@@ -131,4 +131,15 @@ public class SlsOutController {
 		System.out.println(list);
 		return list;
 	}
+	
+	//완제품 주문 관리에서 출고내역 조회
+	@GetMapping("/checkOrder")
+	public boolean checkOrder (@RequestParam Map<String, String> param) {
+		boolean flag = false;		
+		int result = service.checkOrder(param.get("slsOrdHdNo"));
+		if(result > 0) {
+			flag = true;
+		}
+		return flag;
+	}
 }

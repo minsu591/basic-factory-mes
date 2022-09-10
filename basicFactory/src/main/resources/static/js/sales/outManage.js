@@ -6,17 +6,6 @@ $("document").ready(function () {
     outToday = $("#slsOutHdDate");
     outToday.val(today);
     let outTrInfo;
-
-    //체크박스 전체선택 & 해제
-    $("#allCheck").on("click", function () {
-        if ($("#allCheck").prop("checked")) {
-            $("input[type=checkbox]").prop("checked", true);
-        } else {
-            $("input[type=checkbox]").prop("checked", false);
-        }
-    });
-
-    
     let outLotList = [];                 //출고시킬 LOT정보 담기(제품코드, lot번호, 출고량)
     let ModalTable = $("#findLotTable"); //완제품 재고 테이블 정보
     let outDtlVol = 0;                   //출고량 총 합계
@@ -141,7 +130,6 @@ $("document").ready(function () {
     let danga;
     $("#outMngTable").on("click", "tr", function (e) {
         priKey = $(this).find("input[type='hidden']").val();
-        console.log("priKey!!!"+priKey);
         preVol = $(this).find("td:eq(4)").text();
         outVolTd = $(this).find("td:eq(5)");
         lotTdInfo = $(this).find("td:eq(7)");
@@ -323,106 +311,12 @@ $("document").ready(function () {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    //수정
-    //수정될거 저장하는 list 정의
+    //수정관련 정보 정의
     let modifyList = [];
-    let delList = []; //삭제되면 lot의 재고 update / 주문 출고량, 미출고량 update
-    //수정할 테이블
+    let delList = [];
     let table = $("#outMngTable");
-    //td 수정을 적용할 인덱스 (td기준)
-    let avArr = [5, 7];
     //notNull이어야하는 (td기준)
     let notNullList = [5, 7];
-
-    //수정 이벤트
-    table.find("tbody").on("click", "td:not(.lotNo)", function (e) {
-        console.log(e);
-        e.stopPropagation();
-        let col = $(this).index() -1; //input값 -1
-        let flag = false;
-        let tdInfo = $(this);
-        let defaultVal;
-
-        //수정 적용할 인덱스인지 확인
-        for(let i = 0; i<avArr.length;i++){
-            if(col == avArr[i]){
-                flag = true;
-                break;
-            }
-        }
-
-        //해당사항 없으면 return
-        if(!flag){
-            return;
-        }
-
-        //수정할 수 있도록 하는 설정
-        tdInfo.attr("contenteditable", "true");
-
-        //td에 focus가 되면
-        tdInfo.focus(function(e){
-            defaultVal = tdInfo.text();
-            tdInfo.addClass("tdBorder");
-        });
-
-        //enter나 esc 누르면 blur되도록 
-        tdInfo.on("keyup",function(key){
-            if(key.keyCode == 13 || key.keyCode == 27){
-                key.preventDefault();
-                tdInfo.blur();
-            }
-        });
-        
-        //td에 blur가 되면(포커스 잃으면)
-        tdInfo.blur(function(e){
-            e.preventDefault();
-            tdInfo.attr("contenteditable","false")
-                    .removeClass("tdBorder");
-            //not null이어야하는 값은 null이 되면 이전에 입력한 값으로 돌려놓게 setting
-            if(tdInfo.text() == null || tdInfo.text() == ''){
-                for(idx of notNullList){
-                    if(col == idx){
-                        tdInfo.text(defaultVal);
-                        break;
-                    }
-                }
-            } else {
-                tdInfo.trigger("change");
-            }
-            e.stopPropagation();
-        });
-
-    });
-
-    table.find("tbody").on("change", "td:not(:first-child)", function (e) {     //기존에 있던 tbody에 change 이벤트가 발생했을 때.
-        console.log(e);
-        e.preventDefault();
-        let col = $(this).index() - 1;                                          //클릭된 td의 index를 (td의 index만 찾음) col변수에 저장
-        let priKey = $(this).parent().find("input[type='hidden']").val();       //해당 td의 부모에서 프라이머리키 값이 있는 태그를 찾아 그 값을 저장
-        let updCol = table.find("thead").find("th:eq(" + col + ")").attr("name");//html의 col번째 th name값 갖고 옴(수정될 column)
-        let updCont = $(this).text();                                            //해당 td의 text값을 저장(수정될 content)
-        if (priKey != null && priKey != '') {                                   //priKey가 null이면 modifyList에 담기지 않도록 하는 if문
-            checkNewModify(priKey, updCol, updCont);
-        }
-        console.log(modifyList);
-        e.stopPropagation();
-    });
-
-    function checkNewModify(priKey, updCol, updCont) {
-        if(updCont == null || updCont == ''){
-            return false;
-        }
-        for(p of modifyList){
-            if (p[0] == priKey && p[1] == updCol) { //modifyList의 한 건에 대해 같은 값을 수정하는 것이라면 
-                p[2] = updCont                      //새로 추가가 아닌 기존 배열에 수정
-                return;
-            }
-        }
-        let modifyTr = [priKey, updCol, updCont];
-        modifyList.push(modifyTr);
-    }
-
 
     //저장 버튼 이벤트
     $("#saveBtn").on("click", function () {
@@ -467,11 +361,6 @@ $("document").ready(function () {
         //checkbox인거
         let slsOutDtlNo = obj[0];
         let slsOutDtlVol = obj[3];
-        let slsOutDtlVO = [];
-        let updateDtl = {
-            slsOutDtlNo,
-            slsOutDtlVol
-        }
 
         $.ajax({
             url: 'outManage/update',
@@ -531,6 +420,15 @@ $("document").ready(function () {
             }
         });
     }
+
+    //체크박스 전체선택 & 해제
+    $("#allCheck").on("click", function () {
+        if ($("#allCheck").prop("checked")) {
+            $("input[type=checkbox]").prop("checked", true);
+        } else {
+            $("input[type=checkbox]").prop("checked", false);
+        }
+    });
 
     //선택 삭제 이벤트
     $("#deleteBtn").on("click", function () {

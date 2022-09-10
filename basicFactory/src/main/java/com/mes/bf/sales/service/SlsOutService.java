@@ -43,4 +43,7 @@ public interface SlsOutService {
 	
 	//반품관리에서 출고내역 상세조회(중복 제품 모두)
 	List<SlsOutDtlVO> outDtlViewToReturn(String slsOutHdNo);
+	
+	//주문관리에서 출고내역 조회
+	int checkOrder(String slsOrdHdNo);
 }
