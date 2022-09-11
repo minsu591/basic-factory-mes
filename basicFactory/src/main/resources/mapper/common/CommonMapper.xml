@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.bf.common.mapper.CommonMapper">
+	<!-- 검색조건 SQL -->
+	<sql id="criteria">
+		<if test="type != null and type != ''">
+			<choose>
+				<when test="type == 'a'.toString()">
+					and mchn_code = #{keyword}
+				</when>
+			</choose>
+		</if>
+	</sql>
+	<!--머신 테이블의 행 총 갯수 구하기 -->
+
+	<select id="getMchnTotalCount" resultType="int">
+		SELECT COUNT(*) FROM BF_EQP_MCHN
+		<where>
+			<include refid="criteria"></include>
+		</where>
+	</select>
+
+	
+	<select id="findMchn" resultType="com.mes.bf.eqp.vo.MchnVO">
+	  <![CDATA[
+			SELECT
+		    x.*
+		FROM ( 
+		        SELECT 
+		            rownum AS rnum, a.* 
+		        FROM (
+		                SELECT * 
+		                FROM BF_EQP_MCHN
+		                order by 1
+		             ) a
+		
+		        WHERE 
+		]]>
+		 <![CDATA[
+		            rownum <=  #{pageNum}*#{amount}
+			]]>     
+			<include refid="criteria"></include>        
+		            ) x
+		         
+					
+		WHERE 
+		    x.rnum >  (#{pageNum}-1)*#{amount}
+		 
+	</select>
+
+
+</mapper>
