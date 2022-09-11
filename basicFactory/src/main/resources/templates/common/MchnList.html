@@ -32,6 +32,7 @@
                 <label for="mchnCode" th:text="설비코드"></label>
                 <input type="text" id="mchnCode" class="form-control mx-sm-3" readonly />
                 <label for="mchnname2" th:text="설비명2"></label>
+                <!-- th:value 안에 키워드값 넣어줘야 검색 후 페이지 이동해도 값이 그대로 유지됌-->
                 <input type="text" id="mchnname2" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword}">
               </div>
               <form name="searchForm">
@@ -93,6 +94,7 @@
 
    $("#mchnListBtn").click(function(e) {
     e.preventDefault();
+    //if문 조건 걸어서 검색타입에 따라 키워드 분류 후 서브밋
     if($("#mchnCode").val() != '' && $("#mchnname2").val() == '') {
       let type = $("input:hidden[name=type]").val('a');
       let keyword = $("input:hidden[name=keyword]").val($("#mchnCode").val());
@@ -109,6 +111,7 @@
     }
    });
 
+   //페이지 번호 클릭시 현재 검색하고있는 타입,키워드를 같이 보내줌
    $(".pagination").on("click", 'a', function() {
     let pageNum = $(this).text();
     $("input:hidden[name=type]").val($("#type").val());

@@ -12,10 +12,9 @@
 					and mchn_name LIKE '%'||#{keyword}||'%'
 				</when>
 			</choose>
-		</if>
+		</if> <!-- keyword가 여러개일 경우 Criteria에서 keyword2....사용 -->
 	</sql>
-	<!--머신 테이블의 행 총 갯수 구하기 -->
-
+	<!--테이블의 행 총 갯수 구하기 + 검색 후의 총 행의 갯수도 구하기 -->
 	<select id="getMchnTotalCount" resultType="int">
 		SELECT COUNT(*) FROM BF_EQP_MCHN
 		<where>
@@ -50,6 +49,10 @@
 		    x.rnum >  (#{pageNum}-1)*#{amount}
 		 
 	</select>
-
+	<!--  ex_ 한페이지에 표시될 행의 갯수 amount = 10 일경우
+		현재 페이지가 1 일 때 -> 1*10 = 10, 1-1 * 10 = 0
+		즉, 0~10까지 출력됨
+	 -->
+	
 
 </mapper>
