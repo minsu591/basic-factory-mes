@@ -16,6 +16,7 @@ function page() {
     //var numPerPage = 10;  //목록의 수
     var numPerPage = 10; //목록의 수
     var $table = $(this);
+    var thlength = $table.find("thead th").length;
 
     //length로 원래 리스트의 전체길이구함
     var numRows = $table.find("tbody tr").length;
@@ -27,7 +28,7 @@ function page() {
     if (numPages == 0) return;
     //pager라는 클래스의 div엘리먼트 작성
     var $pager = $(
-      '<td align="center" id="remo" colspan="10"><div class="pager"></div></td>'
+      `<td align="center" id="remo" colspan="${thlength}"><div class="pager"></div></td>`
     );
     var nowp = currentPage;
     var endp = nowp + 10;
@@ -70,7 +71,9 @@ function page() {
         endp = numPages;
       }
       // [처음]
-      $('<br /><span class="page-number" cursor: "pointer">[처음]</span>')
+      $(
+        '<br /><span class="page-number page-item" cursor: "pointer">[처음]</span>'
+      )
         .bind("click", { newPage: page }, function (event) {
           currentPage = 0;
           $table.trigger("repaginate");
@@ -83,7 +86,7 @@ function page() {
         .addClass("clickable");
 
       // [이전]
-      $('<span class="page-number" cursor: "pointer">[이전]</span>')
+      $('<span class="page-number page-item" cursor: "pointer">[이전]</span>')
         .bind("click", { newPage: page }, function (event) {
           if (currentPage == 0) return;
           currentPage = currentPage - 1;
@@ -113,7 +116,7 @@ function page() {
       }
 
       // [다음]
-      $('<span class="page-number" cursor: "pointer">[다음]</span>')
+      $('<span class="page-number page-item" cursor: "pointer">[다음]</span>')
         .bind("click", { newPage: page }, function (event) {
           if (currentPage == numPages - 1) return;
           currentPage = currentPage + 1;
@@ -127,7 +130,7 @@ function page() {
         .addClass("clickable");
 
       // [끝]
-      $('<span class="page-number" cursor: "pointer">[끝]</span>')
+      $('<span class="page-number page-item" cursor: "pointer">[끝]</span>')
         .bind("click", { newPage: page }, function (event) {
           currentPage = numPages - 1;
           $table.trigger("repaginate");
