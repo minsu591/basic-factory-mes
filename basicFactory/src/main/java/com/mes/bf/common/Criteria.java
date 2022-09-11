@@ -9,6 +9,7 @@ public class Criteria {
 
 	private String type;
 	private String keyword;
+	private String keyword2;
 
 	public String[] getTypeArr() {
 

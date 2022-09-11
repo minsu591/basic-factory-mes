@@ -16,8 +16,6 @@
     		margin: 0 0.5rem;
     	}
     	
-    	
-    	
     </style>
     
   </head>
@@ -42,10 +40,13 @@
                 <input type="text" id="mchnname" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" />
                 <label for="mchnCode" th:text="설비코드"></label>
                 <input type="text" id="mchnCode" class="form-control mx-sm-3" readonly />
+                <label for="mchnname2" th:text="설비명2"></label>
+                <input type="text" id="mchnname2" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword}">
               </div>
               <form name="searchForm">
                 <input type='hidden' name="type" th:value="${pageMaker.cri.type}">
               	<input type='hidden' name='keyword' th:value='${pageMaker.cri.keyword}' />
+                <input type='hidden' name='keyword2' th:value='${pageMaker.cri.keyword2}' />
 				        <input type='hidden' name='pageNum' value='1'>
 				        <input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
               <button class="btn btn-primary" id="mchnListBtn">조회</button>
@@ -72,6 +73,7 @@
                 <tbody>
                 <tr th:each="mchn : ${mchnList}">
                 <td th:text="${mchn.mchnCode}"></td>
+                <td th:text="${mchn.mchnName}"></td>
                 </tr>
                   <!-- <tr th:each="mchn : ${mchns}">
                     <td th:text="${mchn.mchnCode}"></td>
@@ -86,30 +88,8 @@
                   </tr> -->
                 </tbody>
               </table>
-              
-              
-              <nav aria-label="Page navigation">	
-				        <ul class="pagination" th:with="start = ${pageMaker.startPage}, end=${pageMaker.endPage}">
-					
-                  <li class="page-item" th:if="${pageMaker.cri.pageNum} > ${pageMaker.startPage}">
-                    <a th:text="이전" th:href="@{/common/mchnList(pageNum=${pageMaker.cri.pageNum-1})}"></a>
-                  </li>
-
-                  <li th:each="page: ${#numbers.sequence(start, end)}">
-                    <a th:text="${page}" th:href="@{/common/mchnList(pageNum=${page})}"></a>
-                  </li>
-                  <!--th:href="@{/common/mchnList(pageNum=${page})}"-->
-                  <li class="page-item" th:if="${pageMaker.cri.pageNum} < ${pageMaker.endPage}">
-                    <a th:text="다음" th:href="@{/common/mchnList(pageNum=${pageMaker.cri.pageNum+1})}"></a>
-                  </li>
-                  
-                  <li class="page-item" th:if="${pageMaker.cri.pageNum} < ${pageMaker.endPage}">
-                    <a th:text="끝" th:href="@{/common/mchnList(pageNum=${end})}"></a>
-                  </li>
-					
-				        </ul>
-	            </nav>
-              
+              <!-- 페이징 네브 -->
+              <th:block th:replace="~{/fragments/pagination :: pagination-nav}"></th:block>     
             </div>
           </div>
         </div>
@@ -119,24 +99,31 @@
     <th:block th:replace="~{/fragments/modal/findMchnName :: findMchnName}"></th:block>
 
   <script th:inline="javascript">
-    // $(".pagination").on("click", "a", function() {
-    //  event.preventDefault();
-    //  console.log($(this).text());
-     
-   //})
 
    $("#mchnListBtn").click(function(e) {
     e.preventDefault();
-    if($("#mchnCode").val() != '') {
+    if($("#mchnCode").val() != '' && $("#mchnname2").val() == '') {
       let type = $("input:hidden[name=type]").val('a');
       let keyword = $("input:hidden[name=keyword]").val($("#mchnCode").val());
+      let keyword2 = $("input:hidden[name=keyword2]").val($("#mchnname2").val());
       let amount = $("input:hidden[name=amount]").val(10);
-      console.log(type.val());
-      console.log(keyword.val());
-      console.log(amount.val());
+
+      searchForm.submit();
+    } else if($("#mchnname2").val() != '' && $("#mchnCode").val() == '') {
+      let type = $("input:hidden[name=type]").val('b');
+      let keyword = $("input:hidden[name=keyword]").val($("#mchnname2").val());
+      let amount = $("input:hidden[name=amount]").val(10);
+      
       searchForm.submit();
     }
    });
+
+  //  $(".pagination").on("click", 'a', function() {
+  //   let pageNum = $(this).text();
+  //   $("input:hidden[name=type]").val();
+  //   $("input:hidden[name=pageNum]").val(pageNum);
+  //   pageForm.submit();
+  //  });
  
  </script>
   </body>

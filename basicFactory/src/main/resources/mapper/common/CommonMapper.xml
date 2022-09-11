@@ -8,6 +8,9 @@
 				<when test="type == 'a'.toString()">
 					and mchn_code = #{keyword}
 				</when>
+				<when test="type == 'b'.toString()">
+					and mchn_name LIKE '%'||#{keyword}||'%'
+				</when>
 			</choose>
 		</if>
 	</sql>
