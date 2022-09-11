@@ -1,8 +1,10 @@
 package com.mes.bf.cmn.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,25 +13,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.mes.bf.cmn.provider.JwtProvider;
 import com.mes.bf.cmn.service.EmpDeptService;
+import com.mes.bf.cmn.service.MailService;
 import com.mes.bf.cmn.vo.EmpVO;
+import com.mes.bf.cmn.vo.MailVO;
 
 @Controller
 @RequestMapping("/cmn")
 public class LoginController {
 	@Autowired EmpDeptService service;
+	@Autowired JwtProvider jwt;
+	@Autowired MailService mail;
 	
 	//로그인 페이지
 	@GetMapping("/login")
 	public String loginPage(HttpServletRequest request) {
+		//로그아웃
 		HttpSession session = request.getSession();
 		session.setAttribute("emp", null);
 		return "cmn/Login";
+	}
+	
+	//비밀번호 찾기 페이지
+	@GetMapping("/login/reset")
+	public String pwResetPage() {
+		return "cmn/pwReset";
 	}
 	
 	@PostMapping(value = "/login/check")
@@ -64,5 +80,78 @@ public class LoginController {
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 	
+	//비밀번호 재설정 아이디 정보 가져오기
+	@PostMapping(value = "/login/reset/empId")
+	public ResponseEntity<Integer> checkEmpId(@RequestBody EmpVO emp) {
+		int result = 0;
+		String empId = emp.getEmpId();
+		String empName = emp.getEmpName();
+		String empEmail = emp.getEmpEmail();
+		EmpVO empInfo = service.findEmp(empId);
+		
+		if(empInfo == null) {
+			result = -1;
+		}else if(!empInfo.getEmpName().equals(empName)) {
+			result = -2;
+		}else if(!empInfo.getEmpEmail().equals(empEmail)) {
+			result = -3;
+		}else {
+			String token = jwt.createToken(empId);
+			System.out.println("token"+token);
+			//성공
+			String cont = "<h3>Basic Factory 비밀번호 재설정 메일입니다</h3>"
+					+ "<p>아래의 링크로 접속하여 비밀번호를 재설정해주세요<p>"
+					+ "<a href='localhost/cmn/login/reset/"+token+"'>비밀번호 재설정</a>";
+			MailVO mailInfo = new MailVO();
+			mailInfo.setToAddress(empEmail);
+			mailInfo.setSubject("Basic Factory 비밀번호 재설정 메일입니다");
+			mailInfo.setContent(cont);
+			mail.sendMail(mailInfo);
+			
+		}
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
 	
+	@GetMapping(value = "/login/reset/{token}")
+	public String goPwPageWithToken(@PathVariable("token") String token, Model model) {
+		Map<String, Object> claimMap = null;
+		try {
+			claimMap = jwt.verifyJWT(token);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		if(claimMap == null) {
+			//만료된 토큰
+			//오류 페이지 띄우기
+			return "cmn/Login";
+		}else {
+			String empId = (String) claimMap.get("data");
+			EmpVO emp = new EmpVO();
+			emp.setEmpId(empId);
+			model.addAttribute("emp", emp);
+		}
+		
+		return "cmn/pwResetDetail";
+	}
+	
+	//비밀번호 재설정
+		@PostMapping(value = "/login/reset/confirm")
+		public ResponseEntity<Integer> passwordConfirm(@RequestBody EmpVO emp) {
+			String empId = emp.getEmpId();
+			String empPw = emp.getEmpPw();
+			MessageDigest md;
+			String empHex = "";
+			int result;
+			try {
+				md = MessageDigest.getInstance("SHA-256");
+				md.update(empPw.getBytes());
+				empHex = String.format("%064x", new BigInteger(1,md.digest()));
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
+			
+			result = service.empUpdate(empId, "emp_pw", empHex);
+			
+			return new ResponseEntity<Integer>(result,HttpStatus.OK);
+		}
 }
