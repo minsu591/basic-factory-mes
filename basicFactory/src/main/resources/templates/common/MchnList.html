@@ -5,7 +5,7 @@
     <title>설비 조회</title>
     <style>
     	.pagination-active {
-    		color:green;
+    		color:#1abc9c !important;
     	}
     	.pagination {
     	justify-content:center;
@@ -15,6 +15,10 @@
     		font-size: large;
     		margin: 0 0.5rem;
     	}
+
+      .page-num:hover {
+        color:green;
+      }
     	
     </style>
     
@@ -29,7 +33,9 @@
       <h1>설비 조회</h1>
       <hr />
 		<h1 th:text="${cri}"></h1>
-		<h1 th:text="${pageMaker.cri.amount}"></h1>
+		<h1 th:text="${pageMaker.cri.pageNum}"></h1>
+    <h1 th:text="${cri.pageNum}"></h1>
+    
 		<!-- <h1 th:text="${pageMaker.total}"></h1> -->
       <div class="col-xl-12">
         <div class="card">
@@ -44,7 +50,7 @@
                 <input type="text" id="mchnname2" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword}">
               </div>
               <form name="searchForm">
-                <input type='hidden' name="type" th:value="${pageMaker.cri.type}">
+                <input type='hidden' id ='type' name="type" th:value="${pageMaker.cri.type}">
               	<input type='hidden' name='keyword' th:value='${pageMaker.cri.keyword}' />
                 <input type='hidden' name='keyword2' th:value='${pageMaker.cri.keyword2}' />
 				        <input type='hidden' name='pageNum' value='1'>
@@ -118,12 +124,13 @@
     }
    });
 
-  //  $(".pagination").on("click", 'a', function() {
-  //   let pageNum = $(this).text();
-  //   $("input:hidden[name=type]").val();
-  //   $("input:hidden[name=pageNum]").val(pageNum);
-  //   pageForm.submit();
-  //  });
+   $(".pagination").on("click", 'a', function() {
+    let pageNum = $(this).text();
+    $("input:hidden[name=type]").val($("#type").val());
+    $("input:hidden[name=pageNum]").val(pageNum);
+    let amount = $("input:hidden[name=amount]").val(10);
+    pageForm.submit();
+   });
  
  </script>
   </body>
