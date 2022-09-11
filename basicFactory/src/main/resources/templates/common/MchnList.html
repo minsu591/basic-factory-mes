@@ -4,28 +4,15 @@
     <meta charset="UTF-8" />
     <title>설비 조회</title>
     <style>
-    	.pagination-active {
-    		color:#1abc9c !important;
-    	}
-    	.pagination {
-    	justify-content:center;
-    	}
-    	.pagination a {
-    		color:black;
-    		font-size: large;
-    		margin: 0 0.5rem;
-    	}
+ 
 
-      .page-num:hover {
-        color:green;
-      }
     	
     </style>
     
   </head>
   
   <body>
-    <link th:href="@{/css/eqp/Mchn.css}" rel="stylesheet" />
+    <link th:href="@{/css/pagination2.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/js/eqp/mchn.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
 	
@@ -33,10 +20,8 @@
       <h1>설비 조회</h1>
       <hr />
 		<h1 th:text="${cri}"></h1>
-		<h1 th:text="${pageMaker.cri.pageNum}"></h1>
-    <h1 th:text="${cri.pageNum}"></h1>
-    
-		<!-- <h1 th:text="${pageMaker.total}"></h1> -->
+		<!-- <h1 th:text="${pageMaker.cri.pageNum}"></h1>
+    <h1 th:text="${cri.pageNum}"></h1> -->
       <div class="col-xl-12">
         <div class="card">
           <div class="card-header">
