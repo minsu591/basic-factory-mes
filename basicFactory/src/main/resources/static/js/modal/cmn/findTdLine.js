@@ -4,6 +4,7 @@ $("document").ready(function () {
     e.preventDefault();
     findLine();
     tdInfo = $(this);
+    defaultVal = tdInfo.text();
     $("#findLineModal").modal("show");
   });
 
@@ -13,7 +14,6 @@ $("document").ready(function () {
     let lineCdHdName = $(this).find("td:eq(2)").text();
     tdInfo.text(lineCdHdCode);
     tdInfo.next().text(lineCdHdName);
-
     tdInfo.trigger("change");
     $("#findLineModal").modal("hide");
   });

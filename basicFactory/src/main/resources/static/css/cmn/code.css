@@ -28,6 +28,10 @@ h3 {
 	border : 1px solid red;
 }
 
+.sameTd {
+	border : 1px solid blue;
+}
+
 .canModifyTd {
 	background: rgba(241, 196, 15, 0.1);
 }

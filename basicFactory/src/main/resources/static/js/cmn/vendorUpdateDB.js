@@ -72,7 +72,6 @@ $("document").ready(function(){
             //addTr은 수정에 들어가지 않게 막기
             if(tdInfo.closest("tr").attr("name")!='addTr'){
                 tdInfo.trigger("change");
-                console.log("change");
             }
             e.stopPropagation();
         });
@@ -135,8 +134,7 @@ $("document").ready(function(){
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "확인",
-            cancelButtonText: "취소",
-            closeOnClickOutside: false,
+            cancelButtonText: "취소"
           }).then((result) =>{
             if(result.isConfirmed){
                 //null 검사

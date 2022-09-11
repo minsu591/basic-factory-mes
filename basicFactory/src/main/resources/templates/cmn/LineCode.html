@@ -55,7 +55,7 @@ xmlns:th="http://www.thymeleaf.org"
                                 <tr th:each="line : ${lines}">
                                     <td><input type="checkbox" name="lineCb"></td>
                                     <td th:text="${line.lineCdHdCode}">LINE001</td>
-                                    <td th:text="${line.lineCdHdName}">1라인</td>
+                                    <td th:text="${line.lineCdHdName}" th:class="canModifyTd">1라인</td>
                                 </tr>
                             </tbody>
                         </table>

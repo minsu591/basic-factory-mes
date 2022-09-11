@@ -93,46 +93,16 @@ public class BomCodeController {
 		int result = service.bomRscDelete(rscDelList);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
-	
-//	@PostMapping(value = "/bomCode/insert", produces = { MediaType.APPLICATION_JSON_VALUE })
-//	public ResponseEntity<Integer> bomCodeInsert(@ModelAttribute BomVO bom) {
-//		int result = service.bomCodeInsert(bom);
-//		return new ResponseEntity<Integer>(result,HttpStatus.OK);
-//	}
-	
-//	@PostMapping(value = "/bomRsc/insert", produces = { MediaType.APPLICATION_JSON_VALUE })
-//	public ResponseEntity<Integer> bomRscInsert(@ModelAttribute BomRscVO bomRsc) {
-//		System.out.println(bomRsc);
-//		int result = service.bomRscInsert(bomRsc,null);
-//		return new ResponseEntity<Integer>(result,HttpStatus.OK);
-//	}
-	
+
 	@PostMapping(value = "/bomRsc/update", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Integer> bomRscUpdate(@RequestParam Map<String, String> QueryParameters) {
 		int result = service.bomRscUpdate(QueryParameters.get("priKey"), QueryParameters.get("updCol"), QueryParameters.get("updCont"));
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
-	
-	//bom와 rsc insert 동시에
-//	@PostMapping(value = "/bomRsc/with/insert")
-//	public ResponseEntity<Integer> bomRscInsert(@RequestBody BomRscInsVO bomRscInsVO) {
-//		System.out.println(bomRscInsVO);
-//		int result = service.bomCodeInsert(bomRscInsVO.getBom());
-//		int resultSum = 0;
-//		List<BomRscVO> bomRscs = bomRscInsVO.getBomRscs();
-//		for (int i =0; i<bomRscs.size(); i++) {
-//			System.out.println(bomRscs.get(i));
-//			int ans = service.bomRscInsert(bomRscs.get(i),"withBom");
-//			if(ans == 1) {
-//				resultSum += ans;
-//			}
-//		}
-//		return new ResponseEntity<Integer>(resultSum,HttpStatus.OK);
-//	}
+
 	
 	@PostMapping(value = "/bomCode/insert")
 	public ResponseEntity<Integer> lineCodeAllInsert(@RequestBody BomInsertVO bomInfo) {
-		System.out.println(bomInfo);
 		List<BomVO> bom = bomInfo.getBoms();
 		List<BomRscVO> rsc = bomInfo.getRscs();
 		int result = 0;
@@ -145,6 +115,7 @@ public class BomCodeController {
 			}
 		}
 		if(rsc.size() != 0) {
+			//bomCdName으로 bomCdCode 찾음
 			for(int i = 0; i<rsc.size();i++) {
 				resultDtl += service.bomRscInsert(rsc.get(i));
 			}

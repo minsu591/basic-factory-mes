@@ -31,17 +31,17 @@ $("document").ready(function(){
 
     function bomMakeRow(obj){
         let node = `<tr>
-                        <td><input type="checkbox" name="bomCb"></td>`;
+                        <td class="cantModifyTd"><input type="checkbox" name="bomCb"></td>`;
         if($("#bomAllCheck").is(":checked")){
             node = `<tr>
-                <td><input type="checkbox" name="bomCb" checked></td>`
+                <td class="cantModifyTd"><input type="checkbox" name="bomCb" checked></td>`
         }
-        node += `<td>${obj.bomCdCode}</td>
+        node += `<td class="cantModifyTd">${obj.bomCdCode}</td>
                 <td>${obj.bomCdName}</td>
                 <td class="finPrdCdCode">${obj.finPrdCdCode}</td>
-                <td>${obj.finPrdCdName}</td>
+                <td class="cantModifyTd">${obj.finPrdCdName}</td>
                 <td class="lineCdHdCode">${obj.lineCdHdCode}</td>
-                <td>${obj.lineCdHdName}</td>
+                <td class="cantModifyTd">${obj.lineCdHdName}</td>
                 <td>${obj.bomCdProdVol}</td>
                 <td>${obj.bomCdUnit}</td>`;
         if(obj.bomCdUse == 1){
@@ -50,6 +50,7 @@ $("document").ready(function(){
             node += `<td><input type="checkbox" class="bomCdUse"></td>`;
         }
         node += `<td>${obj.bomCdRemk}</td>
+                <input type="hidden" class="dataLineCdHdCode" value="${obj.lineCdHdCode}">
                 </tr>`;
         $("#bomTable tbody").append(node);
     }
