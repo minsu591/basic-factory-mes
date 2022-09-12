@@ -36,10 +36,13 @@ public interface SlsOutService {
 	void outUpdate(String slsOutDtlNo ,String slsOutDtlVol);
 	
 	//출고관리 헤더 삭제
-	void outHdDelete(String slsOutHdNo);
+	void outHdDelete(SlsOutHdVO vo);
 	
-	//출고관리 디테일 삭제
-	void outDelete(List<String> delList);
+	//출고관리 출고내역번호 조회(프로시저 실행 용도)
+	List<SlsOutDtlVO> outDtlNoSelect(SlsOutDtlVO vo);
+	
+	//출고디테일 삭제 프로시저
+	void callProcOutDtlDel(String slsOutDtlNo);	
 	
 	//반품관리에서 출고내역 상세조회(중복 제품 모두)
 	List<SlsOutDtlVO> outDtlViewToReturn(String slsOutHdNo);

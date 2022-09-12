@@ -16,6 +16,7 @@ public interface SlsRtnMapper {
 	List<SlsRtnHdDtlVO> returnDtlView(String slsRtnHdNo);
 	void rtnInsertHd(SlsRtnHdVO vo);
 	void rtnInsertDtl(SlsRtnDtlVO vo);
+	void rtnUpdate(String priKey, String updCol, String updCont);
 	void rtnHdDelete(String slsRtnHdNo);
 	void rtnDelete(List<String> delList);
 }

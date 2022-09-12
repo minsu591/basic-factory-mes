@@ -20,8 +20,9 @@ public interface SlsOutMapper {
 	void outInsertHd(SlsOutHdVO vo);
 	void outInsertDtl(SlsOutDtlVO vo);
 	void outUpdate(String slsOutDtlNo, String slsOutDtlVol);
-	void outHdDelete(String slsOutHdNo);
-	void outDelete(List<String> delList);
+	void outHdDelete(SlsOutHdVO vo);
+	List<SlsOutDtlVO> outDtlNoSelect(SlsOutDtlVO vo);
+	void callProcOutDtlDel(String slsOutDtlNo);
 	List<SlsOutDtlVO> outDtlViewToReturn(String slsOutHdNo);
 	int checkOrder(String slsOrdHdNo);
 }

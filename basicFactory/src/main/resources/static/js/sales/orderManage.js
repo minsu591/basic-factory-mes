@@ -19,7 +19,7 @@ let avArr = [4];
 let notNullList = [1,2,3,4];
 
 //input 수정 이벤트
-$("#vendor").on("change", function(e){
+$("#vendor, #form input").on("change", function(e){
     console.log(e);
     let modifyAddFlag = checkModifyOrAdd();
     if(modifyAddFlag){  //true : 수정 중 (주문번호 readonly)
@@ -350,7 +350,6 @@ function addDtlSaveAjax(obj, slsOrdHdNo) {
 
     })
 }
-
 //추가 끝
 
 

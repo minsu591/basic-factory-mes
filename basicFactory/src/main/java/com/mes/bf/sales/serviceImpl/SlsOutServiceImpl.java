@@ -63,15 +63,20 @@ public class SlsOutServiceImpl implements SlsOutService {
 	}
 	
 	@Override
-	public void outHdDelete(String slsOutHdNo) {
-		mapper.outHdDelete(slsOutHdNo);
+	public void outHdDelete(SlsOutHdVO vo) {
+		mapper.outHdDelete(vo);
+	}
+	
+	@Override
+	public List<SlsOutDtlVO> outDtlNoSelect(SlsOutDtlVO vo) {
+		return mapper.outDtlNoSelect(vo);
 	}
 
 	@Override
-	public void outDelete(List<String> delList) {
-		mapper.outDelete(delList);
+	public void callProcOutDtlDel(String slsOutDtlNo) {
+		mapper.callProcOutDtlDel(slsOutDtlNo);
 	}
-
+	
 	@Override
 	public List<SlsOutDtlVO> outDtlViewToReturn(String slsOutHdNo) {
 		return mapper.outDtlViewToReturn(slsOutHdNo);
@@ -81,4 +86,6 @@ public class SlsOutServiceImpl implements SlsOutService {
 	public int checkOrder(String slsOrdHdNo) {
 		return mapper.checkOrder(slsOrdHdNo);
 	}
+
+
 }

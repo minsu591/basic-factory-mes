@@ -16,7 +16,6 @@ $("document").ready(function () {
     
     tdInfo.text(prdCode);
     tdInfo.next().text(prdName);
-    //tdInfo.parent().next().find("input").val(prdName);
 
     $("#findproductModal").modal("hide");
     tdInfo.trigger("change");

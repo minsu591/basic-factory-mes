@@ -26,6 +26,9 @@ public interface SlsRtnService {
 	//반품 바디 등록
 	void rtnInsertDtl(SlsRtnDtlVO vo);
 	
+	//반품 수정
+	void rtnUpdate(String priKey, String updCol, String updCont);
+	
 	//반품 헤더 삭제
 	void rtnHdDelete(String slsRtnHdNo);
 	

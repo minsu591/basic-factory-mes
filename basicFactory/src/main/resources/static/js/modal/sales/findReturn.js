@@ -112,13 +112,26 @@ $("document").ready(function(){
 
 
     
-    function makeSelectBox(PrcCls, val){
+    function makeSelectBox(PrcCls){
         let node = `<td><select>`;
-        for(let i=0; i < selectBoxList.length; i++){
-            if(PrcCls == selectBoxList[i]){
-                node += '<option value="'+val+'"selected>'+selectBoxList[i]+'</option>';
+
+        for(select of selectBoxList){
+            let val = 0;
+            if(select == '폐기') {
+                val = 0;
+            }
+            else if(select == '입고') {
+                val = 1;
+            } else if (select == '거부'){
+                val = 2;
+            } else {
+                val = '';
+            }
+
+            if(select == PrcCls){
+                node += `<option value="`+ val +`"selected>${select}</option>`;
             }else {
-                node += '<option value="'+val+'">'+selectBoxList[i]+'</option>';
+                node += `<option value="`+ val +`">${select}</option>`;
             }
         }
         node += `</select></td>`;
@@ -138,14 +151,14 @@ $("document").ready(function(){
                         <td>${rtn.slsRtnDtlVO.slsOutDtlVol}</td>
                         <td>${rtn.slsRtnDtlVO.slsRtnDtlBaseVol}</td>
                         <td>${rtn.slsRtnDtlVO.slsRtnDtlVol}</td>
-                        <td>${rtn.slsRtnDtlVO.slsFinPrdCdPrice}</td>
+                        <td>${rtn.slsRtnDtlVO.finPrdCdPrice}</td>
                         <td>${rtn.slsRtnDtlVO.slsRtnDtlPrice}</td>`;
                     if(PrcCls == 0){
-                        node += makeSelectBox('폐기', 0);
+                        node += makeSelectBox('폐기');
                     } else if(PrcCls == 1) {
-                        node += makeSelectBox('입고', 1);
+                        node += makeSelectBox('입고');
                     } else {
-                        node += makeSelectBox('거부', 2);
+                        node += makeSelectBox('거부');
                     }
             node += `<td>${rtn.slsRtnDtlVO.slsRtnDtlResn}</td>
                      </tr>`;
