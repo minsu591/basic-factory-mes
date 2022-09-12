@@ -58,6 +58,7 @@ $("document").ready(function(){
                 slsOutHdNo: slsOutHdNo
             },
             success : function(result){
+                console.log('성공');
                 console.log(result);
                 sucFun(result);
             }

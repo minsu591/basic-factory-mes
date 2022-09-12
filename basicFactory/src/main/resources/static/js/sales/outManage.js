@@ -48,15 +48,14 @@ $("document").ready(function () {
     });
 
     function checkNewOutLotList(modalTrInfo) {
-        let finPrdCdCode = modalTrInfo.find("td:eq(1)").text();           //모달 tr의 제품코드
-        let fnsPrdStkLotNo = modalTrInfo.find("td:eq(3)").text();         //모달 tr의 lot번호
+        let slsOutHdNo = $("#slsOutHdNo").val();
+        let finPrdCdCode = modalTrInfo.find("td:eq(1)").text();
+        let fnsPrdStkLotNo = modalTrInfo.find("td:eq(3)").text();
         let priKey = modalTrInfo.find("input[type='hidden']").val();
-        let slsOutDtlVol = modalTrInfo.find("td:eq(5)").text(); //모달 tr의 입력한 출고수량
+        let slsOutDtlVol = modalTrInfo.find("td:eq(5)").text();
         let volNullFlag = false;
         let flag = true;
-        // let priKey = outTabletrInfo.find("input[type='hidden']").val();  //출고관리 테이블 tr의 hidden으로 숨겨준 priKey값
         
-        console.log(slsOutDtlVol);
         if(slsOutDtlVol == null || slsOutDtlVol == ''){
             slsOutDtlVol = 0;
             volNullFlag = true;
@@ -73,8 +72,8 @@ $("document").ready(function () {
             for (let i =0; i<outLotList.length; i++) {
                 //outLotList[addList[제품코드, lot, 출고량], addList[]]
                 lot = outLotList[i];
-                if (lot[0] == finPrdCdCode && lot[1] == fnsPrdStkLotNo && !volNullFlag) {   //outLotList를 for문 돌면서 addList에 대해 같은 값 수정은 기존 배열에서 수정 (추가되지 않고)
-                    flag = false;                                             //하나라도 같은 게 있다면 false처리되서 push되지 않도록
+                if (lot[0] == finPrdCdCode && lot[1] == fnsPrdStkLotNo && !volNullFlag) {
+                    flag = false;
                     lot[2] = slsOutDtlVol;
                     break;
                 }else if(volNullFlag){
@@ -95,9 +94,9 @@ $("document").ready(function () {
                 return true;
             }
             for (let i =0; i<modifyList.length; i++) {      
-                lot = modifyList[i];                               //outLotList[addList[제품코드, lot, 출고량], addList[]]
-                if (lot[1] == finPrdCdCode && lot[2] == fnsPrdStkLotNo && !volNullFlag) {   //outLotList를 for문 돌면서 addList에 대해 같은 값 수정은 기존 배열에서 수정 (추가되지 않고)
-                    flag = false;                                             //하나라도 같은 게 있다면 false처리되서 push되지 않도록
+                lot = modifyList[i];
+                if (lot[1] == finPrdCdCode && lot[2] == fnsPrdStkLotNo && !volNullFlag) {
+                    flag = false;
                     lot[3] = slsOutDtlVol;
                     break;
                 }else if(volNullFlag){
@@ -109,13 +108,12 @@ $("document").ready(function () {
                 }
             }
 
-            if (flag) {
-                let modifyTr = [priKey, finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol];
+            if (flag) { //priKey = modar의 (출고내역번호)
+                let modifyTr = [priKey, finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol, slsOutHdNo];
                 modifyList.push(modifyTr);
             }
             console.log(modifyList);
         }
-        
     }
 
     //출고관리 테이블 tr클릭 시 정보 저장
@@ -321,6 +319,9 @@ $("document").ready(function () {
     //저장 버튼 이벤트
     $("#saveBtn").on("click", function () {
         let trs = table.find("tbody tr");
+        let slsOutHdNo = $("#slsOutHdNo").val();
+        console.log("저장할 때 출고번호 = " + slsOutHdNo);
+
         if (confirm("저장하시겠습니까?") == true) {
             //null 검사
             for (tr of trs) {
@@ -333,22 +334,30 @@ $("document").ready(function () {
                 }
             }
             
-            //삭제용
-            if(delList[0] != null){
-                deleteSaveAjax(delList);
+            let countTr = table.find("tbody tr").length;
+            console.log("TR개수 = " + countTr);
+            if(countTr == 0){
+                //헤더 삭제
+                deleteHdSaveAjax(slsOutHdNo);
+                return false;
+            } else {
+                //디테일 삭제
+                console.log(delList.length);
+                if(delList.length != 0){
+                    for(obj of delList){
+                        deleteSaveAjax(obj);
+                    }
+                }   
             }
 
             //수정용
-            if(priKey != null && priKey != ''){
-                for (obj of modifyList) {
-                    modifySaveAjax(obj);
-                }
+            for (obj of modifyList) {
+                modifySaveAjax(obj);
             }
 
             //등록용
-            let slsOutHdNo = $("#slsOutHdNo").val();
             if (slsOutHdNo == null || slsOutHdNo == ''){
-                insertSaveAjax(outLotList, slsOutHdNo);
+                insertSaveAjax(outLotList);
             }
 
             alert("저장이 완료되었습니다.");
@@ -380,7 +389,7 @@ $("document").ready(function () {
     }
 
     //출고 insert
-    function insertSaveAjax(outLotList, slsOutHdNo) {
+    function insertSaveAjax(outLotList) {
         let slsOutHdDate = $("#slsOutHdDate").val();
         let slsOrdHdNo = $("#slsOrdHdNo").val();
         let vendCdCode = $("#vendor").val();
@@ -435,31 +444,63 @@ $("document").ready(function () {
         table.find("tbody input:checkbox[name='cb']").each(function (idx, el) {
             if ($(el).is(":checked")) {
                 let tr = $(el).closest('tr');
-                console.log(tr);
-                let priKey = tr.find("input[type='hidden']").val();
                 tr.remove();
-                delList.push(priKey);
-                for (let i = 0; i < modifyList.length; i++) {
-                    if (modifyList[i][0] == priKey) {                   //수정목록의 길이만큼 돌면서[0]번째:priKey값이 같으면 
-                        modifyList.splice(i, 1);                        //[priKey, updCol, updCont]에서 배열 i번재부터 1개의 값을 썰어버림
+                let priKey = $("#slsOutHdNo").val();
+                let finPrdCdCode = tr.find("td:eq(1)").text();
+                console.log("출고번호 = " + priKey + "제품코드 = " + finPrdCdCode);
+                let delTr = [priKey, finPrdCdCode];
+                delList.push(delTr);
+                for (let i = 0; i < modifyList.length; i++) {//수정하고 삭제할 수도 있어서. 검사.
+                    if (modifyList[i][4] == priKey) {
+                        modifyList.splice(i, 1);                        
                     }
                 }
             }
+            console.log(delList);
         });
     });
 
-    function deleteSaveAjax(delList) {
+    function deleteHdSaveAjax(slsOutHdNo){
+        $.ajax({
+            url : 'outManage/hd/delete',
+            type : 'DELETE',
+            dataType : 'text',
+            contentType: "application/json; charset=UTF-8;",
+            data : JSON.stringify({
+                    slsOutHdNo
+            }),
+            success : function(result){
+                console.log("삭제 완료!")
+            }
+        });
+    }
+
+    function deleteSaveAjax(obj) {
+        let slsOutHdNo = obj[0];    //출고번호
+        let finPrdCdCode = obj[1];  //제품코드
         $.ajax({
             url: 'outManage/delete',
             type : 'DELETE',
             dataType: 'text',
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
-            data : {
-                delList
-            },
+            contentType: "application/json; charset=UTF-8;;",
+            data : JSON.stringify({
+                    slsOutHdNo, 
+                    finPrdCdCode
+            }),
             success: function (result) {
-                console.log("삭제 성공");
+                deleteSuccess();
             }
         });
     }
+
+    function deleteSuccess() {
+        Swal.fire({
+            icon: "success", // Alert 타입
+            title: "삭제 되었습니다.", // Alert 제목
+        }).then((result) => {
+            if (result.isConfirmed) {
+            location.reload();
+            }
+        });
+        }
 });

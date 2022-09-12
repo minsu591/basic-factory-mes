@@ -113,7 +113,6 @@ $("document").ready(function(){
         //out.slsOutCount가 1보다 크면 > 1 -> td에 
         let node = `<tr>
                         <td><input type="checkbox" name="cb"></td>
-                        <input type="hidden" value="${out.slsOutDtlNo}">
                         <td>${out.finPrdCdCode}</td>
                         <td>${out.finPrdCdName}</td>
                         <td>${out.slsOrdDtlVol}</td>

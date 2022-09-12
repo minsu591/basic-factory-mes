@@ -15,7 +15,6 @@ $(document).ready(function () {
     }
   });
 
-  
   //수정될거 저장하는 list 정의
   let modifyList = [];
   let hdModifyList = [];
@@ -96,7 +95,7 @@ $(document).ready(function () {
   
 
   //기존에 있는 값들 중에 td변경될 때(체인지이벤트 일어나는 거 갖고 옴)
-  table.find("tbody").on("change", "td:not(:first-child)", function (e) {     //조회해온 tbody에 change 이벤트가 발생했을 때.
+  table.find("tbody").on("change", "td:not(:first-child)", function (e) {
       console.log(e);
       e.preventDefault();
       let tr = $(this).parent(); //클릭된 td의 tr정보 저장
@@ -113,6 +112,7 @@ $(document).ready(function () {
       if (col == 10) {
         //selectBox일 때
         updCont = $(this).find("select option:selected").val();
+        console.log(updCont);
       } else {
         //td일 때
         updCont = $(this).text();
@@ -144,11 +144,11 @@ $(document).ready(function () {
         }
 
         if(flag){
-          addTr = [finPrdCdCode, fnsPrdStkLotNo, slsRtnDtlBaseVol, slsRtnDtlVol, slsRtnDtlVol * danga, slsRtnDtlPrcCls, slsRtnDtlResn];
+          addTr = [finPrdCdCode, fnsPrdStkLotNo, slsRtnDtlBaseVol, slsRtnDtlVol, (slsRtnDtlVol * danga), slsRtnDtlPrcCls, slsRtnDtlResn];
           addList.push(addTr);
         }
       }
-      console.log(addList);
+      console.log(addList); //제품코드, lot번호, 기반품량, 반품량, 금액, 처리구분, 반품사유
       e.stopPropagation();
     });
     
@@ -162,7 +162,7 @@ $(document).ready(function () {
       let modifyTr = [priKey, updCol, updCont];
       modifyList.push(modifyTr);
       console.log(modifyList);
-  }
+    }
 
   //저장 버튼 이벤트
   $("#saveBtn").on("click", function () {
@@ -217,9 +217,12 @@ $(document).ready(function () {
       let priKey = obj[0];
       let updCol = obj[1];
       let updCont = obj[2];
-      console.log("modify");
+
+      console.log(priKey);
+      console.log(updCol);
+      console.log(updCont);
       $.ajax({
-          url: 'ordManage/update',
+          url: 'rtnManage/update',
           type :"PUT",
           dataType : 'text',
           contentType: "application/x-www-form-urlencoded; charset=UTF-8;",

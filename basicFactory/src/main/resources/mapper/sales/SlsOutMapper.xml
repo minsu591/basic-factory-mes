@@ -252,46 +252,47 @@
    	
    	
    	<!-- 완제품 출고 헤더 삭제 -->
-	<delete id="rtnHdDelete">
+	<delete id="outHdDelete" parameterType="slsOutHdVO">
 		DELETE FROM BF_SALES_OUT_HD
-		WHERE SLS_OUT_HD_NO = #{priKey}
+		WHERE SLS_OUT_HD_NO = #{slsOutHdNo}
 	</delete>
-	
-   	<!-- 완제품 출고 디테일 삭제 -->
-   	<delete id="outDelete">
-   		DELETE FROM BF_SALES_OUT_DTL
-   		WHERE SLS_OUT_DTL_NO IN
-   		<foreach item="priKey" collection="list" open="(" separator="," close=")">
-   			#{priKey}
-   		</foreach>
-   	</delete>
+   	
+   	<!-- 출고관리에서 출고내역번호 조회 -->
+   	<select id="outDtlNoSelect" parameterType="slsOutDtlVO" resultType="slsOutDtlVO">
+   		SELECT SLS_OUT_DTL_NO
+   		FROM BF_SALES_OUT_DTL
+   		WHERE SLS_OUT_HD_NO = #{slsOutHdNo}
+   		AND FIN_PRD_CD_CODE = #{finPrdCdCode}
+   	</select>
+   	
+   	<!-- 완제품 출고 디테일 삭제 프로시저 호출-->
+	<select id="callProcOutDtlDel" statementType="CALLABLE">
+		{
+			CALL DELETE_SALES_OUT_PROCEDURE(#{slsOutDtlNo})
+		}
+	</select>
    	
    	<!-- 반품관리에서 출고조회 모달 -->
    	<select id="outDtlViewToReturn" resultType="slsOutDtlVO">
-   		SELECT FNSPRD.FIN_PRD_CD_CODE, 
+		SELECT FNSPRD.FIN_PRD_CD_CODE,
                FNSPRD.FIN_PRD_CD_NAME,
+               FNSPRD.FIN_PRD_CD_PRICE,
                OUTDTL.SLS_OUT_HD_NO,
-               OUTDTL.FNS_PRD_STK_LOT_NO, 
+               OUTDTL.FNS_PRD_STK_LOT_NO,
                OUTDTL.SLS_OUT_DTL_VOL,
-               SUM(RTNDTL.SLS_RTN_DTL_VOL) AS SLS_RTN_DTL_VOL,
-               FNSPRD.FIN_PRD_CD_PRICE
-               
-   		FROM BF_SALES_OUT_DTL OUTDTL
-   		JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
-   		  ON FNSPRD.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
-   		JOIN BF_SALES_FINISH_PRODUCT_STOK FNSPRDSK
-   		  ON FNSPRDSK.FNS_PRD_STK_LOT_NO = OUTDTL.FNS_PRD_STK_LOT_NO
-        JOIN BF_SALES_RTN_DTL RTNDTL
-          ON RTNDTL.FNS_PRD_STK_LOT_NO = OUTDTL.FNS_PRD_STK_LOT_NO
-          
-   		WHERE OUTDTL.SLS_OUT_HD_NO = #{slsOutHdNo}
-   		
-        GROUP BY FNSPRD.FIN_PRD_CD_CODE,
-                         FNSPRD.FIN_PRD_CD_NAME,
-                         OUTDTL.SLS_OUT_HD_NO,
-                         OUTDTL.FNS_PRD_STK_LOT_NO,
-                         OUTDTL.SLS_OUT_DTL_VOL,
-                         FNSPRD.FIN_PRD_CD_PRICE
+               NVL(SUM(RTNDTL.SLS_RTN_DTL_VOL), 0) AS SLS_RTN_DTL_VOL
+		FROM BF_SALES_OUT_DTL OUTDTL
+		JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
+		  ON FNSPRD.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
+		LEFT JOIN BF_SALES_RTN_DTL RTNDTL
+		  ON RTNDTL.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
+		WHERE OUTDTL.SLS_OUT_HD_NO = #{slsOutHdNo}
+		GROUP BY FNSPRD.FIN_PRD_CD_CODE,
+				 FNSPRD.FIN_PRD_CD_PRICE,
+                 FNSPRD.FIN_PRD_CD_NAME,
+                 OUTDTL.SLS_OUT_HD_NO,
+                 OUTDTL.FNS_PRD_STK_LOT_NO,
+                 OUTDTL.SLS_OUT_DTL_VOL
    	</select>
    	<!-- 반품관리에서  -->
    	<select id="checkOrder" resultType="Integer">

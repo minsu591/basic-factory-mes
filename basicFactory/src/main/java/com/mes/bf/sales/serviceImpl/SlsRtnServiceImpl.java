@@ -55,4 +55,9 @@ public class SlsRtnServiceImpl implements SlsRtnService{
 	public void rtnDelete(List<String> delList) {
 		mapper.rtnDelete(delList);
 	}
+
+	@Override
+	public void rtnUpdate(String priKey, String updCol, String updCont) {
+		mapper.rtnUpdate(priKey, updCol, updCont);
+	}
 }

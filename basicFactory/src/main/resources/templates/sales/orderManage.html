@@ -10,7 +10,7 @@
 <body>
     <script type="text/javascript" th:src="@{/js/sales/orderManage.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/sales/findOrder.js}"></script>
-    <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/sales/findVendor.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/sales/findProduct.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/sales/findEmp.js}"></script>
     <link th:href="@{/css/sales/orderManage.css}" rel="stylesheet" />
@@ -54,7 +54,7 @@
                             
                             <div class="form-group mt-3">
                                 <label for="remk" th:text="비고"></label>
-                                <input type="text" id="remk" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
+                                <input type="text" id="remk" name="sls_ord_hd_remk" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
                             </div>
                         </div>
                     </form>

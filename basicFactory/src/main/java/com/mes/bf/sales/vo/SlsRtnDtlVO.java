@@ -13,7 +13,7 @@ public class SlsRtnDtlVO {
 	private String finPrdCdName;	 //제품명
 	private String fnsPrdStkLotNo;	 //완제품LOT번호
 	private Integer slsRtnDtlVol;	 //반품량
-	private Integer slsFinPrdCdPrice;//단가
+	private Integer finPrdCdPrice;	 //단가
 	private Integer slsRtnDtlPrice;	 //금액
 	private Integer slsRtnDtlBaseVol;//기반품량
 	private Integer slsRtnDtlPrcCls; //처리구분

@@ -20,7 +20,7 @@
 		<result property="finPrdCdName" column="fin_prd_cd_name"/>
 		<result property="fnsPrdStkLotNo" column="fns_prd_stk_lot_no"/>
 		<result property="slsRtnDtlVol" column="sls_rtn_dtl_vol"/>
-		<result property="slsFinPrdCdPrice" column="fin_prd_cd_price"/>
+		<result property="finPrdCdPrice" column="fin_prd_cd_price"/>
 		<result property="slsRtnDtlPrice" column="sls_rtn_dtl_price"/>
 		<result property="slsRtnDtlBaseVol" column="sls_rtn_dtl_base_vol" />
 		<result property="slsRtnDtlPrcCls" column="sls_rtn_dtl_prc_cls"/>
@@ -177,6 +177,12 @@
    				#{slsRtnDtlResn})
 	</insert>
 	
+	<!-- 완제품 반품관리 디테일 수정 -->
+   	<update id="rtnUpdate">
+   		UPDATE BF_SALES_RTN_DTL
+   		SET ${updCol} = #{updCont}
+   		WHERE SLS_RTN_DTL_NO = #{priKey}
+   	</update>
 	<!-- 완제품 반품관리 헤더 삭제 -->
 	<delete id="rtnHdDelete">
 		DELETE FROM BF_SALES_RTN_HD
