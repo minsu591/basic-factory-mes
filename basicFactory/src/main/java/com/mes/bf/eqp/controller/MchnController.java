@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +30,20 @@ public class MchnController {
 	public ModelAndView mchnManage() {
 		ModelAndView mav = new ModelAndView("eqp/MchnManage");
 		return mav;
+	}
+	
+	//설비 등록
+	@PostMapping("/mchn/insert")
+	public ResponseEntity<Integer> fltyPrcsInsert(@RequestBody MchnVO vo) {
+		int result = service.mchnInsert(vo);
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+	}
+	
+	//설비 수정
+	@PostMapping(value = "/mchn/update", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Integer> fltyPrcsUpdate(@RequestParam Map<String, String> QueryParameters) {
+		int result = service.mchnUpdate(QueryParameters.get("priKey"), QueryParameters.get("updCol"), QueryParameters.get("updCont"));
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 	
 	//설비 조회

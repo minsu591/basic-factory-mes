@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +30,20 @@ public class InspcController {
 	public ModelAndView inspcManage() {
 		ModelAndView mav = new ModelAndView("eqp/InspcManage");
 		return mav;
+	}
+	
+	//점검 등록
+	@PostMapping("/inspc/insert")
+	public ResponseEntity<Integer> inspcInsert(@RequestBody InspcVO vo){
+		int result = service.inspcInsert(vo);
+		return new ResponseEntity<Integer>(result, HttpStatus.OK);
+	}
+	
+	//점검 수정
+	@PostMapping(value = "/inspc/update", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Integer> inspcUpdate(@RequestParam Map<String, String> QueryParameters) {
+		int result = service.inspcUpdate(QueryParameters.get("prikey"), QueryParameters.get("updCol"), QueryParameters.get("updCont"));
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 	
 	//설비점검내역(모달창)
