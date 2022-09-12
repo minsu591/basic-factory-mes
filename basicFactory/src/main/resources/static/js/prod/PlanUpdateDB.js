@@ -96,7 +96,7 @@ $("document").ready(function(){
             //미계획량 : notPlanVol
             let notPlanVol = tdInfo.closest("tr").find("td:eq(7)").text();
             if(notPlanVol != null && notPlanVol != ''){
-                if(notPlanVol < tdInfo.text()){
+                if(parseInt(notPlanVol) < parseInt(tdInfo.text())){
                     //계획량이 주문량보다 클 때 경고
                     Swal.fire({
                         icon: "error",
@@ -167,10 +167,17 @@ $("document").ready(function(){
                 //추가인지 수정인지 확인
                 let modifyAddFlag = checkModifyOrAdd();
                 addList = $("#planManageTable tbody").find(".addTr");
-                console.log(addList);
                 let planName = $("#planName").val();
+                let trs = $("#planManageTable tbody tr");
                 //생산계획명 검사
-                if(exNull(planName)){
+                if(trs.length == 0){
+                    Swal.fire({
+                        icon: "warning",
+                        title: "저장할 생산계획내역이 존재하지 않습니다",
+                        text: "확인 후 다시 저장해주세요"
+                    });
+                    return false;
+                }else if(exNull(planName)){
                     $("#planName").addClass("nullTd");
                     Swal.fire({
                         icon: "warning",
@@ -251,6 +258,7 @@ $("document").ready(function(){
     function forNull(){
         let flag = false;
         let trs = table.find("tbody tr");
+        let dateFlag = false;
         //null 검사
         for(tr of trs){
             for(idx of notNullList){
@@ -265,6 +273,14 @@ $("document").ready(function(){
                 if(content == null || content == ''){
                     $(td).addClass("nullTd");
                     flag = true;
+                }else if(idx == 9){
+                    //생산게획 시작 검사
+                    let edate = td.next().find("input[type='date']").val();
+                    if(content > edate){
+                        td.addClass("nullTd");
+                        td.next().addClass("nullTd");
+                        dateFlag = true;
+                    }
                 }
             }
         }
@@ -272,6 +288,13 @@ $("document").ready(function(){
             Swal.fire({
                 icon: "error",
                 title: "비어있는 데이터가 존재합니다",
+                text: "확인하고 다시 저장해주세요"
+              });
+            return true;
+        }else if(dateFlag){
+            Swal.fire({
+                icon: "error",
+                title: "작업계획 시작일이 작업계획 종료일보다 큰 데이터가 존재합니다",
                 text: "확인하고 다시 저장해주세요"
               });
             return true;

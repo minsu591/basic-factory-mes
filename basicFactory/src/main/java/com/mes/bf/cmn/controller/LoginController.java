@@ -61,7 +61,11 @@ public class LoginController {
 		if(empInfo == null) {
 			//empInfo가 비었으면
 			result = -1;
-		}else {
+		}else if(empInfo.getEmpAuth().equals("0")){
+			//권한이 있는 아이디가 아니면
+			result = -2;
+		}
+		else{
 			try {
 				md = MessageDigest.getInstance("SHA-256");
 				md.update(empPw.getBytes());
@@ -79,7 +83,7 @@ public class LoginController {
 		}
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
-	
+	//비밀번호 재설정
 	//비밀번호 재설정 아이디 정보 가져오기
 	@PostMapping(value = "/login/reset/empId")
 	public ResponseEntity<Integer> checkEmpId(@RequestBody EmpVO emp) {
@@ -97,11 +101,10 @@ public class LoginController {
 			result = -3;
 		}else {
 			String token = jwt.createToken(empId);
-			System.out.println("token"+token);
 			//성공
 			String cont = "<h3>Basic Factory 비밀번호 재설정 메일입니다</h3>"
 					+ "<p>아래의 링크로 접속하여 비밀번호를 재설정해주세요<p>"
-					+ "<a href='localhost/cmn/login/reset/"+token+"'>비밀번호 재설정</a>";
+					+ "<a href='http://localhost/cmn/login/reset/"+token+"'>비밀번호 재설정</a>";
 			MailVO mailInfo = new MailVO();
 			mailInfo.setToAddress(empEmail);
 			mailInfo.setSubject("Basic Factory 비밀번호 재설정 메일입니다");
@@ -123,8 +126,9 @@ public class LoginController {
 		if(claimMap == null) {
 			//만료된 토큰
 			//오류 페이지 띄우기
-			return "cmn/Login";
+			return "layout/error404";
 		}else {
+			//비밀번호 변경페이지
 			String empId = (String) claimMap.get("data");
 			EmpVO emp = new EmpVO();
 			emp.setEmpId(empId);

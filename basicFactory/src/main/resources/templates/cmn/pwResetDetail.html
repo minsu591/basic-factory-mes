@@ -23,6 +23,7 @@
 
 	<!-- vendor css -->
 	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/cmn/code.css">
 </head>
 <body>
 <script type="text/javascript" th:src="@{/js/cmn/pwResetDetail.js}"></script>
@@ -38,13 +39,14 @@
 							<h4 class="mb-3 f-w-400">비밀번호 재설정</h4>
 							<hr>
 							<div class="form-group mb-4">
-								<input type="text" class="form-control" id="empId" placeholder="아이디" th:value="${emp.empId}"disabled>
+								<input type="text" class="form-control" id="empId" placeholder="아이디" th:value="${emp.empId}" disabled>
 							</div>
 							<div class="form-group mb-4">
-								<input type="password" class="form-control" id="newPassword" placeholder="새로운 비밀번호" required>
+								<p>소문자, 특수문자, 숫자를 하나 이상 포함하는 8 ~ 16자의 비밀번호</p>
+								<input type="password" class="form-control" id="newPw" placeholder="새로운 비밀번호" required>
 							</div>
 							<div class="form-group mb-4">
-								<input type="password" class="form-control" id="newPassword" placeholder="비밀번호 확인" required>
+								<input type="password" class="form-control" id="confirmPw" placeholder="비밀번호 확인" required>
 							</div>
 
 							<button class="btn btn-block btn-primary mb-4" id="okBtn">확인</button>

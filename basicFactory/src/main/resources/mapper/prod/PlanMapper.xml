@@ -56,7 +56,7 @@
 		<choose>
 			<when
 				test="(startDate != null and startDate != '') and (endDate != null and endDate != '')">
-				AND PH.plan_hd_date BETWEEN #{startDate} AND #{endDate}
+				AND PH.plan_hd_date BETWEEN TO_DATE(#{startDate}, 'YY/MM/DD') AND TO_DATE(#{endDate}, 'YY/MM/DD') + 0.9999
 			</when>
 			<when test="startDate != null and startDate != ''">
 				AND PH.plan_hd_date = #{startDate}

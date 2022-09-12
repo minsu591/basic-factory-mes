@@ -1,5 +1,9 @@
 package com.mes.bf.prod.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.mes.bf.cmn.vo.EmpVO;
 import com.mes.bf.prod.service.PlanService;
 import com.mes.bf.prod.vo.ColPlanOrdVO;
-import com.mes.bf.prod.vo.ColPlanVO;
 import com.mes.bf.prod.vo.PlanHdDtlVO;
 import com.mes.bf.prod.vo.PlanHdVO;
 import com.mes.bf.prod.vo.PlanVO;
@@ -39,7 +42,15 @@ public class PlanController {
 	//생산 계획 조회
 	@RequestMapping("/planView")
 	public String planView(Model model) {
-		List<ColPlanOrdVO> plans = service.findPlanOrd(null, null,null);
+		//오늘날짜 가져오기
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
+		//오늘 날짜
+		String edate = simpleFormat.format(cal.getTime());
+		cal.add(cal.DATE, -6);
+		//일주일 전 날짜
+		String sdate = simpleFormat.format(cal.getTime());
+		List<ColPlanOrdVO> plans = service.findPlanOrd(sdate, edate, null);
 		model.addAttribute("plans",plans);
 		return "prod/PlanView";
 	}
@@ -64,7 +75,6 @@ public class PlanController {
 	@GetMapping("/myPlanView/dtl")
 	public ResponseEntity<List<ColPlanOrdVO>> planMyDtlView(@RequestParam String planHdCode){
 		List<ColPlanOrdVO> plans = service.findMyPlan(planHdCode);
-		System.out.println(plans);
 		return new ResponseEntity<List<ColPlanOrdVO>>(plans, HttpStatus.OK);
 	}
 	
