@@ -18,5 +18,15 @@ public class MchnServiceImpl implements MchnService {
 	public List<MchnVO> listMchn(String mchnCode) {
 		return mapper.listMchn(mchnCode);
 	}
+
+	@Override
+	public int mchnInsert(MchnVO vo) {
+		return mapper.mchnInsert(vo);
+	}
+
+	@Override
+	public int mchnUpdate(String prikey, String updCol, String updCont) {
+		return mapper.mchnUpdate(prikey, updCol, updCont);
+	}
 	
 }

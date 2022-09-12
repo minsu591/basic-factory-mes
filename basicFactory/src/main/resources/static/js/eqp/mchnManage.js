@@ -2,12 +2,12 @@ $("document").ready(function () {
   //체크박스 체크유무
   $("#allCheck").click("change", function () {
     if ($("#allCheck").is(":checked")) {
-      $("#inspctbody input:checkbox[name='chk']").prop("checked", true);
+      $("#mchntbody input:checkbox[name='chk']").prop("checked", true);
     } else {
-      $("#inspctbody input:checkbox[name='chk']").prop("checked", false);
+      $("#mchntbody input:checkbox[name='chk']").prop("checked", false);
     }
   });
-  $("#inspctbody").on("click", "input:checkbox[name='chk']", function (e) {
+  $("#mchntbody").on("click", "input:checkbox[name='chk']", function (e) {
     let total = $("input[name=chk]").length;
     let checked = $("input[name=chk]:checked").length;
     if (total != checked) {
@@ -22,11 +22,11 @@ $("document").ready(function () {
   let modifyList = [];
   let addList = [];
   //수정할 테이블
-  let table = $("#inspcTable");
+  let table = $("#mchnTable");
   //td 수정을 적용할 인덱스(모달창, input 빼고 오직 td에서 이루워 지는 수정만)
-  let avArr = [6,7,9];
+  let avArr = [2,3,6,10,12];
   //notNull인 td
-  let notNullList = [2,3,4,5,6,8];
+  let notNullList = [2,4,10,11];
   //primary키인 index
   let priKeyIdx = 1;
 
@@ -96,10 +96,13 @@ $("document").ready(function () {
     let updCol = table.find("thead").find("th:eq("+col+")").attr("name");        //th의 col번째 th name값 갖고 옴(수정될 column)
     let updCont = $(this).text();                                               //해당 td의 text값을 저장(수정될 content);
   
-    if(col == 4){                                                               //수정하고 싶은 td를 클릭하면 td text만 가져오게 되어있는데 
+    if(col == 6){                                                               //수정하고 싶은 td를 클릭하면 td text만 가져오게 되어있는데 
       updCont = $(this).find("input[type='date']").val();                       //예외적으로 체크박스나 날짜 데이터는 td안에 input이니까 td안에 input value도 가져오겠다
     }
-    if(col == 5){                                                               //수정하고 싶은 td를 클릭하면 td text만 가져오게 되어있는데 
+    if(col == 7){                                                               //수정하고 싶은 td를 클릭하면 td text만 가져오게 되어있는데 
+      updCont = $(this).find("input[type='date']").val();                       //예외적으로 체크박스나 날짜 데이터는 td안에 input이니까 td안에 input value도 가져오겠다
+    }
+    if(col == 8){                                                               //수정하고 싶은 td를 클릭하면 td text만 가져오게 되어있는데 
       updCont = $(this).find("input[type='date']").val();                       //예외적으로 체크박스나 날짜 데이터는 td안에 input이니까 td안에 input value도 가져오겠다
     }
     if(priKey != null && priKey != '') {                                        //priKey가 null이면 modifyList에 담기지 않도록 하는 if문
@@ -145,10 +148,10 @@ $("document").ready(function () {
         modifySaveAjax(obj);
       }
       //추가용
-      let trs = $("#inspctbody").find("tr[name='addTr']");
-      let inspcNo;
+      let trs = $("#mchntbody").find("tr[name='addTr']");
+      let mchnCode;
       for(tr of trs){
-        inspcNo = $(tr).find("td:eq(1)").text();
+        mchnCode = $(tr).find("td:eq(1)").text();
         console.log("신규 주문 추가등록!!");
         addSaveAjax(tr);
       }
@@ -165,7 +168,7 @@ $("document").ready(function () {
     let updCont = obj[2];
     console.log("modify");
     $.ajax({
-      url : 'inspc/update',
+      url : 'mchn/update',
       type : "POST",
       dataType : 'text',
       contentType : "application/x-www-form-urlencoded; charset=UTF-8;",
@@ -184,27 +187,31 @@ $("document").ready(function () {
 
   //불량처리 추가 등록 Ajax
   function addSaveAjax(tr){
-    let mchnCode = $(tr).find("td:eq(2)").text();
-    let inspcSdate = $(tr).find("td:eq(4) input[type='date']").val();
-    let inspcEdate = $(tr).find("td:eq(5) input[type='date']").val();
-    let inspcActnPnt = $(tr).find("td:eq(6)").text();
-    let inspcActnRsn = $(tr).find("td:eq(7)").text();
-    let empId = $(tr).find("td:eq(8)").text();
-    let inspcRemk = $(tr).find("td:eq(9)").text();
+    let mchnName = $(tr).find("td:eq(2)").text();
+    let mchnModel = $(tr).find("td:eq(3)").text();
+    let vendCdCode = $(tr).find("td:eq(4)").text();
+    let mchnPrice = $(tr).find("td:eq(5)").text();
+    let mchnPrchsDate = $(tr).find("td:eq(6) input[type='date']").val()
+    let mchnMnfctDate = $(tr).find("td:eq(7) input[type='date']").val()
+    let mchnInspcDate = $(tr).find("td:eq(8) input[type='date']").val()
+    let mchnInspcCycle = $(tr).find("td:eq(9)").text();
+    let mchnRemk = $(tr).find("td:eq(10)").text();
     
     
     $.ajax({
-      url : 'inspc/insert',
+      url : 'mchn/insert',
       type : 'POST',
       contentType: "application/json;charset=utf-8",
       data :  JSON.stringify({
-        mchnCode,
-        inspcSdate,
-        inspcEdate,
-        inspcActnPnt,
-        inspcActnRsn,
-        empId,
-        inspcRemk
+        mchnName,
+        mchnModel,
+        vendCdCode,
+        mchnPrice,
+        mchnPrchsDate,
+        mchnMnfctDate,
+        mchnInspcDate,
+        mchnInspcCycle,
+        mchnRemk
       }),
       success : function(){
         console.log("추가 성공");
@@ -223,16 +230,19 @@ $("document").ready(function () {
       node = `<tr>
                 <td><input type="checkbox" name="chk" checked ></td>`;
     }
-    node += `<td name="inspc_no"></td>
-            <td class="mchnCode" name="mchn_code"></td>
-            <td class="mchnName"></td>
-            <td><input type="date" name="inspc_sdate"></td>
-            <td><input type="date" name="inspc_edate"></td>
-            <td name="inspc_actn_pnt"></td>
-            <td name="inspc_actn_rsn"></td>
-            <td class="empId" name="emp_id"></td>
-            <td name="inspc_remk"></td>
+    node += `<td name="mchn_code"></td>
+            <td name="mchn_name"></td>
+            <td name="mchn_model"></td>
+            <td class="거래처코드" name="vend_cd_code"></td>
+            <td class="제작업체명"></td>
+            <td name="mchn_price"></td>
+            <td><input type="date" name="mchn_prchs_date"></td>
+            <td><input type="date" name="mchn_mnfct_date"></td>
+            <td><input type="date" name="mchn_inspc_date"></td>
+            <td name="mchn_inspc_cycle"></td>
+            <td name="mchn_stts"></td>
+            <td name="mchn_remk"></td>
         </tr>`;
-    $("#inspctbody").append(node);
+    $("#mchntbody").append(node);
   });
 });

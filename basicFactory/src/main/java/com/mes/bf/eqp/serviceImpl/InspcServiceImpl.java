@@ -34,6 +34,16 @@ public class InspcServiceImpl implements InspcService{
 		return mapper.findListInspc(inspcSdate, inspcEdate, mchnCode);
 	}
 
+	@Override
+	public int inspcInsert(InspcVO vo) {
+		return mapper.inspcInsert(vo);
+	}
+
+	@Override
+	public int inspcUpdate(String prikey, String updCol, String updCont) {
+		return mapper.inspcUpdate(prikey, updCol, updCont);
+	}
+
 
 
 }

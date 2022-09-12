@@ -2,6 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.eqp.mapper.MchnMapper">
 
+	<insert id="mchnInsert" parameterType="MchnVO">
+		insert into bf_eqp_mchn
+		values('MCHN'||LPAD(BF_EQP_MCHN_CODE_SEQ.nextval, 3, 0),
+				#{mchnName},
+				#{vendCdCode},
+				#{mchnModel},
+				#{mchnPrice},
+				#{mchnPrchsDate},
+				#{mchnMnfctDate},
+				#{mchnStts},
+				#{mchnInspcDate},
+				#{mchnInspcCycle},
+				#{mchnRemk})
+	</insert>
+	
+	<update id="mchnUpdate">
+		UPDATE bf_eqp_mchn 
+		SET ${updCol} = #{updCont}
+		WHERE FLTY_PRCS_NO = #{prikey}
+	</update>
+
 	<select id="listMchn" resultType="MchnVO">
 		SELECT mc.mchn_code, 
 				mc.mchn_name, 

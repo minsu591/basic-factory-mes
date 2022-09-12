@@ -2,6 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.eqp.mapper.InspcMapper">
 
+	<insert id="inspcInsert" parameterType="inspc">
+		insert into bf_eqp_inspc
+		values(BF_EQP_INSPC_SEQ.NEXTVAL,
+				#{mchnCode},
+				#{inspcSdate},
+				#{inspcEdate},
+				#{inspcActnPnt},
+				#{inspcActnRsn},
+				#{inspcRemk},
+				#{empId}) 
+	</insert>
+	<update id="inspcUpdate">
+		update bf_eqp_inspc
+		SET ${updCol} = #{updCont}
+		WHERE INSPC_NO = #{prikey}
+	</update>
+
 	<!-- 설비점검내역(모달창) -->
 	<select id="findInspcList" resultType="inspc">
 		SELECT I.INSPC_NO, 
