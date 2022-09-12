@@ -10,6 +10,7 @@ import com.mes.bf.cmn.service.LineService;
 import com.mes.bf.cmn.vo.LineCodeHdVO;
 import com.mes.bf.cmn.vo.LineCodeVO;
 import com.mes.bf.cmn.vo.LineInsertVO;
+import com.mes.bf.eqp.vo.MchnVO;
 
 @Service
 public class LineServiceImpl implements LineService {
@@ -51,6 +52,10 @@ public class LineServiceImpl implements LineService {
 	@Override
 	public int lineCodeInsert(LineCodeVO line) {
 		return mapper.lineCodeInsert(line);
+	}
+	@Override
+	public List<MchnVO> listMchn(MchnVO mchn) {
+		return mapper.listMchn(mchn);
 	}
 
 }

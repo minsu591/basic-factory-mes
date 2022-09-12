@@ -50,7 +50,7 @@ $(document).ready(function () {
         type : 'GET',
         dataType : "json",
         data : {
-            planHdCode : planHdCode
+            planHdCode
         },
         success : function(data){
           //생산지시 array 삭제
@@ -64,6 +64,7 @@ $(document).ready(function () {
           $("#planDetailTable tbody tr").remove();
           for(obj of data){
             let finInfoList = finInfo(obj.finPrdCdCode);
+            console.log(finInfoList);
             detailTableMakeRow(obj,finInfoList);
           }
           $("#findNotDonePlanModal").modal("hide");

@@ -25,6 +25,21 @@
 		ORDER BY L.LINE_CD_CODE
 	</select>
 	
+	<!-- mchn select -->
+	<select id="listMchn" resultType="MchnVO">
+		SELECT MCHN_CODE, MCHN_NAME
+		FROM BF_EQP_MCHN
+		<where>
+			<if test="mchnCode != null and mchnCode != ''">
+			AND MCHN_CODE LIKE '%'||#{mchnCode}||'%'
+			</if>
+			<if test="mchnName != null and mchnName != ''">
+			AND MCHN_NAME LIKE '%'||#{mchnName}||'%'
+			</if>
+			<![CDATA[AND ROWNUM < 10]]>
+		</where>
+	</select>
+	
 	<!-- line header insert, update, delete -->
 	<insert id="lineCodeHdInsert">
 		INSERT INTO BF_CMN_LINE_CODE_HD

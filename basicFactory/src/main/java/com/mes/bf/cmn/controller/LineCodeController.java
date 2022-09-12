@@ -20,7 +20,7 @@ import com.mes.bf.cmn.vo.LineCodeHdVO;
 import com.mes.bf.cmn.vo.LineCodeVO;
 import com.mes.bf.cmn.vo.LineInsertVO;
 import com.mes.bf.cmn.vo.ProcCodeVO;
-import com.mes.bf.eqp.vo.VfindMchnVO;
+import com.mes.bf.eqp.vo.MchnVO;
 import com.mes.bf.prod.service.ProcService;
 
 @Controller
@@ -108,10 +108,10 @@ public class LineCodeController {
 	
 	
 	// 설비명 조회
-	@GetMapping(value = "/findmchn", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<VfindMchnVO>> findEmp(@RequestParam Map<String, String> QueryParameters) {
-		List<VfindMchnVO> list = procService.findMchn(QueryParameters.get("mchnCode"), QueryParameters.get("mchnName"));
-		return new ResponseEntity<List<VfindMchnVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	@PostMapping(value = "/findmchn", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<MchnVO>> findMchn(@RequestBody MchnVO mchn) {
+		List<MchnVO> list = service.listMchn(mchn);
+		return new ResponseEntity<List<MchnVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
 	// 공정명 조회

@@ -7,11 +7,13 @@ import org.apache.ibatis.annotations.Mapper;
 import com.mes.bf.cmn.vo.LineCodeHdVO;
 import com.mes.bf.cmn.vo.LineCodeVO;
 import com.mes.bf.cmn.vo.LineInsertVO;
+import com.mes.bf.eqp.vo.MchnVO;
 
 @Mapper
 public interface LineMapper {
 	List<LineCodeHdVO> listLineCodeHd(String lineName);
 	List<LineCodeVO> listLineCode(String lineCode);
+	
 	//lineHd insert, update, delete
 	int lineCodeHdInsert(String lineName);
 	int lineCodeHdUpdate(String priKey,String updCol, String updCont);
@@ -21,4 +23,7 @@ public interface LineMapper {
 	int lineCodeAllInsert(LineInsertVO lineInfo);
 	int lineCodeUpdate(String priKey,String updCol, String updCont);
 	int lineCodeDelete(List<String> delList);
+	
+	//설비 코드 검색
+	List<MchnVO> listMchn(MchnVO mchn);
 }
