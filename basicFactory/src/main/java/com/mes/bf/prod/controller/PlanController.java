@@ -52,7 +52,6 @@ public class PlanController {
 		//일주일 전 날짜
 		String sdate = simpleFormat.format(cal.getTime());
 		
-		
 		List<ColPlanOrdVO> plans = service.findPlanOrd(sdate, edate, null);
 		model.addAttribute("plans",plans);
 		return "prod/PlanView";
