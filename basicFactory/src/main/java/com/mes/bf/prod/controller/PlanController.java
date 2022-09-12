@@ -1,9 +1,7 @@
 package com.mes.bf.prod.controller;
 
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class PlanController {
 	
 	//생산 계획 조회
 	@RequestMapping("/planView")
-	public String planView(Model model) {
+	public String planView(Model model, @PageableDefault(page = 0, size = 2, direction = Sort.Direction.DESC) Pageable pageable) {
 		//오늘날짜 가져오기
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -50,6 +51,8 @@ public class PlanController {
 		cal.add(cal.DATE, -6);
 		//일주일 전 날짜
 		String sdate = simpleFormat.format(cal.getTime());
+		
+		
 		List<ColPlanOrdVO> plans = service.findPlanOrd(sdate, edate, null);
 		model.addAttribute("plans",plans);
 		return "prod/PlanView";

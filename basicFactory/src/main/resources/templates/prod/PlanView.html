@@ -14,12 +14,19 @@
     
     <script type="text/javascript" th:src="@{/js/prod/PlanView.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
+    
+    <script type="text/javascript" th:src="@{/js/pages/pagination.js}"></script>
+    <link th:href="@{/css/pagination.css}" rel="stylesheet" />
     <div class="pcoded-main-container">
         <h1>생산 계획 조회 </h1>
         <hr>
         <div class="col-xl-12">
                   <div class="card">
                       <div class="card-header">
+                        <!--excel btn-->
+                        <div class="rightBtn">
+                            <button type="button" class="btn  btn-primary" id="exportBtn">Excel</button>
+                        </div>
                           <form class="form-inline">
                               <div class="form-group mt-3">
                                   <label for="planSdate" th:text="'생산 계획 일자'"></label>

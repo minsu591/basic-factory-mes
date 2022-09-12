@@ -3,9 +3,10 @@ package com.mes.bf.prod.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.mes.bf.prod.vo.ColPlanOrdVO;
-import com.mes.bf.prod.vo.ColPlanVO;
 import com.mes.bf.prod.vo.PlanHdVO;
 import com.mes.bf.prod.vo.PlanVO;
 
@@ -17,6 +18,7 @@ public interface PlanMapper {
 	
 	List<ColPlanOrdVO> findPlanOrd(String startDate, String endDate, String data);
 	List<PlanVO> findPlan(String planHdCode);
+	
 	
 	//plan 헤더 insert
 	Integer planHdInsert(PlanHdVO planHdVO);

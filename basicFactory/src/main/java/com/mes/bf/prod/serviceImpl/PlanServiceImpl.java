@@ -3,12 +3,13 @@ package com.mes.bf.prod.serviceImpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mes.bf.prod.mapper.PlanMapper;
 import com.mes.bf.prod.service.PlanService;
 import com.mes.bf.prod.vo.ColPlanOrdVO;
-import com.mes.bf.prod.vo.ColPlanVO;
 import com.mes.bf.prod.vo.PlanHdVO;
 import com.mes.bf.prod.vo.PlanVO;
 
@@ -56,6 +57,7 @@ public class PlanServiceImpl implements PlanService {
 	public Integer planDtlUpdate(String priKey, String updCol, String updCont) {
 		return mapper.planDtlUpdate(priKey, updCol, updCont);
 	}
+
 	
 	
 
