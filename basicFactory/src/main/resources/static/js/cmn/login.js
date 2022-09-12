@@ -19,18 +19,24 @@ $("document").ready(function(){
             }),
             success : function(result){
                 //-1 : 존재하는 아이디가 아님
+                //-2 : 유효한 아이디가 아님
                 // 0 : 비밀번호 오류
                 // 1 : 로그인
                 console.log("result");
                 if(result == -1){
                     Swal.fire({
                         icon: "warning",
-                        title: "아이디가 존재하지 않습니다."
+                        title: "아이디가 존재하지 않습니다"
+                      });
+                }else if(result == -2){
+                    Swal.fire({
+                        icon: "warning",
+                        title: "유효한 아이디가 아닙니다"
                       });
                 }else if(result == 0){
                     Swal.fire({
                         icon: "warning",
-                        title: "비밀번호가 올바르지 않습니다."
+                        title: "비밀번호가 올바르지 않습니다"
                       });
                 }else if(result == 1){
                     location.href = 'http://localhost/prod/planView';

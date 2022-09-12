@@ -20,8 +20,8 @@ $("document").ready(function(){
 
     function vendorMakeRow(obj){
         let node = `<tr>
-                        <td><input type="checkbox" name="chk"></td>
-                        <td>${obj.vendCdCode}</td>
+                        <td class="cantModifyTd"><input type="checkbox" name="chk"></td>
+                        <td class="cantModifyTd">${obj.vendCdCode}</td>
                         <td class="empId">${obj.empId}</td>
                         <td>${obj.vendCdClfy}</td>
                         <td>${obj.vendCdNm}</td>

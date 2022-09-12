@@ -21,6 +21,11 @@ $("document").ready(function(){
         let flag = false;
         let tdInfo = $(this);
         let defaultVal;
+
+        if(tdInfo.hasClass("nullTd")){
+            tdInfo.removeClass("nullTd");
+        }
+
         //적용할 인덱스인지 확인
         for(let i = 0; i<avArr.length;i++){
             if(col == avArr[i]){
@@ -33,20 +38,18 @@ $("document").ready(function(){
             return;
         }
         tdInfo.attr("contenteditable","true");
-        //td에 focus가 되면
-        tdInfo.focus(function(e){
-            defaultVal = tdInfo.text();
-            tdInfo.addClass("tdBorder");
-        });
+        tdInfo.focus();
+        defaultVal = tdInfo.text();
+        tdInfo.addClass("tdBorder");
         //enter나 esc 누르면 blur되도록
         tdInfo.on("keyup",function(key){
             if(key.keyCode == 13 || key.keyCode == 27){
                 key.preventDefault();
-                tdInfo.blur();
+                tdInfo.unbind("blur").bind("blur");
             }
         });
         //td에 blur가 되면
-        tdInfo.blur(function(e){
+        tdInfo.unbind("blur").bind("blur",function(e){
             e.preventDefault();
             tdInfo.attr("contenteditable","false")
                     .removeClass("tdBorder");
@@ -55,12 +58,15 @@ $("document").ready(function(){
                 for(idx of notNullList){
                     if(col == idx){
                         tdInfo.text(defaultVal);
-                        break;
+                        return false;
                     }
                 }
-            }else{
+            }
+            //추가된 행이면 modifyList에 추가되지 않게
+            if(tdInfo.closest("tr").attr("name") != 'addTr'){
                 tdInfo.trigger("change");
             }
+            
             e.stopPropagation();
         });
 
@@ -70,7 +76,6 @@ $("document").ready(function(){
     
     //기존에 있는 값들 중에 td변경될 때
     table.find("tbody td:not(:first-child)").change(function(e){
-        console.log(e);
         e.preventDefault();
         let col = $(this).index();
         let priKey = $(this).parent().find("td:eq("+priKeyIdx+")").text();
@@ -87,7 +92,6 @@ $("document").ready(function(){
             updCont = $(this).text();
         }
         checkNewModify(priKey,updCol,updCont);
-        console.log(modifyList);
         e.stopPropagation();
     })
 
@@ -105,35 +109,63 @@ $("document").ready(function(){
     //저장 버튼 이벤트
     $("#saveBtn").on("click",function(){
         let trs = table.find("tbody tr");
-        if(confirm("저장하시겠습니까?")==true){
-            //null 검사
-            for(tr of trs){
-                for(idx of notNullList){
-                    let content = $(tr).find("td:eq("+idx+")").text();
-                    if(content == null || content == ''){
-                        alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
-                        return;
+        let nullFlag = false;
+        Swal.fire({
+            icon: "question",
+            title: "저장하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "확인",
+            cancelButtonText: "취소",
+            closeOnClickOutside: false,
+          }).then((result) =>{
+            if(result.isConfirmed){
+                //null 검사
+                for(tr of trs){
+                    for(idx of notNullList){
+                        let content = $(tr).find("td:eq("+idx+")").text();
+                        if(content == null || content == ''){
+                            $(tr).find("td:eq("+idx+")").addClass("nullTd");
+                            nullFlag = true;
+                        }
                     }
                 }
-            }
-            
-            //삭제용
-            if(delList.length != 0){
-                deleteSaveAjax(delList);
-            }
-            //수정용
-            for(obj of modifyList){
-                modifySaveAjax(obj);
-            }
-            //추가용
-            addList = table.find("tr[name='addTr']");
-            for(obj of addList){
-                addSaveAjax(obj);
-            }
+                if(nullFlag){
+                    Swal.fire({
+                        icon: "error",
+                        title: "비어있는 데이터가 존재합니다",
+                        text: "확인하고 다시 저장해주세요"
+                    });
+                    return false;
+                }
+                
+                //삭제용
+                if(delList.length != 0){
+                    deleteSaveAjax(delList);
+                }
+                //수정용
+                for(obj of modifyList){
+                    modifySaveAjax(obj);
+                }
+                //추가용
+                addList = table.find("tr[name='addTr']");
+                for(obj of addList){
+                    addSaveAjax(obj);
+                }
 
-            alert("저장이 완료되었습니다.");
-            location.reload();
-        }
+                Swal.fire({
+                    icon: "success",
+                    title: "저장이 완료되었습니다",
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "확인",
+                    closeOnClickOutside: false,
+                }).then((result) =>{
+                    location.reload();
+                });
+            }
+        });
     });
 
     function modifySaveAjax(obj){
@@ -164,12 +196,12 @@ $("document").ready(function(){
     //추가 버튼 누르면 행 추가
     $("#addBtn").on("click",function(){
         let node = `<tr name="addTr">
-                        <td><input type="checkbox" name="cb"></td>`;
+                        <td class="cantModifyTd"><input type="checkbox" name="cb"></td>`;
         if ($("#allCheck").is(":checked")){
             node = `<tr>
-                        <td><input type="checkbox" name="cb" checked ></td>`;
+                        <td class="cantModifyTd"><input type="checkbox" name="cb" checked ></td>`;
         }
-        node +=`<td></td>
+        node +=`<td class="cantModifyTd"></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -191,7 +223,6 @@ $("document").ready(function(){
 
         //checkbox인 td
         let finPrdCdUse = $(obj).find("td:eq(6) input");
-        console.log(finPrdCdUse);
         if($(finPrdCdUse).is(":checked")){
             finPrdCdUse = 1;
         }else{
@@ -204,13 +235,13 @@ $("document").ready(function(){
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
-                finPrdCdName : finPrdCdName,
-                finPrdCdVol : finPrdCdVol,
-                finPrdCdUnit : finPrdCdUnit,
-                finPrdCdPrice : finPrdCdPrice,
-                finPrdCdUse : finPrdCdUse,
-                finPrdCdRemk : finPrdCdRemk,
-                empId : empId
+                finPrdCdName,
+                finPrdCdVol,
+                finPrdCdUnit,
+                finPrdCdPrice,
+                finPrdCdUse,
+                finPrdCdRemk,
+                empId
             },
             success : function(result){
                 console.log("추가 성공");
@@ -241,7 +272,7 @@ $("document").ready(function(){
     function deleteSaveAjax(delList){
         $.ajax({
             url : 'finProdCode/delete',
-            type : 'POST',
+            type : 'GET',
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {

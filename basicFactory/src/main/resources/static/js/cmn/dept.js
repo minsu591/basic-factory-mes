@@ -28,7 +28,7 @@ $("document").ready(function(){
                     <td><input type="checkbox" name="cb" checked></td>`;
         }
             node +=`<td>${obj.deptNo}</td>
-                    <td>${obj.deptName}</td>
+                    <td class="canModifyTd">${obj.deptName}</td>
                     </tr>`
 
         $("#deptTable tbody").append(node);

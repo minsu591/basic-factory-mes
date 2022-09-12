@@ -28,6 +28,15 @@ $("document").ready(function(){
         let flag = false;
         let tdInfo = $(this);
         let defaultVal;
+
+        //nullTd class 제거
+        if(tdInfo.hasClass("nullTd")){
+            tdInfo.removeClass("nullTd");
+        }
+        if(tdInfo.hasClass("sameTd")){
+            tdInfo.removeClass("sameTd");
+        }
+
         //적용할 인덱스인지 확인
         for(let i = 0; i<lineAvArr.length;i++){
             if(col == lineAvArr[i]){
@@ -41,10 +50,10 @@ $("document").ready(function(){
         }
         tdInfo.attr("contenteditable","true");
         //td에 focus가 되면
-        tdInfo.focus(function(e){
-            defaultVal = tdInfo.text();
-            tdInfo.addClass("tdBorder");
-        });
+        tdInfo.focus();
+        defaultVal = tdInfo.text();
+        tdInfo.addClass("tdBorder");
+        
         //enter나 esc 누르면 blur되도록
         tdInfo.on("keyup",function(key){
             if(key.keyCode == 13 || key.keyCode == 27){
@@ -53,7 +62,7 @@ $("document").ready(function(){
             }
         });
         //td에 blur가 되면
-        tdInfo.blur(function(e){
+        tdInfo.unbind("blur").bind("blur",function(e){
             e.preventDefault();
             tdInfo.attr("contenteditable","false")
                     .removeClass("tdBorder");
@@ -65,7 +74,9 @@ $("document").ready(function(){
                         break;
                     }
                 }
-            }else{
+            }
+            
+            if(!tdInfo.closest("tr").hasClass('addTr')){
                 tdInfo.trigger("change");
             }
             e.stopPropagation();
@@ -127,70 +138,126 @@ $("document").ready(function(){
         let lineTrs = lineTable.find("tbody tr");
         let procTrs = procTable.find("tbody tr");
         let lineNames = [];
-        if(confirm("저장하시겠습니까?")==true){
-            //null 검사
-            for(tr of lineTrs){
-                for(idx of lineNotNullList){
-                    let content = $(tr).find("td:eq("+idx+")").text();
-                    if(content == null || content == ''){
-                        alertNull("라인 관리에 공백인 칸이 존재합니다.");
-                        return;
-                    }else{
-                        //라인명 중복검사
-                        for(n of lineNames){
-                            if(n == content){
-                                alertNull("라인명이 동일한 행이 있습니다.");
-                                return;
+        let lineNullFlag = false;
+        let procNullFlag = false;
+        //라인명 중복검사 flag
+        let alertSameFlag = false;
+        Swal.fire({
+            icon: "question",
+            title: "저장하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "확인",
+            cancelButtonText: "취소"
+          }).then((result) =>{
+            if(result.isConfirmed){
+                for(tr of lineTrs){
+                    //lineTrs null 검사
+                    for(idx of lineNotNullList){
+                        let tdInfo = $(tr).find("td:eq("+idx+")");
+                        let content = tdInfo.text();
+                        //기존에 있는 border class 전부 삭제
+                        if(tdInfo.hasClass("nullTd")){
+                            tdInfo.removeClass("nullTd");
+                        }
+                        if(tdInfo.hasClass("sameTd")){
+                            tdInfo.removeClass("sameTd");
+                        }
+
+                        if(content == null || content == ''){
+                            $(tr).find("td:eq("+idx+")").addClass("nullTd");
+                            lineNullFlag = true;
+                        }else{
+                            //라인명 중복검사
+                            let sameFlag = false;
+                            if(lineNames.length == 0){
+                                lineNames.push(content);
+                            }else{
+                                for(let i = 0; i<lineNames.length; i++){
+                                    if(lineNames[i] == content){
+                                        //원본
+                                        if(!$(lineTrs[i]).find("td:eq("+idx+")").hasClass("sameTd")){
+                                            $(lineTrs[i]).find("td:eq("+idx+")").addClass("sameTd");
+                                        }
+                                        //동일한 tr
+                                        $(tr).find("td:eq("+idx+")").addClass("sameTd");
+                                        sameFlag = true;
+                                        alertSameFlag = true;
+                                    }
+                                }
+                                if(!sameFlag){
+                                    lineNames.push(content);
+                                }
                             }
                         }
-                        lineNames.push(content);
-                    }
-                    
-                }
-            }
-            for(tr of procTrs){
-                for(idx of procNotNullList){
-                    let content = $(tr).find("td:eq("+idx+")").text();
-                    if(content == null || content == ''){
-                        alertNull("공정 관리에 공백인 칸이 존재합니다.");
-                        return;
                     }
                 }
-            }
-            
-            //삭제용
-            if(lineDelList.length != 0){
-                lineDeleteSaveAjax(lineDelList);
-            }
-            if(procDelList.length != 0){
-                procDeleteSaveAjax(procDelList);
-            }
 
-            //수정용
-            for(obj of lineModifyList){
-                lineModifySaveAjax(obj);
-            }
-            for(obj of procModifyList){
-                procModifySaveAjax(obj);
-            }
-            //추가용
-            addSaveAjax();
+                //공정 null 검사
+                for(tr of procTrs){
+                    for(idx of procNotNullList){
+                        
+                        let tdInfo = $(tr).find("td:eq("+idx+")");
+                        let content = tdInfo.text();
+                        //기존에 있는 border class 전부 삭제
+                        if(tdInfo.hasClass("nullTd")){
+                            tdInfo.removeClass("nullTd");
+                        }
+                        if(content == null || content == ''){
+                            $(tr).find("td:eq("+idx+")").addClass("nullTd");
+                            lineNullFlag = true;
+                        }
+                    }
+                }
+                
+                if(lineNullFlag || procNullFlag){
+                    Swal.fire({
+                        icon: "error",
+                        title: "비어있는 데이터가 존재합니다",
+                        text: "확인하고 다시 저장해주세요"
+                    });
+                    return false;
+                }
 
-            Swal.fire({
-                icon: "success",
-                title : "저장이 완료되었습니다."
-              }).then(function(){
-                  location.reload();
-              });
-        }
+                if(alertSameFlag){
+                    Swal.fire({
+                        icon: "error",
+                        title: "중복되는 라인명이 존재합니다",
+                        text: "확인하고 다시 저장해주세요"
+                    });
+                    return false;
+                }
+
+
+                //삭제용
+                if(lineDelList.length != 0){
+                    lineDeleteSaveAjax(lineDelList);
+                }
+                if(procDelList.length != 0){
+                    procDeleteSaveAjax(procDelList);
+                }
+
+                //수정용
+                for(obj of lineModifyList){
+                    lineModifySaveAjax(obj);
+                }
+                for(obj of procModifyList){
+                    procModifySaveAjax(obj);
+                }
+                //추가용
+                addSaveAjax();
+
+                Swal.fire({
+                    icon: "success",
+                    title : "저장이 완료되었습니다."
+                }).then(function(){
+                    location.reload();
+                });
+            }
+        });
     });
-    function alertNull(title){
-        Swal.fire({
-            icon: "warning",
-            title,
-            text: "확인 후 다시 저장해주세요."
-          });
-    }
+
     function lineModifySaveAjax(obj){
         //checkbox인거
         let priKey = obj[0];
@@ -249,7 +316,7 @@ $("document").ready(function(){
                         <td><input type="checkbox" name="lineCb" checked></td>`;
             }
             node += `<td></td>
-                    <td></td>
+                    <td class="canModifyTd"></td>
                 </tr>`;
             $("#lineTable tbody").append(node);
     });
@@ -290,7 +357,11 @@ $("document").ready(function(){
             no+=1;
         }
         if($("#procLineName").val() == ''){
-            alert("라인을 선택하고 공정을 추가해주세요.")
+            Swal.fire({
+                icon: "error",
+                title: "라인을 선택하고 공정을 선택해주세요"
+            });
+
         }else{
             let node = `<tr class='addTr'>
                         <td><input type="checkbox" name="procCb"></td>
@@ -300,9 +371,9 @@ $("document").ready(function(){
                         <td><input type="checkbox" name="procCb" checked></td>`;
             }
             node += `<td>`+no+`</td>
-                    <td class="procCode"></td>
+                    <td class="procCode canModifyTd"></td>
                     <td></td>
-                    <td class="mchnCode"></td>
+                    <td class="mchnCode canModifyTd"></td>
                     <td></td>
                 </tr>`;
             $("#lineProcTable tbody").append(node);

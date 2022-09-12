@@ -39,7 +39,7 @@ public class FinProdCodeController {
 	}
 	
 	//insert, modify, update
-	@PostMapping(value = "/finProdCode/delete", produces = { MediaType.APPLICATION_JSON_VALUE })
+	@GetMapping(value = "/finProdCode/delete")
 	public ResponseEntity<Integer> finProdDelete(@RequestParam(value="delList[]") List<String> delList) {
 		int result = service.finProdDelete(delList);
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);

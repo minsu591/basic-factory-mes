@@ -1,5 +1,9 @@
 package com.mes.bf.prod.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.mes.bf.cmn.vo.EmpVO;
 import com.mes.bf.prod.service.PlanService;
 import com.mes.bf.prod.vo.ColPlanOrdVO;
-import com.mes.bf.prod.vo.ColPlanVO;
 import com.mes.bf.prod.vo.PlanHdDtlVO;
 import com.mes.bf.prod.vo.PlanHdVO;
 import com.mes.bf.prod.vo.PlanVO;
@@ -39,7 +42,15 @@ public class PlanController {
 	//생산 계획 조회
 	@RequestMapping("/planView")
 	public String planView(Model model) {
-		List<ColPlanOrdVO> plans = service.findPlanOrd(null, null,null);
+		//오늘날짜 가져오기
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
+		//오늘 날짜
+		String edate = simpleFormat.format(cal.getTime());
+		cal.add(cal.DATE, -6);
+		//일주일 전 날짜
+		String sdate = simpleFormat.format(cal.getTime());
+		List<ColPlanOrdVO> plans = service.findPlanOrd(sdate, edate, null);
 		model.addAttribute("plans",plans);
 		return "prod/PlanView";
 	}
@@ -54,16 +65,16 @@ public class PlanController {
 	
 	//생산 계획 관리에서 내 생산계획 조회 모달
 	@GetMapping("/myPlanView")
-	public ResponseEntity<List<ColPlanVO>> planMyView(@RequestParam Map<String, String> QueryParameters, HttpServletRequest request){
+	public ResponseEntity<List<PlanHdVO>> planMyView(@RequestParam Map<String, String> QueryParameters, HttpServletRequest request){
 		HttpSession session = request.getSession();
 		EmpVO emp = (EmpVO) session.getAttribute("emp");
-		List<ColPlanVO> plans = service.findMyPlan(QueryParameters.get("sdate"), QueryParameters.get("edate"), emp.getEmpId());
-		return new ResponseEntity<List<ColPlanVO>>(plans, HttpStatus.OK);
+		List<PlanHdVO> plans = service.findPlanInst(QueryParameters.get("sdate"), QueryParameters.get("edate"), emp.getEmpId());
+		return new ResponseEntity<List<PlanHdVO>>(plans, HttpStatus.OK);
 	}
 	//생산 계획 관리에서 내 생산계획 상세 조회
 	@GetMapping("/myPlanView/dtl")
-	public ResponseEntity<List<ColPlanOrdVO>> planMyDtlView(@RequestParam Map<String, String> QueryParameters){
-		List<ColPlanOrdVO> plans = service.findPlanOrd("0", "0", QueryParameters.get("planCode"));
+	public ResponseEntity<List<ColPlanOrdVO>> planMyDtlView(@RequestParam String planHdCode){
+		List<ColPlanOrdVO> plans = service.findMyPlan(planHdCode);
 		return new ResponseEntity<List<ColPlanOrdVO>>(plans, HttpStatus.OK);
 	}
 	
@@ -90,13 +101,14 @@ public class PlanController {
 	//생산 지시에서 미지시 생산계획 조회
 	@GetMapping(value="/planNotDoneView", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<PlanHdVO>> planNotDoneView(@RequestParam Map<String, String> QueryParameters){
-		List<PlanHdVO> plans = service.findPlanInst(QueryParameters.get("sdate"), QueryParameters.get("edate"));
+		List<PlanHdVO> plans = service.findPlanInst(QueryParameters.get("sdate"), QueryParameters.get("edate"),null);
 		return new ResponseEntity<List<PlanHdVO>>(plans, HttpStatus.OK);
 	}
 	//계획 상세 조회
 	@GetMapping(value="/planNotDoneView/dtl", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<PlanVO>> planNotDoneViewDtl(@RequestParam String planHdCode){
 		List<PlanVO> plans = service.findPlan(planHdCode);
+		System.out.println(plans);
 		return new ResponseEntity<List<PlanVO>>(plans, HttpStatus.OK);
 	}
 	

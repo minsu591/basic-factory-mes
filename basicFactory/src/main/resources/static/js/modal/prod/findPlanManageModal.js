@@ -15,8 +15,8 @@ $("document").ready(function(){
             method : "GET",
             dataType : "json",
             data : {
-                sdate : sdate,
-                edate : edate
+                sdate,
+                edate
             },
             success : function(data){
                 $("#findMyPlanTable tbody tr").remove();
@@ -27,44 +27,37 @@ $("document").ready(function(){
         })
     }
     
-    
-
     //생산계획 조회 모달 내에 데이터 출력 make row
     function myPlanMakeRow(obj){
         let node = `<tr>
-        <td>${obj.planHdVO.planHdCode}</td>
-        <td>${obj.planHdVO.planHdName}</td>
-        <td>${obj.planHdVO.slsOrdHdNo}</td>
-        <td>${obj.planHdVO.planHdDate}</td>
-        <td>${obj.planHdVO.empId}</td>
-        <td>${obj.planHdVO.planHdRemk}</td>
+            <td>${obj.planHdDate}</td>
+            <td>${obj.planHdCode}</td>
+            <td>${obj.planHdName}</td>
+            <td>${obj.empId}</td>
+            <td>${obj.planHdRemk}</td>
         </tr>`
         $("#findMyPlanTable tbody").append(node);
     }
 
 
-
-
     //미계획 주문내역 조회 모달
     $("#NotDoneOrdBtn").on("click",function(){
-        $("#findNotDoneOrdModal").modal("show");
         notDoneOrdClick();
+        $("#findNotDoneOrdModal").modal("show");
     })
     
     $("#findNotDoneOrdSearchBtn").on("click",notDoneOrdClick);
 
-    
-
     function notDoneOrdClick(){
         let sdate = $("#ordSdate").val();
-        let edate = $("#ordSdate").val();
+        let edate = $("#ordEdate").val();
         $.ajax({
             url : 'notDoneOrd',
             method : "GET",
             dataType : "json",
             data : {
-                sdate : sdate,
-                edate : edate
+                sdate,
+                edate
             },
             success : function(data){
                 $("#findNotDoneOrdTable tbody tr").remove();
@@ -78,8 +71,8 @@ $("document").ready(function(){
     //미계획 주문내역 모달창 출력 make row
     function notDoneOrdMakeRow(ord){
         let node = `<tr>
-            <td>${ord.slsOrdHdNo}</td>
             <td>${ord.slsOrdHdDate}</td>
+            <td>${ord.slsOrdHdNo}</td>
             <td>${ord.vendCdCode}</td>
             <td>${ord.vendCdNm}</td>
             <td>${ord.empId}</td>
@@ -87,5 +80,14 @@ $("document").ready(function(){
         </tr>`
         $("#findNotDoneOrdTable tbody").append(node);
     }
+
+    $("#findNotDoneOrdModal").on("hidden.bs.modal",function(){
+        $("#ordSdate").val('');
+        $("#ordEdate").val('');
+    });
+    $("#findMyPlanModal").on("hidden.bs.modal",function(){
+        $("#plansdate").val('');
+        $("#planedate").val('');
+    });
 
 });

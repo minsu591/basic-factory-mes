@@ -16,6 +16,7 @@
 	<resultMap type="lineCodeVO" id="lineMap">
 		<id property="lineCdNo" column="line_cd_no" />
 		<result property="lineCdNo" column="line_cd_no" />
+		<result property="lineCdCode" column="line_cd_code"/>
 		<result property="lineCdHdCode" column="line_cd_hd_code" />
 		<result property="procCdCode" column="proc_cd_code" />
 		<result property="procCdName" column="proc_cd_name" />

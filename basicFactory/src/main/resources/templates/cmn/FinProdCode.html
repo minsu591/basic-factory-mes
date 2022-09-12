@@ -51,10 +51,10 @@ xmlns:th="http://www.thymeleaf.org"
                                     <th th:text="'담당자 아이디'" name="emp_id"></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody th:class="canModifyTbody">
                                 <tr th:each="prod : ${prods}">
-                                    <td><input type="checkbox" name="cb"></td>
-                                    <td th:text="${prod.finPrdCdCode}">완제품코드</td>
+                                    <td th:class="cantModifyTd"><input type="checkbox" name="cb"></td>
+                                    <td th:text="${prod.finPrdCdCode}" th:class="cantModifyTd">완제품코드</td>
                                     <td th:text="${prod.finPrdCdName}">완제품명</td>
                                     <td th:text="${prod.finPrdCdVol}">수량</td>
                                     <td th:text="${prod.finPrdCdUnit}">단위</td>

@@ -50,8 +50,8 @@ xmlns:th="http://www.thymeleaf.org"
                                 <tr th:each="proc : ${procs}">
                                     <td><input type="checkbox" name="cb"></td>
                                     <td th:text="${proc.procCdCode}">PROC001</td>
-                                    <td th:text="${proc.procCdName}">반죽</td>
-                                    <td th:text="${proc.procCdRemk}"></td>
+                                    <td th:text="${proc.procCdName}" class="canModifyTd">반죽</td>
+                                    <td th:text="${proc.procCdRemk}" class="canModifyTd"></td>
                                 </tr>
                             </tbody>
                         </table>

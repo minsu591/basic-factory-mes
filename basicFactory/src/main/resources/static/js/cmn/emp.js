@@ -26,10 +26,10 @@ $("document").ready(function(){
     //직원 make Tr
     function empMakeRow(obj){
         let node = `<tr>
-                        <td><input type="checkbox" name="cb"></td>
-                        <td>${obj.empVO.empId}</td>
-                        <td>********</td>
-                        <td>${obj.deptVO.deptName}</td>`;
+                        <td class="cantModifyTd"><input type="checkbox" name="cb"></td>
+                        <td class="cantModifyTd">${obj.empVO.empId}</td>
+                        <td class="modifyPassword">********</td>
+                        <td class="deptName">${obj.deptVO.deptName}</td>`;
         node += makeSelectForPos(obj.empVO.empPos);
         node += `<td>${obj.empVO.empName}</td>
                         <td>${obj.empVO.empEmail}</td>

@@ -27,7 +27,7 @@ $("document").ready(function(){
                     <td><input type="checkbox" name="lineCb" checked></td>`
         }
         node += `<td>${obj.lineCdHdCode}</td>
-                <td>${obj.lineCdHdName}</td>
+                <td class="canModifyTd">${obj.lineCdHdName}</td>
                 </tr>`;
         $("#lineTable tbody").append(node);
     }
@@ -37,7 +37,8 @@ $("document").ready(function(){
         let lineCode = $(this).find("td:eq(1)").text();
         let lineName = $(this).find("td:eq(2)").text();
         
-        if((lineName == null || lineName == '') && $("#procLineCode").val()==lineCode){
+        console.log($("#procLineCode").val()==lineCode);
+        if(lineName == null || lineName == '' || $("#procLineCode").val()==lineCode){
             return;
         }
         if($("#lineProcTable tbody").find("tr").length != 0){
@@ -92,9 +93,9 @@ $("document").ready(function(){
                     <td><input type="checkbox" name="procCb" checked></td>`
         }
         node += `<td>${obj.lineCdOrd}</td>
-                <td class="procCode">${obj.procCdCode}</td>
+                <td class="procCode canModifyTd">${obj.procCdCode}</td>
                 <td>${obj.procCdName}</td>
-                <td class="mchnCode">${obj.mchnCode}</td>
+                <td class="mchnCode canModifyTd">${obj.mchnCode}</td>
                 <td>${obj.mchnName}</td>
                 </tr>`;
         $("#lineProcTable tbody").append(node);

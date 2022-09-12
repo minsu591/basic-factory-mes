@@ -216,21 +216,21 @@
 	                GROUP BY PH.SLS_ORD_HD_NO, P.FIN_PRD_CD_CODE) P
 	                ON P.SLS_ORD_HD_NO = OH.SLS_ORD_HD_NO
 	                    AND P.FIN_PRD_CD_CODE = O.FIN_PRD_CD_CODE
-		WHERE O.SLS_ORD_DTL_VOL > P.PLAN_PROD_VOL
-		OR PLAN_PROD_VOL IS NULL
+		WHERE (O.SLS_ORD_DTL_VOL > P.PLAN_PROD_VOL
+		OR PLAN_PROD_VOL IS NULL)
 		<choose>
 			<when
 				test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
-				AND O.sls_ord_dtl_dlv_date BETWEEN #{ordSdate} AND #{ordEdate}
+				AND OH.SLS_ORD_HD_DATE BETWEEN TO_DATE(#{ordSdate}, 'YY/MM/DD') AND TO_DATE(#{ordEdate}, 'YY/MM/DD') + 0.9999
 			</when>
 			<when test="ordSdate != null and ordSdate != ''">
-				AND O.sls_ord_dtl_dlv_date = #{ordSdate}
+				AND OH.SLS_ORD_HD_DATE = #{ordSdate}
 			</when>
 			<when test="ordEdate != null and ordEdate != ''">
-				AND O.sls_ord_dtl_dlv_date = #{ordEdate}
+				AND OH.SLS_ORD_HD_DATE = #{ordEdate}
 			</when>
 		</choose>
-		ORDER BY SLS_ORD_HD_DATE DESC
+		ORDER BY SLS_ORD_HD_DATE DESC, OH.SLS_ORD_HD_NO DESC
    	</select>
    	
    	<select id="findOrderForPlanDtl" resultType="slsOrdDtlVO">

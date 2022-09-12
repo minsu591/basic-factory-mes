@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>Login</title>
+	<title>Reset Password</title>
 	<!-- Apex Chart -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 	
@@ -25,7 +25,8 @@
 	<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<script type="text/javascript" th:src="@{/js/cmn/login.js}"></script>
+<script type="text/javascript" th:src="@{/js/cmn/pwReset.js}"></script>
+<!-- <script type="text/javascript" th:src="@{/js/cmn/login.js}"></script> -->
 <!-- [ auth-signin ] start -->
 	<div class="auth-wrapper">
 		<div class="auth-content text-center">
@@ -34,21 +35,21 @@
 				<div class="row align-items-center ">
 					<div class="col-md-12">
 						<div class="card-body">
-							<h4 class="mb-3 f-w-400">로그인</h4>
+							<h4 class="mb-3 f-w-400">비밀번호 재설정</h4>
+							<h6 class="mb-3 f-w-400">확인 버튼을 누르면 해당 이메일로 <br>비밀번호 재설정 링크가 전송됩니다.</h6>
 							<hr>
-							<div class="form-group mb-3">
+							<div class="form-group mb-4">
 								<input type="text" class="form-control" id="empId" placeholder="아이디" required>
 							</div>
 							<div class="form-group mb-4">
-								<input type="password" class="form-control" id="empPw" placeholder="비밀번호" required>
+								<input type="text" class="form-control" id="empName" placeholder="이름" required>
 							</div>
-							<!-- <div class="custom-control custom-checkbox text-left mb-4 mt-2">
-								<input type="checkbox" class="custom-control-input" id="customCheck1">
-								<label class="custom-control-label" for="customCheck1">Save credentials.</label>
-							</div> -->
-							<button class="btn btn-block btn-primary mb-4" id="signInBtn">로그인</button>
+							<div class="form-group mb-4">
+								<input type="email" class="form-control" id="empEmail" placeholder="확인 이메일" required>
+							</div>
+
+							<button class="btn btn-block btn-primary mb-4" id="okBtn">확인</button>
 							<hr>
-							<p class="mb-2 text-muted">비밀번호를 잊으셨나요?&nbsp;<a th:href="@{/cmn/login/reset}" class="f-w-400">재설정</a></p>
 						</div>
 					</div>
 				</div>
@@ -56,8 +57,6 @@
 		</div>
 	</div>
 	<!-- [ auth-signin ] end -->
-
-
 
 
 </body>

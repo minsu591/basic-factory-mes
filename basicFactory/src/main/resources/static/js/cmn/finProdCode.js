@@ -24,8 +24,8 @@ $("document").ready(function(){
 
     function finProdMakeRow(obj){
         let node = `<tr>
-                        <td><input type="checkbox" name="cb"></td>
-                        <td>${obj.finPrdCdCode}</td>
+                        <td class="cantModifyTd"><input type="checkbox" name="cb"></td>
+                        <td class="cantModifyTd">${obj.finPrdCdCode}</td>
                         <td>${obj.finPrdCdName}</td>
                         <td>${obj.finPrdCdVol}</td>
                         <td>${obj.finPrdCdUnit}</td>
