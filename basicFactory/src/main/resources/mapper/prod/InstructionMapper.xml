@@ -389,8 +389,85 @@
 	<delete id="deleteInst">
 		DELETE
 		FROM
+			BF_PROD_INST_DETAIL
+		WHERE inst_prod_no = #{instProdNo}
+	</delete>
+	
+	<!-- 생산지시 헤더 조회 -->
+	<select id="findInst" resultType="com.mes.bf.prod.vo.InstructionVO">
+	
+		SELECT 
+			inst.inst_no AS instNo, 
+			inst.emp_id AS empId,
+			inst.inst_name AS instName,
+			inst.inst_date AS instDate,
+			inst.inst_remk AS instRemk,
+			NVL(inst.plan_hd_code, '') AS planHdCode,
+			detail.work_scope AS workScope
+		FROM 
+			BF_PROD_INSTRUCTION inst,
+            BF_PROD_INST_DETAIL detail
+        WHERE 
+        	inst.inst_no = detail.inst_no
+       		<if test="instSdate != null and instSdate !=''">
+				<![CDATA[ AND TO_CHAR(inst.inst_date, 'yyyy-MM-dd') >= #{instSdate} ]]>
+			</if>
+
+			<if test="instEdate != null and instEdate !='' ">
+				 <![CDATA[ AND TO_CHAR(inst.inst_date, 'yyyy-MM-dd') <= #{instEdate} ]]>
+			</if>
+        	
+        AND
+        	detail.work_scope = '진행전'
+		GROUP BY  
+			inst.inst_no, 
+			inst.emp_id,
+			inst.inst_name,
+			inst.inst_date,
+			inst.inst_remk,
+			inst.plan_hd_code,
+			detail.work_scope
+		ORDER BY inst.inst_no
+	</select>
+	
+	<select id="findNotInProcInst" resultType="com.mes.bf.prod.vo.NotInProcInstVO">
+	SELECT id.fin_prd_cd_code,
+            p.plan_idx,
+            ph.plan_hd_code,
+            p.plan_sdate,
+            p.plan_edate,
+            id.inst_prod_indica_vol,
+            p.plan_prod_vol,
+            id.work_date,
+            id.inst_prod_no
+	FROM 
+		BF_PROD_INSTRUCTION I
+	JOIN 
+		BF_PROD_INST_DETAIL ID
+	ON I.INST_NO = ID.INST_NO
+	LEFT OUTER JOIN 
+				BF_PROD_PLAN_HD PH
+	ON PH.PLAN_HD_CODE = I.PLAN_HD_CODE	
+	LEFT OUTER JOIN 
+				BF_PROD_PLAN P
+	ON P.FIN_PRD_CD_CODE = ID.FIN_PRD_CD_CODE
+   	AND 
+   		P.PLAN_HD_CODE = PH.PLAN_HD_CODE
+	WHERE 
+		I.INST_NO = #{instNo}
+	AND 
+		ID.WORK_SCOPE = '진행전'
+
+	
+	</select>
+	
+	<!-- 생산지시 헤더 삭제 -->
+	<delete id="deleteInstHd">
+		DELETE
+		FROM
 			BF_PROD_INSTRUCTION
 		WHERE inst_no = #{instNo}
+	
 	</delete>
 	
 	

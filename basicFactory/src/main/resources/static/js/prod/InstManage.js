@@ -33,11 +33,15 @@ $(document).ready(function () {
   });
   //생산지시 삭제 버튼
   $("#delRowBtn").click(function () {
+    let checklength = 0;
+    let trlength = $("#planDetailTable tbody tr").length;
+
     if ($("input[type='checkbox']:checked").length === 0) {
       deleteWarning();
       return;
     }
     $("input[type='checkbox']:checked").each(function (k, val) {
+      checklength += 1;
       let lineIndex = lineArray.indexOf(
         $(this).parent().parent().find("td:eq(11)").children().val()
       );
@@ -51,8 +55,18 @@ $(document).ready(function () {
       lineArray.splice(lineIndex, 1);
       inDtlVol.splice(inDtlVolIndex, 1);
       prodCodeArr.splice(procCodeIndex, 1);
+
       deleteCheck($(this).parent().parent());
     });
+
+    if (trlength == checklength) {
+      //지시 헤더 삭제
+      $("#instNo").val();
+      console.log("삭제할 인스트노->" + $("#instNo").val())
+      deleteInstHd($("#instNo").val());
+    }
+
+
   });
 
   //저장 버튼 클릭이벤트
@@ -84,7 +98,7 @@ $(document).ready(function () {
     let instName = $("#instname").val();
     let instRemk = $("#instremk").val();
     let instNo = $("#instNo").val();
-    let instProdNo = $("#instProdNo").val();
+    let instProdNo;
     let dataArray = [];
     //  재고량이 충분할때
     if (!check) {
@@ -115,6 +129,14 @@ $(document).ready(function () {
             prodCode = $(this).find("td:eq(1)").children().val();
             prodIndicaVol = $(this).find("td:eq(10)").children().val();
             workDate = $(this).find("td:eq(12)").children().val();
+            instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
+            instobjdetail = {
+              instProdNo: instProdNo,
+              instProdIndicaVol: prodIndicaVol,
+              finPrdCdCode: prodCode,
+              workDate: workDate,
+            };
+            dataArray.push(instobjdetail);
           } else if ($(this).children().children().is(":checked") == false) {
             check = true;
           }
@@ -125,19 +147,13 @@ $(document).ready(function () {
           return;
         }
 
-        instobjdetail = {
-          instProdNo: instProdNo,
-          instProdIndicaVol: prodIndicaVol,
-          finPrdCdCode: prodCode,
-          workDate: workDate,
-        };
-        dataArray.push(instobjdetail);
+
         console.log(instobjheader);
         console.log(instobjdetail);
 
+        //수정
         requiredCheck(instobjheader, dataArray, "update");
 
-        //수정
       } else {
         // 저장일 경우
         // let instDate = $("#instdate").val();
@@ -270,25 +286,7 @@ $(document).ready(function () {
       findProdName(prodCode, prodName, prodUnit, lineName);
     });
   });
-  //생산지시수정
-  function updateInst(instobjheader, instobjdetail) {
-    $.ajax({
-      url: "updateinst",
-      method: "POST",
-      contentType: "application/json;charset=utf-8",
-      //dataType: "json",
-      data: JSON.stringify({
-        vo: instobjheader,
-        detailvo: instobjdetail,
-      }),
-      error: function (error, status, msg) {
-        alert("상태코드 " + status + "에러메시지" + msg);
-      },
-      success: function (data) {
-        console.log("update success");
-      },
-    });
-  }
+
   //제품코드로 제품이름,규격,라인 찾기
   function findProdName(prodCode, prodName, prodUnit, lineName) {
     $.ajax({
@@ -305,6 +303,25 @@ $(document).ready(function () {
         prodName.val("");
         prodUnit.val("");
         lineName.val("");
+      },
+    });
+  }
+
+  //생산지시 헤더 삭제
+  function deleteInstHd(instNo) {
+    $.ajax({
+      url: "deleteinsthd",
+      method: "DELETE",
+      contentType: "application/json;charset=utf-8",
+      dataType: "text",
+      data: JSON.stringify({
+        instNo: instNo,
+      }),
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (data) {
+        console.log(" delete success");
       },
     });
   }
@@ -462,7 +479,7 @@ function insertInstAndDetail(instobjheader, dataArray) {
       detailvo: dataArray,
     }),
     error: function (error, status, msg) {
-      alert("상태코드 " + status + "에러메시지" + msg);
+      console.log("err")
     },
     success: function (data) {
       console.log(" insert success");
@@ -480,7 +497,6 @@ function requiredCheck(instobjheader, dataArray, command) {
       $("#instname").val() == "" ||
       $("#empid").val() == ""
     ) {
-      requiredWarn();
 
       if (dataArray[i].finPrdCdCode == "") {
         $("#planDetailTable tbody tr")
@@ -506,20 +522,44 @@ function requiredCheck(instobjheader, dataArray, command) {
       if ($("#empid").val() == "") {
         $("#empid").addClass("required");
       }
+      requiredWarn();
+      return;
     } else {
     }
   }
 
   if (command == "save") {
     insertInstAndDetail(instobjheader, dataArray);
-    console.log("저장일 떄 ->" + instobjheader, dataArray);
-    //saveSuccess();
+    //console.log("저장일 떄 ->" + instobjheader, dataArray);
+    saveSuccess();
   } else if (command == "update") {
     //생산지시 수정
+    //console.log("수정일 떄 -> " + dataArray);
     updateInst(instobjheader, dataArray);
     updateSuccess();
   }
 }
+
+//생산지시수정
+function updateInst(instobjheader, instobjdetail) {
+  $.ajax({
+    url: "updateinst",
+    method: "PUT",
+    contentType: "application/json;charset=utf-8",
+    //dataType: "json",
+    data: JSON.stringify({
+      vo: instobjheader,
+      detailvo: instobjdetail,
+    }),
+    error: function (error, status, msg) {
+      alert("상태코드 " + status + "에러메시지" + msg);
+    },
+    success: function (data) {
+      console.log("update success");
+    },
+  });
+}
+
 
 function deleteWarning() {
   Swal.fire({
@@ -528,42 +568,34 @@ function deleteWarning() {
   });
 }
 function deleteCheck(tr) {
-  Swal.fire({
-    icon: "warning",
-    title: "생산지시가 삭제됩니다.",
-    text: "정말 삭제하시겠습니까?",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "확인",
-    cancelButtonText: "취소",
-    closeOnClickOutside: false,
-  }).then((result) => {
-    if (result.isConfirmed) {
-      console.log("instNO->" + $("#instNo").val());
-      deleteInst($("#instNo").val());
-      tr.remove();
-      deleteSuccess();
-    }
-  });
+
+  if (tr.hasClass("updateInst")) {
+    console.log("업데이트 클래스 !!")
+    let instProdNo = tr.find("input:hidden[name=instProdNo]").val();
+    console.log('instProdNo' + instProdNo);
+    deleteques(instProdNo);
+  } else {
+    tr.remove();
+  }
 }
 
 //생산지시삭제
-function deleteInst(instNo) {
+function deleteInst(instProdNo) {
   $.ajax({
     url: "deleteinst",
     method: "DELETE",
     contentType: "application/json;charset=utf-8",
+
     dataType: "text",
     data: JSON.stringify({
-      instNo: instNo,
+      instProdNo: instProdNo,
     }),
     error: function (error, status, msg) {
       alert("상태코드 " + status + "에러메시지" + msg);
     },
-    // success: function (data) {
-    //   console.log(" delete success");
-    // },
+    success: function (data) {
+      console.log(" delete success");
+    },
   });
 }
 //자재발주페이지 이동
@@ -632,4 +664,25 @@ function requiredWarn() {
     title: "입력하지 않은 값이 있습니다.",
   });
   return;
+}
+
+function deleteques(instProdNo) {
+
+  Swal.fire({
+    icon: "warning",
+    title: "생산지시가 삭제됩니다.",
+    text: "정말 삭제하시겠습니까?",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "확인",
+    cancelButtonText: "취소",
+    closeOnClickOutside: false,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deleteInst(instProdNo);
+      //tr.remove();
+      deleteSuccess();
+    }
+  });
 }

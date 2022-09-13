@@ -48,7 +48,7 @@ input[type="text"]:read-only {
 }
 
 #planDetailTable tbody tr input[type="checkbox"] {
-  vertical-align: middle;
+  margin-top: 0.7rem;
 }
 
 .required {

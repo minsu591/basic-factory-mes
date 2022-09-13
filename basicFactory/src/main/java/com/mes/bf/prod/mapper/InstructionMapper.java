@@ -13,6 +13,7 @@ import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.InstAndDetailVO;
 import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.InstructionVO;
+import com.mes.bf.prod.vo.NotInProcInstVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 import com.mes.bf.prod.vo.VRscNeedQtyVO;
@@ -86,5 +87,15 @@ public interface InstructionMapper {
 	void updateInstDetail(InstructionDetailVO str);
 	
 	//생산지시 삭제 
-	void deleteInst(InstructionVO vo);
+	void deleteInst(InstructionDetailVO vo);
+	
+	//생산지시 헤더 조회
+	List<InstructionVO> findInst(String instSdate,String instEdate); 
+	
+	//진행전 생산지시 데이터
+	List<NotInProcInstVO> findNotInProcInst(int instNo);
+	
+	//생산지시 헤더 삭제 
+	void deleteInstHd(InstructionVO vo);
+	
 }

@@ -12,6 +12,7 @@ import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.InstAndDetailVO;
 import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.InstructionVO;
+import com.mes.bf.prod.vo.NotInProcInstVO;
 import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
@@ -59,11 +60,20 @@ public interface InstructionService {
 
 	// 직원 아이디로 직원 이름 찾기
 	EmpVO getEmpName(String empId);
-	
-	//생산지시 통합업데이트
+
+	// 생산지시 통합업데이트
 	void updateInstruction(InstAndDetailVO vo);
-	
-	//생산지시 삭제 
-	void deleteInst(InstructionVO vo);
+
+	// 생산지시 삭제
+	void deleteInst(InstructionDetailVO vo);
+
+	// 생산지시 헤더 조회
+	List<InstructionVO> findInst(String instSdate,String instEdate);
+
+	// 진행전 생산지시 데이터
+	List<NotInProcInstVO> findNotInProcInst(int instNo);
+
+	// 생산지시 헤더 삭제
+	void deleteInstHd(InstructionVO vo);
 
 }

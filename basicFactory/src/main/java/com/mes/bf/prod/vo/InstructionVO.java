@@ -15,5 +15,8 @@ public class InstructionVO {
 	private Date instDate; //지시작성일자
 	private String instRemk; //특기사항 
 	private String planHdCode; //생산계획코드 
+	private String workScope;
+	private Date instSdate;
+	private Date instEdate;
 	
 }

@@ -23,7 +23,7 @@
 								<label for="empName" th:text="생산지시일자"></label>
 								 <input type="date" id="instSdate" name="instSdate" class="form-control mx-sm-3">
 								 ~
-								 <input type="date" id="Instedate" name="Instedate" class="form-control mx-sm-3">
+								 <input type="date" id="instEdate" name="instEdate" class="form-control mx-sm-3">
 								<button type="button" class="btn  btn-primary" id="FindNotInProgressInstBtn" th:text="검색"></button>
 							</div>
 						</div>
@@ -34,14 +34,11 @@
 									<thead>
 										<tr>
 											<th th:text="순번"></th>
+											<th th:text="생산지시명"></th>
+											<th th:text="생산지시번호"></th>
 											<th th:text="지시일자"></th>
-											<th th:text="지시번호"></th>
-											<th th:text="제품코드"></th>
-											<th th:text="제품명"></th>
-											<th th:text="규격"></th>
-											<th th:text="지시량"></th>
-											<th th:text="작업구분"></th>
-											<th th:text="공정작업일자"></th>
+											<th th:text="담당직원"></th>
+											<th th:text="생산계획코드"></th>
 										</tr>
 									</thead>
 									<tbody>
