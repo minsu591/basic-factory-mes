@@ -54,6 +54,7 @@ $(document).ready(function () {
       deleteCheck($(this).parent().parent());
     });
   });
+
   //저장 버튼 클릭이벤트
   $("#instSaveBtn").click(function () {
     let check = false;
@@ -123,6 +124,7 @@ $(document).ready(function () {
           notChecked();
           return;
         }
+
         instobjdetail = {
           instProdNo: instProdNo,
           instProdIndicaVol: prodIndicaVol,
@@ -144,12 +146,14 @@ $(document).ready(function () {
         // let instRemk = $("#instRemk").val();
         let checkbox = $("input:checkbox:checked");
         //let dataArray = [];
+        let planHdCode;
         checkbox.each(function (i) {
           let tr = checkbox.parent().parent().eq(i);
           let td = tr.children();
           let prodCode = td.children().eq(1).val(); //제품코드
           let prodIndicaVol = td.children().eq(10).val(); //지시량
           let workDate = td.children().eq(12).val(); //작업날짜
+          planHdCode = td.children().eq(5).val(); //계획코드
 
           instobjdetail = {
             instProdIndicaVol: prodIndicaVol,
@@ -161,6 +165,7 @@ $(document).ready(function () {
         instobjheader = {
           empId: empId,
           instName: instName,
+          planHdCode: planHdCode,
           instDate: instDate,
           instRemk: instRemk,
         };
@@ -502,16 +507,17 @@ function requiredCheck(instobjheader, dataArray, command) {
         $("#empid").addClass("required");
       }
     } else {
-      if (command == "save") {
-        insertInstAndDetail(instobjheader, dataArray);
-
-        saveSuccess();
-      } else if (command == "update") {
-        //생산지시 수정
-        updateInst(instobjheader, dataArray);
-        updateSuccess();
-      }
     }
+  }
+
+  if (command == "save") {
+    insertInstAndDetail(instobjheader, dataArray);
+    console.log("저장일 떄 ->" + instobjheader, dataArray);
+    //saveSuccess();
+  } else if (command == "update") {
+    //생산지시 수정
+    updateInst(instobjheader, dataArray);
+    updateSuccess();
   }
 }
 
