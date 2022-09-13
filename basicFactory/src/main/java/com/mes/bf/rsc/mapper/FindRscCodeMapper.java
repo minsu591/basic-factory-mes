@@ -18,6 +18,9 @@ public interface FindRscCodeMapper {
 	//자재LOT번호 조회
 	List<RscStockVO> rscLotNoList(String rscCdCode, String rscCdName);
 	
+	//재고수량이 0이 아닌 자재LOT번호 조회
+	List<RscStockVO> canRscLotNoList(String rscCdCode, String rscCdName);
+	
 	//최근 발주리스트 조회
 	List<RscOrderVO> rscOrderList(String rscOrderTitle, String rscOrderDate, String empId);
 	

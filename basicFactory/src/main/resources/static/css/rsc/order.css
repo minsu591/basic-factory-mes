@@ -15,25 +15,34 @@ h1 {
 }
 
 label {
-	width : 70px;
+	width: 70px;
 }
 
 button {
-	margin-top: 1rem;
+	margin: 0px !important;
 }
+
 tfoot {
 	border-bottom: 1px solid #e3eaef;
 }
 
 .listTitle {
-	line-height:43px;
-	float:left;
+	line-height: 43px;
+	float: left;
 }
 
 .buttonSet {
-	margin : 0;
-	float : right;
+	float: right;
+	margin: 0px !important;
 }
+.buttonSet-top {
+	margin-top : 1rem;
+}
+
+#in-table {
+	padding-top : 10px;
+}
+
 
 #findempbtn,
 #findPlanbtn {
@@ -41,11 +50,11 @@ tfoot {
 }
 
 #rscOrderTitle {
-	width : 500px;
+	width: 500px;
 }
 
 #rscOrderRemk {
-	width : 500px;
+	width: 500px;
 }
 
 #InsertTable input[type=text]:read-only {
@@ -69,19 +78,24 @@ tfoot {
 	background: rgba(241, 196, 15, 0.1)
 }
 
+#chk-css{
+	line-height : 32px;
+}
+
 #InsertTable .unit {
 	height: 2rem;
 	text-align: center;
 	background: #f6f6f6 !important;
-	vertical-align:middle;
+	vertical-align: middle;
 }
 
 #InsertTable td {
 	padding: 0;
 
 }
+
 #totalSum {
-	text-align : right;
+	text-align: right;
 }
 
 .flex-end {
@@ -90,7 +104,7 @@ tfoot {
 }
 
 .swal2-container {
-  z-index: 20000 !important;
+	z-index: 20000 !important;
 }
 
 .warn {

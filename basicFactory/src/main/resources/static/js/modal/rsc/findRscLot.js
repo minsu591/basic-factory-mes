@@ -1,9 +1,11 @@
 $("document").ready(function () {
   $("#rsclotno").click(function (e) {
     e.preventDefault();
+    let rsccode = $("#rsccode").val();
     let rscname = $("#rscname").val();
       //자재조회
       findRscLot();
+      $("#lotrsccode").val(rsccode);
       $("#lotrscname").val(rscname);
       $("#findRscLotModal").modal("show");
  });

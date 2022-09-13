@@ -3,6 +3,10 @@ $(document).ready(function(){
   //조회버튼 모달 팝업
   $("#search").click(function (e) {
    e.preventDefault();
+   let outcode = $("#rscOutCode").val();
+   let outdate = $("#rscOutDate").val();
+   $("#rscOutCd").val(outcode);
+   $("#rscOutDt").val(outdate);
    findRscOutList();
    $("#modalAllCheck").prop("checked", false);
    $("#findRscOutModal").modal("show");
@@ -28,10 +32,15 @@ $(document).ready(function(){
    }
  })
 
+  //검색버튼
+  $("#searchOut").click(function (){
+    findRscOutList();
+   })
+
 
  function findRscOutList() {
-   let rscOutCode = $("#rscOutCode").val();
-   let rscOutDate = $("#rscOutDate").val();
+   let rscOutCode = $("#rscOutCd").val();
+   let rscOutDate = $("#rscOutDt").val();
    $.ajax({
      url: "findRscOut",
      method: "GET",
@@ -147,7 +156,7 @@ $(document).ready(function(){
 
  function outListInsert(obj) {
    let node = `<tr>
-<td><input type="checkbox" name="chk"></td>
+<td id="chk-css"><input type="checkbox" name="chk"></td>
 <td><input type="text" value="${obj.rscOutCode}" name="outcode" readonly></td>
 <td><input type="date" value="${obj.rscOutDate}"></td>
 <td><input type="text" class="rsccode" value="${obj.rscCdCode}" readonly></td>

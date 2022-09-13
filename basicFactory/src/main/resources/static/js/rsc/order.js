@@ -2,7 +2,10 @@ $("document").ready(function () {
   findLocalStorage();
 
   let tdinfo;
-  inputRemover();
+  //기본 날짜 오늘 지정
+  let date = new Date();
+  date = date.toISOString().slice(0, 10);
+  $("#rscOrderDate").val(date);
 
   //체크박스 체크유무
   $("#allCheck").click("change", function () {
@@ -27,12 +30,12 @@ $("document").ready(function () {
   $("#InsertTable").on("change", ".orderVol", function () {
     tdinfo = $(this);
     let orderVol = tdinfo.val();
-
+    console.log(typeof(orderVol));
     if (orderVol <= 0) {
       minusWarning();
       tdinfo.val("");
     } else {
-      let price = tdinfo.parent().next().next().find(".price").val();
+      let price = tdinfo.parent().parent().children().eq(7).children().val();
       let multiple = orderVol * price;
       tdinfo
         .parent()
@@ -48,12 +51,17 @@ $("document").ready(function () {
   $("#InsertTable").on("change", ".price", function () {
     tdinfo = $(this);
     let price = tdinfo.val();
+    console.log(typeof(price));
     if (price < 0) {
       minusWarning();
       tdinfo.val("");
     }
-    let orderVol = tdinfo.parent().prev().prev().find(".orderVol").val();
+    let orderVol = tdinfo.parent().parent().children().eq(5).children().val();
+    console.log(orderVol);
+    console.log(tdinfo.parent().parent().children().eq(5).children().val())
     let multiple = orderVol * price;
+    console.log(multiple);
+    console.log(typeof(multiple))
     tdinfo
       .parent()
       .next()
@@ -186,7 +194,6 @@ $("document").ready(function () {
           console.log(result);
           if (orders.length == result) {
             submitComplete();
-            inputRemover();
           }
         },
       });
@@ -237,7 +244,6 @@ $("document").ready(function () {
           console.log(result);
           if (orders.length == result) {
             submitComplete();
-            inputRemover();
           }
         },
       });
@@ -250,10 +256,7 @@ $("document").ready(function () {
     $("#rscOrderTitle").val(null);
     $("#totalSum").text(null);
 
-    //기본 날짜 오늘 지정
-    let date = new Date();
-    date = date.toISOString().slice(0, 10);
-    $("#rscOrderDate").val(date);
+
   }
 
   function deleteWarning() {
@@ -269,7 +272,7 @@ $("document").ready(function () {
       icon: "warning", // Alert 타입
       title: "선택된 항목이 없습니다.", // Alert 제목
       confirmButtonText: "확인",
-    });
+    })
   }
 
   function minusWarning() {
@@ -295,7 +298,11 @@ $("document").ready(function () {
       title: "저장 되었습니다.",
       icon: "success", // Alert 타입
       confirmButtonText: "확인", // confirm 버튼 텍스트 지정
-    });
+    }).then((result)=>{
+      if(result.isConfirmed){
+        location.reload();
+      }
+    })
   }
 });
 
@@ -324,16 +331,14 @@ function detailTableMakeRow(rscCdCode, rscOrderVol) {
   }
 
   let node = `<tr>
-<td><input type="checkbox" name="chk"></td>
+<td id="chk-css"><input type="checkbox" name="chk"></td>
 <td><input type="text" class="vendor"></td>
 <td><input type="text" class="vendorName" disabled></td>
-<td><input type="text" class="rsccode" value="${
-    rscCdCode == undefined ? "" : rscCdCode
-  }"</td>
+<td><input type="text" class="rsccode" value="${rscCdCode == undefined ? "" : rscCdCode
+    }"</td>
 <td><input type="text" class="rscname" disabled></td>
-<td><input type="text" class="orderVol" value="${
-    rscOrderVol == undefined ? "" : rscOrderVol
-  }"></td>
+<td><input type="text" class="orderVol" value="${rscOrderVol == undefined ? "" : rscOrderVol
+    }"></td>
 <td><input type="text" class="unit" disabled></td>
 <td><input type="text" class="price"></td>
 <td><input type="text" class="totalPrice" disabled></td>

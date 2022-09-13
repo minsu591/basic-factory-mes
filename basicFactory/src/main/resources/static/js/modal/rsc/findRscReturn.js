@@ -3,6 +3,10 @@ $(document).ready(function(){
  //조회버튼 모달 팝업
  $("#search").click(function (e) {
   e.preventDefault();
+  let rtncode = $("#rscReturnCode").val();
+  let rtndate = $("#rscReturnDate").val();
+  $("#rscReturnCd").val(rtncode);
+  $("#rscReturnDt").val(rtndate);
   findRscReturnList();
   $("#modalAllCheck").prop("checked", false);
   $("#findRscReturnModal").modal("show");
@@ -28,10 +32,15 @@ $("#findRscReturnTable").on("change", "input[name=chkModal]", function () {
   }
 })
 
+  //검색버튼
+  $("#searchOut").click(function (){
+    findRscReturnList();
+   })
+
 
 function findRscReturnList() {
-  let rscReturnCode = $("#rscReturnCode").val();
-  let rscReturnDate = $("#rscReturnDate").val();
+  let rscReturnCode = $("#rscReturnCd").val();
+  let rscReturnDate = $("#rscReturnDt").val();
   $.ajax({
     url: "findRscReturn",
     method: "GET",
@@ -59,7 +68,7 @@ function findRscReturnList() {
 //반품목록 행생성
 function makeRscReturnRow(obj, index) {
   let node = `<tr>
-            <td><input type="checkbox" name="chkModal"></td>
+            <td id="chk-css"><input type="checkbox" name="chkModal"></td>
             <td>${obj.rscReturnCode}</td>
             <td>${obj.rscReturnDate}</td>
             <td>${obj.vendCdNm}</td>
@@ -70,11 +79,11 @@ function makeRscReturnRow(obj, index) {
 }
 
 //이미 출력되어있는 행의 출고코드 목록
-let outCodeList = [];
+let codeList = [];
 
 //출고목록 등록버튼 체크박스에 체크된것만
 $("#addBtn").click(function () {
-  let outCodeListTemp = [];
+  let codeListTemp = [];
   let checked = $("input[name='chkModal']:checked").length;
   if (checked == 0) {
     submitWarning();
@@ -100,8 +109,8 @@ $("#addBtn").click(function () {
     // td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
     let rscRtnCode = td.eq(1).text();
     //중복값체크
-    outCodeListTemp.push(rscRtnCode);
-    if (outCodeList.indexOf(rscRtnCode) >= 0) {
+    codeListTemp.push(rscRtnCode);
+    if (codeList.indexOf(rscRtnCode) >= 0) {
       flag = false;
       return;
     }
@@ -122,7 +131,7 @@ $("#addBtn").click(function () {
     return;
   }
   //...연산자 : 값을 풀어넣음
-  outCodeList.push(...outCodeListTemp);
+  codeList.push(...codeListTemp);
 
   console.log(param);
 
@@ -137,7 +146,7 @@ $("#addBtn").click(function () {
     },
     success: function (data) {
       for (obj of data) {
-        outListInsert(obj);
+        returnListInsert(obj);
       }
       $("#findRscReturnModal").modal("hide");
     }
@@ -145,20 +154,23 @@ $("#addBtn").click(function () {
 
 })
 
-function outListInsert(obj) {
+function returnListInsert(obj) {
+  let multiplePrc = (obj.rscReturnPrc) * (obj.rscReturnVol);
   let node = `<tr>
-<td><input type="checkbox" name="chk"></td>
-<td><input type="text" value="${obj.rscOutCode}" name="outcode" readonly></td>
-<td><input type="date" value="${obj.rscOutDate}"></td>
-<td><input type="text" class="rsccode" value="${obj.rscCdCode}" readonly></td>
-<td><input type="text" class="rscname" value="${obj.rscCdName}" readonly></td>
+<td id="chk-css"><input type="checkbox" name="chk"></td>
+<td><input type="text" value="${obj.rscReturnCode}" name="returncode" disabled></td>
+<td><input type="date" value="${obj.rscReturnDate}"></td>
+<td><input type="text" class="vendcode" value="${obj.vendCdCode}"></td>
+<td><input type="text" class="vendname" value="${obj.vendCdNm}" disabled></td>
+<td><input type="text" class="rsccode" value="${obj.rscCdCode}" disabled></td>
+<td><input type="text" class="rscname" value="${obj.rscCdName}" disabled></td>
 <td><input type="text" class="rsclotno" value="${obj.rscLotNo}"></td>
-<td><input type="text" value="${obj.rscStock}" readonly></td>
-<td><input type="text" class="outVol" value="${obj.rscOutVol}"></td>
-<td><input type="text" class="vendor" value="${obj.vendCdCode}"></td>
-<td><input type="text" value="${obj.vendCdNm}" readonly></td>
-<td><input type="text" value="${obj.rscOutResn}"></td>
-<td><input type="text" value="${obj.empId}"></td>
+<td><input type="text" value="${obj.rscStock}" disabled></td>
+<td><input type="text" class="returnVol" value="${obj.rscReturnVol}"></td>
+<td><input type="text" class="rscReturnPrc" value="${obj.rscReturnPrc}"></td>
+<td><input type="text" class="multiplePrc" value="${multiplePrc}" disabled></td>
+<td><input type="text" class="empId" value="${obj.empId}"></td>
+<td><input type="text" class="returnRemk"value="${obj.rscReturnRemk}"></td>
 </tr>`;
   $("#InsertTable tbody").append(node);
 }

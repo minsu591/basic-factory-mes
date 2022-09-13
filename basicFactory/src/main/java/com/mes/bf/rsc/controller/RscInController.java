@@ -36,6 +36,7 @@ public class RscInController {
 	@RequestMapping(value ="/inTable", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public String inTable(@RequestParam Map<String, String> QueryParameters, Model model) {
 		List<RscInspVO> inspCompList = rscInService.inspCompList(QueryParameters.get("rscCdCode"),QueryParameters.get("rscInspDate"));
+		System.out.println(QueryParameters.get("rscInspDate"));
 		model.addAttribute("inspCompList",inspCompList);
 		return "rsc/table/inTable";
 	}

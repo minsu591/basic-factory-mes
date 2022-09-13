@@ -100,7 +100,7 @@ $(document).ready(function(){
       remk = obj.rscInspRemk;
     }
    let node = `<tr>
-   <td><input type="checkbox" name="chk"></td>
+   <td id="chk-css"><input type="checkbox" name="chk"></td>
    <td><input type="text" class="rscOrderCode" value="${obj.rscOrderCode}" disabled></td>
    <td><input type="text" class="rscInspCode" value="${obj.rscInspCode}" disabled></td>
    <td><input type="date" class="rscInspDate" value="${obj.rscInspDate}"></td>

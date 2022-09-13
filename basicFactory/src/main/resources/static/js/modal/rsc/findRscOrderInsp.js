@@ -1,8 +1,10 @@
 $(document).ready(function(){
+  let tdinfo;
   //조회버튼 모달 팝업
   $("#outTable").on("click", ".rscOrderCode", function (e) {
    e.preventDefault();
    findRscOrderInspList();
+   tdinfo = $(this);
    $("#findRscOrderInspModal").modal("show");
  
   })
@@ -61,8 +63,6 @@ $(document).ready(function(){
   let rscOrderDate = $(this).find("td:eq(1)").text();
   let rscOrderTitle = $(this).find("td:eq(2)").text();
   $("#rscOrderCode").val(rscOrderCode);
-//여기까지 수정완료
-
   
   //발주목록 상세 내역 불러오기
   $.ajax({
@@ -72,8 +72,8 @@ $(document).ready(function(){
    dataType: "json",
    data: {
     rscOrderCode: rscOrderCode,
-    rscOrderDate: rscOrderDate,
-    rscOrderTitle: rscOrderTitle
+    rscOrderDate: null,
+    rscOrderTitle: null
    },
    error: function (error, status, msg) {
     alert("상태코드 " + status + "에러메시지" + msg);
@@ -82,8 +82,7 @@ $(document).ready(function(){
     if(data.length == 0){
       return;
     }
-     let trSize = $("#outTable tr").length - 1;
-     $("#outTable tr").eq(trSize).remove();
+     tdinfo.parent().parent().remove();
      for (obj of data) {
       outListInsert(obj);
      }
@@ -97,7 +96,7 @@ $(document).ready(function(){
  
  function outListInsert(obj) {
   let node = `<tr>
-  <td><input type="checkbox" name="chk"></td>
+  <td id="chk-css"><input type="checkbox" name="chk"></td>
   <td><input type="text" class="rscOrderCode" value="${obj.rscOrderCode}" disabled></td>
   <td><input type="text" class="rscInspCode" disabled></td>
   <td><input type="date" class="rscInspDate"></td>

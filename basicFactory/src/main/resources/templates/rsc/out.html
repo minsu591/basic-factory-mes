@@ -7,7 +7,8 @@
 <title>자재출고관리</title>
 </head>
 <body>
-	<script type="text/javascript" th:src="@{/js/modal/rsc/findRscLotManage.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/js/modal/rsc/findRscLotManage.js}"></script>
 	<script type="text/javascript" th:src="@{/js/modal/rsc/findVendor.js}"></script>
 	<script type="text/javascript" th:src="@{/js/modal/rsc/findRscOut.js}"></script>
 	<script type="text/javascript" th:src="@{/js/rsc/out.js}"></script>
@@ -32,10 +33,12 @@
 							내용 조회</button>
 					</div>
 				</div>
-				<div class="card-body table-border-style">
-					<button type="button" class="btn  btn-primary" id="addRowBtn">추가</button>
-					<button type="button" class="btn  btn-primary" id="delRowBtn">삭제</button>
-					<button type="button" class="btn  btn-primary" id="subBtn">저장</button>
+				<div class="card-body table-border-style" id="in-table">
+					<div class="buttonSet">
+						<button type="button" class="btn  btn-primary" id="addRowBtn">추가</button>
+						<button type="button" class="btn  btn-primary" id="delRowBtn">삭제</button>
+						<button type="button" class="btn  btn-primary" id="subBtn">저장</button>
+					</div>
 					<form>
 						<div class="table-responsive">
 							<table class="table table-hover" id="InsertTable">
@@ -66,7 +69,9 @@
 			</div>
 		</div>
 		<!-- 최근 입력 내용 조회 Modal -->
-		<th:block th:replace="~{/fragments/modal/rsc/findRscOut :: findRscOut}" id="modal"></th:block>
+		<th:block
+			th:replace="~{/fragments/modal/rsc/findRscOut :: findRscOut}"
+			id="modal"></th:block>
 		<!-- 거래처조회 Modal -->
 		<th:block th:replace="~{/fragments/modal/findvendor :: findvendor}"></th:block>
 		<!-- Lot번호 조회 Modal -->

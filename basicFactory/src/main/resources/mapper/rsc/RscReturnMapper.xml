@@ -40,6 +40,39 @@
 		ORDER  BY 1 DESC
 	</select>
 	
+	<select id="loadReturn" resultType="com.mes.bf.rsc.vo.RscReturnVO">
+		SELECT RTN.RSC_RETURN_CODE, 
+		       RTN.RSC_RETURN_DATE, 
+		       RTN.RSC_CD_CODE, 
+               RTN.RSC_RETURN_VOL, 
+               RTN.RSC_RETURN_PRC, 
+               RTN.RSC_RETURN_RESN, 
+               RTN.RSC_RETURN_REMK,
+               RTN.RSC_LOT_NO,
+               RTN.VEND_CD_CODE,
+               RTN.EMP_ID,
+               
+		       RSCCODE.RSC_CD_NAME, 
+		       RSCCODE.RSC_CD_UNIT,
+		       
+               EMP.EMP_NAME,
+			   
+               VEND.VEND_CD_NM,
+               
+               STK.RSC_STOCK
+               
+		 FROM  BF_RSC_RETURN RTN 
+		 LEFT  JOIN BF_CMN_RSC_CODE RSCCODE
+		   ON  RTN.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
+		 LEFT  JOIN BF_CMN_EMP EMP
+		   ON  RTN.EMP_ID = EMP.EMP_ID
+		 LEFT  JOIN BF_CMN_VENDOR_CODE VEND
+		   ON  RTN.VEND_CD_CODE = VEND.VEND_CD_CODE
+		 LEFT  JOIN BF_RSC_STOCK STK
+		   ON  RTN.RSC_LOT_NO = STK.RSC_LOT_NO
+		   
+		WHERE RTN.RSC_RETURN_CODE = #{rscReturnCode}
+	</select>
 	
 	<insert id="returnInsert" parameterType="com.mes.bf.rsc.vo.RscReturnVO">
 		INSERT INTO BF_RSC_RETURN

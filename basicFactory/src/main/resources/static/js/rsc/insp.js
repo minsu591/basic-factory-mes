@@ -45,7 +45,7 @@ $(document).ready(function () {
   //추가버튼 행만들기
   function detailTableMakeRow() {
     let node = `<tr>
-<td><input type="checkbox" name="chk"></td>
+<td id="chk-css"><input type="checkbox" name="chk"></td>
 <td><input type="text" class="rscOrderCode"></td>
 <td><input type="text" class="rscInspCode" disabled></td>
 <td><input type="date" class="rscInspDate"></td>

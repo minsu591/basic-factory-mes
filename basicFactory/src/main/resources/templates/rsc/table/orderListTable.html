@@ -31,7 +31,9 @@
 				<td th:text="${olist.rscOrderArv}"></td>
 				<td th:text="${olist.rscCdUnit}"></td>
 				<td th:text="${olist.rscOrderPrc}"></td>
-				<td th:text="${olist.rscOrderSt}"></td>
+				<td><span th:if="${olist.rscOrderSt == 0}" th:text="발주완료"  class="badge badge-light-primary"/>
+					<span th:if="${olist.rscOrderSt == 1}" th:text="부분입고완료"  class="badge badge-light-primary"/>
+					<span th:if="${olist.rscOrderSt == 2}" th:text="입고완료"  class="badge badge-light-secondary"/></td>
 				<td th:text="${olist.rscOrderDtlRemk}"></td>
 				<td th:text="${olist.empId}"></td>
 			</tr>

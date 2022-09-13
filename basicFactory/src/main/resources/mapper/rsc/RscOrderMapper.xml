@@ -97,6 +97,7 @@
 		SELECT OD.*, 
 			   DT.*, 
 			   RSC.RSC_CD_NAME, 
+			   RSC.RSC_CD_UNIT,
 			   VEND.VEND_CD_NM
 		
 		  FROM BF_RSC_ORDER OD
@@ -119,6 +120,7 @@
 			<if test="(rscOrderSDate!= null and rscOrderSDate!= '') and (rscOrderEDate!= null and rscOrderEDate!= '')">
 				AND OD.RSC_ORDER_DATE BETWEEN #{rscOrderSDate} AND TO_DATE(#{rscOrderEDate})+1
 			</if>
+			AND <![CDATA[ROWNUM < 10]]>
 		</where>
 		ORDER BY 1 DESC
 	</select>

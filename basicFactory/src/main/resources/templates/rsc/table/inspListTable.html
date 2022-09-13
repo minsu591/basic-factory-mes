@@ -29,8 +29,8 @@
 				<td th:text="${insp.rscInferVol}"></td>
 				<td th:text="${insp.rscPassVol}"></td>
 				<td th:text="${insp.rscCdUnit}"></td>
-				<td><span th:if="${insp.rscInspSt == 0}">입고대기</span> <span
-					th:if="${insp.rscInspSt == 1}">입고완료</span></td>
+				<td><span th:if="${insp.rscInspSt == 0}" class="badge badge-light-primary">입고대기</span> <span
+					th:if="${insp.rscInspSt == 1}" class="badge badge-light-secondary">입고완료</span></td>
 				<td th:text="${insp.empName}"></td>
 				<td th:text="${insp.rscInspRemk}"></td>
 			</tr>

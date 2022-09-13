@@ -40,7 +40,7 @@ $("document").ready(function () {
 
   function detailTableMakeRow() {
     let node = `<tr>
- <td><input type="checkbox" name="chk"></td>
+ <td id="chk-css"><input type="checkbox" name="chk"></td>
  <td><input type="text" name="outcode" readonly></td>
  <td><input type="date"></td>
  <td><input type="text" class="rsccode" readonly></td>

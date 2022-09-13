@@ -25,8 +25,8 @@
 				<td th:text="${inList.rscCdName}"></td>
 				<td th:text="${inList.rscInVol}"></td>
 				<td th:text="${inList.rscLotNo}"></td>
-				<td><span th:if="${inList.rscInspSt == 0}">입고대기</span> <span
-					th:if="${inList.rscInspSt == 1}">입고완료</span></td>
+				<td><span th:if="${inList.rscInspSt == 0}" class="badge badge-light-primary">입고대기</span> <span
+					th:if="${inList.rscInspSt == 1}" class="badge badge-light-secondary">입고완료</span></td>
 			</tr>
 		</tbody>
 	</table>

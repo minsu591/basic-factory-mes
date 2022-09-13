@@ -15,7 +15,7 @@
 		<div class="tab-pane fade show active" id="home" role="tabpanel"
 			aria-labelledby="home-tab">
 			<p class="mb-0">
-			<div class="card-body table-border-style">
+			<div class="card-body table-border-style table-size-mod">
 				<div class="table-responsive">
 					<table class="table table-striped">
 						<thead>
@@ -39,7 +39,7 @@
 								<td th:text="${nList.rscCdName}"></td>
 								<td th:text="${nList.rscLotNo}"></td>
 								<td th:text="${nList.rscOutVol}"></td>
-								<td><span th:if="${nList.rscOutCls == 1}" th:text="정상출고" />
+								<td><span th:if="${nList.rscOutCls == 1}" th:text="정상출고"  class="badge badge-light-primary"/>
 								</td>
 							</tr>
 						</tbody>
@@ -51,7 +51,7 @@
 		<div class="tab-pane fade" id="profile" role="tabpanel"
 			aria-labelledby="profile-tab">
 			<p class="mb-0">
-			<div class="card-body table-border-style">
+			<div class="card-body table-border-style table-size-mod">
 				<div class="table-responsive">
 					<table class="table table-striped">
 						<thead>
@@ -75,7 +75,7 @@
 								<td th:text="${eList.rscCdName}"></td>
 								<td th:text="${eList.rscOutVol}"></td>
 								<td th:text="${eList.empName}"></td>
-								<td><span th:if="${eList.rscOutCls == 2}" th:text="정상외출고" />
+								<td><span th:if="${eList.rscOutCls == 2}" th:text="정상외출고"  class="badge badge-light-primary"/>
 								</td>
 							</tr>
 						</tbody>

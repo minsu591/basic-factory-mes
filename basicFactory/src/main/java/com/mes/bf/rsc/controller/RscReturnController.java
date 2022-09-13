@@ -1,5 +1,6 @@
 package com.mes.bf.rsc.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +36,19 @@ public class RscReturnController {
 	@RequestMapping("/return")
 	public ModelAndView returnPage() {
 		return new ModelAndView("rsc/return");
+	}
+	
+	//반품관리 수정리스트 불러오기
+	@RequestMapping(value="/returnUpList", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<List<RscReturnVO>> outUpList(@RequestBody List<RscReturnVO> list) {
+		RscReturnVO result = new RscReturnVO();
+		List<RscReturnVO> rtnList = new ArrayList<RscReturnVO>();
+		for (int i = 0; i < list.size() ; i++) {
+			result = rscReturnService.loadReturn(list.get(i).getRscReturnCode());
+			rtnList.add(i,result);
+		}
+		return new ResponseEntity<List<RscReturnVO>>(rtnList, HttpStatus.OK);
 	}
 	
 	//반품 등록 & 수정
