@@ -1,4 +1,75 @@
 $("document").ready(function () {
+  $("#selectBtn").on("click", function() {
+    let mchnName = $("#mchnName").val();
+
+    $.ajax({
+      url : "mchn/name",
+      method : "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      data: {
+        mchnName
+      },
+      success: function (result) {
+        console.log(result);
+        $("#mchntbody tr").remove();
+        for (obj of result) {
+          mchnMakeRow(obj);
+        }
+      },
+      error: function (error) {
+        console.log(error);
+      }
+    });
+  });
+
+  function mchnMakeRow(obj){
+    let node = `<tr>`;
+    if($("#allCheck").is(":checked")){
+      node += `<td><input type="checkbox" name="chk" checked></td>`;
+    } else {
+      node += `<td><input type="checkbox" name="chk"></td>`;
+    }
+    node += `<td>${obj.mchnCode}</td>
+              <td>${obj.mchnName}</td>
+              <td>${obj.mchnModel}</td>
+              <td class="거래처코드">${obj.vendCdCode}</td>
+              <td class-"거래처명">${obj.vendCdNm}</td>
+              <td>${obj.mchnPrice}</td>
+              <td><input type="date" value="${obj.mchnPrchsDate}"></td>
+              <td><input type="date" value="${obj.mchnMnfctDate}"></td>
+              <td><input type="date" value="${obj.mchnInspcDate}"></td>
+              <td>${obj.mchnInspcCycle}</td>
+              <td>${obj.mchnStts}</td>
+              <td>${obj.mchnRemk}</td>
+            </tr>`
+    $("#mchntbody").append(node);
+  }
+
+  //추가 버튼 누르면 행 추가
+  $("#addBtn").on("click",function(){
+    let node = `<tr name="addTr">
+                  <td><input type="checkbox" name="chk"></td>`;
+    if ($("#allCheck").is(":checked")){
+      node = `<tr>
+                <td><input type="checkbox" name="chk" checked></td>`;
+    }
+    node += `<td></td>
+            <td></td>
+            <td></td>
+            <td class="vendor"></td>
+            <td></td>
+            <td></td>
+            <td><input type="date"></td>
+            <td><input type="date"></td>
+            <td><input type="date"></td>
+            <td></td>
+            <td>진행전</td>
+            <td></td>
+          </tr>`;
+    $("#mchntbody").append(node);
+  });
+
   //체크박스 체크유무
   $("#allCheck").click("change", function () {
     if ($("#allCheck").is(":checked")) {
@@ -185,7 +256,7 @@ $("document").ready(function () {
     });
   };
 
-  //불량처리 추가 등록 Ajax
+  // 추가 등록 Ajax
   function addSaveAjax(tr){
     let mchnName = $(tr).find("td:eq(2)").text();
     let mchnModel = $(tr).find("td:eq(3)").text();
@@ -222,27 +293,5 @@ $("document").ready(function () {
     })
   }
 
-  //행추가 이벤트
-  $("#addBtn").on("click", function () {
-    let node = `<tr name="addTr">
-                  <td><input type="checkbox" name="chk"></td>`;
-    if ($("#allCheck").is(":checked")) {
-      node = `<tr>
-                <td><input type="checkbox" name="chk" checked ></td>`;
-    }
-    node += `<td name="mchn_code"></td>
-            <td name="mchn_name"></td>
-            <td name="mchn_model"></td>
-            <td class="거래처코드" name="vend_cd_code"></td>
-            <td class="제작업체명"></td>
-            <td name="mchn_price"></td>
-            <td><input type="date" name="mchn_prchs_date"></td>
-            <td><input type="date" name="mchn_mnfct_date"></td>
-            <td><input type="date" name="mchn_inspc_date"></td>
-            <td name="mchn_inspc_cycle"></td>
-            <td name="mchn_stts"></td>
-            <td name="mchn_remk"></td>
-        </tr>`;
-    $("#mchntbody").append(node);
-  });
+  
 });

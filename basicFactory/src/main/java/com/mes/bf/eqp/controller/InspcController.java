@@ -42,7 +42,7 @@ public class InspcController {
 	//점검 수정
 	@PostMapping(value = "/inspc/update", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Integer> inspcUpdate(@RequestParam Map<String, String> QueryParameters) {
-		int result = service.inspcUpdate(QueryParameters.get("prikey"), QueryParameters.get("updCol"), QueryParameters.get("updCont"));
+		int result = service.inspcUpdate(QueryParameters.get("priKey"), QueryParameters.get("updCol"), QueryParameters.get("updCont"));
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 	

@@ -10,10 +10,34 @@
 				RSC_CD_USE,
 				NVL(RSC_CD_REMK, ' ') AS RSC_CD_REMK
 		FROM BF_CMN_RSC_CODE 
-		<if test="rscName != null and rscName != ''">
-			WHERE RSC_CD_CODE = #{rscCode}
+		<if test="rscCdName != null and rscCdName != ''">
+			WHERE RSC_CD_NAME LIKE '%'||#{rscCdName}||'%'
 		</if>
 		ORDER BY RSC_CD_CODE
 	</select>
+	
+	<delete id="rscDelete">
+		DELETE BF_CMN_RSC_CODE
+		WHERE RSC_CD_CODE IN
+		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
+			#{priKey}
+		</foreach>
+	</delete>
+	
+	<update id="rscUpdate">
+		UPDATE BF_CMN_RSC_CODE
+		SET ${updCol} = #{updCont}
+		WHERE RSC_CD_CODE = #{priKey}
+	</update>
+	
+	<insert id="rscInsert" parameterType="RscCode">
+		INSERT INTO BF_CMN_RSC_CODE
+		VALUES('RSC'||LPAD(BF_CMN_RSC_CODE_SEQ.NEXTVAL, 3, 0),
+				#{rscCdName},
+				#{rscCdUnit},
+				#{rscCdClfy},
+				#{rscCdUse},
+				#{rscCdRemk})
+	</insert>
 
 </mapper>

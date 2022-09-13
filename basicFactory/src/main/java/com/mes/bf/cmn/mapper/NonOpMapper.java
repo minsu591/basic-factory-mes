@@ -9,6 +9,9 @@ import com.mes.bf.cmn.vo.NonOpVO;
 @Mapper
 public interface NonOpMapper {
 	
-	List<NonOpVO> listNonOp();
+	List<NonOpVO> listNonOp(String nonOpName);
+	int nonOpDelete(List<String> delList);
+	int nonOpUpdate(String priKey, String updCol, String updCont);
+	int nonOpInsert(NonOpVO vo);
 
 }

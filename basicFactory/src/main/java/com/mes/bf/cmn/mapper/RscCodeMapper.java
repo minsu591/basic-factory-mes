@@ -9,6 +9,8 @@ import com.mes.bf.cmn.vo.RscCodeVO;
 @Mapper
 public interface RscCodeMapper {
 	
-	List<RscCodeVO> listRsc(String rscCode);
-
+	List<RscCodeVO> listRsc(String rscCdName);
+	int rscDelete(List<String> delList);
+	int rscUpdate(String priKey, String updCol, String updCont);
+	int rscInsert(RscCodeVO vo);
 }

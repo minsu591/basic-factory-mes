@@ -86,7 +86,7 @@ $("document").ready(function () {
                     <td><input type="date" value="${inspcEdate}"></td>
                     <td>${inspcActnPnt}</td>
                     <td>${inspcActnRsn}</td>
-                    <td>${empId}</td>
+                    <td class="empId">${empId}</td>
                     <td>${inspcRemk}</td>
                 </tr>`;
 

@@ -20,10 +20,8 @@
           <div class="card-header">
             <form class="form-inline">
               <div class="form-group mt-3">
-                <label for="rsccode" th:text="자재코드"></label>
-                <input type="text" id="rsccode" class="form-control mx-sm-3" />
-                <label for="rscname" th:text="자재명"></label>
-                <input type="text" id="rscname" class="form-control mx-sm-3" readonly />
+                <label for="rscCdName" th:text="자재명"></label>
+                <input type="text" id="rscCdName" class="form-control mx-sm-3" />
               </div>
               <button type="button" class="btn btn-primary" id="selectBtn">조회</button>
             </form>
@@ -39,12 +37,12 @@
                 <thead>
                   <tr>
                     <th><input type="checkbox" id="allCheck" /></th>
-                    <th th:text="자재코드"></th>
-                    <th th:text="자재명"></th>
-                    <th th:text="단위"></th>
-                    <th th:text="자재구분"></th>
-                    <th th:text="사용여부"></th>
-                    <th th:text="비고"></th>
+                    <th th:text="자재코드" name="rsc_cd_code"></th>
+                    <th th:text="자재명" name="rsc_cd_name"></th>
+                    <th th:text="단위" name="rsc_cd_unit"></th>
+                    <th th:text="자재구분" name="rsc_cd_clfy"></th>
+                    <th th:text="사용여부" name="rsc_cd_use"></th>
+                    <th th:text="비고" name="rsc_cd_remk"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -53,7 +51,13 @@
                     <td th:text="${rsc.rscCdCode}"></td>
                     <td th:text="${rsc.rscCdName}"></td>
                     <td th:text="${rsc.rscCdUnit}"></td>
-                    <td th:text="${rsc.rscCdClfy}"></td>
+                    <td>
+                      <select th:value="${rsc.rscCdClfy}">
+                        <option value="" th:selected="${rsc.rscCdClfy} == ''"></option>
+                        <option value="원자재" th:selected="${rsc.rscCdClfy} == '원자재'" th:text="원자재"></option>
+                        <option value="부자재" th:selected="${rsc.rscCdClfy} == '부자재'" th:text="부자재"></option>
+                      </select>
+                    </td>
                     <td><input type="checkbox" th:checked="${rsc.rscCdUse =='1'}" /></td>
                     <td th:text="${rsc.rscCdRemk}"></td>
                   </tr>

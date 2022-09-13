@@ -6,13 +6,12 @@ import com.mes.bf.eqp.vo.MchnVO;
 
 public interface MchnService {
 	
-	//설비등록
+	List<MchnVO> findMchnName(String mchnName);
 	int mchnInsert(MchnVO vo);
-	//설비 수정
 	int mchnUpdate(String prikey, String updCol, String updCont);
-	
+	int mchnDelete(List<String> delList);
 	
 	//설비조회
-	List<MchnVO> listMchn(String mchnCode);
+	List<MchnVO> listMchn(String mchnName);
 
 }

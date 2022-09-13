@@ -2,9 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.eqp.mapper.MchnMapper">
 
+	<select id="findMchnName" resultType="MchnVO">
+		SELECT M.MCHN_CODE,
+				M.MCHN_NAME,
+				NVL(M.MCHN_MODEL, ' ') AS MCHN_MODEL,
+				VC.VEND_CD_CODE,
+				VC.VEND_CD_NM,
+				M.MCHN_PRICE,
+				M.MCHN_PRCHS_DATE,
+				M.MCHN_MNFCT_DATE,
+				M.MCHN_INSPC_DATE,
+				M.MCHN_INSPC_CYCLE,
+				M.MCHN_STTS,
+				NVL(M.MCHN_REMK, ' ') AS MCHN_REMK
+		FROM BF_EQP_MCHN M
+		JOIN BF_CMN_VENDOR_CODE VC
+			ON M.VEND_CD_CODE = VC.VEND_CD_CODE
+		WHERE 1=1
+		<if test="mchnName != null and mchnName != ''">
+			AND MCHN_NAME LIKE '%'||#{mchnName}||'%'
+		</if>
+		ORDER BY MCHN_CODE
+	</select>
+
 	<insert id="mchnInsert" parameterType="MchnVO">
-		insert into bf_eqp_mchn
-		values('MCHN'||LPAD(BF_EQP_MCHN_CODE_SEQ.nextval, 3, 0),
+		INSERT INTO BF_EQP_MCHN
+		VALUES('MCHN'||LPAD(BF_EQP_MCHN_CODE_SEQ.nextval, 3, 0),
 				#{mchnName},
 				#{vendCdCode},
 				#{mchnModel},
@@ -18,29 +41,37 @@
 	</insert>
 	
 	<update id="mchnUpdate">
-		UPDATE bf_eqp_mchn 
+		UPDATE BF_EQP_MCHN 
 		SET ${updCol} = #{updCont}
-		WHERE FLTY_PRCS_NO = #{prikey}
+		WHERE MCHN_CODE = #{prikey}
 	</update>
+	
+	<delete id="mchnDelete">
+		DELETE BF_EQP_MCHN
+		WHERE MCHN_CODE IN
+		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
+			#{priKey}
+		</foreach>
+	</delete>
 
 	<select id="listMchn" resultType="MchnVO">
-		SELECT mc.mchn_code, 
-				mc.mchn_name, 
-				NVL(mc.mchn_model, ' ') AS mchn_model, 
-				mc.mchn_mnfct_date,
-		       	mc.mchn_inspc_cycle, 
-		       	NVL(mc.mchn_stts,  ' ') AS mchn_stts, 
-		       	NVL(mc.mchn_remk, ' ') AS mchn_remk, 
-		       	vcd.vend_cd_nm, 
-		       	inp.inspc_edate
-		FROM BF_EQP_MCHN mc JOIN bf_cmn_vendor_code vcd
-			ON mc.vend_cd_code = vcd.vend_cd_code
-		LEFT OUTER JOIN BF_EQP_INSPC inp
-			ON inp.mchn_code = mc.mchn_code
+		SELECT MC.MCHN_CODE, 
+				MC.MCHN_NAME, 
+				NVL(MC.MCHN_MODEL, ' ') AS MCHN_MODEL, 
+				MC.MCHN_MNFCT_DATE,
+		       	MC.MCHN_INSPC_CYCLE, 
+		       	NVL(MC.MCHN_STTS,  ' ') AS MCHN_STTS, 
+		       	NVL(MC.MCHN_REMK, ' ') AS MCHN_REMK, 
+		       	VCD.VEND_CD_NM, 
+		       	INP.INSPC_EDATE
+		FROM BF_EQP_MCHN MC JOIN BF_CMN_VENDOR_CODE VCD
+			ON MC.VEND_CD_CODE = VCD.VEND_CD_CODE
+		LEFT OUTER JOIN BF_EQP_INSPC INP
+			ON INP.MCHN_CODE = MC.MCHN_CODE
 		<if test="mchnCode != null and mchnCode != ''">
-			WHERE mc.mchn_code = #{mchnCode}
+			WHERE MC.MCHN_NAME LIKE '%'||#{mchnName}||'%'
 		</if>
-		ORDER BY mchn_code
+		ORDER BY MCHN_CODE
 	</select>
 	
 </mapper>

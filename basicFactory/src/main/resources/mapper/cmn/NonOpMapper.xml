@@ -3,7 +3,35 @@
 <mapper namespace="com.mes.bf.cmn.mapper.NonOpMapper">
 
 	<select id="listNonOp" resultType="nonOp">
-		SELECT * FROM BF_CMN_NON_OP ORDER BY NON_OP_CODE
+		SELECT NON_OP_CODE, 
+				NON_OP_NAME,
+				NVL(NON_OP_REMK, ' ') AS NON_OP_REMK
+		FROM BF_CMN_NON_OP 
+		<if test="nonOpName != null and nonOpName != ''">
+			WHERE NON_OP_NAME LIKE '%'||#{nonOpName}||'%'
+		</if>
+		ORDER BY NON_OP_CODE
 	</select>
+	
+	<delete id="nonOpDelete">
+		DELETE BF_CMN_NON_OP
+		WHERE NON_OP_CODE IN
+		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
+			#{priKey}
+		</foreach>
+	</delete>
+	
+	<update id="nonOpUpdate">
+		UPDATE BF_CMN_NON_OP
+		SET ${updCol} = #{updCont}
+		WHERE NON_OP_CODE = #{priKey}
+	</update>
+	
+	<insert id="nonOpInsert" parameterType="nonOp">
+		INSERT INTO BF_CMN_NON_OP
+		VALUES('NONOP'||LPAD(BF_CMN_NONOP_CODE_SEQ.NEXTVAL, 3, 0),
+				#{nonOpName},
+				#{nonOpRemk})
+	</insert>
 
 </mapper>
