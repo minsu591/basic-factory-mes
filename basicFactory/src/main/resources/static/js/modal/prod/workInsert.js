@@ -2,7 +2,7 @@ $("document").ready(function () {
   $("#closeBtn").click(function () {
     $("#workInsertModal").modal("hide");
   });
-
+  let saveCheck = false;
   $("#emergencyBtn").hide();
   //불량증가
   fltyCntUp();
@@ -17,19 +17,30 @@ $("document").ready(function () {
   reStart();
   //설비상태 클릭 이벤트
   $("#mchnStatus").on("click", "button", function () {
-    let instProdNo;
-    let inputDate;
-    $("#procManageTable tbody tr").each(function () {
-      if ($(this).find("td:eq(0)").children().prop("checked")) {
-        instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
-        inputDate = $(this).find("td:eq(2)").text();
-      }
-    });
-    let statusMchnName = $(this).text();
-    findProcess(instProdNo, statusMchnName);
-    let processNo = $("#processNo").val();
-    //모달 시간과 날짜 입력을 위해 조회
-    getprocPerform(processNo, inputDate);
+
+    if (saveCheck == false) {
+      alert("저장을 누르세여");
+      return;
+    }
+
+    if ($("#saveBtn").prop("disabled") == true) {
+      console.log('true')
+      let instProdNo;
+      let inputDate;
+      $("#procManageTable tbody tr").each(function () {
+        if ($(this).find("td:eq(0)").children().prop("checked")) {
+          instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
+          inputDate = $(this).find("td:eq(2)").text();
+        }
+      });
+      let statusMchnName = $(this).text();
+      findProcess(instProdNo, statusMchnName);
+      let processNo = $("#processNo").val();
+      //모달 시간과 날짜 입력을 위해 조회
+      getprocPerform(processNo, inputDate);
+    }
+
+
   });
 
   $("#workInsertTable").on("click", "button", function () {
@@ -65,6 +76,8 @@ $("document").ready(function () {
 
   //저장버튼
   $("#saveBtn").click(function () {
+    saveCheck = true;
+    $("#saveBtn").prop("disabled", true);
     let processOrder;
     let instProdNo;
     let procCdName = $("#procCdName").val();
@@ -189,6 +202,7 @@ function findProcess(instProdNo, MchnName) {
     dataType: "json",
     success: function (data) {
       console.log(data);
+      saveCheck = false;
       $("#workStateTable tbody td").remove();
       for (obj of data) {
         if (`${obj.mchnName}` == MchnName) {
@@ -376,7 +390,7 @@ function startinterval() {
     Math.ceil(
       ((totalProdVol + parseInt(virResult.text())) /
         parseInt(inDtlVol.text())) *
-        100
+      100
     ) + "%"
   );
   prodVol.html(num);
@@ -453,8 +467,8 @@ function insertRscOut(rscLotNo, rscCdCode, needQty) {
       rscOutCls: rscOutCls,
       empName: empName,
     }),
-    error: function (error, status, msg) {},
-    success: function (data) {},
+    error: function (error, status, msg) { },
+    success: function (data) { },
   });
 }
 
@@ -665,7 +679,7 @@ let work;
 //작업시작 시간 입력
 function startWork() {
   //완료여부
-  $("#workEndBtn").prop("disabled", false);
+  //$("#workEndBtn").prop("disabled", false);
   let completionStatus;
   $("#workInsertTable tbody tr").each(function () {
     let mchnName = $("#mchnName").val();

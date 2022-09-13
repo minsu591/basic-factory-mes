@@ -16,6 +16,7 @@ import com.mes.bf.prod.vo.FindProcStatusVO;
 import com.mes.bf.prod.vo.InstAndDetailVO;
 import com.mes.bf.prod.vo.InstructionDetailVO;
 import com.mes.bf.prod.vo.InstructionVO;
+import com.mes.bf.prod.vo.NotInProcInstVO;
 import com.mes.bf.prod.vo.ProcessVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
@@ -128,8 +129,24 @@ public class InstructionServiceImpl implements InstructionService {
 	}
 
 	@Override
-	public void deleteInst(InstructionVO vo) {
+	public void deleteInst(InstructionDetailVO vo) {
 		mapper.deleteInst(vo);
+		
+	}
+
+	@Override
+	public List<InstructionVO> findInst(String instSdate,String instEdate) {
+		return mapper.findInst(instSdate,instEdate);
+	}
+
+	@Override
+	public List<NotInProcInstVO> findNotInProcInst(int instNo) {
+		return mapper.findNotInProcInst(instNo);
+	}
+
+	@Override
+	public void deleteInstHd(InstructionVO vo) {
+		mapper.deleteInstHd(vo);
 		
 	}
 	
