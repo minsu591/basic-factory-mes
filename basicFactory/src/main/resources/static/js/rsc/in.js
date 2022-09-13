@@ -1,7 +1,7 @@
 $("document").ready(function(){
 	//체크박스 체크유무
 	 let allCheck = $("#allCheck");
-	 $("#allCheck").click("change",function(){
+	 $("#in-table").on("click", "#allCheck",function(){
 	     if($("#allCheck").is(":checked")){
 	         $("#inspCompTable tbody input:checkbox").prop("checked",true);
 	     }else{
@@ -9,7 +9,7 @@ $("document").ready(function(){
 	     }
 	 })
 
-		$("input[name=chk]").click(function(){
+		$("#in-table").on("click", "input[name=chk]",function(){
 				let total = $("input[name=chk]").length;
 				let checked = $("input[name=chk]:checked").length;
 				if((total != checked)){
@@ -36,9 +36,6 @@ $("#search").click(function(){
 			$("#intable").replaceWith(data);
 		}
 	})
-	$("#rsccode").val(null);
-	$("#rscname").val(null);
-	$("#rscInspDate").val(null);
 })
 
 $("#subBtn").click(function(){
@@ -91,12 +88,23 @@ $("#subBtn").click(function(){
 				alert("상태코드 " + status + "에러메시지" + msg);
 		},
 		success : function(){
-			alert("등록처리완료");
-			location.href="/rsc/in";
+			submitComplete();
 		}
 		})
 		
 })
+
+function submitComplete() {
+	Swal.fire({
+			title: "등록되었습니다.",
+			icon: "success", // Alert 타입
+			confirmButtonText: "확인", // confirm 버튼 텍스트 지정
+	}).then((result)=>{
+			if(result.isConfirmed){
+					location.reload();
+			}
+	})
+}
 
 function deleteWarning() {
 	Swal.fire({

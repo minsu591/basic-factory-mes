@@ -14,19 +14,39 @@ h1 {
 	margin-right: 0;
 }
 
+label {
+	width: 70px;
+}
+
 button {
-	margin-top: 1rem;
+	margin: 0px !important;
+}
+
+tfoot {
+	border-bottom: 1px solid #e3eaef;
+}
+
+.listTitle {
+	line-height: 43px;
+	float: left;
 }
 
 .buttonSet {
 	float: right;
-	margin-top: 0px !important;
-	margin-bottom: 0.7rem;
+	margin: 0px !important;
+}
+
+.buttonSet-top {
+	margin-top : 1rem;
+}
+
+#search {
+	margin-top : 1rem !important;
 }
 
 
-.buttonSet button {
-	margin-top: 0px !important;
+#in-table {
+	padding-top : 10px;
 }
 
 
@@ -35,11 +55,7 @@ button {
 	margin-top: 0;
 }
 
-#in-table {
-	padding-top : 0.7rem;
-}
-
-#InsertTable input[type=text]:read-only {
+#InsertTable input[type=text]:disabled {
 	background: #f6f6f6 !important;
 	width: 100% !important
 }
@@ -64,6 +80,13 @@ button {
 	line-height : 32px;
 }
 
+#InsertTable .unit {
+	height: 2rem;
+	text-align: center;
+	background: #f6f6f6 !important;
+	vertical-align: middle;
+}
+
 #InsertTable td {
 	padding: 0;
 
@@ -75,7 +98,7 @@ button {
 }
 
 .swal2-container {
-  z-index: 20000 !important;
+	z-index: 20000 !important;
 }
 
 .warn {

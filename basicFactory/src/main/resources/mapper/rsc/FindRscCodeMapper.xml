@@ -45,6 +45,30 @@
 		ORDER BY RSC_LOT_NO DESC
 	</select>
 
+	<select id="canRscLotNoList"
+		resultType="com.mes.bf.rsc.vo.RscStockVO">
+		SELECT STOCK.RSC_LOT_NO,
+		STOCK.RSC_STOCK_ST,
+		STOCK.RSC_STOCK,
+		STOCK.RSC_CD_CODE,
+
+		CODE.RSC_CD_NAME
+
+		FROM BF_RSC_STOCK STOCK
+		LEFT JOIN BF_CMN_RSC_CODE CODE
+		ON STOCK.RSC_CD_CODE = CODE.RSC_CD_CODE
+		<where>
+			STOCK.RSC_STOCK != 0
+			<if test="rscCdCode != null and rscCdCode != ''">
+				STOCK.RSC_CD_CODE LIKE '%'||#{rscCdCode}||'%'
+			</if>
+			<if test="rscCdName != null and rscCdName != ''">
+				AND CODE.RSC_CD_NAME LIKE '%'||#{rscCdName}||'%'
+			</if>
+		</where>
+
+		ORDER BY RSC_LOT_NO DESC
+	</select>
 
 	<!-- 자재 발주 모달 -->
 	<select id="rscOrderList" resultType="com.mes.bf.rsc.vo.RscOrderVO">
@@ -129,26 +153,26 @@
 	<select id="modalOutList"
 		resultType="com.mes.bf.rsc.vo.RscOutVO">
 		SELECT RSCOUT.RSC_OUT_CODE,
-		RSCOUT.RSC_OUT_DATE,
-		NVL(RSCOUT.VEND_CD_CODE,''),
-		RSCOUT.RSC_CD_CODE,
-		RSCOUT.RSC_OUT_VOL,
+			   RSCOUT.RSC_OUT_DATE,
+			   NVL(RSCOUT.VEND_CD_CODE,''),
+			   RSCOUT.RSC_CD_CODE,
+			   RSCOUT.RSC_OUT_VOL,
 
-		RSCCODE.RSC_CD_NAME,
+			   RSCCODE.RSC_CD_NAME,
 
-		VEND.VEND_CD_NM,
+			   VEND.VEND_CD_NM,
 
-		EMP.EMP_NAME
+			   EMP.EMP_NAME
 
-		FROM BF_RSC_OUT RSCOUT
-		LEFT JOIN BF_CMN_RSC_CODE RSCCODE
-		ON RSCOUT.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
-		LEFT JOIN BF_CMN_VENDOR_CODE VEND
-		ON RSCOUT.VEND_CD_CODE = VEND.VEND_CD_CODE
-		LEFT JOIN BF_CMN_EMP EMP
-		ON RSCOUT.EMP_ID = EMP.EMP_ID
+		  FROM BF_RSC_OUT RSCOUT
+		  LEFT JOIN BF_CMN_RSC_CODE RSCCODE
+		    ON RSCOUT.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
+		  LEFT JOIN BF_CMN_VENDOR_CODE VEND
+		    ON RSCOUT.VEND_CD_CODE = VEND.VEND_CD_CODE
+		  LEFT JOIN BF_CMN_EMP EMP
+		    ON RSCOUT.EMP_ID = EMP.EMP_ID
 
-		WHERE RSCOUT.RSC_OUT_CLS = 2
+		 WHERE RSCOUT.RSC_OUT_CLS = 2
 		<if test="rscOutCode != null and rscOutCode != ''">
 			AND RSCOUT.RSC_OUT_CODE LIKE '%'||#{rscOutCode}||'%'
 		</if>
@@ -157,23 +181,25 @@
 		 			 AND RSCOUT.RSC_OUT_DATE <= TO_DATE(#{rscOutDate}) +1 ]]>
 		</if>
 
-		ORDER BY 1 DESC
+		 ORDER BY 1 DESC
 	</select>
 	<select id="modalReturnList"
 		resultType="com.mes.bf.rsc.vo.RscReturnVO">
 		SELECT RTN.RSC_RETURN_CODE,
-		RTN.RSC_RETURN_DATE,
-		RTN.RSC_RETURN_VOL,
+			   RTN.RSC_RETURN_DATE,
+			   RTN.RSC_RETURN_VOL,
 
-		NVL(VEND.VEND_CD_NM,' '),
+			   NVL(VEND.VEND_CD_NM,' '),
 
-		RSC.RSC_CD_NAME
+			   RSC.RSC_CD_NAME,
+		
+			   VEND.VEND_CD_NM
 
-		FROM BF_RSC_RETURN RTN
-		LEFT JOIN BF_CMN_VENDOR_CODE VEND
-		ON RTN.VEND_CD_CODE = VEND.VEND_CD_CODE
-		LEFT JOIN BF_CMN_RSC_CODE RSC
-		ON RTN.RSC_CD_CODE = RSC.RSC_CD_CODE
+		  FROM BF_RSC_RETURN RTN
+		  LEFT JOIN BF_CMN_VENDOR_CODE VEND
+		    ON RTN.VEND_CD_CODE = VEND.VEND_CD_CODE
+		  LEFT JOIN BF_CMN_RSC_CODE RSC
+		    ON RTN.RSC_CD_CODE = RSC.RSC_CD_CODE
 		<where>
 			<if test="rscReturnCode != null and rscReturnCode != ''">
 				AND RTN.RSC_RETURN_CODE LIKE '%'||#{rscReturnCode}||'%'
@@ -184,7 +210,7 @@
 			</if>
 		</where>
 
-		ORDER BY 1;
+		 ORDER BY 1
 	</select>
 
 

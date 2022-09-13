@@ -46,6 +46,13 @@ public class FindRscCodeController {
 		return new ResponseEntity<List<RscStockVO>>(list, HttpStatus.OK);
 	}
 	
+	//재고량이 0인 것을 재외한 자재코드 LOT조회
+	@GetMapping(value="/findCanRscLot", produces= { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<RscStockVO>> findCanRscLot(@RequestParam Map<String, String> queryParameters){
+		List<RscStockVO> list = findRscService.canRscLotNoList(queryParameters.get("rscCdCode"), queryParameters.get("rscCdName"));
+		return new ResponseEntity<List<RscStockVO>>(list, HttpStatus.OK);
+	}
+	
 	//자재발주 조회
 	@GetMapping(value="/findRscOrder", produces= { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<RscOrderVO>> findRscOrder(HttpServletRequest request, @RequestParam Map<String, String> queryParameters) throws NoSuchFieldException, SecurityException{
@@ -55,7 +62,7 @@ public class FindRscCodeController {
 		return new ResponseEntity<List<RscOrderVO>>(list, HttpStatus.OK);
 	}
 	
-	//자재검사 조회 modal
+	//자재검사 조회 modal(발주코드 기반 조회)
 	@GetMapping(value="/findRscOrderInsp", produces= { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<RscOrderVO>> findRscOrderInsp(@RequestParam Map<String, String> queryParameters) throws NoSuchFieldException, SecurityException{
 		List<RscOrderVO> list = findRscService.rscOrderInspList(queryParameters.get("rscOrderCode"), queryParameters.get("rscOrderTitle"), queryParameters.get("rscOrderDate"));
@@ -79,6 +86,7 @@ public class FindRscCodeController {
 	//자재반품 조회
 	@GetMapping(value="/findRscReturn", produces= { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<RscReturnVO>> findRscReturn(@RequestParam Map<String, String> queryParameters){
+		System.out.println(queryParameters.get("rscReturnCode"));
 		List<RscReturnVO> list = findRscService.modalReturnList(queryParameters.get("rscReturnCode"),queryParameters.get("rscReturnDate"));
 		return new ResponseEntity<List<RscReturnVO>>(list, HttpStatus.OK);
 	}

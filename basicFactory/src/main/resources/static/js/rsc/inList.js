@@ -40,11 +40,6 @@ $("document").ready(function(){
     $("#inlisttable").replaceWith(data);
    }
   })
-  $("#rscInCode").val(null);
-  $("#rsccode").val(null);
-  $("#rscname").val(null);
-  $("#rscInSDate").val(null);
-  $("#rscInEDate").val(null);
  }
 
 

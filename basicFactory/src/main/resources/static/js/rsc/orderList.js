@@ -1,8 +1,23 @@
-$(document).ready(function(){
+$("document").ready(function(){
  
  //조회버튼 실행
  $("#search").click(function(){
-  findList();
+  let rscOrderSDate = $("#rscReturnSDate").val();
+  let rscOrderEDate = $("#rscReturnEDate").val();
+
+  if(!rscOrderSDate){
+   if(!rscOrderEDate){
+    findList();
+   } else {
+    alert("일자 검색 범위를 확인해주세요.");
+   }
+  }else{
+   if(!rscOrderEDate){
+    alert("일자 검색 범위를 확인해주세요.")
+   }else {
+    findList();
+   }
+  }
  })
 
  function findList(){
@@ -23,15 +38,9 @@ $(document).ready(function(){
      rscOrderEDate: rscOrderEDate
    },
    success: function(data){
+    console.log(data);
     $("#ordtable").replaceWith(data);
    }
   })
-  $("#rscOrderCode").val(null);
-  $("#rsccode").val(null);
-  $("#rscname").val(null);
-  $("#vendor").val(null);
-  $("#vendorName").val(null);
-  $("#rscOrderSDate").val(null);
-  $("#rscOrderEDate").val(null);
  }
 })

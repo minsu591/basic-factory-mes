@@ -120,7 +120,7 @@ $(document).ready(function () {
  function outListInsert(obj) {
   let prc = Number(obj.rscOrderVol * obj.rscOrderPrc).toLocaleString('ko-KR');
   let node = `<tr>
-<td><input type="checkbox" name="chk"></td>
+<td id="chk-css"><input type="checkbox" name="chk"></td>
 <td><input type="text" value="${obj.vendCdCode}" name="vendcode"></td>
 <td><input type="text" value="${obj.vendCdNm}" disabled></td>
 <td><input type="text" class="rsccode" value="${obj.rscCdCode}"></td>

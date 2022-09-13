@@ -23,18 +23,18 @@
 		   ON  RSCIN.RSC_INSP_CODE = RSCINSP.RSC_INSP_CODE
 		 <where>
 		 	<if test="rscInCode != null and rscInCode != ''">
-		 		RSCIN.RSC_IN_CODE = '%'||#{rscInCode}||'%'
+		 		RSCIN.RSC_IN_CODE LIKE '%'||#{rscInCode}||'%'
 		 	</if>
 		 	<if test="rscCdCode != null and rscCdCode != ''">
-		 		RSCIN.RSC_CD_CODE = #{rscCdCode}
+		 		AND RSCIN.RSC_CD_CODE = #{rscCdCode}
 		 	</if>
 		 	<if test="rscInSDate != null and rscInSDate != ''">
-		 		<![CDATA[RSCIN.RSC_IN_DATE >= #{rscInSDate} 
+		 		AND <![CDATA[RSCIN.RSC_IN_DATE >= #{rscInSDate} 
 		 			 AND RSCIN.RSC_IN_DATE <= #{rscInEDate}]]>
 		 	</if>
 		 </where>
 		        
-		ORDER  BY RSCIN.RSC_CD_CODE DESC
+		ORDER  BY RSCIN.RSC_IN_DATE DESC, RSCIN.RSC_IN_CODE DESC
 	</select>
 	
 	<select id="inspCompList" resultType="com.mes.bf.rsc.vo.RscInspVO">
@@ -56,7 +56,7 @@
 		 		AND INSP.RSC_CD_CODE = #{rscCdCode}
 		 	</if>
 		 	<if test="inspDate != null and inspDate != ''">
-		 		AND INSP.RSC_INSP_DATE = #{inspDate}
+		 		AND TO_CHAR(INSP.RSC_INSP_DATE,'yyyy-mm-dd') = #{inspDate}
 		 	</if>
 		
 		 ORDER BY 1 DESC

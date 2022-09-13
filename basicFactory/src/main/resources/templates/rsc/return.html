@@ -8,6 +8,7 @@
 </head>
 <body>
 	<script type="text/javascript" th:src="@{/js/modal/rsc/findRscLotManage.js}"></script>
+	<script type="text/javascript" th:src="@{/js/modal/rsc/findRscReturn.js}"></script>
 	<script type="text/javascript" th:src="@{/js/modal/rsc/findVendor.js}"></script>
 	<script type="text/javascript" th:src="@{/js/rsc/return.js}"></script>
 	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
@@ -21,8 +22,7 @@
 					<div class="form-inline">
 						<div class="form-group mt-3">
 							<label for="rscReturnCode" th:text="반품코드"></label> <input
-								type="text" id="rscReturnCode" class="form-control mx-sm-3"
-								readonly>
+								type="text" id="rscReturnCode" class="form-control mx-sm-3">
 						</div>
 						<div class="form-group mt-3">
 							<label for="rscReturnDate" th:text="반품일자"></label> <input
@@ -32,10 +32,12 @@
 							내용 조회</button>
 					</div>
 				</div>
-				<div class="card-body table-border-style">
+				<div class="card-body table-border-style" id="in-table">
+				<div class="buttonSet">
 					<button type="button" class="btn  btn-primary" id="addRowBtn">추가</button>
 					<button type="button" class="btn  btn-primary" id="delRowBtn">삭제</button>
 					<button type="button" class="btn  btn-primary" id="subBtn">저장</button>
+				</div>
 					<form>
 						<div class="table-responsive">
 							<table class="table table-hover" id="InsertTable">

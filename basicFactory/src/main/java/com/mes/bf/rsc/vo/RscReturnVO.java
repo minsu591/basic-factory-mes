@@ -21,5 +21,6 @@ public class RscReturnVO {
 	private String rscReturnRemk;
 	private String vendCdCode;
 	private String vendCdNm;
+	private double rscStock;
 	
 }

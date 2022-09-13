@@ -44,7 +44,7 @@ $(document).ready(function () {
   let rscCdCode = $("#lotrsccode").val();
   let rscCdName = $("#lotrscname").val();
   $.ajax({
-   url: "findRscLot",
+   url: "findCanRscLot",
    method: "GET",
    contentType: "application/json;charset=utf-8",
    dataType: "json",
