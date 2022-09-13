@@ -8,10 +8,31 @@
 				NVL(FAULTY_REMK, ' ') AS FAULTY_REMK
 		FROM BF_CMN_FAULTY_CODE
 		<if test="FaultyName != null and FaultyName != ''">
-			WHERE FAULTY_NAME = #{faultyName}
+			WHERE FAULTY_NAME LIKE '%'||#{faultyName}||'%'
 		</if>
 		ORDER BY FAULTY_CD_CODE
 		
 	</select>
+	
+	<insert id="faultyInsert" parameterType="fltyCode">
+		INSERT INTO BF_CMN_FAULTY_CODE
+		VALUES('FLTY'||LPAD(BF_CMN_FAULTY_CODE_SEQ.NEXTVAL, 3, 0),
+				#{faultyName},
+				#{faultyRemk})
+	</insert>
+	
+	<update id="faultyUpdate">
+		UPDATE BF_CMN_FAULTY_CODE
+		SET ${updCol} = #{updCont}
+		WHERE FAULTY_CD_CODE = #{priKey}
+	</update>
+	
+	<delete id="faultyDelete">
+		DELETE BF_CMN_FAULTY_CODE
+		WHERE FAULTY_CD_CODE IN
+		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
+			#{priKey}
+		</foreach>
+	</delete>
 
 </mapper>

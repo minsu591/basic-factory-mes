@@ -95,7 +95,7 @@ $("document").ready(function () {
     let priKey = $(this).parent().find("td:eq("+priKeyIdx+")").text();  //해당 td의 부모에서 프라이머리키 값이 있는 태그를 찾아 그 값을 저장
     let updCol = table.find("thead").find("th:eq("+col+")").attr("name");        //th의 col번째 th name값 갖고 옴(수정될 column)
     let updCont = $(this).text();                                               //해당 td의 text값을 저장(수정될 content);
-  
+ 
     if(col == 4){                                                               //수정하고 싶은 td를 클릭하면 td text만 가져오게 되어있는데 
       updCont = $(this).find("input[type='date']").val();                       //예외적으로 체크박스나 날짜 데이터는 td안에 input이니까 td안에 input value도 가져오겠다
     }
@@ -163,7 +163,7 @@ $("document").ready(function () {
     let priKey = obj[0];
     let updCol = obj[1];
     let updCont = obj[2];
-    console.log("modify");
+
     $.ajax({
       url : 'inspc/update',
       type : "POST",
@@ -182,7 +182,7 @@ $("document").ready(function () {
     });
   };
 
-  //불량처리 추가 등록 Ajax
+  //추가 등록 Ajax
   function addSaveAjax(tr){
     let mchnCode = $(tr).find("td:eq(2)").text();
     let inspcSdate = $(tr).find("td:eq(4) input[type='date']").val();

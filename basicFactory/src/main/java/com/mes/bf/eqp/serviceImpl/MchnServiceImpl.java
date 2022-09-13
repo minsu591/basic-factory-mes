@@ -15,8 +15,8 @@ public class MchnServiceImpl implements MchnService {
 	@Autowired MchnMapper mapper;
 
 	@Override
-	public List<MchnVO> listMchn(String mchnCode) {
-		return mapper.listMchn(mchnCode);
+	public List<MchnVO> findMchnName(String mchnName) {
+		return mapper.findMchnName(mchnName);
 	}
 
 	@Override
@@ -28,5 +28,17 @@ public class MchnServiceImpl implements MchnService {
 	public int mchnUpdate(String prikey, String updCol, String updCont) {
 		return mapper.mchnUpdate(prikey, updCol, updCont);
 	}
+
+	@Override
+	public int mchnDelete(List<String> delList) {
+		return mapper.mchnDelete(delList);
+	}
+
+	@Override
+	public List<MchnVO> listMchn(String mchnName) {
+		return mapper.listMchn(mchnName);
+	}
+
+	
 	
 }

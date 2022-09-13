@@ -1,39 +1,55 @@
 $("document").ready(function () {
   //조회버튼 click 이벤트
   $("#selectBtn").on("click", function () {
-    let faultyName = $("#faultyName").val();
+    let nonOpName = $("#nonOpName").val();
     $.ajax({
-      url: "faultyCode/findName",
+      url: "nonOpCode/findname",
       method: "GET",
       dataType: "json",
       data: {
-        faultyName: faultyName
+        nonOpName
       },
       success: function (result) {
-        $("#faultyTable tbody tr").remove();
+        $("#nonOpTable tbody tr").remove();
         for (obj of result) {
-          faultyMakeRow(obj);
+          makeRow(obj);
         }
       },
     });
   });
 
-  function faultyMakeRow(obj) {
+  //추가 버튼 누르면 행 추가
+  $("#addBtn").on("click", function () {
+    let node = `<tr name="addTr">
+                  <td><input type="checkbox" name="chk"></td>`;
+    if ($("#allCheck").is(":checked")) {
+        node = `<tr>
+                  <td><input type="checkbox" name="chk" checked></td>`;
+    }
+    node += `<td></td>
+              <td></td>
+              <td></td>
+            </tr>`;
+
+    $("#nonOpTable tbody").append(node);
+  });
+
+  function makeRow(obj) {
     let node = `<tr>
                   <td><input type="checkbox" name="chk"></td>
-                  <td>${obj.faultyCdCode}</td>
-                  <td>${obj.faultyName}</td>
-                  <td>${obj.faultyRemk}</td>
+                  <td>${obj.nonOpCode}</td>
+                  <td>${obj.nonOpName}</td>
+                  <td>${obj.nonOpRemk}</td>
                 </tr>`;
-    $("#faultyTable tbody").append(node);
+    $("#nonOpTable tbody").append(node);
   }
 
   //체크박스 체크유무
   $("#allCheck").click("change", function () {
     if ($("#allCheck").is(":checked")) {
-      $("#faultyTable tbody input:checkbox[name=chk]").prop("checked", true);
+      $("#nonOpTable tbody input:checkbox[name=chk]").prop("checked", true);
     } else {
-      $("#faultyTable tbody input:checkbox[name=chk]").prop("checked", false);
+      $("#nonOpTable tbody input:checkbox[name=chk]").prop("checked", false);
     }
   });
   $("input[name=chk]").click(function () {
@@ -43,13 +59,12 @@ $("document").ready(function () {
     else $("#allCheck").prop("checked", true);
   });
 
-
   //수정될거 저장하는 list 정의
   let modifyList = [];
   let addList = [];
   let delList = [];
   //수정할 테이블
-  let table = $("#faultyTable");
+  let table = $("#nonOpTable");
   //td 수정을 적용할 인덱스
   let avArr = [2,3];
   //notNull이어야하는 idx
@@ -66,22 +81,20 @@ $("document").ready(function () {
     let defaultVal;
 
     if(tdInfo.hasClass("nullTd")){
-      tdInfo.removeClass("nullTd");
+        tdInfo.removeClass("nullTd");
     }
 
     //적용할 인덱스인지 확인
     for(let i = 0; i<avArr.length;i++){
-      if(col == avArr[i]){
-          flag = true;
-          break;
-      }
+        if(col == avArr[i]){
+            flag = true;
+            break;
+        }
     }
-
     //해당사항 없으면 return
     if(!flag){
-      return;
+        return;
     }
-
     tdInfo.attr("contenteditable","true");
     tdInfo.focus();
     defaultVal = tdInfo.text();
@@ -142,7 +155,7 @@ $("document").ready(function () {
   }
 
   //저장 버튼 이벤트
-  $("#saveBtn").on("click", function() {
+  $("#saveBtn").on("click",function(){
     let trs = table.find("tbody tr");
     if(confirm("저장하시겠습니까?") == true) {
       //null 검사
@@ -156,14 +169,14 @@ $("document").ready(function () {
           }
         }
       }
-
+            
       //삭제용
       if(delList.length != 0){
-        deleteSaveAjax(delList);
+          deleteSaveAjax(delList);
       }
       //수정용
-      for(obj of modifyList) {
-        modifySaveAjax(obj);
+      for(obj of modifyList){
+          modifySaveAjax(obj);
       }
       //추가용
       addList = table.find("tr[name='addTr']");
@@ -172,8 +185,9 @@ $("document").ready(function () {
       }
 
       alert("저장이 완료되었습니다.");
-      location.reload();
-    }
+      //location.reload();
+      
+    }      
   });
 
   function modifySaveAjax(obj){
@@ -181,81 +195,63 @@ $("document").ready(function () {
     let priKey = obj[0];
     let updCol = obj[1];
     let updCont = obj[2];
-
     $.ajax({
-        url : 'faultyCode/update',
-        type :"POST",
-        dataType : 'text',
-        contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
-        data : {
-            priKey : priKey,
-            updCol : updCol,
-            updCont : updCont
-        },
-        success : function(result){
-            console.log("업데이트 완료");
-        }, error : function(error){
-            alert("서버 오류 : " + error);
-        }
+      url : 'nonOpCode/update',
+      type :"POST",
+      dataType : 'text',
+      contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
+      data : {
+          priKey : priKey,
+          updCol : updCol,
+          updCont : updCont
+      },
+      success : function(result){
+          console.log("업데이트 완료");
+      }, error : function(error){
+          alert("서버 오류 : " + error);
+      }
     })
   }
 
-  //추가 버튼 누르면 행 추가
-  $("#addBtn").on("click", function () {
-    let node = `<tr name="addTr">
-                  <td><input type="checkbox" name="chk"></td>`;
-    if ($("#allCheck").is(":checked")) {
-        node = `<tr>
-                  <td><input type="checkbox" name="chk" checked></td>`;
-    }
-    node += `<td></td>
-              <td></td>
-              <td></td>
-            </tr>`;
-
-    $("#faultyTable tbody").append(node);
-  });
-
   function addSaveAjax(obj){
-    let faultyName = $(obj).find("td:eq(2)").text();
-    let faultyRemk = $(obj).find("td:eq(3)").text();
-    
-    $.ajax({
-        url : 'faultyCode/insert',
-        type : 'POST',
-        dataType : 'text',
-        contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
-        data : {
-          faultyName,
-          faultyRemk
-        },
-        success : function(result){
-            console.log("추가 성공");
-        }
+    let nonOpName = $(obj).find("td:eq(2)").text();
+    let nonOpRemk = $(obj).find("td:eq(3)").text();
 
+    $.ajax({
+      url : 'nonOpCode/insert',
+      type : 'POST',
+      dataType : 'text',
+      contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
+      data : {
+        nonOpName,
+        nonOpRemk
+      },
+      success : function(result){
+          console.log("추가 성공");
+      }
     })
   }
 
   //선택 삭제 이벤트
   $("#deleteBtn").on("click",function(){
     table.find("tbody input:checkbox[name='chk']").each(function(idx,el){
-      if($(el).is(":checked")){
-        let tr = $(el).closest('tr');
-        let priKey = tr.find("td:eq("+priKeyIdx+")").text();
-        delList.push(priKey);
-        tr.remove();
-        for(let i = 0; i< modifyList.length; i++){
-          if(modifyList[i][0]== priKey){
-            modifyList.splice(i,1);
-          }
+        if($(el).is(":checked")){
+            let tr = $(el).closest('tr');
+            let priKey = tr.find("td:eq("+priKeyIdx+")").text();
+            delList.push(priKey);
+            tr.remove();
+            for(let i = 0; i< modifyList.length; i++){
+                if(modifyList[i][0]== priKey){
+                    modifyList.splice(i,1);
+                }
+            }
         }
-      }
     });
   });
 
   function deleteSaveAjax(delList){
     $.ajax({
-        url : 'faultyCode/delete',
+        url : 'nonOpCode/delete',
         type : 'GET',
         dataType : 'text',
         contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
@@ -267,5 +263,6 @@ $("document").ready(function () {
         }
     })
   }
+
 
 });
