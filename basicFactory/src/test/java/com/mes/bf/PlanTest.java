@@ -22,9 +22,9 @@ public class PlanTest {
 	//@Test
 	void findPlan() {
 		List<PlanHdVO> plans = service.findPlanInst("2022-08-11","2022-08-19",null);
-		List<ColPlanOrdVO> plans2 = service.findPlanOrd("2022-08-11","2022-08-19","VEND001");
+//		List<ColPlanOrdVO> plans2 = service.findPlanOrd("2022-08-11","2022-08-19","VEND001");
 		System.out.println(plans);
-		System.out.println(plans2);
+//		System.out.println(plans2);
 	}
 	
 	@Test

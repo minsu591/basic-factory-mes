@@ -20938,18 +20938,12 @@ pre[class*=language-]:before {
     margin-right: 10px;
 }
 
-.pcoded-header .dropdown .profile-notification .pro-head .dud-logout {
+.pcoded-header .pro-head .dud-logout {
     color: #fff;
-    padding-right: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
     height: 100%;
-    width: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100%;
 }
+
 
 .pcoded-header .dropdown .profile-notification .pro-body {
     padding: 20px 0;

@@ -3,9 +3,8 @@ package com.mes.bf.prod.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
+import com.mes.bf.common.Criteria;
 import com.mes.bf.prod.vo.ColPlanOrdVO;
 import com.mes.bf.prod.vo.PlanHdVO;
 import com.mes.bf.prod.vo.PlanVO;
@@ -16,8 +15,10 @@ public interface PlanMapper {
 	//planType이 head일 때 생산계획헤더 출력, null일 때 생산계획 세부 내역 출력
 	List<ColPlanOrdVO> findMyPlan(String planHdCode);
 	
-	List<ColPlanOrdVO> findPlanOrd(String startDate, String endDate, String data);
+	List<ColPlanOrdVO> findPlanOrd(Criteria cri);
 	List<PlanVO> findPlan(String planHdCode);
+	//페이징용 count
+	Integer findPlanOrdCount(Criteria cri);
 	
 	
 	//plan 헤더 insert
