@@ -281,10 +281,10 @@ $("#addBtn").on("click",function(){
                     <td><input type="checkbox" name="cb" checked ></td>`;
     }
     node +=`<input type="hidden">
-            <td class="productCode" data-toggle="modal" data-target=".bd-example-modal-lg"></td>
+            <td class="productCode canModifyTd" data-toggle="modal" data-target=".bd-example-modal-lg"></td>
             <td></td>
-            <td><input type="date"></td>
-            <td></td>
+            <td class="canModifyTd"><input type="date"></td>
+            <td class="canModifyTd"></td>
         </tr>`;
     $("#ordMngTable tbody").append(node);
 });

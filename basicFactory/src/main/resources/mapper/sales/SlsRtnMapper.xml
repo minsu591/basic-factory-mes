@@ -34,64 +34,73 @@
 	</resultMap>
 	
 	<select id="findAllReturn" resultMap="rtnHdDtlMap">
-	SELECT RTNHD.SLS_RTN_HD_DATE,
-		   RTNHD.SLS_RTN_HD_NO,
-           VEND.VEND_CD_NM,
-           FNSPRD.FIN_PRD_CD_CODE,
-           FNSPRD.FIN_PRD_CD_NAME,
-           OUTHD.SLS_OUT_HD_NO,
-           RTNDTL.SLS_RTN_DTL_VOL,
-           FNSPRD.FIN_PRD_CD_PRICE,
-           RTNDTL.SLS_RTN_DTL_PRICE,
-           RTNDTL.SLS_RTN_DTL_PRC_CLS,
-           RTNDTL.SLS_RTN_RESN,
-           EMP.EMP_NAME,
-           NVL(RTNHD.SLS_RTN_HD_REMK, ' ') AS SLS_RTN_HD_REMK
-	FROM BF_SALES_RTN_HD RTNHD JOIN BF_SALES_RTN_DTL RTNDTL
-	  ON RTNHD.SLS_RTN_HD_NO = RTNDTL.SLS_RTN_HD_NO
-	JOIN BF_CMN_VENDOR_CODE VEND
-	  ON RTNHD.VEND_CD_CODE = VEND.VEND_CD_CODE
-    JOIN BF_SALES_OUT_HD OUTHD
-      ON RTNHD.SLS_OUT_HD_NO = OUTHD.SLS_OUT_HD_NO
-	JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
-	  ON RTNDTL.FIN_PRD_CD_CODE = FNSPRD.FIN_PRD_CD_CODE
-    JOIN BF_CMN_EMP EMP
-      ON OUTHD.EMP_ID = EMP.EMP_ID
+		SELECT RTNHD.SLS_RTN_HD_DATE,
+			   RTNHD.SLS_RTN_HD_NO,
+	           VEND.VEND_CD_NM,
+	           FNSPRD.FIN_PRD_CD_CODE,
+	           FNSPRD.FIN_PRD_CD_NAME,
+	           OUTHD.SLS_OUT_HD_NO,
+	           RTNDTL.SLS_RTN_DTL_VOL,
+	           FNSPRD.FIN_PRD_CD_PRICE,
+	           RTNDTL.SLS_RTN_DTL_PRICE,
+	           RTNDTL.SLS_RTN_DTL_PRC_CLS,
+	           RTNDTL.SLS_RTN_RESN,
+	           EMP.EMP_NAME,
+	           NVL(RTNHD.SLS_RTN_HD_REMK, ' ') AS SLS_RTN_HD_REMK
+	           
+		FROM BF_SALES_RTN_HD RTNHD JOIN BF_SALES_RTN_DTL RTNDTL
+		  ON RTNHD.SLS_RTN_HD_NO = RTNDTL.SLS_RTN_HD_NO
+		JOIN BF_CMN_VENDOR_CODE VEND
+		  ON RTNHD.VEND_CD_CODE = VEND.VEND_CD_CODE
+	    JOIN BF_SALES_OUT_HD OUTHD
+	      ON RTNHD.SLS_OUT_HD_NO = OUTHD.SLS_OUT_HD_NO
+		JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
+		  ON RTNDTL.FIN_PRD_CD_CODE = FNSPRD.FIN_PRD_CD_CODE
+	    JOIN BF_CMN_EMP EMP
+	      ON OUTHD.EMP_ID = EMP.EMP_ID
+	      
+	    WHERE <![CDATA[ROWNUM < 10]]>
 	</select>
 	
 	<select id="findReturn" resultMap="rtnHdDtlMap">
-	SELECT RTNHD.SLS_RTN_HD_DATE,
-		   RTNHD.SLS_RTN_HD_NO,
-           VEND.VEND_CD_NM,
-           FNSPRD.FIN_PRD_CD_CODE,
-           FNSPRD.FIN_PRD_CD_NAME,
-           OUTHD.SLS_OUT_HD_NO,
-           RTNDTL.SLS_RTN_DTL_VOL,
-           FNSPRD.FIN_PRD_CD_PRICE,
-           RTNDTL.SLS_RTN_DTL_PRICE,
-           RTNDTL.SLS_RTN_DTL_PRC_CLS,
-           RTNDTL.SLS_RTN_RESN,
-           EMP.EMP_NAME,
-           NVL(RTNHD.SLS_RTN_HD_REMK, ' ') AS SLS_RTN_HD_REMK
-	FROM BF_SALES_RTN_HD RTNHD 
-	JOIN BF_SALES_RTN_DTL RTNDTL
-	  ON RTNHD.SLS_RTN_HD_NO = RTNDTL.SLS_RTN_HD_NO
-	JOIN BF_CMN_VENDOR_CODE VEND
-	  ON RTNHD.VEND_CD_CODE = VEND.VEND_CD_CODE
-    JOIN BF_SALES_OUT_HD OUTHD
-      ON RTNHD.SLS_OUT_HD_NO = OUTHD.SLS_OUT_HD_NO
-	JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
-	  ON RTNDTL.FIN_PRD_CD_CODE = FNSPRD.FIN_PRD_CD_CODE
-    JOIN BF_CMN_EMP EMP
-      ON OUTHD.EMP_ID = EMP.EMP_ID
-      
-     WHERE TRUNC(OUTHD.SLS_OUT_HD_DATE) BETWEEN  #{rtnSdate} AND #{rtnEdate}
-    	<if test="vendorName != null and vendorName != ''">
-    		AND VEND.VEND_CD_NM = #{vendorName}
-    	</if>
-    	<if test="prcCls != null and prcCls != ''">
-    		AND RTNDTL.SLS_RTN_DTL_PRC_CLS = #{prcCls}
-    	</if>
+		SELECT RTNHD.SLS_RTN_HD_DATE,
+			   RTNHD.SLS_RTN_HD_NO,
+	           VEND.VEND_CD_NM,
+	           FNSPRD.FIN_PRD_CD_CODE,
+	           FNSPRD.FIN_PRD_CD_NAME,
+	           OUTHD.SLS_OUT_HD_NO,
+	           RTNDTL.SLS_RTN_DTL_VOL,
+	           FNSPRD.FIN_PRD_CD_PRICE,
+	           RTNDTL.SLS_RTN_DTL_PRICE,
+	           RTNDTL.SLS_RTN_DTL_PRC_CLS,
+	           RTNDTL.SLS_RTN_RESN,
+	           EMP.EMP_NAME,
+	           NVL(RTNHD.SLS_RTN_HD_REMK, ' ') AS SLS_RTN_HD_REMK
+	           
+		FROM BF_SALES_RTN_HD RTNHD 
+		JOIN BF_SALES_RTN_DTL RTNDTL
+		  ON RTNHD.SLS_RTN_HD_NO = RTNDTL.SLS_RTN_HD_NO
+		JOIN BF_CMN_VENDOR_CODE VEND
+		  ON RTNHD.VEND_CD_CODE = VEND.VEND_CD_CODE
+	    JOIN BF_SALES_OUT_HD OUTHD
+	      ON RTNHD.SLS_OUT_HD_NO = OUTHD.SLS_OUT_HD_NO
+		JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
+		  ON RTNDTL.FIN_PRD_CD_CODE = FNSPRD.FIN_PRD_CD_CODE
+	    JOIN BF_CMN_EMP EMP
+	      ON OUTHD.EMP_ID = EMP.EMP_ID
+	      
+	    <where>
+	    	<if test="rtnSdate != null and rtnSdate != ''">
+	    		AND TRUNC(OUTHD.SLS_OUT_HD_DATE) BETWEEN  #{rtnSdate} AND #{rtnEdate}
+	    	</if>
+	    	<if test="vendorName != null and vendorName != ''">
+	    		AND VEND.VEND_CD_NM = #{vendorName}
+	    	</if>
+	    	<if test="prcCls != null and prcCls != 3">
+	    		AND RTNDTL.SLS_RTN_DTL_PRC_CLS = #{prcCls}
+	    	</if>
+	    	AND <![CDATA[ROWNUM < 10]]>
+	    </where>
 	</select>
 	
 	<!-- 완제품 반품 관리에서 반품내역 조회 모달 -->
@@ -109,10 +118,12 @@
 		JOIN BF_CMN_EMP EMP
 		  ON EMP.EMP_ID = RTNHD.EMP_ID
 		
-		<if test="(rtnSdate != null and rtnSdate != '') and (rtnEdate != null and rtnEdate !='')">
-			WHERE SLS_RTN_HD_DATE BETWEEN  TO_DATE(#{rtnSdate}, 'YY/MM/DD') AND TO_DATE(#{rtnEdate}, 'YY/MM/DD') + 0.9999
-		</if>
-		
+		<where>
+			<if test="(rtnSdate != null and rtnSdate != '') and (rtnEdate != null and rtnEdate !='')">
+				AND SLS_RTN_HD_DATE BETWEEN  TO_DATE(#{rtnSdate}, 'YY/MM/DD') AND TO_DATE(#{rtnEdate}, 'YY/MM/DD') + 0.9999
+			</if>
+			AND <![CDATA[ROWNUM < 10]]>
+		</where>
 		ORDER BY SLS_RTN_HD_NO DESC
 	</select>
 	

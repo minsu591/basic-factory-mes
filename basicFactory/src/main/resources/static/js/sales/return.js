@@ -54,17 +54,8 @@ $(document).ready(function () {
     let rtnEdate = $("#rtnEdate").val();
     let vendorName = $("#vendorName").val();
     let prcCls = $("#prcCls option:selected").val();
-    if (rtnSdate != null && rtnSdate != '' && rtnEdate !== null && rtnEdate != '') {
-      if (vendorName == null || vendorName == '') {
-        vendorName = null;
-      } else if (prcCls == 3) {
-        prcCls == null;
-      }
-      findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
-    } else {
-      alert('날짜를 선택해주세요');
-      return false;
-    }
+    
+    findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
   });
 
   function findReturn(rtnSdate, rtnEdate, vendorName, prcCls) {
