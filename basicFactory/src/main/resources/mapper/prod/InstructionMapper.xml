@@ -47,7 +47,7 @@
 
 		SELECT * FROM
 		v_findprodandline
-		WHERE fin_prd_cd_code LIKE #{prodCode}
+		WHERE fin_prd_cd_code = #{prodCode}
 
 	</select>
 

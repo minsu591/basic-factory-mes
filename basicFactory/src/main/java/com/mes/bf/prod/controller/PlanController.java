@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mes.bf.cmn.vo.EmpVO;
+import com.mes.bf.common.Criteria;
+import com.mes.bf.common.PageDTO;
 import com.mes.bf.prod.service.PlanService;
 import com.mes.bf.prod.vo.ColPlanOrdVO;
 import com.mes.bf.prod.vo.PlanHdDtlVO;
@@ -42,26 +44,32 @@ public class PlanController {
 	
 	//생산 계획 조회
 	@RequestMapping("/planView")
-	public String planView(Model model, @PageableDefault(page = 0, size = 2, direction = Sort.Direction.DESC) Pageable pageable) {
-		//오늘날짜 가져오기
-		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
-		//오늘 날짜
-		String edate = simpleFormat.format(cal.getTime());
-		cal.add(cal.DATE, -6);
-		//일주일 전 날짜
-		String sdate = simpleFormat.format(cal.getTime());
+	public String planView(Model model, @ModelAttribute("cri") Criteria cri) {
+//		//오늘날짜 가져오기
+//		Calendar cal = Calendar.getInstance();
+//		SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
+//		//오늘 날짜
+//		String edate = simpleFormat.format(cal.getTime());
+//		cal.add(cal.DATE, -6);
+//		//일주일 전 날짜
+//		String sdate = simpleFormat.format(cal.getTime());
 		
-		List<ColPlanOrdVO> plans = service.findPlanOrd(sdate, edate, null);
-		model.addAttribute("plans",plans);
+		int total = service.findPlanOrdCount(cri);
+		cri.setAmount(10); // 한페이지당 10개씩 설정
+		PageDTO page = new PageDTO(cri, total);
+		model.addAttribute("pageMaker", page);
+		model.addAttribute("plans", service.findPlanOrd(cri));
 		return "prod/PlanView";
 	}
 	
 	//생산 계획 조건 조회
-	@GetMapping(value = "/planView/org", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public String planDateView(@RequestParam Map<String, String> QueryParameters, Model model){
-		List<ColPlanOrdVO> plans = service.findPlanOrd(QueryParameters.get("sdate"), QueryParameters.get("edate"),QueryParameters.get("vendorCd"));
-		model.addAttribute("plans",plans);
+	@GetMapping(value = "/planView/org")
+	public String planDateView(Model model, @ModelAttribute("cri") Criteria cri){
+		int total = service.findPlanOrdCount(cri);
+		cri.setAmount(10); // 한페이지당 10개씩 설정
+		PageDTO page = new PageDTO(cri, total);
+		model.addAttribute("pageMaker", page);
+		model.addAttribute("plans", service.findPlanOrd(cri));
 		return "prod/changePlanTable";
 	}
 	

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.mes.bf.common.Criteria;
 import com.mes.bf.prod.mapper.PlanMapper;
 import com.mes.bf.prod.service.PlanService;
 import com.mes.bf.prod.vo.ColPlanOrdVO;
@@ -26,8 +27,8 @@ public class PlanServiceImpl implements PlanService {
 		return mapper.findMyPlan(planHdCode);
 	}
 	@Override
-	public List<ColPlanOrdVO> findPlanOrd(String startDate, String endDate, String data) {
-		return mapper.findPlanOrd(startDate, endDate, data);
+	public List<ColPlanOrdVO> findPlanOrd(Criteria cri) {
+		return mapper.findPlanOrd(cri);
 	}
 	@Override
 	public List<PlanVO> findPlan(String planHdCode) {
@@ -56,6 +57,10 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public Integer planDtlUpdate(String priKey, String updCol, String updCont) {
 		return mapper.planDtlUpdate(priKey, updCol, updCont);
+	}
+	@Override
+	public Integer findPlanOrdCount(Criteria cri) {
+		return mapper.findPlanOrdCount(cri);
 	}
 
 	

@@ -19,15 +19,19 @@ $("document").ready(function(){
     let rscNotNullList = [1,3,5,7];
     //primary키인 index
     let bomPriKeyIdx = 1;
-    let clickBomTr;
-
 
     //수정 이벤트
-    bomTable.find("tbody").on("click","td:not(:first-child)",modifyTdEvent);
-    rscTable.find("tbody").on("click","td:not(:first-child)",modifyTdEvent);
-
-    function modifyTdEvent(e){
+    bomTable.find("tbody").on("click","td:not(:first-child)",function(){
         let tdInfo = $(this);
+        modifyTdEvent(tdInfo);
+    });
+    rscTable.find("tbody").on("click","td:not(:first-child)",function(){
+        let tdInfo = $(this);
+        modifyTdEvent(tdInfo);
+    });
+
+    function modifyTdEvent(tdInfo){
+        console.log(tdInfo);
         let col = tdInfo.index();
         let flag = false;
         let defaultVal;
@@ -90,6 +94,7 @@ $("document").ready(function(){
             }
             
             if(!tdInfo.hasClass("bomAddTr") && !tdInfo.hasClass("rscAddTr")){
+                console.log("change");
                 tdInfo.trigger("change");
             }
         });
@@ -114,7 +119,6 @@ $("document").ready(function(){
         }else{
             updCont = $(this).text();
         }
-        
         checkNewModify(priKey,updCol,updCont,'bomTable');
         return;
     });
@@ -124,16 +128,12 @@ $("document").ready(function(){
         let bomRscIdx = $(this).parent().find("input[class='bomRscIdx']").val();
         let col = $(this).index()-2;
         let updCol = rscTable.find("thead").find("th:eq("+col+")").attr("name");
-        
-
         let updCont;
         if(col == 1){
             updCont = $(this).closest('tr').find("input[class='lineCdCode']").val();
         }else{
             updCont = $(this).text();
         }
-        console.log(updCol);
-        console.log(updCont);
         checkNewModify(bomRscIdx,updCol,updCont,'rscTable');
         return;
     })
@@ -157,7 +157,7 @@ $("document").ready(function(){
     }
 
     //저장 버튼 이벤트
-    $("#saveBtn").unbind("click").bind("click",function(){
+    $("#saveBtn").on("click",function(){
         Swal.fire({
             icon: "question",
             title: "저장하시겠습니까?",
@@ -187,6 +187,9 @@ $("document").ready(function(){
                     rscModifySaveAjax(obj);
                 }
 
+                
+                bomAddList = bomTable.find(".bomAddTr");
+                rscAddList = rscTable.find(".rscAddTr");
                 let insertFlag = bomAllInsert();
                 if(insertFlag){
                     return false;
@@ -211,7 +214,7 @@ $("document").ready(function(){
         let rscTrs = rscTable.find("tbody tr");
         let bomNullFlag = false;
         let rscNullFlag = false;
-        let alertBomNameSameFlag = true;
+        let alertBomNameSameFlag = false;
         let alertFinSameFlag = false;
         let alertLineSameFlag = false;
 
@@ -375,9 +378,9 @@ $("document").ready(function(){
             dataType : 'text',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
             data : {
-                priKey : priKey,
-                updCol : updCol,
-                updCont : updCont
+                priKey,
+                updCol,
+                updCont
             },
             success : function(result){
                 console.log("업데이트 완료");
@@ -469,9 +472,6 @@ $("document").ready(function(){
     });
 
     function bomAllInsert(){
-        bomAddList = bomTable.find(".bomAddTr");
-        rscAddList = rscTable.find("tr[class='rscAddTr']");
-
         let bomCdCode = $("#bomCode").val();
         let bomCdName = $("#bomCdName").val();
         let lineCode = $("#lineCode").val();
@@ -503,9 +503,6 @@ $("document").ready(function(){
         
         boms = [];
         rscs = [];
-        if(bomAddList.length == 0 && rscAddList.length == 0){
-            return true;
-        }
 
         for(obj of bomAddList){
             let bomCdName = $(obj).find("td:eq(2)").text();
@@ -550,25 +547,25 @@ $("document").ready(function(){
             }
             rscs.push(rsc);
         }
-
-        $.ajax({
-            url : 'bomCode/insert',
-            type : 'POST',
-            dataType : 'text',
-            contentType: "application/json; charset=UTF-8;",
-            data : JSON.stringify({
-                boms,
-                rscs
-            }),
-            success : function(result){
-                if(result == 1){
-                    console.log("추가 성공");
-                }else{
-                    console.log("추가 실패");
+        if(bomAddList.length != 0 || rscAddList.length != 0){
+            $.ajax({
+                url : 'bomCode/insert',
+                type : 'POST',
+                dataType : 'text',
+                contentType: "application/json; charset=UTF-8;",
+                data : JSON.stringify({
+                    boms,
+                    rscs
+                }),
+                success : function(result){
+                    if(result == 1){
+                        console.log("추가 성공");
+                    }else{
+                        console.log("추가 실패");
+                    }
                 }
-            }
-        });
-
+            });
+        }
     }
 
 

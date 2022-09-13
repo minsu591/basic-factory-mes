@@ -10,6 +10,7 @@ public class Criteria {
 	private String type; //검색 분류 
 	private String keyword; // 검색어
 	private String keyword2;
+	private String keyword3;
 
 	public String[] getTypeArr() {
 

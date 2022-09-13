@@ -66,6 +66,9 @@
 			</when>
 		</choose>
 	</sql>
+	
+	
+	
 	<!-- 지시에 존재하지 않거나 지시량이 계획량에 못 미치는 생산계획헤더 조회 -->
 	<select id="findPlanInst" resultType="planHdVO"
 		parameterType="String">
@@ -110,40 +113,70 @@
 		ORDER BY PLAN_IDX
 	</select>
 	
+	
+	<!-- 검색조건 SQL -->
+	<sql id="criteria">
+		<if test="keyword != null and keyword != ''">
+			<![CDATA[ and plan_hd_date >=  #{keyword} ]]>
+		</if>
+		<if test="keyword2 != null and keyword2 != ''">
+			<![CDATA[ and plan_hd_date <= TO_DATE(#{keyword2}, 'YY/MM/DD') + 0.9999 ]]>
+		</if>
+		<if test="keyword3 != null and keyword3 != ''">
+			<![CDATA[ and OH.VEND_CD_CODE = #{keyword3} ]]>
+		</if>
+	</sql>
+	
+	<select id="findPlanOrdCount" resultType="int">
+		SELECT COUNT(*)
+			FROM BF_PROD_PLAN P
+			JOIN BF_PROD_PLAN_HD PH
+			  ON P.PLAN_HD_CODE = PH.PLAN_HD_CODE
+			JOIN BF_CMN_FINISH_PRODUCT_CODE F
+			  ON P.FIN_PRD_CD_CODE = F.FIN_PRD_CD_CODE
+			LEFT OUTER JOIN BF_SALES_ORD_HD OH
+			  ON OH.SLS_ORD_HD_NO = PH.SLS_ORD_HD_NO
+			LEFT OUTER JOIN BF_CMN_VENDOR_CODE V
+			  ON OH.VEND_CD_CODE = V.VEND_CD_CODE
+			LEFT OUTER JOIN BF_SALES_ORD_DTL O
+			  ON O.SLS_ORD_HD_NO = OH.SLS_ORD_HD_NO
+			     AND P.FIN_PRD_CD_CODE = O.FIN_PRD_CD_CODE
+			<where>
+				<include refid="criteria" />
+			</where>
+	</select>
+	
 	<!-- 생산계획 조회시, 주문내역을 참고한 생산계획과 참고하지 않은 생산계획을 조회 -->
 	<select id="findPlanOrd" resultMap="colPlanOrdMap">
-		SELECT P.PLAN_IDX, PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, PH.PLAN_HD_DATE, PH.EMP_ID,
-		       P.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME, P.PLAN_PROD_VOL, 
-		       P.PLAN_SDATE, P.PLAN_EDATE, NVL(P.PLAN_REMK,' ') AS PLAN_REMK,
-		       P.PLAN_PRE_VOL,
-		       OH.SLS_ORD_HD_NO, OH.VEND_CD_CODE,
-		       V.VEND_CD_NM, O.SLS_ORD_DTL_VOL,
-		       O.SLS_ORD_DTL_DLV_DATE
-		FROM BF_PROD_PLAN P
-		JOIN BF_PROD_PLAN_HD PH
-		  ON P.PLAN_HD_CODE = PH.PLAN_HD_CODE
-		JOIN BF_CMN_FINISH_PRODUCT_CODE F
-		  ON P.FIN_PRD_CD_CODE = F.FIN_PRD_CD_CODE
-		LEFT OUTER JOIN BF_SALES_ORD_HD OH
-		  ON OH.SLS_ORD_HD_NO = PH.SLS_ORD_HD_NO
-		LEFT OUTER JOIN BF_CMN_VENDOR_CODE V
-		  ON OH.VEND_CD_CODE = V.VEND_CD_CODE
-		LEFT OUTER JOIN BF_SALES_ORD_DTL O
-		  ON O.SLS_ORD_HD_NO = OH.SLS_ORD_HD_NO
-		     AND P.FIN_PRD_CD_CODE = O.FIN_PRD_CD_CODE
-		WHERE 1=1
-		<choose>
-			<when test='startDate == "0" and endDate == "0" and data !=null'>
-				AND PH.PLAN_HD_CODE = #{data}
-			</when>
-			<otherwise>
-				<include refid="ifPlanDate" />
-				<if test="data != null and data != ''">
-					AND OH.VEND_CD_CODE = #{data}
-				</if>
-			</otherwise>
-		</choose>
-		ORDER BY PLAN_HD_CODE DESC, PLAN_HD_DATE DESC
+		SELECT X.* FROM(
+			SELECT P.PLAN_IDX, PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, PH.PLAN_HD_DATE, PH.EMP_ID,
+			       P.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME, P.PLAN_PROD_VOL, 
+			       P.PLAN_SDATE, P.PLAN_EDATE, NVL(P.PLAN_REMK,' ') AS PLAN_REMK,
+			       P.PLAN_PRE_VOL,
+			       OH.SLS_ORD_HD_NO, OH.VEND_CD_CODE,
+			       V.VEND_CD_NM, O.SLS_ORD_DTL_VOL,
+			       O.SLS_ORD_DTL_DLV_DATE,
+			       ROWNUM AS RNUM
+			FROM BF_PROD_PLAN P
+			JOIN BF_PROD_PLAN_HD PH
+			  ON P.PLAN_HD_CODE = PH.PLAN_HD_CODE
+			JOIN BF_CMN_FINISH_PRODUCT_CODE F
+			  ON P.FIN_PRD_CD_CODE = F.FIN_PRD_CD_CODE
+			LEFT OUTER JOIN BF_SALES_ORD_HD OH
+			  ON OH.SLS_ORD_HD_NO = PH.SLS_ORD_HD_NO
+			LEFT OUTER JOIN BF_CMN_VENDOR_CODE V
+			  ON OH.VEND_CD_CODE = V.VEND_CD_CODE
+			LEFT OUTER JOIN BF_SALES_ORD_DTL O
+			  ON O.SLS_ORD_HD_NO = OH.SLS_ORD_HD_NO
+			     AND P.FIN_PRD_CD_CODE = O.FIN_PRD_CD_CODE
+			<where>
+				<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
+				<include refid="criteria" />
+			</where>
+			ORDER BY PLAN_HD_CODE DESC, PLAN_HD_DATE DESC
+			) X
+		WHERE X.RNUM > (#{pageNum}-1)*#{amount}
+		
 	</select>
 	
 	<!-- 지시에 들어가지 않은  -->

@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org">
+      <body>
+      <th:block th:fragment="changePlanTable">
         <div class="table-responsive" id="planViewDiv">
             <table class="table table-striped" id="planViewTable">
                 <thead>
@@ -54,6 +56,9 @@
                     </tr>
                 </tbody>
             </table>
+            <th:block th:replace="~{/fragments/pagination :: pagination-nav}"></th:block>
         </div>
-</tbody>
+    </th:block>
+    
+</body>
 </html>

@@ -13,25 +13,33 @@ $("document").ready(function () {
     //생산계획 관리
     //지금 클릭한 finCode가 이미 추가된 완제품코드인지 확인
     let code = $(this).find("td:eq(1)").text();
-    let trs = tdInfo.closest('tbody').find("tr");
-    for(tr of trs){
-      if($(tr).find("td:eq(2)").text() == code){
-        Swal.fire({
-          icon: "warning",
-          title: "이미 추가된 제품코드입니다",
-          text: "다시 선택해주세요"
-        });
-        return false;
+    let name = $(this).find("td:eq(2)").text();
+    let table = tdInfo.closest("table");
+    if(table.attr("id") == 'planManageTable'){
+      //생산계획관리
+      let trs = tdInfo.closest('tbody').find("tr");
+      for(tr of trs){
+        if($(tr).find("td:eq(2)").text() == code){
+          Swal.fire({
+            icon: "warning",
+            title: "이미 추가된 제품코드입니다",
+            text: "다시 선택해주세요"
+          });
+          return false;
+        }
       }
     }
-
-
-    let name = $(this).find("td:eq(2)").text();
     tdInfo.text(code);
     tdInfo.next().text(name);
-    if(tdInfo.parent().find("input[class='planIdx']").length == 1){
+
+    if(table.attr("id") == 'planManageTable' &&
+          tdInfo.parent().find("input[class='planIdx']").length == 1){
+      tdInfo.trigger("change");
+    }else if(table.attr("id") == 'bomTable'){
+      //BOM 관리
       tdInfo.trigger("change");
     }
+
     $("#findproductModal").modal("hide");
   });
   //제품검색버튼 이벤트

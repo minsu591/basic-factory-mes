@@ -34,8 +34,8 @@ $(document).ready(function () {
     function planNotDoneMakeRow(obj){
         let node = `<tr>
             <td>${obj.planHdCode}</td>
-            <td>${obj.planHdDate}</td>
             <td>${obj.planHdName}</td>
+            <td>${obj.planHdDate}</td>
             <td>${obj.empId}</td>
         </tr>`
         $("#findNotDonePlanTable tbody").append(node);
