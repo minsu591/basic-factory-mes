@@ -71,7 +71,7 @@ function makeProcCodeRow(obj, index) {
   <td>${index}</td>
   <td>${obj.procCdCode}</td>
   <td>${obj.procCdName}</td>
-  <td>${obj.procCdRemk}</td>
+  <td>${obj.procCdRemk == null ? "-" : obj.procCdRemk}</td>
  </tr>`;
   $("#findProcCdNameTable").append(node);
 }

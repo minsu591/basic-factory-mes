@@ -6,12 +6,12 @@ $("document").ready(function () {
   });
 
   $("#sdate").change(function () {
-    $("#edate").prop("min", $("#sdate").val())
-  })
+    $("#edate").prop("min", $("#sdate").val());
+  });
 
   $("#edate").change(function () {
     $("#sdate").prop("max", $("#edate").val());
-  })
+  });
 
   $("#findNonOpCodebtn").click(function () {
     let code = $("#nonOpCode").val();
@@ -80,7 +80,7 @@ function nonOpMakeRow(obj, index) {
               <td>${index}</td>
               <td>${obj.nonOpCode}</td>
               <td>${obj.nonOpName}</td>
-              <td>${obj.nonOpRemk}</td>
+              <td>${obj.nonOpRemk == null ? "-" : obj.nonOpRemk}</td>
               </tr>`;
 
   $("#findNonOptbody").append(node);

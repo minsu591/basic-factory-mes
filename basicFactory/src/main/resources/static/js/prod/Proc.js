@@ -12,11 +12,11 @@ $(document).ready(function () {
   findAllProcPerform();
 
   $("#worksdate").change(function () {
-    $("#workedate").prop("min", $("#worksdate").val())
+    $("#workedate").prop("min", $("#worksdate").val());
   });
 
   $("#workedate").change(function () {
-    $("#worksdate").prop("max", $("#workedate").val())
+    $("#worksdate").prop("max", $("#workedate").val());
   });
 
   $("#findProcBtn").click(function () {
@@ -85,7 +85,7 @@ function ProcPerformMakeRow(obj) {
               <td>${obj.workerName}</td>
               <td>${obj.prodVol}</td>
               <td>${obj.fltyVol}</td>
-              <td>${obj.perfomeRemk}</td>
+              <td>${obj.perfomeRemk == "  " ? "-" : obj.perfomeRemk}</td>
               </tr>
   `;
   $("#procPerfomTable tbody").append(node);

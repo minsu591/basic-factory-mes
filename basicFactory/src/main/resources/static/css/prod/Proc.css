@@ -26,3 +26,7 @@ button {
 #exportBtn {
 	margin-top: 0;
 }
+
+.overflow {
+	height: 56vh;
+}

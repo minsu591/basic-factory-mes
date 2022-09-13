@@ -20,3 +20,7 @@ button {
 #findnonOpHistoryBtn {
 	margin-top: 1rem;
 }
+
+.overflow {
+	height: 56vh;
+}

@@ -14,12 +14,11 @@ $(document).ready(function () {
   $("#instsdate").change(function () {
     let instSdate = $("#instsdate").val();
     $("#instedate").prop("min", instSdate);
-  })
+  });
 
   $("#instedate").change(function () {
     $("#instsdate").prop("max", $("#instedate").val());
-  })
-
+  });
 
   $("#findInstBtn").click(function () {
     let sdate = $("#instsdate").val();
@@ -94,12 +93,12 @@ function instMakeRow(obj) {
   let node = `<tr>
   <td>${obj.instDate}</td>
   <td>${obj.instNo}</td>
-  <td>${obj.vendCdNm}</td>
+  <td>${obj.vendCdNm == " " ? "-" : obj.vendCdNm}</td>
   <td>${obj.finPrdCdCode}</td>
   <td>${obj.finPrdCdName}</td>
-  <td>${obj.slsOrdHdNo}</td>
-  <td>${slsOrdDtlDlvDate}</td>
-  <td>${slsOrdDtlVol}</td>
+  <td>${obj.slsOrdHdNo == " " ? "-" : obj.slsOrdHdNo}</td>
+  <td>${slsOrdDtlDlvDate == " " ? "-" : obj.slsOrdDtlDlvDate}</td>
+  <td>${slsOrdDtlVol == " " ? "-" : obj.slsOrdDtlVol}</td>
   <td>${obj.instProdIndicaVol}</td>
   <td>${obj.workScope}</td>
   <td>${obj.workDate}</td>

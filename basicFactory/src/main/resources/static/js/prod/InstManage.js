@@ -62,11 +62,9 @@ $(document).ready(function () {
     if (trlength == checklength) {
       //지시 헤더 삭제
       $("#instNo").val();
-      console.log("삭제할 인스트노->" + $("#instNo").val())
+      console.log("삭제할 인스트노->" + $("#instNo").val());
       deleteInstHd($("#instNo").val());
     }
-
-
   });
 
   //저장 버튼 클릭이벤트
@@ -147,13 +145,11 @@ $(document).ready(function () {
           return;
         }
 
-
         console.log(instobjheader);
         console.log(instobjdetail);
 
         //수정
         requiredCheck(instobjheader, dataArray, "update");
-
       } else {
         // 저장일 경우
         // let instDate = $("#instdate").val();
@@ -230,7 +226,18 @@ $(document).ready(function () {
     let prodName = $(this).find("td:eq(2)").children();
     let prodUnit = $(this).find("td:eq(3)").children();
     let lineName = $(this).find("td:eq(11)").children();
+    let indicaVol = $(this).find("td:eq(10)").children();
     let tr = $(this);
+    //지시량에 값이 입력 됬을 떄 실행
+    indicaVol.bind("input", function () {
+      $(this)
+        .parent()
+        .parent()
+        .find("td:eq(0)")
+        .children()
+        .prop("checked", false);
+      // findRscNeedQty(prodCode.val(), indicaVol.val());
+    });
 
     if (tr.children().children().is(":checked") == true) {
       tr.find("td:eq(1)")
@@ -274,12 +281,7 @@ $(document).ready(function () {
     findProcStatus(uniqueLineArray);
     console.log("매니지페이지 유니크라인어레이->" + uniqueLineArray);
     //console.log("uniqueLineArray -> " + uniqueLineArray);
-    //지시량에 값이 입력 됬을 떄 실행
 
-    // indicaVol.bind("input", function () {
-    //   $("#rscStockTable tbody tr").remove();
-    //   findRscNeedQty(prodCode.val(), indicaVol.val());
-    // });
     //제품코드에 값이 입력됐을 때 실행
     prodCode.bind("input", function () {
       let prodCode = $(this).val();
@@ -479,7 +481,7 @@ function insertInstAndDetail(instobjheader, dataArray) {
       detailvo: dataArray,
     }),
     error: function (error, status, msg) {
-      console.log("err")
+      console.log("err");
     },
     success: function (data) {
       console.log(" insert success");
@@ -497,7 +499,6 @@ function requiredCheck(instobjheader, dataArray, command) {
       $("#instname").val() == "" ||
       $("#empid").val() == ""
     ) {
-
       if (dataArray[i].finPrdCdCode == "") {
         $("#planDetailTable tbody tr")
           .eq(i)
@@ -560,7 +561,6 @@ function updateInst(instobjheader, instobjdetail) {
   });
 }
 
-
 function deleteWarning() {
   Swal.fire({
     icon: "warning", // Alert 타입
@@ -568,11 +568,10 @@ function deleteWarning() {
   });
 }
 function deleteCheck(tr) {
-
   if (tr.hasClass("updateInst")) {
-    console.log("업데이트 클래스 !!")
+    console.log("업데이트 클래스 !!");
     let instProdNo = tr.find("input:hidden[name=instProdNo]").val();
-    console.log('instProdNo' + instProdNo);
+    console.log("instProdNo" + instProdNo);
     deleteques(instProdNo);
   } else {
     tr.remove();
@@ -667,7 +666,6 @@ function requiredWarn() {
 }
 
 function deleteques(instProdNo) {
-
   Swal.fire({
     icon: "warning",
     title: "생산지시가 삭제됩니다.",

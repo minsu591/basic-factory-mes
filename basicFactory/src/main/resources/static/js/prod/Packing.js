@@ -12,7 +12,6 @@ $(document).ready(function () {
     $("#workInsertModal").modal("hide");
   });
 
-
   $("#packingTable").on("click", "tr", function () {
     let instDate = $(this).find("td:eq(7)").text();
     console.log(instDate);
@@ -51,7 +50,7 @@ $(document).ready(function () {
         $("#eMinutes").val(endTime.substring(14, 16));
         $("#empid").val(data.workerName).prop("readonly", true);
       },
-      error: function () { },
+      error: function () {},
     });
   }
 
@@ -90,9 +89,9 @@ $(document).ready(function () {
       let result = parseInt(prodVol.text()) - parseInt($("#fltyCnt").val());
       console.log(
         "실적량 ->" +
-        prodVol.text() +
-        "불량량->" +
-        parseInt($("#fltyCnt").val())
+          prodVol.text() +
+          "불량량->" +
+          parseInt($("#fltyCnt").val())
       );
       console.log("결과->" + result);
       prodVol.html(result);
@@ -360,7 +359,7 @@ function updateMchnStts(mchnCode, mchnStts) {
       mchnStts: mchnStts,
       mchnCode: mchnCode,
     }),
-    success: function (data) { },
+    success: function (data) {},
   });
 }
 
@@ -381,7 +380,7 @@ function startinterval() {
     Math.ceil(
       ((totalProdVol + parseInt(virResult.text())) /
         parseInt(inDtlVol.text())) *
-      100
+        100
     ) + "%"
   );
   prodVol.html(num);
@@ -420,7 +419,7 @@ function endWork() {
     $("#saveBtn").prop("disabled", false);
     $("#addFlty").prop("disabled", false);
     $("#workStartBtn").prop("disabled", true);
-
+    $("#emergencyBtn").hide();
     var date = new Date();
     let hours = ("0" + date.getHours()).slice(-2);
     let minutes = ("0" + date.getMinutes()).slice(-2);
@@ -631,8 +630,8 @@ function insertInDtl(processNo, workDate, prodVol, finPrdCdCode) {
       finPrdCdCode: finPrdCdCode,
       slsInDtlVol: prodVol,
     }),
-    error: function (error, status, msg) { },
-    success: function (data) { },
+    error: function (error, status, msg) {},
+    success: function (data) {},
   });
 }
 
