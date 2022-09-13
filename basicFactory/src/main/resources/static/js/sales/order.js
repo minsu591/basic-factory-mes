@@ -42,11 +42,17 @@ $(document).ready(function () {
     let ordSdate = $("#orderSdate").val();
     let ordEdate = $("#orderEdate").val();
     let vendorName = $("#vendorName").val();
-    if (ordSdate != null && ordSdate != '' && ordEdate != null && ordEdate != '') {
-      findOrder(ordSdate, ordEdate, vendorName);
+
+    if(ordSdate != null && ordSdate != '' && ordEdate != null && ordEdate != ''){
+      if(ordSdate > ordEdate){
+        ordDateChecked();
+      } else {
+        findOrder(ordSdate, ordEdate, vendorName);
+      }
+    } else if (ordSdate == null || ordSdate == '' && ordEdate == null || ordEdate == '' && vendorName == null || vendorName == ''){
+      selectChecked();  
     } else {
-      alert('날짜를 선택해주세요');
-      return false;
+      findOrder(ordSdate, ordEdate, vendorName);
     }
   });
 
@@ -74,4 +80,22 @@ $(document).ready(function () {
       }
     });
   }
+
+  function selectChecked() {
+    Swal.fire({
+        icon: "warning",
+        title: "조회 조건을 입력해주세요."
+    });
+    return false;
+  }
+
+  function ordDateChecked() {
+    Swal.fire({
+        icon: "warning",
+        title: "잘못된 검색 조건입니다."
+    });
+    $("#orderSdate").val('');
+    $("#orderEdate").val('');
+    return false;
+   }
 });
