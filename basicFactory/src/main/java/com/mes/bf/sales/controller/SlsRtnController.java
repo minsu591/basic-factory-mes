@@ -86,20 +86,37 @@ public class SlsRtnController {
 	//완제품 반품관리 수정
 	@PutMapping("/rtnManage/update")
 	public void rtnUpdate(@RequestParam Map<String, String> params) {
-		service.rtnUpdate(params.get("priKey"),
-				  		  params.get("updCol"),
-				  		  params.get("updCont"));
+		// 처리구분 수정 프로시저 호출
+		if(params.get("updCol") == "sls_rtn_dtl_prc_cls") {
+			//프로시저 (업데이트랑 딜리트같이하는데 조건주기)
+			service.callProcRtnDtlUpdate(params.get("priKey"),
+										 params.get("updCont"));
+		}else {
+			//그냥 냅다 update
+			service.rtnUpdate(params.get("priKey"),
+			  		  		  params.get("updCol"),
+			  		  		  params.get("updCont"));
+		}
 	}
 	
 	//반품관리 헤더 삭제
 	@DeleteMapping("/rtnManage/hd/delete")
 	public void rtnHdDelete(@RequestBody SlsRtnHdVO vo) {
+		//dtl 삭제
+		SlsRtnDtlVO dtlVo = new SlsRtnDtlVO();
+		dtlVo.setSlsRtnHdNo(vo.getSlsRtnHdNo());
+		//반품번호에 해당하는 반품내역번호 조회
+		List<SlsRtnDtlVO> slsRtnDtlNo = service.rtnDtlNoSelect(dtlVo);
+		for(SlsRtnDtlVO rtnDtlNo : slsRtnDtlNo) {
+			service.rtnDelete(rtnDtlNo);
+		}
+		//header 삭제
 		service.rtnHdDelete(vo.getSlsRtnHdNo());
 	}
 	
 	//반품관리 디테일 삭제
 	@DeleteMapping("/rtnManage/delete")
-	public void rtnDelete(@RequestParam(value="delList[]") List<String> delList) {
-		service.rtnDelete(delList);
+	public void rtnDelete(@RequestBody SlsRtnDtlVO vo) {
+		service.rtnDelete(vo);
 	}
 }

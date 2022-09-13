@@ -32,7 +32,7 @@ $(document).ready(function () {
                     <td>${obj.slsRtnDtlVO.finPrdCdName}</td>
                     <td>${obj.slsRtnHdVO.slsOutHdNo}</td>
                     <td>${obj.slsRtnDtlVO.slsRtnDtlVol}</td>
-                    <td>${obj.slsRtnDtlVO.slsFinPrdCdPrice}</td>
+                    <td>${obj.slsRtnDtlVO.finPrdCdPrice}</td>
                     <td>${obj.slsRtnDtlVO.slsRtnDtlPrice}</td>`
         if(slsRtnDtlPrcCls == 0) {
           node += `<td>폐기</td>`;
@@ -49,30 +49,35 @@ $(document).ready(function () {
   }
 
   //조건에 맞는 주문내역 조회
-  $("#rtnBtn").click(function() {
-    findReturn();
-  });
-
-  function findReturn() {
+  $("#rtnBtn").click(function () {
     let rtnSdate = $("#rtnSdate").val();
     let rtnEdate = $("#rtnEdate").val();
-    let prcCls = $('#prcCls').val();
-    console.log("처리구분");
-    console.log(prcCles);
     let vendorName = $("#vendorName").val();
-    
-    console.log(prcCls);
-    
+    let prcCls = $("#prcCls option:selected").val();
+    if (rtnSdate != null && rtnSdate != '' && rtnEdate !== null && rtnEdate != '') {
+      if (vendorName == null || vendorName == '') {
+        vendorName = null;
+      } else if (prcCls == 3) {
+        prcCls == null;
+      }
+      findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
+    } else {
+      alert('날짜를 선택해주세요');
+      return false;
+    }
+  });
+
+  function findReturn(rtnSdate, rtnEdate, vendorName, prcCls) {
     $.ajax({
       url: "findReturn",
       method: "GET",
       contentType: "application/json;charset=utf-8",
       dataType : "json",
       data: {
-        rtnSdate: rtnSdate,
-        rtnEdate: rtnEdate,
-        prcCls: prcCls,
-        vendorName: vendorName
+        rtnSdate,
+        rtnEdate,
+        prcCls,
+        vendorName
       },
       error: function(error) {
         console.log(error);

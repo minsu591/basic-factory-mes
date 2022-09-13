@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mes.bf.sales.mapper.SlsRtnMapper;
 import com.mes.bf.sales.service.SlsRtnService;
+import com.mes.bf.sales.vo.SlsOutDtlVO;
 import com.mes.bf.sales.vo.SlsRtnDtlVO;
 import com.mes.bf.sales.vo.SlsRtnHdDtlVO;
 import com.mes.bf.sales.vo.SlsRtnHdVO;
@@ -47,17 +48,27 @@ public class SlsRtnServiceImpl implements SlsRtnService{
 	}
 
 	@Override
+	public void rtnUpdate(String priKey, String updCol, String updCont) {
+		mapper.rtnUpdate(priKey, updCol, updCont);
+	}
+
+	@Override
+	public void callProcRtnDtlUpdate(String priKey, String updCont) {
+		mapper.callProcRtnDtlUpdate(priKey, updCont);
+	}
+	
+	@Override
 	public void rtnHdDelete(String slsRtnHdNo) {
 		mapper.rtnHdDelete(slsRtnHdNo);
 	}
 
 	@Override
-	public void rtnDelete(List<String> delList) {
-		mapper.rtnDelete(delList);
+	public void rtnDelete(SlsRtnDtlVO vo) {
+		mapper.rtnDelete(vo);
 	}
 
 	@Override
-	public void rtnUpdate(String priKey, String updCol, String updCont) {
-		mapper.rtnUpdate(priKey, updCol, updCont);
+	public List<SlsRtnDtlVO> rtnDtlNoSelect(SlsRtnDtlVO vo) {
+		return mapper.rtnDtlNoSelect(vo);
 	}
 }

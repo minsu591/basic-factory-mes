@@ -32,13 +32,13 @@
                             
                             <div class="form-group mt-3">
                                 <labe for="slsOrdHdNo" th:text="주문번호"></labe>
-                                <input type="text" id="slsOrdHdNo" name="sls_ord_hd_no" class="form-control mx-sm-3">
+                                <input type="text" id="slsOrdHdNo" name="sls_ord_hd_no" class="form-control mx-sm-3" readonly>
                             </div>
 
                             <div class="form-group mt-3">
                                 <label for="empid" th:text="담당자"></label>
-                                <input type="hidden" id="empId" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
-                                <input type="text" id="empName" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
+                                <input type="hidden" id="empId" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" th:value="${session.emp.empId}">
+                                <input type="text" id="empName" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" th:value="${session.emp.empName}">
                             </div>
 
                             <button type="button" class="btn btn-primary" id="findOrderBtn">주문 조회</button>

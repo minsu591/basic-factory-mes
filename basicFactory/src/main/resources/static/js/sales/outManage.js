@@ -12,17 +12,17 @@ $("document").ready(function () {
 
     //모달 td 수정 이벤트
     ModalTable.find("tbody").on("click", "td", function (e) {
-        let col = $(this).index();              //선택한 컬럼index 저장
-        let tdInfo = $(this);                   //선택한 td정보 저장
+        let col = $(this).index();
+        let tdInfo = $(this);
         tdInfo.attr("contenteditable", "true"); //수정 가능하도록 설정
 
         tdInfo.unbind("focus").bind("focus", function (e) { //td에 focus되면 클래스 지정(border 생성 css)
             tdInfo.addClass("tdBorder");
         });
 
-        tdInfo.on("keyup", function (key) {      //enter나 esc 누르면 blur
+        tdInfo.on("keyup", function (key) {
             if (key.keyCode == 13 || key.keyCode == 27) {
-                key.preventDefault();            //고유 동작 중단
+                key.preventDefault();
                 tdInfo.blur();
             }
         });
@@ -160,7 +160,7 @@ $("document").ready(function () {
                 }
             });
             if(!flag){
-                alert("입력값이 하나도 없습니다.");
+                alert("입력값이 없습니다.");
                 return false;
             }
 
@@ -320,12 +320,11 @@ $("document").ready(function () {
     $("#saveBtn").on("click", function () {
         let trs = table.find("tbody tr");
         let slsOutHdNo = $("#slsOutHdNo").val();
-        console.log("저장할 때 출고번호 = " + slsOutHdNo);
 
         if (confirm("저장하시겠습니까?") == true) {
             //null 검사
             for (tr of trs) {
-                for (idx of notNullList) {                                  //tr돌면서 notNullList index가 null인지 검사
+                for (idx of notNullList) {
                     let content = $(tr).find("td:eq(" + idx + ")").text();
                     if (content == null || content == '') {
                         alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
@@ -335,7 +334,6 @@ $("document").ready(function () {
             }
             
             let countTr = table.find("tbody tr").length;
-            console.log("TR개수 = " + countTr);
             if(countTr == 0){
                 //헤더 삭제
                 deleteHdSaveAjax(slsOutHdNo);

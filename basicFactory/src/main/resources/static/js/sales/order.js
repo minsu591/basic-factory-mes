@@ -13,9 +13,7 @@ $(document).ready(function () {
         console.log(error);
       },
       success: function (data) {
-        console.log(data);
         for (obj of data) {
-          console.log(obj);
           orderMakeRow(obj);
         }
       }
@@ -34,22 +32,25 @@ $(document).ready(function () {
                     <td>${obj.slsOrdDtlVO.slsOrdDtlOutVol}</td>
                     <td>${obj.slsOrdDtlVO.slsOrdDtlVol - obj.slsOrdDtlVO.slsOrdDtlOutVol}</td>
                     <td>${obj.slsOrdHdVO.empName}</td>
-					<td>${obj.slsOrdHdVO.slsOrdHdRemk}</td>
+					          <td>${obj.slsOrdHdVO.slsOrdHdRemk}</td>
                 </tr>`;
     $("#orderTable tbody").append(node);
   }
 
   //조건에 맞는 주문내역 조회
-  $("#ordBtn").click(function() {
-    findOrder();
-  });
-
-  function findOrder() {
+  $("#ordBtn").click(function () {
     let ordSdate = $("#orderSdate").val();
     let ordEdate = $("#orderEdate").val();
     let vendorName = $("#vendorName").val();
+    if (ordSdate != null && ordSdate != '' && ordEdate != null && ordEdate != '') {
+      findOrder(ordSdate, ordEdate, vendorName);
+    } else {
+      alert('날짜를 선택해주세요');
+      return false;
+    }
+  });
 
-    console.log(ordSdate);
+  function findOrder(ordSdate, ordEdate, vendorName) {
     $.ajax({
       url: "findOrder",
       method: "GET",

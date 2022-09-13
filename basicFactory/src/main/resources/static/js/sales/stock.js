@@ -29,7 +29,6 @@ $(document).ready(function () {
                     <td>${obj.finPrdCdName}</td>
                     <td>${obj.fnsPrdStkVol}</td>
                     <td>${obj.fnsPrdStkLotNo}</td>
-                    <td>${obj.slsInDtlRemk}</td>
                 </tr>`;
     $("#stockTable tbody").append(node);
   }
@@ -57,7 +56,6 @@ $(document).ready(function () {
         console.log(error);
       },
       success: function (data) {
-        console.log("data!!!!!!!!!" + data);
         $('#stockTable tbody tr').remove();
 
         for (obj of data) {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.mes.bf.sales.vo.SlsOutDtlVO;
 import com.mes.bf.sales.vo.SlsRtnDtlVO;
 import com.mes.bf.sales.vo.SlsRtnHdDtlVO;
 import com.mes.bf.sales.vo.SlsRtnHdVO;
@@ -17,6 +18,8 @@ public interface SlsRtnMapper {
 	void rtnInsertHd(SlsRtnHdVO vo);
 	void rtnInsertDtl(SlsRtnDtlVO vo);
 	void rtnUpdate(String priKey, String updCol, String updCont);
+	void callProcRtnDtlUpdate(String priKey, String updCont);
 	void rtnHdDelete(String slsRtnHdNo);
-	void rtnDelete(List<String> delList);
+	void rtnDelete(SlsRtnDtlVO vo);
+	List<SlsRtnDtlVO>  rtnDtlNoSelect(SlsRtnDtlVO vo);
 }

@@ -1,7 +1,8 @@
 $("document").ready(function(){
 
     //반품관리에서 출고조회 시 출고내역 모달창
-    $("#findOutModalBtn").on("click",function(e){
+    $("#findOutModalBtn").on("click", function (e) {
+        $("#slsRtnHdNo").val('');
         $("#findOutModal").modal("show");
         findOutClick();
     });

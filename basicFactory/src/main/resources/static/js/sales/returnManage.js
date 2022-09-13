@@ -17,7 +17,6 @@ $(document).ready(function () {
 
   //수정될거 저장하는 list 정의
   let modifyList = [];
-  let hdModifyList = [];
   let addList = [];
   let delList = [];
   //수정할 테이블
@@ -193,8 +192,11 @@ $(document).ready(function () {
               return false;
           } else {
               //detail 삭제
-              if(delList.length != 0){
-                  deleteSaveAjax(delList);
+              if (delList.length != 0) {
+                  for (obj of delList) {
+                      console.log(obj);
+                      deleteSaveAjax(obj);
+                  }
               }
           }
 
@@ -324,15 +326,16 @@ $(document).ready(function () {
       });
   }
 
-  function deleteSaveAjax(delList) {
+    function deleteSaveAjax(slsRtnDtlNo) {
+        console.log(slsRtnDtlNo);
       $.ajax({
           url: 'rtnManage/delete',
           type : 'DELETE',
           dataType: 'text',
-          contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
-          data : {
-              delList
-          },
+          contentType: "application/json; charset=UTF-8;",
+          data: JSON.stringify({
+              slsRtnDtlNo
+          }),
           success: function (result) {
               console.log("삭제 성공");
           }
