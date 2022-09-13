@@ -114,16 +114,24 @@ public class SlsOutController {
 	//완제품 출고관리 헤더 삭제
 	@DeleteMapping("/outManage/hd/delete")
 	public void outHdDelete(@RequestBody SlsOutHdVO vo) {
-		System.out.println(vo);
+		//dtl 삭제
+		SlsOutDtlVO dtlVo = new SlsOutDtlVO();
+		dtlVo.setSlsOutHdNo(vo.getSlsOutHdNo());
+		//출고 번호에 해당하는 출고내역번호 조회
+		List<SlsOutDtlVO> slsOutDtlNo = service.outDtlNoSelect(dtlVo);
+		for(SlsOutDtlVO outDtlNo : slsOutDtlNo) {
+			service.callProcOutDtlDel(outDtlNo.getSlsOutDtlNo());
+		}
+		//header 삭제
 		service.outHdDelete(vo);
 	}
 	
 	//완제품 출고관리 디테일 삭제
 	@DeleteMapping("/outManage/delete")
 	public void outDelete(@RequestBody SlsOutDtlVO vo) {
+		System.out.println(vo);
 		List<SlsOutDtlVO> slsOutDtlNo = service.outDtlNoSelect(vo);
 		for(SlsOutDtlVO outDtlNo : slsOutDtlNo) {
-			System.out.println("출고번호"+outDtlNo.getSlsOutDtlNo());
 			service.callProcOutDtlDel(outDtlNo.getSlsOutDtlNo());
 		}
 	}

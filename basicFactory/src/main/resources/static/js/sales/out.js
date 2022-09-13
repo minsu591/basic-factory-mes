@@ -44,14 +44,20 @@ $(document).ready(function () {
   }
 
   //조건에 맞는 출고내역 조회
-  $("#outBtn").click(function() {
-    findOut();
-  });
-
-  function findOut() {
+  $("#outBtn").click(function () {
     let outSdate = $("#outSdate").val();
     let outEdate = $("#outEdate").val();
     let vendorName = $("#vendorName").val();
+    if (outSdate != null && outSdate != '' && outEdate != null && outEdate != '') {
+      findOut(outSdate, outEdate, vendorName);
+    } else {
+      alert('날짜를 선택해주세요');
+      return false;
+    }
+  });
+
+  function findOut(outSdate, outEdate, vendorName) {
+
 
     $.ajax({
       url: "findOut",

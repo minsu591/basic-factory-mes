@@ -4,8 +4,6 @@
 
 	<select id="findAllStock" resultType="slsStockVO">
 		SELECT INDTL.SLS_IN_DTL_DATE, 
-               NVL(INDTL.SLS_IN_DTL_REMK, ' ') AS SLS_IN_DTL_REMK,
-               
                PRDCD.FIN_PRD_CD_NAME,
                 
 		       STOCK.FIN_PRD_CD_CODE,
@@ -24,7 +22,6 @@
 	
 	<select id="findStock" resultType="slsStockVO">
 		SELECT INDTL.SLS_IN_DTL_DATE,
-               NVL(INDTL.SLS_IN_DTL_REMK, ' ') AS SLS_IN_DTL_REMK,
                
                PRDCD.FIN_PRD_CD_CODE,
                PRDCD.FIN_PRD_CD_NAME,

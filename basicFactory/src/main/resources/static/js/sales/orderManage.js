@@ -21,8 +21,9 @@ let notNullList = [1,2,3,4];
 //input 수정 이벤트
 $("#vendor, #form input").on("change", function(e){
     console.log(e);
-    let modifyAddFlag = checkModifyOrAdd();
-    if(modifyAddFlag){  //true : 수정 중 (주문번호 readonly)
+    let slsOutHdNo = $("#slsOrdHdNo").val();
+    let modifyAddFlag = checkModifyOrAdd(slsOutHdNo);
+    if (modifyAddFlag){  //true : 수정 중 (주문번호 != null)
         let priKey = $("#slsOrdHdNo").val();
         let updCol = $(this).attr("name");
         let updCont = $(this).val();
@@ -114,7 +115,6 @@ table.find("tbody").on("change", "td:not(:first-child)", function (e) {     //�
     if (priKey != null && priKey != '') {                                   //priKey가 null이면 modifyList에 담기지 않도록 하는 if문
         checkNewModify(priKey, updCol, updCont);
     }
-
     e.stopPropagation();
 });
 
@@ -139,10 +139,10 @@ $("#saveBtn").on("click", function () {
         let slsOrdHdNo = $("#slsOrdHdNo").val();
         addList = table.find("tr[name='addTr']");
         //추가인지 수정인지 확인
-        let modifyAddFlag = checkModifyOrAdd();
+        let modifyAddFlag = checkModifyOrAdd(slsOrdHdNo);
         //출고된 내역이 있는 주문인지 확인
         let checkOrderFlag = checkOrder(slsOrdHdNo);
-        if(modifyAddFlag){ // true: 수정
+        if (modifyAddFlag) { // true: 수정
             //tr의 null 검사
             if(forNull()){
                 return false;
@@ -183,6 +183,7 @@ $("#saveBtn").on("click", function () {
                 }
             }
         } else {
+            console.log('신규!');
             let vendCdCode = $("#vendor").val();
             let empName = $("#empName").val();
             //추가용
@@ -409,9 +410,9 @@ function deleteSaveAjax(delList) {
     });
 }
 
-function checkModifyOrAdd(){
-    if($("#slsOrdHdNo").is("[readonly]")){
-        return true;
+function checkModifyOrAdd(slsOrdHdNo){
+    if (slsOrdHdNo != null && slsOrdHdNo != ''){
+        return true; //수정 중
     } else {
         return false;
     }

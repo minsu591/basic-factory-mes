@@ -45,8 +45,8 @@
 
                         <div class="form-group mt-3">
                             <label for="empid" th:text="담당자"></label>
-                            <input type="hidden" id="empId" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
-                            <input type="text" id="empName" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg">
+                            <input type="hidden" id="empId" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" th:value="${session.emp.empId}">
+                            <input type="text" id="empName" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" th:value="${session.emp.empName}">
                         </div>
 
                         <div class="form-group mt-3">
