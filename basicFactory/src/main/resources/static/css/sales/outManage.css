@@ -35,7 +35,7 @@ h1 {
 	background: rgba(241, 196, 15, 0.1);
 }
 
-#ordMngTable tbody td
+#utMngTable tbody td
 {
 	height: 2.5rem;
   	text-align: center;
@@ -43,7 +43,7 @@ h1 {
 	vertical-align :middle;
 }
 
-#ordMngTable input[type="date"] {
+#outMngTable input[type="date"] {
   height: 100%;
   text-align: center;
   border: 0;
