@@ -37,8 +37,8 @@ $("document").ready(function(){
         let slsOutHdNo = $(this).find("td:eq(1)").text();
         let vendor = $(this).find("td:eq(3)").text();
         let vendorName = $(this).find("td:eq(4)").text();
-        let empId = $(this).find(".empId").val();
-        let empName = $(this).find("td:eq(5)").text();
+        // let empId = $(this).find(".empId").val();
+        // let empName = $(this).find("td:eq(5)").text();
         let remk = $(this).find("td:last").text();
 
         $("#slsOutHdNo").val(slsOutHdNo);
@@ -46,9 +46,9 @@ $("document").ready(function(){
         $("#vendor").attr("readonly", true);
         $("#vendorName").val(vendorName);
         $("#vendorName").attr("readonly", true);
-        $("#empId").val(empId);
-        $("#empName").val(empName);
-        $("#empName").attr("readonly",true);
+        // $("#empId").val(empId);
+        // $("#empName").val(empName);
+        // $("#empName").attr("readonly",true);
         $("#remk").val(remk);
 
         //테이블 삽입

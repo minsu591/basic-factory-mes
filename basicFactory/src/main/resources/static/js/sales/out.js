@@ -48,11 +48,17 @@ $(document).ready(function () {
     let outSdate = $("#outSdate").val();
     let outEdate = $("#outEdate").val();
     let vendorName = $("#vendorName").val();
+
     if (outSdate != null && outSdate != '' && outEdate != null && outEdate != '') {
-      findOut(outSdate, outEdate, vendorName);
+      if (outSdate > outEdate) {
+        outDateChecked();
+      } else {
+        findOut(outSdate, outEdate, vendorName);
+      }
+    } else if (outSdate == null || outSdate == '' && outEdate == null || outEdate == '' && vendorName == null || vendorName == '') { 
+      selectChecked();
     } else {
-      alert('날짜를 선택해주세요');
-      return false;
+      findOut(outSdate, outEdate, vendorName);
     }
   });
 
@@ -81,5 +87,23 @@ $(document).ready(function () {
         }
       }
     });
+  }
+
+  function selectChecked() {
+    Swal.fire({
+      icon: "warning",
+      title: "조회 조건을 입력해주세요."
+    });
+    return false;
+  }
+
+  function outDateChecked() {
+    Swal.fire({
+      icon: "warning",
+      title: "잘못된 검색 조건입니다."
+    });
+    $("#outSdate").val('');
+    $("#outEdate").val('');
+    return false;
   }
 });

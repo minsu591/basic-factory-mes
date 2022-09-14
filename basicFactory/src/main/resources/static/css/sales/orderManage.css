@@ -30,3 +30,7 @@ h1 {
 .inputRequired {
 	border: 1px solid #e74c3c;
 }
+
+.canModifyTd {
+	background: rgba(241, 196, 15, 0.1);
+}

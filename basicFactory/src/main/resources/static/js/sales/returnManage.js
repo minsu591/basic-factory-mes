@@ -24,8 +24,8 @@ $(document).ready(function () {
   //td 수정을 적용할 인덱스 (td기준)
   let avArr = [7, 11];
   //notNull이어야하는 (td기준)
-  let notNullList = [7,10,11];
-
+  let notNullList = [7, 10, 11];
+  let defaultVal;
   //td 수정 이벤트
   table.find("tbody").on("click","td",function(e){
       e.stopPropagation();
@@ -39,8 +39,8 @@ $(document).ready(function () {
       }
 
       let flag = false;
-      let tdInfo = $(this);
-      let defaultVal;
+      tdInfo = $(this);
+      //let defaultVal;
 
       //수정 적용할 인덱스인지 확인
       for(let i = 0; i<avArr.length;i++){
@@ -111,23 +111,28 @@ $(document).ready(function () {
       if (col == 10) {
         //selectBox일 때
         updCont = $(this).find("select option:selected").val();
-        console.log(updCont);
       } else {
         //td일 때
         updCont = $(this).text();
       }
 
-      let finPrdCdCode = tr.find("td:eq(1)").text();   //제품코드
-      let fnsPrdStkLotNo = tr.find("td:eq(4)").text(); //lot번호
-      let slsRtnDtlBaseVol = tr.find("td:eq(6)").text();//기반품량
-      let slsRtnDtlVol = tr.find("td:eq(7)").text();   //반품량
-      let danga = tr.find("td:eq(8)").text();          //단가
-      let slsRtnDtlPrice = tr.find("td:eq(9)").text(slsRtnDtlVol * danga);
+      let finPrdCdCode = tr.find("td:eq(1)").text();              //제품코드
+      let fnsPrdStkLotNo = tr.find("td:eq(4)").text();            //lot번호
+      let slsOutDtlVol = parseInt(tr.find("td:eq(5)").text());    //출고량
+      let slsRtnDtlBaseVol = parseInt(tr.find("td:eq(6)").text());//기반품량
+      let slsRtnDtlVol = parseInt(tr.find("td:eq(7)").text());    //반품량
+      let danga = parseInt(tr.find("td:eq(8)").text());           //단가
       let slsRtnDtlPrcCls = tr.find("select[name='prcCls']").val();//처리구분
-      let slsRtnDtlResn = tr.find("td:eq(11)").text();  //반품사유
-
-      // console.log(slsRtnDtlPrice); 
-      if (priKey != null && priKey != '') {            //priKey가 null이면 modifyList에 담기지 않도록 하는 if문
+      let slsRtnDtlResn = tr.find("td:eq(11)").text();           //반품사유
+      let slsRtnHdNo = $("#slsRtnHdNo").val();
+      if (slsRtnHdNo != null && slsOutDtlVol < (slsRtnDtlBaseVol + slsRtnDtlVol)) {
+          alert("반품량이 출고량보다 많습니다.");
+          tr.find("td:eq(7)").text(defaultVal);
+          return false;
+        }
+        
+        tr.find("td:eq(9)").text(slsRtnDtlVol * danga);
+      if (priKey != null && priKey != '') {
           checkNewModify(priKey, updCol, updCont);
       } else {
         //addList(제품코드, lot번호, 기반품량, 반품량, 금액, 처리구분, 반품사유)
@@ -143,7 +148,7 @@ $(document).ready(function () {
         }
 
         if(flag){
-          addTr = [finPrdCdCode, fnsPrdStkLotNo, slsRtnDtlBaseVol, slsRtnDtlVol, (slsRtnDtlVol * danga), slsRtnDtlPrcCls, slsRtnDtlResn];
+            addTr = [finPrdCdCode, fnsPrdStkLotNo, slsRtnDtlBaseVol, slsRtnDtlVol, slsRtnDtlVol * danga , slsRtnDtlPrcCls, slsRtnDtlResn];
           addList.push(addTr);
         }
       }
@@ -169,10 +174,10 @@ $(document).ready(function () {
       if(confirm("저장하시겠습니까?")==true){
           //null 검사
           for(tr of trs){
-              for (idx of notNullList) {                                  //tr돌면서 notNullList index가 null인지 검사
+              for (idx of notNullList) {                                  
                   let content;
                   if (idx == 10) {
-                      content = $(tr).find("select option:selected").val();   //index가 3번째면 content에 납기일자 대입
+                      content = $(tr).find("select option:selected").val();
                   } else {
                       content = $(tr).find("td:eq(" + idx + ")").text();
                   }
@@ -194,7 +199,10 @@ $(document).ready(function () {
               //detail 삭제
               if (delList.length != 0) {
                   for (obj of delList) {
-                      console.log(obj);
+                    //   if (obj[1] == "sls_rtn_dtl_prc_cls" && obj[2] == 1) {
+                    //       alert('입고 내역은 삭제할 수 없습니다.');
+                    //       return false;
+                    //   }
                       deleteSaveAjax(obj);
                   }
               }
@@ -202,15 +210,16 @@ $(document).ready(function () {
 
           //수정용
           for (obj of modifyList) {
+              //modRr[priKey, updCol, updCont]
               modifySaveAjax(obj);
           }
 
           //등록용
           let slsRtnHdNo = $("#slsRtnHdNo").val();
           if (slsRtnHdNo == null || slsRtnHdNo == '') {
-              console.log("신규 반품 등록!!");
               addHdSaveAjax(addList);
           }
+          saveSuccess();
       }
   });
 
@@ -340,5 +349,53 @@ $(document).ready(function () {
               console.log("삭제 성공");
           }
       });
-  }
+    }
+//alert
+function saveSuccess() {
+    Swal.fire({
+        icon: "success", // Alert 타입
+        title: "저장 되었습니다.", // Alert 제목
+    }).then((result) => {
+        if (result.isConfirmed) {
+            location.reload();
+        }
+    });
+}
+
+function deleteSuccess() {
+    Swal.fire({
+        icon: "success", // Alert 타입
+        title: "삭제 되었습니다.", // Alert 제목
+    }).then((result) => {
+        if (result.isConfirmed) {
+            location.reload();
+        }
+    });
+}
+
+function updateSuccess() {
+    Swal.fire({
+        icon: "success",
+        title: "수정이 완료되었습니다.",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            location.reload();
+        }
+    });
+}
+
+function notChecked() {
+    Swal.fire({
+        icon: "warning",
+        title: "체크된 데이터가 없습니다.",
+    });
+    return;
+}
+function requiredWarn() {
+    Swal.fire({
+        icon: "warning",
+        title: "입력하지 않은 값이 있습니다.",
+    });
+    return;
+}
 });

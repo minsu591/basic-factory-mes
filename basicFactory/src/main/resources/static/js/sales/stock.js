@@ -35,14 +35,16 @@ $(document).ready(function () {
 
   //조건에 맞는 완제품 재고 조회
   $('#stockBtn').click(function () {
-
-    findStock();
-  });
-
-  function findStock() {
     let prdName = $('#productname').val();
     let lotNo = $('#fnsPrdStkLotNo').val();
+    if (prdName != null && prdName != '' || lotNo != null && lotNo != '') {
+      findStock(prdName, lotNo);
+    } else {
+      selectChecked();
+    }
+  });
 
+  function findStock(prdName, lotNo) {
     $.ajax({
       url: "findStock",
       method: "GET",
@@ -64,4 +66,13 @@ $(document).ready(function () {
       }
     });
   }
+
+  function selectChecked() {
+    Swal.fire({
+      icon: "warning",
+      title: "조회 조건을 입력해주세요."
+    });
+    return false;
+  }
+
 });
