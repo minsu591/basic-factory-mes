@@ -19,7 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mes.bf.cmn.vo.VendorCodeVO;
 import com.mes.bf.eqp.service.MchnService;
 import com.mes.bf.eqp.vo.MchnVO;
+import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.service.InstructionService;
+import com.mes.bf.prod.service.ProcService;
 
 @Controller
 @RequestMapping("/eqp")
@@ -27,6 +29,7 @@ public class MchnController {
 	
 	@Autowired MchnService service;
 	@Autowired InstructionService instService;
+	
 	
 	//설비관리
 //	@RequestMapping("/mchnManage")

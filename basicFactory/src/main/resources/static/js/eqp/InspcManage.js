@@ -21,6 +21,7 @@ $("document").ready(function () {
   //수정이 되는 list 정의
   let modifyList = [];
   let addList = [];
+  let delList = [];
   //수정할 테이블
   let table = $("#inspcTable");
   //td 수정을 적용할 인덱스(모달창, input 빼고 오직 td에서 이루워 지는 수정만)
@@ -29,6 +30,8 @@ $("document").ready(function () {
   let notNullList = [2,3,4,5,6,8];
   //primary키인 index
   let priKeyIdx = 1;
+  //selectBox 만들기 위한 리스트
+  let clfyList = ['임시점검','정기점검','수리'];
 
   //수정 이벤트
   table.find("tbody").on("click", "td", function(e){
@@ -154,7 +157,7 @@ $("document").ready(function () {
       }
 
       alert("저장이 완료되었습니다.");
-      location.reload();
+      //location.reload();
     }
   });
 
@@ -187,7 +190,8 @@ $("document").ready(function () {
     let mchnCode = $(tr).find("td:eq(2)").text();
     let inspcSdate = $(tr).find("td:eq(4) input[type='date']").val();
     let inspcEdate = $(tr).find("td:eq(5) input[type='date']").val();
-    let inspcActnPnt = $(tr).find("td:eq(6)").text();
+    let inspcActnPnt = $(tr).find("td:eq(6) option:selected").val();
+    console.log(inspcActnPnt);
     let inspcActnRsn = $(tr).find("td:eq(7)").text();
     let empId = $(tr).find("td:eq(8)").text();
     let inspcRemk = $(tr).find("td:eq(9)").text();
@@ -223,16 +227,46 @@ $("document").ready(function () {
       node = `<tr>
                 <td><input type="checkbox" name="chk" checked ></td>`;
     }
-    node += `<td name="inspc_no"></td>
-            <td class="mchnCode" name="mchn_code"></td>
-            <td class="mchnName"></td>
-            <td><input type="date" name="inspc_sdate"></td>
-            <td><input type="date" name="inspc_edate"></td>
-            <td name="inspc_actn_pnt"></td>
-            <td name="inspc_actn_rsn"></td>
-            <td class="empId" name="emp_id"></td>
-            <td name="inspc_remk"></td>
+    node += `<td></td>
+            <td class="mchnCode"></td>
+            <td></td>
+            <td><input type="date"></td>
+            <td><input type="date"></td>`
+    node += makeSelectForClfy('');
+    node += `<td></td>
+            <td class="empId"></td>
+            <td></td>
         </tr>`;
     $("#inspctbody").append(node);
+  });
+
+  function makeSelectForClfy(clfy){
+    let node = '<td><select>';
+    for(let i =0; i<clfyList.length;i++){
+      if(clfy == clfyList[i]){
+        node += '<option value="'+clfyList[i]+'"selected>'+clfyList[i]+'</option>';
+      }else{
+        node += '<option value="'+clfyList[i]+'">'+clfyList[i]+'</option>';
+      }
+    }
+    node += '</select></td>';
+    return node;
+  }
+
+  //선택 삭제 이벤트
+  $("#deleteBtn").on("click",function(){
+    table.find("tbody input:checkbox[name='chk']").each(function(idx,el){
+      if($(el).is(":checked")){
+        let tr = $(el).closest('tr');
+        let priKey = tr.find("td:eq("+priKeyIdx+")").text();
+        delList.push(priKey);
+        tr.remove();
+        for(let i = 0; i< modifyList.length; i++){
+          if(modifyList[i][0]== priKey){
+            modifyList.splice(i,1);
+          }
+        }
+      }
+    });
   });
 });
