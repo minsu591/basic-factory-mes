@@ -371,9 +371,9 @@ $("document").ready(function(){
                         <td><input type="checkbox" name="procCb" checked></td>`;
             }
             node += `<td>`+no+`</td>
-                    <td class="procCode canModifyTd"></td>
+                    <td class="procCode canModifyTd curPo"></td>
                     <td></td>
-                    <td class="mchnCode canModifyTd"></td>
+                    <td class="mchnCode canModifyTd curPo"></td>
                     <td></td>
                 </tr>`;
             $("#lineProcTable tbody").append(node);

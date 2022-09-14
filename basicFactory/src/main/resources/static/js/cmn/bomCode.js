@@ -38,9 +38,9 @@ $("document").ready(function(){
         }
         node += `<td class="cantModifyTd">${obj.bomCdCode}</td>
                 <td>${obj.bomCdName}</td>
-                <td class="finPrdCdCode">${obj.finPrdCdCode}</td>
+                <td class="finPrdCdCode" curPo>${obj.finPrdCdCode}</td>
                 <td class="cantModifyTd">${obj.finPrdCdName}</td>
-                <td class="lineCdHdCode">${obj.lineCdHdCode}</td>
+                <td class="lineCdHdCode curPo">${obj.lineCdHdCode}</td>
                 <td class="cantModifyTd">${obj.lineCdHdName}</td>
                 <td>${obj.bomCdProdVol}</td>
                 <td>${obj.bomCdUnit}</td>`;

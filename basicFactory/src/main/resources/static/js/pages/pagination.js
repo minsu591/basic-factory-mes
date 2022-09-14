@@ -1,4 +1,22 @@
+$("document").ready(function () {
+  //페이지 번호 클릭시 현재 검색하고있는 타입,키워드를 같이 보내줌
+  $(".pagination").on("click", 'a', function() {
+    let pageNum;
+      if($(this).parent().hasClass("page-number")){
+        pageNum = $(this).text();
+      }else{
+        pageNum = $(this).data("value");
+      }
+      $("input:hidden[name=pageNum]").val(pageNum);
+      $("input:hidden[name=amount]").val(10);
+      pageForm.submit();
+  });
+});
+
+
+
 function page() {
+
   // var reSortColors = function ($table) {
   //   $("tbody tr:odd td", $table)
   //     .removeClass("even")
@@ -9,7 +27,7 @@ function page() {
   //     .removeClass("listtd")
   //     .addClass("even");
   // };
-
+  
   $(".paginated").each(function () {
     var pagesu = 10; //페이지 번호 갯수
     var currentPage = 0;

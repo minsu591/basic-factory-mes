@@ -51,4 +51,53 @@ select {
 	appearance :none;
 	text-align-last: center;
 	text-align: center;
+	box-shadow : none;
+}
+
+.modal table tbody tr {
+	cursor:pointer;
+}
+
+.curPo {
+	cursor:pointer;
+}
+
+#planManageTable input[type="date"] {
+  height: 100%;
+  text-align: center;
+  border: 0;
+  width: 100%;
+  background: rgba(241, 196, 15, 0);
+}
+
+#empTable tbody td,
+#planManageTable tbody td,
+#deptTable tbody td,
+#vendorTable tbody td,
+#finProdTable tbody td,
+#bomTable tbody td,
+#procTable tbody td,
+#bomRscTable tbody td,
+#lineTable tbody td,
+#lineProcTable tbody td
+{
+	height: 2.5rem;
+  	text-align: center;
+	padding : 0px;
+	vertical-align :middle;
+}
+
+
+#empTable thead th:first-child,
+#planManageTable thead th:first-child,
+#deptTable thead th:first-child,
+#vendorTable thead th:first-child,
+#finProdTable thead th:first-child,
+#bomTable thead th:first-child,
+#procTable thead th:first-child,
+#bomRscTable thead th:first-child,
+#lineTable thead th:first-child,
+#lineProcTable thead th:first-child
+{
+	width : 5%;
 }

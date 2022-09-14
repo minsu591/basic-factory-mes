@@ -22,8 +22,8 @@ $("document").ready(function(){
         let node = `<tr>
                         <td class="cantModifyTd"><input type="checkbox" name="chk"></td>
                         <td class="cantModifyTd">${obj.vendCdCode}</td>
-                        <td class="empId">${obj.empId}</td>
-                        <td>${obj.vendCdClfy}</td>
+                        <td class="empId curPo">${obj.empId}</td>
+                        <td class="curPo">${obj.vendCdClfy}</td>
                         <td>${obj.vendCdNm}</td>
                         <td>${obj.vendCdRegNo}</td>
                         <td>${obj.vendCdPhone}</td>

@@ -36,7 +36,7 @@ $("document").ready(function(){
             node += `<td><input type="checkbox" name='use'></td>`;
         }
         node+= `<td>${obj.finPrdCdRemk}</td>
-                <td>${obj.empId}</td>
+                <td class="curPo">${obj.empId}</td>
                 </tr>`;
         $("#finProdTable tbody").append(node);
     }

@@ -80,7 +80,7 @@ $("document").ready(function(){
 
    
     function makeSelectForClfy(clfy){
-        let node = '<td><select>';
+        let node = '<td><select class="curPo">';
         for(let i =0; i<clfyList.length;i++){
             if(clfy == clfyList[i]){
                 node += '<option value="'+clfyList[i]+'"selected>'+clfyList[i]+'</option>';
@@ -219,6 +219,7 @@ $("document").ready(function(){
     //추가 버튼 누르면 행 추가
     $("#addBtn").on("click",function(e){
         e.preventDefault();
+        let empId = $("#sideBarEmpId").val();
         let node = `<tr name="addTr">
                         <td class="cantModifyTd"><input type="checkbox" name="chk"></td>`;
         if ($("#allCheck").is(":checked")){
@@ -226,7 +227,7 @@ $("document").ready(function(){
                         <td class="cantModifyTd"><input type="checkbox" name="chk" checked></td>`;
         }
         node +=`<td class="cantModifyTd"></td>
-                <td class="empId"></td>`;
+                <td class="empId curPo">${empId}</td>`;
         node += makeSelectForClfy('');
         node += `<td></td>
                 <td></td>
