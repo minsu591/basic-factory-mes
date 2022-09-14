@@ -2,13 +2,13 @@ $(document).ready(function(){
   //조회버튼 모달 팝업
   $("#search").on("click", function (e) {
     e.preventDefault();
-    findRscInspList();
     let rsccode = $("#rsccode").val();
     let rscname = $("#rscname").val();
     let rscdt = $("#rscInspDate").val();
     $("#rscCd").val(rsccode);
     $("#rscNm").val(rscname);
     $("#rscInspDt").val(rscdt);
+    findRscInspList();
     $("#findRscInspModal").modal("show");
   
    })
@@ -18,7 +18,7 @@ $(document).ready(function(){
    let rscCdCode = $("#rscCd").val();
    let rscCdName = $("#rscNm").val();
    let rscInspDt = $("#rscInspDt").val();
-   console.log(rscCdName)
+   console.log(rscInspDt)
  
    $.ajax({
     url: "findRscInsp",
@@ -99,14 +99,16 @@ $(document).ready(function(){
     if (obj.rscInspRemk != null){
       remk = obj.rscInspRemk;
     }
+    let unarvVol = obj.rscOrderVol - obj.rscOrderArv + obj.rscInspVol;
    let node = `<tr>
    <td id="chk-css"><input type="checkbox" name="chk"></td>
    <td><input type="text" class="rscOrderCode" value="${obj.rscOrderCode}" disabled></td>
    <td><input type="text" class="rscInspCode" value="${obj.rscInspCode}" disabled></td>
    <td><input type="date" class="rscInspDate" value="${obj.rscInspDate}"></td>
    <td><input type="text" class="rsccode" value="${obj.rscCdCode}" disabled></td>
-   <td><input type="text" class="rscname" value="${obj.rscCdName}"disabled></td>
+   <td><input type="text" class="rscname" value="${obj.rscCdName}" disabled></td>
    <td><input type="text" class="unit" value="${obj.rscCdUnit}" disabled></td>
+   <td><input type="text" class="unarvVol" value="${unarvVol}" disabled></td>
    <td><input type="text" class="inspVol" value="${obj.rscInspVol}"></td>
    <td><input type="text" class="inferVol" value="${obj.rscInferVol}"></td>
    <td><input type="text" class="passVol" value="${obj.rscPassVol}" disabled></td>

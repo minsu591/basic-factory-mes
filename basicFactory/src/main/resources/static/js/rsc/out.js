@@ -1,6 +1,11 @@
 $("document").ready(function () {
   let tdinfo;
 
+    //기본 날짜 오늘 지정
+    let date = new Date();
+    date = date.toISOString().slice(0, 10);
+    $("#rscOutDate").val(date);
+
   //체크박스 체크유무
   $("#allCheck").click("change", function () {
     if ($("#allCheck").is(":checked")) {
@@ -42,7 +47,7 @@ $("document").ready(function () {
     let node = `<tr>
  <td id="chk-css"><input type="checkbox" name="chk"></td>
  <td><input type="text" name="outcode" readonly></td>
- <td><input type="date"></td>
+ <td><input type="date" value="${date}"></td>
  <td><input type="text" class="rsccode" readonly></td>
  <td><input type="text" class="rscname" readonly></td>
  <td><input type="text" class="rsclotno"></td>

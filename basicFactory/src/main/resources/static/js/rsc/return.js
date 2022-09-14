@@ -1,6 +1,11 @@
 $("document").ready(function () {
  let tdinfo;
 
+     //기본 날짜 오늘 지정
+     let date = new Date();
+     date = date.toISOString().slice(0, 10);
+     $("#rscReturnDate").val(date);
+
  //체크박스 체크유무
  $("#allCheck").click("change", function () {
    if ($("#allCheck").is(":checked")) {
@@ -26,7 +31,7 @@ $("document").ready(function () {
   let outVol = tdinfo.val();
   let price = tdinfo.parent().next().find(".price").val();
   let multiple = outVol * price;
-  tdinfo.parent().next().next().find("input").val(multiple);
+  tdinfo.parent().next().next().find("input").val(Number(multiple).toLocaleString("ko-KR"));
  })
 
  $("#InsertTable").on("change", ".price", function(){
@@ -34,7 +39,7 @@ $("document").ready(function () {
   let price = tdinfo.val();
   let outVol = tdinfo.parent().prev().find(".outVol").val();
   let multiple = outVol * price;
-  tdinfo.parent().next().find("input").val(multiple);
+  tdinfo.parent().next().find("input").val(Number(multiple).toLocaleString("ko-KR"));
  })
 
 
@@ -58,7 +63,7 @@ $("document").ready(function () {
    let node = `<tr>
 <td id="chk-css"><input type="checkbox" name="chk"></td>
 <td><input type="text" name="returncode" disabled></td>
-<td><input type="date"></td>
+<td><input type="date" value="${date}"></td>
 <td><input type="text" class="vendor"></td>
 <td><input type="text" readonly></td>
 <td><input type="text" class="rsccode" disabled></td>
@@ -75,7 +80,7 @@ $("document").ready(function () {
  }
 
 
- //출고수량>재고수량일때 alert창
+ //반품수량>재고수량일때 alert창
  $("#InsertTable").on("input", ".outVol", function (e) {
    let outVol = $(this).val();
    let stockVol = $(this).parent().prev().find("input").val();
@@ -88,6 +93,7 @@ $("document").ready(function () {
        confirmButtonText: '확인' // confirm 버튼 텍스트 지정
      });
      $(this).val('');
+     $(this).parent().parent().children().eq(11).children().val(null);
    }
  })
 

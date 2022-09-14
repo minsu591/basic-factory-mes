@@ -21,4 +21,6 @@ public class RscInspVO {
 	private String empId;
 	private String empName;
 	private String rscInspRemk;
+	private int rscOrderVol;
+	private int rscOrderArv;
 }

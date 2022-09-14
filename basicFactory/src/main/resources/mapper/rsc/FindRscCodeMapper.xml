@@ -133,25 +133,29 @@
 	<!-- 자재 검사 모달 -->
 	<select id="rscOrderInspList" resultType="com.mes.bf.rsc.vo.RscOrderVO">
 		SELECT OD.*, 
-			   RSC_ORDER_ST
+			   SM.RSC_ORDER_ST,
+			   DT.RSC_ORDER_VOL,
+			   DT.RSC_ORDER_ARV
 		
 		  FROM BF_RSC_ORDER OD
-		  JOIN (SELECT RSC_ORDER_CODE, 
+		  LEFT JOIN (SELECT RSC_ORDER_CODE, 
 		  			   SUM(RSC_ORDER_ST) AS RSC_ORDER_ST,
 		  			   COUNT(*) AS COUNT
           		  FROM BF_RSC_ORDER_DETAILS
          		 GROUP BY RSC_ORDER_CODE) SM
          	ON OD.RSC_ORDER_CODE = SM.RSC_ORDER_CODE
+          LEFT JOIN BF_RSC_ORDER_DETAILS DT
+            ON OD.RSC_ORDER_CODE = DT.RSC_ORDER_CODE
 		<where>
-			   (COUNT*2) != RSC_ORDER_ST
+			   (COUNT*2) != SM.RSC_ORDER_ST
 			<if test="rscOrderCode != null and rscOrderCode != ''">
 				AND OD.RSC_ORDER_CODE LIKE '%'|| #{rscOrderCode} ||'%'
 			</if>
 			<if test="rscOrderTitle != null and rscOrderTitle != ''">
-				AND RSC_ORDER_TITLE LIKE '%'|| #{rscOrderTitle} ||'%'
+				AND OD.RSC_ORDER_TITLE LIKE '%'|| #{rscOrderTitle} ||'%'
 			</if>
 			<if test="rscOrderDate != null and rscOrderDate != ''">
-				AND RSC_ORDER_DATE = #{rscOrderDate}
+				AND OD.RSC_ORDER_DATE = #{rscOrderDate}
 			</if>
 		</where>
 		ORDER  BY 1 DESC
@@ -172,6 +176,7 @@
 		    ON INSP.RSC_CD_CODE = RSC.RSC_CD_CODE
 		  
 		 <where>
+		 	   INSP.RSC_INSP_ST = 0
 			 <if test="rscCdCode != null and rscCdCode != ''">
 			 	AND INSP.RSC_CD_CODE LIKE '%' || #{rscCdCode} || '%'
 			 </if>

@@ -1,4 +1,10 @@
 $("document").ready(function(){
+
+    //기본 날짜 오늘 지정
+    let date = new Date();
+    date = date.toISOString().slice(0, 10);
+    $("#rscInspDate").val(date);
+
 	//체크박스 체크유무
 	 let allCheck = $("#allCheck");
 	 $("#in-table").on("click", "#allCheck",function(){
