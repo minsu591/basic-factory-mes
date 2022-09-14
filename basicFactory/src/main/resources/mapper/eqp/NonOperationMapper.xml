@@ -107,5 +107,14 @@
 		
 	</insert>
 
+	<!-- 비가동코드 단건 검색 -->
+	<select id="getNonOpCode" resultType="nonOp">
+	SELECT 
+		non_op_name 
+	FROM 
+		BF_CMN_NON_OP 
+	WHERE 
+		non_op_code = #{nonOpCode}
+	</select>
 
 </mapper>

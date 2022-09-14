@@ -125,5 +125,13 @@ public class NonOperationController {
 		service.insertNonOpHistory(vo);
 		return vo;
 	}
+	
+	//비가동코드 단건검색
+	@GetMapping("/getnonopcode")
+	public NonOpVO getNonOpCode(@RequestParam String nonOpCode) {
+		return service.getNonOpCode(nonOpCode);
+	}
+	
+	
 
 }

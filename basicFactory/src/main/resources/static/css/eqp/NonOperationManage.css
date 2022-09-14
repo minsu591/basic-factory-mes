@@ -33,3 +33,11 @@ h1 {
 #nonOpTable td {
   padding: 0;
 }
+
+.required {
+  border-color: #e74c3c;
+}
+
+.inputRequired {
+  border: 1px solid #e74c3c !important;
+}

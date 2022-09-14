@@ -33,4 +33,7 @@ public interface NonOperationMapper {
 	//설비 비가동 관리 입력
 	void insertNonOpHistory(NonOpHistoryVO vo);
 	
+	//비가동 코드 단건 검색
+	NonOpVO getNonOpCode(String NonOpCode);
+	
 }
