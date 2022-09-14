@@ -176,7 +176,7 @@ $(document).ready(function () {
           for(tr of trs){
               for (idx of notNullList) {                                  
                   let content;
-                  if (idx == 10) {
+                  if (idx == 10 && $(tr).find("select").length == 1) {
                       content = $(tr).find("select option:selected").val();
                   } else {
                       content = $(tr).find("td:eq(" + idx + ")").text();
@@ -199,10 +199,6 @@ $(document).ready(function () {
               //detail 삭제
               if (delList.length != 0) {
                   for (obj of delList) {
-                    //   if (obj[1] == "sls_rtn_dtl_prc_cls" && obj[2] == 1) {
-                    //       alert('입고 내역은 삭제할 수 없습니다.');
-                    //       return false;
-                    //   }
                       deleteSaveAjax(obj);
                   }
               }
@@ -306,17 +302,42 @@ $(document).ready(function () {
   //선택 삭제 이벤트
   $("#deleteBtn").on("click",function(){
       table.find("tbody input:checkbox[name='cb']").each(function(idx,el){
-          if($(el).is(":checked")){                                  
-              let tr = $(el).closest('tr');
+         let tr = $(el).closest('tr');
+          if ($(el).is(":checked") && tr.find("td:eq(10) select").length == 0) {     
+            //입고  
+              console.log("삭제불가");
+              $(el).prop("checked", false);
+              $("#allCheck").prop("checked", false);
+          } else if ($(el).is(":checked")) {
               let priKey = tr.find("input[type='hidden']").val();
+              // 입고인지 아닌지 검사
               delList.push(priKey);
               tr.remove();
-              for(let i = 0; i< modifyList.length; i++){              
+              for (let i = 0; i < modifyList.length; i++) {
                   if (modifyList[i][0] == priKey) {                   //수정목록의 길이만큼 돌면서[0]번째:priKey값이 같으면 
                       modifyList.splice(i, 1);                        //[priKey, updCol, updCont]에서 배열 i번재부터 1개의 값을 썰어버림
                   }
               }
           }
+        
+        //   if ($(el).is(":checked")) {
+        //       let tr = $(el).closest('tr');
+        //       let priKey = tr.find("input[type='hidden']").val();
+
+        //       if ($(el).is(":checked") && tr.find("td:eq(10) select").length == 0) {
+        //           prcClsSuccess();
+        //       } else {
+        //           delList.push(priKey);
+        //       }
+        //       tr.remove();
+        //       for (let i = 0; i < modifyList.length; i++) {
+        //           if (modifyList[i][0] == priKey) {                   //수정목록의 길이만큼 돌면서[0]번째:priKey값이 같으면 
+        //               modifyList.splice(i, 1);                        //[priKey, updCol, updCont]에서 배열 i번재부터 1개의 값을 썰어버림
+        //           }
+        //       }
+        //   }
+          console.log(delList);
+          console.log(modifyList);
       });
   });
 
@@ -371,6 +392,13 @@ function deleteSuccess() {
             location.reload();
         }
     });
+}
+    
+    function prcClsSuccess() {
+    Swal.fire({
+        icon: "warning",
+        title: "입고 처리된 반품내역은<br> 삭제 시 저장되지는 않습니다."
+    })
 }
 
 function updateSuccess() {

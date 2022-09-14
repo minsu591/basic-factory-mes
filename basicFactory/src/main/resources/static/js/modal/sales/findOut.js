@@ -120,9 +120,9 @@ $("document").ready(function(){
                         <td>${out.slsOutDtlVol}</td>
                         <td>${(out.slsOrdDtlVol - out.slsOutDtlPrvsVol) - out.slsOutDtlVol}</td>`;
                 if(out.slsOutCount > 1){
-                    node +=  `<td class="lotNo">${out.fnsPrdStkLotNo} 외 ${out.slsOutCount -1}</td>`;
+                    node +=  `<td class="lotNo canModifyTd" >${out.fnsPrdStkLotNo} 외 ${out.slsOutCount -1}</td>`;
                 } else {
-                    node +=  `<td class="lotNo">${out.fnsPrdStkLotNo}</td>`;
+                    node +=  `<td class="lotNo canModifyTd">${out.fnsPrdStkLotNo}</td>`;
                 }
             node += `   <td>${out.finPrdCdPrice}</td>
                         <td>${out.slsOutDtlVol * out.finPrdCdPrice}</td>
