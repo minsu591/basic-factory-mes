@@ -13,4 +13,5 @@ public class RscStockVO {
 	private int rscStock;
 	private String rscCdUnit;
 	private int rscStockSt;
+	private int rscOrderPrc;
 }

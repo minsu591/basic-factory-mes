@@ -34,6 +34,11 @@ public class FindRscCodeServiceImpl implements FindRscCodeService{
 	}
 	
 	@Override
+	public List<RscStockVO> rscLotNoListToReturn(String rscCdCode, String rscCdName, String vendCdCode) {
+		return rscCodeMapper.rscLotNoListToReturn(rscCdCode, rscCdName, vendCdCode);
+	}
+	
+	@Override
 	public List<RscOrderVO> rscOrderList(String rscOrderTitle, String rscOrderDate, String empId) {
 		return rscCodeMapper.rscOrderList(rscOrderTitle, rscOrderDate, empId);
 	}

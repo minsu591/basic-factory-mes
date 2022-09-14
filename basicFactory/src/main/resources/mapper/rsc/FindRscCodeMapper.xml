@@ -48,26 +48,61 @@
 	<select id="canRscLotNoList"
 		resultType="com.mes.bf.rsc.vo.RscStockVO">
 		SELECT STOCK.RSC_LOT_NO,
-		STOCK.RSC_STOCK_ST,
-		STOCK.RSC_STOCK,
-		STOCK.RSC_CD_CODE,
+			   STOCK.RSC_STOCK_ST,
+			   STOCK.RSC_STOCK,
+			   STOCK.RSC_CD_CODE,
 
-		CODE.RSC_CD_NAME
+			   CODE.RSC_CD_NAME
 
-		FROM BF_RSC_STOCK STOCK
-		LEFT JOIN BF_CMN_RSC_CODE CODE
-		ON STOCK.RSC_CD_CODE = CODE.RSC_CD_CODE
+		  FROM BF_RSC_STOCK STOCK
+		  LEFT JOIN BF_CMN_RSC_CODE CODE
+		    ON STOCK.RSC_CD_CODE = CODE.RSC_CD_CODE
 		<where>
-			STOCK.RSC_STOCK != 0
+				STOCK.RSC_STOCK != 0
 			<if test="rscCdCode != null and rscCdCode != ''">
-				STOCK.RSC_CD_CODE LIKE '%'||#{rscCdCode}||'%'
+				AND STOCK.RSC_CD_CODE LIKE '%'||#{rscCdCode}||'%'
 			</if>
 			<if test="rscCdName != null and rscCdName != ''">
 				AND CODE.RSC_CD_NAME LIKE '%'||#{rscCdName}||'%'
 			</if>
 		</where>
 
-		ORDER BY RSC_LOT_NO DESC
+		 ORDER BY RSC_LOT_NO DESC
+	</select>
+	
+	<select id="rscLotNoListToReturn" resultType="com.mes.bf.rsc.vo.RscStockVO">
+        SELECT STOCK.RSC_LOT_NO,
+			   STOCK.RSC_STOCK_ST,
+			   STOCK.RSC_STOCK,
+			   STOCK.RSC_CD_CODE,
+			   
+			   CODE.RSC_CD_NAME,
+			   
+			   DT.VEND_CD_CODE,
+               DT.RSC_ORDER_PRC
+		
+		  FROM BF_RSC_STOCK STOCK
+		  LEFT JOIN BF_RSC_IN RSCIN
+		    ON STOCK.RSC_IN_CODE = RSCIN.RSC_IN_CODE
+		  LEFT JOIN BF_RSC_INSP INSP
+		    ON RSCIN.RSC_INSP_CODE = INSP.RSC_INSP_CODE
+		  LEFT JOIN BF_RSC_ORDER_DETAILS DT
+		    ON INSP.RSC_ORDER_DTL_NO = DT.RSC_ORDER_DTL_NO
+		  LEFT JOIN BF_CMN_RSC_CODE CODE
+		    ON STOCK.RSC_CD_CODE = CODE.RSC_CD_CODE
+		    
+		<where>
+			STOCK.RSC_STOCK != 0
+			AND DT.VEND_CD_CODE = #{vendCdCode}
+			<if test="rscCdCode != null and rscCdCode != ''">
+				AND STOCK.RSC_CD_CODE LIKE '%'||#{rscCdCode}||'%'
+			</if>
+			<if test="rscCdName != null and rscCdName != ''">
+				AND CODE.RSC_CD_NAME LIKE '%'||#{rscCdName}||'%'
+			</if>
+		</where>
+		    
+		 ORDER BY 1 DESC
 	</select>
 
 	<!-- 자재 발주 모달 -->
