@@ -4,6 +4,22 @@ let lineArray = [];
 let prodCodeArr = [];
 let inDtlVol = [];
 $(document).ready(function () {
+  $("#PDFBtn").click(function () {
+    console.log("instNo->" + $("#instNo").val());
+    let instNo = $("#instNo").val();
+    $.ajax({
+      url: `report.do`,
+      method: "GET",
+      //contentType: "application/json;charset=utf-8",
+      //dataType: "json",
+      data: { instNo: instNo },
+      success: function (data) {
+        console.log("호출성공");
+      },
+      error: function (error, status, msg) {},
+    });
+  });
+
   $("#empid").prop("disabled", true);
   //지시일자 기본값 세팅
   let today = new Date();
