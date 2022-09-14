@@ -56,4 +56,9 @@ public class NonOperationServiceImpl implements NonOperationService {
 		mapper.insertNonOpHistory(vo);
 	}
 
+	@Override
+	public NonOpVO getNonOpCode(String NonOpCode) {
+		return mapper.getNonOpCode(NonOpCode);
+	}
+
 }
