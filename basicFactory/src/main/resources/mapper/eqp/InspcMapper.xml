@@ -8,6 +8,7 @@
 				#{mchnCode},
 				#{inspcSdate},
 				#{inspcEdate},
+				(select #{inspcEdate} + mchn_inspc_cycle from BF_EQP_MCHN where mchn_code = #{mchnCode}),
 				#{inspcActnPnt},
 				#{inspcActnRsn},
 				#{inspcRemk},
@@ -48,6 +49,7 @@
 		FROM BF_EQP_INSPC I
 		JOIN BF_EQP_MCHN M
     		ON I.MCHN_CODE = M.MCHN_CODE
+    	WHERE I.INSPC_NXT_DATE between TO_DATE(SYSDATE) and TO_CHAR(SYSDATE+7)
 	</select>
 
 	<select id="listInspc" resultType="inspc">

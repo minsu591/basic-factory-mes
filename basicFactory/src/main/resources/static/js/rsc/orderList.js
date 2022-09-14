@@ -41,6 +41,21 @@ $("document").ready(function(){
     console.log(data);
     $("#ordtable").replaceWith(data);
    }
-  })
+  });
  }
-})
+
+ $("#search").click(function(e) {
+  e.preventDefault();
+  //if문 조건 걸어서 검색타입에 따라 키워드 분류 후 서브밋
+  //발주코드
+  $("input:hidden[name=keyword]").val($("#rscOrderCode").val());
+  //발주일자
+  $("input:hidden[name=keyword2]").val($("#rscOrderSDate").val());
+  $("input:hidden[name=keyword3]").val($("#rscOrderEDate").val());
+  $("input:hidden[name=keyword4]").val($("#vendor").val());
+  $("input:hidden[name=keyword5]").val($("#rsccode").val());
+  $("input:hidden[name=amount]").val(10);
+
+  $("#searchForm").submit();
+});
+});

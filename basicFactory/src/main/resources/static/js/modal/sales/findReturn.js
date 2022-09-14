@@ -6,7 +6,7 @@ $("document").ready(function(){
     });
     
     //selectBox 만들기 위한 리스트
-    let selectBoxList = ['','폐기','입고','거부'];
+    let selectBoxList = ['폐기','입고','거부'];
 
     $("#findRtnBtn").on("click", findReturnClick);
 
@@ -48,15 +48,11 @@ $("document").ready(function(){
         let remk = $(this).find("td:last").text();
 
         $("#slsRtnHdDate").val(slsRtnHdDate);
-        $("#slsRtnHdDate").attr("readonly",true);
         $("#slsRtnHdNo").val(slsRtnHdNo)
         $("#vendor").val(vendor);
-        $("#vendor").attr("readonly", true);
         $("#vendorName").val(vendorName);
-        $("#vendorName").attr("readonly", true);
         $("#empId").val(empId);
         $("#empName").val(empName);
-        $("#empName").attr("readonly", true);
         $("#remk").val(remk);
 
         //테이블 삽입
@@ -128,7 +124,7 @@ $("document").ready(function(){
                 val = '';
             }
 
-            if(select == PrcCls){
+            if (select == PrcCls) {
                 node += `<option value="`+ val +`"selected>${select}</option>`;
             }else {
                 node += `<option value="`+ val +`">${select}</option>`;
@@ -155,8 +151,9 @@ $("document").ready(function(){
                         <td>${rtn.slsRtnDtlVO.slsRtnDtlPrice}</td>`;
                     if(PrcCls == 0){
                         node += makeSelectBox('폐기');
-                    } else if(PrcCls == 1) {
-                        node += makeSelectBox('입고');
+                    } else if (PrcCls == 1) {
+                        console.log("처리구분 "+PrcCls);
+                        node += `<td>입고</td>`;
                     } else {
                         node += makeSelectBox('거부');
                     }

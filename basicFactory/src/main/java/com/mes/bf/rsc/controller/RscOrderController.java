@@ -10,12 +10,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mes.bf.common.Criteria;
+import com.mes.bf.common.PageDTO;
 import com.mes.bf.rsc.service.RscOrderService;
 import com.mes.bf.rsc.vo.RscOrderDtlVO;
 import com.mes.bf.rsc.vo.RscOrderVO;
@@ -86,16 +89,24 @@ public class RscOrderController {
 	}
 	
 	@RequestMapping("/orderList")
-	public void orderList(Model model) {
-		List<RscOrderVO> olist = rscOrderService.orderList(null, null, null, null, null);
+	public void orderList(Model model, @ModelAttribute("cri") Criteria cri) {
+		int total = rscOrderService.orderListCount(cri);
+		cri.setAmount(10); // 한페이지당 10개씩 설정
+		PageDTO page = new PageDTO(cri, total);
+		model.addAttribute("pageMaker", page);
+		List<RscOrderVO> olist = rscOrderService.orderList(cri);
 		model.addAttribute("olist",olist);
 	}
 	
 	@RequestMapping(value = "/orderListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public String orderTableList(@RequestParam Map<String, String> QueryParameters, Model model) {
-		List<RscOrderVO> olist = rscOrderService.orderList(QueryParameters.get("rscOrderCode"), QueryParameters.get("rscCdCode"), 
-				QueryParameters.get("vendCdCode"), QueryParameters.get("rscOrderSDate"), QueryParameters.get("rscOrderEDate"));
-		model.addAttribute("olist", olist);
+	public String orderTableList(@ModelAttribute("cri") Criteria cri, Model model) {
+		int total = rscOrderService.orderListCount(cri);
+		cri.setAmount(10); // 한페이지당 10개씩 설정
+		PageDTO page = new PageDTO(cri, total);
+		model.addAttribute("pageMaker", page);
+		System.out.println(page);
+		model.addAttribute("olist", rscOrderService.orderList(cri));
+		
 		return "rsc/table/orderListTable";
 	}
 }
