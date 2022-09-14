@@ -1,5 +1,10 @@
 $(document).ready(function(){
   let tdinfo;
+
+    //기본 날짜 오늘 지정
+    let date = new Date();
+    date = date.toISOString().slice(0, 10);
+
   //조회버튼 모달 팝업
   $("#outTable").on("click", ".rscOrderCode", function (e) {
    e.preventDefault();
@@ -99,10 +104,11 @@ $(document).ready(function(){
   <td id="chk-css"><input type="checkbox" name="chk"></td>
   <td><input type="text" class="rscOrderCode" value="${obj.rscOrderCode}" disabled></td>
   <td><input type="text" class="rscInspCode" disabled></td>
-  <td><input type="date" class="rscInspDate"></td>
+  <td><input type="date" class="rscInspDate" value="${date}"></td>
   <td><input type="text" class="rsccode" value="${obj.rscCdCode}" disabled></td>
   <td><input type="text" class="rscname" value="${obj.rscCdName}"disabled></td>
   <td><input type="text" class="unit" value="${obj.rscCdUnit}" disabled></td>
+  <td><input type="text" class="unarvVol" value="${(obj.rscOrderVol)-(obj.rscOrderArv)}"disabled></td>
   <td><input type="text" class="inspVol" value="${obj.rscOrderVol}"></td>
   <td><input type="text" class="inferVol"></td>
   <td><input type="text" class="passVol" disabled></td>

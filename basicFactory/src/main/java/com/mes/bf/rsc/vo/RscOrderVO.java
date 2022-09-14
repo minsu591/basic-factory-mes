@@ -23,4 +23,5 @@ public class RscOrderVO {
 	private String rscOrderRemk;
 	private String vendCdCode;
 	private String vendCdNm;
+	private int unarvVol; //발주수량-도착수량 : 미도착수량
 }

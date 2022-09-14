@@ -7,7 +7,6 @@ $(document).ready(function () {
   e.preventDefault();
   tdinfo = $(this);
   let vendor = tdinfo.parent().parent().children().eq(3).children().val();
-  console.log(vendor);
   if(!vendor) {
    //거래처 미선택시 lot번호 선택 불가능
     lotNoWarning();
@@ -53,7 +52,6 @@ $(document).ready(function () {
   let rscCdCode = $("#lotrsccode").val();
   let rscCdName = $("#lotrscname").val();
   let vendCdCode = tdinfo.parent().parent().children().eq(3).children().val();
-  console.log(vendCdCode);
   $.ajax({
    url: "findRscLotToReturn",
    method: "GET",

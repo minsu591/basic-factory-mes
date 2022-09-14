@@ -1,6 +1,11 @@
 $(document).ready(function () {
   let tdinfo;
 
+      //기본 날짜 오늘 지정
+      let date = new Date();
+      date = date.toISOString().slice(0, 10);
+      $("#rscInspDate").val(date);
+
   //체크박스 체크유무
   $("#allCheck").click("change", function () {
     if ($("#allCheck").is(":checked")) {
@@ -40,6 +45,7 @@ $(document).ready(function () {
   //초기화버튼
   $("#resetBtn").click(function () {
     $("#outTable tr").remove();
+    $("#allCheck").prop("checked", false);
   })
 
   //추가버튼 행만들기
@@ -48,10 +54,11 @@ $(document).ready(function () {
 <td id="chk-css"><input type="checkbox" name="chk"></td>
 <td><input type="text" class="rscOrderCode"></td>
 <td><input type="text" class="rscInspCode" disabled></td>
-<td><input type="date" class="rscInspDate"></td>
-<td><input type="text" class="rsccode"></td>
+<td><input type="date" class="rscInspDate" value="${date}"></td>
+<td><input type="text" class="rsccode" disabled></td>
 <td><input type="text" class="rscname" disabled></td>
 <td><input type="text" class="unit" disabled></td>
+<td><input type="text" class="unarvVol" disabled></td>
 <td><input type="text" class="inspVol"></td>
 <td><input type="text" class="inferVol"></td>
 <td><input type="text" class="passVol" disabled></td>
@@ -66,20 +73,26 @@ $(document).ready(function () {
     tdinfo = $(this);
     let inspVol = tdinfo.val();
     let inferVol = tdinfo.parent().next().find(".inferVol").val();
-    if (inspVol < 0) {
-      minusWarning();
+    let unarvVol = tdinfo.parent().prev().find(".unarvVol").val();
+    if(unarvVol < inspVol){
+      unarvVolWarning();
       tdinfo.val(null);
-    } else if (inspVol < inferVol) {
-      passVolWarning();
-      tdinfo.val(null);
-      return;
-    } else {
-      let passVol = inspVol - inferVol;
-      tdinfo
-        .parent()
-        .next().next()
-        .find(".passVol")
-        .val(passVol);
+    }else{
+      if (inspVol < 0) {
+        minusWarning();
+        tdinfo.val(null);
+      } else if (inspVol < inferVol) {
+        passVolWarning();
+        tdinfo.val(null);
+        return;
+      } else {
+        let passVol = inspVol - inferVol;
+        tdinfo
+          .parent()
+          .next().next()
+          .find(".passVol")
+          .val(passVol);
+      }
     }
   });
 
@@ -115,11 +128,11 @@ $(document).ready(function () {
       let rscInspCode = $(obj).children().eq(2).find(".rscInspCode").val();
       let rscInspDate = $(obj).children().eq(3).find(".rscInspDate").val();
       let rscCdCode = $(obj).children().eq(4).find(".rsccode").val();
-      let rscInspVol = $(obj).children().eq(7).find(".inspVol").val();
-      let rscInferVol = $(obj).children().eq(8).find(".inferVol").val();
-      let rscpassVol = $(obj).children().eq(9).find(".passVol").val();
-      let empId = $(obj).children().eq(10).find(".empId").val();
-      let rscInspRemk = $(obj).children().eq(11).find(".remk").val();
+      let rscInspVol = $(obj).children().eq(8).find(".inspVol").val();
+      let rscInferVol = $(obj).children().eq(9).find(".inferVol").val();
+      let rscpassVol = $(obj).children().eq(10).find(".passVol").val();
+      let empId = $(obj).children().eq(11).find(".empId").val();
+      let rscInspRemk = $(obj).children().eq(12).find(".remk").val();
       let rscOrderDtlNo = $(obj).find(".rscOrderDtlNo").val();
 
       if (!rscInspCode) {
@@ -200,10 +213,18 @@ $(document).ready(function () {
     })
   }
 
+  function unarvVolWarning() {
+    Swal.fire({
+      icon: "warning", // Alert 타입
+      title: "검사수량은 미도착수량을 넘을 수 없습니다.", // Alert 제목
+      confirmButtonText: "확인"
+    })
+  }
+
   function passVolWarning() {
     Swal.fire({
       icon: "warning", // Alert 타입
-      title: "불량수량은 입고수량을 넘을 수 없습니다.", // Alert 제목
+      title: "불량수량은 검사수량을 넘을 수 없습니다.", // Alert 제목
       confirmButtonText: "확인"
     })
   }
