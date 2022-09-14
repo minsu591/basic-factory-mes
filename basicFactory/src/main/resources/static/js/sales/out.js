@@ -13,9 +13,7 @@ $(document).ready(function () {
         console.log(error);
       },
       success: function (data) {
-        console.log(data);
         for (obj of data) {
-          console.log(obj);
           outMakeRow(obj);
         }
       }

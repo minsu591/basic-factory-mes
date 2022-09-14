@@ -13,9 +13,7 @@ $(document).ready(function () {
         console.log(error);
       },
       success: function (data) {
-        console.log(data);
         for (obj of data) {
-          console.log(obj);
           returnMakeRow(obj);
         }
       }
@@ -55,7 +53,19 @@ $(document).ready(function () {
     let vendorName = $("#vendorName").val();
     let prcCls = $("#prcCls option:selected").val();
     
-    findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
+    console.log(prcCls);
+    if (rtnSdate != null && rtnSdate != '' && rtnEdate != null && rtnEdate != '') {
+      if (rtnSdate > rtnEdate) {
+        rtnDateChecked();
+      } else {
+        findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
+      }
+    } else if (rtnSdate == null || rtnSdate == '' && rtnEdate == null ||
+               rtnEdate == '' && vendorName == null || vendorName == '' && prcCls == 3) { 
+      selectChecked();
+    } else{
+      findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
+    }
   });
 
   function findReturn(rtnSdate, rtnEdate, vendorName, prcCls) {
@@ -82,5 +92,22 @@ $(document).ready(function () {
         }
       }
     });
+  }
+  function selectChecked() {
+    Swal.fire({
+      icon: "warning",
+      title: "조회 조건을 입력해주세요."
+    });
+    return false;
+  }
+
+  function rtnDateChecked() {
+    Swal.fire({
+      icon: "warning",
+      title: "잘못된 검색 조건입니다."
+    });
+    $("#rtnSdate").val('');
+    $("#rtnEdate").val('');
+    return false;
   }
 });

@@ -43,14 +43,11 @@ $("document").ready(function () {
     let remk = $(this).find("td:last").text();
 
     $("#slsOrdHdDate").val(slsOrdHdDate);
-    $("#slsOrdHdDate").attr("readonly", true);
     $("#slsOrdHdNo").val(slsOrdHdNo)
     $("#vendor").val(vendor);
     $("#vendorName").val(vendorName);
-    $("#vendorName").attr("readonly", true);
     $("#empId").val(empId);
     $("#empName").val(empName);
-    $("#empName").attr("readonly", true);
     $("#remk").val(remk);
 
     //테이블 삽입
@@ -117,7 +114,7 @@ $("document").ready(function () {
                     <td>${ord.slsOrdDtlVO.slsOrdDtlOutVol}</td>
                     <td name="outDtlVol"></td>
                     <td></td>
-                    <td class="lotNo"></td>
+                    <td class="lotNo canModifyTd"></td>
                     <td>${ord.slsOutDtlVO.finPrdCdPrice}</td>
                     <td></td>
                 </tr>`;

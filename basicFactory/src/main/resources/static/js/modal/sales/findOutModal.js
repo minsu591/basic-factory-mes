@@ -37,18 +37,11 @@ $("document").ready(function(){
         let slsOutHdNo = $(this).find("td:eq(1)").text();
         let vendor = $(this).find("td:eq(3)").text();
         let vendorName = $(this).find("td:eq(4)").text();
-        // let empId = $(this).find(".empId").val();
-        // let empName = $(this).find("td:eq(5)").text();
         let remk = $(this).find("td:last").text();
 
         $("#slsOutHdNo").val(slsOutHdNo);
         $("#vendor").val(vendor);
-        $("#vendor").attr("readonly", true);
         $("#vendorName").val(vendorName);
-        $("#vendorName").attr("readonly", true);
-        // $("#empId").val(empId);
-        // $("#empName").val(empName);
-        // $("#empName").attr("readonly",true);
         $("#remk").val(remk);
 
         //테이블 삽입
@@ -59,8 +52,6 @@ $("document").ready(function(){
                 slsOutHdNo: slsOutHdNo
             },
             success : function(result){
-                console.log('성공');
-                console.log(result);
                 sucFun(result);
             }
         })
@@ -116,10 +107,10 @@ $("document").ready(function(){
                         <td>${out.fnsPrdStkLotNo}</td>
                         <td>${out.slsOutDtlVol}</td>
                         <td>${out.slsRtnDtlVol}</td>
-                        <td></td>
+                        <td class="canModifyTd"></td>
                         <td>${out.finPrdCdPrice}</td>
                         <td></td>
-                        <td>
+                        <td class="canModifyTd">
                             <select name="prcCls">
                             <option></option>
                             <option value="0">폐기</option>
@@ -127,7 +118,7 @@ $("document").ready(function(){
                             <option value="2">거부</option>
                             </select>
                         </td>
-                        <td></td>
+                        <td class="canModifyTd"></td>
                     </tr>`;
         $("#rtnMngTable tbody").append(node);
     }

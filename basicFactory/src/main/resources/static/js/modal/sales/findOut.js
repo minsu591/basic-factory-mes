@@ -42,15 +42,12 @@ $("document").ready(function(){
         let remk = $(this).find("td:last").text();
 
         $("#slsOutHdDate").val(slsOutHdDate);
-        $("#slsOutHdDate").attr("readonly",true);
         $("#slsOutHdNo").val(slsOutHdNo);
         $("#slsOrdHdNo").val(slsOrdHdNo);
         $("#vendor").val(vendor);
         $("#vendorName").val(vendorName);
-        $("#vendorName").attr("readonly", true);
         $("#empId").val(empId);
         $("#empName").val(empName);
-        $("#empName").attr("readonly",true);
         $("#remk").val(remk);
 
         //테이블 삽입

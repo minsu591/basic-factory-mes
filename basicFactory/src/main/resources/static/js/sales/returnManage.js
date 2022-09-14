@@ -40,7 +40,6 @@ $(document).ready(function () {
 
       let flag = false;
       tdInfo = $(this);
-      //let defaultVal;
 
       //수정 적용할 인덱스인지 확인
       for(let i = 0; i<avArr.length;i++){
@@ -305,7 +304,7 @@ $(document).ready(function () {
          let tr = $(el).closest('tr');
           if ($(el).is(":checked") && tr.find("td:eq(10) select").length == 0) {     
             //입고  
-              console.log("삭제불가");
+              notDelete();
               $(el).prop("checked", false);
               $("#allCheck").prop("checked", false);
           } else if ($(el).is(":checked")) {
@@ -319,25 +318,6 @@ $(document).ready(function () {
                   }
               }
           }
-        
-        //   if ($(el).is(":checked")) {
-        //       let tr = $(el).closest('tr');
-        //       let priKey = tr.find("input[type='hidden']").val();
-
-        //       if ($(el).is(":checked") && tr.find("td:eq(10) select").length == 0) {
-        //           prcClsSuccess();
-        //       } else {
-        //           delList.push(priKey);
-        //       }
-        //       tr.remove();
-        //       for (let i = 0; i < modifyList.length; i++) {
-        //           if (modifyList[i][0] == priKey) {                   //수정목록의 길이만큼 돌면서[0]번째:priKey값이 같으면 
-        //               modifyList.splice(i, 1);                        //[priKey, updCol, updCont]에서 배열 i번재부터 1개의 값을 썰어버림
-        //           }
-        //       }
-        //   }
-          console.log(delList);
-          console.log(modifyList);
       });
   });
 
@@ -393,13 +373,6 @@ function deleteSuccess() {
         }
     });
 }
-    
-    function prcClsSuccess() {
-    Swal.fire({
-        icon: "warning",
-        title: "입고 처리된 반품내역은<br> 삭제 시 저장되지는 않습니다."
-    })
-}
 
 function updateSuccess() {
     Swal.fire({
@@ -412,12 +385,11 @@ function updateSuccess() {
     });
 }
 
-function notChecked() {
+function notDelete() {
     Swal.fire({
         icon: "warning",
-        title: "체크된 데이터가 없습니다.",
+        title: "입고된 반품내역 삭제 불가",
     });
-    return;
 }
 function requiredWarn() {
     Swal.fire({

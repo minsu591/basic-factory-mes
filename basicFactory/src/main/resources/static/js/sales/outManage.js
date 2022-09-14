@@ -7,6 +7,7 @@ $("document").ready(function () {
     outToday.val(today);
     let outTrInfo;
     let outLotList = [];                 //출고시킬 LOT정보 담기(제품코드, lot번호, 출고량)
+    let avArr = [6];
     let ModalTable = $("#findLotTable"); //완제품 재고 테이블 정보
     let outDtlVol = 0;                   //출고량 총 합계
 
@@ -14,9 +15,26 @@ $("document").ready(function () {
     ModalTable.find("tbody").on("click", "td", function (e) {
         let col = $(this).index();
         let tdInfo = $(this);
-        tdInfo.attr("contenteditable", "true"); //수정 가능하도록 설정
+        let flag = false;
 
-        tdInfo.unbind("focus").bind("focus", function (e) { //td에 focus되면 클래스 지정(border 생성 css)
+        //수정 적용할 인덱스인지 확인
+        for(let i = 0; i<avArr.length;i++){
+            if(col == avArr[i]){
+                flag = true;
+                break;
+            }
+        }
+
+        //해당사항 없으면 return
+        if(!flag){
+            return;
+        }
+        
+        //수정 가능하도록 설정
+        tdInfo.attr("contenteditable", "true"); 
+
+        //td에 focus되면 클래스 지정(border 생성 css)
+        tdInfo.unbind("focus").bind("focus", function (e) { 
             tdInfo.addClass("tdBorder");
         });
 
@@ -277,10 +295,10 @@ $("document").ready(function () {
                     <td>${obj.fnsPrdStkLotNo}</td>
                     <td>${obj.fnsPrdStkVol}</td>`;
         if(trInfo.hasClass("notOut")){
-            node += `<td class="stockOutVol"></td>
+            node += `<td class="stockOutVol canModifyTd"></td>
             </tr>`;
         }else{
-            node += `<td class="stockOutVol">${obj.slsOutDtlVol}</td>
+            node += `<td class="stockOutVol canModifyTd">${obj.slsOutDtlVol}</td>
                 </tr>`
         }
             
@@ -486,7 +504,7 @@ $("document").ready(function () {
                     finPrdCdCode
             }),
             success: function (result) {
-                deleteSuccess();
+                //deleteSuccess();
             }
         });
     }
