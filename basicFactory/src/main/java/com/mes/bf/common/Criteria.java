@@ -11,6 +11,8 @@ public class Criteria {
 	private String keyword; // 검색어
 	private String keyword2;
 	private String keyword3;
+	private String keyword4;
+	private String keyword5;
 
 	public String[] getTypeArr() {
 

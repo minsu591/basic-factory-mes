@@ -93,13 +93,24 @@
 			   )
 	</insert>
 	
-	<select id="orderList" resultType="com.mes.bf.rsc.vo.RscOrderVO">
-		SELECT OD.*, 
-			   DT.*, 
-			   RSC.RSC_CD_NAME, 
-			   RSC.RSC_CD_UNIT,
-			   VEND.VEND_CD_NM
-		
+	<!-- 검색조건 SQL -->
+	<sql id="criteria">
+		<if test="keyword != null and keyword != ''">
+			AND OD.RSC_ORDER_CODE LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="keyword2 != null and keyword2 != '' and keyword3 != null and keyword3 != ''">
+			AND OD.RSC_ORDER_DATE BETWEEN #{keyword2} AND TO_DATE(#{keyword3})+1
+		</if>
+		<if test="keyword4 != null and keyword4 != ''">
+			AND DT.VEND_CD_CODE = #{keyword4}
+		</if>
+		<if test="keyword5 != null and keyword5 != ''">
+			AND DT.RSC_CD_CODE = #{keyword5}
+		</if>
+	</sql>
+	
+	<select id="orderListCount" resultType="int">
+		SELECT COUNT(*)		
 		  FROM BF_RSC_ORDER OD
 		  JOIN BF_RSC_ORDER_DETAILS DT
 		    ON OD.RSC_ORDER_CODE = DT.RSC_ORDER_CODE
@@ -108,20 +119,34 @@
 		  JOIN BF_CMN_VENDOR_CODE VEND
 		    ON VEND.VEND_CD_CODE = DT.VEND_CD_CODE
 		<where>
-			<if test="rscOrderCode != null and rscOrderCode != ''">
-				AND OD.RSC_ORDER_CODE LIKE '%' || #{rscOrderCode} || '%'
-			</if>
-			<if test="rscCdCode != null and rscCdCode != ''">
-				AND DT.RSC_CD_CODE = #{rscCdCode}
-			</if>
-			<if test="vendCdCode != null and vendCdCode != ''">
-				AND DT.VEND_CD_CODE = #{vendCdCode}
-			</if>
-			<if test="(rscOrderSDate!= null and rscOrderSDate!= '') and (rscOrderEDate!= null and rscOrderEDate!= '')">
-				AND OD.RSC_ORDER_DATE BETWEEN #{rscOrderSDate} AND TO_DATE(#{rscOrderEDate})+1
-			</if>
-			AND <![CDATA[ROWNUM < 10]]>
+			<include refid="criteria" />
 		</where>
 		ORDER BY 1 DESC
+	</select>
+	
+	<select id="orderList" resultType="com.mes.bf.rsc.vo.RscOrderVO">
+		SELECT X.* FROM (
+			SELECT Y.*, ROWNUM AS RNUM FROM (
+					SELECT OD.RSC_ORDER_CODE, OD.RSC_ORDER_TITLE, OD.RSC_ORDER_DATE, OD.RSC_ORDER_REMK, OD.EMP_ID,
+                        DT.RSC_ORDER_DTL_NO, DT.RSC_CD_CODE, DT.VEND_CD_CODE, DT.RSC_ORDER_VOL, DT.RSC_ORDER_ARV, DT.RSC_ORDER_PRC, DT.RSC_ORDER_ST, DT.RSC_ORDER_DTL_REMK, 
+						   RSC.RSC_CD_NAME,
+						   RSC.RSC_CD_UNIT,
+						   VEND.VEND_CD_NM
+					  FROM BF_RSC_ORDER OD
+					  JOIN BF_RSC_ORDER_DETAILS DT
+					    ON OD.RSC_ORDER_CODE = DT.RSC_ORDER_CODE
+                        JOIN BF_CMN_RSC_CODE RSC
+					    ON RSC.RSC_CD_CODE = DT.RSC_CD_CODE
+					  JOIN BF_CMN_VENDOR_CODE VEND
+					    ON VEND.VEND_CD_CODE = DT.VEND_CD_CODE
+					<where>
+						<include refid="criteria" />
+					</where>
+					ORDER BY OD.RSC_ORDER_CODE DESC) Y
+		<where>
+			<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
+		</where>
+		) X
+	WHERE X.RNUM > (#{pageNum}-1)*#{amount}
 	</select>
 </mapper>

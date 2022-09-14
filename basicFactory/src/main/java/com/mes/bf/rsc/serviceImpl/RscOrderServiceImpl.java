@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mes.bf.common.Criteria;
 import com.mes.bf.rsc.mapper.RscOrderMapper;
 import com.mes.bf.rsc.service.RscOrderService;
 import com.mes.bf.rsc.vo.RscOrderVO;
@@ -45,8 +46,13 @@ public class RscOrderServiceImpl implements RscOrderService {
 	}
 
 	@Override
-	public List<RscOrderVO> orderList(String rscOrderCode, String rscCdCode,String vendCdCode, String rscOrderSDate, String rscOrderEDate) {
-		return rscOrderMapper.orderList(rscOrderCode, rscCdCode, vendCdCode, rscOrderSDate, rscOrderEDate);
+	public List<RscOrderVO> orderList(Criteria cri) {
+		return rscOrderMapper.orderList(cri);
+	}
+
+	@Override
+	public Integer orderListCount(Criteria cri) {
+		return rscOrderMapper.orderListCount(cri);
 	}
 
 }
