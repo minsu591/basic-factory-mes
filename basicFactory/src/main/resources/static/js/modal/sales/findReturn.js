@@ -109,7 +109,7 @@ $("document").ready(function(){
 
     
     function makeSelectBox(PrcCls){
-        let node = `<td><select>`;
+        let node = `<td class="canModifyTd"><select>`;
 
         for(select of selectBoxList){
             let val = 0;
@@ -146,7 +146,7 @@ $("document").ready(function(){
                         <td>${rtn.slsRtnDtlVO.fnsPrdStkLotNo}</td>
                         <td>${rtn.slsRtnDtlVO.slsOutDtlVol}</td>
                         <td>${rtn.slsRtnDtlVO.slsRtnDtlBaseVol}</td>
-                        <td>${rtn.slsRtnDtlVO.slsRtnDtlVol}</td>
+                        <td class="canModifyTd">${rtn.slsRtnDtlVO.slsRtnDtlVol}</td>
                         <td>${rtn.slsRtnDtlVO.finPrdCdPrice}</td>
                         <td>${rtn.slsRtnDtlVO.slsRtnDtlPrice}</td>`;
                     if(PrcCls == 0){
@@ -157,7 +157,7 @@ $("document").ready(function(){
                     } else {
                         node += makeSelectBox('거부');
                     }
-            node += `<td>${rtn.slsRtnDtlVO.slsRtnDtlResn}</td>
+            node += `<td class="canModifyTd">${rtn.slsRtnDtlVO.slsRtnDtlResn}</td>
                      </tr>`;
         $("#rtnMngTable tbody").append(node);
     }

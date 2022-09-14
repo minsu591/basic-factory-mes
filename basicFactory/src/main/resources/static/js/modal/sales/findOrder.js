@@ -40,14 +40,11 @@ $("document").ready(function () {
         let remk = $(this).find("td:last").text();
 
         $("#slsOrdHdDate").val(slsOrdHdDate);
-        $("#slsOrdHdDate").attr("readonly",true);
+        $("#slsOrdHdDate").attr("disabled",true);
         $("#slsOrdHdNo").val(slsOrdHdNo);
-        $("#slsOrdHdNo").attr("readonly",true);
         $("#vendor").val(vendor);
         $("#vendorName").val(vendorName);
-        $("#vendorName").attr("readonly", true);
         $("#empName").val(empName);
-        $("#empName").attr("readonly",true);
         $("#remk").val(remk);
 
         //테이블 삽입
@@ -107,10 +104,10 @@ $("document").ready(function () {
         let node = `<tr>
                     <td><input type="checkbox" name="cb"></td>
                     <input type="hidden" value="${ord.slsOrdDtlNo}">
-                    <td class="productCode">${ord.finPrdCdCode}</td>
+                    <td class="productCode canModifyTd">${ord.finPrdCdCode}</td>
                     <td>${ord.finPrdCdName}</td>
-                    <td><input type="date" value="${ord.slsOrdDtlDlvDate}"></td>
-                    <td>${ord.slsOrdDtlVol}</td>
+                    <td class="canModifyTd"><input type="date" value="${ord.slsOrdDtlDlvDate}"></td>
+                    <td class="canModifyTd">${ord.slsOrdDtlVol}</td>
                     </tr>`;
         $("#ordMngTable tbody").append(node);
     }
