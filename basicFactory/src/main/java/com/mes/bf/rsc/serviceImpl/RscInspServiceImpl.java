@@ -21,6 +21,11 @@ public class RscInspServiceImpl implements RscInspService {
 	}
 	
 	@Override
+	public RscInspVO inspVoLoad(String rscInspCode) {
+		return rscInspMapper.inspVoLoad(rscInspCode);
+	}
+	
+	@Override
 	public Integer inspInsert(RscInspVO vo) {
 		return rscInspMapper.inspInsert(vo);
 	}

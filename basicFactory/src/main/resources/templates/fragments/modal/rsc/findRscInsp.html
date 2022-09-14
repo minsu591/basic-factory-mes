@@ -43,6 +43,7 @@
 								<table class="table table-hover" id="findRscInspTable">
 									<thead>
 										<tr>
+											<th><input type="checkbox" id="modalAllCheck"></th>
 											<th th:text="검사코드"></th>
 											<th th:text="검사일자"></th>
 											<th th:text="자재코드"></th>
@@ -58,6 +59,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
+					<button type="button" class="btn  btn-primary" id="addBtn">선택 추가</button>
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">Close</button>
 					</div>

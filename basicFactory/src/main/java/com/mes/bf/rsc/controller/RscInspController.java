@@ -1,5 +1,6 @@
 package com.mes.bf.rsc.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,14 +14,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.rsc.service.RscInspService;
 import com.mes.bf.rsc.vo.RscInspVO;
-import com.mes.bf.rsc.vo.RscOrderDtlVO;
 import com.mes.bf.rsc.vo.RscOrderVO;
+import com.mes.bf.rsc.vo.RscOutVO;
 
 @Controller
 @RequestMapping("/rsc")
@@ -64,12 +66,18 @@ public class RscInspController {
 		return new ResponseEntity<Integer>(resultSum,HttpStatus.OK);
 	}
 	
-	//tr 눌러 outTable로 단건출력
-	@RequestMapping("/findRscInspToTable")
-	public ResponseEntity<List<RscInspVO>> findRscInspToTable(@RequestParam Map<String, String> QueryParameters) {
-		List<RscInspVO> list = rscInspService.inspList(QueryParameters.get("rscInspCode"), null,null,null);
-		System.out.println(list);
-		return new ResponseEntity<List<RscInspVO>>(list, HttpStatus.OK);
+	//tr 눌러 outTable로 출력
+	@RequestMapping(value="/findRscInspToTable", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<List<RscInspVO>> findRscInspToTable(@RequestBody List<RscInspVO> list) {
+		RscInspVO result = new RscInspVO();
+		List<RscInspVO> inspList = new ArrayList<RscInspVO>();
+		for (int i = 0; i <list.size() ; i++) {
+			result = rscInspService.inspVoLoad(list.get(i).getRscInspCode());
+			inspList.add(i,result);
+		}
+		System.out.println(inspList);
+		return new ResponseEntity<List<RscInspVO>>(inspList, HttpStatus.OK);
 	}
 	@RequestMapping("/inspList")
 	public void inspList(Model model) {
