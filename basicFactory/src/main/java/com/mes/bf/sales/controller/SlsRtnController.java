@@ -86,17 +86,9 @@ public class SlsRtnController {
 	//완제품 반품관리 수정
 	@PutMapping("/rtnManage/update")
 	public void rtnUpdate(@RequestParam Map<String, String> params) {
-		// 처리구분 수정 프로시저 호출
-		if(params.get("updCol") == "sls_rtn_dtl_prc_cls") {
-			//프로시저 (업데이트랑 딜리트같이하는데 조건주기)
-			service.callProcRtnDtlUpdate(params.get("priKey"),
-										 params.get("updCont"));
-		}else {
-			//그냥 냅다 update
 			service.rtnUpdate(params.get("priKey"),
 			  		  		  params.get("updCol"),
 			  		  		  params.get("updCont"));
-		}
 	}
 	
 	//반품관리 헤더 삭제

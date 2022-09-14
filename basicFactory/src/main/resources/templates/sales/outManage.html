@@ -31,7 +31,7 @@
 
                         <div class="form-group mt-3">
                             <labe for="slsOutHdNo" th:text="출고번호"></labe>
-                            <input type="text" id="slsOutHdNo" class="form-control mx-sm-3" readonly>
+                            <input type="text" id="slsOutHdNo" class="form-control mx-sm-3" disabled>
                         </div>
 
                         <div class="form-group mt-3">
@@ -46,16 +46,16 @@
                         <div class="form-group mt-3">
                             <label for="vendor" th:text="거래처"></label>
                             <input type="text" id="vendor" class="form-control mx-sm-3"
-                                   data-toggle="modal" data-target=".bd-example-modal-lg">
+                                   data-toggle="modal" data-target=".bd-example-modal-lg" disabled>
                             <label for="vendorName" th:text="거래처명"></label>
-                            <input type="text" id="vendorName" class="form-control mx-sm-3" readonly>
+                            <input type="text" id="vendorName" class="form-control mx-sm-3" disabled>
                         </div>
                         <div class="form-group mt-3">
                             <label for="remk" th:text="비고"></label>
                             <input type="text" id="remk" class="form-control mx-sm-3">
                         </div>
                         <div class="form-group mt-3">
-                            <input type="hidden" id="slsOrdHdNo" name="slsOrdHdNo" class="form-control mx-sm-3" readonly>
+                            <input type="hidden" id="slsOrdHdNo" name="slsOrdHdNo" class="form-control mx-sm-3">
                         </div>
                     </div>
                 </div>
