@@ -5,6 +5,13 @@ $("document").ready(function(){
         myPlanClick();
     });
 
+    $("#ordEdate").on("click",function(){
+        let ordSdate = $("#ordSdate").val();
+        if(ordSdate != null && ordSdate != ''){
+            $("#ordEdate").attr("min",ordSdate);
+        }
+    });
+
     $("#findMyPlanBtn").on("click",myPlanClick);
 
     function myPlanClick(){
@@ -42,6 +49,8 @@ $("document").ready(function(){
 
     //미계획 주문내역 조회 모달
     $("#NotDoneOrdBtn").on("click",function(){
+        $("#ordSdate").val(prev7Days);
+        $("#ordEdate").val(today);
         notDoneOrdClick();
         $("#findNotDoneOrdModal").modal("show");
     })

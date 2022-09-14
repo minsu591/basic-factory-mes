@@ -5,6 +5,10 @@
   border-radius: 100%;
 }
 
+.pagination > li > a {
+	cursor : pointer;
+}
+
 .pagination {
   justify-content: center;
 }

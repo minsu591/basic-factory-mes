@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	
+	<th:block th:fragment="settingId">
+		<div class="modal fade" id="settingIdModal" tabindex="-1"
+			role="dialog" aria-labelledby="settingIdModalLabel"
+			aria-hidden="true">
+			
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="settingIdModalLabel">아이디 설정</h3>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="col-md-12">
+							<form>
+								<div class="form-group row">
+									<label for="idStaticId" class="col-sm-3 col-form-label">ID</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control-plaintext" th:id="idStaticId">
+										<button type="button" class="btn btn-primary" id="idExId" th:text="'아이디 중복 검사'"></button>
+									</div>
+								</div>
+							</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" th:text="확인" th:id="idOkBtn"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+
+
+
+	</th:block>
+</body>
+</html>

@@ -55,9 +55,9 @@ xmlns:th="http://www.thymeleaf.org"
                                 <tr th:each="vend : ${vendors}">
                                     <td class="cantModifyTd"><input type="checkbox" name="chk"></td>
                                     <td th:text="${vend.vendCdCode}" class="cantModifyTd">VEND001</td>
-                                    <td th:text="${vend.empId}" th:class="empId">mia</td>
+                                    <td th:text="${vend.empId}" class="empId curPo">mia</td>
                                     <td>
-                                        <select th:value="${vend.vendCdClfy}">
+                                        <select th:value="${vend.vendCdClfy}" class="curPo">
                                             <option value="" th:selected="${vend.vendCdClfy} == ''"></option>
                                             <option value="구매" th:selected="${vend.vendCdClfy} == '구매'" th:text="구매">구매</option>
                                             <option value="판매" th:selected="${vend.vendCdClfy} == '판매'" th:text="판매">판매</option>

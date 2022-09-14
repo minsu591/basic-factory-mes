@@ -3,6 +3,8 @@ var now_utc = Date.now() // 지금 날짜를 밀리초로
 var timeOff = new Date().getTimezoneOffset()*60000; // 분단위를 밀리초로 변환
 // new Date(now_utc-timeOff).toISOString()은 '2022-05-11T18:09:38.134Z'를 반환
 var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
+var prev7Days = new Date(now_utc - timeOff - 6*24*60*60*1000).toISOString().split("T")[0];
+
 
 $("document").ready(function(){
     //수정
@@ -43,6 +45,14 @@ $("document").ready(function(){
         }
     });
 
+    $("input").on("click",function(){
+        let inputInfo = $(this);
+        //header의 border 선택할 때
+        if(inputInfo.hasClass("border-danger")){
+            inputInfo.removeClass("border-danger");
+        }
+    });
+
     //td 수정 이벤트
     table.find("tbody").on("click","td",function(e){
         e.stopPropagation();
@@ -55,6 +65,30 @@ $("document").ready(function(){
         if(tdInfo.hasClass("nullTd")){
             tdInfo.removeClass("nullTd");
         }
+
+        //작업계획 시작일자, 종료일자 비교
+        if(tdInfo.children("input").length == 1){
+            let inputInfo = tdInfo.find("input");
+            //시작일자
+            if(tdInfo.next().children("input").length == 1){
+                console.log(tdInfo.next().find("input").val());
+                let edate = tdInfo.next().find("input").val();
+                if(edate != null && edate != ''){
+                    inputInfo.attr("max",edate);
+                }else{
+                    inputInfo.attr("max",'');
+                }
+            }else{
+                //종료일자
+                let sdate = tdInfo.prev().find("input").val();
+                if(sdate != null && sdate != ''){
+                    inputInfo.attr("min",sdate);
+                }else{
+                    inputInfo.attr("min",today);
+                }
+            }
+        }
+
 
         //적용할 인덱스인지 확인
         for(let i = 0; i<avArr.length;i++){
@@ -145,7 +179,6 @@ $("document").ready(function(){
         }
         let modifyTr = [priKey,updCol,updCont];
         modifyList.push(modifyTr);
-        console.log(modifyList);
     }
 
     function exNull(st){
@@ -164,13 +197,12 @@ $("document").ready(function(){
             closeOnClickOutside: false,
           }).then((result) =>{
             if(result.isConfirmed){
-                //추가인지 수정인지 확인
-                let modifyAddFlag = checkModifyOrAdd();
                 addList = $("#planManageTable tbody").find(".addTr");
                 let planName = $("#planName").val();
                 let trs = $("#planManageTable tbody tr");
+                let modifyAddFlag = checkModifyOrAdd();
                 //생산계획명 검사
-                if(trs.length == 0){
+                if(trs.length == 0 && !modifyAddFlag){
                     Swal.fire({
                         icon: "warning",
                         title: "저장할 생산계획내역이 존재하지 않습니다",
@@ -178,7 +210,7 @@ $("document").ready(function(){
                     });
                     return false;
                 }else if(exNull(planName)){
-                    $("#planName").addClass("nullTd");
+                    $("#planName").addClass("border-danger");
                     Swal.fire({
                         icon: "warning",
                         title: "생산계획명이 비었습니다",
@@ -186,9 +218,12 @@ $("document").ready(function(){
                     });
                     return false;
                 }
+                
+                //추가인지 수정인지 확인
                 if(modifyAddFlag){
                     //수정
                     //tr의 null 검사
+                    addList = table.find("tbody .addTr");
                     if(forNull()){
                         return false;
                     };
@@ -199,6 +234,16 @@ $("document").ready(function(){
                         //tbody 안에 내용이 없으면 헤더 삭제
                         let planHdCode = $("#planHdCode").val();
                         deleteHdSaveAjax(planHdCode);
+                        Swal.fire({
+                            icon: "success",
+                            title: "삭제가 완료되었습니다",
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "확인",
+                            closeOnClickOutside: false,
+                        }).then((result) =>{
+                            location.reload();
+                        });
                         return false;
                     }else{
                         //detail 삭제용
@@ -215,14 +260,16 @@ $("document").ready(function(){
                         modifySaveAjax(obj);
                     }
                     //detail 추가용
+                    
                     for(obj of addList){
                         addSaveAjax(obj);
                     }
-                    
                 }else{
                     //추가
                     let empid = $("#empid").val();
+                    addList = table.find("tbody tr");
                     if(exNull(empid)){
+                        $("#empid").addClass("border-danger");
                         Swal.fire({
                             icon: "warning",
                             title: "담당자 아이디가 비었습니다",
@@ -258,29 +305,20 @@ $("document").ready(function(){
     function forNull(){
         let flag = false;
         let trs = table.find("tbody tr");
-        let dateFlag = false;
         //null 검사
         for(tr of trs){
             for(idx of notNullList){
                 let td = $(tr).find("td:eq("+idx+")");
                 let content;
+                
                 if(idx == 9 || idx == 10){
                     content = td.find("input[type='date']").val();
                 }else{
                     content = td.text();
                 }
-
                 if(content == null || content == ''){
                     $(td).addClass("nullTd");
                     flag = true;
-                }else if(idx == 9){
-                    //생산게획 시작 검사
-                    let edate = td.next().find("input[type='date']").val();
-                    if(content > edate){
-                        td.addClass("nullTd");
-                        td.next().addClass("nullTd");
-                        dateFlag = true;
-                    }
                 }
             }
         }
@@ -288,13 +326,6 @@ $("document").ready(function(){
             Swal.fire({
                 icon: "error",
                 title: "비어있는 데이터가 존재합니다",
-                text: "확인하고 다시 저장해주세요"
-              });
-            return true;
-        }else if(dateFlag){
-            Swal.fire({
-                icon: "error",
-                title: "작업계획 시작일이 작업계획 종료일보다 큰 데이터가 존재합니다",
                 text: "확인하고 다시 저장해주세요"
               });
             return true;
@@ -376,7 +407,6 @@ $("document").ready(function(){
     function addSaveAjax(obj){
         let planHdCode = $("#planHdCode").val();
         let finPrdCdCode = $(obj).find("td:eq(2)").text();
-        console.log(finPrdCdCode);
         let planPreVol = $(obj).find("td:eq(6)").text();
         if(planPreVol == ''){
             planPreVol = null;
@@ -409,7 +439,6 @@ $("document").ready(function(){
     function addSaveAjaxWithHd(){
         //세부plan 저장
         let plans =[];
-        let addList = table.find("tbody tr");
         let slsOrdHdNo = null;
         for(obj of addList){
             let finPrdCdCode = $(obj).find("td:eq(2)").text();
@@ -580,7 +609,7 @@ $("document").ready(function(){
                 if(ans.isConfirmed){
                     changeTbody(result,type,trInfo);
                 }else{
-                        return;
+                    return;
                 }
             });
         }else{
@@ -609,7 +638,7 @@ $("document").ready(function(){
             let planHdDate = trInfo.find("td:eq(0)").text();
             let planHdName = trInfo.find("td:eq(2)").text();
             let planRemk = trInfo.find("td:last").text();
-            let empId = trInfo.find("td:eq(4)").text();
+            let empId = trInfo.find("td:eq(3)").text();
 
             $("#planHdCode").val(planHdCode);
             $("#planDate").val(planHdDate);

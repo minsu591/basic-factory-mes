@@ -90,7 +90,8 @@
 		<include refid="ifPlanDate" />
 		<if test="empId != null and empId != ''">
 			AND emp_id = #{empId}
-			</if>
+		</if>
+		ORDER BY PH.PLAN_HD_CODE DESC
 	</select>
 	
 	<!-- 지시에 존재하지 않거나 지시량이 계획량에 못 미치는 생산계획 detail 조회  -->
@@ -123,7 +124,7 @@
 			<![CDATA[ and plan_hd_date <= TO_DATE(#{keyword2}, 'YY/MM/DD') + 0.9999 ]]>
 		</if>
 		<if test="keyword3 != null and keyword3 != ''">
-			<![CDATA[ and OH.VEND_CD_CODE = #{keyword3} ]]>
+			<![CDATA[ and oh.VEND_CD_CODE = #{keyword3} ]]>
 		</if>
 	</sql>
 	
@@ -149,34 +150,35 @@
 	<!-- 생산계획 조회시, 주문내역을 참고한 생산계획과 참고하지 않은 생산계획을 조회 -->
 	<select id="findPlanOrd" resultMap="colPlanOrdMap">
 		SELECT X.* FROM(
-			SELECT P.PLAN_IDX, PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, PH.PLAN_HD_DATE, PH.EMP_ID,
-			       P.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME, P.PLAN_PROD_VOL, 
-			       P.PLAN_SDATE, P.PLAN_EDATE, NVL(P.PLAN_REMK,' ') AS PLAN_REMK,
-			       P.PLAN_PRE_VOL,
-			       OH.SLS_ORD_HD_NO, OH.VEND_CD_CODE,
-			       V.VEND_CD_NM, O.SLS_ORD_DTL_VOL,
-			       O.SLS_ORD_DTL_DLV_DATE,
-			       ROWNUM AS RNUM
-			FROM BF_PROD_PLAN P
-			JOIN BF_PROD_PLAN_HD PH
-			  ON P.PLAN_HD_CODE = PH.PLAN_HD_CODE
-			JOIN BF_CMN_FINISH_PRODUCT_CODE F
-			  ON P.FIN_PRD_CD_CODE = F.FIN_PRD_CD_CODE
-			LEFT OUTER JOIN BF_SALES_ORD_HD OH
-			  ON OH.SLS_ORD_HD_NO = PH.SLS_ORD_HD_NO
-			LEFT OUTER JOIN BF_CMN_VENDOR_CODE V
-			  ON OH.VEND_CD_CODE = V.VEND_CD_CODE
-			LEFT OUTER JOIN BF_SALES_ORD_DTL O
-			  ON O.SLS_ORD_HD_NO = OH.SLS_ORD_HD_NO
-			     AND P.FIN_PRD_CD_CODE = O.FIN_PRD_CD_CODE
-			<where>
-				<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
-				<include refid="criteria" />
-			</where>
-			ORDER BY PLAN_HD_CODE DESC, PLAN_HD_DATE DESC
+			SELECT Y.*, ROWNUM AS RNUM FROM (SELECT P.PLAN_IDX, PH.PLAN_HD_CODE, PH.PLAN_HD_NAME, PH.PLAN_HD_DATE, PH.EMP_ID,
+						       P.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME, P.PLAN_PROD_VOL, 
+						       P.PLAN_SDATE, P.PLAN_EDATE, NVL(P.PLAN_REMK,' ') AS PLAN_REMK,
+						       P.PLAN_PRE_VOL,
+						       OH.SLS_ORD_HD_NO, OH.VEND_CD_CODE,
+						       V.VEND_CD_NM, O.SLS_ORD_DTL_VOL,
+						       O.SLS_ORD_DTL_DLV_DATE
+						FROM BF_PROD_PLAN P
+						JOIN BF_PROD_PLAN_HD PH
+						  ON P.PLAN_HD_CODE = PH.PLAN_HD_CODE
+						JOIN BF_CMN_FINISH_PRODUCT_CODE F
+						  ON P.FIN_PRD_CD_CODE = F.FIN_PRD_CD_CODE
+						LEFT OUTER JOIN BF_SALES_ORD_HD OH
+						  ON OH.SLS_ORD_HD_NO = PH.SLS_ORD_HD_NO
+						LEFT OUTER JOIN BF_CMN_VENDOR_CODE V
+						  ON OH.VEND_CD_CODE = V.VEND_CD_CODE
+						LEFT OUTER JOIN BF_SALES_ORD_DTL O
+						  ON O.SLS_ORD_HD_NO = OH.SLS_ORD_HD_NO
+						     AND P.FIN_PRD_CD_CODE = O.FIN_PRD_CD_CODE
+						<where>
+							<include refid="criteria" />
+						</where>
+						ORDER BY p.plan_idx DESC ) Y
+				<where>
+					<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
+				</where>
 			) X
 		WHERE X.RNUM > (#{pageNum}-1)*#{amount}
-		
+				
 	</select>
 	
 	<!-- 지시에 들어가지 않은  -->
@@ -214,12 +216,22 @@
 				#{empId},#{planHdDate},#{planHdRemk})
 	</insert>
 	
-	<insert id="planInsert" parameterType="planVO">
-		<selectKey keyProperty="planHdCode" resultType="String" order="BEFORE">
+	<insert id="planInsert" parameterType="planVO" >
+		<selectKey keyProperty="maxPlanHdCode" resultType="String" order="BEFORE">
 			SELECT MAX(PLAN_HD_CODE) FROM BF_PROD_PLAN_HD
 		</selectKey>
+		
 		INSERT INTO BF_PROD_PLAN
-		VALUES(BF_PROD_PLAN_SEQ.NEXTVAL,#{planHdCode},#{finPrdCdCode},#{planProdVol},#{planSdate},#{planEdate},#{planRemk},#{planPreVol})
+		VALUES(BF_PROD_PLAN_SEQ.NEXTVAL,
+		<choose>
+			<when test="planHdCode != null and planHdCode != ''">
+				#{planHdCode},
+			</when>
+			<otherwise>
+				#{maxPlanHdCode},
+			</otherwise>
+		</choose>
+		#{finPrdCdCode},#{planProdVol},#{planSdate},#{planEdate},#{planRemk},#{planPreVol})
 	</insert>
 	
 	<delete id="planHdDelete">
@@ -229,7 +241,7 @@
 	
 	<delete id="planDtlDelete">
 		DELETE BF_PROD_PLAN
-		WHERE PLAN_IDX = 
+		WHERE PLAN_IDX IN
 		<foreach item="priKey" index="idx" collection="list" open="(" separator="," close=")">
 		#{priKey}
 		</foreach>

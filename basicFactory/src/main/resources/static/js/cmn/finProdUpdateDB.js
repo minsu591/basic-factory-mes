@@ -195,6 +195,7 @@ $("document").ready(function(){
     //추가 이벤트
     //추가 버튼 누르면 행 추가
     $("#addBtn").on("click",function(){
+        let empId = $("#sideBarEmpId").val();
         let node = `<tr name="addTr">
                         <td class="cantModifyTd"><input type="checkbox" name="cb"></td>`;
         if ($("#allCheck").is(":checked")){
@@ -208,7 +209,7 @@ $("document").ready(function(){
                 <td></td>
                 <td><input type="checkbox" name="use"></td>
                 <td></td>
-                <td class="empId"></td>
+                <td class="empId curPo">${empId}</td>
             </tr>`;
         $("#finProdTable tbody").append(node);
     });

@@ -13,6 +13,7 @@
 						<img class="img-radius" src="/images/user/userImage-3.png"
 							alt="User-Profile-Image" />
 						<div class="user-details">
+							<input type="hidden" th:unless="${session.emp} eq null" th:value="${session.emp.empId}" id="sideBarEmpId">
 							<span type="text" th:unless="${session.emp} eq null" th:text="${session.emp.empName}"></span>
 							<div id="more-details">
 								<span type="text" th:unless="${session.emp} eq null" th:text="${session.emp.deptName}" ></span>

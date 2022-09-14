@@ -68,9 +68,9 @@ xmlns:th="http://www.thymeleaf.org"
                                     <td th:class="cantModifyTd"><input type="checkbox" name="bomCb" class="cantModifyTd"></td>
                                     <td th:text="${bom.bomCdCode}" th:class="cantModifyTd">BOM001</td>
                                     <td th:text="${bom.bomCdName}">BOM 이름</td>
-                                    <td th:text="${bom.finPrdCdCode}" th:class="finPrdCdCode">FIN001</td>
+                                    <td th:text="${bom.finPrdCdCode}" class="finPrdCdCode curPo">FIN001</td>
                                     <td th:text="${bom.finPrdCdName}" th:class="cantModifyTd">신라면</td>
-                                    <td th:text="${bom.lineCdHdCode}" th:class="lineCdHdCode">LINE001</td>
+                                    <td th:text="${bom.lineCdHdCode}" class="lineCdHdCode curPo">LINE001</td>
                                     <td th:text="${bom.lineCdHdName}" th:class="cantModifyTd">LINE001</td>
                                     <td th:text="${bom.bomCdProdVol}">120</td>
                                     <td th:text="${bom.bomCdUnit}">개</td>

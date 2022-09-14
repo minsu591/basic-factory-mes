@@ -61,7 +61,7 @@ xmlns:th="http://www.thymeleaf.org"
                                     <td th:text="${prod.finPrdCdPrice}">단가</td>
                                     <td><input type="checkbox" th:checked="${prod.finPrdCdUse eq'1'}" name="use"></td>
                                     <td th:text="${prod.finPrdCdRemk}">비고</td>
-                                    <td th:text="${prod.empId}" th:class="empId">담당자아이디</td>
+                                    <td th:text="${prod.empId}" class="empId curPo">담당자아이디</td>
                                 </tr>
                             </tbody>
                         </table>
