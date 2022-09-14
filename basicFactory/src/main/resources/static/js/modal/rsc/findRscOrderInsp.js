@@ -69,6 +69,22 @@ $(document).ready(function(){
   let rscOrderTitle = $(this).find("td:eq(2)").text();
   $("#rscOrderCode").val(rscOrderCode);
   
+  let table = tdinfo.closest("table");
+  if(table.attr("id") == 'InsertTable'){
+    //생산계획관리
+    let trs = tdinfo.closest('tbody').find("tr");
+    for(tr of trs){
+      if($(tr).children().eq(1).find("input").val() == rscOrderCode){
+        Swal.fire({
+          icon: "warning",
+          title: "이미 추가된 발주코드입니다",
+          text: "다시 선택해주세요"
+        });
+        return false;
+      }
+    }
+  }
+
   //발주목록 상세 내역 불러오기
   $.ajax({
    url: "inspListLoad",

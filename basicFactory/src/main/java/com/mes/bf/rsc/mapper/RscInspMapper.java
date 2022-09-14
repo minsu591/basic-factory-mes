@@ -17,5 +17,8 @@ public interface RscInspMapper {
 	Integer inspInsert(RscInspVO vo);
 	Integer inspUpdate(RscInspVO vo);
 	
+	//단건조회
+	RscInspVO inspVoLoad(String rscInspCode);
+	
 	List<RscInspVO> inspList(String rscInspCode, String rscCdCode, String rscInspSDate, String rscInspEDate);
 }

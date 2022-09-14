@@ -124,7 +124,7 @@
 				AND RSC_ORDER_TITLE LIKE '%'|| #{rscOrderTitle} ||'%'
 			</if>
 			<if test="rscOrderDate != null and rscOrderDate != ''">
-				AND RSC_ORDER_DATE = #{rscOrderDate}
+				AND RSC_ORDER_DATE = TO_DATE(#{rscOrderDate})
 			</if>
 		</where>
 		ORDER  BY 1 DESC
@@ -133,9 +133,7 @@
 	<!-- 자재 검사 모달 -->
 	<select id="rscOrderInspList" resultType="com.mes.bf.rsc.vo.RscOrderVO">
 		SELECT OD.*, 
-			   SM.RSC_ORDER_ST,
-			   DT.RSC_ORDER_VOL,
-			   DT.RSC_ORDER_ARV
+			   SM.RSC_ORDER_ST
 		
 		  FROM BF_RSC_ORDER OD
 		  LEFT JOIN (SELECT RSC_ORDER_CODE, 
@@ -144,8 +142,6 @@
           		  FROM BF_RSC_ORDER_DETAILS
          		 GROUP BY RSC_ORDER_CODE) SM
          	ON OD.RSC_ORDER_CODE = SM.RSC_ORDER_CODE
-          LEFT JOIN BF_RSC_ORDER_DETAILS DT
-            ON OD.RSC_ORDER_CODE = DT.RSC_ORDER_CODE
 		<where>
 			   (COUNT*2) != SM.RSC_ORDER_ST
 			<if test="rscOrderCode != null and rscOrderCode != ''">
@@ -155,7 +151,7 @@
 				AND OD.RSC_ORDER_TITLE LIKE '%'|| #{rscOrderTitle} ||'%'
 			</if>
 			<if test="rscOrderDate != null and rscOrderDate != ''">
-				AND OD.RSC_ORDER_DATE = #{rscOrderDate}
+				AND OD.RSC_ORDER_DATE = TO_DATE(#{rscOrderDate})
 			</if>
 		</where>
 		ORDER  BY 1 DESC
@@ -184,7 +180,8 @@
 			 	AND RSC.RSC_CD_NAME LIKE '%' || #{rscCdName} || '%'
 			 </if>
 			 <if test="rscInspDate != null and rscInspDate != ''">
-			 	AND INSP.RSC_INSP_DATE = #{rscInspDate}
+			 	<![CDATA[AND INSP.RSC_INSP_DATE >= TO_DATE(#{rscInspDate}) 
+		 			AND INSP.RSC_INSP_DATE <= TO_DATE(#{rscInspDate}) +1 ]]>
 			 </if>
 		 </where>
 		 ORDER BY RSC_INSP_CODE DESC
