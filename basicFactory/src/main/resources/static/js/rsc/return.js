@@ -66,7 +66,7 @@ $("document").ready(function () {
 <td><input type="text" class="rsclotno"></td>
 <td><input type="text" disabled></td>
 <td><input type="text" class="outVol"></td>
-<td><input type="text" class="price"></td>
+<td><input type="text" class="price" disabled></td>
 <td><input type="text" disabled></td>
 <td><input type="text"></td>
 <td><input type="text"></td>
@@ -103,7 +103,6 @@ $("document").ready(function () {
      }
    }
  })
-
 
  //등록버튼
 
@@ -182,10 +181,15 @@ $("document").ready(function () {
          data: JSON.stringify(param),
          dataType: "text",
          error: function (error, status, msg) {
-           alert("상태코드 " + status + "에러메시지" + msg);
+          Swal.fire({
+            icon: "warning", 
+            title: "에러 발생",
+            text : `상태코드 ${status}, 에러메시지 ${msg}`,
+            confirmButtonText: "확인"
+          })
          },
          success: function () {
-           alert("등록처리완료");
+          submitComplete();
            //완료된 행 삭제
            $("input[name='chk']:checked").each(function (k, val) {
              $(this).parent().parent().remove();
@@ -199,27 +203,34 @@ $("document").ready(function () {
 
  })
 
+ function submitComplete() {
+  Swal.fire({
+    icon: "success",
+    title: "등록처리되었습니다.", 
+    confirmButtonText: "확인"
+  })
+}
 
  function deleteWarning() {
   Swal.fire({
-    icon: "warning", // Alert 타입
-    title: "삭제할 항목을 선택하세요.", // Alert 제목
+    icon: "warning", 
+    title: "삭제할 항목을 선택하세요.", 
     confirmButtonText: "확인"
   })
 }
 
 function submitWarning() {
   Swal.fire({
-    icon: "warning", // Alert 타입
-    title: "선택된 항목이 없습니다.", // Alert 제목
+    icon: "warning", 
+    title: "선택된 항목이 없습니다.",
     confirmButtonText: "확인",
   })
 }
 
 function overlapWarning() {
   Swal.fire({
-    icon: "warning", // Alert 타입
-    title: "중복된 항목이 있습니다.", // Alert 제목
+    icon: "warning", 
+    title: "중복된 항목이 있습니다.", 
     confirmButtonText: "확인",
   })
 }

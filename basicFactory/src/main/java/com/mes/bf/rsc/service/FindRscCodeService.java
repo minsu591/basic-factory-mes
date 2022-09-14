@@ -19,6 +19,9 @@ public interface FindRscCodeService {
 	//재고수량이 0이 아닌 자재LOT번호 조회
 	List<RscStockVO> canRscLotNoList(String rscCdCode, String rscCdName);
 	
+	//거래처코드와 연결된 자재LOT번호 조회
+	List<RscStockVO> rscLotNoListToReturn(String rscCdCode, String rscCdName, String vendCdCode);
+	
 	//최근 발주리스트 조회
 	List<RscOrderVO> rscOrderList(String rscOrderTitle, String rscOrderDate, String empId);
 	

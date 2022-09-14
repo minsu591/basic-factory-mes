@@ -53,6 +53,13 @@ public class FindRscCodeController {
 		return new ResponseEntity<List<RscStockVO>>(list, HttpStatus.OK);
 	}
 	
+	//거래처코드를 기반으로 한 LOT코드 조회
+	@GetMapping(value="/findRscLotToReturn", produces= { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<RscStockVO>> findRscLotToReturn(@RequestParam Map<String, String> queryParameters){
+		List<RscStockVO> list = findRscService.rscLotNoListToReturn(queryParameters.get("rscCdCode"), queryParameters.get("rscCdName"), queryParameters.get("vendCdCode"));
+		return new ResponseEntity<List<RscStockVO>>(list, HttpStatus.OK);
+	}
+	
 	//자재발주 조회
 	@GetMapping(value="/findRscOrder", produces= { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<RscOrderVO>> findRscOrder(HttpServletRequest request, @RequestParam Map<String, String> queryParameters) throws NoSuchFieldException, SecurityException{

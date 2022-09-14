@@ -134,7 +134,7 @@ $("document").ready(function () {
       let vendCdCode = td.eq(8).val();
       let rscOutResn = td.eq(10).val();
       let empId = td.eq(11).val();
-      if (!rscOutDate || !vendCdCode || !rscCdCode || !rscLotNo || !rscOutVol || !empId) {
+      if (!rscOutDate || !rscCdCode || !rscLotNo || !rscOutVol || !empId) {
         Swal.fire({
           icon: "warning", // Alert 타입
           title: "입력되지 않은 값이 있습니다.", // Alert 제목
@@ -180,10 +180,15 @@ $("document").ready(function () {
           data: JSON.stringify(param),
           dataType: "text",
           error: function (error, status, msg) {
-            alert("상태코드 " + status + "에러메시지" + msg);
+            Swal.fire({
+              icon: "warning", 
+              title: "에러 발생",
+              text : `상태코드 ${status}, 에러메시지 ${msg}`,
+              confirmButtonText: "확인"
+            })
           },
           success: function () {
-            alert("등록처리완료");
+            submitComplete();
             //완료된 행 삭제
             $("input[name='chk']:checked").each(function (k, val) {
               $(this).parent().parent().remove();
@@ -197,6 +202,15 @@ $("document").ready(function () {
 
 
   })
+
+
+  function submitComplete() {
+    Swal.fire({
+      icon: "success", 
+      title: "등록처리되었습니다.", 
+      confirmButtonText: "확인"
+    })
+  }
 
 
 })
