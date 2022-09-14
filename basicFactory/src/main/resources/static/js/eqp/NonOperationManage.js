@@ -1,6 +1,10 @@
 $(document).ready(function () {
+
   findAllProcCode();
   findMchnName();
+
+  $("#saveBtn").prop("disabled", true);
+
   let date = new Date(
     new Date().getTime() - new Date().getTimezoneOffset() * 60000
   )
@@ -9,8 +13,12 @@ $(document).ready(function () {
   $("#inputDate").val(date).prop("readonly", true);
   $("#workEndBtn").prop("disabled", true);
 
+
   //작업 종료 버튼
   $("#workEndBtn").click(function () {
+
+    $("#saveBtn").prop("disabled", false);
+
     let date = new Date();
     let hours = ("0" + date.getHours()).slice(-2);
     let minutes = ("0" + date.getMinutes()).slice(-2);
@@ -40,8 +48,6 @@ $(document).ready(function () {
       alert("비가동중입니다.");
     } else if (mchnCode == "") {
       selectMchn();
-    } else if ($("#empid").val() == "") {
-      selectemp();
     } else {
       findMchnName();
       let date = new Date();
@@ -61,7 +67,7 @@ $(document).ready(function () {
         error: function (error, status, msg) {
           alert("상태코드 " + status + "에러메시지" + msg);
         },
-        success: function (data) {},
+        success: function (data) { },
       });
       $.ajax({
         url: `findinputno`,
@@ -114,18 +120,28 @@ $(document).ready(function () {
   $("#nonOpTable").on("click", "tr", function () {
     let nonOpCode = $(this).find("td:eq(0)").children();
     let nonOpName = $(this).find("td:eq(1)").children();
-    console.log(nonOpName);
+    let nonOpRsn = $(this).find("td:eq(2)").children();
+
+
+    nonOpRsn.change(function () {
+      nonOpRsn.removeClass("inputRequired");
+    });
+
+    if (nonOpName.val() != '') {
+      nonOpName.removeClass("inputRequired");
+    }
+
     nonOpCode.bind("input", function () {
       console.log($(this).val());
+      $(this).removeClass("inputRequired");
       let nonOpCode = $(this).val();
       $.ajax({
-        url: "findnonop",
+        url: "getnonopcode",
         method: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         data: {
           nonOpCode: nonOpCode,
-          nonOpName: null,
         },
         error: function (error, status, msg) {
           nonOpName.val("");
@@ -135,15 +151,16 @@ $(document).ready(function () {
           if (data.length == 0) {
             nonOpName.val("");
           } else {
-            for (obj of data) {
-              console.log(obj.nonOpName);
-              nonOpName.val(obj.nonOpName);
-            }
+            nonOpName.val(data.nonOpName);
           }
+
         },
       });
     });
   });
+
+
+
 
   //저장버튼 클릭
   $("#saveBtn").click(function () {
@@ -154,11 +171,10 @@ $(document).ready(function () {
     let eHours = $("#eHours").val();
 
     let eMinutes = $("#eMinutes").val();
-
-    console.log(sMinutes);
     let inputNo = $("#inputNo").val();
     let mchnCode = $("#mchnCode").val();
     let nonOpCode = $("#nonOpTable tbody tr").find("td:eq(0)").children().val();
+    let nonOpName = $("#nonOpTable tbody tr").find("td:eq(1)").children().val();
     let empId = $("#empid").val();
     let inputDate = $("#inputDate").val();
     let startTime = inputDate + " " + sHours + ":" + sMinutes;
@@ -167,7 +183,19 @@ $(document).ready(function () {
     let remk = $("#nonOpTable tbody tr").find("td:eq(3)").children().val();
     let nonOpMin = eMinutes - sMinutes;
 
-    if (nonOpCode == "" || nonOpRsn == "") {
+    if (nonOpCode == "" || nonOpRsn == "" || nonOpName == '') {
+
+      if (nonOpCode == '') {
+        $("#nonOpTable tbody tr").find("td:eq(0)").children().addClass("inputRequired");
+      }
+
+      if (nonOpRsn == '') {
+        $("#nonOpTable tbody tr").find("td:eq(2)").children().addClass("inputRequired");
+      }
+
+      if (nonOpName == '') {
+        $("#nonOpTable tbody tr").find("td:eq(1)").children().addClass("inputRequired");
+      }
       inputDataWarn();
       return;
     }
