@@ -2,6 +2,7 @@ package com.mes.bf.rsc.service;
 
 import java.util.List;
 
+import com.mes.bf.common.Criteria;
 import com.mes.bf.rsc.vo.RscOrderVO;
 
 public interface RscOrderService {
@@ -19,5 +20,6 @@ public interface RscOrderService {
 	Integer orderDtReInsert(RscOrderVO vo); //디테일 내용 재insert
 	
 	//조회페이지 출력
-	List<RscOrderVO> orderList(String rscOrderCode, String rscCdCode, String vendCdCode, String rscOrderSDate, String rscOrderEDate);
+	List<RscOrderVO> orderList(Criteria cri);
+	Integer orderListCount(Criteria cri);
 }
