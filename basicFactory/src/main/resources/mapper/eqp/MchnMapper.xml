@@ -32,6 +32,7 @@
 				#{vendCdCode},
 				#{mchnModel},
 				#{mchnPrice},
+				#{mchnImg},
 				#{mchnPrchsDate},
 				#{mchnMnfctDate},
 				#{mchnStts},

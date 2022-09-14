@@ -92,6 +92,7 @@ $("document").ready(function () {
   //수정이 되는 list 정의
   let modifyList = [];
   let addList = [];
+  let delList = [];
   //수정할 테이블
   let table = $("#mchnTable");
   //td 수정을 적용할 인덱스(모달창, input 빼고 오직 td에서 이루워 지는 수정만)
@@ -167,13 +168,11 @@ $("document").ready(function () {
     let updCol = table.find("thead").find("th:eq("+col+")").attr("name");        //th의 col번째 th name값 갖고 옴(수정될 column)
     let updCont = $(this).text();                                               //해당 td의 text값을 저장(수정될 content);
   
-    if(col == 6){                                                               //수정하고 싶은 td를 클릭하면 td text만 가져오게 되어있는데 
-      updCont = $(this).find("input[type='date']").val();                       //예외적으로 체크박스나 날짜 데이터는 td안에 input이니까 td안에 input value도 가져오겠다
-    }
     if(col == 7){                                                               //수정하고 싶은 td를 클릭하면 td text만 가져오게 되어있는데 
       updCont = $(this).find("input[type='date']").val();                       //예외적으로 체크박스나 날짜 데이터는 td안에 input이니까 td안에 input value도 가져오겠다
-    }
-    if(col == 8){                                                               //수정하고 싶은 td를 클릭하면 td text만 가져오게 되어있는데 
+    } else if(col == 8){                                                               //수정하고 싶은 td를 클릭하면 td text만 가져오게 되어있는데 
+      updCont = $(this).find("input[type='date']").val();                       //예외적으로 체크박스나 날짜 데이터는 td안에 input이니까 td안에 input value도 가져오겠다
+    } else if(col == 9){                                                               //수정하고 싶은 td를 클릭하면 td text만 가져오게 되어있는데 
       updCont = $(this).find("input[type='date']").val();                       //예외적으로 체크박스나 날짜 데이터는 td안에 input이니까 td안에 input value도 가져오겠다
     }
     if(priKey != null && priKey != '') {                                        //priKey가 null이면 modifyList에 담기지 않도록 하는 if문
@@ -196,40 +195,71 @@ $("document").ready(function () {
 
   //저장 버튼 이벤트
   $("#saveBtn").on("click", function() {
-    let trs = table.find("tbody tr");
-    if(confirm("저장하시겠습니까?") == true) {
-      //null 검사
-      // for(tr of trs){
-      //   for(idx of notNullList) {   //tr돌면서 notNullList index가 null인지 검사
-      //     let content;
-      //     if(idx == 5) {
-      //       content = $(tr).find("input[type='date']").val();
-      //     } else {
-      //       content = $(tr).find("td:eq("+idx+")").text();
-      //     }
-      //     if(content == null || content == '') {
-      //       alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요');
-      //       return;
-      //     }
-      //   }
-      // }
+    let nullFlag = false;
+    Swal.fire({
+      icon: "question",
+      title: "저장하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소"
+    }).then((result) =>{
+      if(result.isConfirmed){
+        //null 검사
+        let tbody = table.find("tbody tr");
+        for(tr of tbody){
+          for(idx of notNullList){
+            let content = $(tr).find("td:eq("+idx+")").text();
+            if(idx == 9){
+              content = $(tr).find("input[type='date']").val();
+            }
+            if(content == null || content == ''){
+              $(tr).find("td:eq("+idx+")").addClass("nullTd");
+              nullFlag = true;
+            }
+          }
+        }
+        if(nullFlag){
+          Swal.fire({
+            icon: "error",
+            title: "비어있는 데이터가 존재합니다",
+            text: "확인하고 다시 저장해주세요"
+          });
+          return false;
+        }
 
-      //수정용
-      for(obj of modifyList) {
-        modifySaveAjax(obj);
-      }
-      //추가용
-      let trs = $("#mchntbody").find("tr[name='addTr']");
-      let mchnCode;
-      for(tr of trs){
-        mchnCode = $(tr).find("td:eq(1)").text();
-        console.log("신규 주문 추가등록!!");
-        addSaveAjax(tr);
-      }
+        //수정용
+        for(obj of modifyList) {
+          modifySaveAjax(obj);
+        }
+        //추가용
+        let trs = $("#mchntbody").find("tr[name='addTr']");
+        let mchnCode;
+        for(tr of trs){
+          mchnCode = $(tr).find("td:eq(1)").text();
+          console.log("신규 추가등록!!");
+          addSaveAjax(tr);
+        }
+        //삭제용
+        if(delList.length != 0){
+          deleteSaveAjax(delList);
+        }
 
-      alert("저장이 완료되었습니다.");
-      location.reload();
-    }
+        Swal.fire({
+          icon: "success",
+          title: "저장이 완료되었습니다",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "확인",
+          closeOnClickOutside: false,
+        }).then((result) =>{
+          //location.reload();
+        });
+      } else {
+        return;
+      }
+    });
   });
 
   function modifySaveAjax(obj) {
@@ -261,12 +291,13 @@ $("document").ready(function () {
     let mchnName = $(tr).find("td:eq(2)").text();
     let mchnModel = $(tr).find("td:eq(3)").text();
     let vendCdCode = $(tr).find("td:eq(4)").text();
-    let mchnPrice = $(tr).find("td:eq(5)").text();
-    let mchnPrchsDate = $(tr).find("td:eq(6) input[type='date']").val()
-    let mchnMnfctDate = $(tr).find("td:eq(7) input[type='date']").val()
-    let mchnInspcDate = $(tr).find("td:eq(8) input[type='date']").val()
-    let mchnInspcCycle = $(tr).find("td:eq(9)").text();
-    let mchnRemk = $(tr).find("td:eq(10)").text();
+    let mchnPrice = $(tr).find("td:eq(6)").text();
+    let mchnPrchsDate = $(tr).find("td:eq(7) input[type='date']").val()
+    let mchnMnfctDate = $(tr).find("td:eq(8) input[type='date']").val()
+    let mchnInspcDate = $(tr).find("td:eq(9) input[type='date']").val()
+    let mchnInspcCycle = $(tr).find("td:eq(10)").text();
+    let mchnStts = $(tr).find("td:eq(11)").text();
+    let mchnRemk = $(tr).find("td:eq(12)").text();
     
     
     $.ajax({
@@ -282,16 +313,48 @@ $("document").ready(function () {
         mchnMnfctDate,
         mchnInspcDate,
         mchnInspcCycle,
+        mchnStts,
         mchnRemk
       }),
       success : function(){
         console.log("추가 성공");
       },
       error : function(err){
-        //console.log(err);
+        console.log(err);
       }
     })
   }
 
+  //선택 삭제 이벤트
+  $("#deleteBtn").on("click",function(){
+    table.find("tbody input:checkbox[name='chk']").each(function(idx,el){
+        if($(el).is(":checked")){
+            let tr = $(el).closest('tr');
+            let priKey = tr.find("td:eq("+priKeyIdx+")").text();
+            delList.push(priKey);
+            tr.remove();
+            for(let i = 0; i< modifyList.length; i++){
+                if(modifyList[i][0]== priKey){
+                    modifyList.splice(i,1);
+                }
+            }
+        }
+    });
+});
+
+function deleteSaveAjax(delList){
+    $.ajax({
+        url : 'mchn/delete',
+        type : 'POST',
+        dataType : 'text',
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
+        data : {
+            delList
+        },
+        success : function(result){
+            console.log("삭제 성공");
+        }
+    })
+}
   
 });

@@ -16,14 +16,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mes.bf.cmn.service.LineService;
 import com.mes.bf.eqp.service.InspcService;
 import com.mes.bf.eqp.vo.InspcVO;
+import com.mes.bf.eqp.vo.MchnVO;
+import com.mes.bf.eqp.vo.VfindMchnVO;
+import com.mes.bf.prod.service.ProcService;
 
 @Controller
 @RequestMapping("/eqp")
 public class InspcController {
 	
 	@Autowired InspcService service;
+	@Autowired LineService lineservice;
 	
 	//점검관리
 	@RequestMapping("/inspcManage")
@@ -74,5 +79,11 @@ public class InspcController {
 		model.addAttribute("inspcs", inspcs);
 		return "eqp/ChangeInspcListTable";
 	}
-
+	
+	// 설비명 조회
+	@PostMapping(value = "/findmchn", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<MchnVO>> findMchn(@RequestBody MchnVO mchn) {
+		List<MchnVO> list = lineservice.listMchn(mchn);
+		return new ResponseEntity<List<MchnVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
+	}
 }

@@ -12,22 +12,10 @@
     <link th:href="@{/css/eqp/Inspc.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/js/eqp/InspcManage.js}"></script>
     <!-- modal js -->
-    <script
-      type="text/javascript"
-      th:src="@{/js/modal/eqp/findInspcList.js}"
-    ></script>
-    <script
-      type="text/javascript"
-      th:src="@{/js/modal/eqp/findInspcNxtDate.js}"
-    ></script>
-    <script
-      type="text/javascript"
-      th:src="@{/js/modal/cmn/findTdemp.js}"
-    ></script>
-    <script
-      type="text/javascript"
-      th:src="@{/js/modal/cmn/findTdmchnname.js}"
-    ></script>
+    <script type="text/javascript" th:src="@{/js/modal/eqp/findInspcList.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/eqp/findInspcNxtDate.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/cmn/findTdemp.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/cmn/findTdmchnname.js}"></script>
 
     <div class="pcoded-main-container">
       <h1>설비 점검 관리</h1>
@@ -35,31 +23,18 @@
       <div class="col-xl-12">
         <div class="card">
           <div class="card-header">
-            <button type="button" class="btn btn-primary" id="inspcListBtn">
-              점검 내역 조회
-            </button>
-            <button type="button" class="btn btn-primary" id="inspcTargetBtn">
-              점검 대상 조회
-            </button>
+            <button type="button" class="btn btn-primary" id="inspcListBtn">점검 내역 조회</button>
+            <button type="button" class="btn btn-primary" id="inspcTargetBtn">점검 대상 조회</button>
             <div class="rightBtn">
-              <button type="button" class="btn btn-primary" id="">
-                초기화
-              </button>
-              <button type="button" class="btn btn-primary" id="saveBtn">
-                저장
-              </button>
-              <button type="button" class="btn btn-primary" id="addBtn">
-                추가
-              </button>
-              <button type="button" class="btn btn-primary" id="deleteBtn">
-                선택 삭제
-              </button>
+              <!-- <button type="button" class="btn btn-primary" id="">초기화</button> -->
+              <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
+              <button type="button" class="btn btn-primary" id="addBtn">추가</button>
+              <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
             </div>
             <form class="form-inline">
               <div class="form-group mt-3"></div>
             </form>
           </div>
-
           <div class="card-body table-border-style">
             <div class="table-responsive">
               <table class="table table-striped" id="inspcTable">
@@ -86,18 +61,12 @@
     </div>
 
     <!-- 점검내역조회 Modal -->
-    <th:block
-      th:replace="~{/fragments/modal/eqp/findInspcList :: findInspcList}"
-    ></th:block>
+    <th:block th:replace="~{/fragments/modal/eqp/findInspcList :: findInspcList}"></th:block>
     <!-- 점검대상조회 Modal -->
-    <th:block
-      th:replace="~{/fragments/modal/eqp/findInspcNxtDate :: findNxtDate}"
-    ></th:block>
+    <th:block th:replace="~{/fragments/modal/eqp/findInspcNxtDate :: findNxtDate}"></th:block>
     <!-- 담당자 Modal -->
     <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
     <!-- 설비명 Modal -->
-    <th:block
-      th:replace="~{/fragments/modal/findMchnName :: findMchnName}"
-    ></th:block>
+    <th:block th:replace="~{/fragments/modal/cmn/findMchnInLine :: findMchnInLine}"></th:block>
   </body>
 </html>
