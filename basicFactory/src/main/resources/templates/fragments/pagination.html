@@ -9,20 +9,23 @@
     <nav aria-label="Page navigation">	
       <ul class="pagination" th:with="start = ${pageMaker.startPage}, end=${pageMaker.endPage}">
 
+        <li class="page-item" th:if="${pageMaker.cri.pageNum} > 1">
+          <a th:text="처음" th:attr="data-value=${start}"></a>
+        </li>
         <li class="page-item" th:if="${pageMaker.cri.pageNum} > ${pageMaker.startPage}">
-          <a th:text="이전" th:href="@{/common/mchnList(pageNum=${pageMaker.cri.pageNum-1})}"></a>
+          <a th:text="이전" th:attr="data-value=${pageMaker.cri.pageNum-1}"></a>
         </li>
 
         <li class="page-number"  th:each="page: ${#numbers.sequence(start, end)}" >
-          <a th:text="${page}" style="cursor : pointer;" th:classappend="${page} == ${pageMaker.cri.pageNum} ? pagingactive"></a>
+          <a th:text="${page}" th:classappend="${page} == ${pageMaker.cri.pageNum} ? pagingactive"></a>
         </li>
         <!--th:href="@{/common/mchnList(pageNum=${page})}"-->
         <li class="page-item" th:if="${pageMaker.cri.pageNum} < ${pageMaker.endPage}">
-          <a th:text="다음" th:href="@{/common/mchnList(pageNum=${pageMaker.cri.pageNum+1})}"></a>
+          <a th:text="다음" th:attr="data-value=${pageMaker.cri.pageNum+1}"></a>
         </li>
         
         <li class="page-item" th:if="${pageMaker.cri.pageNum} < ${pageMaker.endPage}">
-          <a th:text="끝" th:href="@{/common/mchnList(pageNum=${end})}"></a>
+          <a th:text="끝" th:attr="data-value=${end}"></a>
         </li>
 
       </ul>

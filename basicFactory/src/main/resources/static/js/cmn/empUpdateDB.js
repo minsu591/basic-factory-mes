@@ -15,7 +15,7 @@ $("document").ready(function(){
     let avArr = [5,6,7,9];
     //프라이머리 키
     let priKeyIdx = 1;
-    
+
     //수정 이벤트
     table.find("tbody").on("click","td:not(:first-child)",function(e){
         e.stopPropagation();
@@ -23,7 +23,6 @@ $("document").ready(function(){
         let col = tdInfo.index();
         let flag = false;
         let defaultVal = tdInfo.text();
-
         //nullTd class 제거
         if(tdInfo.hasClass("nullTd")){
             tdInfo.removeClass("nullTd");
@@ -98,7 +97,6 @@ $("document").ready(function(){
         }
         
         checkNewModify(priKey,updCol,updCont);
-        console.log(modifyList);
     });
 
     function checkNewModify(priKey,updCol,updCont){
@@ -246,9 +244,9 @@ $("document").ready(function(){
             node = `<tr name='addTr'>
                     <td class="cantModifyTd"><input type="checkbox" name="cb" checked></td>`;
         }
-        node += `<td class='modifyEmpId'></td>
-                <td class='modifyPassword'></td>
-                <td class='deptName'></td>`;
+        node += `<td class='modifyEmpId curPo'></td>
+                <td class='modifyPassword curPo'></td>
+                <td class='deptName curPo'></td>`;
         node += makeSelectForPos('');
         node += `<td></td>
                 <td></td>
@@ -302,7 +300,7 @@ $("document").ready(function(){
     }
     
     function makeSelectForPos(cont){
-        let node = '<td><select>';
+        let node = '<td><select class="curPo">';
         for(clfy of clfyList){
             if(clfy == cont){
                 node += `<option value="${clfy}" selected>${clfy}</option>`;

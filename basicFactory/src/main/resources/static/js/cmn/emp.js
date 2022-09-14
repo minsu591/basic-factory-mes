@@ -28,8 +28,8 @@ $("document").ready(function(){
         let node = `<tr>
                         <td class="cantModifyTd"><input type="checkbox" name="cb"></td>
                         <td class="cantModifyTd">${obj.empVO.empId}</td>
-                        <td class="modifyPassword">********</td>
-                        <td class="deptName">${obj.deptVO.deptName}</td>`;
+                        <td class="modifyPassword curPo">********</td>
+                        <td class="deptName curPo">${obj.deptVO.deptName}</td>`;
         node += makeSelectForPos(obj.empVO.empPos);
         node += `<td>${obj.empVO.empName}</td>
                         <td>${obj.empVO.empEmail}</td>
@@ -45,7 +45,7 @@ $("document").ready(function(){
     }
 
     function makeSelectForPos(cont){
-        let node = '<td><select>';
+        let node = '<td><select class="curPo">';
         for(clfy of clfyList){
             if(clfy == cont){
                 node += `<option value="${clfy}" selected>${clfy}</option>`;

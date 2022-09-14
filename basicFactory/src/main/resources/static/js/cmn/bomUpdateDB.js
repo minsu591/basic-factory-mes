@@ -426,9 +426,9 @@ $("document").ready(function(){
         }
         node +=`<td class="cantModifyTd"></td>
                 <td></td>
-                <td class="finPrdCdCode"></td>
+                <td class="finPrdCdCode curPo"></td>
                 <td class="cantModifyTd"></td>
-                <td class="lineCdHdCode"></td>
+                <td class="lineCdHdCode curPo"></td>
                 <td class="cantModifyTd"></td>
                 <td></td>
                 <td></td>
@@ -458,11 +458,11 @@ $("document").ready(function(){
             }else{
                 node += `<td><input type="checkbox" name="rscCb"></td>`;
             }
-            node +=`<td class="procCode canModifyTd"></td>
+            node +=`<td class="procCode canModifyTd curPo"></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="rscCdCode canModifyTd"></td>
+                    <td class="rscCdCode canModifyTd curPo"></td>
                     <td></td>
                     <td class="canModifyTd"></td>
                     <td></td>
@@ -747,11 +747,11 @@ $("document").ready(function(){
         }else{
             node += `<td><input type="checkbox" name="rscCb"></td>`;
         }
-        node+= `<td class="procCode canModifyTd">${obj.lineCodeVO.procCdCode}</td>
+        node+= `<td class="procCode canModifyTd curPo">${obj.lineCodeVO.procCdCode}</td>
                 <td>${obj.lineCodeVO.procCdName}</td>
                 <td>${obj.lineCodeVO.mchnCode}</td>
                 <td>${obj.lineCodeVO.mchnName}</td>
-                <td class="rscCdCode canModifyTd">${obj.bomRscVO.rscCdCode}</td>
+                <td class="rscCdCode canModifyTd curPo">${obj.bomRscVO.rscCdCode}</td>
                 <td>${obj.bomRscVO.rscCdName}</td>
                 <td class="canModifyTd">${obj.bomRscVO.bomRscUseVol}</td>
                 <td>${obj.bomRscVO.bomRscUnit}</td>

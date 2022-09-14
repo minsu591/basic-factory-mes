@@ -19,4 +19,5 @@ public class PlanVO {
 	private String planRemk;
 	private Integer instProdIndicaVol;
 	private Integer planPreVol;
+	private String maxPlanHdCode;
 }
