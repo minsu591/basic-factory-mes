@@ -157,17 +157,17 @@ $(document).ready(function(){
  function outListInsert(obj) {
    let node = `<tr>
 <td id="chk-css"><input type="checkbox" name="chk"></td>
-<td><input type="text" value="${obj.rscOutCode}" name="outcode" readonly></td>
+<td><input type="text" value="${obj.rscOutCode}" name="outcode" disabled></td>
 <td><input type="date" value="${obj.rscOutDate}"></td>
-<td><input type="text" class="rsccode" value="${obj.rscCdCode}" readonly></td>
-<td><input type="text" class="rscname" value="${obj.rscCdName}" readonly></td>
+<td><input type="text" class="rsccode" value="${obj.rscCdCode}" disabled></td>
+<td><input type="text" class="rscname" value="${obj.rscCdName}" disabled></td>
 <td><input type="text" class="rsclotno" value="${obj.rscLotNo}"></td>
-<td><input type="text" value="${obj.rscStock}" readonly></td>
-<td><input type="text" class="outVol" value="${obj.rscOutVol}"></td>
+<td><input type="text" value="${obj.rscStock}" disabled></td>
+<td><input type="text" class="outVol" value="${obj.rscOutVol}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
 <td><input type="text" class="vendor" value="${obj.vendCdCode}"></td>
-<td><input type="text" value="${obj.vendCdNm}" readonly></td>
+<td><input type="text" value="${obj.vendCdNm}" disabled></td>
 <td><input type="text" value="${obj.rscOutResn}"></td>
-<td><input type="text" value="${obj.empId}"></td>
+<td><input type="text" value="${obj.empId}" disabled></td>
 </tr>`;
    $("#InsertTable tbody").append(node);
  }

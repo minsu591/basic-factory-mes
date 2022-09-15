@@ -44,19 +44,20 @@ $("document").ready(function () {
   });
 
   function detailTableMakeRow() {
+    let id = $("#sideBarEmpId").val();
     let node = `<tr>
  <td id="chk-css"><input type="checkbox" name="chk"></td>
- <td><input type="text" name="outcode" readonly></td>
+ <td><input type="text" name="outcode" disabled></td>
  <td><input type="date" value="${date}"></td>
- <td><input type="text" class="rsccode" readonly></td>
- <td><input type="text" class="rscname" readonly></td>
+ <td><input type="text" class="rsccode" disabled></td>
+ <td><input type="text" class="rscname" disabled></td>
  <td><input type="text" class="rsclotno"></td>
- <td><input type="text" readonly></td>
- <td><input type="text" class="outVol"></td>
+ <td><input type="text" disabled></td>
+ <td><input type="text" class="outVol" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
  <td><input type="text" class="vendor"></td>
- <td><input type="text" readonly></td>
- <td><input type="text"></td>
- <td><input type="text"></td>
+ <td><input type="text" class="vendName" disabled></td>
+ <td><input type="text" class="outResn"></td>
+ <td><input type="text" class="empId" value="${id}"></td>
  </tr>`;
     $("#InsertTable tbody").append(node);
   }
@@ -107,6 +108,12 @@ $("document").ready(function () {
     }
   })
 
+    //div 내 td 클릭 시 border지우기
+    $("#outTable").on("click", "td.nullpoint", function(){
+        $(this).removeClass("nullpoint");
+    })
+    
+
 
   //등록버튼
 
@@ -120,6 +127,7 @@ $("document").ready(function () {
     let info = [];
     let rowData = new Array();
     let checkbox = $("input[name='chk']:checked");
+    let notnull = [2,5,7,11];
     console.log(checkbox)
     // 체크된 체크박스 값을 가져온다
     checkbox.each(function (i) {
@@ -140,6 +148,11 @@ $("document").ready(function () {
       let rscOutResn = td.eq(10).val();
       let empId = td.eq(11).val();
       if (!rscOutDate || !rscCdCode || !rscLotNo || !rscOutVol || !empId) {
+        for (idx of notnull){
+          if (!(td.eq(idx).val())) {
+            td.eq(idx).parent().addClass("nullpoint");
+          }
+        } 
         Swal.fire({
           icon: "warning", // Alert 타입
           title: "입력되지 않은 값이 있습니다.", // Alert 제목

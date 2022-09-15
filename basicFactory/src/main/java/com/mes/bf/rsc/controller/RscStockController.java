@@ -44,4 +44,8 @@ public class RscStockController {
 //		return "rsc/table/stockTable";
 //	}
 	
+	@GetMapping("/test")
+	public String testing() {
+		return "rsc/test";
+	}
 }

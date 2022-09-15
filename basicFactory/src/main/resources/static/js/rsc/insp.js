@@ -48,22 +48,28 @@ $(document).ready(function () {
     $("#allCheck").prop("checked", false);
   })
 
+    //div 내 input 클릭 시 border지우기
+    $(".card").on("click", "td.nullpoint", function(){
+        $(this).removeClass("nullpoint");
+    })
+    
+
   //추가버튼 행만들기
   function detailTableMakeRow() {
     let node = `<tr>
 <td id="chk-css"><input type="checkbox" name="chk"></td>
 <td><input type="text" class="rscOrderCode"></td>
 <td><input type="text" class="rscInspCode" disabled></td>
-<td><input type="date" class="rscInspDate" value="${date}"></td>
+<td><input type="date" class="rscInspDate" value="${date}" disabled></td>
 <td><input type="text" class="rsccode" disabled></td>
 <td><input type="text" class="rscname" disabled></td>
 <td><input type="text" class="unit" disabled></td>
 <td><input type="text" class="unarvVol" disabled></td>
-<td><input type="text" class="inspVol"></td>
-<td><input type="text" class="inferVol"></td>
+<td><input type="text" class="inspVol" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" disabled></td>
+<td><input type="text" class="inferVol" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" disabled></td>
 <td><input type="text" class="passVol" disabled></td>
-<td><input type="text" class="empId"></td>
-<td><input type="text" class="remk"></td>
+<td><input type="text" class="empId" disabled></td>
+<td><input type="text" class="remk"disabled></td>
 </tr>`;
     $("#InsertTable tbody").append(node);
   }
@@ -74,7 +80,7 @@ $(document).ready(function () {
     let inspVol = tdinfo.val();
     let inferVol = tdinfo.parent().next().find(".inferVol").val();
     let unarvVol = tdinfo.parent().prev().find(".unarvVol").val();
-    if(unarvVol < inspVol){
+    if(Number(unarvVol) < Number(inspVol)){
       unarvVolWarning();
       tdinfo.val(null);
     }else{
@@ -122,6 +128,7 @@ $(document).ready(function () {
   //등록버튼
   $("#subBtn").click(function () {
     let inspList = [];
+    let notnull = [1,3,4,8,9,11];
     let outTable = $("#InsertTable").find("tbody tr");
     for (obj of outTable) {
       let rscOrderCode = $(obj).children().eq(1).find(".rscOrderCode").val();
@@ -142,15 +149,27 @@ $(document).ready(function () {
         rscInspRemk = null;
       }
 
-      if (!rscOrderCode || !rscInspDate || !rscCdCode || !rscInspVol || !rscInferVol || !empId) {
+      if (!rscOrderCode) {
+        $(obj).children().eq(1).addClass("nullpoint");
         Swal.fire({
           icon: "warning", // Alert 타입
           title: "입력되지 않은 값이 있습니다.", // Alert 제목
           html: "발주코드, 자재코드, <br/>검사수량, 불량수량, 검사자는<br/>기본 입력사항입니다.",
           confirmButtonText: "확인",
         });
-        return;
-      } else {
+      } else if(!rscInspDate || !rscCdCode || !rscInspVol || !rscInferVol || !empId){
+        for (idx of notnull){
+          if (!($(obj).children().eq(idx).find("input").val())) {
+            $(obj).children().eq(idx).addClass("nullpoint");
+          }
+        }
+        Swal.fire({
+          icon: "warning", // Alert 타입
+          title: "입력되지 않은 값이 있습니다.", // Alert 제목
+          html: "발주코드, 자재코드, <br/>검사수량, 불량수량, 검사자는<br/>기본 입력사항입니다.",
+          confirmButtonText: "확인",
+        });
+      }else {
         //리스트에 저장
         let insp = {
           rscInspCode,
@@ -165,27 +184,27 @@ $(document).ready(function () {
         };
         inspList.push(insp);
         console.log(insp);
+
+        $.ajax({
+          url: "inspInAndUp",
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          dataType: "text",
+          data: JSON.stringify(inspList),
+          error: function (error, status, msg) {
+            alert("상태코드 " + status + "에러메시지" + msg);
+          },
+          success: function (result) {
+            console.log(result);
+            if (inspList.length == result) {
+              submitComplete();
+              $("#outTable tr").remove();
+            }
+          }
+    
+        })
       }
     }
-    console.log(inspList);
-    $.ajax({
-      url: "inspInAndUp",
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      dataType: "text",
-      data: JSON.stringify(inspList),
-      error: function (error, status, msg) {
-        alert("상태코드 " + status + "에러메시지" + msg);
-      },
-      success: function (result) {
-        console.log(result);
-        if (inspList.length == result) {
-          submitComplete();
-          $("#outTable tr").remove();
-        }
-      }
-
-    })
   });
 
 
@@ -228,4 +247,5 @@ $(document).ready(function () {
       confirmButtonText: "확인"
     })
   }
+
 })

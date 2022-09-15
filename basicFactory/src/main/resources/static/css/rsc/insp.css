@@ -60,6 +60,11 @@ tfoot {
 	width: 100% !important
 }
 
+#InsertTable input[type=date]:disabled {
+	background: #f6f6f6 !important;
+	width: 100% !important
+}
+
 #InsertTable input[type=text] {
 	height: 2rem;
 	text-align: center;
@@ -103,4 +108,9 @@ tfoot {
 
 .warn {
 	background-color: rgba(231, 76, 60, 0.5);
+}
+
+
+.nullpoint {
+	border : 2px solid red !important;
 }
