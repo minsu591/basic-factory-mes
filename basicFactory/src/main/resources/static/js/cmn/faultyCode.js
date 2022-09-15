@@ -20,8 +20,8 @@ $("document").ready(function () {
 
   function faultyMakeRow(obj) {
     let node = `<tr>
-                  <td><input type="checkbox" name="chk"></td>
-                  <td>${obj.faultyCdCode}</td>
+                  <td class="cantModifyTd"><input type="checkbox" name="chk"></td>
+                  <td class="cantModifyTd">${obj.faultyCdCode}</td>
                   <td>${obj.faultyName}</td>
                   <td>${obj.faultyRemk}</td>
                 </tr>`;
@@ -83,9 +83,11 @@ $("document").ready(function () {
     }
 
     tdInfo.attr("contenteditable","true");
+    //td에 focus가 되면
     tdInfo.focus();
     defaultVal = tdInfo.text();
     tdInfo.addClass("tdBorder");
+
     //enter나 esc 누르면 blur되도록
     tdInfo.on("keyup",function(key){
         if(key.keyCode == 13 || key.keyCode == 27){
@@ -144,36 +146,73 @@ $("document").ready(function () {
   //저장 버튼 이벤트
   $("#saveBtn").on("click", function() {
     let trs = table.find("tbody tr");
-    if(confirm("저장하시겠습니까?") == true) {
-      //null 검사
-      for(tr of trs){
-        for(idx of notNullList) {   //tr돌면서 notNullList index가 null인지 검사
-          let content = $(tr).find("td:eq("+idx+")").text();
-          if(content == null || content == '') {
-            $(tr).find("td:eq("+idx+")").addClass("nullTd");
-            alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요');
-            return;
+    if (trs.length == 0) {
+      // requiredWarning();
+      // Swal.fire({
+      //   icon: "warning",
+      //   title: "데이터을 입력해 주세요."
+      // });
+    }
+    let nullFlag = false;
+    Swal.fire({
+      icon: "question",
+      title: "저장하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소"
+    }).then((result) =>{
+      if(result.isConfirmed){
+        //null 검사
+        for(tr of trs){
+          for(idx of notNullList){
+            let content = $(tr).find("td:eq("+idx+")").text();
+            if(content == null || content == ''){
+              $(tr).find("td:eq("+idx+")").addClass("nullTd");
+              nullFlag = true;
+            }
           }
         }
-      }
+        
+        if(nullFlag){
+          Swal.fire({
+            icon: "error",
+            title: "비어있는 데이터가 존재합니다",
+            text: "확인하고 다시 저장해주세요"
+          });
+          return false;
+        }
 
-      //삭제용
-      if(delList.length != 0){
-        deleteSaveAjax(delList);
-      }
-      //수정용
-      for(obj of modifyList) {
-        modifySaveAjax(obj);
-      }
-      //추가용
-      addList = table.find("tr[name='addTr']");
-      for(obj of addList){
+        //삭제용
+        if(delList.length != 0){
+          deleteSaveAjax(delList);
+        }
+
+        //수정용
+        for(obj of modifyList){
+          modifySaveAjax(obj);
+        }
+        //추가용
+        addList = table.find("tr[name='addTr']");
+        for(obj of addList){
           addSaveAjax(obj);
-      }
+        }
 
-      alert("저장이 완료되었습니다.");
-      location.reload();
-    }
+        Swal.fire({
+          icon: "success",
+          title: "저장이 완료되었습니다",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "확인",
+          closeOnClickOutside: false,
+        }).then((result) =>{
+          location.reload();
+        });
+      }else{
+        return;
+      }
+    });
   });
 
   function modifySaveAjax(obj){
@@ -188,9 +227,9 @@ $("document").ready(function () {
         dataType : 'text',
         contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
         data : {
-            priKey : priKey,
-            updCol : updCol,
-            updCont : updCont
+          priKey : priKey,
+          updCol : updCol,
+          updCont : updCont
         },
         success : function(result){
             console.log("업데이트 완료");
@@ -203,12 +242,12 @@ $("document").ready(function () {
   //추가 버튼 누르면 행 추가
   $("#addBtn").on("click", function () {
     let node = `<tr name="addTr">
-                  <td><input type="checkbox" name="chk"></td>`;
+                  <td class="cantModifyTd"><input type="checkbox" name="chk"></td>`;
     if ($("#allCheck").is(":checked")) {
         node = `<tr>
-                  <td><input type="checkbox" name="chk" checked></td>`;
+                  <td class="cantModifyTd"><input type="checkbox" name="chk" checked></td>`;
     }
-    node += `<td></td>
+    node += `<td class="cantModifyTd"></td>
               <td></td>
               <td></td>
             </tr>`;
@@ -230,7 +269,7 @@ $("document").ready(function () {
           faultyRemk
         },
         success : function(result){
-            console.log("추가 성공");
+          console.log("추가 성공");
         }
 
     })
@@ -238,6 +277,10 @@ $("document").ready(function () {
 
   //선택 삭제 이벤트
   $("#deleteBtn").on("click",function(){
+    if ($("input[type='checkbox']:checked").length === 0) {
+      deleteWarning();
+      return;
+    }
     table.find("tbody input:checkbox[name='chk']").each(function(idx,el){
       if($(el).is(":checked")){
         let tr = $(el).closest('tr');
@@ -255,17 +298,39 @@ $("document").ready(function () {
 
   function deleteSaveAjax(delList){
     $.ajax({
-        url : 'faultyCode/delete',
-        type : 'GET',
-        dataType : 'text',
-        contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
-        data : {
-            delList
-        },
-        success : function(result){
-            console.log("삭제 성공");
-        }
+      url : 'faultyCode/delete',
+      type : 'GET',
+      dataType : 'text',
+      contentType: "application/x-www-form-urlencoded; charset=UTF-8;",
+      data : {
+        delList
+      },
+      success : function(result){
+        deleteWarning();
+        console.log("삭제 성공");
+      }
     })
+  }
+
+  function deleteWarning() {
+    Swal.fire({
+      icon: "warning", // Alert 타입
+      title: "삭제할 항목을 선택하세요." // Alert 제목
+    });
+  }
+
+  function deleteWarning() {
+    Swal.fire({
+      icon: "warning", // Alert 타입
+      title: "삭제할 항목을 선택하세요." // Alert 제목
+    });
+  }
+
+  function requiredWarning() {
+    Swal.fire({
+      icon: "warning",
+      title: "데이터을 입력해 주세요."
+    });
   }
 
 });

@@ -7,7 +7,7 @@
   <body>
     <link th:href="@{/css/eqp/Mchn.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/js/eqp/mchn.js}"></script>
-    <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
+    <!-- <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script> -->
 
     <div class="pcoded-main-container">
       <h1>설비 조회</h1>
@@ -17,10 +17,8 @@
           <div class="card-header">
             <form class="form-inline">
               <div class="form-group mt-3">
-                <label for="mchnname" th:text="설비명"></label>
-                <input type="text" id="mchnname" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" />
-                <label for="mchnCode" th:text="설비코드"></label>
-                <input type="text" id="mchnCode" class="form-control mx-sm-3" readonly />
+                <label for="mchnName" th:text="설비명"></label>
+                <input type="text" id="mchnName" class="form-control mx-sm-3" />
               </div>
               <button type="button" class="btn btn-primary" id="mchnListBtn">조회</button>
             </form>
@@ -36,7 +34,7 @@
                     <th th:text="모델명"></th>
                     <th th:text="제작업체"></th>
                     <th th:text="제작일자"></th>
-                    <th th:text="점검주기"></th>
+                    <th th:text="'점검주기(일)'"></th>
                     <th th:text="최근점검일"></th>
                     <th th:text="설비상태"></th>
                     <th th:text="비고"></th>
@@ -62,6 +60,6 @@
       </div>
     </div>
     <!-- 설비코드 Modal -->
-    <th:block th:replace="~{/fragments/modal/findMchnName :: findMchnName}"></th:block>
+    <!-- <th:block th:replace="~{/fragments/modal/findMchnName :: findMchnName}"></th:block> -->
   </body>
 </html>

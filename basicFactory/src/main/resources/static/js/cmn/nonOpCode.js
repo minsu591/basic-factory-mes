@@ -18,26 +18,10 @@ $("document").ready(function () {
     });
   });
 
-  //추가 버튼 누르면 행 추가
-  $("#addBtn").on("click", function () {
-    let node = `<tr name="addTr">
-                  <td><input type="checkbox" name="chk"></td>`;
-    if ($("#allCheck").is(":checked")) {
-        node = `<tr>
-                  <td><input type="checkbox" name="chk" checked></td>`;
-    }
-    node += `<td></td>
-              <td></td>
-              <td></td>
-            </tr>`;
-
-    $("#nonOpTable tbody").append(node);
-  });
-
   function makeRow(obj) {
     let node = `<tr>
-                  <td><input type="checkbox" name="chk"></td>
-                  <td>${obj.nonOpCode}</td>
+                  <td class="cantModifyTd"><input type="checkbox" name="chk"></td>
+                  <td class="cantModifyTd">${obj.nonOpCode}</td>
                   <td>${obj.nonOpName}</td>
                   <td>${obj.nonOpRemk}</td>
                 </tr>`;
@@ -81,15 +65,15 @@ $("document").ready(function () {
     let defaultVal;
 
     if(tdInfo.hasClass("nullTd")){
-        tdInfo.removeClass("nullTd");
+      tdInfo.removeClass("nullTd");
     }
 
     //적용할 인덱스인지 확인
     for(let i = 0; i<avArr.length;i++){
-        if(col == avArr[i]){
-            flag = true;
-            break;
-        }
+      if(col == avArr[i]){
+        flag = true;
+        break;
+      }
     }
     //해당사항 없으면 return
     if(!flag){
@@ -99,13 +83,15 @@ $("document").ready(function () {
     tdInfo.focus();
     defaultVal = tdInfo.text();
     tdInfo.addClass("tdBorder");
+
     //enter나 esc 누르면 blur되도록
     tdInfo.on("keyup",function(key){
         if(key.keyCode == 13 || key.keyCode == 27){
-            key.preventDefault();
-            tdInfo.unbind("blur").bind("blur");
+          key.preventDefault();
+          tdInfo.unbind("blur").bind("blur");
         }
     });
+
     //td에 blur가 되면
     tdInfo.unbind("blur").bind("blur",function(e){
         e.preventDefault();
@@ -120,7 +106,7 @@ $("document").ready(function () {
                 }
             }
         }
-        //추가된 행이면 modifyList에 추가되지 않게
+        //추가된 행(addTr)이면 modifyList에 추가되지 않게
         if(tdInfo.closest("tr").attr("name") != 'addTr'){
             tdInfo.trigger("change");
         }
@@ -157,37 +143,64 @@ $("document").ready(function () {
   //저장 버튼 이벤트
   $("#saveBtn").on("click",function(){
     let trs = table.find("tbody tr");
-    if(confirm("저장하시겠습니까?") == true) {
-      //null 검사
-      for(tr of trs){
-        for(idx of notNullList) {   //tr돌면서 notNullList index가 null인지 검사
-          let content = $(tr).find("td:eq("+idx+")").text();
-          if(content == null || content == '') {
-            $(tr).find("td:eq("+idx+")").addClass("nullTd");
-            alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요');
-            return;
+    let nullFlag = false;
+    Swal.fire({
+      icon: "question",
+      title: "저장하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "확인",
+      cancelButtonText: "취소"
+    }).then((result) =>{
+      if(result.isConfirmed){
+        //null 검사
+        for(tr of trs){
+          for(idx of notNullList){
+            let content = $(tr).find("td:eq("+idx+")").text();
+            if(content == null || content == ''){
+              $(tr).find("td:eq("+idx+")").addClass("nullTd");
+              nullFlag = true;
+            }
           }
         }
-      }
+        if(nullFlag){
+          Swal.fire({
+            icon: "error",
+            title: "비어있는 데이터가 존재합니다",
+            text: "확인하고 다시 저장해주세요"
+          });
+          return false;
+        }
             
-      //삭제용
-      if(delList.length != 0){
-          deleteSaveAjax(delList);
-      }
-      //수정용
-      for(obj of modifyList){
-          modifySaveAjax(obj);
-      }
-      //추가용
-      addList = table.find("tr[name='addTr']");
-      for(obj of addList){
-          addSaveAjax(obj);
-      }
+        //삭제용
+        if(delList.length != 0){
+            deleteSaveAjax(delList);
+        }
+        //수정용
+        for(obj of modifyList){
+            modifySaveAjax(obj);
+        }
+        //추가용
+        addList = table.find("tr[name='addTr']");
+        for(obj of addList){
+            addSaveAjax(obj);
+        }
 
-      alert("저장이 완료되었습니다.");
-      //location.reload();
-      
-    }      
+        Swal.fire({
+          icon: "success",
+          title: "저장이 완료되었습니다",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "확인",
+          closeOnClickOutside: false,
+        }).then((result) =>{
+            location.reload();
+        });
+      }else{
+          return;
+      }
+    });
   });
 
   function modifySaveAjax(obj){
@@ -213,6 +226,22 @@ $("document").ready(function () {
     })
   }
 
+  //추가 버튼 누르면 행 추가
+  $("#addBtn").on("click", function () {
+    let node = `<tr name="addTr">
+                  <td><input type="checkbox" name="chk"></td>`;
+    if ($("#allCheck").is(":checked")) {
+        node = `<tr>
+                  <td><input type="checkbox" name="chk" checked></td>`;
+    }
+    node += `<td></td>
+              <td class="canModifyTd"></td>
+              <td class="canModifyTd"></td>
+            </tr>`;
+
+    $("#nonOpTable tbody").append(node);
+  });
+
   function addSaveAjax(obj){
     let nonOpName = $(obj).find("td:eq(2)").text();
     let nonOpRemk = $(obj).find("td:eq(3)").text();
@@ -234,6 +263,10 @@ $("document").ready(function () {
 
   //선택 삭제 이벤트
   $("#deleteBtn").on("click",function(){
+    if ($("input[type='checkbox']:checked").length === 0) {
+      deleteWarning();
+      return;
+    }
     table.find("tbody input:checkbox[name='chk']").each(function(idx,el){
         if($(el).is(":checked")){
             let tr = $(el).closest('tr');
@@ -259,10 +292,26 @@ $("document").ready(function () {
             delList
         },
         success : function(result){
-            console.log("삭제 성공");
+          deleteWarning();
+          console.log("삭제 성공");
         }
     })
   }
 
+  function deleteWarning() {
+    Swal.fire({
+      icon: "warning", // Alert 타입
+      title: "삭제할 항목을 선택하세요.", // Alert 제목
+      confirmButtonText: "확인",
+    });
+  }
+
+  function deleteWarning() {
+    Swal.fire({
+      icon: "warning", // Alert 타입
+      title: "삭제할 항목을 선택하세요.", // Alert 제목
+      confirmButtonText: "확인",
+    });
+  }
 
 });

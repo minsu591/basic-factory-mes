@@ -5,9 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>공정불량 코드</title>
-    <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
   </head>
   <body>
+    <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
+    <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/js/cmn/faultyCode.js}"></script>
 
     <div class="pcoded-main-container">
@@ -41,19 +42,19 @@
                     <th th:text="비고" name="faulty_remk"></th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="canModifyTbody">
                   <tr th:each="flty : ${fltys}">
-                    <td><input type="checkbox" name="chk" /></td>
-                    <td th:text="${flty.faultyCdCode}"></td>
+                    <td class="cantModifyTd"><input type="checkbox" name="chk" /></td>
+                    <td class="cantModifyTd" th:text="${flty.faultyCdCode}"></td>
                     <td th:text="${flty.faultyName}"></td>
                     <td th:text="${flty.faultyRemk}"></td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <div class="rightBtn">
+            <!-- <div class="rightBtn">
               <button type="button" class="btn btn-primary">초기화</button>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
