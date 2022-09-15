@@ -1,50 +1,4 @@
 $("document").ready(function(){
- 
- //조회버튼 실행
-//  $("#search").click(function(){
-//   let rscInspSDate = $("#rscInspSDate").val();
-//   let rscInspEDate = $("#rscInspEDate").val();
-
-//   if(!rscInspSDate){
-//    if(!rscInspEDate){
-//     findList();
-//    } else {
-//     alert("일자 검색 범위를 확인해주세요.");
-//    }
-//   }else{
-//    if(!rscInspEDate){
-//     alert("일자 검색 범위를 확인해주세요.")
-//    }else {
-//     findList();
-//    }
-//   }
-//  })
-
-//  function findList(){
-//   let rscInspCode = $("#rscInspCode").val();
-//   let rscCdCode = $("#rsccode").val();
-//   let rscInspSDate = $("#rscInspSDate").val();
-//   let rscInspEDate = $("#rscInspEDate").val();
-//   $.ajax({
-//    url : "inspListTable",
-//    method : "GET",
-//    dataType: "text",
-//    data: {
-//      rscInspCode: rscInspCode,
-//      rscCdCode: rscCdCode,
-//      rscInspSDate: rscInspSDate,
-//      rscInspEDate: rscInspEDate
-//    },
-//    success: function(data){
-//     $("#insplisttable").replaceWith(data);
-//    }
-//   })
-//   $("#rscInspCode").val(null);
-//   $("#rsccode").val(null);
-//   $("#rscname").val(null);
-//   $("#rscInspSDate").val(null);
-//   $("#rscInspEDate").val(null);
-//  }
 
  $("#search").click(function(e) {
   e.preventDefault();
@@ -55,15 +9,19 @@ $("document").ready(function(){
    if(!rscInspEDate){
     // findList();
    } else {
-    alert("일자 검색 범위를 확인해주세요.");
+    dateWarning();
     return false;
    }
   }else{
    if(!rscInspEDate){
-    alert("일자 검색 범위를 확인해주세요.");
+    dateWarning();
     return false;
    }else {
     // findList();
+    if (rscInspSDate > rscInspEDate) {
+      dateWarning2();
+      return false;
+    }
    }
   }
   //if문 조건 걸어서 검색타입에 따라 키워드 분류 후 서브밋
@@ -77,6 +35,24 @@ $("document").ready(function(){
 
   $("#searchForm").submit();
 });
+
+function dateWarning() {
+  Swal.fire({
+    icon: "warning",
+    title: "일자 검색값 확인",
+    text : "입력값이 부족합니다.",
+    confirmButtonText: "확인",
+  })
+}
+
+function dateWarning2() {
+  Swal.fire({
+    icon: "warning",
+    title: "일자 검색 범위 확인",
+    html : "시작날짜는 마침날짜보다 작아야합니다.",
+    confirmButtonText: "확인",
+  })
+}
 
 
 })
