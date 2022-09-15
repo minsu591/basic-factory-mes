@@ -134,7 +134,7 @@ function exNull(st){
 }
 
 //저장 버튼 이벤트
-$("#saveBtn").on("click", function () {
+    $("#saveBtn").on("click", function () {
     Swal.fire({
         icon: "question",
         title: "저장하시겠습니까?",
@@ -146,12 +146,29 @@ $("#saveBtn").on("click", function () {
         closeOnClickOutside: false,
     }).then((result) => {
         if (result.isConfirmed) {
+            if ($("#slsOrdHdNo").val() == null || $("#slsOrdHdNo").val() == '' && table.find("tbody tr").length == 0) {
+                noDataWarn();
+                return false;
+            }
             let slsOrdHdNo = $("#slsOrdHdNo").val();
             addList = table.find("tr[name='addTr']");
+            
             //추가인지 수정인지 확인
             let modifyAddFlag = checkModifyOrAdd(slsOrdHdNo);
+
             //출고된 내역이 있는 주문인지 확인
             let checkOrderFlag = checkOrder(slsOrdHdNo);
+            //중복되는 제품코드를 저장못하게 하기
+            let trs = table.find("tr[name='addTr']");
+            console.log(trs);
+            let finPrdCodeList = [];
+            for (tr of trs) {
+                finPrdCodeList.push($(tr).find("td:eq(1)").text());
+            }
+            console.log(checkOrderFlag);
+            console.log('finPrdCodeList');
+            console.log(finPrdCodeList);
+            
             if (modifyAddFlag) { // true: 수정
                 //tr의 null 검사
                 if (forNull()) {
@@ -184,7 +201,6 @@ $("#saveBtn").on("click", function () {
                 if (countTr == 0) {
                     //헤더 삭제 ajax(tbody 안에 내용 없으면 헤더 삭제)
                     deleteHdSaveAjax(slsOrdHdNo);
-                    return false;
                 } else {
                     //detail 삭제
                     if (delList.length != 0) {
@@ -226,10 +242,6 @@ $("#saveBtn").on("click", function () {
 function forNull(){
     //null 검사
     let trs = table.find("tbody tr");
-    if (trs.length == 0) {
-        insertDtlWarning();
-        return true;
-    }
     for(tr of trs){
         for (idx of notNullList) {                                  //tr돌면서 notNullList index가 null인지 검사
             let content;
@@ -465,75 +477,41 @@ function checkOrder(slsOrdHdNo){
 }
 
 //alert
-function saveSuccess() {
-    Swal.fire({
-        icon: "success", // Alert 타입
-        title: "저장 되었습니다.", // Alert 제목
-    }).then((result) => {
-        if (result.isConfirmed) {
-        location.reload();
-        }
-    });
-    }
-    
-function deleteSuccess() {
-Swal.fire({
-    icon: "success", // Alert 타입
-    title: "삭제 되었습니다.", // Alert 제목
-}).then((result) => {
-    if (result.isConfirmed) {
-    location.reload();
-    }
-});
-    }
-    
 function deleteWarning() {
     Swal.fire({
         icon: "warning", // Alert 타입
         title: "삭제할 항목을 선택하세요.", // Alert 제목
-        confirmButtonText: "확인",
+        confirmButtonText: "확인"
     });
 }
 
-function updateSuccess() {
-Swal.fire({
-    icon: "success",
-    title: "수정이 완료되었습니다.",
-}).then((result) => {
-    if (result.isConfirmed) {
-    location.reload();
-    }
-});
-}
-
 function requiredWarn() {
-Swal.fire({
-    icon: "warning",
-    title: "입력하지 않은 값이 있습니다.",
-});
+        Swal.fire({
+            icon: "warning",
+            title: "입력하지 않은 값이 있습니다.",
+        });
+    }
+
+function noDataWarn() {
+    Swal.fire({
+        icon: "warning",
+        title: "입력된 값이 없습니다.",
+    });
 }
 
 function insertHeaderWarning() {
     Swal.fire({
+        icon: "warning",
         title: "필수 항목 미입력",
-        html: "주문일자, 담당자, 거래처는 <br/> 기본 입력사항입니다.",
-        icon: "warning", // Alert 타입
-    });
-    }
-    
-function insertDtlWarning() {
-    Swal.fire({
-        icon: "warning", // Alert 타입
-        title: "저장할 제품을 추가하세요"
+        html: "주문일자, 담당자, 거래처는 <br/> 기본 입력사항입니다."
     });
 }
-
     
 function changeWarning() {
     Swal.fire({
-        icon: "warning", // Alert 타입
-        html: "출고내역이 존재하는 주문입니다.",
-        title: "수정 불가"
+        icon: "warning",
+        title: "수정 불가",
+        html: "출고내역이 존재하는 주문입니다."
     });
 }
 });
