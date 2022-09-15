@@ -108,8 +108,13 @@ $("document").ready(function(){
 
 
     
-    function makeSelectBox(PrcCls){
-        let node = `<td class="canModifyTd"><select>`;
+    function makeSelectBox(PrcCls) {
+        let node;
+        if (PrcCls != 1) {
+            node = `<td class="canModifyTd"><select>`;
+        } else {
+            node = `<td><select>`;
+        }
 
         for(select of selectBoxList){
             let val = 0;
@@ -145,10 +150,14 @@ $("document").ready(function(){
                         <td>${rtn.slsRtnHdVO.slsOutHdNo}</td>
                         <td>${rtn.slsRtnDtlVO.fnsPrdStkLotNo}</td>
                         <td>${rtn.slsRtnDtlVO.slsOutDtlVol}</td>
-                        <td>${rtn.slsRtnDtlVO.slsRtnDtlBaseVol}</td>
-                        <td class="canModifyTd">${rtn.slsRtnDtlVO.slsRtnDtlVol}</td>
-                        <td>${rtn.slsRtnDtlVO.finPrdCdPrice}</td>
-                        <td>${rtn.slsRtnDtlVO.slsRtnDtlPrice}</td>`;
+                        <td>${rtn.slsRtnDtlVO.slsRtnDtlBaseVol}</td>`;
+        if (PrcCls != 1) {
+            node += `<td class="canModifyTd">${rtn.slsRtnDtlVO.slsRtnDtlVol}</td>`;
+        } else {
+            node += `<td>${rtn.slsRtnDtlVO.slsRtnDtlVol}</td>`;
+        }
+        node += `<td>${rtn.slsRtnDtlVO.finPrdCdPrice}</td>
+                 <td>${rtn.slsRtnDtlVO.slsRtnDtlPrice}</td>`;
                     if(PrcCls == 0){
                         node += makeSelectBox('폐기');
                     } else if (PrcCls == 1) {
@@ -156,9 +165,13 @@ $("document").ready(function(){
                         node += `<td>입고</td>`;
                     } else {
                         node += makeSelectBox('거부');
-                    }
-            node += `<td class="canModifyTd">${rtn.slsRtnDtlVO.slsRtnDtlResn}</td>
-                     </tr>`;
+        }
+        if (PrcCls != 1) {
+            node += `<td class="canModifyTd">${rtn.slsRtnDtlVO.slsRtnDtlResn}</td> </tr>`;
+        } else {
+            node += `<td>${rtn.slsRtnDtlVO.slsRtnDtlResn}</td> </tr>`;
+        }
+        
         $("#rtnMngTable tbody").append(node);
     }
 });

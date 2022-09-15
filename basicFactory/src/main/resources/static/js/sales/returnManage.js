@@ -93,16 +93,24 @@ $(document).ready(function () {
   
 
   //기존에 있는 값들 중에 td변경될 때(체인지이벤트 일어나는 거 갖고 옴)
-  table.find("tbody").on("change", "td:not(:first-child)", function (e) {
-      console.log(e);
-      e.preventDefault();
-      let tr = $(this).parent(); //클릭된 td의 tr정보 저장
-      let col;
-      if(tr.hasClass("out")){
-        col = $(this).index();
-      } else {
-        col = $(this).index() -1;
-      }
+    table.find("tbody").on("change", "td:not(:first-child)", function (e) {
+        let td = $(this);
+        e.preventDefault();
+        let tr = $(this).parent(); //클릭된 td의 tr정보 저장
+        let col;
+        let prcCls = tr.find("td:eq(10)").text();
+        if(tr.hasClass("out")){
+            col = $(this).index();
+        } else {
+            col = $(this).index() -1;
+        }
+
+        if (prcCls == '입고' && col == 7 || prcCls == '입고' &&  col == 11) {
+            notUpdate();
+            td.text(defaultVal);
+            return false;
+        }
+            
       let priKey = $(this).parent().find("input[type='hidden']").val();       
       let updCol = table.find("thead").find("th:eq(" + col + ")").attr("name");
       let updCont;
@@ -125,7 +133,10 @@ $(document).ready(function () {
       let slsRtnDtlResn = tr.find("td:eq(11)").text();           //반품사유
       let slsRtnHdNo = $("#slsRtnHdNo").val();
       if (slsRtnHdNo != null && slsOutDtlVol < (slsRtnDtlBaseVol + slsRtnDtlVol)) {
-          alert("반품량이 출고량보다 많습니다.");
+          Swal.fire({
+              icon: "warning",
+              title: "반품량이 출고량보다 많습니다.",
+          });
           tr.find("td:eq(7)").text(defaultVal);
           return false;
         }
@@ -170,52 +181,80 @@ $(document).ready(function () {
   //저장 버튼 이벤트
   $("#saveBtn").on("click", function () {
       let trs = table.find("tbody tr");
-      if(confirm("저장하시겠습니까?")==true){
-          //null 검사
-          for(tr of trs){
-              for (idx of notNullList) {                                  
-                  let content;
-                  if (idx == 10 && $(tr).find("select").length == 1) {
-                      content = $(tr).find("select option:selected").val();
-                  } else {
-                      content = $(tr).find("td:eq(" + idx + ")").text();
-                  }
-                  if (content == null || content == '') {
-                      alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
-                      return;
+      Swal.fire({
+          icon: "question",
+          title: "저장하시겠습니까?",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "확인",
+          cancelButtonText: "취소",
+          closeOnClickOutside: false,
+      }).then((result) => {
+          if (result.isConfirmed) {
+              console.log($("#vendor").text());
+              if ($("#vendor").val() == null || $("#vendor").val() == '') {
+                  noDataWarn();
+                  return false;
+              }
+              //null 검사
+              for (tr of trs) {
+                  for (idx of notNullList) {
+                      let content;
+                      if (idx == 10 && $(tr).find("select").length == 1) {
+                          content = $(tr).find("select option:selected").val();
+                      } else {
+                          content = $(tr).find("td:eq(" + idx + ")").text();
+                      }
+                      if (content == null || content == '') {
+                          requiredWarn();
+                          return;
+                      }
                   }
               }
-          }
           
-          //삭제용
-          let countTr = table.find("tbody tr").length;
-          if(countTr == 0){
-              //tbody 안에 내용이 없으면 헤더 삭제 ajax
-              let slsRtnHdNo = $("#slsRtnHdNo").val();
-              deleteHdSaveAjax(slsRtnHdNo);
-              return false;
-          } else {
-              //detail 삭제
-              if (delList.length != 0) {
-                  for (obj of delList) {
-                      deleteSaveAjax(obj);
+              //삭제용
+              let countTr = table.find("tbody tr").length;
+              if (countTr == 0) {
+                  //tbody 안에 내용이 없으면 헤더 삭제 ajax
+                  let slsRtnHdNo = $("#slsRtnHdNo").val();
+                  deleteHdSaveAjax(slsRtnHdNo);
+                  return false;
+              } else {
+                  //detail 삭제
+                  if (delList.length != 0) {
+                      for (obj of delList) {
+                          deleteSaveAjax(obj);
+                      }
                   }
               }
-          }
 
-          //수정용
-          for (obj of modifyList) {
-              //modRr[priKey, updCol, updCont]
-              modifySaveAjax(obj);
-          }
+              //수정용
+              for (obj of modifyList) {
+                  //modRr[priKey, updCol, updCont]
+                  modifySaveAjax(obj);
+              }
 
-          //등록용
-          let slsRtnHdNo = $("#slsRtnHdNo").val();
-          if (slsRtnHdNo == null || slsRtnHdNo == '') {
-              addHdSaveAjax(addList);
+              //등록용
+              let slsRtnHdNo = $("#slsRtnHdNo").val();
+              if (slsRtnHdNo == null || slsRtnHdNo == '') {
+                  addHdSaveAjax(addList);
+              }
+
+              Swal.fire({
+                  icon: "success",
+                  title: "저장이 완료되었습니다",
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "확인",
+                  closeOnClickOutside: false,
+              }).then((result) => {
+                  location.reload();
+              });
+          } else {
+              return;
           }
-          saveSuccess();
-      }
+      });
   });
 
   function modifySaveAjax(obj){
@@ -299,7 +338,11 @@ $(document).ready(function () {
   //추가 끝
 
   //선택 삭제 이벤트
-  $("#deleteBtn").on("click",function(){
+    $("#deleteBtn").on("click", function () {
+        if ($("input[type='checkbox']:checked").length === 0) {
+            deleteWarning();
+            return;
+        }
       table.find("tbody input:checkbox[name='cb']").each(function(idx,el){
          let tr = $(el).closest('tr');
           if ($(el).is(":checked") && tr.find("td:eq(10) select").length == 0) {     
@@ -351,51 +394,41 @@ $(document).ready(function () {
           }
       });
     }
+
 //alert
-function saveSuccess() {
+function notUpdate() {
     Swal.fire({
-        icon: "success", // Alert 타입
-        title: "저장 되었습니다.", // Alert 제목
-    }).then((result) => {
-        if (result.isConfirmed) {
-            location.reload();
-        }
+        icon: "warning",
+        title: "입고 처리된 반품내역 수정 불가",
     });
 }
-
-function deleteSuccess() {
-    Swal.fire({
-        icon: "success", // Alert 타입
-        title: "삭제 되었습니다.", // Alert 제목
-    }).then((result) => {
-        if (result.isConfirmed) {
-            location.reload();
-        }
-    });
-}
-
-function updateSuccess() {
-    Swal.fire({
-        icon: "success",
-        title: "수정이 완료되었습니다.",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            location.reload();
-        }
-    });
-}
-
 function notDelete() {
     Swal.fire({
         icon: "warning",
-        title: "입고된 반품내역 삭제 불가",
+        title: "입고 처리된 반품내역 삭제 불가",
     });
 }
+
 function requiredWarn() {
     Swal.fire({
         icon: "warning",
         title: "입력하지 않은 값이 있습니다.",
     });
-    return;
 }
+    
+function deleteWarning() {
+    Swal.fire({
+        icon: "warning",
+        title: "삭제할 항목을 선택하세요.",
+        confirmButtonText: "확인"
+    });
+}
+    
+function noDataWarn() {
+    Swal.fire({
+        icon: "warning",
+        title: "입력된 값이 없습니다.",
+    });
+}
+    
 });
