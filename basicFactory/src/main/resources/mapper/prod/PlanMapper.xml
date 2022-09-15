@@ -181,6 +181,19 @@
 				
 	</select>
 	
+	
+	<select id="findInInstPlan" resultType="String">
+		SELECT P.PLAN_IDX
+		FROM BF_PROD_PLAN P
+		JOIN BF_PROD_INSTRUCTION I
+		ON I.PLAN_HD_CODE = P.PLAN_HD_CODE
+		JOIN BF_PROD_INST_DETAIL ID
+		ON I.INST_NO = ID.INST_NO
+		   AND ID.FIN_PRD_CD_CODE = P.FIN_PRD_CD_CODE
+		WHERE P.PLAN_HD_CODE = #{planHdCode}
+	</select>
+	
+	
 	<!-- 지시에 들어가지 않은  -->
 	<select id="findMyPlan" resultMap="colPlanOrdMap">
 		SELECT P.PLAN_IDX, P.PLAN_HD_CODE, P.FIN_PRD_CD_CODE, F.FIN_PRD_CD_NAME, P.PLAN_SDATE, P.PLAN_EDATE,

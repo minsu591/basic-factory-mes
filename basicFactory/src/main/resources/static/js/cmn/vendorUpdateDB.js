@@ -1,3 +1,5 @@
+
+let clfyList = ['','구매','판매','기타'];
 $("document").ready(function(){
     //수정
 
@@ -15,7 +17,6 @@ $("document").ready(function(){
     let priKeyIdx = 1;
 
     //selectBox 만들기 위한 리스트
-    let clfyList = ['','구매','판매','기타'];
 
     //수정 이벤트
     table.find("tbody").on("click","td",function(e){

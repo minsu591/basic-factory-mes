@@ -20,6 +20,9 @@ public interface PlanService {
 	//페이징용 count
 	Integer findPlanOrdCount(Criteria cri);
 	
+	//생산지시에서 참고하고 있는 계획인지 아닌지 확인
+	List<String> findInInstPlan(String planHdCode);
+	
 	//plan 헤더 insert
 	Integer planHdInsert(PlanHdVO planHdVO);
 	//plan insert

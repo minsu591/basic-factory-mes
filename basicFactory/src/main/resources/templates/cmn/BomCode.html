@@ -20,16 +20,15 @@ xmlns:th="http://www.thymeleaf.org"
     <script type="text/javascript" th:src="@{/js/modal/cmn/findTdproduct.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/cmn/findTdLine.js}"></script>
     <div class="pcoded-main-container">
-        <div class="rightBtn">
-            <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
-        </div>
         <h1>BOM 관리</h1>
         <hr>
-        <h3>BOM 코드 목록</h3>
-        <div class="col-xl-12">
+        <div class="rightBtn">
+            <button type="button" class="btn btn-primary mt-0 mb-1 mr-3" id="saveBtn">저장</button>
+        </div>
+        <div class="col-xl-12" style="clear:both;">
             <div class="card">
-                <div class="card-header">
-                    
+                <div class="card-header pb-2">
+                    <h3 class="p-0">BOM 코드 목록</h3>
                     <form class="form-inline">
                          <div class="form-group mt-3">
                             <label for="finName" th:text="완제품명"></label>
@@ -38,13 +37,12 @@ xmlns:th="http://www.thymeleaf.org"
                         
                         <button type="button" class="btn  btn-primary" id="bomSelectBtn">조회</button>
                     </form>
-                    <div class="rightBtn">
-                        <button type="button" class="btn btn-primary" id="bomAddBtn">BOM 추가</button>
-                        <button type="button" class="btn btn-primary" id="bomDeleteBtn">BOM 선택 삭제</button>
-                    </div>
-        
                 </div>
-                <div class="card-body table-border-style">
+                <div class="card-body table-border-style pt-1">
+                    <div class="rightBtn">
+                        <button type="button" class="btn btn-primary m-0 mb-1" id="bomAddBtn">BOM 추가</button>
+                        <button type="button" class="btn btn-primary m-0 mb-1" id="bomDeleteBtn">BOM 선택 삭제</button>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped" id="bomTable">
                             <thead>
@@ -82,17 +80,16 @@ xmlns:th="http://www.thymeleaf.org"
                         </table>
                     </div>
                     <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary" id="bomResetBtn">BOM 초기화</button>
+                        <button type="button" class="btn  btn-primary mt-0" id="bomResetBtn">BOM 초기화</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <h3>필요 자재 목록</h3>
         <div class="col-xl-12">
             <div class="card">
-                <div class="card-header">
-                    
+                <div class="card-header pb-2">
+                    <h3 class="p-0">필요 자재 목록</h3>
                     <form class="form-inline">
                         <input type="hidden" id="bomCode" readonly>
                          <div class="form-group mt-3">
@@ -112,13 +109,14 @@ xmlns:th="http://www.thymeleaf.org"
                             <input type="text" id="prodUnit" class="form-control mx-sm-3" readonly>
                         </div>
                     </form>
-                    <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary" id="rscAddBtn">자재 추가</button>
-                        <button type="button" class="btn  btn-primary" id="rscDeleteBtn">자재 선택 삭제</button>
-                    </div>
+                    
         
                 </div>
-                <div class="card-body table-border-style">
+                <div class="card-body table-border-style pt-1">
+                    <div class="rightBtn">
+                        <button type="button" class="btn  btn-primary m-0 mb-1" id="rscAddBtn">자재 추가</button>
+                        <button type="button" class="btn  btn-primary m-0 mb-1" id="rscDeleteBtn">자재 선택 삭제</button>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped" id="bomRscTable">
                             <thead>

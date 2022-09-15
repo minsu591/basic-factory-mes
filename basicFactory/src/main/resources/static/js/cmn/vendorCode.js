@@ -22,15 +22,28 @@ $("document").ready(function(){
         let node = `<tr>
                         <td class="cantModifyTd"><input type="checkbox" name="chk"></td>
                         <td class="cantModifyTd">${obj.vendCdCode}</td>
-                        <td class="empId curPo">${obj.empId}</td>
-                        <td class="curPo">${obj.vendCdClfy}</td>
-                        <td>${obj.vendCdNm}</td>
+                        <td class="empId curPo">${obj.empId}</td>`;
+        node += makeSelectForClfy(obj.vendCdClfy);
+        node += `<td>${obj.vendCdNm}</td>
                         <td>${obj.vendCdRegNo}</td>
                         <td>${obj.vendCdPhone}</td>
                         <td>${obj.vendCdAdr}</td>
                         <td>${obj.vendCdRemk}</td>
                     </tr>`;
         $("#vendorTable tbody").append(node);
+    }
+
+    function makeSelectForClfy(clfy){
+        let node = '<td><select class="curPo">';
+        for(let i =0; i<clfyList.length;i++){
+            if(clfy == clfyList[i]){
+                node += '<option value="'+clfyList[i]+'"selected>'+clfyList[i]+'</option>';
+            }else{
+                node += '<option value="'+clfyList[i]+'">'+clfyList[i]+'</option>';
+            }
+        }
+        node += '</select></td>';
+        return node;
     }
 
     

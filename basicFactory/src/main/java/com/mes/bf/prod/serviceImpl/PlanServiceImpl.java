@@ -62,6 +62,10 @@ public class PlanServiceImpl implements PlanService {
 	public Integer findPlanOrdCount(Criteria cri) {
 		return mapper.findPlanOrdCount(cri);
 	}
+	@Override
+	public List<String> findInInstPlan(String planHdCode) {
+		return mapper.findInInstPlan(planHdCode);
+	}
 
 	
 	
