@@ -52,13 +52,13 @@ public class SlsTest {
 		}
 	}
 	
-	//@Test
-	void findOut() {
-		List<SlsOutHdDtlVO> list = outService.findOut("2022-08-24", "2022-08-24", "예담");
-		for(int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i).toString());
-		}
-	}
+//	//@Test
+//	void findOut() {
+//		List<SlsOutHdDtlVO> list = outService.findOut("2022-08-24", "2022-08-24", "예담");
+//		for(int i = 0; i < list.size(); i++) {
+//			System.out.println(list.get(i).toString());
+//		}
+//	}
 	
 	//@Test
 	void findNotOutDtl() {

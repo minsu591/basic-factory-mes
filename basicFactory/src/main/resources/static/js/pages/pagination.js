@@ -43,7 +43,10 @@ function page() {
     var numPages = Math.ceil(numRows / numPerPage);
 
     //리스트가 없으면 종료
-    if (numPages == 0) return;
+    if (numPages == 0){
+      numPages = 1;
+    }
+      
     //pager라는 클래스의 div엘리먼트 작성
     var $pager = $(
       `<td align="center" id="remo" colspan="${thlength}"><div class="pager"></div></td>`
