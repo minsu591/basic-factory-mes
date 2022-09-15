@@ -118,8 +118,11 @@
 			<version>2.3.0-b170201.1204</version>
 		</dependency>
 
-		
-
+		<dependency> 
+			<groupId>net.sf.jasperreports</groupId> 
+			<artifactId>jasperreports</artifactId> 
+			<version>6.4.0</version>
+		</dependency>
 		
 		
 				

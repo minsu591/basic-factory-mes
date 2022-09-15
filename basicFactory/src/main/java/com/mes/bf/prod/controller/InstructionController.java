@@ -1,10 +1,15 @@
 package com.mes.bf.prod.controller;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +39,12 @@ import com.mes.bf.prod.vo.NotInProcInstVO;
 import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 import com.mes.bf.prod.vo.VRscNeedQtyVO;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 
 @RestController
 @RequestMapping("/prod")
@@ -180,5 +191,26 @@ public class InstructionController {
 	public void deleteInst(@RequestBody InstructionVO vo) {
 		service.deleteInstHd(vo);
 	}
-
+	
+	
+	@Autowired
+	DataSource datasource;
+	@RequestMapping("/report.do")
+	public void report(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	Connection conn = datasource.getConnection();
+	// 소스 컴파일 jrxml -> jasper
+	InputStream stream = getClass().getResourceAsStream("/reports/Instruction.jrxml");
+	
+	JasperReport jasperReport = JasperCompileManager.compileReport(stream);
+	
+	//파라미터 맵
+	System.out.println("====================================================");
+	System.out.println(request.getParameter("instNo"));
+	System.out.println("====================================================");
+	HashMap<String,Object> map = new HashMap<>(); map.put("instNo", request.getParameter("instNo"));
+	JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
+	JasperExportManager.exportReportToPdfStream( jasperPrint, response.getOutputStream()); 
+	 
+	}
+	
 }
