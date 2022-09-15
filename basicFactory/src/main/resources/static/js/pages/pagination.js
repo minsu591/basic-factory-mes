@@ -1,15 +1,15 @@
 $("document").ready(function () {
   //페이지 번호 클릭시 현재 검색하고있는 타입,키워드를 같이 보내줌
-  $(".pagination").on("click", 'a', function() {
+  $(".pagination").on("click", 'a', function () {
     let pageNum;
-      if($(this).parent().hasClass("page-number")){
-        pageNum = $(this).text();
-      }else{
-        pageNum = $(this).data("value");
-      }
-      $("input:hidden[name=pageNum]").val(pageNum);
-      $("input:hidden[name=amount]").val(10);
-      pageForm.submit();
+    if ($(this).parent().hasClass("page-number")) {
+      pageNum = $(this).text();
+    } else {
+      pageNum = $(this).data("value");
+    }
+    $("input:hidden[name=pageNum]").val(pageNum);
+    $("input:hidden[name=amount]").val(10);
+    pageForm.submit();
   });
 });
 
@@ -27,7 +27,7 @@ function page() {
   //     .removeClass("listtd")
   //     .addClass("even");
   // };
-  
+
   $(".paginated").each(function () {
     var pagesu = 10; //페이지 번호 갯수
     var currentPage = 0;
@@ -43,10 +43,7 @@ function page() {
     var numPages = Math.ceil(numRows / numPerPage);
 
     //리스트가 없으면 종료
-    if (numPages == 0){
-      numPages = 1;
-    }
-      
+    if (numPages == 0) return;
     //pager라는 클래스의 div엘리먼트 작성
     var $pager = $(
       `<td align="center" id="remo" colspan="${thlength}"><div class="pager"></div></td>`

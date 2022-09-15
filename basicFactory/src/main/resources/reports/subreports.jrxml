@@ -5,31 +5,30 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="OracleCloud"/>
 	<parameter name="instNo" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT ROWNUM,
-        lch.line_cd_hd_name,
-        prdcode.fin_prd_cd_name,
-        prdcode.fin_prd_cd_vol,
-        prdcode.fin_prd_cd_unit,
-        orddtl.sls_ord_dtl_vol,
-        id.inst_prod_indica_vol
-FROM
-    BF_PROD_INSTRUCTION inst,
-    BF_PROD_INST_DETAIL id,
-    BF_PROD_PLAN_HD ph,
-    BF_SALES_ORD_HD ordh,
-    BF_SALES_ORD_DTL orddtl,
-    BF_CMN_FINISH_PRODUCT_CODE prdcode,
-    BF_CMN_BOM_CODE bomcode,
-    BF_CMN_LINE_CODE_HD lch
-WHERE inst.inst_no = id.inst_no AND
-    inst.plan_hd_code = ph.plan_hd_code AND
-    ordh.sls_ord_hd_no = ph.sls_ord_hd_no AND
-    id.fin_prd_cd_code = prdcode.fin_prd_cd_code AND
-    prdcode.fin_prd_cd_code = bomcode.fin_prd_cd_code AND
-    bomcode.line_cd_hd_code = lch.line_cd_hd_code AND
-    ordh.sls_ord_hd_no = orddtl.sls_ord_hd_no AND
-    orddtl.fin_prd_cd_code = id.fin_prd_cd_code AND
-id.inst_no = $P{instNo} ]]>
+		<![CDATA[select ROWNUM,
+        BOM.line_cd_hd_name,
+        F.fin_prd_cd_name,
+        F.fin_prd_cd_vol,
+        F.fin_prd_cd_unit,
+        OD.sls_ord_dtl_vol,
+        ID.inst_prod_indica_vol
+from BF_PROD_INST_DETAIL ID
+JOIN BF_PROD_INSTRUCTION I
+ON I.inst_no = ID.inst_no
+LEFT OUTER JOIN BF_PROD_PLAN_HD PH
+ON PH.PLAN_HD_CODE = I.PLAN_HD_CODE
+LEFT OUTER JOIN BF_SALES_ORD_HD OH
+ON OH.SLS_ORD_HD_NO = PH.SLS_ORD_HD_NO
+LEFT OUTER JOIN BF_SALES_ORD_DTL OD
+ON OD.SLS_ORD_HD_NO = OH.SLS_ORD_HD_NO
+LEFT OUTER JOIN BF_CMN_FINISH_PRODUCT_CODE F
+ON ID.FIN_PRD_CD_CODE = F.FIN_PRD_CD_CODE
+LEFT OUTER JOIN (SELECT * FROM BF_CMN_BOM_CODE B
+                    JOIN BF_CMN_LINE_CODE_HD L 
+                    ON L.LINE_CD_HD_CODE = B.LINE_CD_HD_CODE
+                    WHERE B.BOM_CD_USE = 1) BOM
+ON BOM.FIN_PRD_CD_CODE = ID.FIN_PRD_CD_CODE
+where I.inst_no = $P{instNo}]]>
 	</queryString>
 	<field name="ROWNUM" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="ROWNUM"/>
