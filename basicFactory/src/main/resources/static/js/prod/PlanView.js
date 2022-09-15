@@ -11,9 +11,18 @@ $("document").ready(function () {
   });
 
   $("#planSdate").click(function(){
-
-
+    let edate = $("#planEdate").val();
+    if(edate != null && edate != ''){
+      $("#planSdate").attr("max",edate);
+    }
   });
+  $("#planEdate").click(function(){
+    let sdate = $("#planSdate").val();
+    if(sdate != null && sdate != ''){
+      $("#planEdate").attr("min",sdate);
+    }
+  });
+
   $("#planViewBtn").click(function(e) {
     e.preventDefault();
     //if문 조건 걸어서 검색타입에 따라 키워드 분류 후 서브밋

@@ -54,7 +54,6 @@ public class PlanController {
 		PageDTO page = new PageDTO(cri, total);
 		model.addAttribute("pageMaker", page);
 		model.addAttribute("plans", service.findPlanOrd(cri));
-		System.out.println(page);
 		return "prod/PlanView";
 	}
 	
@@ -145,10 +144,17 @@ public class PlanController {
 	//계획 헤더 delete
 	@PostMapping(value = "/planManage/hd/delete")
 	public ResponseEntity<Integer> planHdDelete(@RequestBody PlanHdVO headerInfo) {
-		int result = service.planHdDelete(headerInfo);
-		System.out.println(result);
-		return null;
-		//return new ResponseEntity<Integer>(result,HttpStatus.OK);
+		//생산지시에서 해당 계획을 참고하고 있는게 있는지 확인
+		List<String> listPlan = service.findInInstPlan(headerInfo.getPlanHdCode());
+		int result = 0;
+		if(listPlan.size() == 0) {
+			//지시에서 참고하지 않는 계획이면 헤더 삭제
+			result = service.planHdDelete(headerInfo);			
+		}else {
+			//지시에서 참고하고 있으면
+			result = service.planDtlDelete(listPlan);
+		}
+		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 	//계획 delete
 
