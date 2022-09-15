@@ -78,28 +78,37 @@ $("document").ready(function () {
     $("#findNotOutTable tbody").append(node);
   }
 
-
-
-  function sucFun(result) {
+  function sucFun(result){
+    $("#findNotOutModal").modal("hide");
     //경고창 띄워주기
-    let alertFlag = false;
-    if ($("#outMngTable tbody").children().length != 0) {
-      if (confirm("수정한 정보가 모두 사라집니다. 진행하시겠습니까?") == true) {
-        alertFlag = true;
-      }
-    } else {
-      alertFlag = true;
+    if ($("#outMngTable tbody").children().length != 0){
+        Swal.fire({
+            icon: "question",
+            title: "수정한 정보가 모두 사라집니다.",
+            text: "삭제하고 진행하겠습니까?",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "확인",
+            cancelButtonText: "취소",
+            closeOnClickOutside: false,
+          }).then((ans) =>{
+            if(ans.isConfirmed){
+                $("#outMngTable tbody tr").remove();
+                for(ord of result){
+                    outMakeRow(ord);
+                }
+            }else{
+                return;
+            }
+        });
+    }else{
+        for(ord of result){
+            outMakeRow(ord);
+        }
+        $("#findNotOutModal").modal("hide");
     }
-
-    if (alertFlag) {
-      $("#outMngTable tbody tr").remove();
-      for (ord of result) {
-        outMakeRow(ord);
-      }
-
-      $("#findNotOutModal").modal("hide");
-    }
-  }
+}
 
 
 

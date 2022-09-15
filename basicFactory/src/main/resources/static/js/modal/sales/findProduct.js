@@ -5,20 +5,36 @@ $("document").ready(function () {
     e.preventDefault();
     //제품 조회
     findProduct();
+    tdInfo = $(this);
     $("#findproductModal").modal("show");
-    tdInfo = $(this); //클릭한 td정보
   })
 
   //테이블 클릭 이벤트
   $("#findProductTable").on("click", "tr", function () {
+    //지금 클릭한 finCode가 이미 추가된 완제품코드인지 확인
     let prdCode = $(this).find("td:eq(1)").text();
     let prdName = $(this).find("td:eq(2)").text();
-    
+    let table = tdInfo.closest("table");
+
+    if(table.attr("id") == 'ordMngTable') {
+      let trs = tdInfo.closest('tbody').find("tr");
+      for(tr of trs){
+        if($(tr).find("td:eq(1)").text() == prdCode){
+          Swal.fire({
+            icon: "warning",
+            title: "이미 추가된 제품코드입니다",
+            text: "다시 선택해주세요"
+          });
+          $("#findproductModal").modal("hide");
+          return false;
+        }
+      }
+    }
     tdInfo.text(prdCode);
     tdInfo.next().text(prdName);
 
-    $("#findproductModal").modal("hide");
     tdInfo.trigger("change");
+    $("#findproductModal").modal("hide");
   });
 
   //제품검색버튼 이벤트

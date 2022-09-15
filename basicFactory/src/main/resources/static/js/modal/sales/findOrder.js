@@ -75,29 +75,37 @@ $("document").ready(function () {
     }
 
 
-
     function sucFun(result){
+        $("#findOrdModal").modal("hide");
         //경고창 띄워주기
-        let alertFlag = false;
         if ($("#ordMngTable tbody").children().length != 0){
-            if(confirm("수정한 정보가 모두 사라집니다. 진행하시겠습니까?")==true){
-                alertFlag = true;
-            }
-        }else{
-            alertFlag = true;
-        }
-
-        if(alertFlag){
-            $("#ordMngTable tbody tr").remove();
-                for(ord of result){
-                    ordMakeRow(ord);
+            Swal.fire({
+                icon: "question",
+                title: "수정한 정보가 모두 사라집니다.",
+                text: "삭제하고 진행하겠습니까?",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "확인",
+                cancelButtonText: "취소",
+                closeOnClickOutside: false,
+              }).then((ans) =>{
+                if(ans.isConfirmed){
+                    $("#ordMngTable tbody tr").remove();
+                    for(ord of result){
+                        ordMakeRow(ord);
+                    }
+                }else{
+                    return;
                 }
-
-            $("#findOrdModal").modal("hide");
+            });
+        }else{
+            for(ord of result){
+                ordMakeRow(ord);
             }
+            $("#findOrdModal").modal("hide");
         }
-
-
+    }
     
     //주문내역 조회 모달을 통한 데이터 출력
     function ordMakeRow(ord){
