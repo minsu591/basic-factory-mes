@@ -199,18 +199,24 @@ public class InstructionController {
 	public void report(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	Connection conn = datasource.getConnection();
 	// 소스 컴파일 jrxml -> jasper
-	InputStream stream = getClass().getResourceAsStream("/reports/Instruction.jrxml");
-	
-	JasperReport jasperReport = JasperCompileManager.compileReport(stream);
+	InputStream stream1 = getClass().getResourceAsStream("/reports/Instruction.jrxml");
+	InputStream stream2 = getClass().getResourceAsStream("/reports/subreports.jrxml");
 	
 	//파라미터 맵
-	System.out.println("====================================================");
-	System.out.println(request.getParameter("instNo"));
-	System.out.println("====================================================");
-	HashMap<String,Object> map = new HashMap<>(); map.put("instNo", request.getParameter("instNo"));
+//	System.out.println("====================================================");
+//	System.out.println(request.getParameter("instNo"));
+//	System.out.println("====================================================");
+	HashMap<String,Object> map = new HashMap<>();
+	map.put("instNo", request.getParameter("instNo"));
+	
+	JasperReport jasperReport = JasperCompileManager.compileReport(stream1);
+	JasperReport subReport = JasperCompileManager.compileReport(stream2);
+	map.put("subReport",subReport);
+	
 	JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
-	JasperExportManager.exportReportToPdfStream( jasperPrint, response.getOutputStream()); 
-	 
+	
+	JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+	
 	}
 	
 }

@@ -14,6 +14,7 @@ $(document).ready(function () {
       //dataType: "json",
       data: { instNo: instNo },
       success: function (data) {
+        window.open("/prod/report.do?instNo="+instNo);
         console.log("호출성공");
       },
       error: function (error, status, msg) {},

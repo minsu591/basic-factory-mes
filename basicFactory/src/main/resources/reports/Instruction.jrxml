@@ -5,6 +5,11 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="han_font" fontName="malgun"/>
 	<parameter name="instNo" class="java.lang.String"/>
+	<parameter name="subReport" class="net.sf.jasperreports.engine.JasperReport">
+        <parameterDescription><![CDATA[]]></parameterDescription>
+        <defaultValueExpression><![CDATA[$P{subReport}]]></defaultValueExpression>
+    </parameter>
+	
 	<queryString>
 		<![CDATA[SELECT inst.inst_no,inst.inst_date,inst.inst_name,vendorcode.vend_cd_nm,
        ordh.sls_ord_hd_date,ordh.sls_ord_hd_no,emp.emp_name 
@@ -372,7 +377,7 @@ WHERE inst.inst_no =  $P{instNo} AND rownum = 1]]>
 					<subreportParameterExpression><![CDATA[$F{INST_NO}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["reports/subreports.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{subReport}]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
