@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mes.bf.common.Criteria;
 import com.mes.bf.sales.mapper.SlsOrdMapper;
 import com.mes.bf.sales.service.SlsOrdService;
 import com.mes.bf.sales.vo.SlsOrdDtlVO;
@@ -21,10 +22,6 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 		return mapper.findAllOrder();
 	}
 	
-	@Override
-	public List<SlsOrdHdDtlVO> findOrder(String ordSdate, String ordEdate, String vendorName) {
-		return mapper.findOrder(ordSdate, ordEdate, vendorName);
-	}
 
 	@Override
 	public List<SlsOrdHdVO> findOrderModal(String ordSdate, String ordEdate) {
@@ -81,6 +78,16 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 	@Override
 	public void orderHdDelete(String slsOrdHdNo) {
 		mapper.orderHdDelete(slsOrdHdNo);
+	}
+
+	@Override
+	public List<SlsOrdHdDtlVO> findOrder(Criteria cri) {
+		return mapper.findAllOrder();
+	}
+
+	@Override
+	public Integer findOrderCount(Criteria cri) {
+		return mapper.findOrderCount(cri);
 	}
 
 }

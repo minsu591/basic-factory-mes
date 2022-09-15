@@ -11,6 +11,9 @@
     <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
     <script type="text/javascript" th:src="@{/js/pages/pagination.js}"></script>
     <link th:href="@{/css/sales/order.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/js/pages/pagination.js}"></script>
+    <link th:href="@{/css/pagination.css}" rel="stylesheet" />
+    
 
     <div class="pcoded-main-container">
         <h1>주문 조회</h1>
@@ -21,8 +24,8 @@
                     <form class="form-inline">
                         <div class="form-group mt-3">
                             <label for="slsOrdHdDate" th:text="주문일자"></label>
-                            <input type="date" id="orderSdate" class="form-control mx-sm-3"> ~
-                            <input type="date" id="orderEdate" class="form-control mx-sm-3">
+                            <input type="date" id="orderSdate" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword}"> ~
+                            <input type="date" id="orderEdate" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword2}">
                         </div>
                         <br>
                         <div class="form-group mt-3">
@@ -30,10 +33,18 @@
                             <input type="text" id="vendor" class="form-control mx-sm-3"
                                    data-toggle="modal" data-target=".bd-example-modal-lg">
                             <label for="vendorName" th:text="거래처명"></label>
-                            <input type="text" id="vendorName" class="form-control mx-sm-3" disabled>
+                            <input type="text" id="vendorName" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword3}" disabled>
                         </div>
                         <button type="button" class="btn  btn-primary" id="ordBtn">조회</button>
                     </form>
+                    <form name="searchForm" id="searchForm">
+                        <input type='hidden' id ='type' name="type" th:value="${pageMaker.cri.type}">
+                        <input type='hidden' name='keyword' th:value='${pageMaker.cri.keyword}' />
+                        <input type='hidden' name='keyword2' th:value='${pageMaker.cri.keyword2}' />
+                        <input type='hidden' name='keyword3' th:value='${pageMaker.cri.keyword3}' />
+                        <input type='hidden' name='pageNum' value='1'>
+                        <input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+                      </form>
                 </div>
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
@@ -54,9 +65,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                                <tr th:each="obj : ${list}">
+                                    <td th:text="${obj.slsOrdHdVO.slsOrdHdDate}"></td>
+                                    <td th:text="${obj.slsOrdHdVO.slsOrdHdNo}"></td>
+                                    <td th:text="${obj.slsOrdHdVO.vendCdNm}"></td>
+                                    <td th:text="${obj.slsOrdDtlVO.finPrdCdCode}"></td>
+                                    <td th:text="${obj.slsOrdDtlVO.finPrdCdName}"></td>
+                                    <td th:text="${obj.slsOrdDtlVO.slsOrdDtlDlvDate}"></td>
+                                    <td th:text="${obj.slsOrdDtlVO.slsOrdDtlVol}"></td>
+                                    <td th:text="${obj.slsOrdDtlVO.slsOrdDtlOutVol}"></td>
+                                    <td th:text="${obj.slsOrdDtlVO.slsOrdDtlVol - obj.slsOrdDtlVO.slsOrdDtlOutVol}"></td>
+                                    <td th:text="${obj.slsOrdHdVO.empName}"></td>
+                                    <td th:text="${obj.slsOrdHdVO.slsOrdHdRemk}"></td>
+                                </tr>
                             </tbody>    
                         </table>
+                        <th:block th:replace="~{/fragments/pagination :: pagination-nav}"></th:block>
+        
                     </div>
                 </div>
             </div>

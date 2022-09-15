@@ -57,16 +57,16 @@ public class PlanController {
 		return "prod/PlanView";
 	}
 	
-	//생산 계획 조건 조회
-	@GetMapping(value = "/planView/org")
-	public String planDateView(Model model, @ModelAttribute("cri") Criteria cri){
-		int total = service.findPlanOrdCount(cri);
-		cri.setAmount(10); // 한페이지당 10개씩 설정
-		PageDTO page = new PageDTO(cri, total);
-		model.addAttribute("pageMaker", page);
-		model.addAttribute("plans", service.findPlanOrd(cri));
-		return "prod/changePlanTable";
-	}
+//	//생산 계획 조건 조회
+//	@GetMapping(value = "/planView/org")
+//	public String planDateView(Model model, @ModelAttribute("cri") Criteria cri){
+//		int total = service.findPlanOrdCount(cri);
+//		cri.setAmount(10); // 한페이지당 10개씩 설정
+//		PageDTO page = new PageDTO(cri, total);
+//		model.addAttribute("pageMaker", page);
+//		model.addAttribute("plans", service.findPlanOrd(cri));
+//		return "prod/changePlanTable";
+//	}
 	
 	//생산 계획 관리에서 내 생산계획 조회 모달
 	@GetMapping("/myPlanView")

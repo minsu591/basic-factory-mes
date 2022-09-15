@@ -25,11 +25,11 @@ h3 {
 }
 
 .nullTd {
-	border : 1px solid red;
+	border : 2px solid red !important;
 }
 
 .sameTd {
-	border : 1px solid blue;
+	border : 2px solid blue !important;
 }
 
 .canModifyTd {

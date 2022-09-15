@@ -2,6 +2,7 @@ package com.mes.bf.sales.service;
 
 import java.util.List;
 
+import com.mes.bf.common.Criteria;
 import com.mes.bf.sales.vo.SlsOrdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
 import com.mes.bf.sales.vo.SlsOrdHdVO;
@@ -12,7 +13,8 @@ public interface SlsOrdService {
 	List<SlsOrdHdDtlVO> findAllOrder();
 	
 	//일자, 거래처별 주문조회
-	List<SlsOrdHdDtlVO> findOrder(String ordSdate, String ordEdate, String vendorName);
+	List<SlsOrdHdDtlVO> findOrder(Criteria cri);
+	Integer findOrderCount(Criteria cri);
 	
 	//주문관리에서 주문내역 조회 모달
 	List<SlsOrdHdVO> findOrderModal(String ordSdate, String ordEdate);

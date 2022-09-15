@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.cmn.vo.VendorCodeVO;
+import com.mes.bf.common.Criteria;
+import com.mes.bf.common.PageDTO;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.prod.vo.FindEmpVO;
 import com.mes.bf.sales.service.SlsOrdService;
@@ -35,26 +39,32 @@ public class SlsOrdController {
 	
 	//주문조회 페이지 이동
 	@RequestMapping("/ord")
-	public ModelAndView order() {
+	public ModelAndView order(Model model, @ModelAttribute("cri") Criteria cri) {
+		int total = service.findOrderCount(cri);
+		cri.setAmount(10); // 한페이지당 10개씩 설정
+		PageDTO page = new PageDTO(cri, total);
+		model.addAttribute("pageMaker", page);
+		model.addAttribute("list", service.findOrder(cri));
+		
 		ModelAndView mav = new ModelAndView("sales/order");
 		return mav;
 	}
-
-	//주문내역 전체 조회
-	@GetMapping("/findAllOrder")
-	public List<SlsOrdHdDtlVO> findAllOrder() {
-		List<SlsOrdHdDtlVO> list = service.findAllOrder();
-		return list;
-	}
-	
-	//주문내역 조건 조회
-	@GetMapping(value = "/findOrder")
-	public List<SlsOrdHdDtlVO> findOrder(@RequestParam Map<String, String> param) {
-		List<SlsOrdHdDtlVO> list = service.findOrder(param.get("ordSdate"),
-													 param.get("ordEdate"),
-													 param.get("vendorName"));
-		return list;
-	}
+//
+//	//주문내역 전체 조회
+//	@GetMapping("/findAllOrder")
+//	public List<SlsOrdHdDtlVO> findAllOrder() {
+//		List<SlsOrdHdDtlVO> list = service.findAllOrder();
+//		return list;
+//	}
+//	
+//	//주문내역 조건 조회
+//	@GetMapping(value = "/findOrder")
+//	public List<SlsOrdHdDtlVO> findOrder(@RequestParam Map<String, String> param) {
+//		List<SlsOrdHdDtlVO> list = service.findOrder(param.get("ordSdate"),
+//													 param.get("ordEdate"),
+//													 param.get("vendorName"));
+//		return list;
+//	}
 	
 	//주문관리 페이지 이동
 	@RequestMapping("/ordManage")

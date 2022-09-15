@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.cmn.service.LineService;
+import com.mes.bf.common.Criteria;
+import com.mes.bf.common.PageDTO;
 import com.mes.bf.eqp.service.InspcService;
 import com.mes.bf.eqp.vo.InspcVO;
 import com.mes.bf.eqp.vo.MchnVO;
@@ -67,18 +70,22 @@ public class InspcController {
 	
 	//점검조회
 	@RequestMapping("/inspcList")
-	public String MchnListPage(Model model) {
-		List<InspcVO> inspcs = service.listInspc();
-		model.addAttribute("inspcs", inspcs);
+	public String MchnListPage(Model model, @ModelAttribute("cri") Criteria cri) {
+		int total = service.findListInspcCount(cri);
+		cri.setAmount(10); // 한페이지당 10개씩 설정
+		PageDTO page = new PageDTO(cri, total);
+		model.addAttribute("pageMaker", page);
+		model.addAttribute("inspcs", service.findListInspc(cri));
 		return "eqp/InspcList";
 	}
-	//점검상세조회
-	@GetMapping(value="/inspcList/find", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public String MchnListFindPage(@RequestParam Map<String, String> QueryParameters, Model model) {
-		List<InspcVO> inspcs = service.findListInspc(QueryParameters.get("sdate"), QueryParameters.get("edate"), QueryParameters.get("mchnCode"));
-		model.addAttribute("inspcs", inspcs);
-		return "eqp/ChangeInspcListTable";
-	}
+	
+//	//점검상세조회
+//	@GetMapping(value="/inspcList/find", produces = { MediaType.APPLICATION_JSON_VALUE })
+//	public String MchnListFindPage(@RequestParam Map<String, String> QueryParameters, Model model) {
+//		List<InspcVO> inspcs = service.findListInspc(QueryParameters.get("sdate"), QueryParameters.get("edate"), QueryParameters.get("mchnCode"));
+//		model.addAttribute("inspcs", inspcs);
+//		return "eqp/ChangeInspcListTable";
+//	}
 	
 	// 설비명 조회
 	@PostMapping(value = "/findmchn", produces = { MediaType.APPLICATION_JSON_VALUE })
