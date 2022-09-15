@@ -66,18 +66,19 @@
         WHERE <![CDATA[ROWNUM <= 10]]>
 	</select>
 	
-	<!-- 주문 조건 조회 -->
-	<select id="findOrder" resultMap="ordHdDtlMap">
-   		SELECT ORDHD.SLS_ORD_HD_DATE,
-   			   ORDHD.SLS_ORD_HD_NO,
-   			   VEND.VEND_CD_NM, 
-               FNSPRD.FIN_PRD_CD_CODE,
-               FNSPRD.FIN_PRD_CD_NAME, 
-               ORDDTL.SLS_ORD_DTL_DLV_DATE,
-               ORDDTL.SLS_ORD_DTL_VOL,
-               ORDDTL.SLS_ORD_DTL_OUT_VOL,
-               EMP.EMP_NAME,
-               NVL(ORDHD.SLS_ORD_HD_REMK, ' ') AS SLS_ORD_HD_REMK
+	<!-- 검색조건 SQL -->
+	<sql id="criteria">
+		<if test="keyword != null and keyword != '' and keyword2 != null and keyword2 != ''">
+			AND TdRUNC(ORDHD.SLS_ORD_HD_DATE) BETWEEN  #{keyword} AND #{keyword2}
+		</if>
+		<if test="keyword3 != null and keyword3 != ''">
+			AND VEND.VEND_CD_NM = #{keyword3}
+		</if>
+		
+	</sql>
+	
+	<select id="findOrderCount" resultType="int">
+		SELECT COUNT(*)
 		FROM BF_SALES_ORD_HD ORDHD
 		JOIN BF_SALES_ORD_DTL ORDDTL
 		  ON ORDHD.SLS_ORD_HD_NO = ORDDTL.SLS_ORD_HD_NO
@@ -87,16 +88,44 @@
 		  ON VEND.VEND_CD_CODE = ORDHD.VEND_CD_CODE
         JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
           ON FNSPRD.FIN_PRD_CD_CODE = ORDDTL.FIN_PRD_CD_CODE
-            
         <where>
-        	<if test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
-        		AND TRUNC(ORDHD.SLS_ORD_HD_DATE) BETWEEN  #{ordSdate} AND #{ordEdate}
-        	</if>
-        	<if test="vendorName != null and vendorName != ''">
-        		AND VEND.VEND_CD_NM = #{vendorName}
-        	</if>
+        	<include refid="criteria" />
        	</where>
-        ORDER BY SLS_ORD_HD_DATE DESC, SLS_ORD_HD_NO DESC
+        ORDER BY ORDHD.SLS_ORD_HD_DATE DESC, ORDHD.SLS_ORD_HD_NO DESC
+	</select>
+	
+	<!-- 주문 조건 조회 -->
+	<select id="findOrder" resultMap="ordHdDtlMap">
+   		SELECT X.* FROM(
+			SELECT Y.*, ROWNUM AS RNUM FROM (
+					SELECT ORDHD.SLS_ORD_HD_DATE,
+		   			   ORDHD.SLS_ORD_HD_NO,
+		   			   VEND.VEND_CD_NM, 
+		               FNSPRD.FIN_PRD_CD_CODE,
+		               FNSPRD.FIN_PRD_CD_NAME, 
+		               ORDDTL.SLS_ORD_DTL_DLV_DATE,
+		               ORDDTL.SLS_ORD_DTL_VOL,
+		               ORDDTL.SLS_ORD_DTL_OUT_VOL,
+		               EMP.EMP_NAME,
+		               NVL(ORDHD.SLS_ORD_HD_REMK, ' ') AS SLS_ORD_HD_REMK
+				FROM BF_SALES_ORD_HD ORDHD
+				JOIN BF_SALES_ORD_DTL ORDDTL
+				  ON ORDHD.SLS_ORD_HD_NO = ORDDTL.SLS_ORD_HD_NO
+		        JOIN BF_CMN_EMP EMP
+		          ON EMP.EMP_ID = ORDHD.EMP_ID
+				JOIN BF_CMN_VENDOR_CODE VEND
+				  ON VEND.VEND_CD_CODE = ORDHD.VEND_CD_CODE
+		        JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
+		          ON FNSPRD.FIN_PRD_CD_CODE = ORDDTL.FIN_PRD_CD_CODE
+        <where>
+        	<include refid="criteria" />
+       	</where>
+        ORDER BY ORDHD.SLS_ORD_HD_DATE DESC, ORDHD.SLS_ORD_HD_NO DESC ) Y
+				<where>
+					<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
+				</where>
+			) X
+		WHERE X.RNUM > (#{pageNum}-1)*#{amount}
    	</select>
    	
    	<!-- 주문관리에서 주문내역 조회 모달 -->

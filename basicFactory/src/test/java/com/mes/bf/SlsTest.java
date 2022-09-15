@@ -36,13 +36,13 @@ public class SlsTest {
 		}
 	}
 
-	//@Test
-	void findOrder() {
-		List<SlsOrdHdDtlVO> list1 = service.findOrder("2022-08-18","2022-08-18","예담");
-		for(int i = 0; i < list1.size(); i++) {
-			System.out.println(list1.get(i).toString());
-		}
-	}
+//	//@Test
+//	void findOrder() {
+//		List<SlsOrdHdDtlVO> list1 = service.findOrder("2022-08-18","2022-08-18","예담");
+//		for(int i = 0; i < list1.size(); i++) {
+//			System.out.println(list1.get(i).toString());
+//		}
+//	}
 	
 	//@Test
 	void findAllOut() {
@@ -52,13 +52,13 @@ public class SlsTest {
 		}
 	}
 	
-	//@Test
-	void findOut() {
-		List<SlsOutHdDtlVO> list = outService.findOut("2022-08-24", "2022-08-24", "예담");
-		for(int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i).toString());
-		}
-	}
+//	//@Test
+//	void findOut() {
+//		List<SlsOutHdDtlVO> list = outService.findOut("2022-08-24", "2022-08-24", "예담");
+//		for(int i = 0; i < list.size(); i++) {
+//			System.out.println(list.get(i).toString());
+//		}
+//	}
 	
 	//@Test
 	void findNotOutDtl() {

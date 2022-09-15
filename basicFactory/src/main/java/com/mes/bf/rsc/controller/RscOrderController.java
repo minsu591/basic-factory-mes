@@ -98,15 +98,14 @@ public class RscOrderController {
 		model.addAttribute("olist",olist);
 	}
 	
-	@RequestMapping(value = "/orderListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public String orderTableList(@ModelAttribute("cri") Criteria cri, Model model) {
-		int total = rscOrderService.orderListCount(cri);
-		cri.setAmount(10); // 한페이지당 10개씩 설정
-		PageDTO page = new PageDTO(cri, total);
-		model.addAttribute("pageMaker", page);
-		System.out.println(page);
-		model.addAttribute("olist", rscOrderService.orderList(cri));
-		
-		return "rsc/table/orderListTable";
-	}
+//	@RequestMapping(value = "/orderListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
+//	public String orderTableList(@ModelAttribute("cri") Criteria cri, Model model) {
+//		int total = rscOrderService.orderListCount(cri);
+//		cri.setAmount(10); // 한페이지당 10개씩 설정
+//		PageDTO page = new PageDTO(cri, total);
+//		model.addAttribute("pageMaker", page);
+//		model.addAttribute("olist", rscOrderService.orderList(cri));
+//		
+//		return "rsc/table/orderListTable";
+//	}
 }

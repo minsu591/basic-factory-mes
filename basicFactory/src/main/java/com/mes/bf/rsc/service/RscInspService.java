@@ -2,6 +2,7 @@ package com.mes.bf.rsc.service;
 
 import java.util.List;
 
+import com.mes.bf.common.Criteria;
 import com.mes.bf.rsc.vo.RscInspVO;
 import com.mes.bf.rsc.vo.RscOrderVO;
 
@@ -17,6 +18,6 @@ public interface RscInspService {
 	//단건조회
 	RscInspVO inspVoLoad(String rscInspCode);
 	
-	List<RscInspVO> inspList(String rscInspCode, String rscCdCode, String rscInspSDate, String rscInspEDate);
-	
+	List<RscInspVO> inspList(Criteria cri);
+	Integer inspListCount(Criteria cri);
 }

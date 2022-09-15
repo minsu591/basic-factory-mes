@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mes.bf.common.Criteria;
 import com.mes.bf.rsc.mapper.RscInspMapper;
 import com.mes.bf.rsc.service.RscInspService;
 import com.mes.bf.rsc.vo.RscInspVO;
@@ -36,8 +37,13 @@ public class RscInspServiceImpl implements RscInspService {
 	}
 	
 	@Override
-	public List<RscInspVO> inspList(String rscInspCode, String rscCdCode, String rscInspSDate, String rscInspEDate) {
-		return rscInspMapper.inspList(rscInspCode, rscCdCode, rscInspSDate, rscInspEDate);
+	public List<RscInspVO> inspList(Criteria cri) {
+		return rscInspMapper.inspList(cri);
+	}
+
+	@Override
+	public Integer inspListCount(Criteria cri) {
+		return rscInspMapper.inspListCount(cri);
 	}
 
 

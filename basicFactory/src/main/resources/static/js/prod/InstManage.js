@@ -4,6 +4,23 @@ let lineArray = [];
 let prodCodeArr = [];
 let inDtlVol = [];
 $(document).ready(function () {
+  $("#PDFBtn").click(function () {
+    console.log("instNo->" + $("#instNo").val());
+    let instNo = $("#instNo").val();
+    $.ajax({
+      url: `report.do`,
+      method: "GET",
+      //contentType: "application/json;charset=utf-8",
+      //dataType: "json",
+      data: { instNo: instNo },
+      success: function (data) {
+        window.open("/prod/report.do?instNo="+instNo);
+        console.log("호출성공");
+      },
+      error: function (error, status, msg) {},
+    });
+  });
+
   $("#empid").prop("disabled", true);
   //지시일자 기본값 세팅
   let today = new Date();
@@ -279,7 +296,7 @@ $(document).ready(function () {
     findRscNeedQty(uniqueProdCode);
     //공정 상태 조회
     findProcStatus(uniqueLineArray);
-    console.log("매니지페이지 유니크라인어레이->" + uniqueLineArray);
+    //console.log("매니지페이지 유니크라인어레이->" + uniqueLineArray);
     //console.log("uniqueLineArray -> " + uniqueLineArray);
 
     //제품코드에 값이 입력됐을 때 실행
@@ -341,10 +358,12 @@ $(document).ready(function () {
       },
       error: function (err) {
         $("#procStatusTable tbody tr").remove();
+
       },
       success: function (data) {
         //console.log('지겹다진짜' + data);
         $("#procStatusTable tbody tr").remove();
+
         for (obj of data) {
           procStatusMakeRow(obj);
         }

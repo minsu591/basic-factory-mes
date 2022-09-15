@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Instruction" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6b0cd5ae-c37c-480f-9513-0100e89cca8e">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="OracleCloud"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="han_font" fontName="malgun"/>
+	<parameter name="instNo" class="java.lang.String"/>
+	<parameter name="subReport" class="net.sf.jasperreports.engine.JasperReport">
+        <parameterDescription><![CDATA[]]></parameterDescription>
+        <defaultValueExpression><![CDATA[$P{subReport}]]></defaultValueExpression>
+    </parameter>
+	
+	<queryString>
+		<![CDATA[SELECT inst.inst_no,inst.inst_date,inst.inst_name,vendorcode.vend_cd_nm,
+       ordh.sls_ord_hd_date,ordh.sls_ord_hd_no,emp.emp_name 
+FROM
+BF_PROD_INSTRUCTION inst LEFT OUTER JOIN BF_PROD_PLAN_HD ph
+ON inst.plan_hd_code = inst.plan_hd_code LEFT OUTER JOIN BF_SALES_ORD_HD ordh 
+ON ph.sls_ord_hd_no = ordh.sls_ord_hd_no LEFT OUTER JOIN BF_CMN_VENDOR_CODE vendorcode
+ON vendorcode.vend_cd_code = ordh.vend_cd_code LEFT OUTER JOIN BF_CMN_EMP emp
+ON emp.emp_id = vendorcode.emp_id
+WHERE inst.inst_no =  $P{instNo} AND rownum = 1]]>
+	</queryString>
+	<field name="INST_NO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="INST_NO"/>
+		<property name="com.jaspersoft.studio.field.label" value="INST_NO"/>
+	</field>
+	<field name="INST_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="INST_DATE"/>
+		<property name="com.jaspersoft.studio.field.label" value="INST_DATE"/>
+	</field>
+	<field name="INST_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="INST_NAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="INST_NAME"/>
+	</field>
+	<field name="VEND_CD_NM" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="VEND_CD_NM"/>
+		<property name="com.jaspersoft.studio.field.label" value="VEND_CD_NM"/>
+	</field>
+	<field name="SLS_ORD_HD_DATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="SLS_ORD_HD_DATE"/>
+		<property name="com.jaspersoft.studio.field.label" value="SLS_ORD_HD_DATE"/>
+	</field>
+	<field name="SLS_ORD_HD_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SLS_ORD_HD_NO"/>
+		<property name="com.jaspersoft.studio.field.label" value="SLS_ORD_HD_NO"/>
+	</field>
+	<field name="EMP_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="EMP_NAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="EMP_NAME"/>
+	</field>
+	<title>
+		<band height="205" splitType="Stretch">
+			<staticText>
+				<reportElement x="181" y="11" width="199" height="38" uuid="c8d5b631-3f62-4dc7-aeeb-dfaa6d0cad91">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun" size="25" isBold="true"/>
+				</textElement>
+				<text><![CDATA[생산지시서]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="381" y="-2" width="49" height="21" backcolor="#ABABAB" uuid="47eaf510-384a-4c2c-b454-52867b09e27b"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="430" y="-2" width="49" height="21" backcolor="#B8B8B8" uuid="c440e435-f038-491a-a7c4-4fdf2d84d98a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="479" y="-2" width="49" height="21" backcolor="#B8B8B8" uuid="ab1d53ce-dd5a-4405-ac55-4aca11d876b9"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="381" y="19" width="49" height="29" backcolor="#FFFFFF" uuid="461ada17-4f23-4335-986f-3aaece460bba"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="430" y="19" width="49" height="29" backcolor="#FFFFFF" uuid="0f2030b0-40b0-4d28-ad27-afe5b12f7f61"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="479" y="19" width="49" height="29" backcolor="#FFFFFF" uuid="87fb954d-f3ba-4c1b-812c-53caa94a43ec"/>
+			</rectangle>
+			<textField>
+				<reportElement x="381" y="-2" width="49" height="21" backcolor="#B8B8B8" uuid="3b1c26fd-df8f-4d60-bb35-2481c6537d1b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["담당"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="21" y="67" width="108" height="21" backcolor="#B8B8B8" uuid="444f18bc-bb87-4f18-97af-2721d553a61b"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="110" y="67" width="149" height="21" backcolor="#FFFFFF" uuid="cbcb5a2c-7b2c-4d65-b2a9-388e9b92c535"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="367" y="67" width="165" height="21" backcolor="#FFFFFF" uuid="adb27c02-81a0-44d7-8a08-74b1011c3288"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="259" y="67" width="108" height="21" backcolor="#B8B8B8" uuid="79dce6fb-8d9f-4929-98e6-6618c334fcf2"/>
+			</rectangle>
+			<textField>
+				<reportElement x="21" y="67" width="88" height="20" uuid="dc47de79-61fa-4e49-89ed-150064aba2e2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["지시서No."]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="21" y="88" width="89" height="21" backcolor="#B8B8B8" uuid="7f2438de-4c45-45f4-b05c-a9549e459fb8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="110" y="88" width="422" height="21" backcolor="#FFFFFF" uuid="165d33d1-3f78-46f2-bf64-f30bf6101f85"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="21" y="88" width="89" height="20" uuid="d34e7891-40f4-4ef6-80b4-6394fd660e1b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["생산지시명"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="21" y="109" width="89" height="49" backcolor="#B8B8B8" uuid="a75de8ec-4740-44a5-8542-def91191661e"/>
+			</rectangle>
+			<textField>
+				<reportElement x="21" y="109" width="89" height="49" uuid="2b28733a-b6c4-42e6-8785-cca8390079ab">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["거래처"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="110" y="109" width="88" height="25" backcolor="#B8B8B8" uuid="ee358297-efc9-4e0c-a495-856f58acc67d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="110" y="133" width="88" height="25" backcolor="#B8B8B8" uuid="53ec286f-8a2b-4911-8e46-039f9e3ae16d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement x="110" y="109" width="88" height="25" uuid="2187374e-ce0e-4062-8537-44fc39f98cb5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["거래처명"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="133" width="89" height="25" uuid="58a5179e-e5db-4c21-87a6-7b095ed3b19a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["주문코드"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="198" y="109" width="123" height="25" backcolor="#FFFFFF" uuid="a05a27fd-5a2a-4a43-822a-37631f2ea098"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="198" y="133" width="123" height="25" backcolor="#FFFFFF" uuid="ab7407c5-b4f2-4949-9e6b-5471475fb780"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="321" y="109" width="88" height="25" backcolor="#B8B8B8" uuid="92fae7b8-4cd3-4ca6-a546-d8a3a050a855">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="409" y="109" width="123" height="25" backcolor="#FFFFFF" uuid="77cebfff-bcf6-4aae-8294-78b2e128bd79"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="260" y="67" width="107" height="20" uuid="2bcc3eef-5af0-4aca-abf0-8e8c8e9d5f0c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["지시 일자"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="21" y="158" width="50" height="45" backcolor="#B8B8B8" uuid="5fd5ba40-23ef-4a18-ba11-0a5fa00f043b"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="71" y="158" width="80" height="45" backcolor="#B8B8B8" uuid="bdb5a696-c3f6-41c6-b797-1a93d52ef993"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="151" y="158" width="101" height="45" backcolor="#B8B8B8" uuid="40269c94-16fe-419e-9002-1ce241903343"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="321" y="158" width="70" height="45" backcolor="#B8B8B8" uuid="0f97401d-a0b3-446d-a8ab-667b224416d8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="391" y="158" width="71" height="45" backcolor="#B8B8B8" uuid="31d704aa-0198-4c41-a362-05833ba8e947"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="462" y="158" width="70" height="45" backcolor="#B8B8B8" uuid="146bfc79-a4c3-4606-8e6c-54d83d8fed70"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="252" y="158" width="69" height="45" backcolor="#B8B8B8" uuid="64c1f063-9f46-4b2a-aca6-24710b9aabfb"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="321" y="133" width="88" height="25" backcolor="#B8B8B8" uuid="e1f8704b-48ba-45e7-ad4a-d9a42ccd6d29">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="409" y="133" width="123" height="25" backcolor="#FFFFFF" uuid="9aa4d797-6bba-486b-8e79-8b9d0b9698bb"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="321" y="109" width="88" height="25" uuid="2dc72958-0e39-49ad-ac36-5269b22e92fd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["주문일자"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="321" y="133" width="88" height="25" uuid="a21127dc-00df-43b9-9e98-d8be3f83dab0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["담당직원"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="68" width="138" height="19" uuid="69147db4-30f9-41ff-806c-bcc003cc836d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INST_NO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement x="380" y="68" width="151" height="19" uuid="a707008d-135d-4bff-bf62-7695d9fd7662"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INST_DATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="88" width="100" height="20" uuid="9450376f-1197-4d72-bc5c-052917424ec0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INST_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="210" y="109" width="110" height="23" uuid="1adb88f2-8b73-4e9e-9e52-bac145beabae"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VEND_CD_NM}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd" isBlankWhenNull="true">
+				<reportElement x="420" y="109" width="112" height="23" uuid="8eacbfd2-83eb-4c90-8d6d-2825b3f7cee5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLS_ORD_HD_DATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="210" y="134" width="110" height="23" uuid="dca57ba0-cb75-4bc5-b658-aa755f8de391"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLS_ORD_HD_NO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="134" width="112" height="22" uuid="14596aa7-b73d-41e9-b520-d72b4b5e35fd"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EMP_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="21" y="160" width="49" height="40" uuid="82fb9505-044a-4a6e-8bf5-c77d36fd6c4a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["No."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="160" width="70" height="40" uuid="c21745dc-4e04-4e6e-bef2-88840f34e3de">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["주문량"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="160" width="79" height="40" uuid="7836c263-5230-4949-a1a4-8a53e59dbd6d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["작업라인"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="160" width="100" height="40" uuid="8ea04581-ee55-4d64-a14e-54b394a97c13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["제품명"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="461" y="160" width="70" height="40" uuid="91ea4517-005d-4fdc-985a-0310c59f9fb2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["비고"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="160" width="70" height="40" uuid="8955304a-0d90-4f0e-a981-729c81ff7db2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["규격"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="160" width="71" height="40" uuid="f0d5319d-90c6-483a-a055-057b60d698e3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA["지시량"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="20" y="10" width="210" height="25" uuid="a4f3b3bf-f8db-4f7d-a25f-9ba361e5574e">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BASIC FACTORY]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="115">
+			<subreport>
+				<reportElement x="22" y="-2" width="511" height="97" uuid="355fada9-58f2-4ec0-afaa-5e8697c0b9a3"/>
+				<subreportParameter name="instNo">
+					<subreportParameterExpression><![CDATA[$F{INST_NO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{subReport}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="50"/>
+	</columnFooter>
+</jasperReport>

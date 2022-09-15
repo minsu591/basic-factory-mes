@@ -14,10 +14,13 @@ $(document).ready(function () {
       },
       success: function (data) {
         console.log(data);
+        
         for (obj of data) {
           console.log(obj);
           stockMakeRow(obj);
         }
+        $("#remo").remove();
+        page();
       }
     });
   }
@@ -59,10 +62,12 @@ $(document).ready(function () {
       },
       success: function (data) {
         $('#stockTable tbody tr').remove();
-
+      
         for (obj of data) {
           stockMakeRow(obj);
         }
+        $("#remo").remove();
+        page();
       }
     });
   }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mes.bf.common.Criteria;
 import com.mes.bf.sales.mapper.SlsOutMapper;
 import com.mes.bf.sales.service.SlsOutService;
 import com.mes.bf.sales.vo.SlsOrdHdDtlVO;
@@ -22,10 +23,6 @@ public class SlsOutServiceImpl implements SlsOutService {
 		return mapper.findAllOut();
 	}
 
-	@Override
-	public List<SlsOutHdDtlVO> findOut(String ordSdate, String ordEdate, String vendorName) {
-		return mapper.findOut(ordSdate, ordEdate, vendorName);
-	}
 
 	@Override
 	public List<SlsOrdHdDtlVO> findNotOut(String ordSdate, String ordEdate) {
@@ -85,6 +82,18 @@ public class SlsOutServiceImpl implements SlsOutService {
 	@Override
 	public int checkOrder(String slsOrdHdNo) {
 		return mapper.checkOrder(slsOrdHdNo);
+	}
+
+
+	@Override
+	public List<SlsOutHdDtlVO> findOut(Criteria cri) {
+		return mapper.findOut(cri);
+	}
+
+
+	@Override
+	public Integer findOutCount(Criteria cri) {
+		return mapper.findOutCount(cri);
 	}
 
 

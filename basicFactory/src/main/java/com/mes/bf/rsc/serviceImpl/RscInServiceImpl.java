@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mes.bf.common.Criteria;
 import com.mes.bf.rsc.mapper.RscInMapper;
 import com.mes.bf.rsc.service.RscInService;
 import com.mes.bf.rsc.vo.RscInVO;
@@ -16,10 +17,6 @@ public class RscInServiceImpl implements RscInService {
 
 	@Autowired RscInMapper rscInMapper;
 	
-	@Override
-	public List<RscInVO> inList(String rscInCode, String rscCdCode, String rscInSDate, String rscInEDate) {
-		return rscInMapper.inList(rscInCode, rscCdCode, rscInSDate, rscInEDate);
-	}
 
 	@Override
 	public List<RscInspVO> inspCompList(String rscCdCode, String inspDate) {
@@ -29,6 +26,16 @@ public class RscInServiceImpl implements RscInService {
 	@Override
 	public int inInsert(RscInspVO vo) {
 		return rscInMapper.inInsert(vo);
+	}
+
+	@Override
+	public List<RscInVO> inList(Criteria cri) {
+		return rscInMapper.inList(cri);
+	}
+
+	@Override
+	public Integer inListCount(Criteria cri) {
+		return rscInMapper.inListCount(cri);
 	}
 
 }

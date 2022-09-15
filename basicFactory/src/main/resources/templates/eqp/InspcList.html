@@ -10,6 +10,8 @@
     <link th:href="@{/css/eqp/Inspc.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/js/eqp/inspc.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
+    <script type="text/javascript" th:src="@{/js/pages/pagination.js}"></script>
+    <link th:href="@{/css/pagination.css}" rel="stylesheet" />
 
     <div class="pcoded-main-container">
       <h1>설비 점검 조회</h1>
@@ -20,18 +22,26 @@
             <form class="form-inline">
               <div class="form-group mt-3">
                 <label for="inspcEdate" th:text="점검일자"></label>
-                <input type="date" id="inspcSdate" class="form-control mx-sm-3" /> ~
-                <input type="date" id="inspcEdate" class="form-control mx-sm-3" />
+                <input type="date" id="inspcSdate" class="form-control mx-sm-3" th:value='${pageMaker.cri.keyword}'/> ~
+                <input type="date" id="inspcEdate" class="form-control mx-sm-3" th:value='${pageMaker.cri.keyword2}'/>
               </div>
               <br />
               <div class="form-group mt-3">
                 <label for="mchnname" th:text="설비명"></label>
                 <input type="text" id="mchnname" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" />
                 <label for="mchnCode" th:text="설비코드"></label>
-                <input type="text" id="mchnCode" class="form-control mx-sm-3" readonly />
+                <input type="text" id="mchnCode" class="form-control mx-sm-3" readonly th:value='${pageMaker.cri.keyword3}'/>
               </div>
 
               <button type="button" class="btn btn-primary" id="inspcViewBtn">조회</button>
+            </form>
+            <form name="searchForm" id="searchForm">
+              <input type='hidden' id ='type' name="type" th:value="${pageMaker.cri.type}">
+              <input type='hidden' name='keyword' th:value='${pageMaker.cri.keyword}' />
+              <input type='hidden' name='keyword2' th:value='${pageMaker.cri.keyword2}' />
+              <input type='hidden' name='keyword3' th:value='${pageMaker.cri.keyword3}' />
+              <input type='hidden' name='pageNum' value='1'>
+              <input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
             </form>
           </div>
           <div class="card-body table-border-style">
@@ -66,6 +76,7 @@
                   </tr>
                 </tbody>
               </table>
+              <th:block th:replace="~{/fragments/pagination :: pagination-nav}"></th:block>
             </div>
           </div>
         </div>

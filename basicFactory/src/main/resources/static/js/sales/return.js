@@ -16,6 +16,8 @@ $(document).ready(function () {
         for (obj of data) {
           returnMakeRow(obj);
         }
+        $("#remo").remove();
+        page();
       }
     });
   }
@@ -90,6 +92,8 @@ $(document).ready(function () {
         for (obj of data) {
           returnMakeRow(obj);
         }
+        $("#remo").remove();
+        page();
       }
     });
   }

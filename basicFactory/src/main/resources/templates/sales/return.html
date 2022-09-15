@@ -10,6 +10,8 @@
     <script type="text/javascript" th:src="@{/js/sales/return.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
     <link th:href="@{/css/sales/return.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/js/pages/pagination.js}"></script>
+    <link th:href="@{/css/pagination.css}" rel="stylesheet" />
 
     <div class="pcoded-main-container">
         <h1>완제품 반품 조회</h1>
@@ -31,7 +33,7 @@
                             <input type="text" id="vendorName" class="form-control mx-sm-3" disabled>
                         </div>
 
-                        <button type="button" class="btn  btn-primary" id="rtnBtn">조회</button>
+                        <button type="button" class="btn  btn-primary " id="rtnBtn">조회</button>
 
                         <div class="form-group mt-3">
                         	<span>처리구분</span>
@@ -46,7 +48,7 @@
                 </div>
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
-                        <table class="table table-striped" id="returnTable">
+                        <table class="table table-striped paginated" id="returnTable">
                             <thead>
                                 <tr>
                                     <th th:text="반품일자"></th>

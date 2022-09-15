@@ -9,6 +9,8 @@
 <body>
     <script type="text/javascript" th:src="@{/js/sales/stock.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findproduct.js}"></script>
+    <script type="text/javascript" th:src="@{/js/pages/pagination.js}"></script>
+    <link th:href="@{/css/pagination.css}" rel="stylesheet" />
     <link th:href="@{/css/sales/stock.css}" rel="stylesheet" />
 
     <div class="pcoded-main-container">
@@ -34,7 +36,7 @@
                 </div>
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
-                        <table class="table table-striped" id="stockTable">
+                        <table class="table table-striped paginated" id="stockTable">
                             <thead>
                                 <tr>
                                     <th th:text="생산일시"></th>

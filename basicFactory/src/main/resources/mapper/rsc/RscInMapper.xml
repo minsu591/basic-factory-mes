@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.rsc.mapper.RscInMapper">
-	<select id="inList" resultType="com.mes.bf.rsc.vo.RscInVO">
-		SELECT RSCIN.RSC_IN_CODE, 
-			   RSCIN.RSC_IN_DATE, 
-               RSCIN.RSC_IN_VOL, 
-            	
-			   RSCCODE.RSC_CD_CODE, 
-			   RSCCODE.RSC_CD_NAME,
-			    
-               STOCK.RSC_LOT_NO,
-            	
-			   RSCINSP.RSC_INSP_DATE, 
-               RSCINSP.RSC_INSP_ST
-            	
+	
+	<!-- 검색조건 SQL -->
+	<sql id="criteria">
+		<if test="keyword != null and keyword != ''">
+			AND RSCIN.RSC_IN_CODE LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="keyword3 != null and keyword3 != '' and keyword4 != null and keyword4 != ''">
+			AND <![CDATA[RSCIN.RSC_IN_DATE >= #{keyword3} 
+		 			 AND RSCIN.RSC_IN_DATE <= #{keyword4}]]>
+		</if>
+		<if test="keyword2 != null and keyword2 != ''">
+			AND RSCIN.RSC_CD_CODE = #{keyword2}
+		</if>
+	</sql>
+	
+	<select id="inListCount" resultType="int">
+		SELECT Count(*)            	
 		 FROM  BF_RSC_IN RSCIN 
 		 LEFT  JOIN BF_CMN_RSC_CODE RSCCODE
 		   ON  RSCIN.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
@@ -22,19 +26,41 @@
 		 LEFT  JOIN BF_RSC_INSP RSCINSP
 		   ON  RSCIN.RSC_INSP_CODE = RSCINSP.RSC_INSP_CODE
 		 <where>
-		 	<if test="rscInCode != null and rscInCode != ''">
-		 		RSCIN.RSC_IN_CODE LIKE '%'||#{rscInCode}||'%'
-		 	</if>
-		 	<if test="rscCdCode != null and rscCdCode != ''">
-		 		AND RSCIN.RSC_CD_CODE = #{rscCdCode}
-		 	</if>
-		 	<if test="rscInSDate != null and rscInSDate != ''">
-		 		AND <![CDATA[RSCIN.RSC_IN_DATE >= #{rscInSDate} 
-		 			 AND RSCIN.RSC_IN_DATE <= #{rscInEDate}]]>
-		 	</if>
+		 	<include refid="criteria" />
 		 </where>
-		        
 		ORDER  BY RSCIN.RSC_IN_DATE DESC, RSCIN.RSC_IN_CODE DESC
+	</select>
+	<select id="inList" resultType="com.mes.bf.rsc.vo.RscInVO">
+		SELECT X.* FROM (
+			SELECT Y.*, ROWNUM AS RNUM FROM (
+						SELECT RSCIN.RSC_IN_CODE, 
+						   RSCIN.RSC_IN_DATE, 
+			               RSCIN.RSC_IN_VOL, 
+			            	
+						   RSCCODE.RSC_CD_CODE, 
+						   RSCCODE.RSC_CD_NAME,
+						    
+			               STOCK.RSC_LOT_NO,
+			            	
+						   RSCINSP.RSC_INSP_DATE, 
+			               RSCINSP.RSC_INSP_ST
+			            	
+					 FROM  BF_RSC_IN RSCIN 
+					 LEFT  JOIN BF_CMN_RSC_CODE RSCCODE
+					   ON  RSCIN.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
+					 LEFT  JOIN BF_RSC_STOCK STOCK
+					   ON  RSCIN.RSC_IN_CODE = STOCK.RSC_IN_CODE
+					 LEFT  JOIN BF_RSC_INSP RSCINSP
+					   ON  RSCIN.RSC_INSP_CODE = RSCINSP.RSC_INSP_CODE
+					 <where>
+					 	<include refid="criteria" />
+					 </where>
+					ORDER  BY RSCIN.RSC_IN_DATE DESC, RSCIN.RSC_IN_CODE DESC) Y
+		<where>
+			<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
+		</where>
+		) X
+	WHERE X.RNUM > (#{pageNum}-1)*#{amount}
 	</select>
 	
 	<select id="inspCompList" resultType="com.mes.bf.rsc.vo.RscInspVO">
@@ -61,6 +87,9 @@
 		
 		 ORDER BY 1 DESC
 	</select>
+	
+	
+	
 	
 	<insert id="inInsert" parameterType="com.mes.bf.rsc.vo.RscInVO">
 		INSERT INTO BF_RSC_IN 

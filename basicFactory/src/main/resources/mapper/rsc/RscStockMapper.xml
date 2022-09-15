@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.rsc.mapper.RscStockMapper">
-
-	<select id="StockList" resultType="com.mes.bf.rsc.vo.RscStockVO">
-		SELECT ST.RSC_LOT_NO, 
-			   ST.RSC_IN_VOL, 
-			   ST.RSC_STOCK,
-			   ST.RSC_STOCK_ST,
-			   
-		   	   CD.RSC_CD_CODE, 
-			   CD.RSC_CD_NAME, 
-			   CD.RSC_CD_CLFY, 
-			   CD.RSC_CD_UNIT, 
-			   
-			   NVL(RSCOUT.VOL,0) AS RSC_OUT_VOL
-				
+	<!-- 검색조건 SQL -->
+	<sql id="criteria">
+		<if test="keyword != null and keyword != ''">
+			AND ST.RSC_CD_CODE = #{keyword}
+		</if>
+		<if test="keyword2 != null and keyword2 != ''">
+			AND ST.RSC_LOT_NO = #{keyword2}
+		</if>
+	</sql>
+	
+	<select id="StockListCount" resultType="int">
+		SELECT COUNT(*)
 		 FROM  BF_RSC_STOCK ST 
 		 LEFT  JOIN BF_CMN_RSC_CODE CD 
            ON  CD.RSC_CD_CODE = ST.RSC_CD_CODE
@@ -24,14 +22,44 @@
                       GROUP BY RSC_LOT_NO) RSCOUT
            ON  ST.RSC_LOT_NO = RSCOUT.RSC_LOT_NO
         <where>
-        	<if test="rscCdCode != null and rscCdCode != ''">
-        		ST.RSC_CD_CODE = #{rscCdCode}
-        	</if>
-        	<if test="rscLotNo != null and rscLotNo != ''">
-        		AND ST.RSC_LOT_NO = #{rscLotNo}
-        	</if>
+        	<include refid="criteria" />
         </where>
-        ORDER  BY RSC_LOT_NO DESC
+        ORDER BY ST.RSC_LOT_NO DESC
+	</select>
+	
+	<select id="StockList" resultType="com.mes.bf.rsc.vo.RscStockVO">
+		SELECT X.* FROM (
+			SELECT Y.*, ROWNUM AS RNUM FROM (
+							SELECT ST.RSC_LOT_NO,
+							   ST.RSC_IN_VOL, 
+							   ST.RSC_STOCK,
+							   ST.RSC_STOCK_ST,
+							   
+						   	   CD.RSC_CD_CODE, 
+							   CD.RSC_CD_NAME, 
+							   CD.RSC_CD_CLFY, 
+							   CD.RSC_CD_UNIT, 
+							   
+							   NVL(RSCOUT.VOL,0) AS RSC_OUT_VOL
+								
+						 FROM  BF_RSC_STOCK ST 
+						 LEFT  JOIN BF_CMN_RSC_CODE CD 
+				           ON  CD.RSC_CD_CODE = ST.RSC_CD_CODE
+				         LEFT  JOIN (SELECT NVL(SUM(RSC_OUT_VOL),0) AS VOL, 
+				         					RSC_LOT_NO
+				                      FROM  BF_RSC_OUT
+				                      GROUP BY RSC_LOT_NO) RSCOUT
+				           ON  ST.RSC_LOT_NO = RSCOUT.RSC_LOT_NO
+				        <where>
+				        	<include refid="criteria" />
+				        	
+				        </where>
+				        ORDER  BY ST.RSC_LOT_NO DESC) Y
+		<where>
+			<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
+		</where>
+		) X
+	WHERE X.RNUM > (#{pageNum}-1)*#{amount}
 	</select>
 
 </mapper>
