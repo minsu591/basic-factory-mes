@@ -49,6 +49,9 @@ $(document).ready(function () {
           for (obj of data) {
             instMakeRow(obj);
           }
+          $("#remo").remove();
+          page();
+
         },
       });
     }

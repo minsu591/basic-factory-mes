@@ -54,6 +54,7 @@ public class PlanController {
 		PageDTO page = new PageDTO(cri, total);
 		model.addAttribute("pageMaker", page);
 		model.addAttribute("plans", service.findPlanOrd(cri));
+		System.out.println(page);
 		return "prod/PlanView";
 	}
 	

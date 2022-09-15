@@ -79,21 +79,19 @@
 	 	WHERE <![CDATA[ROWNUM < 10]]>
 	</select>
 	
-	<select id="findOut" resultMap="outHdDtlMap">
-		SELECT OUTHD.SLS_OUT_HD_DATE,
-			   OUTHD.SLS_OUT_HD_NO,
-	           VEND.VEND_CD_NM,
-	           FNSPRD.FIN_PRD_CD_CODE,
-			   FNSPRD.FIN_PRD_CD_NAME,
-	           OUTHD.SLS_ORD_HD_NO,
-	           ORDDTL.SLS_ORD_DTL_VOL,
-			   OUTDTL.SLS_OUT_DTL_PRVS_VOL,
-			   OUTDTL.SLS_OUT_DTL_VOL,
-			   OUTDTL.FNS_PRD_STK_LOT_NO,
-	           FNSPRD.FIN_PRD_CD_PRICE,
-			   OUTDTL.SLS_OUT_DTL_PRICE,
-			   EMP.EMP_NAME,
-			   NVL(OUTHD.SLS_OUT_HD_REMK, ' ') AS SLS_OUT_HD_REMK
+	
+	<!-- 검색조건 SQL -->
+	<sql id="criteria">
+		<if test="keyword != null and keyword != '' and keyword2 != null and keyword2 != ''">
+			AND TRUNC(OUTHD.SLS_OUT_HD_DATE) BETWEEN  #{keyword} AND #{keyword2}
+		</if>
+		<if test="keyword3 != null and keyword3 != ''">
+			AND VEND.VEND_CD_CODE = #{keyword3}
+		</if>
+	</sql>
+	
+	<select id="findOutCount" resultType="int">
+		SELECT COUNT(*)
 		FROM BF_SALES_OUT_HD OUTHD
 		JOIN BF_SALES_OUT_DTL OUTDTL
 	   	  ON OUTHD.SLS_OUT_HD_NO = OUTDTL.SLS_OUT_HD_NO
@@ -111,14 +109,51 @@
 	   	  ON FNSPRDSK.FNS_PRD_STK_LOT_NO = OUTDTL.FNS_PRD_STK_LOT_NO
 	   	  
 		WHERE ORDDTL.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
-		
-			<if test="(outSdate != null and outSdate != '') and (outEdate != null and outEdate != '')">
-				AND TRUNC(OUTHD.SLS_OUT_HD_DATE) BETWEEN  #{outSdate} AND #{outEdate}
-			</if>
-			<if test="vendorName != null and vendorName != ''">
-				AND VEND.VEND_CD_NM = #{vendorName}
-			</if>
-		ORDER BY SLS_OUT_HD_DATE DESC, SLS_OUT_HD_NO DESC
+			<include refid="criteria" />
+		ORDER BY OUTHD.SLS_OUT_HD_DATE DESC, OUTHD.SLS_OUT_HD_NO DESC
+	</select>
+	
+	<select id="findOut" resultMap="outHdDtlMap">
+		SELECT X.* FROM(
+			SELECT Y.*, ROWNUM AS RNUM FROM (
+						SELECT OUTHD.SLS_OUT_HD_DATE,
+						   OUTHD.SLS_OUT_HD_NO,
+				           VEND.VEND_CD_NM,
+				           FNSPRD.FIN_PRD_CD_CODE,
+						   FNSPRD.FIN_PRD_CD_NAME,
+				           OUTHD.SLS_ORD_HD_NO,
+				           ORDDTL.SLS_ORD_DTL_VOL,
+						   OUTDTL.SLS_OUT_DTL_PRVS_VOL,
+						   OUTDTL.SLS_OUT_DTL_VOL,
+						   OUTDTL.FNS_PRD_STK_LOT_NO,
+				           FNSPRD.FIN_PRD_CD_PRICE,
+						   OUTDTL.SLS_OUT_DTL_PRICE,
+						   EMP.EMP_NAME,
+						   NVL(OUTHD.SLS_OUT_HD_REMK, ' ') AS SLS_OUT_HD_REMK
+					FROM BF_SALES_OUT_HD OUTHD
+					JOIN BF_SALES_OUT_DTL OUTDTL
+				   	  ON OUTHD.SLS_OUT_HD_NO = OUTDTL.SLS_OUT_HD_NO
+				 	JOIN BF_SALES_ORD_HD ORDHD
+				   	  ON ORDHD.SLS_ORD_HD_NO = OUTHD.SLS_ORD_HD_NO
+					JOIN BF_SALES_ORD_DTL ORDDTL
+				   	  ON ORDHD.SLS_ORD_HD_NO = ORDDTL.SLS_ORD_HD_NO
+					JOIN BF_CMN_EMP EMP
+				  	  ON EMP.EMP_ID = OUTHD.EMP_ID
+					JOIN BF_CMN_VENDOR_CODE VEND
+				   	  ON VEND.VEND_CD_CODE = OUTHD.VEND_CD_CODE
+					JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
+				   	  ON FNSPRD.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
+					JOIN BF_SALES_FINISH_PRODUCT_STOK FNSPRDSK
+				   	  ON FNSPRDSK.FNS_PRD_STK_LOT_NO = OUTDTL.FNS_PRD_STK_LOT_NO
+				   	  
+					WHERE ORDDTL.FIN_PRD_CD_CODE = OUTDTL.FIN_PRD_CD_CODE
+						<include refid="criteria" />
+					ORDER BY OUTHD.SLS_OUT_HD_DATE DESC, OUTHD.SLS_OUT_HD_NO DESC) Y
+				<where>
+					<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
+				</where>
+			) X
+		WHERE X.RNUM > (#{pageNum}-1)*#{amount}
 	</select>
 	
 	

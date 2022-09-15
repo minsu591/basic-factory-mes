@@ -10,7 +10,8 @@
     <script type="text/javascript" th:src="@{/js/sales/out.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
     <link th:href="@{/css/sales/out.css}" rel="stylesheet" />
-
+    <script type="text/javascript" th:src="@{/js/pages/pagination.js}"></script>
+    <link th:href="@{/css/pagination.css}" rel="stylesheet" />
     <div class="pcoded-main-container">
         <h1>완제품 출고 조회</h1>
         <hr>
@@ -20,14 +21,14 @@
                     <form class="form-inline">
                         <div class="form-group mt-3">
                             <label for="slsOutHdDate" th:text="출고일자"></label>
-                            <input type="date" id="outSdate" class="form-control mx-sm-3"> ~
-                            <input type="date" id="outEdate" class="form-control mx-sm-3">
+                            <input type="date" id="outSdate" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword}"> ~
+                            <input type="date" id="outEdate" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword2}">
                         </div>
                         <br>
                         <div class="form-group mt-3">
                             <label for="vendor" th:text="거래처"></label>
                             <input type="text" id="vendor" class="form-control mx-sm-3"
-                                   data-toggle="modal" data-target=".bd-example-modal-lg">
+                                   data-toggle="modal" data-target=".bd-example-modal-lg" th:value="${pageMaker.cri.keyword3}">
                             <label for="vendorName" th:text="거래처명"></label>
                             <input type="text" id="vendorName" class="form-control mx-sm-3" disabled>
                         </div>
@@ -57,9 +58,27 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                                <tr th:each="obj : ${slslist}">
+                                    <td th:text="${obj.slsOutHdVO.slsOutHdDate}"></td>
+                                    <td th:text="${obj.slsOutHdVO.slsOutHdNo}"></td>
+                                    <td th:text="${obj.slsOutHdVO.vendCdNm}"></td>
+                                    <td th:text="${obj.slsOutDtlVO.finPrdCdCode}"></td>
+                                    <td th:text="${obj.slsOutDtlVO.finPrdCdName}"></td>
+                                    <td th:text="${obj.slsOutHdVO.slsOrdHdNo}"></td>
+                                    <td th:text="${obj.slsOutDtlVO.slsOrdDtlVol}"></td>
+                                    <td th:text="${obj.slsOutDtlVO.slsOutDtlPrvsVol}"></td>
+                                    <td th:text="${obj.slsOutDtlVO.slsOutDtlVol}"></td>
+                                    <td th:text="${(obj.slsOutDtlVO.slsOrdDtlVol - obj.slsOutDtlVO.slsOutDtlPrvsVol) - obj.slsOutDtlVO.slsOutDtlVol}"></td>
+                                    <td th:text="${obj.slsOutDtlVO.fnsPrdStkLotNo}"></td>
+                                    <td th:text="${obj.slsOutDtlVO.finPrdCdPrice}"></td>
+                                    <td th:text="${obj.slsOutDtlVO.slsOutDtlPrice}"></td>
+                                    <td th:text="${obj.slsOutHdVO.empName}"></td>
+                                    <td th:text="${obj.slsOutHdVO.slsOutHdRemk}"></td>
+                                </tr>
                             </tbody>    
                         </table>
+                        <th:block th:replace="~{/fragments/pagination :: pagination-nav}"></th:block>
+        
                     </div>
                 </div>
             </div>
