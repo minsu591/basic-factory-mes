@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mes.bf.rsc.mapper.RscReturnMapper">
-
-	<select id="returnList" resultType="com.mes.bf.rsc.vo.RscReturnVO">
-		SELECT RTN.RSC_RETURN_CODE, 
-		       RTN.RSC_RETURN_DATE, 
-		       RTN.RSC_CD_CODE, 
-               RTN.RSC_RETURN_VOL, 
-               RTN.RSC_RETURN_PRC, 
-               RTN.RSC_RETURN_RESN, 
-               RTN.RSC_RETURN_REMK,
-               
-		       RSCCODE.RSC_CD_NAME, 
-		       RSCCODE.RSC_CD_UNIT,
-		       
-               EMP.EMP_NAME,
-
-               VEND.VEND_CD_NM
+	<!-- 검색조건 SQL -->
+	<sql id="criteria">
+		<if test="keyword != null and keyword != ''">
+			AND RTN.RSC_RETURN_CODE = '%'||#{keyword}||'%'
+		</if>
+		<if test="keyword2 != null and keyword2 != ''">
+			AND RTN.VEND_CD_CODE = #{keyword2}
+		</if>
+		<if test="keyword3 != null and keyword3 != '' and keyword4 != null and keyword4 != ''">
+			AND <![CDATA[RTN.RSC_RETURN_DATE >= #{keyword3} 
+		 			 AND RTN.RSC_RETURN_DATE <= #{keyword4}]]>
+		</if>
+		
+	</sql>
+	
+	<select id="returnListCount" resultType="int">
+		SELECT COUNT(*)
                
 		 FROM  BF_RSC_RETURN RTN 
 		 LEFT  JOIN BF_CMN_RSC_CODE RSCCODE
@@ -26,18 +27,45 @@
 		 LEFT  JOIN BF_CMN_VENDOR_CODE VEND
 		   ON  RTN.VEND_CD_CODE = VEND.VEND_CD_CODE
 		 <where>
-		 	<if test="rscReturnCode != null and rscReturnCode != ''">
-		 		RTN.RSC_RETURN_CODE = '%'||#{rscReturnCode}||'%'
-		 	</if>
-		 	<if test="vendor != null and vendor != ''">
-		 		RTN.VEND_CD_CODE = #{vendor}
-		 	</if>
-		 	<if test="rscReturnSDate != null and rscReturnSDate != ''">
-		 		<![CDATA[RTN.RSC_RETURN_DATE >= #{rscReturnSDate} 
-		 			 AND RTN.RSC_RETURN_DATE <= #{rscReturnEDate}]]>
-		 	</if>
+		 	<include refid="criteria" />
 		 </where>
 		ORDER  BY 1 DESC
+	</select>
+	
+	<select id="returnList" resultType="com.mes.bf.rsc.vo.RscReturnVO">
+		SELECT X.* FROM (
+			SELECT Y.*, ROWNUM AS RNUM FROM (
+							SELECT RTN.RSC_RETURN_CODE, 
+							       RTN.RSC_RETURN_DATE, 
+							       RTN.RSC_CD_CODE, 
+					               RTN.RSC_RETURN_VOL, 
+					               RTN.RSC_RETURN_PRC, 
+					               RTN.RSC_RETURN_RESN, 
+					               RTN.RSC_RETURN_REMK,
+					               
+							       RSCCODE.RSC_CD_NAME, 
+							       RSCCODE.RSC_CD_UNIT,
+							       
+					               EMP.EMP_NAME,
+					
+					               VEND.VEND_CD_NM
+					               
+							 FROM  BF_RSC_RETURN RTN 
+							 LEFT  JOIN BF_CMN_RSC_CODE RSCCODE
+							   ON  RTN.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
+							 LEFT  JOIN BF_CMN_EMP EMP
+							   ON  RTN.EMP_ID = EMP.EMP_ID
+							 LEFT  JOIN BF_CMN_VENDOR_CODE VEND
+							   ON  RTN.VEND_CD_CODE = VEND.VEND_CD_CODE
+							 <where>
+							 	<include refid="criteria" />
+							 </where>
+							ORDER  BY 1 DESC ) Y
+		<where>
+			<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
+		</where>
+		) X
+	WHERE X.RNUM > (#{pageNum}-1)*#{amount}
 	</select>
 	
 	<select id="loadReturn" resultType="com.mes.bf.rsc.vo.RscReturnVO">

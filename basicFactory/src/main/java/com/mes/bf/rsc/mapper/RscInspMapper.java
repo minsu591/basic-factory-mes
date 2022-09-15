@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.mes.bf.common.Criteria;
 import com.mes.bf.rsc.vo.RscInspVO;
 import com.mes.bf.rsc.vo.RscOrderVO;
 
@@ -20,5 +21,6 @@ public interface RscInspMapper {
 	//단건조회
 	RscInspVO inspVoLoad(String rscInspCode);
 	
-	List<RscInspVO> inspList(String rscInspCode, String rscCdCode, String rscInspSDate, String rscInspEDate);
+	List<RscInspVO> inspList(Criteria cri);
+	Integer inspListCount(Criteria cri);
 }

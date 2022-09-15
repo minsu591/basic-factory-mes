@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>자재발주조회</title>
+<link th:href="@{/css/pagination.css}" rel="stylesheet" />
 </head>
 <body>
 	<script type="text/javascript" th:src="@{/js/modal/prod/findvendor.js}"></script>
@@ -14,7 +15,6 @@
 	<script type="text/javascript" th:src="@{/js/rsc/orderList.js}"></script>
 	<script type="text/javascript" th:src="@{/js/pages/pagination.js}"></script>
 
-	<link th:href="@{/css/pagination.css}" rel="stylesheet" />
 	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
 	<div class="pcoded-main-container">
 		<h1>자재 발주 조회</h1>
@@ -26,25 +26,25 @@
 						<div class="form-inline">
 							<div class="form-group mt-3">
 								<label for="rscOrderCode" th:text="발주코드"></label> <input
-									type="text" id="rscOrderCode" class="form-control mx-sm-3">
+									type="text" id="rscOrderCode" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword}">
 							</div>
 							<div class="form-group mt-3">
 								<label for="rscOrderDate" th:text="발주일자"></label> <input
-									type="date" id="rscOrderSDate" class="form-control mx-sm-3">~
+									type="date" id="rscOrderSDate" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword2}">~
 								<input type="date" id="rscOrderEDate"
-									class="form-control mx-sm-3">
+									class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword3}">
 							</div>
 						</div>
 						<div class="form-inline">
 							<div class="form-group mt-3">
 								<label for="vendor" th:text="거래처코드"></label> <input type="text"
 									id="vendor" class="form-control mx-sm-3" data-toggle="modal"
-									data-target=".bd-example-modal-lg">
+									data-target=".bd-example-modal-lg" th:value="${pageMaker.cri.keyword4}">
 							</div>
 							<div class="form-group mt-3">
 								<label for="vendorName" th:text="거래처"></label> <input
-									type="text" id="vendorName" class="form-control mx-sm-3"
-									readonly>
+									type="text" id="vendorName" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword5}"
+									readonly >
 							</div>
 							<div class="form-group mt-3">
 								<label for="rsccode" th:text="자재코드"></label> <input type="text"

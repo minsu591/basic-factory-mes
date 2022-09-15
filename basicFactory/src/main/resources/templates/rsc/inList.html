@@ -7,6 +7,8 @@
   <body>
     <script type="text/javascript" th:src="@{/js/modal/rsc/findResource.js}"></script>
     <script type="text/javascript" th:src="@{/js/rsc/inList.js}"></script>
+    <script type="text/javascript" th:src="@{/js/pages/pagination.js}"></script>
+    <link th:href="@{/css/pagination.css}" rel="stylesheet" />
     <link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
     <div class="pcoded-main-container">
       <h1>자재 입고 조회</h1>
@@ -18,11 +20,11 @@
               <div class="form-inline">
                 <div class="form-group mt-3">
                   <label for="rscInCode" th:text="입고코드"></label>
-                  <input type="text" id="rscInCode" class="form-control mx-sm-3" />
+                  <input type="text" id="rscInCode" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword}" />
                 </div>
                 <div class="form-group mt-3">
                   <label for="rsccode" th:text="자재코드"></label>
-                  <input type="text" id="rsccode" class="form-control mx-sm-3" />
+                  <input type="text" id="rsccode" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword2}" />
                 </div>
                 <div class="form-group mt-3">
                   <label for="rscname" th:text="자재명"></label>
@@ -32,11 +34,20 @@
               <div class="form-inline">
                 <div class="form-group mt-3">
                   <label for="rscInDate" th:text="입고일자"></label>
-                  <input type="date" id="rscInSDate" class="form-control mx-sm-3" />~
-                  <input type="date" id="rscInEDate" class="form-control mx-sm-3" />
+                  <input type="date" id="rscInSDate" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword3}" />~
+                  <input type="date" id="rscInEDate" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword4}" />
                 </div>
                 <button type="button" class="btn btn-primary" id="search">조회</button>
               </div>
+            </form>
+            <form name="searchForm" id="searchForm">
+              <input type='hidden' id ='type' name="type" th:value="${pageMaker.cri.type}">
+              <input type='hidden' name='keyword' th:value='${pageMaker.cri.keyword}' />
+              <input type='hidden' name='keyword2' th:value='${pageMaker.cri.keyword2}' />
+              <input type='hidden' name='keyword3' th:value='${pageMaker.cri.keyword3}' />
+              <input type='hidden' name='keyword4' th:value='${pageMaker.cri.keyword4}' />
+              <input type='hidden' name='pageNum' value='1'>
+              <input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
             </form>
           </div>
           <div class="card-body table-border-style">

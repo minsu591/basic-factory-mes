@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.cmn.vo.VendorCodeVO;
+import com.mes.bf.common.Criteria;
+import com.mes.bf.common.PageDTO;
 import com.mes.bf.prod.service.InstructionService;
 import com.mes.bf.rsc.service.RscReturnService;
 import com.mes.bf.rsc.vo.RscOutVO;
@@ -75,18 +78,25 @@ public class RscReturnController {
 	}
 	
 	@RequestMapping("/returnList")
-	public void returnList(Model model) {
-		List<RscReturnVO> rList = rscReturnService.returnList(null, null, null, null);
-		model.addAttribute("rList", rList);
+	public void returnList(Model model, @ModelAttribute("cri") Criteria cri) {
+		System.out.println(cri);
+		int total = rscReturnService.returnListCount(cri);
+		cri.setAmount(10); // 한페이지당 10개씩 설정
+		PageDTO page = new PageDTO(cri, total);
+		model.addAttribute("pageMaker", page);
+		model.addAttribute("rList", rscReturnService.returnList(cri));
+		
 	}
 	
-	@RequestMapping(value = "/returnListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public String returnListTable(@RequestParam Map<String,String> QueryParameters, Model model) {
-		List<RscReturnVO> rList = rscReturnService.returnList(QueryParameters.get("rscReturnCode"), QueryParameters.get("vendor"), 
-								QueryParameters.get("rscReturnSDate"), QueryParameters.get("rscReturnEDate"));
-		model.addAttribute("rList", rList);
-		return "rsc/table/returnListTable";
-	}
+//	@RequestMapping(value = "/returnListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
+//	public String returnListTable(@ModelAttribute("cri") Criteria cri, Model model) {
+//		int total = rscReturnService.returnListCount(cri);
+//		cri.setAmount(10); // 한페이지당 10개씩 설정
+//		PageDTO page = new PageDTO(cri, total);
+//		model.addAttribute("pageMaker", page);
+//		model.addAttribute("rList", rscReturnService.returnList(cri));
+//		return "rsc/table/returnListTable";
+//	}
 	
 	//거래처 전체조회
 	@GetMapping(value = "/findvendorcode", produces = { MediaType.APPLICATION_JSON_VALUE })

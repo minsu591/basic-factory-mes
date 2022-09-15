@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mes.bf.common.Criteria;
+import com.mes.bf.common.PageDTO;
 import com.mes.bf.rsc.service.RscInspService;
 import com.mes.bf.rsc.vo.RscInspVO;
 import com.mes.bf.rsc.vo.RscOrderVO;
@@ -80,17 +83,22 @@ public class RscInspController {
 		return new ResponseEntity<List<RscInspVO>>(inspList, HttpStatus.OK);
 	}
 	@RequestMapping("/inspList")
-	public void inspList(Model model) {
-		List<RscInspVO> inspList = rscInspService.inspList(null, null, null, null);
-		model.addAttribute("inspList",inspList);
+	public void inspList(Model model,@ModelAttribute("cri") Criteria cri) {
+		int total = rscInspService.inspListCount(cri);
+		cri.setAmount(10); // 한페이지당 10개씩 설정
+		PageDTO page = new PageDTO(cri, total);
+		model.addAttribute("pageMaker", page);
+		model.addAttribute("inspList", rscInspService.inspList(cri));
 	}
 	
-	@RequestMapping(value = "/inspListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public String inspListTable(@RequestParam Map<String, String> QueryParameters, Model model) {
-		System.out.println(QueryParameters.get("rscCdCode"));
-		List<RscInspVO> inspList = rscInspService.inspList(QueryParameters.get("rscInspCode"), QueryParameters.get("rscCdCode"), 
-													QueryParameters.get("rscInspSDate"), QueryParameters.get("rscInspEDate"));
-		model.addAttribute("inspList",inspList);
-		return "rsc/table/inspListTable";
-	}
+//	@RequestMapping(value = "/inspListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
+//	public String inspListTable(@ModelAttribute("cri") Criteria cri, Model model) {
+//		int total = rscInspService.inspListCount(cri);
+//		cri.setAmount(10); // 한페이지당 10개씩 설정
+//		PageDTO page = new PageDTO(cri, total);
+//		model.addAttribute("pageMaker", page);
+//		model.addAttribute("inspList", rscInspService.inspList(cri));
+//		
+//		return "rsc/table/inspListTable";
+//	}
 }

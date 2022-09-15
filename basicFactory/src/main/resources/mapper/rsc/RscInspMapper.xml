@@ -93,28 +93,23 @@
 		
 		 WHERE RSC_INSP_CODE = #{rscInspCode}
 	</update>
-
-	<select id="inspList" resultType="com.mes.bf.rsc.vo.RscInspVO">
-		SELECT INSP.RSC_INSP_CODE, 
-			   INSP.RSC_INSP_DATE, 
-			   INSP.RSC_ORDER_CODE,
-			   INSP.RSC_ORDER_DTL_NO,
-			   INSP.RSC_CD_CODE, 
-			   INSP.RSC_INSP_VOL,
-               INSP.RSC_INFER_VOL, 
-               INSP.RSC_PASS_VOL,
-               INSP.RSC_INSP_ST, 
-               INSP.RSC_INSP_REMK,
-               INSP.EMP_ID,
-               
-			   RSCCODE.RSC_CD_NAME, 
-               RSCCODE.RSC_CD_UNIT, 
-               
-               EMP.EMP_NAME,
-               
-               DT.RSC_ORDER_VOL,
-               DT.RSC_ORDER_ARV
-            
+	
+	<!-- 검색조건 SQL -->
+	<sql id="criteria">
+		<if test="keyword != null and keyword != ''">
+			AND INSP.RSC_INSP_CODE LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="keyword2 != null and keyword2 != ''">
+			AND INSP.RSC_CD_CODE = #{keyword2}
+		</if>
+		<if test="keyword3 != null and keyword3 != '' and keyword4 != null and keyword4 != ''">
+			AND <![CDATA[INSP.RSC_INSP_DATE >= #{keyword3} 
+		 			 AND INSP.RSC_INSP_DATE <= #{keyword4}]]>
+		</if>
+	</sql>
+	
+	<select id="inspListCount" resultType="int">
+		SELECT COUNT(*)
 		 FROM  BF_RSC_INSP INSP 
 		 LEFT  JOIN BF_CMN_RSC_CODE RSCCODE
 		   ON  INSP.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
@@ -123,18 +118,49 @@
 		 LEFT  JOIN BF_RSC_ORDER_DETAILS DT
 		   ON  INSP.RSC_ORDER_DTL_NO = DT.RSC_ORDER_DTL_NO
 		<where>
-		 	<if test="rscInspCode != null and rscInspCode != ''">
-		 		INSP.RSC_INSP_CODE LIKE '%'||#{rscInspCode}||'%'
-		 	</if>
-		 	<if test="rscCdCode != null and rscCdCode != ''">
-		 		INSP.RSC_CD_CODE = #{rscCdCode}
-		 	</if>
-		 	<if test="rscInspSDate != null and rscInspSDate != ''">
-		 		<![CDATA[INSP.RSC_INSP_DATE >= #{rscInspSDate} 
-		 			 AND INSP.RSC_INSP_DATE <= #{rscInspEDate}]]>
-		 	</if>
+		 	<include refid="criteria" />
 		 </where>
 		ORDER BY 1 DESC
+	</select>
+	<select id="inspList" resultType="com.mes.bf.rsc.vo.RscInspVO">
+		SELECT X.* FROM (
+				SELECT Y.*, ROWNUM AS RNUM
+				FROM (SELECT INSP.RSC_INSP_CODE, 
+				   INSP.RSC_INSP_DATE, 
+				   INSP.RSC_ORDER_CODE,
+				   INSP.RSC_ORDER_DTL_NO,
+				   INSP.RSC_CD_CODE, 
+				   INSP.RSC_INSP_VOL,
+	               INSP.RSC_INFER_VOL, 
+	               INSP.RSC_PASS_VOL,
+	               INSP.RSC_INSP_ST, 
+	               INSP.RSC_INSP_REMK,
+	               INSP.EMP_ID,
+	               
+				   RSCCODE.RSC_CD_NAME, 
+	               RSCCODE.RSC_CD_UNIT, 
+	               
+	               EMP.EMP_NAME,
+	               
+	               DT.RSC_ORDER_VOL,
+	               DT.RSC_ORDER_ARV
+	            
+			 FROM  BF_RSC_INSP INSP 
+			 LEFT  JOIN BF_CMN_RSC_CODE RSCCODE
+			   ON  INSP.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
+			 LEFT  JOIN BF_CMN_EMP EMP
+			   ON  INSP.EMP_ID = EMP.EMP_ID
+			 LEFT  JOIN BF_RSC_ORDER_DETAILS DT
+			   ON  INSP.RSC_ORDER_DTL_NO = DT.RSC_ORDER_DTL_NO
+			<where>
+			 	<include refid="criteria" />
+			 </where>
+			ORDER BY 1 DESC ) Y
+		<where>
+			<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
+		</where> 
+		) X
+		WHERE X.RNUM > (#{pageNum}-1)*#{amount}
 	</select>
 
 </mapper>
