@@ -192,7 +192,6 @@ $(document).ready(function () {
           closeOnClickOutside: false,
       }).then((result) => {
           if (result.isConfirmed) {
-              console.log($("#vendor").text());
               if ($("#vendor").val() == null || $("#vendor").val() == '') {
                   noDataWarn();
                   return false;
@@ -219,7 +218,6 @@ $(document).ready(function () {
                   //tbody 안에 내용이 없으면 헤더 삭제 ajax
                   let slsRtnHdNo = $("#slsRtnHdNo").val();
                   deleteHdSaveAjax(slsRtnHdNo);
-                  return false;
               } else {
                   //detail 삭제
                   if (delList.length != 0) {
@@ -400,12 +398,14 @@ function notUpdate() {
     Swal.fire({
         icon: "warning",
         title: "입고 처리된 반품내역 수정 불가",
+        confirmButtonText: "확인"
     });
 }
 function notDelete() {
     Swal.fire({
         icon: "warning",
         title: "입고 처리된 반품내역 삭제 불가",
+        confirmButtonText: "확인"
     });
 }
 
@@ -413,6 +413,7 @@ function requiredWarn() {
     Swal.fire({
         icon: "warning",
         title: "입력하지 않은 값이 있습니다.",
+        confirmButtonText: "확인"
     });
 }
     
@@ -428,6 +429,7 @@ function noDataWarn() {
     Swal.fire({
         icon: "warning",
         title: "입력된 값이 없습니다.",
+        confirmButtonText: "확인"
     });
 }
     

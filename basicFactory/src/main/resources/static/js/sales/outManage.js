@@ -5,12 +5,12 @@ $("document").ready(function () {
     today = today.toISOString().slice(0, 10);
     outToday = $("#slsOutHdDate");
     outToday.val(today);
-    let outTrInfo;
+    let outTrInfo;                       //출고관리 테이블의 tr
     let outLotList = [];                 //출고시킬 LOT정보 담기(제품코드, lot번호, 출고량)
     let avArr = [6];
     let ModalTable = $("#findLotTable"); //완제품 재고 테이블 정보
     let outDtlVol = 0;                   //출고량 총 합계
-
+    let defaultVal;
     //모달 td 수정 이벤트
     ModalTable.find("tbody").on("click", "td", function (e) {
         let col = $(this).index();
@@ -35,6 +35,7 @@ $("document").ready(function () {
 
         //td에 focus되면 클래스 지정(border 생성 css)
         tdInfo.unbind("focus").bind("focus", function (e) { 
+            defaultVal = tdInfo.text();
             tdInfo.addClass("tdBorder");
         });
 
@@ -58,7 +59,15 @@ $("document").ready(function () {
     ModalTable.find("tbody").on("change", "td", function (e) { //모달창의 td가 변경됐을 때
         e.preventDefault();
         let modalTrInfo = $(this).closest("tr");
-        let slsOutDtlVol = parseInt(modalTrInfo.find("td:eq(5)").text()); //모달 tr의 입력한 출고수량
+        let fnsPrdStkVol = parseInt(modalTrInfo.find("td:eq(4)").text()); //모달 클릭 tr의 재고수량
+        let slsOutDtlVol = parseInt(modalTrInfo.find("td:eq(5)").text()); //모달 클릭 tr의 입력한 출고수량
+
+        if(fnsPrdStkVol < slsOutDtlVol){
+            $("#warning").prop('type', "text");
+            modalTrInfo.find("td:eq(5)").text(defaultVal);
+            return false;
+        }
+        $("#warning").prop('type', "hidden"); 
         if(slsOutDtlVol != null && slsOutDtlVol != ''){
             checkNewOutLotList(modalTrInfo);
         }
@@ -178,7 +187,8 @@ $("document").ready(function () {
                 }
             });
             if(!flag){
-                alert("입력값이 없습니다.");
+                noDataWarn();
+                $("#findLotModal").modal("hide");
                 return false;
             }
 
@@ -202,7 +212,6 @@ $("document").ready(function () {
                 let outVolCheck = $(el).find("td:eq(5)").text();
     
                 if(outVolCheck == null || outVolCheck == ''){
-                    alert('출고량이 입력되지 않았습니다.');
                     flag = true;
                     return false;
                 }
@@ -229,7 +238,8 @@ $("document").ready(function () {
     outTrInfo = $(this).closest("tr");
     let lotNoTdInfo = $(this);
     let slsOutHdNo = $("#slsOutHdNo").val();
-
+    let orderVol = outTrInfo.find("td:eq(3)").text();
+    $("#ModalOrdVol").val(orderVol);
     if(slsOutHdNo == null || slsOutHdNo == ''){
         findLotStock(lotNoTdInfo);
     } else {
@@ -306,32 +316,10 @@ $("document").ready(function () {
         $("#findLotTable tbody").append(node);
     }
 
-    function sucFun(result) {
-        //경고창 띄워주기
-        let alertFlag = false;
-        if ($("#outMngTable tbody").children().length != 0) {
-            if (confirm("수정한 정보가 모두 사라집니다. 진행하시겠습니까?") == true) {
-                alertFlag = true;
-            }
-        } else {
-            alertFlag = true;
-        }
-
-        if (alertFlag) {
-            $("#outMngTable tbody tr").remove();
-            for (ord of result) {
-                outMakeRow(ord);
-            }
-
-            $("#findNotOutModal").modal("hide");
-        }
-    }
-
     //수정관련 정보 정의
     let modifyList = [];
     let delList = [];
     let table = $("#outMngTable");
-    //notNull이어야하는 (td기준)
     let notNullList = [5, 7];
 
     //저장 버튼 이벤트
@@ -339,46 +327,65 @@ $("document").ready(function () {
         let trs = table.find("tbody tr");
         let slsOutHdNo = $("#slsOutHdNo").val();
 
-        if (confirm("저장하시겠습니까?") == true) {
-            //null 검사
-            for (tr of trs) {
-                for (idx of notNullList) {
-                    let content = $(tr).find("td:eq(" + idx + ")").text();
-                    if (content == null || content == '') {
-                        alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요.');
-                        return;
+        Swal.fire({
+            icon: "question",
+            title: "저장하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "확인",
+            cancelButtonText: "취소",
+            closeOnClickOutside: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //null 검사
+                for (tr of trs) {
+                    for (idx of notNullList) {
+                        let content = $(tr).find("td:eq(" + idx + ")").text();
+                        if (content == null || content == '') {
+                            requiredWarn();
+                            return;
+                        }
                     }
                 }
-            }
-            
-            let countTr = table.find("tbody tr").length;
-            if(countTr == 0){
-                //헤더 삭제
-                deleteHdSaveAjax(slsOutHdNo);
-                return false;
+                
+                let countTr = table.find("tbody tr").length;
+                if(countTr == 0){
+                    //헤더 삭제
+                    deleteHdSaveAjax(slsOutHdNo);
+                } else {
+                    //디테일 삭제
+                    console.log(delList.length);
+                    if(delList.length != 0){
+                        for(obj of delList){
+                            deleteSaveAjax(obj);
+                        }
+                    }   
+                }
+
+                //수정용
+                for (obj of modifyList) {
+                    modifySaveAjax(obj);
+                }
+
+                //등록용
+                if (slsOutHdNo == null || slsOutHdNo == ''){
+                    insertSaveAjax(outLotList);
+                }
+                Swal.fire({
+                    icon: "success",
+                    title: "저장이 완료되었습니다",
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "확인",
+                    closeOnClickOutside: false,
+                }).then((result) => {
+                    location.reload();
+                });
             } else {
-                //디테일 삭제
-                console.log(delList.length);
-                if(delList.length != 0){
-                    for(obj of delList){
-                        deleteSaveAjax(obj);
-                    }
-                }   
+                return;
             }
-
-            //수정용
-            for (obj of modifyList) {
-                modifySaveAjax(obj);
-            }
-
-            //등록용
-            if (slsOutHdNo == null || slsOutHdNo == ''){
-                insertSaveAjax(outLotList);
-            }
-
-            alert("저장이 완료되었습니다.");
-            location.reload();
-        }
+        });
     });
     //수정 끝
 
@@ -441,7 +448,6 @@ $("document").ready(function () {
                 slsOutDtlVO
             }),
             success: function (result) {
-                console.log("outHdDtl 추가 성공");
             }
         });
     }
@@ -486,7 +492,7 @@ $("document").ready(function () {
                     slsOutHdNo
             }),
             success : function(result){
-                console.log("삭제 완료!")
+                console.log("outHd 삭제 완료!")
             }
         });
     }
@@ -504,19 +510,25 @@ $("document").ready(function () {
                     finPrdCdCode
             }),
             success: function (result) {
-                //deleteSuccess();
+                console.log('outDtl삭제 완료!');
             }
         });
     }
 
-    function deleteSuccess() {
+    function requiredWarn() {
         Swal.fire({
-            icon: "success", // Alert 타입
-            title: "삭제 되었습니다.", // Alert 제목
-        }).then((result) => {
-            if (result.isConfirmed) {
-            location.reload();
-            }
+            icon: "warning",
+            title: "입력하지 않은 값이 있습니다.",
+            confirmButtonText: "확인"
         });
-        }
+    }
+
+    function noDataWarn() {
+        Swal.fire({
+            icon: "warning",
+            title: "입력된 값이 없습니다.",
+            html:"출고량을 입력해주세요.",
+            confirmButtonText: "확인"
+        });
+    }
 });

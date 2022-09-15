@@ -64,7 +64,7 @@ $("document").ready(function(){
             },
             success : function(result){
                 console.log(result);
-                rtnSucFun(result);
+                sucFun(result);
             }
         })
     });
@@ -85,29 +85,38 @@ $("document").ready(function(){
 
 
 
-    function rtnSucFun(result){
+    function sucFun(result){
+        $("#findReturnModal").modal("hide");
         //경고창 띄워주기
-        let alertFlag = false;
         if ($("#rtnMngTable tbody").children().length != 0){
-            if(confirm("수정한 정보가 모두 사라집니다. 진행하시겠습니까?")==true){
-                alertFlag = true;
-            }
-        }else{
-            alertFlag = true;
-        }
-
-        if(alertFlag){
-            $("#rtnMngTable tbody tr").remove();
-                for(rtn of result){
-                    rtnMakeRow(rtn);
+            Swal.fire({
+                icon: "question",
+                title: "수정한 정보가 모두 사라집니다.",
+                text: "삭제하고 진행하겠습니까?",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "확인",
+                cancelButtonText: "취소",
+                closeOnClickOutside: false,
+              }).then((ans) =>{
+                if(ans.isConfirmed){
+                    $("#rtnMngTable tbody tr").remove();
+                    for(rtn of result){
+                        rtnMakeRow(rtn);
+                    }
+                }else{
+                    return;
                 }
-
-            $("#findReturnModal").modal("hide");
+            });
+        }else{
+            for(rtn of result){
+                rtnMakeRow(rtn);
             }
+            $("#findReturnModal").modal("hide");
         }
+    }
 
-
-    
     function makeSelectBox(PrcCls) {
         let node;
         if (PrcCls != 1) {

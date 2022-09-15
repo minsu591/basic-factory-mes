@@ -18,6 +18,9 @@
 					<div class="modal-body">
 						<div class="card-body table-border-style">
 							<div class="table-responsive">
+								<div>
+									<input type="hidden" id="warning" style="width:200px; color: red; border-style:none" value="출고량이 재고량보다 많습니다.">
+								</div>
 								<table class="table table-hover" id="findLotTable">
 									<thead>
 										<tr>
@@ -25,7 +28,7 @@
 											<th th:text="제품코드" name="fin_prd_cd_code"></th>
 											<th th:text="제품명" name="fin_prd_cd_name"></th>
 											<th th:text="lot번호" name="fns_prd_stk_lot_no"></th>
-											<th th:text="재고수량" name="fns_prd_stk_vol"></th>
+											<th th:text="재고량" name="fns_prd_stk_vol"></th>
 											<th th:text="출고량" name="sls_out_dtl_vol"></th>
 										</tr>
 									</thead>
@@ -33,6 +36,9 @@
 
 									</tbody>
 								</table>
+								<div>
+									주문량 : <input type="text" id="ModalOrdVol" style="width:200px; border-style:none; width:100px;" readonly>
+								</div>
 							</div>
 						</div>
 					</div>
