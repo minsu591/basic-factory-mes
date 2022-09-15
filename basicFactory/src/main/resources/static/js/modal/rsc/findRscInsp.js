@@ -181,10 +181,10 @@ $("#findRscInspTable").on("change", "input[name=chkModal]", function () {
    <td><input type="text" class="rscname" value="${obj.rscCdName}" disabled></td>
    <td><input type="text" class="unit" value="${obj.rscCdUnit}" disabled></td>
    <td><input type="text" class="unarvVol" value="${unarvVol}" disabled></td>
-   <td><input type="text" class="inspVol" value="${obj.rscInspVol}"></td>
-   <td><input type="text" class="inferVol" value="${obj.rscInferVol}"></td>
+   <td><input type="text" class="inspVol" value="${obj.rscInspVol}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
+   <td><input type="text" class="inferVol" value="${obj.rscInferVol}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
    <td><input type="text" class="passVol" value="${obj.rscPassVol}" disabled></td>
-   <td><input type="text" class="empId" value="${obj.empId}"></td>
+   <td><input type="text" class="empId" value="${obj.empId}" disabled></td>
    <td><input type="text" class="remk" value="${remk}"></td>
    <input type="hidden" class="rscOrderDtlNo" value="${obj.rscOrderDtlNo}">
    <input type="hidden" class="rscOrderVol" value="${obj.rscOrderVol}">

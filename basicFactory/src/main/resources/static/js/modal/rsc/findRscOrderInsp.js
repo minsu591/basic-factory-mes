@@ -116,6 +116,7 @@ $(document).ready(function(){
 
  
  function outListInsert(obj) {
+  let id = $("#sideBarEmpId").val();
   let node = `<tr>
   <td id="chk-css"><input type="checkbox" name="chk"></td>
   <td><input type="text" class="rscOrderCode" value="${obj.rscOrderCode}" disabled></td>
@@ -125,10 +126,10 @@ $(document).ready(function(){
   <td><input type="text" class="rscname" value="${obj.rscCdName}"disabled></td>
   <td><input type="text" class="unit" value="${obj.rscCdUnit}" disabled></td>
   <td><input type="text" class="unarvVol" value="${(obj.rscOrderVol)-(obj.rscOrderArv)}"disabled></td>
-  <td><input type="text" class="inspVol" value="${obj.rscOrderVol}"></td>
-  <td><input type="text" class="inferVol"></td>
+  <td><input type="text" class="inspVol" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
+  <td><input type="text" class="inferVol" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
   <td><input type="text" class="passVol" disabled></td>
-  <td><input type="text" class="empId"></td>
+  <td><input type="text" class="empId" value="${id}"></td>
   <td><input type="text" class="remk"></td>
   <input type="hidden" class="rscOrderDtlNo" value="${obj.rscOrderDtlNo}">
   <input type="hidden" class="rscOrderVol" value="${obj.rscOrderVol}">

@@ -26,16 +26,34 @@ $("document").ready(function () {
     }
   });
 
+  //div 내 input 클릭 시 border지우기
+  $(".card").on("click", "input.nullpoint", function(){
+      $(this).removeClass("nullpoint");
+  })
+
+  $(".card").on("click", "td.nullpoint", function(){
+    $(this).removeClass("nullpoint");
+})
+  
+  //초기화버튼
+  $("#resetBtn").click(function () {
+    $("#outTable tr").remove();
+    $("#allCheck").prop("checked", false);
+    $("#rscOrderTitle").val('');
+    $("#totalSum").text('');
+    $("#rscOrderCode").val('');
+  })
+
+
   //수량 * 금액 계산
   $("#InsertTable").on("change", ".orderVol", function () {
     tdinfo = $(this);
     let orderVol = tdinfo.val();
-    console.log(typeof(orderVol));
     if (orderVol <= 0) {
       minusWarning();
       tdinfo.val("");
     } else {
-      let price = tdinfo.parent().parent().children().eq(7).children().val();
+      let price = tdinfo.parent().parent().children().eq(6).children().val();
       let multiple = orderVol * price;
       tdinfo
         .parent()
@@ -51,17 +69,12 @@ $("document").ready(function () {
   $("#InsertTable").on("change", ".price", function () {
     tdinfo = $(this);
     let price = tdinfo.val();
-    console.log(typeof(price));
     if (price < 0) {
       minusWarning();
       tdinfo.val("");
     }
-    let orderVol = tdinfo.parent().parent().children().eq(5).children().val();
-    console.log(orderVol);
-    console.log(tdinfo.parent().parent().children().eq(5).children().val())
+    let orderVol = tdinfo.parent().parent().children().eq(4).children().val();
     let multiple = orderVol * price;
-    console.log(multiple);
-    console.log(typeof(multiple))
     tdinfo
       .parent()
       .next()
@@ -95,21 +108,15 @@ $("document").ready(function () {
     detailTableMakeRow();
   });
 
-  //삭제 버튼
-  $("#delRowBtn").click(function () {
-    if ($("input[type='checkbox']:checked").length === 0) {
-      deleteWarning();
-      return;
-    }
-    $("input[name='chk']:checked").each(function (k, val) {
-      $(this).parent().parent().remove();
-    });
-    $("#allCheck").prop("checked", false);
-    if ($("input[type='checkbox']:checked").length == 0) {
-      $("#outTableTfoot").children().find("#totalSum").text("");
+  //삭제버튼
+  $("#outTable").on("click", ".delete", function(){
+    tdinfo = $(this);
+    tdinfo.parent().parent().remove();
+    if($("#outTable").children().length < 1){
+      $("#totalSum").text('');
     }
     totalprice();
-  });
+  })
 
   //출고수량>재고수량일때 alert창
   $("#InsertTable").on("input", ".outVol", function (e) {
@@ -147,28 +154,46 @@ $("document").ready(function () {
     //필수항목 미기재시 리턴
     if (!rscOrderDate || !empId || !rscOrderTitle) {
       insertHeaderWarning();
+      if(!rscOrderDate){
+        $("#rscOrderDate").addClass("nullpoint");
+      }
+      if(!empId){
+        $("#empId").addClass("nullpoint");
+      }
+      if(!rscOrderTitle){
+        $("#rscOrderTitle").addClass("nullpoint");
+      }
       return;
     }
+
+    let notnull = [0,2,4,6];
+
+    //발주코드가 없는경우
     if (rscOrderCode == null) {
       // 새로 등록
       let orders = [];
       let outTable = $("#InsertTable").find("tbody tr");
       for (obj of outTable) {
-        let vendCdCode = $(obj).children().eq(1).find("input").val();
-        let rscCdCode = $(obj).children().eq(3).find("input").val();
-        let rscOrderVol = $(obj).children().eq(5).find("input").val();
-        let rscOrderPrc = $(obj).children().eq(7).find("input").val();
-        let rscOrderDtlRemk = $(obj).children().eq(9).find("input").val();
+        
+        let vendCdCode = $(obj).children().eq(0).find("input").val();
+        let rscCdCode = $(obj).children().eq(2).find("input").val();
+        let rscOrderVol = $(obj).children().eq(4).find("input").val();
+        let rscOrderPrc = $(obj).children().eq(6).find("input").val();
+        let rscOrderDtlRemk = $(obj).children().eq(8).find("input").val();
 
-        //필수사항 미기재시 리턴
+
         if (!vendCdCode || !rscCdCode || !rscOrderVol || !rscOrderPrc) {
+          for (idx of notnull){
+            if (!($(obj).children().eq(idx).find("input").val())) {
+              $(obj).children().eq(idx).addClass("nullpoint");
+            }
+          }
           Swal.fire({
             icon: "warning", // Alert 타입
             title: "입력되지 않은 값이 있습니다.", // Alert 제목
             html: "거래처코드, 자재코드, <br/>발주수량, 단가는<br/>기본 입력사항입니다.",
             confirmButtonText: "확인",
           });
-          return;
         } else {
           //디테일 리스트 저장
           let order = {
@@ -179,24 +204,26 @@ $("document").ready(function () {
             rscOrderDtlRemk,
           };
           orders.push(order);
+
+          $.ajax({
+            url: "orderInsert",
+            type: "POST",
+            dataType: "text",
+            data: JSON.stringify({
+              rscOrderVO,
+              orders,
+            }),
+            contentType: "application/json; charset=UTF-8",
+            success: function (result) {
+              console.log(result);
+              if (orders.length == result) {
+                submitComplete();
+              }
+            },
+          });
         }
       }
-      $.ajax({
-        url: "orderInsert",
-        type: "POST",
-        dataType: "text",
-        data: JSON.stringify({
-          rscOrderVO,
-          orders,
-        }),
-        contentType: "application/json; charset=UTF-8",
-        success: function (result) {
-          console.log(result);
-          if (orders.length == result) {
-            submitComplete();
-          }
-        },
-      });
+    //발주코드가 있는경우
     } else {
       // 수정 - 세부내역 전부 delete 후 insert
       //해당 발주코드를 가진 dt테이블의 내용을 모두 삭제
@@ -204,14 +231,19 @@ $("document").ready(function () {
       let orders = [];
       let outTable = $("#InsertTable").find("tbody tr");
       for (obj of outTable) {
-        let vendCdCode = $(obj).children().eq(1).find("input").val();
-        let rscCdCode = $(obj).children().eq(3).find("input").val();
-        let rscOrderVol = $(obj).children().eq(5).find("input").val();
-        let rscOrderPrc = $(obj).children().eq(7).find("input").val();
-        let rscOrderDtlRemk = $(obj).children().eq(9).find("input").val();
+        let vendCdCode = $(obj).children().eq(0).find("input").val();
+        let rscCdCode = $(obj).children().eq(2).find("input").val();
+        let rscOrderVol = $(obj).children().eq(4).find("input").val();
+        let rscOrderPrc = $(obj).children().eq(6).find("input").val();
+        let rscOrderDtlRemk = $(obj).children().eq(8).find("input").val();
 
         //필수사항 공백일 경우 리턴
         if (!vendCdCode || !rscCdCode || !rscOrderVol || !rscOrderPrc) {
+          for (idx of notnull){
+            if (!($(obj).children().eq(idx).find("input").val())) {
+              $(obj).children().eq(idx).addClass("nullpoint");
+            }
+          }
           Swal.fire({
             icon: "warning", // Alert 타입
             title: "입력되지 않은 값이 있습니다.", // Alert 제목
@@ -292,7 +324,7 @@ $("document").ready(function () {
       confirmButtonText: "확인", // confirm 버튼 텍스트 지정
     });
   }
-
+  
   function submitComplete() {
     Swal.fire({
       title: "저장 되었습니다.",
@@ -331,18 +363,18 @@ function detailTableMakeRow(rscCdCode, rscOrderVol) {
   }
 
   let node = `<tr>
-<td id="chk-css"><input type="checkbox" name="chk"></td>
 <td><input type="text" class="vendor"></td>
 <td><input type="text" class="vendorName" disabled></td>
 <td><input type="text" class="rsccode" value="${rscCdCode == undefined ? "" : rscCdCode
     }"</td>
 <td><input type="text" class="rscname" disabled></td>
 <td><input type="text" class="orderVol" value="${rscOrderVol == undefined ? "" : rscOrderVol
-    }"></td>
+    }" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
 <td><input type="text" class="unit" disabled></td>
-<td><input type="text" class="price"></td>
+<td><input type="text" class="price" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
 <td><input type="text" class="totalPrice" disabled></td>
 <td><input type="text"></td>
+<td class="xmark"><span class="material-symbols-outlined delete">close</span></td>
 </tr>`;
 
   $("#outTable").append(node);
@@ -364,10 +396,10 @@ function findRscName(rscCdCode) {
       console.log(data);
       $("#outTable tr").each(function () {
         for (obj of data) {
-          if (obj.rscCdCode == $(this).find("td:eq(3)").children().val()) {
+          if (obj.rscCdCode == $(this).find("td:eq(2)").children().val()) {
             console.log("들어옴");
-            $(this).find("td:eq(4)").children().val(obj.rscCdName);
-            $(this).find("td:eq(6)").children().val(obj.rscCdUnit);
+            $(this).find("td:eq(3)").children().val(obj.rscCdName);
+            $(this).find("td:eq(5)").children().val(obj.rscCdUnit);
           }
         }
       });

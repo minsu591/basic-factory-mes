@@ -56,10 +56,12 @@ $("document").ready(function () {
    }
    $("input[name='chk']:checked").each(function (k, val) {
      $(this).parent().parent().remove();
+     $("#allCheck").prop("checked", false);
    });
  });
 
  function detailTableMakeRow() {
+  let id = $("#sideBarEmpId").val();
    let node = `<tr>
 <td id="chk-css"><input type="checkbox" name="chk"></td>
 <td><input type="text" name="returncode" disabled></td>
@@ -70,11 +72,11 @@ $("document").ready(function () {
 <td><input type="text" class="rscname" disabled></td>
 <td><input type="text" class="rsclotno"></td>
 <td><input type="text" disabled></td>
-<td><input type="text" class="outVol"></td>
+<td><input type="text" class="outVol" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
 <td><input type="text" class="price" disabled></td>
-<td><input type="text" disabled></td>
-<td><input type="text"></td>
-<td><input type="text"></td>
+<td><input type="text" class="sumPrice" disabled></td>
+<td><input type="text" class="empId" value="${id}"></td>
+<td><input type="text" class="remk"></td>
 </tr>`;
    $("#InsertTable tbody").append(node);
  }
@@ -110,6 +112,12 @@ $("document").ready(function () {
    }
  })
 
+ 
+    //div 내 td 클릭 시 border지우기
+    $("#returnTable").on("click", "td.nullpoint", function(){
+      $(this).removeClass("nullpoint");
+  })
+
  //등록버튼
 
  $("#subBtn").click(function () {
@@ -122,6 +130,7 @@ $("document").ready(function () {
    let info = [];
    let rowData = new Array();
    let checkbox = $("input[name='chk']:checked");
+   let notnull = [2,3,7,9,12];
    console.log(checkbox)
    // 체크된 체크박스 값을 가져온다
    checkbox.each(function (i) {
@@ -143,7 +152,12 @@ $("document").ready(function () {
      let empId = td.eq(12).val();
      let rscReturnRemk = td.eq(13).val();
      if (!rscReturnDate || !vendCdCode || !rscLotNo || !rscReturnVol || !rscReturnPrc || !empId) {
-       Swal.fire({
+      for (idx of notnull){
+        if (!(td.eq(idx).val())) {
+          td.eq(idx).parent().addClass("nullpoint");
+        }
+      } 
+      Swal.fire({
          icon: "warning", // Alert 타입
          title: "입력되지 않은 값이 있습니다.", // Alert 제목
          html: "반품일자, 거래처코드, 자재LOT번호,<br/> 반품수량, 금액, 담당자는<br/>기본 입력사항입니다.",
@@ -200,6 +214,7 @@ $("document").ready(function () {
            $("input[name='chk']:checked").each(function (k, val) {
              $(this).parent().parent().remove();
            });
+           $("#allCheck").prop("checked", false);
          }
        })
      }

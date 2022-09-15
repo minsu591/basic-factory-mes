@@ -160,16 +160,16 @@ function returnListInsert(obj) {
 <td id="chk-css"><input type="checkbox" name="chk"></td>
 <td><input type="text" value="${obj.rscReturnCode}" name="returncode" disabled></td>
 <td><input type="date" value="${obj.rscReturnDate}"></td>
-<td><input type="text" class="vendcode" value="${obj.vendCdCode}"></td>
+<td><input type="text" class="vendor" value="${obj.vendCdCode}"></td>
 <td><input type="text" class="vendname" value="${obj.vendCdNm}" disabled></td>
 <td><input type="text" class="rsccode" value="${obj.rscCdCode}" disabled></td>
 <td><input type="text" class="rscname" value="${obj.rscCdName}" disabled></td>
 <td><input type="text" class="rsclotno" value="${obj.rscLotNo}"></td>
 <td><input type="text" value="${obj.rscStock}" disabled></td>
-<td><input type="text" class="returnVol" value="${obj.rscReturnVol}"></td>
-<td><input type="text" class="rscReturnPrc" value="${obj.rscReturnPrc}"></td>
-<td><input type="text" class="multiplePrc" value="${multiplePrc}" disabled></td>
-<td><input type="text" class="empId" value="${obj.empId}"></td>
+<td><input type="text" class="outVol" value="${obj.rscReturnVol}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
+<td><input type="text" class="price" value="${obj.rscReturnPrc}" disabled></td>
+<td><input type="text" class="sumPrice" value="${multiplePrc}" disabled></td>
+<td><input type="text" class="empId" value="${obj.empId}" disabled></td>
 <td><input type="text" class="returnRemk"value="${obj.rscReturnRemk}"></td>
 </tr>`;
   $("#InsertTable tbody").append(node);

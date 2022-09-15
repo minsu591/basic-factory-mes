@@ -120,17 +120,17 @@ $(document).ready(function () {
  function outListInsert(obj) {
   let prc = Number(obj.rscOrderVol * obj.rscOrderPrc).toLocaleString('ko-KR');
   let node = `<tr>
-<td id="chk-css"><input type="checkbox" name="chk"></td>
 <td><input type="text" value="${obj.vendCdCode}" name="vendcode"></td>
 <td><input type="text" value="${obj.vendCdNm}" disabled></td>
 <td><input type="text" class="rsccode" value="${obj.rscCdCode}"></td>
 <td><input type="text" class="rscname" value="${obj.rscCdName}" disabled></td>
-<td><input type="text" value="${obj.rscOrderVol}"></td>
+<td><input type="text" class="orderVol" value="${obj.rscOrderVol}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
 <td><input type="text" class="unit" value="${obj.rscCdUnit}" disabled></td>
-<td><input type="text" class="price" value="${obj.rscOrderPrc}"></td>
+<td><input type="text" class="price" value="${obj.rscOrderPrc}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
 <td><input type="text" value="${prc}" class="totalPrice" disabled></td>
 <td><input type="text" value="${obj.rscOrderDtlRemk}"></td>
 <input type="hidden" value="${obj.rscOrderDtlNo}">
+<td class="xmark"><span class="material-symbols-outlined delete">close</span></td>
 </tr>`;
   $("#InsertTable tbody").append(node);
   totalprice();
