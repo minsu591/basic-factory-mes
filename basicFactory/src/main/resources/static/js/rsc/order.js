@@ -136,6 +136,11 @@ $("document").ready(function () {
 
   //등록버튼
   $("#subBtn").click(function () {
+    let tr = $("#outTable").children();
+    if (!(tr.length)){
+      submitWarning();
+      return;
+    }
     let rscOrderCode = $("#rscOrderCode").val();
     if (!rscOrderCode) {
       rscOrderCode = null;
@@ -302,7 +307,7 @@ $("document").ready(function () {
   function submitWarning() {
     Swal.fire({
       icon: "warning", // Alert 타입
-      title: "선택된 항목이 없습니다.", // Alert 제목
+      title: "입력된 항목이 없습니다.", // Alert 제목
       confirmButtonText: "확인",
     })
   }

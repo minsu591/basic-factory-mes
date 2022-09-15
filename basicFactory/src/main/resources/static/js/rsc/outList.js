@@ -9,13 +9,19 @@ $("document").ready(function(){
    if(!rscOutEDate){
     findList();
    } else {
-    alert("일자 검색 범위를 확인해주세요.");
+    dateWarning();
+    return false;
    }
   }else{
    if(!rscOutEDate){
-    alert("일자 검색 범위를 확인해주세요.")
+    dateWarning();
+    return false;
    }else {
     findList();
+    if (rscOutSDate > rscOutEDate) {
+      dateWarning2();
+      return false;
+    }
    }
   }
  })
@@ -47,4 +53,21 @@ $("document").ready(function(){
  }
 
 
+ function dateWarning() {
+  Swal.fire({
+    icon: "warning",
+    title: "일자 검색값 확인",
+    text : "입력값이 부족합니다.",
+    confirmButtonText: "확인",
+  })
+}
+
+function dateWarning2() {
+  Swal.fire({
+    icon: "warning",
+    title: "일자 검색 범위 확인",
+    html : "시작날짜는 마침날짜보다 작아야합니다.",
+    confirmButtonText: "확인",
+  })
+}
 })
