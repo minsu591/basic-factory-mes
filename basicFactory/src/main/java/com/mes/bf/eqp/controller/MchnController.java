@@ -76,7 +76,6 @@ public class MchnController {
 	public String mchnListPage(Model model) {
 		List<MchnVO> mchns = service.listMchn(null);
 		model.addAttribute("mchns", mchns);
-		System.out.println(mchns);
 		return "eqp/MchnList";
 	}
 	//설비 코드별 조회

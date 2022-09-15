@@ -72,6 +72,7 @@ public class InspcController {
 		model.addAttribute("inspcs", inspcs);
 		return "eqp/InspcList";
 	}
+	
 	//점검상세조회
 	@GetMapping(value="/inspcList/find", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public String MchnListFindPage(@RequestParam Map<String, String> QueryParameters, Model model) {

@@ -9,9 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>비가동 코드</title>
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
+    <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet"/>
 </head>
 <body>
-    <script type="text/javascript" th:src="@{/js/cmn/nonOp.js}"></script>
+    <script type="text/javascript" th:src="@{/js/cmn/nonOpCode.js}"></script>
 
     <div class="pcoded-main-container">
         <h1>비가동 코드 관리</h1>
@@ -43,19 +44,19 @@
                                     <th th:text="비고" name="non_op_remk"></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody  class="canModifyTbody">
                                 <tr th:each="nonOp : ${nonOp}">
-                                    <td><input type="checkbox" name="chk" ></td>
-                                    <td th:text="${nonOp.nonOpCode}"></td>
+                                    <td class="cantModifyTd"><input type="checkbox" name="chk" ></td>
+                                    <td class="cantModifyTd" th:text="${nonOp.nonOpCode}"></td>
                                     <td th:text="${nonOp.nonOpName}"></td>
                                     <td th:text="${nonOp.nonOpRemk}"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="rightBtn">
+                    <!-- <div class="rightBtn">
                         <button type="button" class="btn  btn-primary">초기화</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

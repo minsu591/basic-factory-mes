@@ -24,8 +24,8 @@ $("document").ready(function () {
 
   function rscMakeRow(obj) {
     let node = `<tr>
-                  <td><input type="checkbox" name="chk"></td>
-                  <td>${obj.rscCdCode}</td>
+                  <td class="cantModifyTd"><input type="checkbox" name="chk"></td>
+                  <td class="cantModifyTd">${obj.rscCdCode}</td>
                   <td>${obj.rscCdName}</td>
                   <td>${obj.rscCdUnit}</td>
                   <td>${obj.rscCdClfy}</td>`;
@@ -38,25 +38,6 @@ $("document").ready(function () {
                 </tr>`;
     $("#rscTable tbody").append(node);
   }
-
-  //추가 버튼 누르면 행 추가
-  $("#addBtn").on("click", function () {
-    let node = `<tr name="addTr">
-                    <td><input type="checkbox" name="chk">
-                </td>`;
-    if ($("#allCheck").is(":checked")) {
-      node = `<tr>
-                <td><input type="checkbox" name="chk" checked></td>`;
-    }
-    node += `<td></td>
-            <td></td>
-            <td></td>`;
-    node += makeSelectForClfy('');
-    node += `<td><input type="checkbox" name="use"></td>
-            <td></td>
-        </tr>`;
-    $("#rscTable tbody").append(node);
-  });
 
   //체크박스 체크유무
   $("#allCheck").click("change", function () {
@@ -82,7 +63,7 @@ $("document").ready(function () {
   //td 수정을 적용할 인덱스
   let avArr = [2,3,6];
   //notNull이어야하는 idx
-  let notNullList = [2,3,4];
+  let notNullList = [2,3];
   //primary키인 index
   let priKeyIdx = 1;
 
@@ -115,9 +96,11 @@ $("document").ready(function () {
     }
 
     tdInfo.attr("contenteditable","true");
+    //td에 focus가 되면
     tdInfo.focus();
     defaultVal = tdInfo.text();
     tdInfo.addClass("tdBorder");
+
     //enter나 esc 누르면 blur되도록
     tdInfo.on("keyup",function(key){
       if(key.keyCode == 13 || key.keyCode == 27){
@@ -148,19 +131,6 @@ $("document").ready(function () {
     });
   });
 
-  function makeSelectForClfy(clfy){
-    let node = '<td><select>';
-    for(let i =0; i<clfyList.length;i++){
-      if(clfy == clfyList[i]){
-        node += '<option value="'+clfyList[i]+'"selected>'+clfyList[i]+'</option>';
-      }else{
-        node += '<option value="'+clfyList[i]+'">'+clfyList[i]+'</option>';
-      }
-    }
-    node += '</select></td>';
-    return node;
-  }
-
   //기존에 있는 값들 중에 td변경될 때
   table.find("tbody td:not(:first-child)").change(function(e){
     e.preventDefault();
@@ -174,6 +144,9 @@ $("document").ready(function () {
       if($(this).find("input").is(":checked")){
         updCont = 1;
       }
+    } else if(col == 4) {
+      //selectBox일 때
+      updCont = $(this).find("select option:selected").val();
     }else{
       //td일 때
       updCont = $(this).text();
@@ -212,6 +185,9 @@ $("document").ready(function () {
         for(tr of trs){
           for(idx of notNullList){
             let content = $(tr).find("td:eq("+idx+")").text();
+            if(idx == 4){
+              content =$(tr).find("td:eq("+idx+") select option:selected").val();
+            }
             if(content == null || content == ''){
               $(tr).find("td:eq("+idx+")").addClass("nullTd");
               nullFlag = true;
@@ -251,6 +227,8 @@ $("document").ready(function () {
         }).then((result) =>{
           location.reload();
         });
+      } else{
+        return;
       }
     });
   });
@@ -278,10 +256,42 @@ $("document").ready(function () {
     })
   }
 
+  //추가 버튼 누르면 행 추가
+  $("#addBtn").on("click", function () {
+    let node = `<tr name="addTr">
+                    <td class="cantModifyTd"><input type="checkbox" name="chk">
+                </td>`;
+    if ($("#allCheck").is(":checked")) {
+      node = `<tr>
+                <td class="cantModifyTd"><input type="checkbox" name="chk" checked></td>`;
+    }
+    node += `<td class="cantModifyTd"></td>
+            <td></td>
+            <td></td>`;
+    node += makeSelectForClfy('');
+    node += `<td><input type="checkbox" name="use"></td>
+            <td></td>
+        </tr>`;
+    $("#rscTable tbody").append(node);
+  });
+
+  function makeSelectForClfy(clfy){
+    let node = '<td><select class="curPo">';
+    for(let i =0; i<clfyList.length;i++){
+      if(clfy == clfyList[i]){
+        node += '<option value="'+clfyList[i]+'"selected>'+clfyList[i]+'</option>';
+      }else{
+        node += '<option value="'+clfyList[i]+'">'+clfyList[i]+'</option>';
+      }
+    }
+    node += '</select></td>';
+    return node;
+  }
+
   function addSaveAjax(obj){
     let rscCdName = $(obj).find("td:eq(2)").text();
     let rscCdUnit = $(obj).find("td:eq(3)").text();
-    let rscCdClfy = $(obj).find("td:eq(4)").text();
+    let rscCdClfy = $(obj).find("td:eq(4) select option:selected").text();
     let rscCdRemk = $(obj).find("td:eq(6)").text();
 
     //checkbox인 td
@@ -312,6 +322,10 @@ $("document").ready(function () {
 
   //선택 삭제 이벤트
   $("#deleteBtn").on("click",function(){
+    if ($("input[type='checkbox']:checked").length === 0) {
+      deleteWarning();
+      return;
+    }
     table.find("tbody input:checkbox[name='chk']").each(function(idx,el){
       if($(el).is(":checked")){
         let tr = $(el).closest('tr');
@@ -337,9 +351,26 @@ $("document").ready(function () {
         delList
       },
       success : function(result){
+        deleteWarning();
         console.log("삭제 성공");
       }
     })
+  }
+
+  function deleteWarning() {
+    Swal.fire({
+      icon: "warning", // Alert 타입
+      title: "삭제할 항목을 선택하세요.", // Alert 제목
+      confirmButtonText: "확인",
+    });
+  }
+
+  function deleteWarning() {
+    Swal.fire({
+      icon: "warning", // Alert 타입
+      title: "삭제 되었습니다.", // Alert 제목
+      confirmButtonText: "확인",
+    });
   }
 
 });

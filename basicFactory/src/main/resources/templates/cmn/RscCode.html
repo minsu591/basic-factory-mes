@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>자재 코드</title>
-    <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
   </head>
   <body>
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
+    <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/js/cmn/rscCode.js}"></script>
-    <script type="text/javascript" th:src="@{/js/modal/rsc/findResource.js}"></script>
+    <!-- <script type="text/javascript" th:src="@{/js/modal/rsc/findResource.js}"></script> -->
 
     <div class="pcoded-main-container">
       <h1>자재 코드 관리</h1>
@@ -45,10 +45,10 @@
                     <th th:text="비고" name="rsc_cd_remk"></th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="canModifyTbody">
                   <tr th:each="rsc : ${rscs}">
-                    <td><input type="checkbox" name="chk" /></td>
-                    <td th:text="${rsc.rscCdCode}"></td>
+                    <td class="cantModifyTd"><input type="checkbox" name="chk" /></td>
+                    <td class="cantModifyTd" th:text="${rsc.rscCdCode}"></td>
                     <td th:text="${rsc.rscCdName}"></td>
                     <td th:text="${rsc.rscCdUnit}"></td>
                     <td>
@@ -72,6 +72,6 @@
       </div>
     </div>
     <!-- 자재조회 Modal -->
-    <th:block th:replace="~{/fragments/modal/findresource :: findresource}"></th:block>
+    <!-- <th:block th:replace="~{/fragments/modal/findresource :: findresource}"></th:block> -->
   </body>
 </html>

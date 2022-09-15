@@ -221,14 +221,14 @@ $("document").ready(function () {
   //행추가 이벤트
   $("#addBtn").on("click",function(){
     let node = `<tr name="addTr">
-                  <td><input type="checkbox" name="chk"></td>`;
+                  <td class="cantModifyTd"><input type="checkbox" name="chk"></td>`;
     if ($("#allCheck").is(":checked")){
       node = `<tr>
-                <td><input type="checkbox" name="chk" checked ></td>`;
+                <td class="cantModifyTd"><input type="checkbox" name="chk" checked ></td>`;
     }
     node +=`<td name="flty_prcs_no"></td>
             <td class="faultyCode"></td>
-            <td class="faultyName"></td>
+            <td class="faultyName cantModifyTd"></td>
             <td></td>
             <td><input type="date"></td>
             <td class="empId"></td>

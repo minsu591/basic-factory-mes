@@ -1,3 +1,9 @@
+var now_utc = Date.now() // 지금 날짜를 밀리초로
+// getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환
+var timeOff = new Date().getTimezoneOffset()*60000; // 분단위를 밀리초로 변환
+// new Date(now_utc-timeOff).toISOString()은 '2022-05-11T18:09:38.134Z'를 반환
+var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
+
 $("document").ready(function () {
   $("#selectBtn").on("click", function() {
     let mchnName = $("#mchnName").val();
@@ -33,12 +39,12 @@ $("document").ready(function () {
     node += `<td>${obj.mchnCode}</td>
               <td>${obj.mchnName}</td>
               <td>${obj.mchnModel}</td>
-              <td class="거래처코드">${obj.vendCdCode}</td>
-              <td class-"거래처명">${obj.vendCdNm}</td>
+              <td class="vendor">${obj.vendCdCode}</td>
+              <td>${obj.vendCdNm}</td>
               <td>${obj.mchnPrice}</td>
               <td><input type="date" value="${obj.mchnPrchsDate}"></td>
               <td><input type="date" value="${obj.mchnMnfctDate}"></td>
-              <td><input type="date" value="${obj.mchnInspcDate}"></td>
+              <td><input type="date" value="${obj.mchnInspcDate}" min="${today}"></td>
               <td>${obj.mchnInspcCycle}</td>
               <td>${obj.mchnStts}</td>
               <td>${obj.mchnRemk}</td>
@@ -62,7 +68,7 @@ $("document").ready(function () {
             <td></td>
             <td><input type="date"></td>
             <td><input type="date"></td>
-            <td><input type="date"></td>
+            <td><input type="date" min="${today}"></td>
             <td></td>
             <td>진행전</td>
             <td></td>
@@ -207,12 +213,15 @@ $("document").ready(function () {
     }).then((result) =>{
       if(result.isConfirmed){
         //null 검사
+
         let tbody = table.find("tbody tr");
         for(tr of tbody){
           for(idx of notNullList){
             let content = $(tr).find("td:eq("+idx+")").text();
             if(idx == 9){
               content = $(tr).find("input[type='date']").val();
+            } else{
+              content = td.text();
             }
             if(content == null || content == ''){
               $(tr).find("td:eq("+idx+")").addClass("nullTd");

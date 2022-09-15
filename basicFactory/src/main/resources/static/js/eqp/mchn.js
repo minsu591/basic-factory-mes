@@ -4,17 +4,15 @@ $(document).ready(function () {
   });
 
   function findMchnCode() {
-    let mchnname = $("#mchnname").val();
-    let mchnCode = $("#mchnCode").val();
+    let mchnName = $("#mchnName").val();
 
     $.ajax({
-      url: "mchnList/mchncode",
+      url: "mchnList/mchnName",
       method: "get",
       contentType: "application/json;charset=utf-8",
       dataType: "json",
       data: {
-        mchnname: mchnname,
-        mchnCode: mchnCode
+        mchnName
       },
       success: function (result) {
         console.log(result);
