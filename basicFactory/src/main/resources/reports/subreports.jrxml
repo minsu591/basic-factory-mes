@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreports" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f1887137-03b1-4df4-b635-2532cd8634c2">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="OracleCloud"/>
+	<parameter name="instNo" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT ROWNUM,
+        lch.line_cd_hd_name,
+        prdcode.fin_prd_cd_name,
+        prdcode.fin_prd_cd_vol,
+        prdcode.fin_prd_cd_unit,
+        orddtl.sls_ord_dtl_vol,
+        id.inst_prod_indica_vol
+FROM
+    BF_PROD_INSTRUCTION inst,
+    BF_PROD_INST_DETAIL id,
+    BF_PROD_PLAN_HD ph,
+    BF_SALES_ORD_HD ordh,
+    BF_SALES_ORD_DTL orddtl,
+    BF_CMN_FINISH_PRODUCT_CODE prdcode,
+    BF_CMN_BOM_CODE bomcode,
+    BF_CMN_LINE_CODE_HD lch
+WHERE inst.inst_no = id.inst_no AND
+    inst.plan_hd_code = ph.plan_hd_code AND
+    ordh.sls_ord_hd_no = ph.sls_ord_hd_no AND
+    id.fin_prd_cd_code = prdcode.fin_prd_cd_code AND
+    prdcode.fin_prd_cd_code = bomcode.fin_prd_cd_code AND
+    bomcode.line_cd_hd_code = lch.line_cd_hd_code AND
+    ordh.sls_ord_hd_no = orddtl.sls_ord_hd_no AND
+    orddtl.fin_prd_cd_code = id.fin_prd_cd_code AND
+id.inst_no = $P{instNo} ]]>
+	</queryString>
+	<field name="ROWNUM" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="ROWNUM"/>
+		<property name="com.jaspersoft.studio.field.label" value="ROWNUM"/>
+	</field>
+	<field name="LINE_CD_HD_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="LINE_CD_HD_NAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="LINE_CD_HD_NAME"/>
+	</field>
+	<field name="FIN_PRD_CD_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="FIN_PRD_CD_NAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="FIN_PRD_CD_NAME"/>
+	</field>
+	<field name="FIN_PRD_CD_VOL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="FIN_PRD_CD_VOL"/>
+		<property name="com.jaspersoft.studio.field.label" value="FIN_PRD_CD_VOL"/>
+	</field>
+	<field name="FIN_PRD_CD_UNIT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="FIN_PRD_CD_UNIT"/>
+		<property name="com.jaspersoft.studio.field.label" value="FIN_PRD_CD_UNIT"/>
+	</field>
+	<field name="SLS_ORD_DTL_VOL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="SLS_ORD_DTL_VOL"/>
+		<property name="com.jaspersoft.studio.field.label" value="SLS_ORD_DTL_VOL"/>
+	</field>
+	<field name="INST_PROD_INDICA_VOL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="INST_PROD_INDICA_VOL"/>
+		<property name="com.jaspersoft.studio.field.label" value="INST_PROD_INDICA_VOL"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<rectangle>
+				<reportElement x="30" y="-20" width="80" height="29" uuid="5f09d2fc-4ef3-44a3-ab0c-c36163ce5856">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="280" y="-20" width="70" height="29" uuid="c157db30-afaa-4452-9e67-8602a87ee3b2">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="280" y="-20" width="70" height="29" uuid="e6e79c39-94be-44c9-abfd-e12a57632928">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLS_ORD_DTL_VOL}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="210" y="-20" width="70" height="29" uuid="51d6ac66-b82f-42ab-a1b8-27bd58f2e420">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="110" y="-20" width="100" height="29" uuid="84be6997-9275-4de4-a9f0-6b529d18dd0e">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="30" y="-20" width="80" height="29" uuid="13bcb7fa-1eed-46be-b0f7-d5e1c5cf13d8">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FIN_PRD_CD_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="210" y="-20" width="62" height="29" uuid="037de6ec-37ee-4756-9104-16536b2be12c">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FIN_PRD_CD_VOL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="252" y="-20" width="28" height="29" uuid="dc2b7494-bb27-4201-8bf3-0df1431a4e33">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FIN_PRD_CD_UNIT}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="350" y="-20" width="70" height="29" uuid="bf772b71-5cc1-4ef9-8714-c70f24324c9e">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement x="360" y="-20" width="52" height="29" uuid="787b16e0-f923-44e9-b56b-63e95deac28e">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INST_PROD_INDICA_VOL}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="-20" y="-20" width="50" height="29" uuid="56d0dd99-4585-4714-a924-4246735b81d7">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="-20" y="-20" width="40" height="29" uuid="e7f4f364-3c73-46e4-9797-72f6a8833c52">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ROWNUM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="-20" width="100" height="29" uuid="d5c6aede-dd92-488d-ab30-4466fc909c40">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="malgun"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LINE_CD_HD_NAME}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="420" y="-20" width="70" height="29" uuid="cf1fd81a-723b-4d59-a062-a6a06d03883f">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</rectangle>
+		</band>
+	</detail>
+</jasperReport>

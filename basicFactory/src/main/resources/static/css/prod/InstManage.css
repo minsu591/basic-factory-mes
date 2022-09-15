@@ -58,3 +58,8 @@ input[type="text"]:read-only {
 .inputRequired {
   border: 1px solid #e74c3c;
 }
+
+.overflow {
+	height: 55vh;
+	overflow: auto;
+}
