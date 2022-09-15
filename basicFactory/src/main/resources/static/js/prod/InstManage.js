@@ -279,7 +279,7 @@ $(document).ready(function () {
     findRscNeedQty(uniqueProdCode);
     //공정 상태 조회
     findProcStatus(uniqueLineArray);
-    console.log("매니지페이지 유니크라인어레이->" + uniqueLineArray);
+    //console.log("매니지페이지 유니크라인어레이->" + uniqueLineArray);
     //console.log("uniqueLineArray -> " + uniqueLineArray);
 
     //제품코드에 값이 입력됐을 때 실행
@@ -341,10 +341,12 @@ $(document).ready(function () {
       },
       error: function (err) {
         $("#procStatusTable tbody tr").remove();
+
       },
       success: function (data) {
         //console.log('지겹다진짜' + data);
         $("#procStatusTable tbody tr").remove();
+
         for (obj of data) {
           procStatusMakeRow(obj);
         }

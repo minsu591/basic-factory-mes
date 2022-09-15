@@ -219,7 +219,7 @@ function planDetailTableMakeRow(obj, finInfoList) {
               <td><input type="text" disabled value="${obj.planSdate == null ? '' : obj.planSdate}"></td>
               <td><input type="text" disabled value="${obj.planEdate == null ? '' : obj.planEdate}"></td>
               <td><input type="text" disabled value="${obj.planHdCode == null ? 0 : obj.instProdIndicaVol}"></td>
-              <td><input type="text" disabled value="${obj.planHdCOde == null ? 0 : obj.planProdVol - obj.instProdIndicaVol}"></td>
+              <td><input type="text" disabled value="${obj.planHdCode == null ? 0 : obj.planProdVol - obj.instProdIndicaVol}"></td>
               <td><input type="text" value="${obj.instProdIndicaVol}"></td>
               <td><input type="text" disabled value="${finInfoList[2]}" ></td>
               <td><input type="date" min="${date}" value="${obj.workDate}"></td>
