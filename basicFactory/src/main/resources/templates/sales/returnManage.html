@@ -81,10 +81,17 @@
                                     <th th:text="금액" name="sls_rtn_dtl_price"></th>
                                     <th th:text="처리구분" name="sls_rtn_dtl_prc_cls"></th>
                                     <th th:text="반품사유" name="sls_rtn_resn"></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-
+                                <tfoot id="rtnTableTfoot">
+                                    <tr>
+                                        <th colspan="2" th:text="'총 합계'"></th>
+                                        <th colspan="10" id="rtnTotalSum"></th>
+                                        <th th:text="원"></th>
+                                    </tr>
+                                </tfoot>
                             </tbody>    
                         </table>
                     </div>

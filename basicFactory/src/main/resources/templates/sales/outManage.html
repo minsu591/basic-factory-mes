@@ -18,7 +18,6 @@
     <div class="pcoded-main-container">
         <h1>완제품 출고 관리</h1>
         <hr>
-        
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
@@ -81,11 +80,19 @@
                                     <th th:text="Lot번호" name="fns_prd_stk_lot_no"></th>
                                     <th th:text="단가"></th>
                                     <th th:text="금액" name="sls_out_dtl_price"></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
 
-                            </tbody>    
+                            </tbody>
+                            <tfoot id="outTableTfoot">
+                                <tr>
+                                    <th colspan="2" th:text="'총 합계'"></th>
+                                    <th colspan="8" id="outTotalPrice"></th>
+                                    <th th:text="원"></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

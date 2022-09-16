@@ -63,12 +63,11 @@ table.find("tbody").on("click","td",function(e){
 
     //수정할 수 있도록 하는 설정
     tdInfo.attr("contenteditable", "true");
-
     //td에 focus가 되면
-    tdInfo.focus(function(e){
-        defaultVal = tdInfo.text();
-        tdInfo.addClass("tdBorder");
-    });
+    tdInfo.focus();
+    defaultVal = tdInfo.text();
+    tdInfo.addClass("tdBorder");
+
 
     //enter나 esc 누르면 blur되도록 
     tdInfo.on("keyup",function(key){
@@ -79,7 +78,7 @@ table.find("tbody").on("click","td",function(e){
     });
     
     //td에 blur가 되면(포커스 잃으면)
-    tdInfo.blur(function(e){
+    tdInfo.unbind("blur").bind("blur",function(e){
         e.preventDefault();
         tdInfo.attr("contenteditable","false")
                 .removeClass("tdBorder");
@@ -92,6 +91,18 @@ table.find("tbody").on("click","td",function(e){
                 }
             }
         } else {
+            if (col == 4) {
+                let txt = tdInfo.text(); //1234asdfsdaf
+                let parseIntVol = parseInt(txt); //1234
+                if (!$.isNumeric(parseIntVol)) {
+                    //txt가 숫자가 아니면
+                    tdInfo.text('');
+                    return false;
+                } else if ($.isNumeric(parseIntVol) && txt != parseIntVol) {
+                    //txt가 숫자와 문자가 섞여있으면
+                    tdInfo.text(parseIntVol);
+                }
+            }
             //포커스가 나갈 때 체인지 이벤트를 강제로 일으킴(값이 변할 경우 변화를 캐치하는 이벤트)
             tdInfo.trigger("change");
         }

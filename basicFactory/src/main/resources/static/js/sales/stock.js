@@ -40,11 +40,7 @@ $(document).ready(function () {
   $('#stockBtn').click(function () {
     let prdName = $('#productname').val();
     let lotNo = $('#fnsPrdStkLotNo').val();
-    if (prdName != null && prdName != '' || lotNo != null && lotNo != '') {
-      findStock(prdName, lotNo);
-    } else {
-      selectChecked();
-    }
+    findStock(prdName, lotNo);
   });
 
   function findStock(prdName, lotNo) {
