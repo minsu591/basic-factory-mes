@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}"
->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
   <head>
     <meta charset="UTF-8" />
     <title>설비 관리</title>
   </head>
   <body>
-    <link th:href="@{/css/eqp/Mchn.css}" rel="stylesheet" />
+    <link th:href="@{/css/eqp/mchn.css}" rel="stylesheet" />
     <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/js/eqp/mchnManage.js}"></script>
     <!-- modal js -->
@@ -49,12 +45,12 @@
                     <th th:text="구매일자" name="mchn_prchs_date"></th>
                     <th th:text="제작일자" name="mchn_mnfct_date"></th>
                     <th th:text="점검시작일" name="mchn_inspc_date"></th>
-                    <th th:text="점검주기" name="mchn_inspc_cycle"></th>
+                    <th th:text="'점검주기(일)'" name="mchn_inspc_cycle"></th>
                     <th th:text="설비상태" name="mchn_stts"></th>
                     <th th:text="비고" name="mchn_remk"></th>
                   </tr>
                 </thead>
-                <tbody id="mchntbody">
+                <tbody id="mchntbody" class="canModifyTbody">
                   <!--
                   <tr th:each="mchn : ${mchns}">
                     <td><input type="checkbox" name="chk"></td>
@@ -80,6 +76,6 @@
       </div>
     </div>
     <!-- 설비명 Modal -->
-    <th:block th:replace="~{/fragments/modal/findvendor :: findvendor}"></th:block>
+    <th:block th:replace="~{fragments/modal/findvendor :: findvendor}"></th:block>
   </body>
 </html>

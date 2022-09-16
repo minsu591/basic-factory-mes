@@ -82,7 +82,7 @@ public class SlsOrdServiceImpl implements SlsOrdService{
 
 	@Override
 	public List<SlsOrdHdDtlVO> findOrder(Criteria cri) {
-		return mapper.findAllOrder();
+		return mapper.findOrder(cri);
 	}
 
 	@Override

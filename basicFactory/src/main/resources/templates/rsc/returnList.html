@@ -54,7 +54,7 @@
 					</form>
 				</div>
 				<div class="card-body table-border-style">
-					<div class="table-responsive" th:replace="/rsc/table/returnListTable.html :: returnlisttable" id="returnlisttable">
+					<div class="table-responsive" th:replace="rsc/table/returnListTable.html :: returnlisttable" id="returnlisttable">
 						
 					</div>
 				</div>
@@ -63,7 +63,7 @@
 	</div>
 
     <!-- 거래처조회 Modal -->
-    <th:block th:replace="~{/fragments/modal/findvendor :: findvendor}"></th:block>
+    <th:block th:replace="~{fragments/modal/findvendor :: findvendor}"></th:block>
     
 </body>
 </html>

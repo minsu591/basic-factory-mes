@@ -53,7 +53,7 @@
 					</form>
 				</div>
 				<div class="card-body table-border-style">
-					<div class="table-responsive" th:replace="/rsc/table/inspListTable.html :: insplisttable" id="insplisttable">
+					<div class="table-responsive" th:replace="rsc/table/inspListTable.html :: insplisttable" id="insplisttable">
 
 					</div>
 				</div>
@@ -61,6 +61,6 @@
 		</div>
 	</div>
 		<!-- 자재조회 Modal -->
-    <th:block th:replace="~{/fragments/modal/findresource :: findresource}"></th:block>
+    <th:block th:replace="~{fragments/modal/findresource :: findresource}"></th:block>
 </body>
 </html>

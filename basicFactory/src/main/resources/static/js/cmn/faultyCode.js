@@ -145,13 +145,11 @@ $("document").ready(function () {
 
   //저장 버튼 이벤트
   $("#saveBtn").on("click", function() {
-    let trs = table.find("tbody tr");
-    if (trs.length == 0) {
-      // requiredWarning();
-      // Swal.fire({
-      //   icon: "warning",
-      //   title: "데이터을 입력해 주세요."
-      // });
+    let trs = table.find("tbody tr[name='addTr']");
+    if (trs.length == 0 && modifyList.length == 0 && delList.length == 0) {
+      console.log("hi");
+      requiredWarning();
+      return false;
     }
     let nullFlag = false;
     Swal.fire({
@@ -329,7 +327,7 @@ $("document").ready(function () {
   function requiredWarning() {
     Swal.fire({
       icon: "warning",
-      title: "데이터을 입력해 주세요."
+      title: "데이터를 입력해 주세요."
     });
   }
 

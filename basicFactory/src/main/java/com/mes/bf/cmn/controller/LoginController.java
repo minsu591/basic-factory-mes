@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.cmn.provider.JwtProvider;
 import com.mes.bf.cmn.service.EmpDeptService;
@@ -35,17 +36,17 @@ public class LoginController {
 	
 	//로그인 페이지
 	@GetMapping("/login")
-	public String loginPage(HttpServletRequest request) {
+	public ModelAndView loginPage(HttpServletRequest request) {
 		//로그아웃
 		HttpSession session = request.getSession();
 		session.setAttribute("emp", null);
-		return "cmn/Login";
+		return new ModelAndView("cmn/loginpage");
 	}
 	
 	//비밀번호 찾기 페이지
 	@GetMapping("/login/reset")
-	public String pwResetPage() {
-		return "cmn/pwReset";
+	public ModelAndView pwResetPage() {
+		return new ModelAndView("cmn/pwReset");
 	}
 	
 	@PostMapping(value = "/login/check")

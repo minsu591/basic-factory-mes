@@ -1,5 +1,6 @@
 package com.mes.bf.prod.controller;
 
+import java.awt.PageAttributes.MediaType;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -13,7 +14,6 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +40,16 @@ import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 import com.mes.bf.prod.vo.VRscNeedQtyVO;
 
+<<<<<<< HEAD
+=======
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+
+
+>>>>>>> refs/remotes/origin/dev
 @RestController
 @RequestMapping("/prod")
 public class InstructionController {
@@ -197,19 +207,19 @@ public class InstructionController {
 	InputStream stream2 = getClass().getResourceAsStream("/reports/subreports.jrxml");
 	
 	//파라미터 맵
-//	System.out.println("====================================================");
-//	System.out.println(request.getParameter("instNo"));
-//	System.out.println("====================================================");
+	System.out.println("====================================================");
+	System.out.println(request.getParameter("instNo"));
+	System.out.println("====================================================");
 	HashMap<String,Object> map = new HashMap<>();
 	map.put("instNo", request.getParameter("instNo"));
-//	
-//	JasperReport jasperReport = JasperCompileManager.compileReport(stream1);
-//	JasperReport subReport = JasperCompileManager.compileReport(stream2);
-//	map.put("subReport",subReport);
-//	
-//	JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
-//	
-//	JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+	JasperReport jasperReport = JasperCompileManager.compileReport(stream1);
+	JasperReport subReport = JasperCompileManager.compileReport(stream2);
+	map.put("subReport",subReport);
+	
+	JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
+	
+	JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+
 	
 	}
 	

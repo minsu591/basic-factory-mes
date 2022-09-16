@@ -9,12 +9,12 @@
     <title>설비 점검 관리</title>
   </head>
   <body>
-    <link th:href="@{/css/eqp/Inspc.css}" rel="stylesheet" />
+    <link th:href="@{/css/eqp/inspc.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/js/eqp/InspcManage.js}"></script>
     <!-- modal js -->
     <script type="text/javascript" th:src="@{/js/modal/eqp/findInspcList.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/eqp/findInspcNxtDate.js}"></script>
-    <script type="text/javascript" th:src="@{/js/modal/cmn/findTdemp.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/cmn/findTdEmp.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/cmn/findTdmchnname.js}"></script>
 
     <div class="pcoded-main-container">
@@ -61,12 +61,12 @@
     </div>
 
     <!-- 점검내역조회 Modal -->
-    <th:block th:replace="~{/fragments/modal/eqp/findInspcList :: findInspcList}"></th:block>
+    <th:block th:replace="~{fragments/modal/eqp/findInspcList :: findInspcList}"></th:block>
     <!-- 점검대상조회 Modal -->
-    <th:block th:replace="~{/fragments/modal/eqp/findInspcNxtDate :: findNxtDate}"></th:block>
+    <th:block th:replace="~{fragments/modal/eqp/findInspcNxtDate :: findNxtDate}"></th:block>
     <!-- 담당자 Modal -->
-    <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
+    <th:block th:replace="~{fragments/modal/findemp :: findemp}"></th:block>
     <!-- 설비명 Modal -->
-    <th:block th:replace="~{/fragments/modal/cmn/findMchnInLine :: findMchnInLine}"></th:block>
+    <th:block th:replace="~{fragments/modal/cmn/findMchnInLine :: findMchnInLine}"></th:block>
   </body>
 </html>
