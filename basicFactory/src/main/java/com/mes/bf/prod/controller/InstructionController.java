@@ -40,11 +40,11 @@ import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 import com.mes.bf.prod.vo.VRscNeedQtyVO;
 
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+//import net.sf.jasperreports.engine.JasperCompileManager;
+//import net.sf.jasperreports.engine.JasperExportManager;
+//import net.sf.jasperreports.engine.JasperFillManager;
+//import net.sf.jasperreports.engine.JasperPrint;
+//import net.sf.jasperreports.engine.JasperReport;
 
 @RestController
 @RequestMapping("/prod")
@@ -209,13 +209,13 @@ public class InstructionController {
 	HashMap<String,Object> map = new HashMap<>();
 	map.put("instNo", request.getParameter("instNo"));
 	
-	JasperReport jasperReport = JasperCompileManager.compileReport(stream1);
-	JasperReport subReport = JasperCompileManager.compileReport(stream2);
-	map.put("subReport",subReport);
-	
-	JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
-	
-	JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+//	JasperReport jasperReport = JasperCompileManager.compileReport(stream1);
+//	JasperReport subReport = JasperCompileManager.compileReport(stream2);
+//	map.put("subReport",subReport);
+//	
+//	JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
+//	
+//	JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
 	
 	}
 	

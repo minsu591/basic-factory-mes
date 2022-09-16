@@ -17,7 +17,6 @@ $("document").ready(function () {
         mchnName
       },
       success: function (result) {
-        console.log(result);
         $("#mchntbody tr").remove();
         for (obj of result) {
           mchnMakeRow(obj);
@@ -32,50 +31,26 @@ $("document").ready(function () {
   function mchnMakeRow(obj){
     let node = `<tr>`;
     if($("#allCheck").is(":checked")){
-      node += `<td><input type="checkbox" name="chk" checked></td>`;
+      node += `<td class="cantModifyTd"><input type="checkbox" name="chk" checked></td>`;
     } else {
-      node += `<td><input type="checkbox" name="chk"></td>`;
+      node += `<td class="cantModifyTd"><input type="checkbox" name="chk"></td>`;
     }
-    node += `<td>${obj.mchnCode}</td>
+    node += `<td class="cantModifyTd">${obj.mchnCode}</td>
               <td>${obj.mchnName}</td>
               <td>${obj.mchnModel}</td>
-              <td class="vendor">${obj.vendCdCode}</td>
-              <td>${obj.vendCdNm}</td>
+              <td class="vendor curPo">${obj.vendCdCode}</td>
+              <td class="cantModifyTd">${obj.vendCdNm}</td>
               <td>${obj.mchnPrice}</td>
               <td><input type="date" value="${obj.mchnPrchsDate}"></td>
               <td><input type="date" value="${obj.mchnMnfctDate}"></td>
               <td><input type="date" value="${obj.mchnInspcDate}" min="${today}"></td>
               <td>${obj.mchnInspcCycle}</td>
-              <td>${obj.mchnStts}</td>
+              <td class="cantModifyTd">${obj.mchnStts}</td>
               <td>${obj.mchnRemk}</td>
             </tr>`
     $("#mchntbody").append(node);
   }
-
-  //추가 버튼 누르면 행 추가
-  $("#addBtn").on("click",function(){
-    let node = `<tr name="addTr">
-                  <td><input type="checkbox" name="chk"></td>`;
-    if ($("#allCheck").is(":checked")){
-      node = `<tr>
-                <td><input type="checkbox" name="chk" checked></td>`;
-    }
-    node += `<td></td>
-            <td></td>
-            <td></td>
-            <td class="vendor"></td>
-            <td></td>
-            <td></td>
-            <td><input type="date"></td>
-            <td><input type="date"></td>
-            <td><input type="date" min="${today}"></td>
-            <td></td>
-            <td>진행전</td>
-            <td></td>
-          </tr>`;
-    $("#mchntbody").append(node);
-  });
-
+  
   //체크박스 체크유무
   $("#allCheck").click("change", function () {
     if ($("#allCheck").is(":checked")) {
@@ -94,6 +69,32 @@ $("document").ready(function () {
     }
     e.stopPropagation();
   });
+
+  //추가 버튼 누르면 행 추가
+  $("#addBtn").on("click",function(){
+    let node = `<tr name="addTr">
+                  <td class="cantModifyTd"><input type="checkbox" name="chk"></td>`;
+    if ($("#allCheck").is(":checked")){
+      node = `<tr>
+                <td class="cantModifyTd"><input type="checkbox" name="chk" checked></td>`;
+    }
+    node += `<td class="cantModifyTd"></td>
+            <td></td>
+            <td></td>
+            <td class="vendor curPo"></td>
+            <td class="cantModifyTd"></td>
+            <td></td>
+            <td><input type="date"></td>
+            <td><input type="date"></td>
+            <td><input type="date" min="${today}"></td>
+            <td></td>
+            <td class="cantModifyTd">진행전</td>
+            <td></td>
+          </tr>`;
+    $("#mchntbody").append(node);
+  });
+
+  
 
   //수정이 되는 list 정의
   let modifyList = [];
@@ -114,6 +115,10 @@ $("document").ready(function () {
     let flag = false;
     let tdInfo = $(this);
     let defaultVal;
+
+    if(tdInfo.hasClass("nullTd")){
+      tdInfo.removeClass("nullTd");
+    }
 
     //수정 적용할 인덱스인지 확인
     for(let i = 0; i<avArr.length; i++){
@@ -149,7 +154,7 @@ $("document").ready(function () {
     tdInfo.unbind("blur").bind("blur", function(e){
       e.preventDefault();
       tdInfo.attr("contenteditable", "false").removeClass("tdBorder");
-      //not null이여야한느 값이 null이 되면 이전에 입력한 값으로 돌려놓게
+      //not null이여야하는 값이 null이 되면 이전에 입력한 값으로 돌려놓게
       if(tdInfo.text() == null || tdInfo.text() == ''){
         for(idx of notNullList){
           if(col == idx){
@@ -158,6 +163,21 @@ $("document").ready(function () {
           }
         }
       } else {
+        if(col == 6 || col == 10){
+          let txt = tdInfo.text();
+          let parseIntVol = parseInt(txt);    //parseInt 문자열을 정수로 반환
+          if(!$.isNumeric(parseIntVol)){      //isNumeric 숫자로 인식되는 경우 IsNumeric은 True를 반환합니다. 그렇지 않으면 False 를 반환
+            //txt가 숫자가 아니면
+            tdInfo.text('');
+            return false;
+          }else if($.isNumeric(parseIntVol) && txt != parseIntVol){
+            //txt가 숫자와 문자가 섞여있으면
+            tdInfo.text(parseIntVol);
+          }
+        } 
+      }
+      //추가된 행이면 modifyList에 추가되지 않게
+      if(tdInfo.closest("tr").attr("name") != 'addTr'){
         //포커스가 나갈 때 체인지 이벤트를 강제로 일으킴(값이 변할 경우 변화를 캐치하는 이벤트)
         tdInfo.trigger("change");
       }
@@ -213,18 +233,18 @@ $("document").ready(function () {
     }).then((result) =>{
       if(result.isConfirmed){
         //null 검사
-
         let tbody = table.find("tbody tr");
         for(tr of tbody){
           for(idx of notNullList){
-            let content = $(tr).find("td:eq("+idx+")").text();
+            let td = $(tr).find("td:eq("+idx+")");
+            let content;
             if(idx == 9){
               content = $(tr).find("input[type='date']").val();
             } else{
               content = td.text();
             }
             if(content == null || content == ''){
-              $(tr).find("td:eq("+idx+")").addClass("nullTd");
+              $(td).addClass("nullTd");
               nullFlag = true;
             }
           }
