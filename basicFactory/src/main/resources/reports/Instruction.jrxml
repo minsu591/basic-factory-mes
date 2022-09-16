@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 7.2.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Instruction" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6b0cd5ae-c37c-480f-9513-0100e89cca8e">
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Instruction" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6b0cd5ae-c37c-480f-9513-0100e89cca8e">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="OracleCloud"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="han_font" fontName="malgun"/>
@@ -49,7 +49,7 @@ WHERE inst.inst_no =  $P{instNo} AND rownum = 1]]>
 		<property name="com.jaspersoft.studio.field.label" value="EMP_NAME"/>
 	</field>
 	<title>
-		<band height="205" splitType="Stretch">
+		<band height="209" splitType="Stretch">
 			<staticText>
 				<reportElement x="181" y="11" width="199" height="38" uuid="c8d5b631-3f62-4dc7-aeeb-dfaa6d0cad91">
 					<property name="local_mesure_unitheight" value="pixel"/>
@@ -148,7 +148,7 @@ WHERE inst.inst_no =  $P{instNo} AND rownum = 1]]>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 			</rectangle>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="110" y="109" width="88" height="25" uuid="2187374e-ce0e-4062-8537-44fc39f98cb5">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -253,7 +253,7 @@ WHERE inst.inst_no =  $P{instNo} AND rownum = 1]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{INST_NO}]]></textFieldExpression>
 			</textField>
-			<textField pattern="yyyy-MM-dd">
+			<textField>
 				<reportElement x="380" y="68" width="151" height="19" uuid="a707008d-135d-4bff-bf62-7695d9fd7662"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="malgun"/>
@@ -274,7 +274,7 @@ WHERE inst.inst_no =  $P{instNo} AND rownum = 1]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{VEND_CD_NM}]]></textFieldExpression>
 			</textField>
-			<textField pattern="yyyy-MM-dd" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement x="420" y="109" width="112" height="23" uuid="8eacbfd2-83eb-4c90-8d6d-2825b3f7cee5"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="malgun"/>
@@ -357,7 +357,7 @@ WHERE inst.inst_no =  $P{instNo} AND rownum = 1]]>
 				<textFieldExpression><![CDATA["지시량"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="20" y="10" width="210" height="25" uuid="a4f3b3bf-f8db-4f7d-a25f-9ba361e5574e">
+				<reportElement x="0" y="8" width="210" height="25" uuid="a4f3b3bf-f8db-4f7d-a25f-9ba361e5574e">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -369,9 +369,9 @@ WHERE inst.inst_no =  $P{instNo} AND rownum = 1]]>
 		</band>
 	</title>
 	<detail>
-		<band height="115" splitType="Stretch">
+		<band height="117" splitType="Stretch">
 			<subreport>
-				<reportElement x="22" y="-2" width="511" height="97" uuid="355fada9-58f2-4ec0-afaa-5e8697c0b9a3"/>
+				<reportElement x="21" y="-6" width="513" height="97" uuid="355fada9-58f2-4ec0-afaa-5e8697c0b9a3"/>
 				<subreportParameter name="instNo">
 					<subreportParameterExpression><![CDATA[$F{INST_NO}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -381,6 +381,6 @@ WHERE inst.inst_no =  $P{instNo} AND rownum = 1]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="50" splitType="Stretch"/>
+		<band height="50"/>
 	</columnFooter>
 </jasperReport>

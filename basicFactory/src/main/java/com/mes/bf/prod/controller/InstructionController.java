@@ -1,6 +1,6 @@
 package com.mes.bf.prod.controller;
 
-import java.awt.PageAttributes.MediaType;
+import org.springframework.http.MediaType;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -40,8 +40,6 @@ import com.mes.bf.prod.vo.VFindProdAndLineVO;
 import com.mes.bf.prod.vo.VInstructionVO;
 import com.mes.bf.prod.vo.VRscNeedQtyVO;
 
-<<<<<<< HEAD
-=======
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -49,7 +47,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
 
->>>>>>> refs/remotes/origin/dev
 @RestController
 @RequestMapping("/prod")
 public class InstructionController {
@@ -215,6 +212,7 @@ public class InstructionController {
 	JasperReport jasperReport = JasperCompileManager.compileReport(stream1);
 	JasperReport subReport = JasperCompileManager.compileReport(stream2);
 	map.put("subReport",subReport);
+	
 	
 	JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
 	
