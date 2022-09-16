@@ -2,7 +2,6 @@ package com.mes.bf.rsc.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,13 +9,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mes.bf.common.Criteria;
+import com.mes.bf.common.PageDTO;
 import com.mes.bf.rsc.service.RscOutService;
 import com.mes.bf.rsc.vo.RscOutVO;
 
@@ -72,21 +73,36 @@ public class RscOutController {
 	}
 	
 	@RequestMapping("/outList")
-	public void outList(Model model) {
-		List<RscOutVO> nList = rscOutService.normalOutList(null, null, null, null);
-		List<RscOutVO> eList = rscOutService.exceptOutList(null, null, null, null);
+	public void outList(Model model, @ModelAttribute("cri") Criteria cri) {
+		cri.setAmount(10);
+		
+		cri.setPageNum(cri.getNPageNum());
+		int Ntotal = rscOutService.outNListCount(cri);
+		PageDTO Npage = new PageDTO(cri, Ntotal);
+		List<RscOutVO> nList = rscOutService.normalOutList(cri);
+		System.out.println(cri);
+		System.out.println(Npage);
+		model.addAttribute("pageNMaker", Npage);
+		
+		cri.setPageNum(cri.getEPageNum());
+		int Etotal = rscOutService.outEListCount(cri);
+		PageDTO Epage = new PageDTO(cri, Etotal);
+		List<RscOutVO> eList = rscOutService.exceptOutList(cri);
+		System.out.println(cri);
+		System.out.println(Epage);
+		model.addAttribute("pageEMaker", Epage);
 		model.addAttribute("nList", nList);
 		model.addAttribute("eList", eList);
 	}
 	
-	@RequestMapping(value = "/outListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public String outTableList(@RequestParam Map<String, String> QueryParameters, Model model) {
-		List<RscOutVO> nList = rscOutService.normalOutList(QueryParameters.get("rscOutCode"), QueryParameters.get("rscCdCode"), 
-														QueryParameters.get("rscOutSDate"), QueryParameters.get("rscOutEDate"));
-		List<RscOutVO> eList = rscOutService.exceptOutList(QueryParameters.get("rscOutCode"), QueryParameters.get("rscCdCode"), 
-														QueryParameters.get("rscOutSDate"), QueryParameters.get("rscOutEDate"));
-		model.addAttribute("nList", nList);
-		model.addAttribute("eList", eList);
-		return "rsc/table/OutListTable";
-	}
+//	@RequestMapping(value = "/outListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
+//	public String outTableList(@RequestParam Map<String, String> QueryParameters, Model model) {
+//		List<RscOutVO> nList = rscOutService.normalOutList(QueryParameters.get("rscOutCode"), QueryParameters.get("rscCdCode"), 
+//														QueryParameters.get("rscOutSDate"), QueryParameters.get("rscOutEDate"));
+//		List<RscOutVO> eList = rscOutService.exceptOutList(QueryParameters.get("rscOutCode"), QueryParameters.get("rscCdCode"), 
+//														QueryParameters.get("rscOutSDate"), QueryParameters.get("rscOutEDate"));
+//		model.addAttribute("nList", nList);
+//		model.addAttribute("eList", eList);
+//		return "rsc/table/OutListTable";
+//	}
 }

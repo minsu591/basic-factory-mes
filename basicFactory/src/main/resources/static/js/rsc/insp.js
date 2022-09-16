@@ -185,26 +185,26 @@ $(document).ready(function () {
         inspList.push(insp);
         console.log(insp);
 
-        $.ajax({
-          url: "inspInAndUp",
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          dataType: "text",
-          data: JSON.stringify(inspList),
-          error: function (error, status, msg) {
-            alert("상태코드 " + status + "에러메시지" + msg);
-          },
-          success: function (result) {
-            console.log(result);
-            if (inspList.length == result) {
-              submitComplete();
-              $("#outTable tr").remove();
-            }
-          }
-    
-        })
       }
     }
+    $.ajax({
+      url: "inspInAndUp",
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      dataType: "text",
+      data: JSON.stringify(inspList),
+      error: function (error, status, msg) {
+        alert("상태코드 " + status + "에러메시지" + msg);
+      },
+      success: function (result) {
+        console.log(result);
+        if (inspList.length == result) {
+          submitComplete();
+          $("#outTable tr").remove();
+        }
+      }
+
+    })
   });
 
 

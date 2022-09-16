@@ -88,8 +88,8 @@
 			   #{rscOrderVol},
 			   0,
 			   #{rscOrderPrc},
-			   0
-			   ,#{rscOrderDtlRemk}
+			   0,
+			   #{rscOrderDtlRemk}
 			   )
 	</insert>
 	

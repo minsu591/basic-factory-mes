@@ -175,8 +175,8 @@ $("document").ready(function () {
 
     //발주코드가 없는경우
     if (rscOrderCode == null) {
-      // 새로 등록
       let orders = [];
+      // 새로 등록
       let outTable = $("#InsertTable").find("tbody tr");
       for (obj of outTable) {
         
@@ -199,6 +199,7 @@ $("document").ready(function () {
             html: "거래처코드, 자재코드, <br/>발주수량, 단가는<br/>기본 입력사항입니다.",
             confirmButtonText: "확인",
           });
+          return;
         } else {
           //디테일 리스트 저장
           let order = {
@@ -209,25 +210,26 @@ $("document").ready(function () {
             rscOrderDtlRemk,
           };
           orders.push(order);
+          console.log(orders)
 
-          $.ajax({
-            url: "orderInsert",
-            type: "POST",
-            dataType: "text",
-            data: JSON.stringify({
-              rscOrderVO,
-              orders,
-            }),
-            contentType: "application/json; charset=UTF-8",
-            success: function (result) {
-              console.log(result);
-              if (orders.length == result) {
-                submitComplete();
-              }
-            },
-          });
         }
       }
+      $.ajax({
+        url: "orderInsert",
+        type: "POST",
+        dataType: "text",
+        data: JSON.stringify({
+          rscOrderVO,
+          orders,
+        }),
+        contentType: "application/json; charset=UTF-8",
+        success: function (result) {
+          console.log(result);
+          if (orders.length == result) {
+            submitComplete();
+          }
+        },
+      });
     //발주코드가 있는경우
     } else {
       // 수정 - 세부내역 전부 delete 후 insert
@@ -241,7 +243,7 @@ $("document").ready(function () {
         let rscOrderVol = $(obj).children().eq(4).find("input").val();
         let rscOrderPrc = $(obj).children().eq(6).find("input").val();
         let rscOrderDtlRemk = $(obj).children().eq(8).find("input").val();
-
+        
         //필수사항 공백일 경우 리턴
         if (!vendCdCode || !rscCdCode || !rscOrderVol || !rscOrderPrc) {
           for (idx of notnull){
@@ -268,6 +270,7 @@ $("document").ready(function () {
           orders.push(order);
         }
       }
+      console.log(orders)
       $.ajax({
         url: "orderUpdate",
         type: "POST",

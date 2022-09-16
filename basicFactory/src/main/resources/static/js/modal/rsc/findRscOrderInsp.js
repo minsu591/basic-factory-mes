@@ -117,6 +117,7 @@ $(document).ready(function(){
  
  function outListInsert(obj) {
   let id = $("#sideBarEmpId").val();
+  let unarvVol = obj.rscOrderVol - obj.rscOrderArv;
   let node = `<tr>
   <td id="chk-css"><input type="checkbox" name="chk"></td>
   <td><input type="text" class="rscOrderCode" value="${obj.rscOrderCode}" disabled></td>
@@ -125,7 +126,7 @@ $(document).ready(function(){
   <td><input type="text" class="rsccode" value="${obj.rscCdCode}" disabled></td>
   <td><input type="text" class="rscname" value="${obj.rscCdName}"disabled></td>
   <td><input type="text" class="unit" value="${obj.rscCdUnit}" disabled></td>
-  <td><input type="text" class="unarvVol" value="${(obj.rscOrderVol)-(obj.rscOrderArv)}"disabled></td>
+  <td><input type="text" class="unarvVol" value="${unarvVol}"disabled></td>
   <td><input type="text" class="inspVol" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
   <td><input type="text" class="inferVol" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
   <td><input type="text" class="passVol" disabled></td>

@@ -17,7 +17,7 @@
 			<p class="mb-0">
 			<div class="card-body table-border-style table-size-mod">
 				<div class="table-responsive">
-					<table class="table table-striped">
+					<table class="table table-striped" id="nListTable">
 						<thead>
 							<tr>
 								<th th:text="출고코드"></th>
@@ -44,7 +44,9 @@
 							</tr>
 						</tbody>
 					</table>
-					
+					<th:block th:with="pageMaker = ${pageNMaker}">
+						<th:block th:replace="~{fragments/pagination :: pagination-nav}"></th:block>
+					</th:block>
 				</div>
 			</div>
 			</p>
@@ -54,7 +56,7 @@
 			<p class="mb-0">
 			<div class="card-body table-border-style table-size-mod">
 				<div class="table-responsive">
-					<table class="table table-striped">
+					<table class="table table-striped" id="eListTable">
 						<thead>
 							<tr>
 								<th th:text="출고코드"></th>
@@ -81,7 +83,9 @@
 							</tr>
 						</tbody>
 					</table>
-	
+					<th:block th:with="pageMaker = ${pageEMaker}">
+						<th:block th:replace="~{fragments/pagination :: pagination-nav}"></th:block>
+					</th:block>
 				</div>
 			</div>
 			</p>

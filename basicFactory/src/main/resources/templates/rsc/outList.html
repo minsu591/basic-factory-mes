@@ -10,8 +10,8 @@
 	<script type="text/javascript"
 		th:src="@{/js/modal/rsc/findResource.js}"></script>
 	<script type="text/javascript" th:src="@{/js/rsc/outList.js}"></script>
-	<script type="text/javascript" th:src="@{/js/pages/pagination2.js}"></script>
-	<link th:href="@{/css/pagination.css}" rel="stylesheet" />
+	<script type="text/javascript" th:src="@{/js/pages/pagination.js}"></script>
+	<link th:href="@{/css/pagination2.css}" rel="stylesheet" />
 	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
 	<div class="pcoded-main-container">
 		<h1>자재 출고 조회</h1>
@@ -42,6 +42,15 @@
 							</div>
 							<button type="button" class="btn  btn-primary" id="search">조회</button>
 						</div>
+					</form>
+					<form name="searchForm" id="searchForm">
+						<input type='hidden' id ='type' name="type" th:value="${pageNMaker.cri.type}">
+						<input type='hidden' name='keyword' th:value='${pageNMaker.cri.keyword}' />
+						<input type='hidden' name='keyword2' th:value='${pageNMaker.cri.keyword2}' />
+						<input type='hidden' name='keyword3' th:value='${pageNMaker.cri.keyword3}' />
+						<input type='hidden' name='keyword4' th:value='${pageNMaker.cri.keyword4}' />
+						<input type='hidden' name='pageNum' value='1'>
+						<input type='hidden' name='amount' value='${pageNMaker.cri.amount}'>
 					</form>
 				</div>
 				<div class="card-body body-size-mod">

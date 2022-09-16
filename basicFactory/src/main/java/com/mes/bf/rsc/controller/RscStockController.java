@@ -36,14 +36,6 @@ public class RscStockController {
 		
 	}
 	
-//	//재고검색테이블 replace
-//	@GetMapping(value = "/stockTable", produces = { MediaType.APPLICATION_JSON_VALUE })
-//	public String stockTable(@RequestParam Map<String, String> QueryParameters, Model model) {
-//		List<RscStockVO> stock = stockService.StockList(QueryParameters.get("rscCdCode"),QueryParameters.get("rscLotNo"));
-//		model.addAttribute("stock",stock);
-//		return "rsc/table/stockTable";
-//	}
-	
 	@GetMapping("/test")
 	public String testing() {
 		return "rsc/test";
