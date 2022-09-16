@@ -1,5 +1,6 @@
 package com.mes.bf.prod.controller;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -45,6 +46,8 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 @RestController
 @RequestMapping("/prod")
@@ -203,9 +206,9 @@ public class InstructionController {
 	InputStream stream2 = getClass().getResourceAsStream("/reports/subreports.jrxml");
 	
 	//파라미터 맵
-//	System.out.println("====================================================");
-//	System.out.println(request.getParameter("instNo"));
-//	System.out.println("====================================================");
+	System.out.println("====================================================");
+	System.out.println(request.getParameter("instNo"));
+	System.out.println("====================================================");
 	HashMap<String,Object> map = new HashMap<>();
 	map.put("instNo", request.getParameter("instNo"));
 	

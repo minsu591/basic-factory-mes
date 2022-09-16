@@ -10,7 +10,6 @@
 	<script type="text/javascript"
 		th:src="@{/js/modal/rsc/findResource.js}"></script>
 	<script type="text/javascript" th:src="@{/js/rsc/outList.js}"></script>
-	<script type="text/javascript" th:src="@{/js/pages/pagination2.js}"></script>
 	<link th:href="@{/css/pagination.css}" rel="stylesheet" />
 	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
 	<div class="pcoded-main-container">
@@ -45,7 +44,7 @@
 					</form>
 				</div>
 				<div class="card-body body-size-mod">
-						<div th:replace="/rsc/table/outListTable.html :: outlisttable"
+						<div th:replace="rsc/table/outListTable.html :: outlisttable"
 							id="outlisttable"></div>
 					
 				</div>
@@ -53,6 +52,6 @@
 		</div>
 		<!-- 자재조회 Modal -->
 		<th:block
-			th:replace="~{/fragments/modal/findresource :: findresource}"></th:block>
+			th:replace="~{fragments/modal/findresource :: findresource}"></th:block>
 </body>
 </html>

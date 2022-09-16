@@ -7,7 +7,7 @@
     <title>설비 점검 조회</title>
   </head>
   <body>
-    <link th:href="@{/css/eqp/Inspc.css}" rel="stylesheet" />
+    <link th:href="@{/css/eqp/inspc.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/js/eqp/inspc.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
     <script type="text/javascript" th:src="@{/js/pages/pagination.js}"></script>
@@ -76,13 +76,13 @@
                   </tr>
                 </tbody>
               </table>
-              <th:block th:replace="~{/fragments/pagination :: pagination-nav}"></th:block>
+              <th:block th:replace="~{fragments/pagination :: pagination-nav}"></th:block>
             </div>
           </div>
         </div>
       </div>
       <!-- 설비코드 Modal -->
-      <th:block th:replace="~{/fragments/modal/findMchnName :: findMchnName}"></th:block>
+      <th:block th:replace="~{fragments/modal/findMchnName :: findMchnName}"></th:block>
     </div>
   </body>
 </html>

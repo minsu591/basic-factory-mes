@@ -43,7 +43,7 @@
 						<button type="button" class="btn  btn-primary subBtn" id="subBtn">선택등록</button>
 					</div>
 					<br>
-					<div class="table-responsive" th:replace="/rsc/table/inTable.html :: intable" id="intable">
+					<div class="table-responsive" th:replace="rsc/table/inTable.html :: intable" id="intable">
 						
 					</div>
 				</div>
@@ -51,6 +51,6 @@
 		</div>
 	</div>
 	<!-- 자재조회 Modal -->
-    <th:block th:replace="~{/fragments/modal/findresource :: findresource}"></th:block>
+    <th:block th:replace="~{fragments/modal/findresource :: findresource}"></th:block>
 </body>
 </html>

@@ -43,7 +43,7 @@
 					</form>
 				</div>
 				<div class="card-body table-border-style">
-					<div class="table-responsive" th:replace="/rsc/table/stockTable.html :: stocktable" id="sttable">
+					<div class="table-responsive" th:replace="rsc/table/stockTable.html :: stocktable" id="sttable">
 						
 					</div>
 				</div>
@@ -51,8 +51,8 @@
 		</div>
 	</div>
 	<!-- 자재조회 Modal -->
-    <th:block th:replace="~{/fragments/modal/findresource :: findresource}"></th:block>
+    <th:block th:replace="~{fragments/modal/findresource :: findresource}"></th:block>
     <!-- Lot번호 조회 Modal -->
-    <th:block th:replace="~{/fragments/modal/findRscLot :: findRscLot}"></th:block>
+    <th:block th:replace="~{fragments/modal/findRscLot :: findRscLot}"></th:block>
 </body>
 </html>

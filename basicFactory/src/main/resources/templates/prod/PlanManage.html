@@ -17,7 +17,7 @@
     <script type="text/javascript" th:src="@{/js/modal/cmn/findIdemp.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/cmn/findTdproduct.js}"></script>
     <script type="text/javascript" th:src="@{/js/prod/PlanManage.js}"></script>
-    <script type="text/javascript" th:src="@{/js/prod/planUpdateDB.js}"></script>
+    <script type="text/javascript" th:src="@{/js/prod/PlanUpdateDB.js}"></script>
 
     <div class="pcoded-main-container">
         <h1>생산 계획 관리</h1>
@@ -89,13 +89,13 @@
               </div>
     </div>
     <!--사용자가 작성한 생산계획 모달창-->
-    <th:block th:replace="~{/fragments/modal/findMyPlan :: findMyPlan}"></th:block>
+    <th:block th:replace="~{fragments/modal/findMyPlan :: findMyPlan}"></th:block>
     <!--미계획된 주문내역 모달창 -->
-    <th:block th:replace="~{/fragments/modal/findNotDoneOrd :: findNotDoneOrd}"></th:block>
+    <th:block th:replace="~{fragments/modal/findNotDoneOrd :: findNotDoneOrd}"></th:block>
     <!-- 담당자검색 Modal -->
-    <th:block th:replace="~{/fragments/modal/cmn/findIdEmp :: findIdEmp}"></th:block>
+    <th:block th:replace="~{fragments/modal/cmn/findIdemp :: findIdEmp}"></th:block>
     <!--제품코드 검색 modal-->
-    <th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
+    <th:block th:replace="~{fragments/modal/findproduct :: findproduct}"></th:block>
     <script>
         
 

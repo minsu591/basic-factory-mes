@@ -12,7 +12,7 @@
   <!-- modal js -->
   <script type="text/javascript" th:src="@{/js/modal/prod/findListFltyPrcs.js}"></script>
   <script type="text/javascript" th:src="@{/js/modal/cmn/findTdFaulty.js}"></script>
-  <script type="text/javascript" th:src="@{/js/modal/cmn/findTdemp.js}"></script>
+  <script type="text/javascript" th:src="@{/js/modal/cmn/findTdEmp.js}"></script>
   <script type="text/javascript" th:src="@{/js/modal/prod/findproduct.js}"></script>
   <script type="text/javascript" th:src="@{/js/modal/prod/findproccdname.js}"></script>
   <script type="text/javascript" th:src="@{/js/modal/prod/findmchnname.js}"></script>
@@ -116,17 +116,17 @@
   </div>
 
   <!-- 불량처리내역조회 Modal -->
-  <th:block th:replace="~{/fragments/modal/prod/findListFltyPrcs :: findListFltyPrcs}"></th:block>
+  <th:block th:replace="~{fragments/modal/prod/findListFltyPrcs :: findListFltyPrcs}"></th:block>
   <!-- 불량코드 Modal -->
-  <th:block th:replace="~{/fragments/modal/cmn/findFaulty :: findFaulty}"></th:block>
+  <th:block th:replace="~{fragments/modal/cmn/findFaulty :: findFaulty}"></th:block>
   <!-- 담당자 Modal -->
-  <th:block th:replace="~{/fragments/modal/findemp :: findemp}"></th:block>
+  <th:block th:replace="~{fragments/modal/findemp :: findemp}"></th:block>
   <!-- 완제품 Modal -->
-  <th:block th:replace="~{/fragments/modal/findproduct :: findproduct}"></th:block>
+  <th:block th:replace="~{fragments/modal/findproduct :: findproduct}"></th:block>
   <!-- 공정명 Modal -->
-  <th:block th:replace="~{/fragments/modal/findProcCdName :: findProcCdName}"></th:block>
+  <th:block th:replace="~{fragments/modal/findProcCdName :: findProcCdName}"></th:block>
   <!-- 설비명 Modal -->
-  <th:block th:replace="~{/fragments/modal/findMchnName :: findMchnName}"></th:block>
+  <th:block th:replace="~{fragments/modal/findMchnName :: findMchnName}"></th:block>
   
 
   <!-- <script type="text/javascript" th:src="@{/js/modal/prod/findProcFlty.js}"></script> -->
