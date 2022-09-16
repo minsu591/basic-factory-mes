@@ -410,12 +410,12 @@ $(document).ready(function () {
   <td><input type="text" name="prodCode"></td>
   <td><input type="text" disabled></td>
   <td><input type="text" disabled></td>
-  <td><input type="text" disabled></td>
-  <td><input type="text" disabled></td>
-  <td><input type="text" disabled></td>
-  <td><input type="text" disabled></td>
-  <td><input type="text" disabled></td>
-  <td><input type="text" disabled></td>
+  <td><input type="text" disabled value="-"></td>
+  <td><input type="text" disabled value="-"></td>
+  <td><input type="text" disabled value="-"></td>
+  <td><input type="text" disabled value="-"></td>
+  <td><input type="text" disabled value="0"></td>
+  <td><input type="text" disabled value="0"></td>
   <td><input type="text"></td>
   <td><input type="text" disabled></td>
   <td><input type="date" min='${date}'></td>
@@ -556,6 +556,7 @@ function requiredCheck(instobjheader, dataArray, command) {
     saveSuccess();
   } else if (command == "update") {
     //생산지시 수정
+    console.log("수정일 때 ->" + instobjheader);
     //console.log("수정일 떄 -> " + dataArray);
     updateInst(instobjheader, dataArray);
     updateSuccess();

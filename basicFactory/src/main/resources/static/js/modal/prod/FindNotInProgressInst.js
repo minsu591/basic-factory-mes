@@ -30,12 +30,14 @@ $(document).ready(function () {
     $("#procStatusTable tbody tr").remove();
     $("#rscStockTable tbody tr").remove();
     let instNo = $(this).find("td:eq(2)").text();
-    //console.log(instNo);
-
+    let instRemk = $(this).find("td:eq(6)").text();
+    $("#instremk").val(instRemk);
     let instName = $(this).find("td:eq(1)").text();
     $("#instname").val(instName);
     $("#planDetailTable thead tr").find("input:hidden").remove();
-    $("#planDetailTable thead tr").append(`<input type="hidden" id="instNo" value="${instNo}">`);
+    $("#planDetailTable thead tr").append(
+      `<input type="hidden" id="instNo" value="${instNo}">`
+    );
     findNotInProcInst(instNo);
 
     $("#FindNotInProgressInstModal").modal("hide");
@@ -50,14 +52,13 @@ function findNotInProcInst(instNo) {
     contentType: "application/json;charset=utf-8",
     dataType: "json",
     data: {
-      instNo: instNo
+      instNo: instNo,
     },
     error: function (error, status, msg) {
-      alert("상태코드 " + status + "에러메시지" + msg + ' ' + error);
+      alert("상태코드 " + status + "에러메시지" + msg + " " + error);
     },
     success: function (data) {
-
-      console.log('생산지시 ->' + data);
+      console.log("생산지시 ->" + data);
 
       $("#planDetailTable tbody tr").remove();
       // let index = 0;
@@ -65,12 +66,10 @@ function findNotInProcInst(instNo) {
         let finInfoList = finInfo(obj.finPrdCdCode);
         //console.log(finInfoList);
         planDetailTableMakeRow(obj, finInfoList);
-
       }
     },
   });
-};
-
+}
 
 function finInfo(prodCode) {
   let finPrdCdName;
@@ -95,20 +94,17 @@ function finInfo(prodCode) {
     },
   });
   return [finPrdCdName, prodUnit, lineName];
-};
-
+}
 
 //기존 생산지시 진행전인 건만 조회
 function findNotInProgInst() {
-
   let workScope = "진행전";
   $.ajax({
     url: `findinst`,
     method: "GET",
     dataType: "json",
     success: function (data) {
-
-      console.log('기존생산지시' + data);
+      console.log("기존생산지시" + data);
 
       $("#FindNotInProgressInstTable tbody tr").remove();
       let index = 0;
@@ -130,7 +126,7 @@ function findNotInProgInstDate(instSdate, instEdate) {
       instEdate: instEdate,
     },
     success: function (data) {
-      console.log('검색후 데이터->' + data);
+      console.log("검색후 데이터->" + data);
       $("#FindNotInProgressInstTable tbody tr").remove();
       let index = 0;
       for (obj of data) {
@@ -152,7 +148,7 @@ function findProdName(prodCode) {
         .children()
         .val(data.lineCdHdName);
     },
-    error: function (error, status, msg) { },
+    error: function (error, status, msg) {},
   });
 }
 //생산지시 헤더 조회
@@ -197,7 +193,8 @@ function FindNotInProgressInstTableMakeRow(obj, index) {
                 <td>${obj.instNo}</td>
                 <td>${obj.instDate}</td>
                 <td>${obj.empId}</td>
-                <td>${obj.planHdCode == null ? '' : obj.planHdCode}</td>
+                <td>${obj.planHdCode == null ? "" : obj.planHdCode}</td>
+                <td>${obj.instRemk}</td>
               </tr>`;
   $("#FindNotInProgressInstTable tbody").append(node);
 }
@@ -214,16 +211,32 @@ function planDetailTableMakeRow(obj, finInfoList) {
               <td><input type="text" value="${obj.finPrdCdCode}"></td>
               <td><input type="text" disabled value="${finInfoList[0]}"></td>
               <td><input type="text" disabled value="${finInfoList[1]}"></td>
-              <td><input type="text" disabled value="${obj.planIdx == 0 ? '' : obj.planIdx}"></td>
-              <td><input type="text" disabled value="${obj.planHdCode == null ? '' : obj.planHdCode}"></td>
-              <td><input type="text" disabled value="${obj.planSdate == null ? '' : obj.planSdate}"></td>
-              <td><input type="text" disabled value="${obj.planEdate == null ? '' : obj.planEdate}"></td>
-              <td><input type="text" disabled value="${obj.planHdCode == null ? 0 : obj.instProdIndicaVol}"></td>
-              <td><input type="text" disabled value="${obj.planHdCode == null ? 0 : obj.planProdVol - obj.instProdIndicaVol}"></td>
+              <td><input type="text" disabled value="${
+                obj.planIdx == 0 ? "-" : obj.planIdx
+              }"></td>
+              <td><input type="text" disabled value="${
+                obj.planHdCode == null ? "-" : obj.planHdCode
+              }"></td>
+              <td><input type="text" disabled value="${
+                obj.planSdate == null ? "-" : obj.planSdate
+              }"></td>
+              <td><input type="text" disabled value="${
+                obj.planEdate == null ? "-" : obj.planEdate
+              }"></td>
+              <td><input type="text" disabled value="${
+                obj.planHdCode == null ? 0 : obj.instProdIndicaVol
+              }"></td>
+              <td><input type="text" disabled value="${
+                obj.planHdCode == null
+                  ? 0
+                  : obj.planProdVol - obj.instProdIndicaVol
+              }"></td>
               <td><input type="text" value="${obj.instProdIndicaVol}"></td>
               <td><input type="text" disabled value="${finInfoList[2]}" ></td>
               <td><input type="date" min="${date}" value="${obj.workDate}"></td>
-              <td><input type="hidden" name="instProdNo" value="${obj.instProdNo}"></td>
+              <td><input type="hidden" name="instProdNo" value="${
+                obj.instProdNo
+              }"></td>
               </tr>`;
 
   $("#planDetailTable tbody").append(node);
