@@ -17,7 +17,7 @@
           <a th:text="이전" th:attr="data-value=${pageMaker.cri.pageNum-1}"></a>
         </li>
 
-        <li class="page-number"  th:each="page: ${#numbers.sequence(start, end)}" th:unless="${page eq 0}">
+        <li class="page-number mainPage"  th:each="page: ${#numbers.sequence(start, end)}" th:unless="${page eq 0}">
           <a th:text="${page}" th:classappend="${page} == ${pageMaker.cri.pageNum} ? pagingactive" ></a>
         </li>
         <!--th:href="@{/common/mchnList(pageNum=${page})}"-->
@@ -38,6 +38,8 @@
     <input type='hidden' name='keyword4' th:value='${pageMaker.cri.keyword4}' />
     <input type='hidden' name='keyword5' th:value='${pageMaker.cri.keyword5}' />
     <input type='hidden' name='pageNum' th:value='${pageMaker.cri.pageNum}'>
+    <input type='hidden' name='nPageNum' th:value='${pageMaker.cri.nPageNum}'>
+    <input type='hidden' name='ePageNum' th:value='${pageMaker.cri.ePageNum}'>
     <input type='hidden' name='amount' th:value='${pageMaker.cri.amount}'>
     </form>
   </th:block>

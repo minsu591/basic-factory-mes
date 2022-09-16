@@ -4,12 +4,16 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.mes.bf.common.Criteria;
 import com.mes.bf.rsc.vo.RscOutVO;
 
 @Mapper
 public interface RscOutMapper {
-	List<RscOutVO> normalOutList(String rscOutCode, String rscCdCode, String rscOutSDate, String rscOutEDate);
-	List<RscOutVO> exceptOutList(String rscOutCode, String rscCdCode, String rscOutSDate, String rscOutEDate);
+	//조회페이지 출력
+	List<RscOutVO> normalOutList(Criteria cri);
+	List<RscOutVO> exceptOutList(Criteria cri);
+	Integer outNListCount(Criteria cri);
+	Integer outEListCount(Criteria cri);
 	
 	RscOutVO exceptOut(String rscOutCode);
 	

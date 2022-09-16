@@ -6,6 +6,7 @@
 			   DTS.RSC_ORDER_DTL_NO,
 			   DTS.RSC_CD_CODE,
 			   DTS.RSC_ORDER_VOL,
+			   DTS.RSC_ORDER_ARV,
 			    
 			   RSC.RSC_CD_NAME,
 			   RSC.RSC_CD_UNIT

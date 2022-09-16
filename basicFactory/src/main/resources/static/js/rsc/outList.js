@@ -1,13 +1,22 @@
 $("document").ready(function(){
   
+  
+  //들어오자마자 
+  console.log($("#myTab .active").text());
+  if($("input:hidden[name=type]").val() == 'E'){
+    $("#myTab li:eq(1) a").trigger("click");
+  }
+
   //조회버튼 실행
   $("#search").click(function(){
+    let rscOutCode = $("#rscOutCode").val();
+    let rscCdCode = $("#rsccode").val();
     let rscOutSDate = $("#rscOutSDate").val();
     let rscOutEDate = $("#rscOutEDate").val();
     
   if(!rscOutSDate){
    if(!rscOutEDate){
-    findList();
+    // findList();
    } else {
     dateWarning();
     return false;
@@ -17,40 +26,49 @@ $("document").ready(function(){
     dateWarning();
     return false;
    }else {
-    findList();
+    // findList();
     if (rscOutSDate > rscOutEDate) {
       dateWarning2();
       return false;
     }
    }
   }
+
+  e.preventDefault();
+  //if문 조건 걸어서 검색타입에 따라 키워드 분류 후 서브밋
+  $("input:hidden[name=keyword]").val(rscOutCode);
+  $("input:hidden[name=keyword2]").val(rscOutSDate);
+  $("input:hidden[name=keyword3]").val(rscOutEDate);
+  $("input:hidden[name=keyword4]").val(rscCdCode);
+  $("input:hidden[name=amount]").val(10);
+
+  $("#searchForm").submit();
  })
 
- function findList(){
-  let rscOutCode = $("#rscOutCode").val();
-  let rscCdCode = $("#rsccode").val();
-  let rscOutSDate = $("#rscOutSDate").val();
-  let rscOutEDate = $("#rscOutEDate").val();
-  $.ajax({
-   url : "outListTable",
-   method : "GET",
-   dataType: "text",
-   data: {
-    rscOutCode: rscOutCode,
-     rscCdCode: rscCdCode,
-     rscOutSDate: rscOutSDate,
-     rscOutEDate: rscOutEDate
-   },
-   success: function(data){
-    $("#outlisttable").replaceWith(data);
-   }
-  })
-  $("#rscOutCode").val(null);
-  $("#rsccode").val(null);
-  $("#rscname").val(null);
-  $("#rscOutSDate").val(null);
-  $("#rscOutEDate").val(null);
- }
+
+ $("#myTab").on("click","li",function(){
+  console.log("hello")
+  $(".pagination input:hidden[name=pageNum]").val(1);
+ });
+//  function findList(){
+
+//   let rscOutSDate = $("#rscOutSDate").val();
+//   let rscOutEDate = $("#rscOutEDate").val();
+//   $.ajax({
+//    url : "outListTable",
+//    method : "GET",
+//    dataType: "text",
+//    data: {
+//     rscOutCode: rscOutCode,
+//      rscCdCode: rscCdCode,
+//      rscOutSDate: rscOutSDate,
+//      rscOutEDate: rscOutEDate
+//    },
+//    success: function(data){
+//     $("#outlisttable").replaceWith(data);
+//    }
+//   })
+//  }
 
 
  function dateWarning() {

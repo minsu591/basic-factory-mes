@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class Criteria {
 	private int pageNum = 1; // 현재페이지
+	private int nPageNum = 1;
+	private int ePageNum = 1;
 	private int amount = 10; // 한페이지에 출력할 게시글 수
 
 	private String type; //검색 분류 

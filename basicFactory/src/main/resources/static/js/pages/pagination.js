@@ -7,9 +7,24 @@ $("document").ready(function () {
     } else {
       pageNum = $(this).data("value");
     }
-    $("input:hidden[name=pageNum]").val(pageNum);
+    
     $("input:hidden[name=amount]").val(10);
-    pageForm.submit();
+    let form = $("form[name='pageForm']");
+    if(form.length != 1){
+      //자재출고조회
+      if($(this).closest("form").siblings("table").attr("id")=='eListTable'){
+        $("input:hidden[name=type]").val("E");
+        $(this).closest("form").find("input:hidden[name=ePageNum]").val(pageNum);
+      }else{
+        $("input:hidden[name=type]").val("N");
+        $(this).closest("form").find("input:hidden[name=nPageNum]").val(pageNum);
+      }
+      $(this).closest("form").submit();
+    }else{
+      $("input:hidden[name=pageNum]").val(pageNum);
+      pageForm.submit();
+    }
+
   });
 });
 

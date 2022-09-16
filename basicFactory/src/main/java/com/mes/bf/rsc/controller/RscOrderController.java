@@ -48,6 +48,7 @@ public class RscOrderController {
 	@PostMapping(value = "/orderInsert")
 	public ResponseEntity<Integer> orderInsert(@RequestBody RscOrderDtlVO vo){
 		List<RscOrderVO> orders = vo.getOrders();
+		System.out.println(vo);
 		System.out.println(vo.getRscOrderVO());
 		//헤더 정보를 insert
 		int result = rscOrderService.orderInsert(vo.getRscOrderVO());
@@ -62,6 +63,7 @@ public class RscOrderController {
 			}
 		}
 		//디테일 정보를 insert
+		System.out.println(resultSum);
 		return new ResponseEntity<Integer>(resultSum,HttpStatus.OK);
 	}
 	
@@ -77,6 +79,7 @@ public class RscOrderController {
 		//디테일 정보를 delete
 		if (result == 1) {
 			int resultDelete = rscOrderService.orderDtDelete(vo.getRscOrderVO().getRscOrderCode());
+			System.out.println(resultDelete);
 			for (int i = 0; i < orders.size(); i++ ) {
 				int resultInsert = rscOrderService.orderDtReInsert(orders.get(i));
 				if (resultInsert == 1) {
@@ -85,6 +88,7 @@ public class RscOrderController {
 			}
 		}
 		//새로운 정보를 insert
+		System.out.println(resultSum);
 		return new ResponseEntity<Integer>(resultSum,HttpStatus.OK);
 	}
 	
