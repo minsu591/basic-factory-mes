@@ -41,9 +41,12 @@ public class SlsOrdController {
 	@RequestMapping("/ord")
 	public ModelAndView order(Model model, @ModelAttribute("cri") Criteria cri) {
 		int total = service.findOrderCount(cri);
+		System.out.println(total);
 		cri.setAmount(10); // 한페이지당 10개씩 설정
 		PageDTO page = new PageDTO(cri, total);
 		model.addAttribute("pageMaker", page);
+		System.out.println(service.findOrder(cri));
+		System.out.println(cri);
 		model.addAttribute("list", service.findOrder(cri));
 		
 		ModelAndView mav = new ModelAndView("sales/order");

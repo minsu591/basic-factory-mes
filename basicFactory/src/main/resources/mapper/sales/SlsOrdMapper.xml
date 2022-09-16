@@ -69,10 +69,10 @@
 	<!-- 검색조건 SQL -->
 	<sql id="criteria">
 		<if test="keyword != null and keyword != '' and keyword2 != null and keyword2 != ''">
-			AND TdRUNC(ORDHD.SLS_ORD_HD_DATE) BETWEEN  #{keyword} AND #{keyword2}
+			AND TRUNC(ORDHD.SLS_ORD_HD_DATE) BETWEEN  #{keyword} AND #{keyword2}
 		</if>
 		<if test="keyword3 != null and keyword3 != ''">
-			AND VEND.VEND_CD_NM = #{keyword3}
+			AND VEND.VEND_CD_CODE = #{keyword3}
 		</if>
 		
 	</sql>

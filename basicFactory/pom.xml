@@ -119,11 +119,11 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
-		<dependency>
+		<!-- <dependency>
 		    <groupId>net.sf.jasperreports</groupId>
 		    <artifactId>jasperreports</artifactId>
 		    <version>6.12.0</version>
-		</dependency>
+		</dependency> -->
 
 		
 				

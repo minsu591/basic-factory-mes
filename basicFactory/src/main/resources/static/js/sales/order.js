@@ -41,7 +41,7 @@ $(document).ready(function () {
   $("#ordBtn").click(function (e) {
     let ordSdate = $("#orderSdate").val();
     let ordEdate = $("#orderEdate").val();
-    let vendorName = $("#vendorName").val();
+    let vendor = $("#vendor").val();
 
     if(ordSdate != null && ordSdate != '' && ordEdate != null && ordEdate != ''){
       if(ordSdate > ordEdate){
@@ -65,7 +65,7 @@ $(document).ready(function () {
     //if문 조건 걸어서 검색타입에 따라 키워드 분류 후 서브밋
     $("input:hidden[name=keyword]").val(ordSdate);
     $("input:hidden[name=keyword2]").val(ordEdate);
-    $("input:hidden[name=keyword3]").val(vendorName);
+    $("input:hidden[name=keyword3]").val(vendor);
     $("input:hidden[name=amount]").val(10);
 
     $("#searchForm").submit();
