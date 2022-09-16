@@ -5,7 +5,7 @@
 </head>
 <body>
 
-	<th:block th:fragment="findemp">
+	<th:block th:fragment="findTdEmp">
 
 		<div class="modal fade" id="findempModal" tabindex="-1" role="dialog"
 			aria-labelledby="findempModalLabel" aria-hidden="true">
@@ -33,6 +33,7 @@
 									<thead>
 										<tr>
 											<th></th>
+											<th th:text="'담당자 아이디'"></th>
 											<th th:text="담당자명"></th>
 											<th th:text="부서"></th>
 										</tr>

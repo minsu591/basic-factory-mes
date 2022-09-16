@@ -59,9 +59,6 @@ xmlns:th="http://www.thymeleaf.org"
                             </tbody>
                         </table>
                     </div>
-                    <div class="rightBtn">
-                        <button type="button" class="btn btn-primary">라인 초기화</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -100,15 +97,12 @@ xmlns:th="http://www.thymeleaf.org"
                             </tbody>
                         </table>
                     </div>
-                    <div class="rightBtn">
-                        <button type="button" class="btn btn-primary" id="procResetBtn">공정 초기화</button>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- 공정 검색 Modal -->
-    <th:block th:replace="~{/fragments/modal/findProcCdName :: findProcCdName}"></th:block>
+    <th:block th:replace="~{/fragments/modal/cmn/findProcTdCdName :: findProcTdCdName}"></th:block>
     <!--  설비검색 Modal -->
     <th:block th:replace="~{/fragments/modal/cmn/findMchnInLine :: findMchnInLine}"></th:block>
 

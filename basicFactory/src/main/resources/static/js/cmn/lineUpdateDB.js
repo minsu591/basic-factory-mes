@@ -19,9 +19,7 @@ $("document").ready(function(){
     let procNotNullList = [2,4];
     //primary키인 index
     let linePriKeyIdx = 1;
-    let procPriKeyIdx;
-
-
+    
     //line 수정 이벤트
     lineTable.find("tbody").on("click","td",function(e){
         let col = $(this).index();

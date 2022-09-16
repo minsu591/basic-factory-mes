@@ -39,6 +39,8 @@ public class LoginController {
 		//로그아웃
 		HttpSession session = request.getSession();
 		session.setAttribute("emp", null);
+		
+	    
 		return "cmn/Login";
 	}
 	
@@ -86,7 +88,7 @@ public class LoginController {
 	//비밀번호 재설정
 	//비밀번호 재설정 아이디 정보 가져오기
 	@PostMapping(value = "/login/reset/empId")
-	public ResponseEntity<Integer> checkEmpId(@RequestBody EmpVO emp) {
+	public ResponseEntity<Integer> checkEmpId(@RequestBody EmpVO emp, HttpServletRequest request) {
 		int result = 0;
 		String empId = emp.getEmpId();
 		String empName = emp.getEmpName();
@@ -101,10 +103,15 @@ public class LoginController {
 			result = -3;
 		}else {
 			String token = jwt.createToken(empId);
+			//현재 경로 넣기
+		    String path = request.getRequestURL().toString();
+		    int pathIdx = path.indexOf("/", 8);
+		    String ipAddr = path.substring(0,pathIdx);
+		    
 			//성공
 			String cont = "<h3>Basic Factory 비밀번호 재설정 메일입니다</h3>"
 					+ "<p>아래의 링크로 접속하여 비밀번호를 재설정해주세요<p>"
-					+ "<a href='http://localhost/cmn/login/reset/"+token+"'>비밀번호 재설정</a>";
+					+ "<a href='"+ipAddr+"/cmn/login/reset/"+token+"'>비밀번호 재설정</a>";
 			MailVO mailInfo = new MailVO();
 			mailInfo.setToAddress(empEmail);
 			mailInfo.setSubject("Basic Factory 비밀번호 재설정 메일입니다");
