@@ -126,6 +126,7 @@ $("document").ready(function () {
                     <td class="lotNo canModifyTd"></td>
                     <td>${ord.slsOutDtlVO.finPrdCdPrice}</td>
                     <td></td>
+                    <td></td>
                 </tr>`;
     
     $("#outMngTable tbody").append(node);

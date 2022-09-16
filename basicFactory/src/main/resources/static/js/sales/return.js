@@ -58,13 +58,10 @@ $(document).ready(function () {
     console.log(prcCls);
     if (rtnSdate != null && rtnSdate != '' && rtnEdate != null && rtnEdate != '') {
       if (rtnSdate > rtnEdate) {
-        rtnDateChecked();
-      } else {
-        findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
-      }
-    } else if (rtnSdate == null || rtnSdate == '' && rtnEdate == null ||
-               rtnEdate == '' && vendorName == null || vendorName == '' && prcCls == 3) { 
-      selectChecked();
+        if (rtnDateChecked()) {
+          return false;
+        }
+      } 
     } else{
       findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
     }
@@ -102,7 +99,7 @@ $(document).ready(function () {
       icon: "warning",
       title: "조회 조건을 입력해주세요."
     });
-    return false;
+    return true;
   }
 
   function rtnDateChecked() {
@@ -112,6 +109,6 @@ $(document).ready(function () {
     });
     $("#rtnSdate").val('');
     $("#rtnEdate").val('');
-    return false;
+    return true;
   }
 });
