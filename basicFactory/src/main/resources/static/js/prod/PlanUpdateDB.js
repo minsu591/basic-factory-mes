@@ -112,6 +112,7 @@ $("document").ready(function(){
                 tdInfo.blur();
             }
         });
+
         //td에 blur가 되면
         tdInfo.unbind("blur").bind("blur",function(e){
             e.preventDefault();
@@ -121,17 +122,27 @@ $("document").ready(function(){
             if(tdInfo.text() == null || tdInfo.text() == ''){
                 for(idx of notNullList){
                     if(col == idx){
+                        //빈 값이면 notNull검사
                         tdInfo.text(defaultVal);
                         return false;
                     }
                 }
             }
-            //주문번호 참고해오면
-            //미계획량 : notPlanVol
+            //계획량이 주문량보다 클 때 경고
             let notPlanVol = tdInfo.closest("tr").find("td:eq(7)").text();
-            if(notPlanVol != null && notPlanVol != ''){
-                if(parseInt(notPlanVol) < parseInt(tdInfo.text())){
-                    //계획량이 주문량보다 클 때 경고
+            if(col == 8){
+                let txt = tdInfo.text();
+                let parseIntVol = parseInt(txt);
+                if(!$.isNumeric(parseIntVol)){
+                    //txt가 숫자가 아니면
+                    tdInfo.text('');
+                    return false;
+                }else if($.isNumeric(parseIntVol) && txt != parseIntVol){
+                    //txt가 숫자와 문자가 섞여있으면
+                    tdInfo.text(parseIntVol);
+                }
+
+                if(notPlanVol != null && notPlanVol != '' && parseInt(notPlanVol) < parseInt(tdInfo.text())){
                     Swal.fire({
                         icon: "error",
                         title: "미계획량보다 계획량이 큽니다",
@@ -141,6 +152,13 @@ $("document").ready(function(){
                     return false;
                 }
             }
+            if(col == 8 && notPlanVol != null && notPlanVol != ''){
+                
+                
+            }
+            //주문번호 참고해오면
+            //미계획량 : notPlanVol
+            
             if(checkModifyOrAdd()){
                 tdInfo.trigger("change");
             }

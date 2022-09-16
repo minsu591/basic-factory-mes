@@ -69,10 +69,10 @@
 	<!-- 검색조건 SQL -->
 	<sql id="criteria">
 		<if test="keyword != null and keyword != '' and keyword2 != null and keyword2 != ''">
-			AND TdRUNC(ORDHD.SLS_ORD_HD_DATE) BETWEEN  #{keyword} AND #{keyword2}
+			AND TRUNC(ORDHD.SLS_ORD_HD_DATE) BETWEEN  #{keyword} AND #{keyword2}
 		</if>
 		<if test="keyword3 != null and keyword3 != ''">
-			AND VEND.VEND_CD_NM = #{keyword3}
+			AND VEND.VEND_CD_CODE = #{keyword3}
 		</if>
 		
 	</sql>
@@ -95,12 +95,12 @@
 	</select>
 	
 	<!-- 주문 조건 조회 -->
-	<select id="findOrder" resultMap="ordHdDtlMap">
+	<select id="findOrder" parameterType = "com.mes.bf.common.Criteria" resultMap="ordHdDtlMap">
    		SELECT X.* FROM(
 			SELECT Y.*, ROWNUM AS RNUM FROM (
 					SELECT ORDHD.SLS_ORD_HD_DATE,
 		   			   ORDHD.SLS_ORD_HD_NO,
-		   			   VEND.VEND_CD_NM, 
+		   			   VEND.VEND_CD_NM,
 		               FNSPRD.FIN_PRD_CD_CODE,
 		               FNSPRD.FIN_PRD_CD_NAME, 
 		               ORDDTL.SLS_ORD_DTL_DLV_DATE,
@@ -121,9 +121,9 @@
         	<include refid="criteria" />
        	</where>
         ORDER BY ORDHD.SLS_ORD_HD_DATE DESC, ORDHD.SLS_ORD_HD_NO DESC ) Y
-				<where>
-					<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
-				</where>
+		<where>
+			<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
+		</where>
 			) X
 		WHERE X.RNUM > (#{pageNum}-1)*#{amount}
    	</select>
