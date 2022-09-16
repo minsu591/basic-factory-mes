@@ -1,6 +1,6 @@
 package com.mes.bf.prod.controller;
 
-import java.io.FileInputStream;
+import java.awt.PageAttributes.MediaType;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -14,7 +14,6 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,8 +45,7 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
+
 
 @RestController
 @RequestMapping("/prod")
@@ -211,7 +209,7 @@ public class InstructionController {
 	System.out.println("====================================================");
 	HashMap<String,Object> map = new HashMap<>();
 	map.put("instNo", request.getParameter("instNo"));
-	
+
 	JasperReport jasperReport = JasperCompileManager.compileReport(stream1);
 	JasperReport subReport = JasperCompileManager.compileReport(stream2);
 	map.put("subReport",subReport);

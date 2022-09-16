@@ -73,17 +73,17 @@ public class MchnController {
 	
 	//설비 조회
 	@RequestMapping("/mchnList")
-	public String mchnListPage(Model model) {
-		List<MchnVO> mchns = service.listMchn(null);
-		model.addAttribute("mchns", mchns);
+	public String mchnListPage() {
 		return "eqp/MchnList";
 	}
-	//설비 코드별 조회
-	@GetMapping(value = "/mchnList/mchnName", produces = { MediaType.APPLICATION_JSON_VALUE })
+	//설비 조회
+	@GetMapping(value = "/mchnList/name", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<MchnVO>> mchnCodePage(@RequestParam Map<String, String> QueryParameters){
-		List<MchnVO> mchnName = service.listMchn(QueryParameters.get("mchnName"));
-		return new ResponseEntity<List<MchnVO>>(mchnName, HttpStatus.OK);
+		List<MchnVO> list = service.listMchn(QueryParameters.get("mchnName"));
+		return new ResponseEntity<List<MchnVO>>(list, HttpStatus.OK);
 	}
+	
+	
 	
 	//거래처 전체조회
 	@GetMapping(value = "/findvendorcode", produces = { MediaType.APPLICATION_JSON_VALUE })

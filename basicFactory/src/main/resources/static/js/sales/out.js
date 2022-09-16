@@ -48,6 +48,7 @@ $(document).ready(function () {
     let outEdate = $("#outEdate").val();
     let vendorName = $("#vendorName").val();
     let vendorCode = $("#vendor").val();
+    console.log("안녕");
 
     // if (outSdate != null && outSdate != '' && outEdate != null && outEdate != '') {
     //   if (outSdate > outEdate) {

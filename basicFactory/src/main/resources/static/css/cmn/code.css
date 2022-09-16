@@ -79,7 +79,10 @@ select {
 #procTable tbody td,
 #bomRscTable tbody td,
 #lineTable tbody td,
-#lineProcTable tbody td
+#lineProcTable tbody td,
+#faultyTable tbody td,
+#nonOpTable tbody td,
+#rscTable tbody td
 {
 	height: 2.5rem;
   	text-align: center;
@@ -97,7 +100,10 @@ select {
 #procTable thead th:first-child,
 #bomRscTable thead th:first-child,
 #lineTable thead th:first-child,
-#lineProcTable thead th:first-child
+#lineProcTable thead th:first-child,
+#faultyTable thead th:first-child,
+#nonOpTable thead th:first-child,
+#rscTable thead th:first-child
 {
 	width : 5%;
 }
