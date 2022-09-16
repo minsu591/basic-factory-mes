@@ -26,19 +26,18 @@
 								<label for="rscCdName" th:text="자재명"></label> <input
 									type="text" id="rscCdName" name="rscCdName"
 									class="form-control mx-sm-3">
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<label class="input-group-text hei-45 wid-50 p-0"
-											for="rscCdClfy">분류</label>
-									</div>
-									<select class="custom-select hei-45 m-r-10"
-										id="rscCdClfy">
-										<option selected>전체</option>
-										<option th:value="원자재" th:text="원자재"></option>
-										<option th:value="부자재" th:text="부자재"></option>
-									</select>
+								
+								<div class="input-group-prepend">
+									<label class="input-group-text hei-45 wid-50 p-0"
+										for="rscCdClfy">분류</label>
 								</div>
-								<button type="button" class="btn  btn-primary"
+								<select class="custom-select hei-45 m-r-10"
+									id="rscCdClfy">
+									<option selected>전체</option>
+									<option th:value="원자재" th:text="원자재"></option>
+									<option th:value="부자재" th:text="부자재"></option>
+								</select>
+								<button type="button" class="btn  btn-primary mt-0"
 									id="findRscBtn" th:text="검색"></button>
 
 							</div>

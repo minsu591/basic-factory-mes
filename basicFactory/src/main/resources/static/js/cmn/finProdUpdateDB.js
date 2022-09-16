@@ -62,6 +62,19 @@ $("document").ready(function(){
                     }
                 }
             }
+            
+            if(col== 3 || col == 5){
+                let txt = tdInfo.text();
+                let parseTxt = parseInt(txt);
+                if(!$.isNumeric(parseTxt)){
+                    //txt가 숫자가 아니면
+                    tdInfo.text('');
+                    return false;
+                }else if($.isNumeric(parseTxt) && txt != parseTxt){
+                    //txt가 숫자와 문자가 섞여있으면
+                    tdInfo.text(parseTxt);
+                }
+            }
             //추가된 행이면 modifyList에 추가되지 않게
             if(tdInfo.closest("tr").attr("name") != 'addTr'){
                 tdInfo.trigger("change");

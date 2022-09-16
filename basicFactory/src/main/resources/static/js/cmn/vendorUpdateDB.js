@@ -70,6 +70,7 @@ $("document").ready(function(){
                     }
                 }
             }
+            
             //addTr은 수정에 들어가지 않게 막기
             if(tdInfo.closest("tr").attr("name")!='addTr'){
                 tdInfo.trigger("change");
