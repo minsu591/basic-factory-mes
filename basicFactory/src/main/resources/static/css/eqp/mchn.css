@@ -6,12 +6,48 @@ h1 {
 	margin-bottom : 2%;
 }
 
+.form-inline {
+	width : 100%;
+	margin : auto;
+}
+
 .btn {
 	margin-top: 1rem;
 }
 
 .rightBtn {
 	float : right;
-    width : 30%;
-    text-align : right;
+	width : 30%;
+	text-align : right;
+}
+
+.nullTd {
+	border : 2px solid red !important;
+}
+
+.canModifyTbody > tr > td:not(.cantModifyTd) {
+	background: rgba(241, 196, 15, 0.1);
+}
+
+.curPo {
+	cursor:pointer;
+}
+
+#mchnTable thead th:first-child {
+	width : 5%;
+}
+
+#mchntbody td {
+	height: 2.5rem;
+  	text-align: center;
+	padding : 0px;
+	vertical-align :middle;
+}
+
+#mchntbody input[type="date"] {
+	height: 100%;
+  text-align: center;
+  border: 0;
+  width: 100%;
+  background: rgba(241, 196, 15, 0);
 }

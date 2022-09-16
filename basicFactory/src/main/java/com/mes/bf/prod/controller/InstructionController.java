@@ -202,7 +202,7 @@ public class InstructionController {
 //	System.out.println("====================================================");
 	HashMap<String,Object> map = new HashMap<>();
 	map.put("instNo", request.getParameter("instNo"));
-//	
+
 //	JasperReport jasperReport = JasperCompileManager.compileReport(stream1);
 //	JasperReport subReport = JasperCompileManager.compileReport(stream2);
 //	map.put("subReport",subReport);

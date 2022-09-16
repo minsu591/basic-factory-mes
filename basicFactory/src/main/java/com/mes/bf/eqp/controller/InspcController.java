@@ -23,8 +23,6 @@ import com.mes.bf.common.PageDTO;
 import com.mes.bf.eqp.service.InspcService;
 import com.mes.bf.eqp.vo.InspcVO;
 import com.mes.bf.eqp.vo.MchnVO;
-import com.mes.bf.eqp.vo.VfindMchnVO;
-import com.mes.bf.prod.service.ProcService;
 
 @Controller
 @RequestMapping("/eqp")
@@ -79,7 +77,7 @@ public class InspcController {
 		return "eqp/InspcList";
 	}
 	
-//	//점검상세조회
+	//점검상세조회
 //	@GetMapping(value="/inspcList/find", produces = { MediaType.APPLICATION_JSON_VALUE })
 //	public String MchnListFindPage(@RequestParam Map<String, String> QueryParameters, Model model) {
 //		List<InspcVO> inspcs = service.findListInspc(QueryParameters.get("sdate"), QueryParameters.get("edate"), QueryParameters.get("mchnCode"));

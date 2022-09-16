@@ -1,26 +1,27 @@
 $(document).ready(function () {
+  findAllMchnCode();
+
   $("#mchnListBtn").click(function () {
-    findMchnCode();
+    findAllMchnCode();
   });
-
-  function findMchnCode() {
+});
+  function findAllMchnCode() {
     let mchnName = $("#mchnName").val();
-
     $.ajax({
-      url: "mchnList/mchnName",
-      method: "get",
+      url: "mchnList/name",
+      method: "GET",
       contentType: "application/json;charset=utf-8",
       dataType: "json",
       data: {
         mchnName
       },
       success: function (result) {
-        console.log(result);
         $("#mchnTable tbody tr").remove();
         for (obj of result) {
           mchnMakeRow(obj);
-          console.log(obj);
         }
+        $("#remo").remove();
+        page();
       },
       error: function (error) {
         console.log(error);
@@ -42,4 +43,3 @@ $(document).ready(function () {
                 </tr>`;
     $("#mchnTable tbody").append(node);
   }
-});
