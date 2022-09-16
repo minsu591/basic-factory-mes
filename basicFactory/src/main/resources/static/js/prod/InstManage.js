@@ -14,7 +14,7 @@ $(document).ready(function () {
       //dataType: "json",
       data: { instNo: instNo },
       success: function (data) {
-        window.open("/prod/report.do?instNo="+instNo);
+        window.open("/prod/report.do?instNo=" + instNo);
         console.log("호출성공");
       },
       error: function (error, status, msg) {},
@@ -72,8 +72,11 @@ $(document).ready(function () {
       lineArray.splice(lineIndex, 1);
       inDtlVol.splice(inDtlVolIndex, 1);
       prodCodeArr.splice(procCodeIndex, 1);
-
-      deleteCheck($(this).parent().parent());
+      if ($(this).parent().parent().hasClass("not-don-plan")) {
+        $(this).parent().parent().remove();
+      } else {
+        deleteCheck($(this).parent().parent());
+      }
     });
 
     if (trlength == checklength) {
@@ -358,7 +361,6 @@ $(document).ready(function () {
       },
       error: function (err) {
         $("#procStatusTable tbody tr").remove();
-
       },
       success: function (data) {
         //console.log('지겹다진짜' + data);
