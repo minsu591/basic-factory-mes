@@ -66,7 +66,7 @@
 				AND fin_prd_cd_name LIKE '%'||#{prdCdName}||'%'
 			</if>
 		</where>
-
+	ORDER BY FIN_PRD_CD_CODE
 
 	</select>
 

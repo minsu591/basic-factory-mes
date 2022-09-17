@@ -71,7 +71,6 @@ $("document").ready(function(){
             let inputInfo = tdInfo.find("input");
             //시작일자
             if(tdInfo.next().children("input").length == 1){
-                console.log(tdInfo.next().find("input").val());
                 let edate = tdInfo.next().find("input").val();
                 if(edate != null && edate != ''){
                     inputInfo.attr("max",edate);

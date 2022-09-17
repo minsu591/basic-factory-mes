@@ -1,6 +1,11 @@
 $("document").ready(function(){
+
     //직원 조회 버튼 이벤트
     $("#selectBtn").on("click",function(){
+        let deptName = $("#deptName").val();
+        if(deptName == null || deptName == ''){
+            $("#deptNo").val('');
+        }
         let deptNo = $("#deptNo").val();
         let empId = $("#empId").val();
         let empName = $("#empName").val();
@@ -10,9 +15,9 @@ $("document").ready(function(){
             methods : 'GET',
             dataType : 'json',
             data : {
-                deptNo : deptNo,
-                empId : empId,
-                empName : empName
+                deptNo,
+                empId,
+                empName
             },
             success : function(result){
                 $("#empTable tbody tr").remove();

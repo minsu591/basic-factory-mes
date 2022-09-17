@@ -5,6 +5,21 @@ $("document").ready(function(){
         myPlanClick();
     });
 
+    //input[type='date'] 선택하면 기간 설정
+    $("input[type='date']").on("click",function(){
+        if($(this).attr("id").match("date")){
+            let dateType = $(this).attr("id").substr(-5);
+            let otherInput = $(this).siblings("input[type='date']").val();
+            if(otherInput != null && otherInput != ''){
+                if(dateType == 'edate' || dateType == 'Edate'){
+                    $(this).attr("min",otherInput);
+                }else if(dateType == 'sdate' || dateType == 'Sdate'){
+                    $(this).attr("max",otherInput);
+                }
+            }
+        }
+    });
+
     $("#ordEdate").on("click",function(){
         let ordSdate = $("#ordSdate").val();
         if(ordSdate != null && ordSdate != ''){

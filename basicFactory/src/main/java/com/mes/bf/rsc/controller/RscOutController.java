@@ -76,20 +76,15 @@ public class RscOutController {
 	public void outList(Model model, @ModelAttribute("cri") Criteria cri) {
 		cri.setAmount(10);
 		
-		cri.setPageNum(cri.getNPageNum());
 		int Ntotal = rscOutService.outNListCount(cri);
 		PageDTO Npage = new PageDTO(cri, Ntotal);
 		List<RscOutVO> nList = rscOutService.normalOutList(cri);
-		System.out.println(cri);
-		System.out.println(Npage);
-		model.addAttribute("pageNMaker", Npage);
 		
-		cri.setPageNum(cri.getEPageNum());
 		int Etotal = rscOutService.outEListCount(cri);
 		PageDTO Epage = new PageDTO(cri, Etotal);
 		List<RscOutVO> eList = rscOutService.exceptOutList(cri);
-		System.out.println(cri);
-		System.out.println(Epage);
+				
+		model.addAttribute("pageNMaker", Npage);
 		model.addAttribute("pageEMaker", Epage);
 		model.addAttribute("nList", nList);
 		model.addAttribute("eList", eList);

@@ -1,32 +1,4 @@
-$("document").ready(function () {
-  //페이지 번호 클릭시 현재 검색하고있는 타입,키워드를 같이 보내줌
-  $(".pagination").on("click", 'a', function () {
-    let pageNum;
-    if ($(this).parent().hasClass("page-number")) {
-      pageNum = $(this).text();
-    } else {
-      pageNum = $(this).data("value");
-    }
-    
-    $("input:hidden[name=amount]").val(10);
-    let form = $("form[name='pageForm']");
-    if(form.length != 1){
-      //자재출고조회
-      if($(this).closest("form").siblings("table").attr("id")=='eListTable'){
-        $("input:hidden[name=type]").val("E");
-        $(this).closest("form").find("input:hidden[name=ePageNum]").val(pageNum);
-      }else{
-        $("input:hidden[name=type]").val("N");
-        $(this).closest("form").find("input:hidden[name=nPageNum]").val(pageNum);
-      }
-      $(this).closest("form").submit();
-    }else{
-      $("input:hidden[name=pageNum]").val(pageNum);
-      pageForm.submit();
-    }
 
-  });
-});
 
 
 

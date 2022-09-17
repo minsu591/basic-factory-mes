@@ -27,22 +27,21 @@
                       <div class="card-header">
                         <!--해당 사용자가 작성한 생산 계획 조회 버튼-->
                         <div class="rightBtn">
-                            <button type="button" class="btn btn-primary" id="myPlanBtn">생산계획 조회</button>
+                            <button type="button" class="btn btn-primary mt-0" id="myPlanBtn">생산계획 조회</button>
                         </div>
                         <br>
                         <!--새로운 생산계획 만들 때 사용할 정보-->
                           <form class="form-inline" id="form">
                                 <input type="hidden" id="planHdCode">
-                              <div class="form-group mt-3 leftBtn">
+                              <div class="form-group mt-3">
                                   <label for="planDate" th:text="'생산 계획 일자'"></label>
                                   <input type="date" id="planDate" class="form-control mx-sm-3">
                               </div>
-                              <br><br>
-                              <div class="form-group mt-3 rightBtn">
+                              <div class="form-group mt-3">
                                 <label for="planName" th:text="생산계획명"></label>
                                 <input type="text" id="planName" class="form-control mx-sm-3" name="plan_hd_name">                       
                              </div>
-                             <div class="form-group mt-3 leftBtn">
+                             <div class="form-group mt-3">
                                 <label for="planRemk" th:text="특이사항"></label>
                                 <input type="text" id="planRemk" class="form-control mx-sm-3" name="plan_hd_remk">                       
                              </div>
@@ -55,13 +54,13 @@
                                 
                       </div>
                       <div class="card-body table-border-style">
-                        <button type="button" class="btn btn-primary" id="NotDoneOrdBtn">미계획 주문내역 조회</button>
-                        <div class="rightBtn">
-                            <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
-                            <button type="button" class="btn btn-primary" id="addBtn">추가</button>
-                            <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
+                        <button type="button" class="btn btn-primary mt-0" id="NotDoneOrdBtn" style="float: left;">미계획 주문내역 조회</button>
+                        <div class="rightBtn mb-1">
+                            <button type="button" class="btn btn-primary  mt-0" id="saveBtn">저장</button>
+                            <button type="button" class="btn btn-primary  mt-0" id="addBtn">추가</button>
+                            <button type="button" class="btn btn-primary  mt-0" id="deleteBtn">선택 삭제</button>
                         </div>
-                          <div class="table-responsive">
+                          <div class="table-responsive" style="clear : both;">
                               <table class="table table-striped" id="planManageTable">
                                   <thead>
                                       <tr>

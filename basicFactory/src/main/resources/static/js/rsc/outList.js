@@ -1,14 +1,24 @@
 $("document").ready(function(){
   
+  //들어오자마자
+  //각 페이지의 a에 class 부여
+  let nPageNum = $("#pageForm").find("input[name='nPageNum']").val();
+  let ePageNum = $("#pageForm").find("input[name='ePageNum']").val();
+  $("#nListTable").siblings("nav").find("a").each(function(idx,el){
+    if($(el).text() == nPageNum){
+      $(el).addClass("pagingactive");
+    }
+  });
+  $("#eListTable").siblings("nav").find("a").each(function(idx,el){
+    if($(el).text() == ePageNum){
+      $(el).addClass("pagingactive");
+    }
+  });
   
-  //들어오자마자 
-  console.log($("#myTab .active").text());
-  if($("input:hidden[name=type]").val() == 'E'){
-    $("#myTab li:eq(1) a").trigger("click");
-  }
 
   //조회버튼 실행
-  $("#search").click(function(){
+  $("#search").click(function(e){
+    e.preventDefault();
     let rscOutCode = $("#rscOutCode").val();
     let rscCdCode = $("#rsccode").val();
     let rscOutSDate = $("#rscOutSDate").val();
@@ -34,7 +44,7 @@ $("document").ready(function(){
    }
   }
 
-  e.preventDefault();
+  
   //if문 조건 걸어서 검색타입에 따라 키워드 분류 후 서브밋
   $("input:hidden[name=keyword]").val(rscOutCode);
   $("input:hidden[name=keyword2]").val(rscOutSDate);
@@ -43,12 +53,6 @@ $("document").ready(function(){
   $("input:hidden[name=amount]").val(10);
 
   $("#searchForm").submit();
- })
-
-
- $("#myTab").on("click","li",function(){
-  console.log("hello")
-  $(".pagination input:hidden[name=pageNum]").val(1);
  });
 //  function findList(){
 

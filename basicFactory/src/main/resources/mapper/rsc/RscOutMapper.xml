@@ -65,10 +65,10 @@
 				
 				ORDER  BY 1 DESC) Y
 		<where>
-			<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
+			<![CDATA[ AND ROWNUM <= #{nPageNum}*#{amount}   ]]>
 		</where>
 		) X
-	WHERE X.RNUM > (#{pageNum}-1)*#{amount}
+	WHERE X.RNUM > (#{nPageNum}-1)*#{amount}
 	</select>
 	
 	<select id="exceptOutList" resultType="com.mes.bf.rsc.vo.RscOutVO">
@@ -102,10 +102,10 @@
 		
 		ORDER  BY 1 DESC ) Y
 		<where>
-			<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
+			<![CDATA[ AND ROWNUM <= #{ePageNum}*#{amount}   ]]>
 		</where>
 		) X
-	WHERE X.RNUM > (#{pageNum}-1)*#{amount}
+	WHERE X.RNUM > (#{ePageNum}-1)*#{amount}
 	</select>
 	
 		<select id="exceptOut" resultType="com.mes.bf.rsc.vo.RscOutVO">
