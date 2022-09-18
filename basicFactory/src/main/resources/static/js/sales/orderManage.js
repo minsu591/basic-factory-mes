@@ -19,9 +19,20 @@ let avArr = [4];
 let notNullList = [1,3,4];
 
 
-  //헤더 input 클릭 시 border지우기
+//헤더 input 클릭 시 border지우기
 $(".card").on("click", "input.nullVol", function(){
     $(this).removeClass("nullVol");
+})
+
+//초기화 버튼
+$("#resetBtn").click(function () {
+$("#ordMngTable tbody tr").remove();
+$("#allCheck").prop("checked", false);
+$("#slsOrdHdDate").val(today);
+$("#slsOrdHdDate").prop("disabled", false);
+$("#slsOrdHdNo").val('');
+$("#vendor").val('');
+$("#vendorName").val('');
 })
 
 //input 수정 이벤트

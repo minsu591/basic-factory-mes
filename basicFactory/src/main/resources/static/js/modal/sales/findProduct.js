@@ -25,7 +25,6 @@ $("document").ready(function () {
             title: "이미 추가된 제품코드입니다",
             text: "다시 선택해주세요"
           });
-          $("#findproductModal").modal("hide");
           return false;
         }
       }

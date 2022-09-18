@@ -75,3 +75,7 @@ h1 {
 .modal table tbody tr:not(.lotModalTr) {
 	cursor:pointer;
 }
+
+.lotNo {
+	cursor:pointer;
+}
