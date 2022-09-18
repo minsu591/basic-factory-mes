@@ -109,6 +109,7 @@
 				AND vend_cd_clfy LIKE '%'||#{vendCdClfy}||'%'
 			</if>
 		</where>
+		ORDER BY VEND_CD_CODE
 	</select>
 
 	<!-- 공정상태조회 -->

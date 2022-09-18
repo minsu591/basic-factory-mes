@@ -62,7 +62,7 @@ select {
 	cursor:pointer;
 }
 
-#empid, #deptName {
+#empid, #deptName, #vendor {
 	cursor : pointer;
 }
 

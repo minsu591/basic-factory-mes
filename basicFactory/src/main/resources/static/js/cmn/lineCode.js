@@ -6,11 +6,10 @@ $("document").ready(function(){
             url : 'lineCode/name',
             methods :'GET',
             data : {
-                lineName : lineName
+                lineName
             },
             dataType : 'json',
             success : function(result){
-                console.log(result);
                 $("#lineTable tbody tr").remove();
                 for(obj of result){
                     lineMakeRow(obj);
@@ -37,8 +36,7 @@ $("document").ready(function(){
         let lineCode = $(this).find("td:eq(1)").text();
         let lineName = $(this).find("td:eq(2)").text();
         
-        console.log($("#procLineCode").val()==lineCode);
-        if(lineName == null || lineName == '' || $("#procLineCode").val()==lineCode){
+        if(lineName == null || lineName == '' || $("#procLineName").val() == lineName){
             return;
         }
         if($("#lineProcTable tbody").find("tr").length != 0){
@@ -53,6 +51,7 @@ $("document").ready(function(){
                 cancelButtonText: "취소"
                 }).then((result) =>{
                     if(result.isConfirmed){
+                        $("#lineProcTable tbody tr").remove();
                         detailSelectAjax(lineCode, lineName);
                     }
             });

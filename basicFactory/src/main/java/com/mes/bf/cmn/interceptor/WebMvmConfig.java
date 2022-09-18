@@ -14,6 +14,4 @@ public class WebMvmConfig implements WebMvcConfigurer {
 				.excludePathPatterns("/cmn/login","/cmn/login/check","/cmn/login/reset","/cmn/login/reset/**");
 		//		.excludePathPatterns("/css/**","/fonts/**","/plugin/**","/scripts/**");
 	}
-
-
 }

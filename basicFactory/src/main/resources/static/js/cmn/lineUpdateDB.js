@@ -446,23 +446,21 @@ $("document").ready(function(){
             if($(el).is(":checked")){
                 let tr = $(el).closest('tr');
                 tr.remove();
-                if($(tr).hasClass("addTr")){
-                    //추가된 행이 삭제된거면 무시
-                    return false;
-                }
-                if(type == 'lineCb'){
-                    modifyList = lineModifyList;
-                    priKey = tr.find("td:eq("+linePriKeyIdx+")").text();
-                    delList = lineDelList;
-                }else if(type == 'procCb'){
-                    modifyList = procModifyList;
-                    priKey = tr.find("input[type='hidden']").val();
-                    delList = procDelList;
-                }
-                delList.push(priKey);
-                for(let i = 0; i< modifyList.length; i++){
-                    if(modifyList[i][0]== priKey){
-                        modifyList.splice(i,1);
+                if(!$(tr).hasClass("addTr")){
+                    if(type == 'lineCb'){
+                        modifyList = lineModifyList;
+                        priKey = tr.find("td:eq("+linePriKeyIdx+")").text();
+                        delList = lineDelList;
+                    }else if(type == 'procCb'){
+                        modifyList = procModifyList;
+                        priKey = tr.find("input[type='hidden']").val();
+                        delList = procDelList;
+                    }
+                    delList.push(priKey);
+                    for(let i = 0; i< modifyList.length; i++){
+                        if(modifyList[i][0]== priKey){
+                            modifyList.splice(i,1);
+                        }
                     }
                 }
             }

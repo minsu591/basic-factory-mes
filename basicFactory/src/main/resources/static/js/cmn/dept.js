@@ -1,14 +1,14 @@
 $("document").ready(function(){
     //직원 조회 버튼 이벤트
     $("#selectBtn").on("click",function(){
-        let deptName = $("#deptName").val();
+        let deptName = $("#deptNameInDept").val();
 
         $.ajax({
             url : 'empView/dept',
             methods : 'GET',
             dataType : 'json',
             data : {
-                deptName : deptName
+                deptName
             },
             success : function(result){
                 $("#deptTable tbody tr").remove();
