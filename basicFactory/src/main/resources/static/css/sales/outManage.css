@@ -10,6 +10,10 @@ h1 {
 	margin-top: 1rem;
 }
 
+#findOutBtn, #NotOutBtn {
+	margin-bottom: 1rem;
+}
+
 #findVendorBtn {
 	margin-top: 0;
 }
@@ -58,4 +62,16 @@ h1 {
 
 .swal2-container {
   z-index: 20000 !important;
+}
+
+#outTotalPrice {
+	text-align: right;
+}
+
+.nullVol {
+	border : 2px solid red !important;
+}
+
+.modal table tbody tr:not(.lotModalTr) {
+	cursor:pointer;
 }

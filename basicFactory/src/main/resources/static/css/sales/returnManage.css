@@ -10,6 +10,10 @@ h1 {
 	margin-top: 1rem;
 }
 
+#findRtnBtn, #findOutBtn {
+	margin-bottom: 1rem;
+}
+
 #findVendorBtn {
 	margin-top: 0;
 }
@@ -55,4 +59,12 @@ select {
 	text-align-last: center;
 	text-align: center;
 	box-shadow : none;
+}
+
+.nullVol {
+	border : 2px solid red !important;
+}
+
+.modal table tbody tr {
+	cursor:pointer;
 }

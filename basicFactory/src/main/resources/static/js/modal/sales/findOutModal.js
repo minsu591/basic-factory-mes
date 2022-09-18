@@ -105,30 +105,6 @@ $("document").ready(function(){
             $("#findOutModal").modal("hide");
         }
     }
-
-
-    // function sucFun(result){
-    //     //경고창 띄워주기
-    //     let alertFlag = false;
-    //     if ($("#rtnMngTable tbody").children().length != 0){
-    //         if(confirm("수정한 정보가 모두 사라집니다. 진행하시겠습니까?")==true){
-    //             alertFlag = true;
-    //         }
-    //     }else{
-    //         alertFlag = true;
-    //     }
-
-    //     if(alertFlag){
-    //         $("#rtnMngTable tbody tr").remove();
-    //             for(out of result){
-    //                 rtnMngMakeRow(out);
-    //             }
-
-    //         $("#findOutModal").modal("hide");
-    //         }
-    //     }
-
-
     
     //출고내역 조회 모달을 통한 데이터 출력
     function rtnMngMakeRow(out){
@@ -151,6 +127,7 @@ $("document").ready(function(){
                             <option value="2">거부</option>
                             </select>
                         </td>
+                        <td class="canModifyTd"></td>
                         <td class="canModifyTd"></td>
                     </tr>`;
         $("#rtnMngTable tbody").append(node);

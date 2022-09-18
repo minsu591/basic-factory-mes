@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 </head>
+
 <body>
 	<th:block th:fragment="findOut">
 		<div class="modal fade" id="findOutModal" tabindex="-1" role="dialog"
@@ -22,7 +23,7 @@
 								<input type="date" id="outSdate" class="form-control mx-sm-3"> ~
 								<input type="date" id="outEdate" class="form-control mx-sm-3">
 
-								<button type="button" class="btn  btn-primary" id="findOutBtn" th:text="조회"></button>
+								<button type="button" class="btn  btn-primary" id="findOutBtn" th:text="검색"></button>
 							</div>
 						</div>
 						<hr>
@@ -46,12 +47,6 @@
 								</table>
 							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal" th:text="취소"></button>
-						<button type="button" class="btn btn-primary" th:text="선택"
-							id="selectbtn"></button>
 					</div>
 				</div>
 			</div>

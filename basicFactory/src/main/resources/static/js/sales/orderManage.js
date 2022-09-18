@@ -5,7 +5,7 @@ today = new Date();
 today = today.toISOString().slice(0, 10);
 orderToday = $("#slsOrdHdDate");
 orderToday.val(today);
-    
+
 //수정될거 저장하는 list 정의
 let modifyList = [];
 let hdModifyList = [];
@@ -16,7 +16,13 @@ let table = $("#ordMngTable");
 //td 수정을 적용할 인덱스 (td기준)
 let avArr = [4];
 //notNull이어야하는 (td기준)
-let notNullList = [1,2,3,4];
+let notNullList = [1,3,4];
+
+
+  //헤더 input 클릭 시 border지우기
+$(".card").on("click", "input.nullVol", function(){
+    $(this).removeClass("nullVol");
+})
 
 //input 수정 이벤트
 $("#vendor, #form input").on("change", function(e){
@@ -48,6 +54,11 @@ table.find("tbody").on("click","td",function(e){
     let tdInfo = $(this);
     let defaultVal;
 
+    //저장을 한 번해서 공백 경고 border에 포커스 오면 해당 클래스 삭제
+    if(tdInfo.hasClass("nullVol")){
+        tdInfo.removeClass("nullVol");
+    }
+
     //수정 적용할 인덱스인지 확인
     for(let i = 0; i<avArr.length;i++){
         if(col == avArr[i]){
@@ -63,6 +74,7 @@ table.find("tbody").on("click","td",function(e){
 
     //수정할 수 있도록 하는 설정
     tdInfo.attr("contenteditable", "true");
+    
     //td에 focus가 되면
     tdInfo.focus();
     defaultVal = tdInfo.text();
@@ -115,15 +127,22 @@ table.find("tbody").on("click","td",function(e){
 table.find("tbody").on("change", "td:not(:first-child)", function (e) {     //조회해온 tbody에 change 이벤트가 발생했을 때.
     console.log(e);
     e.preventDefault();
-    let col = $(this).index() - 1;                                          //클릭된 td의 index를 (td의 index만 찾음) col변수에 저장
-    let priKey = $(this).parent().find("input[type='hidden']").val();       //해당 td의 부모에서 프라이머리키 값이 있는 태그를 찾아 그 값을 저장
+    let trInfo = $(this).parent();
+    let col = $(this).index() - 1;                                           //클릭된 td의 index를 (td의 index만 찾음) col변수에 저장
+    let priKey = $(this).parent().find("input[type='hidden']").val();        //해당 td의 부모에서 프라이머리키 값이 있는 태그를 찾아 그 값을 저장
     let updCol = table.find("thead").find("th:eq(" + col + ")").attr("name");//html의 col번째 th name값 갖고 옴(수정될 column)
     let updCont = $(this).text();                                            //해당 td의 text값을 저장(수정될 content)
-                                                                                //set ${updCol}= #{updCont} where PK컬럼 = #{ priKey }
-    if (col == 3) {
-        updCont = $(this).find("input[type='date']").val();                 //컬럼 index가 3번째 td라면 updCont는 input의 date값을 담음(납기일자)
+    let slsOrdDtlVol = parseInt(trInfo.find("td:eq(4)").text());
+    if(slsOrdDtlVol <= 0) {
+        minusWarning();
+        trInfo.find("td:eq(4)").text('');
+        return false;
     }
-    if (priKey != null && priKey != '') {                                   //priKey가 null이면 modifyList에 담기지 않도록 하는 if문
+
+    if (col == 3) {
+        updCont = $(this).find("input[type='date']").val();                  //컬럼 index가 3번째 td라면 updCont는 input의 date값을 담음(납기일자)
+    }
+    if (priKey != null && priKey != '') {                                    //priKey가 null이면 modifyList에 담기지 않도록 하는 if문
         checkNewModify(priKey, updCol, updCont);
     }
     e.stopPropagation();
@@ -176,9 +195,6 @@ function exNull(st){
             for (tr of trs) {
                 finPrdCodeList.push($(tr).find("td:eq(1)").text());
             }
-            console.log(checkOrderFlag);
-            console.log('finPrdCodeList');
-            console.log(finPrdCodeList);
             
             if (modifyAddFlag) { // true: 수정
                 //tr의 null 검사
@@ -219,11 +235,19 @@ function exNull(st){
                     }
                 }
             } else {
+                //추가용
                 let vendCdCode = $("#vendor").val();
                 let empName = $("#empName").val();
-                //추가용
+                
+                //필수항목 미기재 시 리턴
                 if (exNull(empName) || exNull(vendCdCode)) {
                     insertHeaderWarning();
+                    if(empName == null || empName == ''){
+                        $("#empName").addClass("nullVol");
+                    }
+                    if(vendCdCode == null || vendCdCode == '') {
+                        $("#vendor").addClass("nullVol");
+                    }
                     return false;
                 }
                 if (forNull()) {
@@ -253,8 +277,10 @@ function exNull(st){
 function forNull(){
     //null 검사
     let trs = table.find("tbody tr");
+    let flag = false;
     for(tr of trs){
         for (idx of notNullList) {                                  //tr돌면서 notNullList index가 null인지 검사
+            let td = $(tr).find("td:eq(" + idx + ")");
             let content;
             if (idx == 3) {
                 content = $(tr).find("input[type='date']").val();   //index가 3번째면 content에 납기일자 대입
@@ -262,11 +288,18 @@ function forNull(){
                 content = $(tr).find("td:eq(" + idx + ")").text();
             }
             if (content == null || content == '') {
-                requiredWarn();
-                return true;
+                $(td).addClass("nullVol");
+                flag = true;
             }
         }
     }
+    if(flag){
+        requiredWarn();
+        return true;
+    } else {
+        return false;
+    }
+
 }
 
 
@@ -330,7 +363,7 @@ $("#addBtn").on("click",function(){
     node +=`<input type="hidden">
             <td class="productCode canModifyTd" data-toggle="modal" data-target=".bd-example-modal-lg"></td>
             <td></td>
-            <td class="canModifyTd"><input type="date"></td>
+            <td class="canModifyTd"><input type="date" min="`+ today + `"></td>
             <td class="canModifyTd"></td>
         </tr>`;
     $("#ordMngTable tbody").append(node);
@@ -500,6 +533,7 @@ function requiredWarn() {
         Swal.fire({
             icon: "warning",
             title: "입력하지 않은 값이 있습니다.",
+            text: "확인하고 다시 저장해주세요"
         });
     }
 
@@ -523,6 +557,15 @@ function changeWarning() {
         icon: "warning",
         title: "수정 불가",
         html: "출고내역이 존재하는 주문입니다."
+    });
+}
+
+function minusWarning() {
+    Swal.fire({
+        icon: "warning",
+        title: "0보다 큰 값의 숫자만 <br> 입력할 수 있습니다.",
+        text: "다시 입력해주세요.",
+        confirmButtonText: "확인",
     });
 }
 });

@@ -29,17 +29,21 @@ $(document).ready(function () {
   //td 수정 이벤트
   table.find("tbody").on("click","td",function(e){
       e.stopPropagation();
-      tr = $(this).parent();
-
       let col;
+      let flag = false;
+      tr = $(this).parent();
+      tdInfo = $(this);
+
       if(tr.hasClass("out")){
         col = $(this).index();
       } else {
         col = $(this).index() -1;
       }
 
-      let flag = false;
-      tdInfo = $(this);
+      //저장을 한 번해서 공백 경고 border에 포커스 오면 해당 클래스 삭제
+      if(tdInfo.hasClass("nullVol")){
+        tdInfo.removeClass("nullVol");
+      }
 
       //수정 적용할 인덱스인지 확인
       for(let i = 0; i<avArr.length;i++){
@@ -58,10 +62,9 @@ $(document).ready(function () {
       tdInfo.attr("contenteditable", "true");
 
       //td에 focus가 되면
-      tdInfo.unbind("focus").bind("focus", function (e) {
-          defaultVal = tdInfo.text();
-          tdInfo.addClass("tdBorder");
-      });
+      tdInfo.focus();
+      defaultVal = tdInfo.text();
+      tdInfo.addClass("tdBorder");
 
       //enter나 esc 누르면 blur되도록 
       tdInfo.on("keyup",function(key){
@@ -85,6 +88,18 @@ $(document).ready(function () {
                   }
               }
           } else {
+             if (col == 7 ) {
+                let txt = tdInfo.text();
+                let parseIntVol = parseInt(txt);
+                if(!$.isNumeric(parseIntVol)){
+                    //txt가 숫자가 아니면
+                    tdInfo.text('');
+                    return false;
+                } else if ($.isNumeric(parseIntVol) && txt != parseIntVol){
+                    //txt가 숫자와 문자가 섞여있으면
+                    tdInfo.text(parseIntVol);
+                }
+             }
               tdInfo.trigger("change");
           }
           e.stopPropagation();
@@ -105,6 +120,7 @@ $(document).ready(function () {
             col = $(this).index() -1;
         }
 
+        //입고로 반품된 내역 수정 불가
         if (prcCls == '입고' && col == 7 || prcCls == '입고' &&  col == 11) {
             notUpdate();
             td.text(defaultVal);
@@ -132,33 +148,48 @@ $(document).ready(function () {
       let slsRtnDtlPrcCls = tr.find("select[name='prcCls']").val();//처리구분
       let slsRtnDtlResn = tr.find("td:eq(11)").text();           //반품사유
       let slsRtnHdNo = $("#slsRtnHdNo").val();
+
+      // 반품량이 출고량보다 많을 때
       if (slsRtnHdNo != null && slsOutDtlVol < (slsRtnDtlBaseVol + slsRtnDtlVol)) {
           Swal.fire({
               icon: "warning",
-              title: "반품량이 출고량보다 많습니다.",
+              title: "반품 등록 불가",
+              html: "반품량이 출고량보다 많습니다."
           });
+          
           tr.find("td:eq(7)").text(defaultVal);
           return false;
-        }
-        
+      }
+
+      //0의 값이 입력 됐을 때
+      if(slsRtnDtlVol <= 0){
+        minusWarning();
+        td.text(defaultVal);
+        return false;
+      }
+
+      if(col == 7){ //반품량 입력했을 때 금액 계산되도록 Nan방지
         tr.find("td:eq(9)").text(slsRtnDtlVol * danga);
+      }
       if (priKey != null && priKey != '') {
           checkNewModify(priKey, updCol, updCont);
       } else {
         //addList(제품코드, lot번호, 기반품량, 반품량, 금액, 처리구분, 반품사유)
         for(let i=0; i < addList.length; i++){
           let Tr = addList[i];
+          //중복 된 데이터 수정
           if(Tr[0] == finPrdCdCode && Tr[1] == fnsPrdStkLotNo){
             flag = false;
             Tr[3] = slsRtnDtlVol;
+            Tr[4] = slsRtnDtlVol * danga;
             Tr[5] = slsRtnDtlPrcCls;
             Tr[6] = slsRtnDtlResn;
             break;
           }
         }
 
-        if(flag){
-            addTr = [finPrdCdCode, fnsPrdStkLotNo, slsRtnDtlBaseVol, slsRtnDtlVol, slsRtnDtlVol * danga , slsRtnDtlPrcCls, slsRtnDtlResn];
+        if(flag && col == 7){
+          addTr = [finPrdCdCode, fnsPrdStkLotNo, slsRtnDtlBaseVol, slsRtnDtlVol, slsRtnDtlVol * danga , slsRtnDtlPrcCls, slsRtnDtlResn];
           addList.push(addTr);
         }
       }
@@ -181,6 +212,8 @@ $(document).ready(function () {
   //저장 버튼 이벤트
   $("#saveBtn").on("click", function () {
       let trs = table.find("tbody tr");
+      let flag = false;
+
       Swal.fire({
           icon: "question",
           title: "저장하시겠습니까?",
@@ -199,18 +232,25 @@ $(document).ready(function () {
               //null 검사
               for (tr of trs) {
                   for (idx of notNullList) {
-                      let content;
+                    let td = $(tr).find("td:eq(" + idx + ")");
+                    let content = $(tr).find("td:eq(" + idx + ")").text();
                       if (idx == 10 && $(tr).find("select").length == 1) {
                           content = $(tr).find("select option:selected").val();
                       } else {
                           content = $(tr).find("td:eq(" + idx + ")").text();
                       }
                       if (content == null || content == '') {
-                          requiredWarn();
-                          return;
+                        $(td).addClass("nullVol");
+                        flag = true;
                       }
                   }
               }
+
+              if(flag) {
+                requiredWarn();
+                return;
+              }
+
           
               //삭제용
               let countTr = table.find("tbody tr").length;
@@ -432,5 +472,13 @@ function noDataWarn() {
         confirmButtonText: "확인"
     });
 }
-    
+
+function minusWarning() {
+    Swal.fire({
+        icon: "warning",
+        title: "0보다 큰 값의 숫자만 <br> 입력할 수 있습니다.",
+        text: "다시 입력해주세요.",
+        confirmButtonText: "확인",
+    });
+}
 });

@@ -102,7 +102,6 @@
 	    	<if test="prcCls != null and prcCls != 3">
 	    		AND RTNDTL.SLS_RTN_DTL_PRC_CLS = #{prcCls}
 	    	</if>
-	    	AND <![CDATA[ROWNUM < 10]]>
 	    </where>
 	    ORDER BY SLS_RTN_HD_DATE DESC, SLS_RTN_HD_NO DESC
 	</select>
@@ -126,7 +125,6 @@
 			<if test="(rtnSdate != null and rtnSdate != '') and (rtnEdate != null and rtnEdate !='')">
 				AND SLS_RTN_HD_DATE BETWEEN  TO_DATE(#{rtnSdate}, 'YY/MM/DD') AND TO_DATE(#{rtnEdate}, 'YY/MM/DD') + 0.9999
 			</if>
-			AND <![CDATA[ROWNUM < 10]]>
 		</where>
 		ORDER BY SLS_RTN_HD_NO DESC
 	</select>

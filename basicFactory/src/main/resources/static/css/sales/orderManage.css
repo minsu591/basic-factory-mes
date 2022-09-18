@@ -10,6 +10,9 @@ h1 {
 	margin-top: 1rem;
 }
 
+#findOrdBtn{
+	margin-bottom: 1rem;
+}
 #findVendorBtn {
 	margin-top: 0;
 }
@@ -27,8 +30,8 @@ h1 {
 	border-color: #e743c3;
 }
 
-.inputRequired {
-	border: 1px solid #e74c3c;
+.nullVol {
+	border : 2px solid red !important;
 }
 
 .canModifyTd {
@@ -49,4 +52,8 @@ h1 {
   border: 0;
   width: 100%;
   background: rgba(241, 196, 15, 0);
+}
+
+.modal table tbody tr {
+	cursor:pointer;
 }
