@@ -1,66 +1,78 @@
 <!DOCTYPE html>
-<html 
+<html
   xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layout}">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  layout:decorate="~{layout/layout}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>비가동 코드</title>
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
-    <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet"/>
-</head>
-<body>
+    <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet" />
+  </head>
+  <body>
     <script type="text/javascript" th:src="@{/js/cmn/nonOpCode.js}"></script>
 
     <div class="pcoded-main-container">
-        <h1>비가동 코드 관리</h1>
-        <hr>
-        <div class="col-xl-12">
-            <div class="card">
-                <div class="card-header">
-                    <form class="form-inline">
-                         <div class="form-group mt-3">
-                            <label for="nonOpName" th:text="비가동명"></label>
-                            <input type="text" id="nonOpName" class="form-control mx-sm-3">
-                        </div>
-                        <button type="button" class="btn  btn-primary" id="selectBtn">조회</button>
-                    </form>
-                </div>
-                <div class="card-body table-border-style">
-                    <div class="rightBtn mb-1">
-                        <button type="button" class="btn  btn-primary mt-0" id="addBtn">추가</button>
-                        <button type="button" class="btn  btn-primary mt-0" id="saveBtn">저장</button>
-                        <button type="button" class="btn  btn-primary mt-0" id="deleteBtn">선택 삭제</button>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped" id="nonOpTable">
-                            <thead>
-                                <tr>
-                                    <th><input type="checkbox" id="allCheck"></th>
-                                    <th th:text="비가동코드" name="non_op_code"></th>
-                                    <th th:text="비가동명" name="non_op_name"></th>
-                                    <th th:text="비고" name="non_op_remk"></th>
-                                </tr>
-                            </thead>
-                            <tbody  class="canModifyTbody">
-                                <tr th:each="nonOp : ${nonOp}">
-                                    <td class="cantModifyTd"><input type="checkbox" name="chk" ></td>
-                                    <td class="cantModifyTd" th:text="${nonOp.nonOpCode}"></td>
-                                    <td th:text="${nonOp.nonOpName}"></td>
-                                    <td th:text="${nonOp.nonOpRemk}"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- <div class="rightBtn">
+      <h1>비가동 코드 관리</h1>
+      <hr />
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-header">
+            <form class="form-inline">
+              <div class="form-group mt-3">
+                <label for="nonOpName" th:text="비가동명"></label>
+                <input
+                  type="text"
+                  id="nonOpName"
+                  class="form-control mx-sm-3"
+                />
+              </div>
+              <button type="button" class="btn btn-primary" id="selectBtn">조회</button>
+            </form>
+          </div>
+          <div class="card-body table-border-style">
+            <div class="rightBtn mb-1">
+              <button type="button" class="btn btn-primary mt-0" id="addBtn">
+                추가
+              </button>
+              <button type="button" class="btn btn-primary mt-0" id="saveBtn">
+                저장
+              </button>
+              <button type="button" class="btn btn-primary mt-0" id="deleteBtn">
+                선택 삭제
+              </button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped" id="nonOpTable">
+                <thead>
+                  <tr>
+                    <th><input type="checkbox" id="allCheck" /></th>
+                    <th th:text="비가동코드" name="non_op_code"></th>
+                    <th th:text="비가동명" name="non_op_name"></th>
+                    <th th:text="비고" name="non_op_remk"></th>
+                  </tr>
+                </thead>
+                <tbody class="canModifyTbody">
+                  <tr th:each="nonOp : ${nonOp}">
+                    <td class="cantModifyTd">
+                      <input type="checkbox" name="chk" />
+                    </td>
+                    <td class="cantModifyTd" th:text="${nonOp.nonOpCode}"></td>
+                    <td th:text="${nonOp.nonOpName}"></td>
+                    <td th:text="${nonOp.nonOpRemk}"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- <div class="rightBtn">
                         <button type="button" class="btn  btn-primary">초기화</button>
                     </div> -->
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
-    
-</body>
+  </body>
 </html>
