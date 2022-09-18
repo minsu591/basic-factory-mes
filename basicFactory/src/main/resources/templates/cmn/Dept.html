@@ -7,7 +7,7 @@ xmlns:th="http://www.thymeleaf.org"
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Common Dept</title>
+    <title>Dept Manage</title>
     <link th:href="@{/css/cmn/code.css}" rel="stylesheet" />
     <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet" />
 </head>
@@ -24,18 +24,18 @@ xmlns:th="http://www.thymeleaf.org"
                     <form class="form-inline">
                         <div class="form-group mt-3">
                             <label for="deptName" th:text="부서명"></label>
-                            <input type="text" id="deptName" class="form-control mx-sm-3">
+                            <input type="text" id="deptNameInDept" class="form-control mx-sm-3">
                         </div>
                         <button type="button" class="btn  btn-primary" id="selectBtn">조회</button>
                     </form>
-                    <div class="rightBtn">
-                        <button type="button" class="btn btn-primary" id="addBtn">추가</button>
-                        <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
-                        <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
-                    </div>
                     
                 </div>
                 <div class="card-body table-border-style">
+                    <div class="rightBtn mb-1">
+                        <button type="button" class="btn btn-primary mt-0" id="addBtn">추가</button>
+                        <button type="button" class="btn btn-primary mt-0" id="saveBtn">저장</button>
+                        <button type="button" class="btn btn-primary mt-0" id="deleteBtn">선택 삭제</button>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped" id="deptTable">
                             <thead>
@@ -53,9 +53,6 @@ xmlns:th="http://www.thymeleaf.org"
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="rightBtn">
-                        <button type="button" class="btn btn-primary">초기화</button>
                     </div>
                 </div>
             </div>

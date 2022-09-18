@@ -317,8 +317,8 @@ $("document").ready(function(){
     //선택 삭제 이벤트
     $("#deleteBtn").on("click",function(){
         table.find("tbody input:checkbox[name='cb']").each(function(idx,el){
-            let tr = $(el).closest('tr');
             if($(el).is(":checked")){
+                let tr = $(el).closest('tr');
                 if(tr.attr('name') != 'addTr'){
                     let priKey = tr.find("td:eq("+priKeyIdx+")").text();
                     delList.push(priKey);

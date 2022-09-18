@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.common.Criteria;
 import com.mes.bf.common.PageDTO;
@@ -48,5 +49,12 @@ public class CommonController {
 		// model.addAttribute("criteria", cri); 자동 등록 됨
 		return "common/mchnList";
 	}
+	
+	// 메인페이지
+		@GetMapping(value = "/main", produces = { MediaType.APPLICATION_JSON_VALUE })
+		public ModelAndView mainPage() {
+			
+			return new ModelAndView("common/MainPage");
+		}
 
 }

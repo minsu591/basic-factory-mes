@@ -100,7 +100,7 @@ public class BomCodeController {
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
 	}
 
-	
+	//bomCode insert
 	@PostMapping(value = "/bomCode/insert")
 	public ResponseEntity<Integer> lineCodeAllInsert(@RequestBody BomInsertVO bomInfo) {
 		List<BomVO> bom = bomInfo.getBoms();

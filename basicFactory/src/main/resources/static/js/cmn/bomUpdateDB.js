@@ -16,7 +16,7 @@ $("document").ready(function(){
     let rscAvArr = [7];
     //notNull이어야하는 idx
     let bomNotNullList = [2,3,5,7,8];
-    let rscNotNullList = [1,3,5,7];
+    let rscNotNullList = [1,5,7];
     //primary키인 index
     let bomPriKeyIdx = 1;
 
@@ -189,6 +189,13 @@ $("document").ready(function(){
                 if(rscDelList.length != 0){
                     rscDeleteSaveAjax(rscDelList);
                 }
+
+                //bom의 line과 rsc의 line이 동일한지 확인
+                let checkLineFlag = checkBomRscLine();
+                if(checkLineFlag){
+                    return false;
+                }
+
                 //수정용
                 for(obj of bomModifyList){
                     bomModifySaveAjax(obj);
@@ -197,12 +204,13 @@ $("document").ready(function(){
                     rscModifySaveAjax(obj);
                 }
 
-                
                 bomAddList = bomTable.find(".bomAddTr");
                 rscAddList = rscTable.find(".rscAddTr");
-                let insertFlag = bomAllInsert();
-                if(insertFlag){
-                    return false;
+                if(bomAddList.length != 0 || rscAddList != 0){
+                    let insertFlag = bomAllInsert();
+                    if(insertFlag){
+                        return false;
+                    }
                 }
 
                 Swal.fire({
@@ -482,38 +490,8 @@ $("document").ready(function(){
     });
 
     function bomAllInsert(){
-        let bomCdCode = $("#bomCode").val();
-        let bomCdName = $("#bomCdName").val();
-        let lineCode = $("#lineCode").val();
-        let bomAllList = bomTable.find("tbody tr");
-        let bomData = null;
-        if(bomCdCode == null || bomCdCode == ''){
-            for(bom of bomAllList){
-                if($(bom).find("td:eq(2)").text() == bomCdName){
-                    bomData = bom;
-                }
-            }
-            
-        }else{
-            //기존에 있는 데이터면 bomCdCode로 찾기
-            for(bom of bomAllList){
-                if($(bom).find("td:eq(1)").text() == bomCdCode){
-                    bomData = bom;
-                }
-            }
-        }
-        if($(bomData).find("td:eq(5)").text() != lineCode){
-            Swal.fire({
-                icon: "error",
-                title: "필요 자재 목록의 라인코드와 선택된 BOM코드의 라인코드가 동일하지 않습니다",
-                text: "확인하고 다시 저장해주세요"
-              });
-            return true;
-        }
-        
         boms = [];
         rscs = [];
-
         for(obj of bomAddList){
             let bomCdName = $(obj).find("td:eq(2)").text();
             let finPrdCdCode = $(obj).find("td:eq(3)").text();
@@ -557,27 +535,57 @@ $("document").ready(function(){
             }
             rscs.push(rsc);
         }
-        if(bomAddList.length != 0 || rscAddList.length != 0){
-            $.ajax({
-                url : 'bomCode/insert',
-                type : 'POST',
-                dataType : 'text',
-                contentType: "application/json; charset=UTF-8;",
-                data : JSON.stringify({
-                    boms,
-                    rscs
-                }),
-                success : function(result){
-                    if(result == 1){
-                        console.log("추가 성공");
-                    }else{
-                        console.log("추가 실패");
-                    }
+        $.ajax({
+            url : 'bomCode/insert',
+            type : 'POST',
+            dataType : 'text',
+            contentType: "application/json; charset=UTF-8;",
+            data : JSON.stringify({
+                boms,
+                rscs
+            }),
+            success : function(result){
+                if(result == 1){
+                    console.log("추가 성공");
+                }else{
+                    console.log("추가 실패");
                 }
-            });
+            }
+        });
+    }
+    
+    function checkBomRscLine(){
+        //rsc의 lineCode와 bom의 lineCode가 동일한지 확인
+        let bomCdCode = $("#bomCode").val();
+        let bomCdName = $("#bomCdName").val();
+        let lineCode = $("#lineCode").val();
+        let bomAllList = bomTable.find("tbody tr");
+        let bomData = null;
+        if(bomCdCode == null || bomCdCode == ''){
+            for(bom of bomAllList){
+                if($(bom).find("td:eq(2)").text() == bomCdName){
+                    bomData = bom;
+                }
+            }
+            
+        }else{
+            //기존에 있는 데이터면 bomCdCode로 찾기
+            for(bom of bomAllList){
+                if($(bom).find("td:eq(1)").text() == bomCdCode){
+                    bomData = bom;
+                }
+            }
+        }
+        
+        if($(bomData).find("td:eq(5)").text() != lineCode){
+            Swal.fire({
+                icon: "error",
+                title: "필요 자재 목록의 라인코드와 선택된 BOM코드의 라인코드가 동일하지 않습니다",
+                text: "확인하고 다시 저장해주세요"
+              });
+            return true;
         }
     }
-
 
 
     //추가 끝

@@ -12,7 +12,7 @@ $("document").ready(function(){
     //td 수정을 적용할 인덱스
     let avArr = [4,5,6,7,8];
     //notNull이어야하는 idx
-    let notNullList = [2,3,4,5];
+    let notNullList = [2,3,4,5,6];
     //primary키인 index
     let priKeyIdx = 1;
 
@@ -29,6 +29,9 @@ $("document").ready(function(){
         //nullTd class 제거
         if(tdInfo.hasClass("nullTd")){
             tdInfo.removeClass("nullTd");
+        }
+        if(tdInfo.hasClass("sameTd")){
+            tdInfo.removeClass("sameTd");
         }
 
         //적용할 인덱스인지 확인
@@ -129,6 +132,7 @@ $("document").ready(function(){
     $("#saveBtn").on("click",function(){
         let trs = table.find("tbody tr");
         let nullFlag = false;
+        let regExpFlag = false;
         Swal.fire({
             icon: "question",
             title: "저장하시겠습니까?",
@@ -139,16 +143,32 @@ $("document").ready(function(){
             cancelButtonText: "취소"
           }).then((result) =>{
             if(result.isConfirmed){
-                //null 검사
                 for(tr of trs){
+                    //null 검사
                     for(idx of notNullList){
+                        //내용 검사
                         let content = $(tr).find("td:eq("+idx+")").text();
                         if(idx == 3){
                             content =$(tr).find("td:eq("+idx+") select option:selected").val();
                         }
+                        //content null 검사
                         if(content == null || content == ''){
                             $(tr).find("td:eq("+idx+")").addClass("nullTd");
                             nullFlag = true;
+                        }else if(idx == 6){
+                            //content가 null이 아니고 전화번호 칸이라면
+                            var regExp = /^\d{2,3}-\d{3,4}-\d{4}$/;
+                            if(!regExp.test(content)){
+                                $(tr).find("td:eq(6)").addClass("sameTd");
+                                regExpFlag = true;
+                            }
+                        }else if(idx == 5){
+                            //content가 null이 아니고 사업자 등록번호 칸이라면
+                            var regExp = /^\d{3}-\d{2}-\d{4}-\d{2}$/;
+                            if(!regExp.test(content)){
+                                $(tr).find("td:eq(5)").addClass("sameTd");
+                                regExpFlag = true;
+                            }
                         }
                     }
                 }
@@ -156,6 +176,13 @@ $("document").ready(function(){
                     Swal.fire({
                         icon: "error",
                         title: "비어있는 데이터가 존재합니다",
+                        text: "확인하고 다시 저장해주세요"
+                    });
+                    return false;
+                }else if(regExpFlag){
+                    Swal.fire({
+                        icon: "error",
+                        title: "거래처 연락처를 올바르게 지정해주세요",
                         text: "확인하고 다시 저장해주세요"
                     });
                     return false;
@@ -280,14 +307,16 @@ $("document").ready(function(){
         table.find("tbody input:checkbox[name='chk']").each(function(idx,el){
             if($(el).is(":checked")){
                 let tr = $(el).closest('tr');
-                let priKey = tr.find("td:eq("+priKeyIdx+")").text();
-                delList.push(priKey);
-                tr.remove();
-                for(let i = 0; i< modifyList.length; i++){
-                    if(modifyList[i][0]== priKey){
-                        modifyList.splice(i,1);
+                if(tr.attr("name") != 'addTr'){
+                    let priKey = tr.find("td:eq("+priKeyIdx+")").text();
+                    delList.push(priKey);
+                    for(let i = 0; i< modifyList.length; i++){
+                        if(modifyList[i][0]== priKey){
+                            modifyList.splice(i,1);
+                        }
                     }
                 }
+                tr.remove();
             }
         });
     });

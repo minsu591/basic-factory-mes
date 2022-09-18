@@ -39,7 +39,7 @@ $("document").ready(function () {
                         title: "비밀번호가 올바르지 않습니다"
                     });
                 } else if (result == 1) {
-                    location.href = '/prod/planView';
+                    location.href = '/common/main';
                 }
 
             }

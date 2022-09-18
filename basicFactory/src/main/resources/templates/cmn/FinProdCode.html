@@ -16,7 +16,7 @@ xmlns:th="http://www.thymeleaf.org"
     <script type="text/javascript" th:src="@{/js/cmn/finProdUpdateDB.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/cmn/findTdEmp.js}"></script>
     <div class="pcoded-main-container">
-        <h1>완제품 코드 관리</h1>
+        <h1>완제품 관리</h1>
         <hr>
         <div class="col-xl-12">
             <div class="card">
@@ -27,15 +27,16 @@ xmlns:th="http://www.thymeleaf.org"
                             <label for="finName" th:text="완제품명"></label>
                             <input type="text" id="finName" class="form-control mx-sm-3">
                         </div>
-                        <button type="button" class="btn  btn-primary" id="selectBtn">조회</button>
+                        <button type="button" class="btn btn-primary" id="selectBtn">조회</button>
                     </form>
-                    <div class="rightBtn">
-                        <button type="button" class="btn btn-primary" id="addBtn">추가</button>
-                        <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
-                        <button type="button" class="btn btn-primary" id="deleteBtn">선택 삭제</button>
-                    </div>
+                    
                 </div>
                 <div class="card-body table-border-style">
+                    <div class="rightBtn mb-1">
+                        <button type="button" class="btn btn-primary mt-0" id="addBtn">추가</button>
+                        <button type="button" class="btn btn-primary mt-0" id="saveBtn">저장</button>
+                        <button type="button" class="btn btn-primary mt-0" id="deleteBtn">선택 삭제</button>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped" id="finProdTable">
                             <thead>
@@ -66,14 +67,11 @@ xmlns:th="http://www.thymeleaf.org"
                             </tbody>
                         </table>
                     </div>
-                    <div class="rightBtn">
-                        <button type="button" class="btn  btn-primary">초기화</button>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <th:block th:replace="~{fragments/modal/findemp :: findemp}"></th:block>
+    <th:block th:replace="~{fragments/modal/cmn/findIdEmp :: findIdEmp}"></th:block>
     <th:block th:replace="~{fragments/modal/cmn/findTdEmp :: findTdEmp}"></th:block>
 </body>
 </html>
