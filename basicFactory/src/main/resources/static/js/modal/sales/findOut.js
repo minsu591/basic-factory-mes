@@ -94,7 +94,7 @@ $("document").ready(function(){
                 cancelButtonText: "취소",
                 closeOnClickOutside: false,
               }).then((ans) =>{
-                if(ans.isConfirmed){
+                  if(ans.isConfirmed){
                     $("#outMngTable tbody tr").remove();
                     for(out of result){
                         outMngMakeRow(out);
@@ -114,6 +114,7 @@ $("document").ready(function(){
     //출고내역 조회 모달을 통한 데이터 출력
     function outMngMakeRow(out){
         //out.slsOutCount가 1보다 크면 > 1 -> td에 
+        let price = Number(out.slsOutDtlVol * out.finPrdCdPrice).toLocaleString("ko-KR");
         let node = `<tr>
                         <td><input type="checkbox" name="cb"></td>
                         <td>${out.finPrdCdCode}</td>
@@ -128,8 +129,25 @@ $("document").ready(function(){
                     node +=  `<td class="lotNo canModifyTd">${out.fnsPrdStkLotNo}</td>`;
                 }
             node += `   <td>${out.finPrdCdPrice}</td>
-                        <td>${out.slsOutDtlVol * out.finPrdCdPrice}</td>
+                        <td class="price">`+ price +`</td>
+                        <td></td>
                     </tr>`;
         $("#outMngTable tbody").append(node);
+        
+        //dtl 뿌려지고 난 후에 합계 계산하기
+        //출고관리 테이블 tr 돌면서 출고량 총 합계 계산
+        let trs = $("#outMngTable").find("tbody tr");
+        let priceSum = 0;
+        for(tr of trs){
+            let totalPrice = $(tr).find(".price").text();
+            if(totalPrice == null || totalPrice == ''){
+                totalPrice = 0;
+            } else {
+                totalPrice = totalPrice.split(",").join(""); //콤마 제거
+                totalPrice = Number(totalPrice);
+            }
+            priceSum += totalPrice;
+        }
+        $("#outTotalPrice").text(priceSum.toLocaleString("ko-KR"));
     }
 });

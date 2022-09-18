@@ -59,6 +59,7 @@ select {
 	text-align-last: center;
 	text-align: center;
 	box-shadow : none;
+	cursor:pointer;
 }
 
 .nullVol {
@@ -67,4 +68,8 @@ select {
 
 .modal table tbody tr {
 	cursor:pointer;
+}
+
+#rtnTotalPrice {
+	text-align: right;
 }

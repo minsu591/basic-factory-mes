@@ -169,7 +169,7 @@ $(document).ready(function () {
       }
 
       if(col == 7){ //반품량 입력했을 때 금액 계산되도록 Nan방지
-        tr.find("td:eq(9)").text(slsRtnDtlVol * danga);
+        tr.find("td:eq(9)").text(Number(slsRtnDtlVol * danga).toLocaleString("ko-KR"));
       }
       if (priKey != null && priKey != '') {
           checkNewModify(priKey, updCol, updCont);
@@ -193,6 +193,21 @@ $(document).ready(function () {
           addList.push(addTr);
         }
       }
+
+    //반품관리 테이블 tr 돌면서 출고량 총 합계 계산
+    let trs = table.find("tbody tr");
+    let priceSum = 0;
+    for(tr of trs){
+        let totalPrice = $(tr).find(".price").text();
+        if(totalPrice == null || totalPrice == ''){
+            totalPrice = 0;
+        } else {
+            totalPrice = totalPrice.split(",").join(""); //콤마 제거
+            totalPrice = Number(totalPrice);
+        }
+        priceSum += totalPrice;
+    }
+    $("#rtnTotalPrice").text(priceSum.toLocaleString("ko-KR"));
       console.log(addList); //제품코드, lot번호, 기반품량, 반품량, 금액, 처리구분, 반품사유
       e.stopPropagation();
     });
@@ -437,14 +452,16 @@ $(document).ready(function () {
 function notUpdate() {
     Swal.fire({
         icon: "warning",
-        title: "입고 처리된 반품내역 수정 불가",
+        title: "수정 불가",
+        html: "입고 처리된 반품내역은 수정할 수 없습니다.",
         confirmButtonText: "확인"
     });
 }
 function notDelete() {
     Swal.fire({
         icon: "warning",
-        title: "입고 처리된 반품내역 삭제 불가",
+        title: "삭제 불가",
+        html: "입고 처리된 반품내역은 삭제할 수 없습니다.",
         confirmButtonText: "확인"
     });
 }

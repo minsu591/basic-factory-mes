@@ -118,7 +118,7 @@ $("document").ready(function(){
                         <td>${out.slsRtnDtlVol}</td>
                         <td class="canModifyTd"></td>
                         <td>${out.finPrdCdPrice}</td>
-                        <td></td>
+                        <td class="price"></td>
                         <td class="canModifyTd">
                             <select name="prcCls">
                             <option></option>

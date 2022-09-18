@@ -150,6 +150,7 @@ $("document").ready(function(){
 
     //반품내역 조회 모달을 통한 데이터 출력
     function rtnMakeRow(rtn){
+        let price = Number(rtn.slsRtnDtlVO.slsRtnDtlPrice).toLocaleString("ko-KR");
         let PrcCls = rtn.slsRtnDtlVO.slsRtnDtlPrcCls;
         let node = `<tr>
                         <td><input type="checkbox" name="cb"></td>
@@ -166,7 +167,7 @@ $("document").ready(function(){
             node += `<td>${rtn.slsRtnDtlVO.slsRtnDtlVol}</td>`;
         }
         node += `<td>${rtn.slsRtnDtlVO.finPrdCdPrice}</td>
-                 <td>${rtn.slsRtnDtlVO.slsRtnDtlPrice}</td>`;
+                 <td class="price">`+ price +`</td>`;
                     if(PrcCls == 0){
                         node += makeSelectBox('폐기');
                     } else if (PrcCls == 1) {
@@ -176,11 +177,29 @@ $("document").ready(function(){
                         node += makeSelectBox('거부');
         }
         if (PrcCls != 1) {
-            node += `<td class="canModifyTd">${rtn.slsRtnDtlVO.slsRtnDtlResn}</td> </tr>`;
+            node += `<td class="canModifyTd">${rtn.slsRtnDtlVO.slsRtnDtlResn}</td>
+                     <td class="canModifyTd"></td> </tr>`;
         } else {
-            node += `<td>${rtn.slsRtnDtlVO.slsRtnDtlResn}</td> </tr>`;
+            node += `<td>${rtn.slsRtnDtlVO.slsRtnDtlResn}</td>
+                     <td class="canModifyTd"></td> </tr>`;
         }
         
         $("#rtnMngTable tbody").append(node);
+
+        //dtl 뿌려지고 난 후에 합계 계산하기
+        //출고관리 테이블 tr 돌면서 출고량 총 합계 계산
+        let trs = $("#rtnMngTable").find("tbody tr");
+        let priceSum = 0;
+        for(tr of trs){
+            let totalPrice = $(tr).find(".price").text();
+            if(totalPrice == null || totalPrice == ''){
+                totalPrice = 0;
+            } else {
+                totalPrice = totalPrice.split(",").join(""); //콤마 제거
+                totalPrice = Number(totalPrice);
+            }
+            priceSum += totalPrice;
+        }
+        $("#rtnTotalPrice").text(priceSum.toLocaleString("ko-KR"));
     }
 });

@@ -95,6 +95,7 @@ $("document").ready(function () {
           }).then((ans) =>{
             if(ans.isConfirmed){
                 $("#outMngTable tbody tr").remove();
+                $("#outTotalPrice").text('');
                 for(ord of result){
                     outMakeRow(ord);
                 }
@@ -125,7 +126,7 @@ $("document").ready(function () {
                     <td></td>
                     <td class="lotNo canModifyTd"></td>
                     <td>${ord.slsOutDtlVO.finPrdCdPrice}</td>
-                    <td></td>
+                    <td class="price"></td>
                     <td></td>
                 </tr>`;
     

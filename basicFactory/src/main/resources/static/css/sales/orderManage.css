@@ -57,3 +57,11 @@ h1 {
 .modal table tbody tr {
 	cursor:pointer;
 }
+
+.swal2-container {
+  z-index: 20000 !important;
+}
+
+.productCode {
+	cursor:pointer;
+}
