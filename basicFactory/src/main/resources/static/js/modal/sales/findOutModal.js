@@ -131,5 +131,6 @@ $("document").ready(function(){
                         <td class="canModifyTd"></td>
                     </tr>`;
         $("#rtnMngTable tbody").append(node);
+        
     }
 });
