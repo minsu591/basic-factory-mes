@@ -44,6 +44,35 @@ $(document).ready(function () {
   $("#findNotDonePlanTable").on("click", "tr", function () {
     let planHdCode = $(this).find("td:eq(0)").text();
     console.log(planHdCode);
+    if ($("#planDetailTable tbody tr").length >= 1) {
+      Swal.fire({
+        icon: "warning",
+        title: "수정중인 데이터가 남아있습니다.",
+        text: "계속 진행하시겠습니까?",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "확인",
+        cancelButtonText: "취소",
+        closeOnClickOutside: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          //생산지시 array 삭제
+          lineArray.splice(0);
+          inDtlVol.splice(0);
+          prodCodeArr.splice(0);
+          findplanNotDoneView(planHdCode);
+        }
+      });
+    } else {
+      //생산지시 array 삭제
+      lineArray.splice(0);
+      inDtlVol.splice(0);
+      prodCodeArr.splice(0);
+      findplanNotDoneView(planHdCode);
+    }
+  });
+  function findplanNotDoneView(planHdCode) {
     $.ajax({
       url: "planNotDoneView/dtl",
       type: "GET",
@@ -52,15 +81,13 @@ $(document).ready(function () {
         planHdCode,
       },
       success: function (data) {
-        //생산지시 array 삭제
-        lineArray.splice(0);
-        inDtlVol.splice(0);
-        prodCodeArr.splice(0);
         //테이블 삭제
         $("#procStatusTable tbody tr").remove();
         $("#rscStockTable tbody tr").remove();
 
         $("#planDetailTable tbody tr").remove();
+        //추가버튼 막기
+        $("#addRowBtn").prop("disabled", true);
         for (obj of data) {
           let finInfoList = finInfo(obj.finPrdCdCode);
           console.log(finInfoList);
@@ -69,9 +96,13 @@ $(document).ready(function () {
         $("#findNotDonePlanModal").modal("hide");
       },
     });
-  });
-
+  }
   function detailTableMakeRow(obj, finInfoList) {
+    let date = new Date(
+      new Date().getTime() - new Date().getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .slice(0, -14);
     let node = `<tr class="not-don-plan">
           <td><input type="checkbox"></td>
           <td><input type="text" disabled name="prodCode" value="${
@@ -89,7 +120,7 @@ $(document).ready(function () {
           }"></td>
           <td><input type="text"></td>
           <td><input type="text" disabled value="${finInfoList[2]}"></td>
-          <td><input type="date"></td>
+          <td><input type="date" min='${date}' value='${date}'></td>
         </tr>`;
     $("#planDetailTable tbody").append(node);
   }

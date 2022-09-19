@@ -94,7 +94,8 @@
 				AND workscope = #{workScope}
 			</if>
 		</where>
-
+		ORDER BY
+			instdate desc
 	</select>
 
 	<!-- 거래처조회 -->

@@ -11,6 +11,10 @@ h1 {
   margin-right: 0;
 }
 
+.swal2-container {
+  z-index: 20000 !important;
+}
+
 button {
   margin-top: 1rem;
 }
@@ -60,6 +64,6 @@ input[type="text"]:read-only {
 }
 
 .overflow {
-	height: 55vh;
-	overflow: auto;
+  height: 55vh;
+  overflow: auto;
 }
