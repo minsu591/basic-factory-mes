@@ -7,11 +7,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvmConfig implements WebMvcConfigurer {
 
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new LoginInterceptor())
-				.addPathPatterns("/prod/**","/cmn/**","/eqp/**","/rsc/**","/sls/**")
-				.excludePathPatterns("/cmn/login","/cmn/login/check","/cmn/login/reset","/cmn/login/reset/**");
-		//		.excludePathPatterns("/css/**","/fonts/**","/plugin/**","/scripts/**");
-	}
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registry) {
+//		registry.addInterceptor(new LoginInterceptor())
+//				.addPathPatterns("/prod/**","/cmn/**","/eqp/**","/rsc/**","/sls/**")
+//				.excludePathPatterns("/cmn/login","/cmn/login/check","/cmn/login/reset","/cmn/login/reset/**");
+//		//		.excludePathPatterns("/css/**","/fonts/**","/plugin/**","/scripts/**");
+//	}
 }
