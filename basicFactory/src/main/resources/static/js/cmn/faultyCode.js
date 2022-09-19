@@ -36,12 +36,15 @@ $("document").ready(function () {
       $("#faultyTable tbody input:checkbox[name=chk]").prop("checked", false);
     }
   });
-  $("input[name=chk]").click(function () {
+  $("#faultyTable tbody").on("click","input:checkbox[name='chk']",function(e){
     let total = $("input[name=chk]").length;
     let checked = $("input[name=chk]:checked").length;
     if (total != checked) $("#allCheck").prop("checked", false);
     else $("#allCheck").prop("checked", true);
   });
+  $("#faultyTable tbody").on("click","input:checkbox",function(e){
+    e.stopPropagation();
+  })
 
 
   //수정될거 저장하는 list 정의

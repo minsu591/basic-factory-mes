@@ -4,7 +4,6 @@ $(document).ready(function () {
       //기본 날짜 오늘 지정
       let date = new Date();
       date = date.toISOString().slice(0, 10);
-      $("#rscInspDate").val(date);
 
   //체크박스 체크유무
   $("#allCheck").click("change", function () {
@@ -77,16 +76,17 @@ $(document).ready(function () {
   //통과 수량 계산
   $("#InsertTable").on("change", ".inspVol", function () {
     tdinfo = $(this);
-    let inspVol = tdinfo.val();
-    let inferVol = tdinfo.parent().next().find(".inferVol").val();
-    let unarvVol = tdinfo.parent().prev().find(".unarvVol").val();
-    if(Number(unarvVol) < Number(inspVol)){
+    let inspVol = Number(tdinfo.val());
+    let inferVol = Number(tdinfo.parent().next().find(".inferVol").val());
+    let unarvVol = Number(tdinfo.parent().prev().find(".unarvVol").val());
+    if(unarvVol < inspVol){
       unarvVolWarning();
       tdinfo.val(null);
     }else{
       if (inspVol < 0) {
         minusWarning();
         tdinfo.val(null);
+        return;
       } else if (inspVol < inferVol) {
         passVolWarning();
         tdinfo.val(null);
@@ -104,15 +104,16 @@ $(document).ready(function () {
 
   $("#InsertTable").on("change", ".inferVol", function () {
     tdinfo = $(this);
-    let inspVol = tdinfo.parent().prev().find(".inspVol").val();
-    let inferVol = tdinfo.val();
+    let inspVol = Number(tdinfo.parent().prev().find(".inspVol").val());
+    let inferVol = Number(tdinfo.val());
     if (inferVol < 0) {
       minusWarning();
       tdinfo.val(null);
+      return;
     } else if (inspVol < inferVol) {
       passVolWarning();
       tdinfo.val(null);
-
+      return;
     } else {
       let passVol = inspVol - inferVol;
       tdinfo
@@ -127,9 +128,16 @@ $(document).ready(function () {
 
   //등록버튼
   $("#subBtn").click(function () {
+    let checked = $("input[name='chk']:checked").length;
+    if (checked == 0) {
+      submitWarning();
+      return;
+    }
+
     let inspList = [];
     let notnull = [1,3,4,8,9,11];
     let outTable = $("#InsertTable").find("tbody tr");
+
     for (obj of outTable) {
       let rscOrderCode = $(obj).children().eq(1).find(".rscOrderCode").val();
       let rscInspCode = $(obj).children().eq(2).find(".rscInspCode").val();
@@ -152,11 +160,12 @@ $(document).ready(function () {
       if (!rscOrderCode) {
         $(obj).children().eq(1).addClass("nullpoint");
         Swal.fire({
-          icon: "warning", // Alert 타입
-          title: "입력되지 않은 값이 있습니다.", // Alert 제목
-          html: "발주코드, 자재코드, <br/>검사수량, 불량수량, 검사자는<br/>기본 입력사항입니다.",
+          icon: "warning", 
+          title: "입력되지 않은 값이 있습니다.", 
+          html: "발주코드는<br/>기본 입력사항입니다.",
           confirmButtonText: "확인",
         });
+        return;
       } else if(!rscInspDate || !rscCdCode || !rscInspVol || !rscInferVol || !empId){
         for (idx of notnull){
           if (!($(obj).children().eq(idx).find("input").val())) {
@@ -164,11 +173,12 @@ $(document).ready(function () {
           }
         }
         Swal.fire({
-          icon: "warning", // Alert 타입
-          title: "입력되지 않은 값이 있습니다.", // Alert 제목
-          html: "발주코드, 자재코드, <br/>검사수량, 불량수량, 검사자는<br/>기본 입력사항입니다.",
+          icon: "warning", 
+          title: "입력되지 않은 값이 있습니다.", 
+          html: "자재코드, 검사수량, 불량수량, 검사자는<br/>기본 입력사항입니다.",
           confirmButtonText: "확인",
         });
+        return;
       }else {
         //리스트에 저장
         let insp = {
@@ -187,63 +197,91 @@ $(document).ready(function () {
 
       }
     }
-    $.ajax({
-      url: "inspInAndUp",
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      dataType: "text",
-      data: JSON.stringify(inspList),
-      error: function (error, status, msg) {
-        alert("상태코드 " + status + "에러메시지" + msg);
-      },
-      success: function (result) {
-        console.log(result);
-        if (inspList.length == result) {
-          submitComplete();
-          $("#outTable tr").remove();
-        }
-      }
 
-    })
+    if(!inspList){
+      indexWarining();
+      return;
+    }else{
+      $.ajax({
+        url: "inspInAndUp",
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        dataType: "text",
+        data: JSON.stringify(inspList),
+        error: function (error, status, msg) {
+          Swal.fire({
+            icon: "warning", 
+            title: "에러 발생",
+            text : `상태코드 ${status}, 에러메시지 ${msg}`,
+            confirmButtonText: "확인"
+          })
+        },
+        success: function (result) {
+          console.log(result);
+          if (inspList.length == result) {
+            submitComplete();
+            $("#outTable tr").remove();
+          }
+        }
+  
+      })
+      
+    }
   });
 
 
   function submitComplete() {
     Swal.fire({
       title: "저장 되었습니다.",
-      icon: "success", // Alert 타입
-      confirmButtonText: "확인", // confirm 버튼 텍스트 지정
+      icon: "success",
+      confirmButtonText: "확인",
     });
+  }
+  
+  function submitWarning() {
+    Swal.fire({
+      icon: "warning", // Alert 타입
+      title: "선택된 항목이 없습니다.", // Alert 제목
+      confirmButtonText: "확인",
+    })
   }
 
   function deleteWarning() {
     Swal.fire({
-      icon: "warning", // Alert 타입
-      title: "삭제할 항목을 선택하세요.", // Alert 제목
+      icon: "warning",
+      title: "삭제할 항목을 선택하세요.",
       confirmButtonText: "확인"
     })
   }
 
   function minusWarning() {
     Swal.fire({
-      icon: "warning", // Alert 타입
-      title: "0이상의 숫자만 입력할 수 있습니다.", // Alert 제목
+      icon: "warning",
+      title: "0이상의 숫자만 입력할 수 있습니다.",
       confirmButtonText: "확인"
     })
   }
 
   function unarvVolWarning() {
     Swal.fire({
-      icon: "warning", // Alert 타입
-      title: "검사수량은 미도착수량을 넘을 수 없습니다.", // Alert 제목
+      icon: "warning",
+      title: "검사수량은 미도착수량을 넘을 수 없습니다.",
       confirmButtonText: "확인"
     })
   }
 
   function passVolWarning() {
     Swal.fire({
-      icon: "warning", // Alert 타입
-      title: "불량수량은 검사수량을 넘을 수 없습니다.", // Alert 제목
+      icon: "warning", 
+      title: "불량수량은 검사수량을 넘을 수 없습니다.", 
+      confirmButtonText: "확인"
+    })
+  }
+
+  function indexWarining() {
+    Swal.fire({
+      icon: "warning", 
+      title: "입력된 정보가 없습니다.",
       confirmButtonText: "확인"
     })
   }

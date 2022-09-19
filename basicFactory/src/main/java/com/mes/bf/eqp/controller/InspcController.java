@@ -41,6 +41,7 @@ public class InspcController {
 	//점검 등록
 	@PostMapping("/inspc/insert")
 	public ResponseEntity<Integer> inspcInsert(@RequestBody InspcVO vo){
+		System.out.println(vo);
 		int result = service.inspcInsert(vo);
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}

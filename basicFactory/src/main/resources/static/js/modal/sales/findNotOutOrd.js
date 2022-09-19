@@ -2,6 +2,7 @@ $("document").ready(function () {
   //완제품 출고 관리에서 미출고 조회 시 주문내역 모달창
   $("#findNotOutBtn").on("click", function (e) {
     $("#slsOutHdNo").val('');
+    $("#allCheck").prop("checked", false);
     $("#findNotOutModal").modal("show");
     findNotOutClick();
 
@@ -40,7 +41,6 @@ $("document").ready(function () {
     let vendorName = $(this).find("td:eq(3)").text();
     let empName = $(this).find("td:eq(4)").text();
     let empId = $(this).find(".empId").val();
-    let remk = $(this).find("td:last").text();
 
     $("#slsOrdHdDate").val(slsOrdHdDate);
     $("#slsOrdHdNo").val(slsOrdHdNo)
@@ -48,7 +48,6 @@ $("document").ready(function () {
     $("#vendorName").val(vendorName);
     $("#empId").val(empId);
     $("#empName").val(empName);
-    $("#remk").val(remk);
 
     //테이블 삽입
     $.ajax({

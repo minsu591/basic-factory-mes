@@ -4,7 +4,6 @@ $("document").ready(function () {
      //기본 날짜 오늘 지정
      let date = new Date();
      date = date.toISOString().slice(0, 10);
-     $("#rscReturnDate").val(date);
 
  //체크박스 체크유무
  $("#allCheck").click("change", function () {

@@ -3,6 +3,7 @@ $("document").ready(function(){
     //반품관리에서 출고조회 시 출고내역 모달창
     $("#findOutModalBtn").on("click", function (e) {
         $("#slsRtnHdNo").val('');
+        $("#allCheck").prop("checked", false);
         $("#findOutModal").modal("show");
         findOutClick();
     });
@@ -37,12 +38,10 @@ $("document").ready(function(){
         let slsOutHdNo = $(this).find("td:eq(1)").text();
         let vendor = $(this).find("td:eq(3)").text();
         let vendorName = $(this).find("td:eq(4)").text();
-        let remk = $(this).find("td:last").text();
 
         $("#slsOutHdNo").val(slsOutHdNo);
         $("#vendor").val(vendor);
         $("#vendorName").val(vendorName);
-        $("#remk").val(remk);
 
         //테이블 삽입
         $.ajax({
@@ -131,5 +130,6 @@ $("document").ready(function(){
                         <td class="canModifyTd"></td>
                     </tr>`;
         $("#rtnMngTable tbody").append(node);
+        
     }
 });

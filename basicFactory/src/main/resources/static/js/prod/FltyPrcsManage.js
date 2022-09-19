@@ -28,6 +28,7 @@ $("document").ready(function () {
 
 
   //수정이 되는 list 정의
+  let hdModifyList = [];
   let modifyList = [];
   let addList = [];
   //수정할 테이블
@@ -272,7 +273,7 @@ $("document").ready(function () {
                 <td class="cantModifyTd"><input type="checkbox" name="chk" checked ></td>`;
     }
     node += `<td name="flty_prcs_no"></td>
-            <td class="faultyCode"></td>
+            <td class="faultyCode curPo"></td>
             <td class="faultyName cantModifyTd"></td>
             <td></td>
             <td><input type="date"></td>

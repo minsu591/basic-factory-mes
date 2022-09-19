@@ -43,6 +43,7 @@ $("document").ready(function(){
 
         $("#slsOutHdDate").val(slsOutHdDate);
         $("#slsOutHdNo").val(slsOutHdNo);
+        $("#slsOutHdDate").attr("disabled", true);
         $("#slsOrdHdNo").val(slsOrdHdNo);
         $("#vendor").val(vendor);
         $("#vendorName").val(vendorName);

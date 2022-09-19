@@ -4,7 +4,6 @@ $("document").ready(function () {
     //기본 날짜 오늘 지정
     let date = new Date();
     date = date.toISOString().slice(0, 10);
-    $("#rscOutDate").val(date);
 
   //체크박스 체크유무
   $("#allCheck").click("change", function () {
@@ -154,15 +153,15 @@ $("document").ready(function () {
           }
         } 
         Swal.fire({
-          icon: "warning", // Alert 타입
-          title: "입력되지 않은 값이 있습니다.", // Alert 제목
+          icon: "warning", 
+          title: "입력되지 않은 값이 있습니다.", 
           html: "출고일자, 자재코드, <br/>자재LOT번호, 출고수량, 담당자는<br/>기본 입력사항입니다.",
           confirmButtonText: "확인"
         })
       } else if (rscOutVol < 0) {
         Swal.fire({
-          icon: "warning", // Alert 타입
-          title: "입력값 오류", // Alert 제목
+          icon: "warning", 
+          title: "입력값 오류",
           html: "출고수량은 0 이상만 입력 가능합니다.",
           confirmButtonText: "확인"
         })

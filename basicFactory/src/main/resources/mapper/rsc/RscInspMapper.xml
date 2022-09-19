@@ -104,8 +104,7 @@
 			AND INSP.RSC_CD_CODE = #{keyword2}
 		</if>
 		<if test="keyword3 != null and keyword3 != '' and keyword4 != null and keyword4 != ''">
-			AND <![CDATA[INSP.RSC_INSP_DATE >= #{keyword3} 
-		 			 AND INSP.RSC_INSP_DATE <= #{keyword4}]]>
+			AND TRUNC(INSP.RSC_INSP_DATE) BETWEEN #{keyword3} AND #{keyword4}
 		</if>
 	</sql>
 	

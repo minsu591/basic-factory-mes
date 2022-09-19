@@ -13,6 +13,30 @@ $("document").ready(function () {
     let defaultVal;
     let tempOutLotList = [];            //모달창 열 때 임시로 값을 담아두는 곳
     let modTempList = [];
+
+
+    $("#outMngTable").on("change", "input[name=chk]", function () {
+        let total = $("input[name=chk]").length;
+        let checked = $("input[name=chk]:checked").length;
+        if (total != checked) {
+            $("#allCheck").prop("checked", false);
+        } else {
+            $("#allCheck").prop("checked", true);
+        }
+    });
+
+    //초기화 버튼
+    $("#resetBtn").click(function () {
+        $("#outMngTable tbody tr").remove();
+        $("#allCheck").prop("checked", false);
+        $("#slsOutHdDate").val(today);
+        $("#slsOutHdDate").prop("disabled", false);
+        $("#slsOutHdNo").val('');
+        $("#vendor").val('');
+        $("#vendorName").val('');
+        $("#outTotalPrice").text('');
+    })
+
     //모달 td 수정 이벤트
     ModalTable.find("tbody").on("click", "td", function (e) {
         let col = $(this).index();
@@ -338,19 +362,7 @@ $("document").ready(function () {
 
 
         //출고관리 테이블 tr 돌면서 출고량 총 합계 계산
-        let trs = table.find("tbody tr");
-        let priceSum = 0;
-        for(tr of trs){
-            let totalPrice = $(tr).find(".price").text();
-            if(totalPrice == null || totalPrice == ''){
-                totalPrice = 0;
-            } else {
-                totalPrice = totalPrice.split(",").join(""); //콤마 제거
-                totalPrice = Number(totalPrice);
-            }
-            priceSum += totalPrice;
-        }
-        $("#outTotalPrice").text(priceSum.toLocaleString("ko-KR"));
+        totalPrice();
     });
 
     //완제품 출고 관리에서 lot별 완제품 재고 모달창
@@ -645,13 +657,31 @@ $("document").ready(function () {
                 delList.push(delTr);
                 for (let i = 0; i < modifyList.length; i++) {//수정하고 삭제할 수도 있어서. 검사.
                     if (modifyList[i][4] == priKey) {
-                        modifyList.splice(i, 1);                        
+                        modifyList.splice(i, 1);
                     }
                 }
             }
             console.log(delList);
         });
+        //출고관리 테이블 tr 돌면서 출고량 총 합계 계산
+        totalPrice();
     });
+
+    function totalPrice() {
+        let trs = table.find("tbody tr");
+        let priceSum = 0;
+        for (tr of trs) {
+            let totalPrice = $(tr).find(".price").text();
+            if (totalPrice == null || totalPrice == '') {
+                totalPrice = 0;
+            } else {
+                totalPrice = totalPrice.split(",").join(""); //콤마 제거
+                totalPrice = Number(totalPrice);
+            }
+            priceSum += totalPrice;
+        }
+        $("#outTotalPrice").text(priceSum.toLocaleString("ko-KR"));
+    }
 
     function deleteHdSaveAjax(slsOutHdNo){
         $.ajax({
