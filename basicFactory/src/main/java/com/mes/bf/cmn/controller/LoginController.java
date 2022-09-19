@@ -40,7 +40,7 @@ public class LoginController {
 		//로그아웃
 		HttpSession session = request.getSession();
 		session.setAttribute("emp", null);
-		return "cmn/Login";
+		return "cmn/loginpage";
 	}
 	
 	//비밀번호 찾기 페이지
