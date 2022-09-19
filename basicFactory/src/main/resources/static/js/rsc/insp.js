@@ -4,7 +4,6 @@ $(document).ready(function () {
       //기본 날짜 오늘 지정
       let date = new Date();
       date = date.toISOString().slice(0, 10);
-      $("#rscInspDate").val(date);
 
   //체크박스 체크유무
   $("#allCheck").click("change", function () {
@@ -77,16 +76,17 @@ $(document).ready(function () {
   //통과 수량 계산
   $("#InsertTable").on("change", ".inspVol", function () {
     tdinfo = $(this);
-    let inspVol = tdinfo.val();
-    let inferVol = tdinfo.parent().next().find(".inferVol").val();
-    let unarvVol = tdinfo.parent().prev().find(".unarvVol").val();
-    if(Number(unarvVol) < Number(inspVol)){
+    let inspVol = Number(tdinfo.val());
+    let inferVol = Number(tdinfo.parent().next().find(".inferVol").val());
+    let unarvVol = Number(tdinfo.parent().prev().find(".unarvVol").val());
+    if(unarvVol < inspVol){
       unarvVolWarning();
       tdinfo.val(null);
     }else{
       if (inspVol < 0) {
         minusWarning();
         tdinfo.val(null);
+        return;
       } else if (inspVol < inferVol) {
         passVolWarning();
         tdinfo.val(null);
@@ -104,15 +104,16 @@ $(document).ready(function () {
 
   $("#InsertTable").on("change", ".inferVol", function () {
     tdinfo = $(this);
-    let inspVol = tdinfo.parent().prev().find(".inspVol").val();
-    let inferVol = tdinfo.val();
+    let inspVol = Number(tdinfo.parent().prev().find(".inspVol").val());
+    let inferVol = Number(tdinfo.val());
     if (inferVol < 0) {
       minusWarning();
       tdinfo.val(null);
+      return;
     } else if (inspVol < inferVol) {
       passVolWarning();
       tdinfo.val(null);
-
+      return;
     } else {
       let passVol = inspVol - inferVol;
       tdinfo
@@ -132,7 +133,7 @@ $(document).ready(function () {
       submitWarning();
       return;
     }
-    
+
     let inspList = [];
     let notnull = [1,3,4,8,9,11];
     let outTable = $("#InsertTable").find("tbody tr");

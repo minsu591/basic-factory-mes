@@ -8,7 +8,7 @@
 			AND RSCOUT.RSC_OUT_CODE LIKE '%' || #{keyword} || '%'
 		</if>
 		<if test="keyword2 != null and keyword2 != '' and keyword3 != null and keyword3 != ''">
-			AND RSCOUT.RSC_OUT_DATE BETWEEN #{keyword2} AND TO_DATE(#{keyword3})+1
+			AND TRUNC(RSCOUT.RSC_OUT_DATE) BETWEEN #{keyword2} AND #{keyword3}
 		</if>
 		<if test="keyword4 != null and keyword4 != ''">
 			AND RSCOUT.RSC_CD_CODE = #{keyword4}

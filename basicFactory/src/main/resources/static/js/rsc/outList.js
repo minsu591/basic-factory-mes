@@ -23,28 +23,31 @@ $("document").ready(function(){
     let rscCdCode = $("#rsccode").val();
     let rscOutSDate = $("#rscOutSDate").val();
     let rscOutEDate = $("#rscOutEDate").val();
+    console.log(rscOutSDate + " ," + rscOutEDate);
     
   if(!rscOutSDate){
    if(!rscOutEDate){
     // findList();
    } else {
     dateWarning();
+    dateReset();
     return false;
    }
   }else{
    if(!rscOutEDate){
     dateWarning();
+    dateReset();
     return false;
    }else {
     // findList();
     if (rscOutSDate > rscOutEDate) {
       dateWarning2();
+      dateReset();
       return false;
     }
    }
   }
 
-  
   //if문 조건 걸어서 검색타입에 따라 키워드 분류 후 서브밋
   $("input:hidden[name=keyword]").val(rscOutCode);
   $("input:hidden[name=keyword2]").val(rscOutSDate);
@@ -54,26 +57,6 @@ $("document").ready(function(){
 
   $("#searchForm").submit();
  });
-//  function findList(){
-
-//   let rscOutSDate = $("#rscOutSDate").val();
-//   let rscOutEDate = $("#rscOutEDate").val();
-//   $.ajax({
-//    url : "outListTable",
-//    method : "GET",
-//    dataType: "text",
-//    data: {
-//     rscOutCode: rscOutCode,
-//      rscCdCode: rscCdCode,
-//      rscOutSDate: rscOutSDate,
-//      rscOutEDate: rscOutEDate
-//    },
-//    success: function(data){
-//     $("#outlisttable").replaceWith(data);
-//    }
-//   })
-//  }
-
 
  function dateWarning() {
   Swal.fire({
@@ -91,5 +74,11 @@ function dateWarning2() {
     html : "시작날짜는 마침날짜보다 작아야합니다.",
     confirmButtonText: "확인",
   })
+}
+
+//날짜데이터 리셋
+function dateReset() {
+  $("#rscOutSDate").val('');
+  $("#rscOutEDate").val('');
 }
 })
