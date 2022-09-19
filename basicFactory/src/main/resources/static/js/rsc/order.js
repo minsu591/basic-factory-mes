@@ -398,7 +398,12 @@ function findRscName(rscCdCode) {
       rscCdCode: rscCdCode,
     },
     error: function (error, status, msg) {
-      alert("상태코드 " + status + "에러메시지" + msg);
+      Swal.fire({
+        icon: "warning", 
+        title: "에러 발생",
+        text : `상태코드 ${status}, 에러메시지 ${msg}`,
+        confirmButtonText: "확인"
+      })
     },
     success: function (data) {
       console.log(data);

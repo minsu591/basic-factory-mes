@@ -40,12 +40,13 @@ button {
 }
 
 #InsertTable input[type=text]:read-only {
+	height: 2.5rem;
 	background: #f6f6f6 !important;
 	width: 100% !important
 }
 
 #InsertTable input[type=text] {
-	height: 2rem;
+	height: 2.5rem;
 	text-align: center;
 	border: 0;
 	width: 100%;
@@ -53,7 +54,7 @@ button {
 }
 
 #InsertTable input[type=date] {
-	height: 2rem;
+	height: 2.5rem;
 	text-align: center;
 	border: 0;
 	width: 100%;
@@ -61,7 +62,7 @@ button {
 }
 
 #chk-css{
-	line-height : 32px;
+	line-height : 2.5rem;
 }
 
 #InsertTable td {

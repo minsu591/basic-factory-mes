@@ -107,6 +107,7 @@ $(document).ready(function(){
      for (obj of data) {
       outListInsert(obj);
      }
+     $("#InsertTable tbody input:checkbox").prop("checked", false);
      console.log(data)
    },
   });
