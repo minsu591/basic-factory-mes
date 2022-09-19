@@ -8,8 +8,7 @@
 			AND RSCIN.RSC_IN_CODE LIKE '%'||#{keyword}||'%'
 		</if>
 		<if test="keyword3 != null and keyword3 != '' and keyword4 != null and keyword4 != ''">
-			AND <![CDATA[RSCIN.RSC_IN_DATE >= #{keyword3} 
-		 			 AND RSCIN.RSC_IN_DATE <= #{keyword4}]]>
+			AND TRUNC(RSCIN.RSC_IN_DATE) BETWEEN #{keyword3} AND #{keyword4}
 		</if>
 		<if test="keyword2 != null and keyword2 != ''">
 			AND RSCIN.RSC_CD_CODE = #{keyword2}

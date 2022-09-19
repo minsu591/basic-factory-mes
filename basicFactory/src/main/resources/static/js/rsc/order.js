@@ -5,7 +5,6 @@ $("document").ready(function () {
   //기본 날짜 오늘 지정
   let date = new Date();
   date = date.toISOString().slice(0, 10);
-  $("#rscOrderDate").val(date);
 
   //체크박스 체크유무
   $("#allCheck").click("change", function () {
@@ -301,24 +300,24 @@ $("document").ready(function () {
 
   function deleteWarning() {
     Swal.fire({
-      icon: "warning", // Alert 타입
-      title: "삭제할 항목을 선택하세요.", // Alert 제목
+      icon: "warning", 
+      title: "삭제할 항목을 선택하세요.", 
       confirmButtonText: "확인",
     });
   }
 
   function submitWarning() {
     Swal.fire({
-      icon: "warning", // Alert 타입
-      title: "입력된 항목이 없습니다.", // Alert 제목
+      icon: "warning", 
+      title: "입력된 항목이 없습니다.",
       confirmButtonText: "확인",
     })
   }
 
   function minusWarning() {
     Swal.fire({
-      icon: "warning", // Alert 타입
-      title: "0이상의 숫자만 입력할 수 있습니다.", // Alert 제목
+      icon: "warning",
+      title: "0이상의 숫자만 입력할 수 있습니다.", 
       confirmButtonText: "확인",
     });
   }
@@ -327,17 +326,17 @@ $("document").ready(function () {
     Swal.fire({
       title: "필수 항목 미입력",
       html: "발주일자, 담당자ID, 발주명은 <br/> 기본 입력사항입니다.",
-      icon: "warning", // Alert 타입
+      icon: "warning", 
 
-      confirmButtonText: "확인", // confirm 버튼 텍스트 지정
+      confirmButtonText: "확인", 
     });
   }
   
   function submitComplete() {
     Swal.fire({
       title: "저장 되었습니다.",
-      icon: "success", // Alert 타입
-      confirmButtonText: "확인", // confirm 버튼 텍스트 지정
+      icon: "success", 
+      confirmButtonText: "확인",
     }).then((result)=>{
       if(result.isConfirmed){
         location.reload();

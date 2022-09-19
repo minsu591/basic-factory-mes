@@ -42,6 +42,8 @@ $("document").ready(function () {
     text : "입력값이 부족합니다.",
     confirmButtonText: "확인",
   })
+  $("#rscReturnSDate").val('');
+  $("#rscReturnEDate").val('');
 }
 
 function dateWarning2() {
@@ -51,6 +53,8 @@ function dateWarning2() {
     html : "시작날짜는 마침날짜보다 작아야합니다.",
     confirmButtonText: "확인",
   })
+  $("#rscReturnSDate").val('');
+  $("#rscReturnEDate").val('');
 }
 
 })

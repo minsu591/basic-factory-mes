@@ -4,22 +4,26 @@ $("document").ready(function(){
   e.preventDefault();
   let rscInspSDate = $("#rscInspSDate").val();
   let rscInspEDate = $("#rscInspEDate").val();
+  
 
   if(!rscInspSDate){
    if(!rscInspEDate){
     // findList();
    } else {
     dateWarning();
+    dateReset();
     return false;
    }
   }else{
    if(!rscInspEDate){
     dateWarning();
+    dateReset();
     return false;
    }else {
     // findList();
     if (rscInspSDate > rscInspEDate) {
       dateWarning2();
+      dateReset();
       return false;
     }
    }
@@ -54,5 +58,10 @@ function dateWarning2() {
   })
 }
 
+//날짜데이터 리셋
+function dateReset() {
+  $("#rscInspSDate").val('');
+  $("#rscInspEDate").val('');
+}
 
 })

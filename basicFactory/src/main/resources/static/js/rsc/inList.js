@@ -4,22 +4,26 @@ $("document").ready(function () {
     e.preventDefault();
     let rscInSDate = $("#rscInSDate").val();
     let rscInEDate = $("#rscInEDate").val();
+    console.log(rscInSDate + " ," + rscInEDate);
 
     if (!rscInSDate) {
       if (!rscInEDate) {
         // findList();
       } else {
         dateWarning();
+        dateReset();
         return false;
       }
     } else {
       if (!rscInEDate) {
+        dateReset();
         dateWarning();
         return false;
       } else {
         // findList();
         if (rscInSDate > rscInEDate) {
           dateWarning2();
+          dateReset();
           return false;
         }
       }
@@ -53,6 +57,11 @@ $("document").ready(function () {
       html : "시작날짜는 마침날짜보다 작아야합니다.",
       confirmButtonText: "확인",
     })
+  }
+
+  function dateReset(){
+    $("#rscInSDate").val('');
+    $("#rscInEDate").val('');
   }
 
 });

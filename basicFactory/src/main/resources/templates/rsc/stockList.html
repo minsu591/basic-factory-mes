@@ -7,11 +7,12 @@
 <title>자재재고조회</title>
 </head>
 <body>
-<script type="text/javascript" th:src="@{/js/modal/rsc/findResource.js}"></script>
-<script type="text/javascript" th:src="@{/js/modal/rsc/findRscLot.js}"></script>
-<script type="text/javascript" th:src="@{/js/rsc/stock.js}"></script>
-<script type="text/javascript" th:src="@{/js/pages/pagination2.js}"></script>
-<link th:href="@{/css/pagination2.css}" rel="stylesheet" />
+	<script type="text/javascript"
+		th:src="@{/js/modal/rsc/findResource.js}"></script>
+	<script type="text/javascript" th:src="@{/js/modal/rsc/findRscLot.js}"></script>
+	<script type="text/javascript" th:src="@{/js/rsc/stock.js}"></script>
+	<script type="text/javascript" th:src="@{/js/pages/pagination2.js}"></script>
+	<link th:href="@{/css/pagination2.css}" rel="stylesheet" />
 	<link th:href="@{/css/rsc/List.css}" rel="stylesheet" />
 	<div class="pcoded-main-container">
 		<h1>자재 재고 조회</h1>
@@ -21,38 +22,49 @@
 				<div class="card-header">
 					<form class="form-inline">
 						<div class="form-group mt-3">
-							<label for="rsccode" th:text="자재코드"></label> 
-							<input type="text" id="rsccode" class="form-control mx-sm-3">
+							<label for="rsccode" th:text="자재코드"></label> <input type="text"
+								id="rsccode" class="form-control mx-sm-3">
 						</div>
 						<div class="form-group mt-3">
-							<label for="rscname" th:text="자재명"></label> 
-							<input type="text" id="rscname" class="form-control mx-sm-3" readonly>
+							<label for="rscname" th:text="자재명"></label> <input type="text"
+								id="rscname" class="form-control mx-sm-3" readonly>
 						</div>
 						<div class="form-group mt-3">
-							<label for="rsclotno" th:text="자재LOT번호"></label> 
-							<input type="text" id="rsclotno" class="form-control mx-sm-3">
+							<label for="rsclotno" th:text="자재LOT번호"></label> <input
+								type="text" id="rsclotno" class="form-control mx-sm-3">
 						</div>
+						<div class="input-group-prepend selectOp">
+							<label class="input-group-text hei-45 wid-50 p-0" for="rscCdClfy">분류</label>
+						</div>
+						<select class="custom-select hei-45 m-r-10 selectOp" id="rscCdClfy">
+							<option th:value="전체" th:text="전체"></option>
+							<option th:value="출고가능재고" th:text="출고가능재고" selected></option>
+							<option th:value="소진완료재고" th:text="소진완료재고"></option>
+						</select>
 						<button type="button" class="btn  btn-primary" id="search">조회</button>
 					</form>
 					<form name="searchForm" id="searchForm">
-						<input type='hidden' id ='type' name="type" th:value="${pageMaker.cri.type}">
-						<input type='hidden' name='keyword' th:value='${pageMaker.cri.keyword}' />
-						<input type='hidden' name='keyword2' th:value='${pageMaker.cri.keyword2}' />
-						<input type='hidden' name='pageNum' value='1'>
-						<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+						<input type='hidden' id='type' name="type"
+							th:value="${pageMaker.cri.type}"> <input type='hidden'
+							name='keyword' th:value='${pageMaker.cri.keyword}' /> <input
+							type='hidden' name='keyword2'
+							th:value='${pageMaker.cri.keyword2}' /> <input type='hidden'
+							name='pageNum' value='1'> <input type='hidden'
+							name='amount' value='${pageMaker.cri.amount}'>
 					</form>
 				</div>
 				<div class="card-body table-border-style">
-					<div class="table-responsive" th:replace="rsc/table/stockTable.html :: stocktable" id="sttable">
-						
+					<div class="table-responsive"
+						th:replace="rsc/table/stockTable.html :: stocktable" id="sttable">
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- 자재조회 Modal -->
-    <th:block th:replace="~{fragments/modal/findresource :: findresource}"></th:block>
-    <!-- Lot번호 조회 Modal -->
-    <th:block th:replace="~{fragments/modal/findRscLot :: findRscLot}"></th:block>
+	<th:block th:replace="~{fragments/modal/findresource :: findresource}"></th:block>
+	<!-- Lot번호 조회 Modal -->
+	<th:block th:replace="~{fragments/modal/findRscLot :: findRscLot}"></th:block>
 </body>
 </html>
