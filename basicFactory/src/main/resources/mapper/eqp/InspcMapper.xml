@@ -8,12 +8,14 @@
 				#{mchnCode},
 				#{inspcSdate},
 				#{inspcEdate},
-				(select #{inspcEdate} + mchn_inspc_cycle from BF_EQP_MCHN where mchn_code = #{mchnCode}),
+				(select to_date(#{inspcEdate} + mchn_inspc_cycle,'yy/MM/dd') from BF_EQP_MCHN where mchn_code = #{mchnCode}),
 				#{inspcActnPnt},
 				#{inspcActnRsn},
 				#{inspcRemk},
 				#{empId}) 
 	</insert>
+	
+	
 	<update id="inspcUpdate">
 		update bf_eqp_inspc
 		SET ${updCol} = #{updCont}
@@ -50,6 +52,7 @@
 		JOIN BF_EQP_MCHN M
     		ON I.MCHN_CODE = M.MCHN_CODE
     	WHERE I.INSPC_NXT_DATE between TO_DATE(SYSDATE) and TO_CHAR(SYSDATE+7)
+    	ORDER BY I.INSPC_NXT_DATE
 	</select>
 
 	<select id="listInspc" resultType="inspc">
@@ -67,6 +70,7 @@
 			ON INP.MCHN_CODE = MC.MCHN_CODE
 		JOIN BF_CMN_EMP EMP
 			ON INP.EMP_ID = EMP.EMP_ID
+		ORDER BY INP.INSPC_EDATE
 	</select>
 	
 	<!-- 검색조건 SQL -->
