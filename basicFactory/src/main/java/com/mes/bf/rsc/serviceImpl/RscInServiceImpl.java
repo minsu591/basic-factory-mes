@@ -19,8 +19,13 @@ public class RscInServiceImpl implements RscInService {
 	
 
 	@Override
-	public List<RscInspVO> inspCompList(String rscCdCode, String inspDate) {
-		return rscInMapper.inspCompList(rscCdCode, inspDate);
+	public List<RscInspVO> inspCompList(Criteria cri) {
+		return rscInMapper.inspCompList(cri);
+	}
+	
+	@Override
+	public Integer inspCompListCount(Criteria cri) {
+		return rscInMapper.inspCompListCount(cri);
 	}
 
 	@Override

@@ -12,7 +12,8 @@ public interface RscInService {
 	//입고 리스트 조회
 	List<RscInVO> inList(Criteria cri);
 	Integer inListCount(Criteria cri);
-	List<RscInspVO> inspCompList(String rscCdCode, String inspDate);
+	List<RscInspVO> inspCompList(Criteria cri);
+	Integer inspCompListCount(Criteria cri);
 	
 	//입고 등록
 	int inInsert(RscInspVO vo);
