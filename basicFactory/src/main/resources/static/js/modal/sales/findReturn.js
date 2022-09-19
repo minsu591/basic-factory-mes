@@ -48,6 +48,7 @@ $("document").ready(function(){
         let remk = $(this).find("td:last").text();
 
         $("#slsRtnHdDate").val(slsRtnHdDate);
+        $("#slsRtnHdDate").attr("disabled", true);
         $("#slsRtnHdNo").val(slsRtnHdNo)
         $("#vendor").val(vendor);
         $("#vendorName").val(vendorName);
@@ -181,7 +182,7 @@ $("document").ready(function(){
                      <td class="canModifyTd"></td> </tr>`;
         } else {
             node += `<td>${rtn.slsRtnDtlVO.slsRtnDtlResn}</td>
-                     <td class="canModifyTd"></td> </tr>`;
+                     <td></td> </tr>`;
         }
         
         $("#rtnMngTable tbody").append(node);

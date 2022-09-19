@@ -15,6 +15,16 @@ $(document).ready(function () {
     }
   });
 
+$("#rtnMngTable").on("change", "input[name=chk]", function () {
+    let total = $("input[name=chk]").length;
+    let checked = $("input[name=chk]:checked").length;
+    if (total != checked) {
+        $("#allCheck").prop("checked", false);
+    } else {
+        $("#allCheck").prop("checked", true);
+    }
+});
+
   //수정될거 저장하는 list 정의
   let modifyList = [];
   let addList = [];
@@ -26,6 +36,20 @@ $(document).ready(function () {
   //notNull이어야하는 (td기준)
   let notNullList = [7, 10, 11];
   let defaultVal;
+ 
+    
+//초기화 버튼
+$("#resetBtn").click(function () {
+    $("#rtnMngTable tbody tr").remove();
+    $("#allCheck").prop("checked", false);
+    $("#slsRtnHdDate").val(today);
+    $("#slsRtnHdDate").prop("disabled", false);
+    $("#slsRtnHdNo").val('');
+    $("#vendor").val('');
+    $("#vendorName").val('');
+    $("#rtnTotalPrice").text('');
+})
+
   //td 수정 이벤트
   table.find("tbody").on("click","td",function(e){
       e.stopPropagation();
@@ -195,19 +219,7 @@ $(document).ready(function () {
       }
 
     //반품관리 테이블 tr 돌면서 출고량 총 합계 계산
-    let trs = table.find("tbody tr");
-    let priceSum = 0;
-    for(tr of trs){
-        let totalPrice = $(tr).find(".price").text();
-        if(totalPrice == null || totalPrice == ''){
-            totalPrice = 0;
-        } else {
-            totalPrice = totalPrice.split(",").join(""); //콤마 제거
-            totalPrice = Number(totalPrice);
-        }
-        priceSum += totalPrice;
-    }
-    $("#rtnTotalPrice").text(priceSum.toLocaleString("ko-KR"));
+
       console.log(addList); //제품코드, lot번호, 기반품량, 반품량, 금액, 처리구분, 반품사유
       e.stopPropagation();
     });
@@ -415,7 +427,12 @@ $(document).ready(function () {
               }
           }
       });
-  });
+      
+    //반품관리 테이블 tr 돌면서 출고량 총 합계 계산
+      totalPrice();
+      console.log(addList); //제품코드, lot번호, 기반품량, 반품량, 금액, 처리구분, 반품사유
+      e.stopPropagation();
+    });
 
   function deleteHdSaveAjax(slsRtnHdNo){
       $.ajax({
@@ -448,6 +465,23 @@ $(document).ready(function () {
       });
     }
 
+//총 합계 계산
+function totalPrice() {
+    let trs = table.find("tbody tr");
+    let priceSum = 0;
+    for (tr of trs) {
+        let totalPrice = $(tr).find(".price").text();
+        if (totalPrice == null || totalPrice == '') {
+            totalPrice = 0;
+        } else {
+            totalPrice = totalPrice.split(",").join(""); //콤마 제거
+            totalPrice = Number(totalPrice);
+        }
+        priceSum += totalPrice;
+    }
+    $("#rtnTotalPrice").text(priceSum.toLocaleString("ko-KR"));
+}
+    
 //alert
 function notUpdate() {
     Swal.fire({
