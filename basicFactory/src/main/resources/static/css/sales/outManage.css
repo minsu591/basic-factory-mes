@@ -79,3 +79,8 @@ h1 {
 .lotNo {
 	cursor:pointer;
 }
+
+#vendor{
+	width:153px;
+	margin-left:20px;
+}

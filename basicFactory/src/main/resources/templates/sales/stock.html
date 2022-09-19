@@ -27,10 +27,18 @@
                                     data-target=".bd-example-modal-lg">
                         </div>
                         <br>
-                        <div class="form-group mt-3">
+                        <div class="form-group mt-3 fnsPrdStkLotNo">
                             <label for="fnsPrdStkLotNo" th:text="LOT번호"></label>
                             <input type="text" id="fnsPrdStkLotNo" class="form-control mx-sm-3">
                         </div>
+						<div class="input-group-prepend selectOp slsCdClfy">
+							<label class="input-group-text hei-45 wid-50 p-0" for="slsCdClfy">분류</label>
+						</div>
+						<select class="custom-select hei-45 m-r-10 selectOp" id="slsCdClfy">
+							<option th:value="0" th:text="전체"></option>
+							<option th:value="1" th:text="출고가능재고" selected></option>
+							<option th:value="2" th:text="소진완료재고"></option>
+						</select>
                         <button type="button" class="btn  btn-primary" id="stockBtn">조회</button>
                     </form>
                 </div>
