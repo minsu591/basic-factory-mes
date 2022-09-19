@@ -154,9 +154,10 @@ $(document).ready(function () {
         Swal.fire({
           icon: "warning", // Alert 타입
           title: "입력되지 않은 값이 있습니다.", // Alert 제목
-          html: "발주코드, 자재코드, <br/>검사수량, 불량수량, 검사자는<br/>기본 입력사항입니다.",
+          html: "발주코드는<br/>기본 입력사항입니다.",
           confirmButtonText: "확인",
         });
+        return;
       } else if(!rscInspDate || !rscCdCode || !rscInspVol || !rscInferVol || !empId){
         for (idx of notnull){
           if (!($(obj).children().eq(idx).find("input").val())) {
@@ -166,9 +167,10 @@ $(document).ready(function () {
         Swal.fire({
           icon: "warning", // Alert 타입
           title: "입력되지 않은 값이 있습니다.", // Alert 제목
-          html: "발주코드, 자재코드, <br/>검사수량, 불량수량, 검사자는<br/>기본 입력사항입니다.",
+          html: "자재코드, 검사수량, <br/>불량수량, 검사자는<br/>기본 입력사항입니다.",
           confirmButtonText: "확인",
         });
+        return;
       }else {
         //리스트에 저장
         let insp = {
@@ -185,26 +187,31 @@ $(document).ready(function () {
         inspList.push(insp);
         console.log(insp);
 
+        $.ajax({
+          url: "inspInAndUp",
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          dataType: "text",
+          data: JSON.stringify(inspList),
+          error: function (error, status, msg) {
+            Swal.fire({
+              icon: "warning", 
+              title: "에러 발생",
+              text : `상태코드 ${status}, 에러메시지 ${msg}`,
+              confirmButtonText: "확인"
+            })
+          },
+          success: function (result) {
+            console.log(result);
+            if (inspList.length == result) {
+              submitComplete();
+              $("#outTable tr").remove();
+            }
+          }
+    
+        })
       }
     }
-    $.ajax({
-      url: "inspInAndUp",
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      dataType: "text",
-      data: JSON.stringify(inspList),
-      error: function (error, status, msg) {
-        alert("상태코드 " + status + "에러메시지" + msg);
-      },
-      success: function (result) {
-        console.log(result);
-        if (inspList.length == result) {
-          submitComplete();
-          $("#outTable tr").remove();
-        }
-      }
-
-    })
   });
 
 
