@@ -17,7 +17,7 @@ $(document).ready(function () {
         window.open("/prod/report.do?instNo=" + instNo);
         console.log("호출성공");
       },
-      error: function (error, status, msg) { },
+      error: function (error, status, msg) {},
     });
   });
 
@@ -52,7 +52,6 @@ $(document).ready(function () {
   $("#delRowBtn").click(function () {
     let checklength = 0;
     let trlength = $("#planDetailTable tbody tr").length;
-
     if ($("input[type='checkbox']:checked").length === 0) {
       deleteWarning();
       return;
@@ -84,6 +83,12 @@ $(document).ready(function () {
       $("#instNo").val();
       console.log("삭제할 인스트노->" + $("#instNo").val());
       deleteInstHd($("#instNo").val());
+    }
+    trlength = $("#planDetailTable tbody tr").length;
+    if (trlength == 0) {
+      $("#addRowBtn").prop("disabled", false);
+      $("#procStatusTable tbody tr").remove();
+      $("#rscStockTable tbody tr").remove();
     }
   });
 
@@ -186,9 +191,9 @@ $(document).ready(function () {
           let prodIndicaVol = td.children().eq(10).val(); //지시량
           let workDate = td.children().eq(12).val(); //작업날짜
           planHdCode = td.children().eq(5).val(); //계획코드
-          if (planHdCode == '-') {
-            planHdCode = '';
-          };
+          if (planHdCode == "-") {
+            planHdCode = "";
+          }
           instobjdetail = {
             instProdIndicaVol: prodIndicaVol,
             finPrdCdCode: prodCode,
@@ -249,6 +254,8 @@ $(document).ready(function () {
     let prodUnit = $(this).find("td:eq(3)").children();
     let lineName = $(this).find("td:eq(11)").children();
     let indicaVol = $(this).find("td:eq(10)").children();
+    let virInstVol = $(this).find("td:eq(8)").children().val(); //기지시
+    let nonInstVol = $(this).find("td:eq(9)").children().val(); //미지시
     let tr = $(this);
     //지시량에 값이 입력 됬을 떄 실행
     indicaVol.bind("input", function () {
@@ -258,7 +265,17 @@ $(document).ready(function () {
         .find("td:eq(0)")
         .children()
         .prop("checked", false);
-      // findRscNeedQty(prodCode.val(), indicaVol.val());
+      console.log($(this).val());
+      console.log(virInstVol);
+      console.log(nonInstVol);
+      if ($("#planDetailTable tbody tr").hasClass("not-don-plan"))
+        if ($(this).val() > parseInt(virInstVol + nonInstVol)) {
+          console.log("입력값->" + $(this).val());
+          console.log("미지시+기지시" + parseInt(virInstVol + nonInstVol));
+          overVolWarn();
+          $(this).val(0);
+          return;
+        }
     });
 
     if (tr.children().children().is(":checked") == true) {
@@ -707,5 +724,12 @@ function deleteques(instProdNo) {
       //tr.remove();
       deleteSuccess();
     }
+  });
+}
+
+function overVolWarn() {
+  Swal.fire({
+    icon: "warning",
+    title: "기지시량+지시량을 초과하여 입력할 수 없습니다.",
   });
 }

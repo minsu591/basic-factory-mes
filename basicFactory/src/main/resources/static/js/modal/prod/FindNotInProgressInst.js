@@ -18,32 +18,35 @@ $(document).ready(function () {
   $("#FindNotInProgressInstTable").on("click", "tr", function () {
     //console.log($(this).find("td:eq(1)").text());
     // console.log("모달 -> 유니크라인어레이" + uniqueLineArray);
-    uniqueLineArray.splice(0);
-    //console.log("모달 -> 자르고->" + uniqueLineArray);
-    lineArray.splice(0);
-    inDtlVol.splice(0);
-    prodCodeArr.splice(0);
-    $("#planDetailTable tbody tr").each(function () {
-      $(this).children().children().prop("checked", false);
-    });
-    $("#planDetailTable tbody tr").remove();
-    $("#procStatusTable tbody tr").remove();
-    $("#rscStockTable tbody tr").remove();
-    let instNo = $(this).find("td:eq(2)").text();
-    let instRemk = $(this).find("td:eq(6)").text();
-    if (instRemk == '-') {
-      instRemk = '';
+    if ($("#planDetailTable tbody tr").length >= 1) {
+      Swal.fire({
+        icon: "warning",
+        title: "수정중인 데이터가 남아있습니다.",
+        text: "계속 진행하시겠습니까?",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "확인",
+        cancelButtonText: "취소",
+        closeOnClickOutside: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let instNo = $(this).find("td:eq(2)").text();
+          $("#planDetailTable thead tr").find("input:hidden").remove();
+          $("#planDetailTable thead tr").append(
+            `<input type="hidden" id="instNo" value="${instNo}">`
+          );
+          findNotInProcInst(instNo);
+        }
+      });
+    } else {
+      let instNo = $(this).find("td:eq(2)").text();
+      $("#planDetailTable thead tr").find("input:hidden").remove();
+      $("#planDetailTable thead tr").append(
+        `<input type="hidden" id="instNo" value="${instNo}">`
+      );
+      findNotInProcInst(instNo);
     }
-    $("#instremk").val(instRemk);
-    let instName = $(this).find("td:eq(1)").text();
-    $("#instname").val(instName);
-    $("#planDetailTable thead tr").find("input:hidden").remove();
-    $("#planDetailTable thead tr").append(
-      `<input type="hidden" id="instNo" value="${instNo}">`
-    );
-    findNotInProcInst(instNo);
-
-    $("#FindNotInProgressInstModal").modal("hide");
   });
 });
 
@@ -72,6 +75,30 @@ function findNotInProcInst(instNo) {
       }
     },
   });
+
+  uniqueLineArray.splice(0);
+  //console.log("모달 -> 자르고->" + uniqueLineArray);
+  lineArray.splice(0);
+  inDtlVol.splice(0);
+  prodCodeArr.splice(0);
+  $("#planDetailTable tbody tr").each(function () {
+    $(this).children().children().prop("checked", false);
+  });
+  $("#planDetailTable tbody tr").remove();
+  $("#procStatusTable tbody tr").remove();
+  $("#rscStockTable tbody tr").remove();
+
+  let instRemk = $(this).find("td:eq(6)").text();
+  if (instRemk == "-") {
+    instRemk = "";
+  }
+  //추가버튼 막기
+  $("#addRowBtn").prop("disabled", true);
+  $("#instremk").val(instRemk);
+  let instName = $(this).find("td:eq(1)").text();
+  $("#instname").val(instName);
+
+  $("#FindNotInProgressInstModal").modal("hide");
 }
 
 function finInfo(prodCode) {
@@ -151,7 +178,7 @@ function findProdName(prodCode) {
         .children()
         .val(data.lineCdHdName);
     },
-    error: function (error, status, msg) { },
+    error: function (error, status, msg) {},
   });
 }
 //생산지시 헤더 조회
@@ -196,8 +223,8 @@ function FindNotInProgressInstTableMakeRow(obj, index) {
                 <td>${obj.instNo}</td>
                 <td>${obj.instDate}</td>
                 <td>${obj.empId}</td>
-                <td>${obj.planHdCode == null ? '-' : obj.planHdCode}</td>
-                <td>${obj.instRemk == null ? '-' : obj.instRemk}</td>
+                <td>${obj.planHdCode == null ? "-" : obj.planHdCode}</td>
+                <td>${obj.instRemk == null ? "-" : obj.instRemk}</td>
               </tr>`;
   $("#FindNotInProgressInstTable tbody").append(node);
 }
@@ -214,26 +241,51 @@ function planDetailTableMakeRow(obj, finInfoList) {
               <td><input type="text" value="${obj.finPrdCdCode}"></td>
               <td><input type="text" disabled value="${finInfoList[0]}"></td>
               <td><input type="text" disabled value="${finInfoList[1]}"></td>
-              <td><input type="text" disabled value="${obj.planIdx == 0 ? "-" : obj.planIdx
-    }"></td>
-              <td><input type="text" disabled value="${obj.planHdCode == null ? "-" : obj.planHdCode
-    }"></td>
-              <td><input type="text" disabled value="${obj.planSdate == null ? "-" : obj.planSdate
-    }"></td>
-              <td><input type="text" disabled value="${obj.planEdate == null ? "-" : obj.planEdate
-    }"></td>
-              <td><input type="text" disabled value="${obj.planHdCode == null ? 0 : obj.instProdIndicaVol
-    }"></td>
-              <td><input type="text" disabled value="${obj.planHdCode == null
-      ? 0
-      : obj.planProdVol - obj.instProdIndicaVol
-    }"></td>
+              <td><input type="text" disabled value="${
+                obj.planIdx == 0 ? "-" : obj.planIdx
+              }"></td>
+              <td><input type="text" disabled value="${
+                obj.planHdCode == null ? "-" : obj.planHdCode
+              }"></td>
+              <td><input type="text" disabled value="${
+                obj.planSdate == null ? "-" : obj.planSdate
+              }"></td>
+              <td><input type="text" disabled value="${
+                obj.planEdate == null ? "-" : obj.planEdate
+              }"></td>
+              <td><input type="text" disabled value="${
+                obj.planHdCode == null ? 0 : obj.instProdIndicaVol
+              }"></td>
+              <td><input type="text" disabled value="${
+                obj.planHdCode == null
+                  ? 0
+                  : obj.planProdVol - obj.instProdIndicaVol
+              }"></td>
               <td><input type="text" value="${obj.instProdIndicaVol}"></td>
               <td><input type="text" disabled value="${finInfoList[2]}" ></td>
               <td><input type="date" min="${date}" value="${obj.workDate}"></td>
-              <td><input type="hidden" name="instProdNo" value="${obj.instProdNo
-    }"></td>
+              <td><input type="hidden" name="instProdNo" value="${
+                obj.instProdNo
+              }"></td>
               </tr>`;
 
   $("#planDetailTable tbody").append(node);
+}
+
+function modifyDataWarn() {
+  Swal.fire({
+    icon: "warning",
+    title: "수정중인 데이터가 남아있습니다.",
+    text: "계속 진행하시겠습니까?",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "확인",
+    cancelButtonText: "취소",
+    closeOnClickOutside: false,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      moveOrderPage();
+    }
+  });
 }

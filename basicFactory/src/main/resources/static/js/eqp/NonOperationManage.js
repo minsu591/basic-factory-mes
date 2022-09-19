@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
   findAllProcCode();
   findMchnName();
 
@@ -13,10 +12,8 @@ $(document).ready(function () {
   $("#inputDate").val(date).prop("readonly", true);
   $("#workEndBtn").prop("disabled", true);
 
-
   //작업 종료 버튼
   $("#workEndBtn").click(function () {
-
     $("#saveBtn").prop("disabled", false);
 
     let date = new Date();
@@ -41,6 +38,9 @@ $(document).ready(function () {
   });
   //작업시작시간 입력
   $("#workStartBtn").click(function () {
+    //설비테이블 클릭이벤트 제거
+    $("#equipTable").off("click");
+
     let mchnCode = $("#mchnCode").val();
     let mchnStatus = $("#mchnStatus").val();
 
@@ -67,7 +67,7 @@ $(document).ready(function () {
         error: function (error, status, msg) {
           alert("상태코드 " + status + "에러메시지" + msg);
         },
-        success: function (data) { },
+        success: function (data) {},
       });
       $.ajax({
         url: `findinputno`,
@@ -122,12 +122,11 @@ $(document).ready(function () {
     let nonOpName = $(this).find("td:eq(1)").children();
     let nonOpRsn = $(this).find("td:eq(2)").children();
 
-
     nonOpRsn.change(function () {
       nonOpRsn.removeClass("inputRequired");
     });
 
-    if (nonOpName.val() != '') {
+    if (nonOpName.val() != "") {
       nonOpName.removeClass("inputRequired");
     }
 
@@ -153,14 +152,10 @@ $(document).ready(function () {
           } else {
             nonOpName.val(data.nonOpName);
           }
-
         },
       });
     });
   });
-
-
-
 
   //저장버튼 클릭
   $("#saveBtn").click(function () {
@@ -183,18 +178,26 @@ $(document).ready(function () {
     let remk = $("#nonOpTable tbody tr").find("td:eq(3)").children().val();
     let nonOpMin = eMinutes - sMinutes;
 
-    if (nonOpCode == "" || nonOpRsn == "" || nonOpName == '') {
-
-      if (nonOpCode == '') {
-        $("#nonOpTable tbody tr").find("td:eq(0)").children().addClass("inputRequired");
+    if (nonOpCode == "" || nonOpRsn == "" || nonOpName == "") {
+      if (nonOpCode == "") {
+        $("#nonOpTable tbody tr")
+          .find("td:eq(0)")
+          .children()
+          .addClass("inputRequired");
       }
 
-      if (nonOpRsn == '') {
-        $("#nonOpTable tbody tr").find("td:eq(2)").children().addClass("inputRequired");
+      if (nonOpRsn == "") {
+        $("#nonOpTable tbody tr")
+          .find("td:eq(2)")
+          .children()
+          .addClass("inputRequired");
       }
 
-      if (nonOpName == '') {
-        $("#nonOpTable tbody tr").find("td:eq(1)").children().addClass("inputRequired");
+      if (nonOpName == "") {
+        $("#nonOpTable tbody tr")
+          .find("td:eq(1)")
+          .children()
+          .addClass("inputRequired");
       }
       inputDataWarn();
       return;
