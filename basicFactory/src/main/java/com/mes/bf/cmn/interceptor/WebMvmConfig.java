@@ -12,6 +12,6 @@ public class WebMvmConfig implements WebMvcConfigurer {
 		registry.addInterceptor(new LoginInterceptor())
 				.addPathPatterns("/prod/**","/cmn/**","/eqp/**","/rsc/**","/sls/**")
 				.excludePathPatterns("/cmn/login","/cmn/login/check","/cmn/login/reset","/cmn/login/reset/**");
-		//		.excludePathPatterns("/css/**","/fonts/**","/plugin/**","/scripts/**");
+		//		.excludePathPatterns("/css/**","/fonts/**","/plugin/**");
 	}
 }

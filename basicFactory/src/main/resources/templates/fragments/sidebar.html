@@ -12,12 +12,12 @@
 					<div class="main-menu-header">
 						<img class="img-radius" src="/images/user/userImage-3.png"
 							alt="User-Profile-Image" />
-						<div class="user-details">
+						<div class="user-details ml-3" style="font-weight : bold">
 							<input type="hidden" th:unless="${session.emp} eq null" th:value="${session.emp.empId}" id="sideBarEmpId">
 							<span type="text" th:unless="${session.emp} eq null" th:text="${session.emp.empName}"></span>
 							<div id="more-details">
 								<span type="text" th:unless="${session.emp} eq null" th:text="${session.emp.deptName}" ></span>
-								<i class="fa fa-chevron-down m-l-5"></i>
+								<!-- <i class="fa fa-chevron-down m-l-5"></i> -->
 							</div>
 							<span type="text" th:unless="${session.emp} eq null" th:text="${session.emp.empPos}" ></span>
 						</div>

@@ -1,5 +1,7 @@
 package com.mes.bf.sales.vo;
 
+import java.sql.Date;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.Data;

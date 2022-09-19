@@ -20,6 +20,7 @@ import com.mes.bf.common.PageDTO;
 import com.mes.bf.common.service.CommonService;
 import com.mes.bf.eqp.vo.VfindMchnVO;
 import com.mes.bf.prod.service.ProcService;
+import com.mes.bf.sales.vo.SlsOutDtlForMainVO;
 
 @Controller
 @RequestMapping("/common")
@@ -42,7 +43,6 @@ public class CommonController {
 		// 페이징
 		// 전체 건수
 		int total = service.getMchnTotalCount(cri);
-		System.out.println(service.getMchnTotalCount(cri));
 		cri.setAmount(10); // 한페이지당 10개씩 설정
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		model.addAttribute("mchnList", service.findMchn(cri));
@@ -51,10 +51,18 @@ public class CommonController {
 	}
 	
 	// 메인페이지
-		@GetMapping(value = "/main", produces = { MediaType.APPLICATION_JSON_VALUE })
-		public ModelAndView mainPage() {
-			
-			return new ModelAndView("common/MainPage");
-		}
+	@GetMapping(value = "/main", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ModelAndView mainPage(Model model) {
+		return new ModelAndView("common/MainPage");
+	}
+	
+	@GetMapping(value = "/main/findOutFinForMain", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<SlsOutDtlForMainVO>> mainFindOutFinForMain(Model model) {
+		List<SlsOutDtlForMainVO> finList = service.findOutFinForMain();
+		
+		
+		return new ResponseEntity<List<SlsOutDtlForMainVO>>(finList, HttpStatus.OK);
+	}
+	
 
 }
