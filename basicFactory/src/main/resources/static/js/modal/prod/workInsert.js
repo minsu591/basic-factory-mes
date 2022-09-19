@@ -4,6 +4,12 @@ $("document").ready(function () {
   });
   let saveCheck = false;
   $("#emergencyBtn").hide();
+
+  $("#empid").click(function () {
+    $("#empid").removeClass("inputRequired")
+  })
+
+
   //불량증가
   fltyCntUp();
   //불량감소
@@ -232,6 +238,7 @@ function getprocPerform(processNo, inputDate) {
       $("#eHours").val(endTime.substring(11, 13));
       $("#eMinutes").val(endTime.substring(14, 16));
       $("#empid").val(data.workerName).prop("readonly", true);
+      $("#fltyCnt").val(0);
     },
     error: function () {
       console.log("에러?");
@@ -242,6 +249,7 @@ function getprocPerform(processNo, inputDate) {
       $("#sMinutes").val("");
       $("#eHours").val("");
       $("#eMinutes").val("");
+      $("#fltyCnt").val(0);
       $("#empid").val("").prop("readonly", false);
     },
   });
@@ -703,7 +711,7 @@ function startWork() {
   }
   if ($("#empid").val() == "") {
     noEmpId();
-
+    $("#empid").addClass("inputRequired");
     return;
   } else {
     $("#empid").prop("readonly", true);

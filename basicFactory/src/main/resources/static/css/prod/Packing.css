@@ -79,3 +79,8 @@ button {
   background: #e74c3c;
   border: #e74c3c;
 }
+
+
+.pointer {
+	cursor: pointer;
+}

@@ -17,7 +17,7 @@ $(document).ready(function () {
         window.open("/prod/report.do?instNo=" + instNo);
         console.log("호출성공");
       },
-      error: function (error, status, msg) {},
+      error: function (error, status, msg) { },
     });
   });
 
@@ -186,7 +186,9 @@ $(document).ready(function () {
           let prodIndicaVol = td.children().eq(10).val(); //지시량
           let workDate = td.children().eq(12).val(); //작업날짜
           planHdCode = td.children().eq(5).val(); //계획코드
-
+          if (planHdCode == '-') {
+            planHdCode = '';
+          };
           instobjdetail = {
             instProdIndicaVol: prodIndicaVol,
             finPrdCdCode: prodCode,
@@ -416,9 +418,10 @@ $(document).ready(function () {
   <td><input type="text" disabled value="-"></td>
   <td><input type="text" disabled value="0"></td>
   <td><input type="text" disabled value="0"></td>
-  <td><input type="text"></td>
+  <td><input type="text" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');"
+  ></td>
   <td><input type="text" disabled></td>
-  <td><input type="date" min='${date}'></td>
+  <td><input type="date" min='${date}' value='${date}'></td>
 </tr>`;
     $("#planDetailTable tbody").append(node);
   }

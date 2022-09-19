@@ -31,6 +31,9 @@ $(document).ready(function () {
     $("#rscStockTable tbody tr").remove();
     let instNo = $(this).find("td:eq(2)").text();
     let instRemk = $(this).find("td:eq(6)").text();
+    if (instRemk == '-') {
+      instRemk = '';
+    }
     $("#instremk").val(instRemk);
     let instName = $(this).find("td:eq(1)").text();
     $("#instname").val(instName);
@@ -148,7 +151,7 @@ function findProdName(prodCode) {
         .children()
         .val(data.lineCdHdName);
     },
-    error: function (error, status, msg) {},
+    error: function (error, status, msg) { },
   });
 }
 //생산지시 헤더 조회
@@ -193,8 +196,8 @@ function FindNotInProgressInstTableMakeRow(obj, index) {
                 <td>${obj.instNo}</td>
                 <td>${obj.instDate}</td>
                 <td>${obj.empId}</td>
-                <td>${obj.planHdCode == null ? "" : obj.planHdCode}</td>
-                <td>${obj.instRemk}</td>
+                <td>${obj.planHdCode == null ? '-' : obj.planHdCode}</td>
+                <td>${obj.instRemk == null ? '-' : obj.instRemk}</td>
               </tr>`;
   $("#FindNotInProgressInstTable tbody").append(node);
 }
@@ -211,32 +214,25 @@ function planDetailTableMakeRow(obj, finInfoList) {
               <td><input type="text" value="${obj.finPrdCdCode}"></td>
               <td><input type="text" disabled value="${finInfoList[0]}"></td>
               <td><input type="text" disabled value="${finInfoList[1]}"></td>
-              <td><input type="text" disabled value="${
-                obj.planIdx == 0 ? "-" : obj.planIdx
-              }"></td>
-              <td><input type="text" disabled value="${
-                obj.planHdCode == null ? "-" : obj.planHdCode
-              }"></td>
-              <td><input type="text" disabled value="${
-                obj.planSdate == null ? "-" : obj.planSdate
-              }"></td>
-              <td><input type="text" disabled value="${
-                obj.planEdate == null ? "-" : obj.planEdate
-              }"></td>
-              <td><input type="text" disabled value="${
-                obj.planHdCode == null ? 0 : obj.instProdIndicaVol
-              }"></td>
-              <td><input type="text" disabled value="${
-                obj.planHdCode == null
-                  ? 0
-                  : obj.planProdVol - obj.instProdIndicaVol
-              }"></td>
+              <td><input type="text" disabled value="${obj.planIdx == 0 ? "-" : obj.planIdx
+    }"></td>
+              <td><input type="text" disabled value="${obj.planHdCode == null ? "-" : obj.planHdCode
+    }"></td>
+              <td><input type="text" disabled value="${obj.planSdate == null ? "-" : obj.planSdate
+    }"></td>
+              <td><input type="text" disabled value="${obj.planEdate == null ? "-" : obj.planEdate
+    }"></td>
+              <td><input type="text" disabled value="${obj.planHdCode == null ? 0 : obj.instProdIndicaVol
+    }"></td>
+              <td><input type="text" disabled value="${obj.planHdCode == null
+      ? 0
+      : obj.planProdVol - obj.instProdIndicaVol
+    }"></td>
               <td><input type="text" value="${obj.instProdIndicaVol}"></td>
               <td><input type="text" disabled value="${finInfoList[2]}" ></td>
               <td><input type="date" min="${date}" value="${obj.workDate}"></td>
-              <td><input type="hidden" name="instProdNo" value="${
-                obj.instProdNo
-              }"></td>
+              <td><input type="hidden" name="instProdNo" value="${obj.instProdNo
+    }"></td>
               </tr>`;
 
   $("#planDetailTable tbody").append(node);
