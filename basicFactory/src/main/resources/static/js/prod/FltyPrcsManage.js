@@ -94,6 +94,21 @@ $("document").ready(function () {
           }
         }
       } else {
+        if (col == 4) {
+          let txt = tdInfo.text();
+          let parseIntVol = parseInt(txt);    //parseInt 문자열을 정수로 반환
+          if (!$.isNumeric(parseIntVol)) {      //isNumeric 숫자로 인식되는 경우 IsNumeric은 True를 반환합니다. 그렇지 않으면 False 를 반환
+            //txt가 숫자가 아니면
+            tdInfo.text('');
+            return false;
+          } else if ($.isNumeric(parseIntVol) && txt != parseIntVol) {
+            //txt가 숫자와 문자가 섞여있으면
+            tdInfo.text(parseIntVol);
+          }
+        }
+      }
+      //추가된 행이면 modifyList에 추가되지 않게
+      if (tdInfo.closest("tr").attr("name") != 'addTr') {
         //포커스가 나갈 때 체인지 이벤트를 강제로 일으킴(값이 변할 경우 변화를 캐치하는 이벤트)
         tdInfo.trigger("change");
       }
@@ -149,6 +164,12 @@ $("document").ready(function () {
     //     }
     //   }
     // }
+
+    let td = table.find("#mchntbody td");
+    if (td.length == 0 && modifyList.length == 0 && delList.length == 0) {
+      requiredWarning();
+      return false;
+    }
 
     let nullFlag = false;
     Swal.fire({
@@ -286,11 +307,15 @@ $("document").ready(function () {
   //선택 삭제 이벤트
   $("#deleteBtn").on("click", function () {
     $("#fltyPrcstbody").find("input:checkbox[name='chk']").each(function (idx, el) {
-      let tr = $(el).closest('tr');
       if ($(el).is(":checked")) {
+        let tr = $(el).closest('tr');
         tr.remove();
       }
     });
+    //내부에 내용이 없으면 allCheck 해제
+    if (table.find("tbody tr").length == 0) {
+      $("#allCheck").prop("checked", false);
+    }
   });
 
   //생산 불량 목록 tr 클릭
@@ -317,4 +342,12 @@ $("document").ready(function () {
       }
     }
   });
+
+
+  function requiredWarning() {
+    Swal.fire({
+      icon: "warning",
+      title: "데이터를 입력해 주세요."
+    });
+  }
 });
