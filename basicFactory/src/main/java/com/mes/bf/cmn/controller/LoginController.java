@@ -40,6 +40,7 @@ public class LoginController {
 		//로그아웃
 		HttpSession session = request.getSession();
 		session.setAttribute("emp", null);
+		//aa
 		return "cmn/loginpage";
 	}
 	
