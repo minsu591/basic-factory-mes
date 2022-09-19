@@ -1,10 +1,11 @@
 $("document").ready(function () {
   //점검대상조회 모달창
   $("#inspcTargetBtn").on("click", function (e) {
-
     $("#findNxtDateModal").modal("show");
     findNxtDate();
   });
+
+  let clfyList = ['','임시점검','정기점검','수리'];
 
   function findNxtDate() {
     $.ajax({
@@ -43,27 +44,56 @@ $("document").ready(function () {
     let inspcNxtDate = $(this).find("td:last").text();
 
     let node = `<tr>
-                    <td><input type="checkbox" name="chk"></td>
-                    <td></td>
-                    <td class="">${mchnCode}</td>
-                    <td class="">${mchnName}</td>
-                    <td><input type="date" value="${inspcNxtDate}"></td>
+                    <td class="cantModifyTd"><input type="checkbox" name="chk"></td>
+                    <td class="cantModifyTd"></td>
+                    <td>${mchnCode}</td>
+                    <td class="cantModifyTd">${mchnName}</td>
                     <td><input type="date"></td>
-                    <td></td>
-                    <td></td>
-                    <td class="담당자"></td>
+                    <td><input type="date"></td>`;
+            node += makeSelectForClfy('');
+            node += `<td></td>
+                    <td class="empId curPo"></td>
                     <td></td>
                 </tr>`;
 
     if ($("#inspctbody tr").length != 0) {
-      if (confirm("현재 수정한 내용이 모두 삭제됩니다") == true) {
-        $("#inspctbody tr").remove();
-        $("#inspctbody").append(node);
-        $("#findNxtDateModal").modal("hide");
-      }
+      $("#findNxtDateModal").modal("hide");
+      Swal.fire({
+        icon: "question",
+        title: "수정한 정보가 모두 사라집니다.",
+        text: "삭제하고 진행하겠습니까?",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "확인",
+        cancelButtonText: "취소",
+        closeOnClickOutside: false,
+      }).then((ans) =>{
+        if(ans.isConfirmed){
+          $("#inspctbody tr").remove();
+          $("#inspctbody").append(node);
+        }else{
+            return;
+        }
+      });
+        
     } else {
       $("#inspctbody").append(node);
       $("#findNxtDateModal").modal("hide");
     }
   });
+
+  function makeSelectForClfy(clfy){
+    let node = '<td class="canModifyTd"><select class="curPo">';
+    for(let i =0; i<clfyList.length;i++){
+      if(clfy == clfyList[i]){
+        node += '<option value="'+clfyList[i]+'"selected>'+clfyList[i]+'</option>';
+      }else{
+        node += '<option value="'+clfyList[i]+'">'+clfyList[i]+'</option>';
+      }
+    }
+    node += '</select></td>';
+    return node;
+  }
+
 });
