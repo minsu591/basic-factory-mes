@@ -62,29 +62,53 @@
 	WHERE X.RNUM > (#{pageNum}-1)*#{amount}
 	</select>
 	
-	<select id="inspCompList" resultType="com.mes.bf.rsc.vo.RscInspVO">
-		SELECT INSP.RSC_INSP_CODE, 
-			   INSP.RSC_INSP_DATE, 
-			   INSP.RSC_CD_CODE, 
-			   INSP.RSC_PASS_VOL, 
-			   INSP.RSC_INSP_ST,
-			   INSP.RSC_INSP_REMK,
-			
-			   RSCCODE.RSC_CD_NAME
-		
-		 FROM  BF_RSC_INSP INSP
-		 LEFT  JOIN BF_CMN_RSC_CODE RSCCODE
-		 ON    INSP.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
-		
+	<!-- 검색조건 SQL -->
+	<sql id="inspCriteria">
+		<if test="keyword != null and keyword != ''">
+			AND INSP.RSC_CD_CODE = #{keyword}
+		</if>
+		<if test="keyword2 != null and keyword2 != ''">
+			AND TO_CHAR(INSP.RSC_INSP_DATE,'yyyy-mm-dd') = #{keyword2}
+		</if>
+	</sql>
+	
+	<select id="inspCompListCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM  BF_RSC_INSP INSP
+				 LEFT  JOIN BF_CMN_RSC_CODE RSCCODE
+				 ON    INSP.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
+				
 		 WHERE INSP.RSC_INSP_ST = 0
-		 	<if test="rscCdCode != null and rscCdCode != ''">
-		 		AND INSP.RSC_CD_CODE = #{rscCdCode}
-		 	</if>
-		 	<if test="inspDate != null and inspDate != ''">
-		 		AND TO_CHAR(INSP.RSC_INSP_DATE,'yyyy-mm-dd') = #{inspDate}
-		 	</if>
-		
+				 	<include refid="inspCriteria" />
+				
 		 ORDER BY 1 DESC
+	</select>
+	
+	<select id="inspCompList" resultType="com.mes.bf.rsc.vo.RscInspVO">
+		SELECT X.* FROM (
+			SELECT Y.*, ROWNUM AS RNUM FROM (
+				SELECT INSP.RSC_INSP_CODE, 
+					   INSP.RSC_INSP_DATE, 
+					   INSP.RSC_CD_CODE, 
+					   INSP.RSC_PASS_VOL, 
+					   INSP.RSC_INSP_ST,
+					   INSP.RSC_INSP_REMK,
+					
+					   RSCCODE.RSC_CD_NAME
+				
+				 FROM  BF_RSC_INSP INSP
+				 LEFT  JOIN BF_CMN_RSC_CODE RSCCODE
+				 ON    INSP.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
+				
+				 WHERE INSP.RSC_INSP_ST = 0
+				 	<include refid="inspCriteria" />
+				
+				 ORDER BY 1 DESC) Y
+			 <where>
+				<![CDATA[ AND ROWNUM <= #{pageNum}*#{amount}   ]]>
+			</where>
+				) X
+		WHERE X.RNUM > (#{pageNum}-1)*#{amount}
 	</select>
 	
 	

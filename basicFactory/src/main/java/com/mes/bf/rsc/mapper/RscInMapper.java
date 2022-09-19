@@ -13,7 +13,8 @@ public interface RscInMapper {
 	List<RscInVO> inList(Criteria cri);
 	Integer inListCount(Criteria cri);
 	
-	List<RscInspVO> inspCompList(String rscCdCode, String inspDate);
+	List<RscInspVO> inspCompList(Criteria cri);
+	Integer inspCompListCount(Criteria cri);
 	
 	int inInsert(RscInspVO vo);
 }

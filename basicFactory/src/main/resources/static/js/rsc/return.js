@@ -66,7 +66,7 @@ $("document").ready(function () {
 <td><input type="text" name="returncode" disabled></td>
 <td><input type="date" value="${date}"></td>
 <td><input type="text" class="vendor"></td>
-<td><input type="text" readonly></td>
+<td><input type="text" disabled></td>
 <td><input type="text" class="rsccode" disabled></td>
 <td><input type="text" class="rscname" disabled></td>
 <td><input type="text" class="rsclotno"></td>

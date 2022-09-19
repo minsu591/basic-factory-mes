@@ -18,7 +18,7 @@
 		</thead>
 		<tbody>
 			<tr th:each="CL : ${inspCompList}">
-				<td><input type="checkbox" name="chk"></td>
+				<td><input type="checkbox" name="chk" id="chk"></td>
 				<td th:text="${CL.rscInspCode}"></td>
 				<td th:text="${CL.rscInspDate}"></td>
 				<td th:text="${CL.rscCdCode}"></td>
@@ -29,6 +29,7 @@
 			</tr>
 		</tbody>
 	</table>
+	<th:block th:replace="~{fragments/pagination :: pagination-nav}"></th:block>
 </div>
 </head>
 </html>

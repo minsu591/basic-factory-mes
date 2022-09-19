@@ -4,7 +4,6 @@ $("document").ready(function () {
     e.preventDefault();
     let rscInSDate = $("#rscInSDate").val();
     let rscInEDate = $("#rscInEDate").val();
-    console.log(rscInSDate + " ," + rscInEDate);
 
     if (!rscInSDate) {
       if (!rscInEDate) {
