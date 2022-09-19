@@ -49,22 +49,6 @@ public class SlsOrdController {
 		ModelAndView mav = new ModelAndView("sales/order");
 		return mav;
 	}
-//
-//	//주문내역 전체 조회
-//	@GetMapping("/findAllOrder")
-//	public List<SlsOrdHdDtlVO> findAllOrder() {
-//		List<SlsOrdHdDtlVO> list = service.findAllOrder();
-//		return list;
-//	}
-//	
-//	//주문내역 조건 조회
-//	@GetMapping(value = "/findOrder")
-//	public List<SlsOrdHdDtlVO> findOrder(@RequestParam Map<String, String> param) {
-//		List<SlsOrdHdDtlVO> list = service.findOrder(param.get("ordSdate"),
-//													 param.get("ordEdate"),
-//													 param.get("vendorName"));
-//		return list;
-//	}
 	
 	//주문관리 페이지 이동
 	@RequestMapping("/ordManage")

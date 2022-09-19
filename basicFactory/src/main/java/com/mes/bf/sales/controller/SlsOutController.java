@@ -45,23 +45,6 @@ public class SlsOutController {
 		ModelAndView mav = new ModelAndView("sales/out");
 		return mav;
 	}
-//	
-//	//완제품 출고내역 전체 조회
-//	@GetMapping("/findAllOut")
-//	public List<SlsOutHdDtlVO> findAllOut() {
-//		List<SlsOutHdDtlVO> list = service.findAllOut();
-//		return list;
-//	}
-//	
-//	
-//	//완제품 출고내역 단건 조회
-//	@GetMapping(value = "/findOut")
-//	public List<SlsOutHdDtlVO> findOut(@RequestParam Map<String, String> param){
-//		List<SlsOutHdDtlVO> list = service.findOut(param.get("outSdate"),
-//				 								   param.get("outEdate"),
-//				 								   param.get("vendorName"));
-//		return list;
-//	}
 	
 	//완제품 출고관리 페이지 이동
 	@RequestMapping("/outManage")
