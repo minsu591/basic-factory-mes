@@ -16,7 +16,6 @@ $(document).ready(function () {
         console.log(data);
         
         for (obj of data) {
-          console.log(obj);
           stockMakeRow(obj);
         }
         $("#remo").remove();
@@ -40,18 +39,22 @@ $(document).ready(function () {
   $('#stockBtn').click(function () {
     let prdName = $('#productname').val();
     let lotNo = $('#fnsPrdStkLotNo').val();
-    findStock(prdName, lotNo);
+    let stockClfy = $('#stockClfy option:selected').val();
+
+    console.log(stockClfy);
+    findStock(prdName, lotNo, stockClfy);
   });
 
-  function findStock(prdName, lotNo) {
+  function findStock(prdName, lotNo, stockClfy) {
     $.ajax({
       url: "findStock",
       method: "GET",
       contentType: "application/json;charset=utf-8",
       dataType: "json",
       data: {
-        prdName: prdName,
-        lotNo: lotNo
+        prdName,
+        lotNo,
+        stockClfy
       },
       error: function (error) {
         console.log(error);

@@ -35,19 +35,27 @@
 		JOIN BF_SALES_IN_DTL INDTL
 		  ON STOCK.SLS_IN_DTL_NO = INDTL.SLS_IN_DTL_NO
 		  
-        WHERE FNS_PRD_STK_VOL > 0
-        
-        <if test="prdName != null and prdName != ''">
-        	<![CDATA[ AND FIN_PRD_CD_NAME = #{prdName} ]]>
-        </if>
-        
-        <if test="lotNo != null and lotNo != ''">
-        	<![CDATA[ AND FNS_PRD_STK_LOT_NO = #{lotNo} ]]>
-        </if>
-        
-        <if test="lotNo != null and lotNo != '' and prdName != null and prdName != ''">
-        	<![CDATA[ AND FIN_PRD_CD_NAME = #{prdName} AND FNS_PRD_STK_LOT_NO = #{lotNo} ]]>
-        </if>
+        <where>
+	        <if test="prdName != null and prdName != ''">
+	        	AND FIN_PRD_CD_NAME = #{prdName}
+	        </if>
+	        
+	        <if test="lotNo != null and lotNo != ''">
+	        	AND FNS_PRD_STK_LOT_NO = #{lotNo}
+	        </if>
+	        
+	        <if test="lotNo != null and lotNo != '' and prdName != null and prdName != ''">
+	        	AND FIN_PRD_CD_NAME = #{prdName} AND FNS_PRD_STK_LOT_NO = #{lotNo}
+	        </if>
+	        
+	        <if test="stockClfy !=null and stockClfy == 1" >
+        		AND FNS_PRD_STK_VOL > 0
+        	</if>
+        	
+	        <if test="stockClfy !=null and stockClfy == 2" >
+        		AND FNS_PRD_STK_VOL = 0
+        	</if>
+        </where>
         ORDER BY SLS_IN_DTL_DATE DESC
 	</select>
 	

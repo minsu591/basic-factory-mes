@@ -6,7 +6,7 @@ h1 {
 	margin-bottom : 2%;
 }
 
-.btn {
+#findOrderBtn, #resetBtn {
 	margin-top: 1rem;
 }
 
@@ -69,4 +69,9 @@ h1 {
 #vendor{
 	width:153px;
 	margin-left:20px;
+}
+
+.modal .table-responsive{
+	height: 43vh;
+	overflow : auto;
 }

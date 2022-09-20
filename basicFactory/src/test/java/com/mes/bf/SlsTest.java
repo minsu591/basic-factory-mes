@@ -52,7 +52,7 @@ public class SlsTest {
 		}
 	}
 	
-//	//@Test
+	//@Test
 //	void findOut() {
 //		List<SlsOutHdDtlVO> list = outService.findOut("2022-08-24", "2022-08-24", "예담");
 //		for(int i = 0; i < list.size(); i++) {
@@ -76,9 +76,9 @@ public class SlsTest {
 		}
 	}
 	
-	//@Test
+	@Test
 	void findStock() {
-		List<SlsStockVO> list = stockService.findStock("", "SLS_LOT002");
+		List<SlsStockVO> list = stockService.findStock("FIN002", "", "1");
 		for(int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i).toString());
 		}	

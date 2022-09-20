@@ -6,12 +6,8 @@ h1 {
 	margin-bottom : 2%;
 }
 
-.btn {
+#findOutMngBtn, #resetBtn {
 	margin-top: 1rem;
-}
-
-#findOutBtn, #NotOutBtn {
-	margin-bottom: 1rem;
 }
 
 #findVendorBtn {
@@ -83,4 +79,9 @@ h1 {
 #vendor{
 	width:153px;
 	margin-left:20px;
+}
+
+.modal .table-responsive{
+	height: 43vh;
+	overflow : auto;
 }
