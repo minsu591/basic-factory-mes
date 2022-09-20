@@ -60,7 +60,7 @@ h1 {
   z-index: 20000 !important;
 }
 
-#outTotalPrice {
+#outTotalPrice, #outTotalSum{
 	text-align: right;
 }
 

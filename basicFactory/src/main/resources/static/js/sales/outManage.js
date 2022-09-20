@@ -401,6 +401,7 @@ $("document").ready(function () {
         $("#outTotalSum").text(prvsVol + "/" + orderVol);
     }
     
+    //
     if(slsOutHdNo == null || slsOutHdNo == ''){
         findLotStock(lotNoTdInfo);
     } else {
@@ -448,7 +449,6 @@ $("document").ready(function () {
                 stockClfy : '1'
             },
             success: function (data) {
-                console.log(data);
                 $("#findLotTable tbody tr").remove();
   
                 for (obj of data) {
@@ -654,6 +654,10 @@ $("document").ready(function () {
 
     //선택 삭제 이벤트
     $("#deleteBtn").on("click", function () {
+        if ($("input[type='checkbox']:checked").length === 0) {
+            deleteWarning();
+            return;
+        }
         table.find("tbody input:checkbox[name='cb']").each(function (idx, el) {
             if ($(el).is(":checked")) {
                 let tr = $(el).closest('tr');
@@ -773,6 +777,14 @@ $("document").ready(function () {
             icon: "warning",
             title: "수량 초과", 
             text: "주문량보다 출고량이 큽니다.",
+            confirmButtonText: "확인"
+        });
+    }
+
+    function deleteWarning() {
+        Swal.fire({
+            icon: "warning",
+            title: "삭제할 항목을 선택하세요.",
             confirmButtonText: "확인"
         });
     }
