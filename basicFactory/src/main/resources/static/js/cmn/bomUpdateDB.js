@@ -609,6 +609,10 @@ $("document").ready(function(){
                 }
             }
         });
+        //내부에 내용이 없으면 allCheck 해제
+        if(bomTable.find("tbody tr").length==0){
+            $("#bomAllCheck").prop("checked",false);
+        }
     });
 
 
@@ -629,6 +633,10 @@ $("document").ready(function(){
                 }
             }
         });
+        //내부에 내용이 없으면 allCheck 해제
+        if(rscTable.find("tbody tr").length==0){
+            $("#rscAllCheck").prop("checked",false);
+        }
     });
     
 
