@@ -42,12 +42,12 @@ public class RscOutController {
 		int result = 0;
 		System.out.println(list);
 		System.out.println(list.get(0));
+		
 		for(int i = 0; i < list.size() ; i++) {
 			if(list.get(i).getRscOutCode() == null) {
 				rscOutService.OutInsert(list.get(i));	
 				insert++;
 			}else {
-				rscOutService.OutUpdate(list.get(i));
 				result = rscOutService.OutUpdate(list.get(i));
 				update++;
 			}

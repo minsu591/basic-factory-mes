@@ -51,6 +51,7 @@ public class RscReturnController {
 			result = rscReturnService.loadReturn(list.get(i).getRscReturnCode());
 			rtnList.add(i,result);
 		}
+		System.out.println(result);
 		return new ResponseEntity<List<RscReturnVO>>(rtnList, HttpStatus.OK);
 	}
 	
@@ -87,16 +88,6 @@ public class RscReturnController {
 		model.addAttribute("rList", rscReturnService.returnList(cri));
 		
 	}
-	
-//	@RequestMapping(value = "/returnListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
-//	public String returnListTable(@ModelAttribute("cri") Criteria cri, Model model) {
-//		int total = rscReturnService.returnListCount(cri);
-//		cri.setAmount(10); // 한페이지당 10개씩 설정
-//		PageDTO page = new PageDTO(cri, total);
-//		model.addAttribute("pageMaker", page);
-//		model.addAttribute("rList", rscReturnService.returnList(cri));
-//		return "rsc/table/returnListTable";
-//	}
 	
 	//거래처 전체조회
 	@GetMapping(value = "/findvendorcode", produces = { MediaType.APPLICATION_JSON_VALUE })

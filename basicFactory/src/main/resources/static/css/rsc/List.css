@@ -38,3 +38,7 @@ h1 {
 .overflow {
 	height: 56vh;
 }
+
+.buttonSet-top{
+	float : right;
+}

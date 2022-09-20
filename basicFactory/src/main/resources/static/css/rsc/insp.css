@@ -37,7 +37,11 @@ tfoot {
 }
 
 .buttonSet-top {
-	margin-top : 1rem;
+	margin-top : 0;
+}
+
+#resetBtn {
+	margin-top : 1rem !important;	
 }
 
 #search {
@@ -97,6 +101,10 @@ tfoot {
 #InsertTable td {
 	padding: 0;
 
+}
+
+#searchOut {
+	margin-top:1rem !important;
 }
 
 .flex-end {

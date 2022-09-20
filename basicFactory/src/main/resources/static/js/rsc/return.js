@@ -24,6 +24,13 @@ $("document").ready(function () {
    }
  })
 
+   //초기화버튼
+   $("#resetBtn").click(function () {
+    $("#returnTable tr").remove();
+    $("#allCheck").prop("checked", false);
+  })
+
+
  //반품수량과 단가 입력시 합계 금액 계산
  $("#InsertTable").on("change", ".outVol", function(){
   tdinfo = $(this);

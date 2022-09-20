@@ -76,7 +76,7 @@
 			SELECT Y.*, ROWNUM AS RNUM FROM (
 		SELECT RSCOUT.RSC_OUT_CODE, 
 			   RSCOUT.RSC_OUT_DATE, 
-			   NVL(RSCOUT.VEND_CD_CODE,''), 
+			   NVL(RSCOUT.VEND_CD_CODE,' '), 
                RSCOUT.RSC_CD_CODE,
                RSCOUT.RSC_LOT_NO,
                RSCOUT.RSC_OUT_VOL,

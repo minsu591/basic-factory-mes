@@ -9,6 +9,14 @@
 		<if test="keyword2 != null and keyword2 != ''">
 			AND ST.RSC_LOT_NO = #{keyword2}
 		</if>
+		<if test="keyword3 == 'all'">
+		</if>
+		<if test="keyword3 == 'outAble'">
+			<![CDATA[AND ST.RSC_STOCK > 0]]>
+		</if>
+		<if test="keyword3 == 'used'">
+			<![CDATA[AND ST.RSC_STOCK <= 0]]>
+		</if>
 	</sql>
 	
 	<select id="StockListCount" resultType="int">
@@ -40,7 +48,8 @@
 							   CD.RSC_CD_CLFY, 
 							   CD.RSC_CD_UNIT, 
 							   
-							   NVL(RSCOUT.VOL,0) AS RSC_OUT_VOL
+							   NVL(RSCOUT.VOL,0) AS RSC_OUT_VOL,
+							   NVL(RSCRTN.RTNVOL,0) AS RSC_RETURN_VOL
 								
 						 FROM  BF_RSC_STOCK ST 
 						 LEFT  JOIN BF_CMN_RSC_CODE CD 
@@ -50,6 +59,11 @@
 				                      FROM  BF_RSC_OUT
 				                      GROUP BY RSC_LOT_NO) RSCOUT
 				           ON  ST.RSC_LOT_NO = RSCOUT.RSC_LOT_NO
+				         LEFT  JOIN (SELECT NVL(SUM(RSC_RETURN_VOL),0) AS RTNVOL, 
+				         					RSC_LOT_NO
+				                      FROM  BF_RSC_RETURN
+				                      GROUP BY RSC_LOT_NO) RSCRTN
+				           ON  ST.RSC_LOT_NO = RSCRTN.RSC_LOT_NO
 				        <where>
 				        	<include refid="criteria" />
 				        	

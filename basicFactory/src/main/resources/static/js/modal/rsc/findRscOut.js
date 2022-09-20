@@ -78,11 +78,11 @@ $(document).ready(function(){
    $("#findRscOuttbody").append(node);
  }
 
- //이미 출력되어있는 행의 출고코드 목록
- let outCodeList = [];
-
+ 
  //출고목록 등록버튼 체크박스에 체크된것만
  $("#addBtn").click(function () {
+   //이미 출력되어있는 행의 출고코드 목록
+   let outCodeList = [];
    let outCodeListTemp = [];
    let checked = $("input[name='chkModal']:checked").length;
    if (checked == 0) {
@@ -155,6 +155,9 @@ $(document).ready(function(){
  })
 
  function outListInsert(obj) {
+  let stock = obj.rscStock + obj.rscOutVol;
+  let vendCd = !obj.vendCdCode?'':obj.vendCdCode;
+  let vendNm = !obj.vendCdNm?'':obj.vendCdNm;
    let node = `<tr>
 <td id="chk-css"><input type="checkbox" name="chk"></td>
 <td><input type="text" value="${obj.rscOutCode}" name="outcode" disabled></td>
@@ -162,10 +165,10 @@ $(document).ready(function(){
 <td><input type="text" class="rsccode" value="${obj.rscCdCode}" disabled></td>
 <td><input type="text" class="rscname" value="${obj.rscCdName}" disabled></td>
 <td><input type="text" class="rsclotno" value="${obj.rscLotNo}"></td>
-<td><input type="text" value="${obj.rscStock}" disabled></td>
+<td><input type="text" value="${stock}" disabled></td>
 <td><input type="text" class="outVol" value="${obj.rscOutVol}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
-<td><input type="text" class="vendor" value="${obj.vendCdCode}"></td>
-<td><input type="text" value="${obj.vendCdNm}" disabled></td>
+<td><input type="text" class="vendor" value="${vendCd}"></td>
+<td><input type="text" value="${vendNm}" disabled></td>
 <td><input type="text" value="${obj.rscOutResn}"></td>
 <td><input type="text" value="${obj.empId}" disabled></td>
 </tr>`;

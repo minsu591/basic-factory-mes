@@ -28,6 +28,10 @@ public class RscStockController {
 	//재고 전체조회
 	@GetMapping(value = "/stockList")
 	public void stockList(Model model, @ModelAttribute("cri") Criteria cri) {
+		if (cri.getKeyword3() == null) {
+			cri.setKeyword3("outAble");
+		}
+		System.out.println(cri);
 		int total = stockService.StockListCount(cri);
 		cri.setAmount(10); // 한페이지당 10개씩 설정
 		PageDTO page = new PageDTO(cri, total);
