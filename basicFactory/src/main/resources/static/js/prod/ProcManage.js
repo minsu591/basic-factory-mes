@@ -127,27 +127,37 @@ function procManageMakeRow(obj, index) {
                 <td>${obj.finPrdCdCode}</td>
                 <td>${obj.finPrdCdName}</td>
                 <td>${obj.instProdIndicaVol}</td>
-                <td>${obj.workScope}</td>
+                <td><span>${obj.workScope}</span></td>
                 <input type="hidden" name="instProdNo" value="${obj.instProdNo}">
               </tr>`;
 
+
+
   $("#procManageTable tbody").append(node);
+  if (obj.workScope == '진행중') {
+    $("#procManageTable tbody tr").last().find("td:eq(7) span").addClass("badge badge-light-primary");
+  } else {
+    $("#procManageTable tbody tr").last().find("td:eq(7) span").addClass("badge badge-light-secondary");
+  }
 }
 
 function workinsertTableMakeRow(obj) {
   let node = `<tr> 
-              <td>${obj.processOrder}</td>
-              <td>${obj.procCdName}</td>
-              <td>${obj.mchnName}</td>
-              <td>${obj.inDtlVol}</td>
-              <td>${obj.virResult}</td>
-              <td>${obj.nonResult}</td>
-              <td>${obj.totalProdVol}</td>
-              <td>${obj.fltyVol}</td>
+              <td class="vertical-align">${obj.processOrder}</td>
+              <td class="vertical-align">${obj.procCdName}</td>
+              <td class="vertical-align">${obj.mchnName}</td>
+              <td class="vertical-align">${obj.inDtlVol}</td>
+              <td class="vertical-align">${obj.virResult}</td>
+              <td class="vertical-align">${obj.nonResult}</td>
+              <td class="vertical-align">${obj.totalProdVol}</td>
+              <td class="vertical-align">${obj.fltyVol}</td>
               <input type="hidden" name="processNo" value="${obj.processNo}">
               <input type="hidden" name="mchnCode" value="${obj.mchnCode}">
               <input type="hidden" name="completionStatus" value="${obj.completionStatus}">
               </tr>`;
+
+
+
   $("#workInsertTable tbody").append(node);
 }
 
