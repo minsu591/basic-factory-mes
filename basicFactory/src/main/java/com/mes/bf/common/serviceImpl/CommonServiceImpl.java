@@ -9,6 +9,7 @@ import com.mes.bf.common.Criteria;
 import com.mes.bf.common.mapper.CommonMapper;
 import com.mes.bf.common.service.CommonService;
 import com.mes.bf.eqp.vo.MchnVO;
+import com.mes.bf.sales.vo.SlsOutDtlForMainVO;
 @Service
 
 public class CommonServiceImpl implements CommonService {
@@ -20,6 +21,10 @@ public class CommonServiceImpl implements CommonService {
 	@Override
 	public List<MchnVO> findMchn(Criteria cri) {
 		return mapper.findMchn(cri);
+	}
+	@Override
+	public List<SlsOutDtlForMainVO> findOutFinForMain() {
+		return mapper.findOutFinForMain();
 	}
 
 }

@@ -56,17 +56,19 @@ tfoot {
 }
 
 #InsertTable input[type=text]:disabled {
+	height: 2.5rem;
 	background: #f6f6f6 !important;
 	width: 100% !important
 }
 
 #InsertTable input[type=date]:disabled {
+	height: 2.5rem;
 	background: #f6f6f6 !important;
 	width: 100% !important
 }
 
 #InsertTable input[type=text] {
-	height: 2rem;
+	height: 2.5rem;
 	text-align: center;
 	border: 0;
 	width: 100%;
@@ -74,7 +76,7 @@ tfoot {
 }
 
 #InsertTable input[type=date] {
-	height: 2rem;
+	height: 2.5rem;
 	text-align: center;
 	border: 0;
 	width: 100%;
@@ -86,7 +88,7 @@ tfoot {
 }
 
 #InsertTable .unit {
-	height: 2rem;
+	height: 2.5rem;
 	text-align: center;
 	background: #f6f6f6 !important;
 	vertical-align: middle;

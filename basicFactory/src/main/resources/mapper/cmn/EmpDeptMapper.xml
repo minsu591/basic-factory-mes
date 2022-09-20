@@ -103,8 +103,20 @@
 	</delete>
 	
 	<update id="empUpdate" parameterType = "String">
+		<selectKey keyProperty="deptNo" resultType="String" order="BEFORE">
+			select dept_no
+			from bf_cmn_dept
+			where dept_name = #{updCont}
+		</selectKey>
 		UPDATE BF_CMN_EMP
-		SET ${updCol} = #{updCont}
+		<choose>
+			<when test="updCol eq 'dept_name'">
+				SET dept_no = #{deptNo}
+			</when>
+			<otherwise>
+				SET ${updCol} = #{updCont}
+			</otherwise>
+		</choose>
 		WHERE EMP_ID = #{priKey}
 	</update>
 	

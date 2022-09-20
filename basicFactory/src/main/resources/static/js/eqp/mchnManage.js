@@ -105,7 +105,7 @@ $("document").ready(function () {
   //td 수정을 적용할 인덱스(모달창, input 빼고 오직 td에서 이루워 지는 수정만)
   let avArr = [2,3,6,10,12];
   //notNull인 td
-  let notNullList = [2,4,10,11];
+  let notNullList = [2,4,9,10,11];
   //primary키인 index
   let priKeyIdx = 1;
 
@@ -221,6 +221,11 @@ $("document").ready(function () {
 
   //저장 버튼 이벤트
   $("#saveBtn").on("click", function() {
+    let td = table.find("#mchntbody td");
+    if(td.length == 0 && modifyList.length == 0 && delList.length == 0) {
+      requiredWarning();
+      return false;
+    }
     let nullFlag = false;
     Swal.fire({
       icon: "question",
@@ -239,7 +244,7 @@ $("document").ready(function () {
             let td = $(tr).find("td:eq("+idx+")");
             let content;
             if(idx == 9){
-              content = $(tr).find("input[type='date']").val();
+              content = $(tr).find("td:eq(9) input[type='date']").val();
             } else{
               content = td.text();
             }
@@ -283,7 +288,7 @@ $("document").ready(function () {
           confirmButtonText: "확인",
           closeOnClickOutside: false,
         }).then((result) =>{
-          //location.reload();
+          location.reload();
         });
       } else {
         return;
@@ -310,7 +315,7 @@ $("document").ready(function () {
       success : function() {
         console.log("업데이트 완료");
       }, error : function(error) {
-        alert("서버 오류 : " + error);
+        console.log("서버 오류 : " + error);
       }
     });
   };
@@ -328,7 +333,7 @@ $("document").ready(function () {
     let mchnStts = $(tr).find("td:eq(11)").text();
     let mchnRemk = $(tr).find("td:eq(12)").text();
     
-    
+    console.log(mchnPrice);
     $.ajax({
       url : 'mchn/insert',
       type : 'POST',
@@ -369,9 +374,13 @@ $("document").ready(function () {
             }
         }
     });
-});
+    //내부에 내용이 없으면 allCheck 해제
+    if(table.find("tbody tr").length == 0){
+      $("#allCheck").prop("checked",false);
+    }
+  });
 
-function deleteSaveAjax(delList){
+  function deleteSaveAjax(delList){
     $.ajax({
         url : 'mchn/delete',
         type : 'POST',
@@ -384,6 +393,13 @@ function deleteSaveAjax(delList){
             console.log("삭제 성공");
         }
     })
-}
+  }
+
+  function requiredWarning() {
+    Swal.fire({
+      icon: "warning",
+      title: "데이터를 입력해 주세요."
+    });
+  }
   
 });

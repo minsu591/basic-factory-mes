@@ -74,6 +74,12 @@ select {
   background: rgba(241, 196, 15, 0);
 }
 
+.modal .table-responsive{
+	height: 43vh;
+	overflow : auto;
+}
+
+
 #empTable tbody td,
 #planManageTable tbody td,
 #deptTable tbody td,

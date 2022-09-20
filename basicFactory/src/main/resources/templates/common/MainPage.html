@@ -6,9 +6,136 @@
   </head>
   
   <body>
-	
+<!--     
+  <script type="text/javascript" th:src="@{/js/plugins/apexcharts.min.js}"></script>
+  <script type="text/javascript" th:src="@{/js/pages/chart-apex.js}"></script> -->
     <div class="pcoded-main-container">
       <h1>Main</h1>
+      <input type="hidden" id="finList" th:value="${finList}">
+      <div id="chart"></div>
+
+      </div>
+      <script>
+        var now = new Date();
+        //2주 전 날짜
+        var prevDay = new Date(now.setDate(now.getDate()-13));
+        let categories = [];
+        let data1 = [];
+        for(let i = 0; i<14;i++){
+          let day = (prevDay.getMonth()+1)+'/'+prevDay.getDate();
+          categories.push(day);
+          prevDay.setDate(prevDay.getDate()+1);
+        }
+        console.log(categories);
+
+        $(function(){
+          //완제품 종류 가져오기
+          let finList;
+          $.ajax({
+              url : 'main/findOutFinForMain',
+              type : 'GET',
+              dataType : 'json',
+              async :false,
+              success : function(result){
+                finList = result;
+              }
+          });
+          
+          //출고량이 많은 4개의 제품
+          let finVol = [];
+          let categories = [];
+          for(fin of finList){
+            finVol.push(fin.slsOutDtlVol);
+            categories.push(fin.finPrdCdName);
+          }
+
+          //CHART
+          var options = {
+          series: [{
+          name: 'Inflation',
+          data: finVol
+        }],
+          chart: {
+          height: 350,
+          width : 700,
+          type: 'bar',
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: 10,
+            dataLabels: {
+              position: 'top', // top, center, bottom
+            },
+          }
+        },
+        dataLabels: {
+          enabled: true,
+          formatter: function (val) {
+            return val + "개";
+          },
+          offsetY: -20,
+          style: {
+            fontSize: '12px',
+            colors: ["#304758"]
+          }
+        },
+        
+        xaxis: {
+          categories,
+          position: 'bottom',
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false
+          },
+          crosshairs: {
+            fill: {
+              type: 'gradient',
+              gradient: {
+                colorFrom: '#D8E3F0',
+                colorTo: '#BED1E6',
+                stops: [0, 100],
+                opacityFrom: 0.4,
+                opacityTo: 0.5,
+              }
+            }
+          },
+          tooltip: {
+            enabled: true
+          }
+        },
+        yaxis: {
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false,
+          },
+          labels: {
+            show: false,
+            formatter: function (val) {
+              return val + "%";
+            }
+          }
+        
+        },
+        title: {
+          text: '최근 2주 간의 완제품 상위 4건 출고량',
+          floating: true,
+          offsetY: 330,
+          align: 'center',
+          style: {
+            color: '#444'
+          }
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+        });
+
+      </script>
     </div>
 
   </body>

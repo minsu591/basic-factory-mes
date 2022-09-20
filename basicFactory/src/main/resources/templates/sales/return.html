@@ -33,17 +33,18 @@
                             <input type="text" id="vendorName" class="form-control mx-sm-3" disabled>
                         </div>
 
+                        <div class="input-group-prepend selectOp prcCls">
+							<label class="input-group-text hei-45 wid-50 p-0" for="prcCls">분류</label>
+						</div>
+						<select class="custom-select hei-45 m-r-10 selectOp" id="prcCls">
+							<option th:value="3" th:text="선택"></option>
+							<option th:value="0" th:text="폐기"></option>
+							<option th:value="1" th:text="입고"></option>
+                            <option th:value="2" th:text="거부"></option>
+						</select>
+                        
                         <button type="button" class="btn  btn-primary " id="rtnBtn">조회</button>
 
-                        <div class="form-group mt-3">
-                        	<span>처리구분</span>
-                            <select name="prcCls" id="prcCls" class="form-control mx-sm-4" >
-                            	<option value="3">선택</option>
-                            	<option value="0">폐기</option>
-                            	<option value="1">입고</option>
-                            	<option value="2">거부</option>
-                            </select>
-                        </div>
                     </form>
                 </div>
                 <div class="card-body table-border-style">

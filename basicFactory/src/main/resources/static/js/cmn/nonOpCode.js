@@ -36,12 +36,16 @@ $("document").ready(function () {
       $("#nonOpTable tbody input:checkbox[name=chk]").prop("checked", false);
     }
   });
-  $("input[name=chk]").click(function () {
+  $("#nonOpTable tbody").on("click","input:checkbox[name='chk']",function(e){
+    e.stopPropagation();
     let total = $("input[name=chk]").length;
     let checked = $("input[name=chk]:checked").length;
     if (total != checked) $("#allCheck").prop("checked", false);
     else $("#allCheck").prop("checked", true);
   });
+  $("#nonOpTable tbody").on("click","input:checkbox",function(e){
+    e.stopPropagation();
+  })
 
   //수정될거 저장하는 list 정의
   let modifyList = [];
@@ -142,7 +146,11 @@ $("document").ready(function () {
 
   //저장 버튼 이벤트
   $("#saveBtn").on("click", function () {
-    let trs = table.find("tbody tr");
+    let trs = table.find("tbody tr[name='addTr']");
+    if (trs.length == 0 && modifyList.length == 0 && delList.length == 0) {
+      requiredWarning();
+      return false;
+    }
     let nullFlag = false;
     Swal.fire({
       icon: "question",
@@ -302,6 +310,13 @@ $("document").ready(function () {
       icon: "warning", // Alert 타입
       title: "삭제할 항목을 선택하세요.", // Alert 제목
       confirmButtonText: "확인",
+    });
+  }
+
+  function requiredWarning() {
+    Swal.fire({
+      icon: "warning",
+      title: "데이터를 입력해 주세요."
     });
   }
 

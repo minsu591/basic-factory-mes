@@ -7,9 +7,12 @@
 <title>자재입고관리</title>
 </head>
 <body>
-<script type="text/javascript" th:src="@{/js/modal/rsc/findResource.js}"></script>
-<script type="text/javascript" th:src="@{/js/rsc/in.js}"></script>
-<link th:href="@{/css/rsc/In.css}" rel="stylesheet" />
+	<script type="text/javascript"
+		th:src="@{/js/modal/rsc/findResource.js}"></script>
+	<script type="text/javascript" th:src="@{/js/rsc/in.js}"></script>
+	<link th:href="@{/css/pagination2.css}" rel="stylesheet" />
+	<script type="text/javascript" th:src="@{/js/pages/pagination2.js}"></script>
+	<link th:href="@{/css/rsc/In.css}" rel="stylesheet" />
 	<div class="pcoded-main-container">
 		<h1>자재 입고 관리</h1>
 		<hr>
@@ -19,21 +22,27 @@
 					<form>
 						<div class="form-inline">
 							<div class="form-group mt-3">
-								<label for="rsccode" th:text="자재코드"></label> 
-								<input type="text" id="rsccode" class="form-control mx-sm-3">
+								<label for="rsccode" th:text="자재코드"></label> <input type="text"
+									id="rsccode" class="form-control mx-sm-3">
 							</div>
 							<div class="form-group mt-3">
-								<label for="rscname" th:text="자재명"></label> 
-								<input type="text" id="rscname" class="form-control mx-sm-3" readonly>
+								<label for="rscname" th:text="자재명"></label> <input type="text"
+									id="rscname" class="form-control mx-sm-3" readonly>
 							</div>
 							<div class="form-group mt-3">
-								<label for="InspDate" th:text="검사일자"></label> 
-								<input type="date" id="rscInspDate" class="form-control mx-sm-3">
+								<label for="InspDate" th:text="검사일자"></label> <input type="date"
+									id="rscInspDate" class="form-control mx-sm-3">
 							</div>
 							<button type="button" class="btn  btn-primary" id="search">조회</button>
 						</div>
-						<div class="form-inline">
-						</div>
+						<div class="form-inline"></div>
+					</form>
+					<form name="searchForm" id="searchForm">
+						<input type='hidden' id='type' name="type" th:value="${pageMaker.cri.type}"> 
+						<input type='hidden' name='keyword' th:value='${pageMaker.cri.keyword}' /> 
+						<input type='hidden' name='keyword2' th:value='${pageMaker.cri.keyword2}' /> 
+						<input type='hidden' name='pageNum' value='1'> 
+						<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 					</form>
 
 				</div>
@@ -43,14 +52,15 @@
 						<button type="button" class="btn  btn-primary subBtn" id="subBtn">선택등록</button>
 					</div>
 					<br>
-					<div class="table-responsive" th:replace="rsc/table/inTable.html :: intable" id="intable">
-						
+					<div class="table-responsive"
+						th:replace="rsc/table/inTable.html :: intable" id="intable">
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- 자재조회 Modal -->
-    <th:block th:replace="~{fragments/modal/findresource :: findresource}"></th:block>
+	<th:block th:replace="~{fragments/modal/findresource :: findresource}"></th:block>
 </body>
 </html>

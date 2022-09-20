@@ -10,6 +10,8 @@
   </head>
   <body>
     <link th:href="@{/css/eqp/inspc.css}" rel="stylesheet" />
+    <link th:href="@{/css/cmn/dbUpdate.css}" rel="stylesheet" />
+
     <script type="text/javascript" th:src="@{/js/eqp/InspcManage.js}"></script>
     <!-- modal js -->
     <script type="text/javascript" th:src="@{/js/modal/eqp/findInspcList.js}"></script>
@@ -52,7 +54,7 @@
                     <th name="inspc_remk" th:text="비고"></th>
                   </tr>
                 </thead>
-                <tbody id="inspctbody"></tbody>
+                <tbody id="inspctbody" class="canModifyTbody"></tbody>
               </table>
             </div>
           </div>
@@ -65,7 +67,7 @@
     <!-- 점검대상조회 Modal -->
     <th:block th:replace="~{fragments/modal/eqp/findInspcNxtDate :: findNxtDate}"></th:block>
     <!-- 담당자 Modal -->
-    <th:block th:replace="~{fragments/modal/findemp :: findemp}"></th:block>
+    <th:block th:replace="~{fragments/modal/cmn/findIdemp :: findIdEmp}"></th:block>
     <!-- 설비명 Modal -->
     <th:block th:replace="~{fragments/modal/cmn/findMchnInLine :: findMchnInLine}"></th:block>
   </body>

@@ -30,18 +30,25 @@ $("document").ready(function(){
 $("#search").click(function(){
 	let rscCdCode = $("#rsccode").val();
 	let rscInspDate = $("#rscInspDate").val();
-	$.ajax({
-		url : "inTable",
-		method : "GET",
-		dataType: "text",
-		data: {
-				rscCdCode: rscCdCode,
-				rscInspDate: rscInspDate
-		},
-		success: function(data){
-			$("#intable").replaceWith(data);
-		}
-	})
+
+	$("input:hidden[name=keyword]").val($(rscCdCode));
+    //발주일자
+    $("input:hidden[name=keyword2]").val(rscInspDate);
+    $("input:hidden[name=amount]").val(10);
+
+    $("#searchForm").submit();
+	// $.ajax({
+	// 	url : "inTable",
+	// 	method : "GET",
+	// 	dataType: "text",
+	// 	data: {
+	// 			rscCdCode: rscCdCode,
+	// 			rscInspDate: rscInspDate
+	// 	},
+	// 	success: function(data){
+	// 		$("#intable").replaceWith(data);
+	// 	}
+	// })
 })
 
 $("#subBtn").click(function(){

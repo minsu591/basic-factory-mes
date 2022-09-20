@@ -73,3 +73,8 @@ select {
 #rtnTotalPrice {
 	text-align: right;
 }
+
+#vendor{
+	width:153px;
+	margin-left:20px;
+}

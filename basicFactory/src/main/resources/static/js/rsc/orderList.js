@@ -4,8 +4,9 @@ $("document").ready(function(){
 
  $("#search").click(function(e) {
   e.preventDefault();
-  let rscOrderSDate = $("#rscReturnSDate").val();
-  let rscOrderEDate = $("#rscReturnEDate").val();
+  let rscOrderSDate = $("#rscOrderSDate").val();
+  let rscOrderEDate = $("#rscOrderEDate").val();
+  
 
   if(!rscOrderSDate){
    if(!rscOrderEDate){
@@ -46,6 +47,8 @@ function dateWarning() {
     text : "입력값이 부족합니다.",
     confirmButtonText: "확인",
   })
+  $("#rscOrderSDate").val('');
+  $("#rscOrderEDate").val('');
 }
 
 function dateWarning2() {
@@ -55,6 +58,8 @@ function dateWarning2() {
     html : "시작날짜는 마침날짜보다 작아야합니다.",
     confirmButtonText: "확인",
   })
+  $("#rscOrderSDate").val('');
+  $("#rscOrderEDate").val('');
 }
 
 });

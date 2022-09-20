@@ -67,13 +67,4 @@ $(document).ready(function () {
       }
     });
   }
-
-  function selectChecked() {
-    Swal.fire({
-      icon: "warning",
-      title: "조회 조건을 입력해주세요."
-    });
-    return false;
-  }
-
 });

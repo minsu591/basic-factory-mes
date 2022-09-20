@@ -24,6 +24,16 @@ $(".card").on("click", "input.nullVol", function(){
     $(this).removeClass("nullVol");
 })
 
+$("#ordMngTable").on("change", "input[name=chk]", function () {
+    let total = $("input[name=chk]").length;
+    let checked = $("input[name=chk]:checked").length;
+    if (total != checked) {
+        $("#allCheck").prop("checked", false);
+    } else {
+        $("#allCheck").prop("checked", true);
+    }
+});
+    
 //초기화 버튼
 $("#resetBtn").click(function () {
 $("#ordMngTable tbody tr").remove();

@@ -30,3 +30,11 @@ h1 {
 .table-size-mod{
 	padding : 0 !important;
 }
+
+.selectOp{
+	margin-top : 1rem;
+}
+
+.overflow {
+	height: 56vh;
+}

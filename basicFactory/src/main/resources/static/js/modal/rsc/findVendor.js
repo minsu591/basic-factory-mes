@@ -45,6 +45,16 @@ $(document).ready(function(){
 
    tdinfo.val(vendCode);
    tdinfo.parent().next().find("input").val(vendName);
+   
+  //위치가 return일 경우
+   let rtn = $("#rtnSite").val()
+   if(rtn == "return"){
+    let tdreset = [5,6,7,8,9,10,11];
+    for (obj of tdreset){
+      
+      tdinfo.parent().parent().children().eq(obj).children().val('');
+    }
+   }
 
    $("#findvendorModal").modal("hide");
  });
