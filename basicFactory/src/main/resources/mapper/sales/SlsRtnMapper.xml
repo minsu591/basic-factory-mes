@@ -94,7 +94,7 @@
 	      ON OUTHD.EMP_ID = EMP.EMP_ID
 	    <where>
 	    	<if test="rtnSdate != null and rtnSdate != ''">
-	    		AND TRUNC(OUTHD.SLS_OUT_HD_DATE) BETWEEN  #{rtnSdate} AND #{rtnEdate}
+	    		AND TO_CHAR(RTNHD.SLS_RTN_HD_DATE, 'yyyy-MM-dd') BETWEEN  #{rtnSdate} AND #{rtnEdate}
 	    	</if>
 	    	<if test="vendorName != null and vendorName != ''">
 	    		AND VEND.VEND_CD_NM = #{vendorName}
