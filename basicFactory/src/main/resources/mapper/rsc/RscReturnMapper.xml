@@ -10,7 +10,8 @@
 			AND RTN.VEND_CD_CODE = #{keyword2}
 		</if>
 		<if test="keyword3 != null and keyword3 != '' and keyword4 != null and keyword4 != ''">
-			AND TRUNC(RTN.RSC_RETURN_DATE) BETWEEN #{keyword3} AND #{keyword4}
+			<![CDATA[AND TO_CHAR(RTN.RSC_RETURN_DATE, 'yyyy-MM-dd') >= #{keyword2} 
+					AND TO_CHAR(RTN.RSC_RETURN_DATE, 'yyyy-MM-dd' <= #{keyword3}]]>
 		</if>
 		
 	</sql>

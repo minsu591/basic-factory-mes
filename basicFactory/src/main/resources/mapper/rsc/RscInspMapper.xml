@@ -25,7 +25,7 @@
    				AND OD.RSC_ORDER_TITLE LIKE '%' || #{rscOrderTitle} || '%'
    			</if>
    			<if test="rscOrderDate != null and rscOrderDate != ''">
-   				AND OD.RSC_ORDER_DATE = #{rscOrderDate}
+   				AND TO_CHAR(OD.RSC_ORDER_DATE, 'yyyy-MM-dd') = #{rscOrderDate}
    			</if>
    		</where>
    		ORDER BY DTS.RSC_ORDER_DTL_NO
@@ -104,7 +104,8 @@
 			AND INSP.RSC_CD_CODE = #{keyword2}
 		</if>
 		<if test="keyword3 != null and keyword3 != '' and keyword4 != null and keyword4 != ''">
-			AND TRUNC(INSP.RSC_INSP_DATE) BETWEEN #{keyword3} AND #{keyword4}
+			<![CDATA[AND TO_CHAR(INSP.RSC_INSP_DATE, 'yyyy-MM-dd') >= #{keyword3} 
+					AND TO_CHAR(INSP.RSC_INSP_DATE, 'yyyy-MM-dd') <= #{keyword4} ]]>
 		</if>
 	</sql>
 	
