@@ -70,3 +70,8 @@ h1 {
 	width:153px;
 	margin-left:20px;
 }
+
+.modal .table-responsive{
+	height: 43vh;
+	overflow : auto;
+}

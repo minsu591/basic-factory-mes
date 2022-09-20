@@ -5,13 +5,15 @@ $("document").ready(function () {
     today = today.toISOString().slice(0, 10);
     outToday = $("#slsOutHdDate");
     outToday.val(today);
-    let outTableTrInfo;                       //출고관리 테이블의 tr
+    
+    let outTableTrInfo;                  //출고관리 테이블의 tr
     let outLotList = [];                 //출고시킬 LOT정보 담기(제품코드, lot번호, 출고량)
     let avArr = [6];
     let ModalTable = $("#findLotTable"); //완제품 재고 테이블 정보
     let outDtlVol = 0;                   //출고량 총 합계
     let defaultVal;
-    let tempOutLotList = [];            //모달창 열 때 임시로 값을 담아두는 곳
+    //모달창 열 때 임시로 값을 담아두는 곳 (저장 눌렀을 경우에만 outLotList, modifyList에 담길 수 있음)
+    let tempOutLotList = [];            
     let modTempList = [];
 
 
@@ -99,15 +101,18 @@ $("document").ready(function () {
         let slsOutDtlVol = parseInt(modalTrInfo.find("td:eq(5)").text()); //모달 클릭 tr의 입력한 출고수량
 
         //출고량이 재고량보다 클 때
-        if(fnsPrdStkVol < slsOutDtlVol){ 
-            Warn();
+        if (fnsPrdStkVol != 0 && fnsPrdStkVol < slsOutDtlVol){ 
+            outVolWarn();
             modalTrInfo.find("td:eq(5)").text(defaultVal);
             return false;
+        } else if (fnsPrdStkVol == 0 && fnsPrdStkVol < slsOutDtlVol) {
+            stockVolWarn();
+            modalTrInfo.find("td:eq(5)").text(defaultVal);
         }
         //0의 값이 입력 됐을 때
         if (slsOutDtlVol <= 0) {
             minusWarning();
-            modalTd.text('');
+            modalTd.text(defaultVal);
             return false;
         }
 
@@ -733,11 +738,20 @@ $("document").ready(function () {
         });
     }
 
-    function Warn() {
+    function outVolWarn() {
         Swal.fire({
             icon: "warning",
             title: "수량 초과",
             text: "출고량이 재고량보다 많습니다.",
+            confirmButtonText: "확인"
+        });
+    }
+
+    function stockVolWarn() {
+        Swal.fire({
+            icon: "warning",
+            title: "수량 초과",
+            text: "모두 소진된 재고입니다.",
             confirmButtonText: "확인"
         });
     }
