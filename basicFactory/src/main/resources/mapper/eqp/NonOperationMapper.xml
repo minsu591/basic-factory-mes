@@ -100,8 +100,8 @@
 			   (SELECT emp_id FROM bf_cmn_emp WHERE emp_name = #{empId}),
 			   #{inputDate},
 			   #{nonOpMin},
-			   to_timestamp(#{nonOpStartTime}, 'yyyy-MM-dd HH24:mi:ss.ff'),
-			   to_timestamp(#{nonOpEndTime}, 'yyyy-MM-dd HH24:mi:ss.ff'),
+			   #{nonOpStartTime},
+			   #{nonOpEndTime},
 			   #{nonOpRemk},
 			   #{nonOpRsn}
 				)

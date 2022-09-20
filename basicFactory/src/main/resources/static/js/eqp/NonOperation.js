@@ -64,8 +64,8 @@ function nonOpHistoryMakeRow(obj) {
               <td>${obj.nonOpName}</td>
               <td>${obj.nonOpRsn}</td>
               <td>${obj.nonOpMin}</td>
-              <td>${obj.nonOpStartTime.substring(9, 14)}</td>
-              <td>${obj.nonOpEndTime.substring(9, 14)}</td>
+              <td>${obj.nonOpStartTime}</td>
+              <td>${obj.nonOpEndTime}</td>
               <td>${obj.nonOpRemk == null ? "-" : obj.nonOpRemk}</td>
               </tr>`;
   $("#nonOpHistoryTable tbody").append(node);
