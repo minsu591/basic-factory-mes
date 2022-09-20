@@ -5,7 +5,7 @@ $("document").ready(function () {
     findNxtDate();
   });
 
-  let clfyList = ['','임시점검','정기점검','수리'];
+  let clfyList = ['', '임시점검', '정기점검', '수리'];
 
   function findNxtDate() {
     $.ajax({
@@ -50,8 +50,8 @@ $("document").ready(function () {
                     <td class="cantModifyTd">${mchnName}</td>
                     <td><input type="date"></td>
                     <td><input type="date"></td>`;
-            node += makeSelectForClfy('');
-            node += `<td></td>
+    node += makeSelectForClfy('');
+    node += `<td></td>
                     <td class="empId curPo"></td>
                     <td></td>
                 </tr>`;
@@ -68,32 +68,52 @@ $("document").ready(function () {
         confirmButtonText: "확인",
         cancelButtonText: "취소",
         closeOnClickOutside: false,
-      }).then((ans) =>{
-        if(ans.isConfirmed){
+      }).then((ans) => {
+        if (ans.isConfirmed) {
           $("#inspctbody tr").remove();
           $("#inspctbody").append(node);
-        }else{
-            return;
+        } else {
+          return;
         }
       });
-        
+
     } else {
       $("#inspctbody").append(node);
       $("#findNxtDateModal").modal("hide");
     }
   });
 
-  function makeSelectForClfy(clfy){
+  function makeSelectForClfy(clfy) {
     let node = '<td class="canModifyTd"><select class="curPo">';
-    for(let i =0; i<clfyList.length;i++){
-      if(clfy == clfyList[i]){
-        node += '<option value="'+clfyList[i]+'"selected>'+clfyList[i]+'</option>';
-      }else{
-        node += '<option value="'+clfyList[i]+'">'+clfyList[i]+'</option>';
+    for (let i = 0; i < clfyList.length; i++) {
+      if (clfy == clfyList[i]) {
+        node += '<option value="' + clfyList[i] + '"selected>' + clfyList[i] + '</option>';
+      } else {
+        node += '<option value="' + clfyList[i] + '">' + clfyList[i] + '</option>';
       }
     }
     node += '</select></td>';
     return node;
   }
+
+  //체크박스 체크유무
+  $("#allCheck").click("change", function () {
+    if ($("#allCheck").is(":checked")) {
+      $("#findNxtDateTbody input:checkbox").prop("checked", true);
+    } else {
+      $("#findNxtDateTbody input:checkbox").prop("checked", false);
+    }
+  })
+
+  $("#findNxtDateTable").on("change", "input[name=chkModal]", function () {
+    let total = $("input[name=chkModal]").length;
+    let checked = $("input[name=chkModal]:checked").length;
+    if ((total != checked)) {
+      $("#allCheck").prop("checked", false);
+    } else {
+      $("#allCheck").prop("checked", true);
+    }
+  })
+
 
 });

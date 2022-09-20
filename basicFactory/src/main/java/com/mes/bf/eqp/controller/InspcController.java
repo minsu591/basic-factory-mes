@@ -1,5 +1,6 @@
 package com.mes.bf.eqp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.cmn.service.LineService;
@@ -23,6 +26,7 @@ import com.mes.bf.common.PageDTO;
 import com.mes.bf.eqp.service.InspcService;
 import com.mes.bf.eqp.vo.InspcVO;
 import com.mes.bf.eqp.vo.MchnVO;
+import com.mes.bf.rsc.vo.RscInspVO;
 
 @Controller
 @RequestMapping("/eqp")
@@ -67,6 +71,19 @@ public class InspcController {
 		System.out.println(list);
 		return new ResponseEntity<List<InspcVO>>(list, HttpStatus.OK);
 	}
+	//tr 눌러 outTable로 출력
+//	@RequestMapping(value="/findRscInspToTable", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+//	@ResponseBody
+//	public ResponseEntity<List<RscInspVO>> findRscInspToTable(@RequestBody List<RscInspVO> list) {
+//		RscInspVO result = new RscInspVO();
+//		List<RscInspVO> inspList = new ArrayList<RscInspVO>();
+//		for (int i = 0; i <list.size() ; i++) {
+//			result = rscInspService.inspVoLoad(list.get(i).getRscInspCode());
+//			inspList.add(i,result);
+//		}
+//		System.out.println(inspList);
+//		return new ResponseEntity<List<RscInspVO>>(inspList, HttpStatus.OK);
+//	}
 	
 	//점검조회
 	@RequestMapping("/inspcList")

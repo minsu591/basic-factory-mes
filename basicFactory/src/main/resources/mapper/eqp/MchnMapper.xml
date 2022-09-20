@@ -11,7 +11,7 @@
 				M.MCHN_PRICE,
 				M.MCHN_PRCHS_DATE,
 				M.MCHN_MNFCT_DATE,
-				M.MCHN_INSPC_DATE,
+				M.MCHN_INSERT_DATE,
 				M.MCHN_INSPC_CYCLE,
 				M.MCHN_STTS,
 				NVL(M.MCHN_REMK, ' ') AS MCHN_REMK
@@ -36,13 +36,14 @@
 				#{mchnPrchsDate},
 				#{mchnMnfctDate},
 				#{mchnStts},
-				#{mchnInspcDate},
+				#{mchnInsertDate},
+				(select to_date(INSPC_EDATE + #{mchnInspcCycle},'yy/MM/dd') from BF_EQP_INSPC where mchn_code = #{mchnCode}),
 				#{mchnInspcCycle},
 				#{mchnRemk})
 	</insert>
 	
 	<update id="mchnUpdate">
-		UPDATE BF_EQP_MCHN 
+		UPDATE FROM BF_EQP_MCHN 
 		SET ${updCol} = #{updCont}
 		WHERE MCHN_CODE = #{prikey}
 	</update>
