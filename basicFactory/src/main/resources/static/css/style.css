@@ -19283,6 +19283,7 @@ right
 }
 
 .pcoded-header .m-header {
+<<<<<<< HEAD
 	width: 235px;
 	position: relative;
 	height: 56px;
@@ -19290,6 +19291,15 @@ right
 	align-items: center;
 	justify-content: center;
 	padding: 0 25px;
+=======
+    width: 235px;
+    position: relative;
+    height: 56px;
+    display: inline-flex;
+   /*  align-items: center;
+    justify-content: center;
+    padding: 0 25px; */
+>>>>>>> branch 'jh' of https://github.com/minsu591/basic-factory-mes.git
 }
 
 .pcoded-header .m-header .logo-dark, .pcoded-header .m-header .logo-thumb
