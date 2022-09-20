@@ -6,9 +6,8 @@ $("document").ready(function () {
   $("#emergencyBtn").hide();
 
   $("#empid").click(function () {
-    $("#empid").removeClass("inputRequired")
-  })
-
+    $("#empid").removeClass("inputRequired");
+  });
 
   //불량증가
   fltyCntUp();
@@ -23,14 +22,13 @@ $("document").ready(function () {
   reStart();
   //설비상태 클릭 이벤트
   $("#mchnStatus").on("click", "button", function () {
-
     if (saveCheck == false) {
       alert("저장을 누르세여");
       return;
     }
 
     if ($("#saveBtn").prop("disabled") == true) {
-      console.log('true')
+      console.log("true");
       let instProdNo;
       let inputDate;
       $("#procManageTable tbody tr").each(function () {
@@ -45,8 +43,6 @@ $("document").ready(function () {
       //모달 시간과 날짜 입력을 위해 조회
       getprocPerform(processNo, inputDate);
     }
-
-
   });
 
   $("#workInsertTable").on("click", "button", function () {
@@ -221,6 +217,11 @@ function findProcess(instProdNo, MchnName) {
 
 //모달창 헤더 데이터 입력
 function getprocPerform(processNo, inputDate) {
+  let date = new Date(
+    new Date().getTime() - new Date().getTimezoneOffset() * 60000
+  )
+    .toISOString()
+    .slice(0, -14);
   $.ajax({
     url: `getprocperform/${processNo}`,
     method: "GET",
@@ -242,7 +243,7 @@ function getprocPerform(processNo, inputDate) {
     },
     error: function () {
       console.log("에러?");
-      $("#instDate").val(inputDate).prop("readonly", false);
+      $("#instDate").val(date).prop("readonly", false);
       $("#workStartBtn").prop("disabled", false);
       $("#addFlty").prop("disabled", true);
       $("#sHours").val("");
@@ -398,7 +399,7 @@ function startinterval() {
     Math.ceil(
       ((totalProdVol + parseInt(virResult.text())) /
         parseInt(inDtlVol.text())) *
-      100
+        100
     ) + "%"
   );
   prodVol.html(num);
@@ -475,8 +476,8 @@ function insertRscOut(rscLotNo, rscCdCode, needQty) {
       rscOutCls: rscOutCls,
       empName: empName,
     }),
-    error: function (error, status, msg) { },
-    success: function (data) { },
+    error: function (error, status, msg) {},
+    success: function (data) {},
   });
 }
 

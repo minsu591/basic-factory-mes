@@ -23,7 +23,6 @@ $(document).ready(function () {
     } else {
       console.log("else문 인스트데이트->" + instDate);
       $("#empid").prop("readonly", false);
-      $("#instDate").val(instDate);
       $("#sHours").val("");
       $("#sMinutes").val("");
       $("#eHours").val("");
@@ -245,6 +244,11 @@ function updateVirResult(processNo, totalProdVol) {
 }
 
 function insertModalData(tr) {
+  let date = new Date(
+    new Date().getTime() - new Date().getTimezoneOffset() * 60000
+  )
+    .toISOString()
+    .slice(0, -14);
   $.ajax({
     url: `findpackingproc`,
     method: "GET",
@@ -253,7 +257,7 @@ function insertModalData(tr) {
       for (obj of data) {
         if (tr.find("input:hidden[name=processNo]").val() == obj.processNo) {
           findMchnStts(obj.finPrdCdCode);
-          $("#instDate").val(tr.find("td:eq(7)").text());
+          $("#instDate").val(date);
           $("#workStateTable tbody tr td").remove();
           $("#procCdName").val(obj.procCdName);
           $("#instNo").val(obj.instNo);
