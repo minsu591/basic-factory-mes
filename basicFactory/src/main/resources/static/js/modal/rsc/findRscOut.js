@@ -67,11 +67,12 @@ $(document).ready(function(){
 
  //출고목록 행생성
  function makeRscOutRow(obj, index) {
+  let vendNm = !obj.vendCdNm?'':obj.vendCdNm;
    let node = `<tr>
              <td><input type="checkbox" name="chkModal"></td>
              <td>${obj.rscOutCode}</td>
              <td>${obj.rscOutDate}</td>
-             <td>${obj.vendCdNm}</td>
+             <td>${vendNm}</td>
              <td>${obj.rscCdName}</td>
              <td>${obj.rscOutVol}</td>
            </tr>`;
