@@ -105,10 +105,8 @@ function findNotInProcInst(instNo) {
   $("#procStatusTable tbody tr").remove();
   $("#rscStockTable tbody tr").remove();
 
-
   //추가버튼 막기
   $("#addRowBtn").prop("disabled", true);
-
   $("#FindNotInProgressInstModal").modal("hide");
 }
 

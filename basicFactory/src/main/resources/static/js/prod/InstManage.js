@@ -7,6 +7,16 @@ $(document).ready(function () {
   $("#PDFBtn").click(function () {
     console.log("instNo->" + $("#instNo").val());
     let instNo = $("#instNo").val();
+
+    if (instNo == undefined) {
+      Swal.fire({
+        icon: "warning",
+        title: "조건에 해당하는 데이터가 없습니다.",
+        text: "기존 생산지시를 조회하세요."
+      })
+      return;
+    }
+
     $.ajax({
       url: `report.do`,
       method: "GET",
@@ -17,7 +27,7 @@ $(document).ready(function () {
         window.open("/prod/report.do?instNo=" + instNo);
         console.log("호출성공");
       },
-      error: function (error, status, msg) {},
+      error: function (error, status, msg) { },
     });
   });
 

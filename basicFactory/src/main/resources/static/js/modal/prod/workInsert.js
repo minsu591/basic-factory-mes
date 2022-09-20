@@ -399,7 +399,7 @@ function startinterval() {
     Math.ceil(
       ((totalProdVol + parseInt(virResult.text())) /
         parseInt(inDtlVol.text())) *
-        100
+      100
     ) + "%"
   );
   prodVol.html(num);
@@ -476,8 +476,8 @@ function insertRscOut(rscLotNo, rscCdCode, needQty) {
       rscOutCls: rscOutCls,
       empName: empName,
     }),
-    error: function (error, status, msg) {},
-    success: function (data) {},
+    error: function (error, status, msg) { },
+    success: function (data) { },
   });
 }
 

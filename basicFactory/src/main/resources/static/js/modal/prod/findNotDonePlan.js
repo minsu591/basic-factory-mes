@@ -61,6 +61,7 @@ $(document).ready(function () {
           lineArray.splice(0);
           inDtlVol.splice(0);
           prodCodeArr.splice(0);
+
           findplanNotDoneView(planHdCode);
         }
       });
@@ -73,6 +74,7 @@ $(document).ready(function () {
     }
   });
   function findplanNotDoneView(planHdCode) {
+    $("#planDetailTable thead tr").find("input:hidden").remove();
     $.ajax({
       url: "planNotDoneView/dtl",
       type: "GET",
@@ -84,7 +86,6 @@ $(document).ready(function () {
         //테이블 삭제
         $("#procStatusTable tbody tr").remove();
         $("#rscStockTable tbody tr").remove();
-
         $("#planDetailTable tbody tr").remove();
         //추가버튼 막기
         $("#addRowBtn").prop("disabled", true);
@@ -105,9 +106,8 @@ $(document).ready(function () {
       .slice(0, -14);
     let node = `<tr class="not-don-plan">
           <td><input type="checkbox"></td>
-          <td><input type="text" disabled name="prodCode" value="${
-            obj.finPrdCdCode
-          }" ></td>
+          <td><input type="text" disabled name="prodCode" value="${obj.finPrdCdCode
+      }" ></td>
           <td><input type="text" disabled value="${finInfoList[0]}"></td>
           <td><input type="text" disabled value="${finInfoList[1]}"></td>
           <td><input type="text" disabled value="${obj.planIdx}"></td>
@@ -115,9 +115,8 @@ $(document).ready(function () {
           <td><input type="text" disabled value="${obj.planSdate}"></td>
           <td><input type="text" disabled value="${obj.planEdate}"></td>
           <td><input type="text" disabled value="${obj.instProdIndicaVol}"></td>
-          <td><input type="text" disabled value="${
-            obj.planProdVol - obj.instProdIndicaVol
-          }"></td>
+          <td><input type="text" disabled value="${obj.planProdVol - obj.instProdIndicaVol
+      }"></td>
           <td><input type="text"></td>
           <td><input type="text" disabled value="${finInfoList[2]}"></td>
           <td><input type="date" min='${date}' value='${date}'></td>

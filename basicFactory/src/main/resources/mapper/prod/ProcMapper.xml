@@ -208,8 +208,8 @@
 			#{processNo},
 			#{prodVol},
 			#{fltyVol},
-			to_char(#{workStartTime}, 'yyyy-MM-dd HH24:mi:ss.ff1'),
-			to_char(#{workEndTime}, 'yyyy-MM-dd HH24:mi:ss.ff1'),
+			#{workStartTime},
+			#{workEndTime},
 			#{workerName},
 			#{prodDate}
 			)
@@ -314,7 +314,7 @@
 		SET 
 		    prod_vol = #{prodVol},
 		    flty_vol = #{fltyVol},
-		    work_end_time = to_timestamp(#{workEndTime}, 'yyyy-MM-dd HH24:mi:ss.ff')
+		    work_end_time = #{workEndTime}
 		WHERE 
 			process_no = #{processNo}
 	

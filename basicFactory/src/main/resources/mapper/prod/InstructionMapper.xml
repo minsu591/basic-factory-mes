@@ -95,7 +95,7 @@
 			</if>
 		</where>
 		ORDER BY
-			instdate desc
+			instdate desc, instno desc
 	</select>
 
 	<!-- 거래처조회 -->
