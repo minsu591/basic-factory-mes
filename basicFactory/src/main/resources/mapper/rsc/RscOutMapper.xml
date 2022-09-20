@@ -9,7 +9,7 @@
 		</if>
 		<if test="keyword2 != null and keyword2 != '' and keyword3 != null and keyword3 != ''">
 			<![CDATA[AND TO_CHAR(RSCOUT.RSC_OUT_DATE, 'yyyy-MM-dd') >= #{keyword2} 
-					AND TO_CHAR(RSCOUT.RSC_OUT_DATE, 'yyyy-MM-dd' <= #{keyword3}]]>
+					AND TO_CHAR(RSCOUT.RSC_OUT_DATE, 'yyyy-MM-dd') <= #{keyword3}]]>
 		</if>
 		<if test="keyword4 != null and keyword4 != ''">
 			AND RSCOUT.RSC_CD_CODE = #{keyword4}

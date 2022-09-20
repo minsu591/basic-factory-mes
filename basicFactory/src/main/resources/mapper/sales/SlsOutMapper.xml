@@ -176,7 +176,7 @@
    		  
 		WHERE ORDDTL.SLS_ORD_DTL_VOL > ORDDTL.SLS_ORD_DTL_OUT_VOL
    		<if test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
-   			AND TRUNC(ORDHD.SLS_ORD_HD_DATE) BETWEEN  #{ordSdate} AND #{ordEdate}
+   			AND TO_CHAR(ORDHD.SLS_ORD_HD_DATE, 'yyyy-MM-dd') BETWEEN  #{ordSdate} AND #{ordEdate}
         </if>
         ORDER BY SLS_ORD_HD_DATE DESC, SLS_ORD_HD_NO DESC
    	</select>
@@ -212,7 +212,7 @@
    		  ON OUTHD.EMP_ID = EMP.EMP_ID
    		  
    		<if test="(outSdate != null and outSdate != '') and (outEdate != null and outEdate != '')">
-   			WHERE TRUNC(SLS_OUT_HD_DATE) BETWEEN  #{outSdate} AND #{outEdate}
+   			WHERE TO_CHAR(SLS_OUT_HD_DATE, 'yyyy-MM-dd') BETWEEN  #{outSdate} AND #{outEdate}
         </if>
 		ORDER BY SLS_OUT_HD_DATE DESC, SLS_OUT_HD_NO DESC
    	</select>
@@ -337,7 +337,7 @@
         AND OUTDTL.FIN_PRD_CD_CODE = RTN.FIN_PRD_CD_CODE
         AND OUTDTL.FNS_PRD_STK_LOT_NO = RTN.FNS_PRD_STK_LOT_NO
 
-		WHERE OUTDTL.SLS_OUT_HD_NO = #{slsOutHdNo} AND SLS_RTN_DTL_VOL <![CDATA[<> SLS_OUT_DTL_VOL]]>
+		WHERE OUTDTL.SLS_OUT_HD_NO = #{slsOutHdNo}
 
 		GROUP BY FNSPRD.FIN_PRD_CD_CODE,
 				 FNSPRD.FIN_PRD_CD_PRICE,

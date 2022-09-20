@@ -69,7 +69,7 @@
 	<!-- 검색조건 SQL -->
 	<sql id="criteria">
 		<if test="keyword != null and keyword != '' and keyword2 != null and keyword2 != ''">
-			AND TRUNC(ORDHD.SLS_ORD_HD_DATE) BETWEEN  #{keyword} AND #{keyword2}
+			AND TO_CHAR(ORDHD.SLS_ORD_HD_DATE, 'yyyy-MM-dd') BETWEEN  #{keyword} AND #{keyword2}
 		</if>
 		<if test="keyword3 != null and keyword3 != ''">
 			AND VEND.VEND_CD_CODE = #{keyword3}
@@ -146,7 +146,7 @@
 	   		    ON ORDDTL.SLS_ORD_HD_NO = ORDHD.SLS_ORD_HD_NO
 	   		  WHERE ORDDTL.SLS_ORD_DTL_PRG_CLS = 0
 	   		<if test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
-	   			AND TRUNC(ORDHD.SLS_ORD_HD_DATE) BETWEEN  #{ordSdate} AND #{ordEdate}
+	   			AND TO_CHAR(ORDHD.SLS_ORD_HD_DATE, 'yyyy-MM-dd') BETWEEN  #{ordSdate} AND #{ordEdate}
 	        </if>
 	        ORDER BY SLS_ORD_HD_DATE DESC, SLS_ORD_HD_NO DESC)
 	    WHERE <![CDATA[ROWNUM <= 10]]>
