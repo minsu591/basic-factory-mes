@@ -31,7 +31,6 @@ public class RscInController {
 	//입고
 	@RequestMapping("/in")
 	public void in(Model model, @ModelAttribute("cri") Criteria cri) {
-		System.out.println(cri);
 		int total = rscInService.inspCompListCount(cri);
 		cri.setAmount(10);
 		PageDTO page = new PageDTO(cri, total);

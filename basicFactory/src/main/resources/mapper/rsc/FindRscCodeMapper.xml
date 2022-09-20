@@ -191,7 +191,7 @@
 		resultType="com.mes.bf.rsc.vo.RscOutVO">
 		SELECT RSCOUT.RSC_OUT_CODE,
 			   RSCOUT.RSC_OUT_DATE,
-			   NVL(RSCOUT.VEND_CD_CODE,' '),
+			   NVL(RSCOUT.VEND_CD_CODE,''),
 			   RSCOUT.RSC_CD_CODE,
 			   RSCOUT.RSC_OUT_VOL,
 

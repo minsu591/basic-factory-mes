@@ -69,7 +69,7 @@
 			AND INSP.RSC_CD_CODE = #{keyword}
 		</if>
 		<if test="keyword2 != null and keyword2 != ''">
-			AND TO_CHAR(INSP.RSC_INSP_DATE,'yyyy-mm-dd') = #{keyword2}
+			AND TO_CHAR(INSP.RSC_INSP_DATE,'yyyy-MM-dd') = SUBSTR(#{keyword2},0,10)
 		</if>
 	</sql>
 	
