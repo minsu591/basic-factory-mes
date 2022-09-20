@@ -124,7 +124,7 @@
 				AND RSC_ORDER_TITLE LIKE '%'|| #{rscOrderTitle} ||'%'
 			</if>
 			<if test="rscOrderDate != null and rscOrderDate != ''">
-				AND RSC_ORDER_DATE = TO_DATE(#{rscOrderDate})
+				AND TO_CHAR(RSC_ORDER_DATE, 'yyyy-MM-dd') = #{rscOrderDate}
 			</if>
 		</where>
 		ORDER  BY 1 DESC
@@ -151,7 +151,7 @@
 				AND OD.RSC_ORDER_TITLE LIKE '%'|| #{rscOrderTitle} ||'%'
 			</if>
 			<if test="rscOrderDate != null and rscOrderDate != ''">
-				AND OD.RSC_ORDER_DATE = TO_DATE(#{rscOrderDate})
+				AND TO_CHAR(OD.RSC_ORDER_DATE, 'yyyy-MM-dd') = #{rscOrderDate}
 			</if>
 		</where>
 		ORDER  BY 1 DESC
@@ -180,8 +180,8 @@
 			 	AND RSC.RSC_CD_NAME LIKE '%' || #{rscCdName} || '%'
 			 </if>
 			 <if test="rscInspDate != null and rscInspDate != ''">
-			 	<![CDATA[AND INSP.RSC_INSP_DATE >= TO_DATE(#{rscInspDate}) 
-		 			AND INSP.RSC_INSP_DATE <= TO_DATE(#{rscInspDate}) +1 ]]>
+			 	<![CDATA[AND TO_CHAR(INSP.RSC_INSP_DATE, 'yyyy-MM-dd') >= #{rscInspDate}
+		 			AND TO_CHAR(INSP.RSC_INSP_DATE, 'yyyy-MM-dd') <= #{rscInspDate} ]]>
 			 </if>
 		 </where>
 		 ORDER BY RSC_INSP_CODE DESC
