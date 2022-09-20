@@ -79,7 +79,7 @@ public class InstructionController {
 	// 조회 => Get
 	@GetMapping(value = "/findemp", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<FindEmpVO>> findEmp(@RequestParam Map<String, String> QueryParameters) {
-		List<FindEmpVO> list = service.findEmp(QueryParameters.get("empName"));
+		List<FindEmpVO> list = service.findEmp(QueryParameters.get("empName"),QueryParameters.get("deptNo"));
 		return new ResponseEntity<List<FindEmpVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 

@@ -37,6 +37,9 @@
 			<if test="empName != null and empName !=''">
 				AND LOWER(e.emp_name) LIKE '%'||#{empName}||'%'
 			</if>
+			<if test="deptNo != null and deptNo != ''">
+				AND d.dept_no = #{deptNo}
+			</if>
 		</where>
 
 	</select>
