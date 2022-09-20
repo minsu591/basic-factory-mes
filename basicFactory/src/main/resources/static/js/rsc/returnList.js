@@ -25,6 +25,7 @@ $("document").ready(function () {
         }
       }
     }
+
     $("input:hidden[name=keyword]").val($("#rscReturnCode").val());
     //발주일자
     $("input:hidden[name=keyword2]").val($("#vendor").val());
