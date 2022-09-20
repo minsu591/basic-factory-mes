@@ -12,6 +12,7 @@
 				<th th:text="자재LOT번호"></th>
 				<th th:text="입고수량"></th>
 				<th th:text="출고수량"></th>
+				<th th:text="반품수량"></th>
 				<th th:text="재고수량"></th>
 				<th th:text="단위"></th>
 				<th th:text="가용여부"></th>
@@ -25,6 +26,7 @@
 				<td th:text="${stock.rscLotNo}"></td>
 				<td th:text="${stock.rscInVol}"></td>
 				<td th:text="${stock.rscOutVol}"></td>
+				<td th:text="${stock.rscReturnVol}"></td>
 				<td th:text="${stock.rscStock}"></td>
 				<td th:text="${stock.rscCdUnit}"></td>
 				<td><input type="checkbox"

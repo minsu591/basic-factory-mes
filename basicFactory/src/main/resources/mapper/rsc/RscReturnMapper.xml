@@ -39,7 +39,6 @@
 							       RTN.RSC_CD_CODE, 
 					               RTN.RSC_RETURN_VOL, 
 					               RTN.RSC_RETURN_PRC, 
-					               RTN.RSC_RETURN_RESN, 
 					               RTN.RSC_RETURN_REMK,
 					               
 							       RSCCODE.RSC_CD_NAME, 
@@ -73,7 +72,6 @@
 		       RTN.RSC_CD_CODE, 
                RTN.RSC_RETURN_VOL, 
                RTN.RSC_RETURN_PRC, 
-               RTN.RSC_RETURN_RESN, 
                RTN.RSC_RETURN_REMK,
                RTN.RSC_LOT_NO,
                RTN.VEND_CD_CODE,
@@ -110,7 +108,6 @@
 				#{rscLotNo},
 				#{rscReturnDate},
 				#{rscReturnVol},
-				'처리고민',
 				#{rscReturnPrc},
 				#{rscReturnRemk},
 				#{empId},
