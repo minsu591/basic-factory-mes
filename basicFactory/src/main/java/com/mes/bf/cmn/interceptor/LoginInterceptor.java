@@ -17,15 +17,21 @@ public class LoginInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		String uri = request.getRequestURI();
 		log.debug("================================");
-		log.debug(request.getRequestURI());
+		log.debug(uri);
 		log.debug("================================");
 		HttpSession session = request.getSession();
 		EmpVO emp = (EmpVO) session.getAttribute("emp");
+		String linkDept = uri.split("/")[1];
 		if(emp == null) {
 			response.sendRedirect("/cmn/login");
 			return false;
+		}else if(!linkDept.equals("common") && emp.getEmpPos().equals("직원") && !linkDept.equals(emp.getDeptLinkCode())) {
+			response.sendRedirect("/cmn/login");
+			return false;
 		}
+		
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
 

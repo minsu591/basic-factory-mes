@@ -160,7 +160,7 @@ public class LoginController {
 				e.printStackTrace();
 			}
 			
-			result = service.empUpdate(empId, "emp_pw", empHex);
+			result = service.empPwUpdate(empId, empHex);
 			
 			return new ResponseEntity<Integer>(result,HttpStatus.OK);
 		}

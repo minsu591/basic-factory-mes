@@ -31,7 +31,7 @@ $("document").ready(function () {
                   <td><input type="checkbox"></td>
                   <td>${obj.mchnCode}</td>
                   <td>${obj.mchnName}</td>
-                  <td>${obj.inspcNxtDate}</td>
+                  <td>${obj.mchnInspcNxtDate}</td>
                 </tr>`
     $("#findNxtDateTbody").append(node);
   }
@@ -41,7 +41,7 @@ $("document").ready(function () {
     //테이블 상단 공통 요소 삽입
     let mchnCode = $(this).find("td:eq(1)").text();
     let mchnName = $(this).find("td:eq(2)").text();
-    let inspcNxtDate = $(this).find("td:last").text();
+    let mchnInspcNxtDate = $(this).find("td:last").text();
 
     let node = `<tr>
                     <td class="cantModifyTd"><input type="checkbox" name="chk"></td>

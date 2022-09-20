@@ -54,7 +54,7 @@
 	</select>
 	
 	<select id="findEmp" resultType="emp">
-		SELECT D.DEPT_NO, D.DEPT_NAME, E.EMP_ID, E.EMP_PW,
+		SELECT D.DEPT_NO, D.DEPT_NAME, D.DEPT_LINK_CODE, E.EMP_ID, E.EMP_PW,
 			   E.EMP_NAME, E.EMP_EMAIL, E.EMP_PHONE, E.EMP_AUTH,
 			   E.EMP_POS, NVL(E.EMP_REMK,' ') AS EMP_REMK
 		FROM BF_CMN_EMP E
@@ -110,7 +110,7 @@
 		</selectKey>
 		UPDATE BF_CMN_EMP
 		<choose>
-			<when test="updCol eq 'dept_name'">
+			<when test="deptNo != null and updCol eq 'dept_name'">
 				SET dept_no = #{deptNo}
 			</when>
 			<otherwise>
@@ -118,6 +118,12 @@
 			</otherwise>
 		</choose>
 		WHERE EMP_ID = #{priKey}
+	</update>
+	
+	<update id="empPwUpdate" parameterType = "String">
+		UPDATE BF_CMN_EMP
+		SET emp_pw = #{newPw}
+		WHERE EMP_ID = #{empId}
 	</update>
 	
 </mapper>

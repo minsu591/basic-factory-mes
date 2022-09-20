@@ -179,11 +179,11 @@ $("document").ready(function () {
         }
 
         //바로 저장버튼 눌렀을때 경고창 띄우기
-        let td = table.find("#mchntbody td");
-        if(td.length == 0 && modifyList.length == 0 && delList.length == 0) {
-          requiredWarning();
-          return false;
-        }
+        // let td = table.find("#mchntbody td");
+        // if(td.length == 0 && modifyList.length == 0 && delList.length == 0) {
+        //   requiredWarning();
+        //   return false;
+        // }
 
         //수정용
         for(obj of modifyList) {

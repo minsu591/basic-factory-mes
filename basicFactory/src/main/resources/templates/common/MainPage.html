@@ -7,64 +7,46 @@
     <title>Main</title>
   </head>
   <body>
-    <style>
-      .parentsCard {
-        width: 80%;
-        margin : auto;
-      }
-      .firstCard {
-        float : left;
-        width: 100%;
-        box-sizing : border-box;
-      }
-      .secondCard {
-        float : left;
-        width: 100%;
-        box-sizing : border-box;
-        margin-left : 10%;
-      }
-    </style>
     <!-- <script type="text/javascript" th:src="@{/js/pages/chart-apex.js}"></script> -->
     <script type="text/javascript" th:src="@{/js/common/mainPage.js}"></script>
+    <link rel="stylesheet" href="/css/cmn/code.css">
     <div class="pcoded-main-container">
-      <h1>Main</h1>
-      <hr>
-      <div class="parentsCard">
+      <div class="parentsCard" style="margin-top : 13%;">
         <div class="card firstCard">
             <div class="card-body">
                 <div class="row align-items-center">
-                    <div class="col-sm-4">
-                      <i class="icon feather icon-share-2 text-c-blue mb-1 d-block"></i>
+                    <div class="col-sm-4" style="text-align:center;">
+                      <h1 th:text="${instCnt}">0</h1>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 leftCard">
                         <h3>작업지시</h3>
-                        <h6 class="text-muted m-b-0">이동하기<i class="fa fa-caret-left text-c-red m-l-10"></i></h6>
+                        <h6 class="text-muted m-b-0"><i class="fa fa-caret-right text-c-red m-r-10"></i><a th:href="@{/prod/inst}">이동하기</a></h6>
                     </div>
                 </div>
             </div>
         </div>
         <div class="card secondCard">
           <div class="card-body">
-              <div class="row align-items-center">
-                  <div class="col-sm-4">
-                    <i class="icon feather icon-share-2 text-c-blue mb-1 d-block"></i>
+              <div class="row align-items-center" >
+                  <div class="col-sm-4" style="text-align:center;">
+                    <h1 th:text="${procCnt}">0</h1>
                   </div>
                   <div class="col-6">
-                      <h3>작업지시</h3>
-                      <h6 class="text-muted m-b-0">이동하기<i class="fa fa-caret-left text-c-red m-l-10"></i></h6>
+                      <h3>공정실적</h3>
+                      <h6 class="text-muted m-b-0"><i class="fa fa-caret-right text-c-red m-r-10"></i><a th:href="@{/prod/proc}">이동하기</a></h6>
                   </div>
               </div>
           </div>
         </div>
-        <div class="card">
+        <div class="card thirdCard">
           <div class="card-body">
               <div class="row align-items-center">
-                  <div class="col-sm-4">
-                    <i class="icon feather icon-share-2 text-c-blue mb-1 d-block"></i>
+                  <div class="col-sm-4" style="text-align:center;">
+                    <h1 th:text="${finCnt}">0</h1>
                   </div>
                   <div class="col-6">
-                      <h3>작업지시</h3>
-                      <h6 class="text-muted m-b-0">이동하기<i class="fa fa-caret-left text-c-red m-l-10"></i></h6>
+                      <h3>제품출고</h3>
+                      <h6 class="text-muted m-b-0"><i class="fa fa-caret-right text-c-red m-r-10"></i><a th:href="@{/sls/out}">이동하기</a></h6>
                   </div>
               </div>
           </div>
@@ -72,11 +54,11 @@
       </div>
 
       <!-- 차트 -->
-      <div class="col-xl-12" style="clear:both;">
-        <div class="card">
-            <div class="card-header">
-              <input type="hidden" th:value="${finList}">
-            </div>
+      <div class="parentsCard" style="clear:both; margin : 0 auto;">
+        <div class="card" style="margin : 0 4%;">
+            <!-- <div class="card-header">
+              <h4>일별 완제품 출고량</h4>
+            </div> -->
             <div class="card-body table-border-style">
               <div id="chart"></div>
             </div>

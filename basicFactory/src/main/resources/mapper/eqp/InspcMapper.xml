@@ -45,14 +45,10 @@
 	
 	<!-- 설비점검대상조회(모달창) -->
 	<select id="findNxtDate" resultType="inspc">
-		SELECT M.MCHN_CODE, 
-				M.MCHN_NAME, 
-				I.INSPC_NXT_DATE
-		FROM BF_EQP_INSPC I
-		JOIN BF_EQP_MCHN M
-    		ON I.MCHN_CODE = M.MCHN_CODE
-    	WHERE I.INSPC_NXT_DATE between TO_DATE(SYSDATE) and TO_CHAR(SYSDATE+7)
-    	ORDER BY I.INSPC_NXT_DATE
+		SELECT MCHN_CODE, MCHN_NAME, MCHN_INSPC_NXT_DATE
+		FROM BF_EQP_MCHN
+		WHERE MCHN_INSPC_NXT_DATE BETWEEN TO_DATE(SYSDATE) AND TO_DATE(SYSDATE+7)
+    	ORDER BY MCHN_INSPC_NXT_DATE
 	</select>
 
 	<select id="listInspc" resultType="inspc">

@@ -64,6 +64,7 @@ public class InspcController {
 	@GetMapping(value = "/findNxtDate", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<InspcVO>> findNxtDate(){
 		List<InspcVO> list = service.findNxtDate();
+		System.out.println(list);
 		return new ResponseEntity<List<InspcVO>>(list, HttpStatus.OK);
 	}
 	

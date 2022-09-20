@@ -26,5 +26,17 @@ public class CommonServiceImpl implements CommonService {
 	public List<SlsOutDtlForMainVO> findOutFinForMain() {
 		return mapper.findOutFinForMain();
 	}
+	@Override
+	public Integer findInstOrd() {
+		return mapper.findInstOrd();
+	}
+	@Override
+	public Integer findProcPerf() {
+		return mapper.findProcPerf();
+	}
+	@Override
+	public Integer findFinOut() {
+		return mapper.findFinOut();
+	}
 
 }

@@ -63,7 +63,11 @@ $("document").ready(function(){
             }],
             title: {
                 text: '일별 완제품 출고량',
-                align: 'left'
+                align: 'left',
+                style : {
+                    fontSize : '20px',
+                    fontWeight : 'bold'
+                }
             },
             grid: {
                 row: {

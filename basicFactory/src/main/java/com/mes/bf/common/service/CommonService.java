@@ -14,4 +14,7 @@ public interface CommonService {
 	List<MchnVO> findMchn(Criteria cri);
 	//일별 완제품 출고량조회
 	List<SlsOutDtlForMainVO> findOutFinForMain();
+	Integer findInstOrd();
+	Integer findProcPerf();
+	Integer findFinOut();
 }

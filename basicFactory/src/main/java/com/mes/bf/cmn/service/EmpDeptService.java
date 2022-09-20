@@ -18,5 +18,6 @@ public interface EmpDeptService {
 	int empUpdate(String priKey, String updCol, String updCont);
 	int empInsert(EmpVO emp);
 	int empDelete(List<String> delList);
-
+	
+	int empPwUpdate(String empId, String newPw);
 }

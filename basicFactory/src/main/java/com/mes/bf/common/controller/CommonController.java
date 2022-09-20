@@ -53,13 +53,21 @@ public class CommonController {
 	// 메인페이지
 	@GetMapping(value = "/main", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ModelAndView mainPage(Model model) {
+
+		Integer instCnt = service.findInstOrd();
+		Integer procCnt = service.findProcPerf();
+		Integer finCnt = service.findFinOut();
+		model.addAttribute("instCnt",instCnt);
+		model.addAttribute("procCnt",procCnt);
+		model.addAttribute("finCnt",finCnt);
+		
 		return new ModelAndView("common/MainPage");
 	}
 	
 	@GetMapping(value = "/main/findOutFinForMain", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<SlsOutDtlForMainVO>> mainFindOutFinForMain(Model model) {
 		List<SlsOutDtlForMainVO> finList = service.findOutFinForMain();
-		
+		//procCnt, instCnt, finCnt
 		
 		return new ResponseEntity<List<SlsOutDtlForMainVO>>(finList, HttpStatus.OK);
 	}
