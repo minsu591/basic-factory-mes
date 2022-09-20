@@ -28,7 +28,7 @@ public interface InstructionService {
 			String workScope);
 
 	// 담당자 검색
-	List<FindEmpVO> findEmp(String empName);
+	List<FindEmpVO> findEmp(String empName,String deptNo);
 
 	// 완제품코드 검색
 	VFindProdAndLineVO findProdName(String ProdCode);

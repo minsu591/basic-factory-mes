@@ -94,7 +94,7 @@ public class NonOperationController {
 	// 담당자조회
 	@GetMapping(value = "/findemp", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<FindEmpVO>> findEmp(@RequestParam Map<String, String> QueryParameters) {
-		List<FindEmpVO> list = instservice.findEmp(QueryParameters.get("empName"));
+		List<FindEmpVO> list = instservice.findEmp(QueryParameters.get("empName"),QueryParameters.get("deptNo"));
 		return new ResponseEntity<List<FindEmpVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 

@@ -40,8 +40,8 @@ public class InstructionServiceImpl implements InstructionService {
 	}
 
 	@Override
-	public List<FindEmpVO> findEmp(String empName) {
-		return mapper.findEmp(empName);
+	public List<FindEmpVO> findEmp(String empName,String deptNo) {
+		return mapper.findEmp(empName,deptNo);
 	}
 
 	@Override

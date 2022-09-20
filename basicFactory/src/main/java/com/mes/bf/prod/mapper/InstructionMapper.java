@@ -28,7 +28,7 @@ public interface InstructionMapper {
 	List<VInstructionVO> findVInstruction(String instSdate, String instEdate, String vendorName, String productName,String workScope);
 
 	// 담당자 검색
-	List<FindEmpVO> findEmp(String empName);
+	List<FindEmpVO> findEmp(String empName,String deptNo);
 
 	// 완제품코드 검색
 	VFindProdAndLineVO findProdName(String ProdCode);
@@ -37,17 +37,14 @@ public interface InstructionMapper {
 	List<VendorCodeVO> findVendorCode(String vendorCode, String vendCdClfy);
 
 	// 공정 상태 조회
-	//List<FindProcStatusVO> findProcStatus(String lineName);
+
 	List<FindProcStatusVO> findProcStatus(List<String> lineName);
 
 	// 자재 소요 예상량 조회
-	//List<VRscNeedQtyVO> findVRscNeedQty(String finPrdCdCode);
+
 	List<VRscNeedQtyVO> findVRscNeedQty(List<String> finPrdCdCode);
 	// 생산지시 헤더 입려
 	boolean insertInstruction(InstructionVO vo);
-
-	// 생산지시 상세 입력
-	//boolean insertInstructionDetail(InstructionDetailVO detailvo);
 	
 	//생산지시 통합 입력
 	void insertInstAndDetail(InstAndDetailVO vo);

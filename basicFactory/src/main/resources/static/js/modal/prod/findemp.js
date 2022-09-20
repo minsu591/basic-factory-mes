@@ -39,10 +39,29 @@ $("document").ready(function () {
   });
 });
 function findEmp() {
+  console.log("findEMp 실행")
+  let pathName = $(location).attr('pathname');
+  console.log(pathName);
+  if (pathName == '/prod/procManage') {
+    let deptNo = 3;
+    findInstEmp(deptNo);
+  } else {
+    deptNo = '';
+    findInstEmp(deptNo);
+  }
+
+
+}
+
+function findInstEmp(deptNo) {
+
   $.ajax({
     url: "findemp",
     method: "GET",
     contentType: "application/json;charset=utf-8",
+    data: {
+      deptNo
+    },
     dataType: "json",
     error: function (error, status, msg) {
       alert("상태코드 " + status + "에러메시지" + msg);
@@ -56,6 +75,7 @@ function findEmp() {
       }
     },
   });
+
 }
 //초기데이터
 function empMakeRow(obj, index) {
