@@ -84,7 +84,7 @@ $("document").ready(function () {
             <td class="vendor curPo"></td>
             <td class="cantModifyTd"></td>
             <td></td>
-            <td><input type="date"></td>
+            <td><label><input type="date"></label></td>
             <td><input type="date"></td>
             <td><input type="date" min="${today}"></td>
             <td></td>
@@ -173,6 +173,9 @@ $("document").ready(function () {
           }else if($.isNumeric(parseIntVol) && txt != parseIntVol){
             //txt가 숫자와 문자가 섞여있으면
             tdInfo.text(parseIntVol);
+          }
+          if(col == 6){
+            tdInfo.text(parseIntVol.toLocaleString("ko-KR"));
           }
         } 
       }
