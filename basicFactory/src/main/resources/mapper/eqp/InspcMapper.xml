@@ -8,13 +8,11 @@
 				#{mchnCode},
 				#{inspcSdate},
 				#{inspcEdate},
-				(select to_date(#{inspcEdate} + mchn_inspc_cycle,'yy/MM/dd') from BF_EQP_MCHN where mchn_code = #{mchnCode}),
 				#{inspcActnPnt},
 				#{inspcActnRsn},
 				#{inspcRemk},
 				#{empId}) 
 	</insert>
-	
 	
 	<update id="inspcUpdate">
 		update bf_eqp_inspc
@@ -38,6 +36,7 @@
 			    ON I.MCHN_CODE = M.MCHN_CODE
 			JOIN BF_CMN_EMP E
 			    ON E.EMP_ID = I.EMP_ID
+		<![CDATA[ WHERE I.INSPC_EDATE > TO_DATE(SYSDATE) ]]>
 		<if test="(inspcSdate != null and inspcSdate != '') and (inspcEdate != null and inspcEdate != '')">
 			AND I.INSPC_EDATE BETWEEN TO_DATE(#{inspcSdate}, 'YY/MM/DD') AND TO_DATE(#{inspcEdate}, 'YY/MM/DD')
 		</if>
@@ -47,7 +46,7 @@
 	<select id="findNxtDate" resultType="inspc">
 		SELECT MCHN_CODE, MCHN_NAME, MCHN_INSPC_NXT_DATE
 		FROM BF_EQP_MCHN
-		WHERE MCHN_INSPC_NXT_DATE BETWEEN TO_DATE(SYSDATE) AND TO_DATE(SYSDATE+7)
+		<![CDATA[ WHERE MCHN_INSPC_NXT_DATE < TO_DATE(SYSDATE+7) ]]>
     	ORDER BY MCHN_INSPC_NXT_DATE
 	</select>
 
@@ -57,7 +56,7 @@
             	INP.INSPC_SDATE, 
             	INP.INSPC_EDATE,
             	MC.MCHN_INSPC_CYCLE, 
-            	INP.INSPC_NXT_DATE, 
+            	MC.MCHN_INSPC_NXT_DATE, 
             	INP.INSPC_ACTN_PNT, 
             	NVL(INP.INSPC_ACTN_RSN, ' ') AS INSPC_ACTN_RSN, 
             	EMP.EMP_NAME,
@@ -72,7 +71,7 @@
 	<!-- 검색조건 SQL -->
 	<sql id="criteria">
 		<if test="keyword != null and keyword != '' and keyword2 != null and keyword2 != ''">
-			AND INP.INSPC_EDATE BETWEEN #{inspcSdate} AND #{inspcEdate}
+			AND INP.INSPC_EDATE BETWEEN TO_DATE(#{inspcSdate}, 'YY/MM/DD') AND TO_DATE(#{inspcEdate}, 'YY/MM/DD')
 		</if>
 		<if test="keyword3 != null and keyword3 != ''">
 			AND INP.MCHN_CODE = #{keyword3}
@@ -98,7 +97,7 @@
 			            	INP.INSPC_SDATE, 
 			            	INP.INSPC_EDATE,
 			            	MC.MCHN_INSPC_CYCLE, 
-			            	INP.INSPC_NXT_DATE, 
+			            	MC.MCHN_INSPC_NXT_DATE,  
 			            	INP.INSPC_ACTN_PNT, 
 			            	NVL(INP.INSPC_ACTN_RSN, ' ') AS INSPC_ACTN_RSN, 
 			            	EMP.EMP_NAME,
