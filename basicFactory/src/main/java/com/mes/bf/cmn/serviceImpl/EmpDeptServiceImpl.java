@@ -62,5 +62,10 @@ public class EmpDeptServiceImpl implements EmpDeptService {
 		return mapper.findEmp(empId);
 	}
 
+	@Override
+	public int empPwUpdate(String empId, String newPw) {
+		return mapper.empPwUpdate(empId, newPw);
+	}
+
 
 }

@@ -117,3 +117,27 @@ select {
 {
 	width : 5%;
 }
+
+<!--Chart-->
+.parentsCard {
+  width: 100%;
+  margin : auto;
+}
+.firstCard {
+  float : left;
+  width: 28%;
+  box-sizing : border-box;
+  margin-left : 4%;
+}
+.secondCard {
+  float : left;
+  width: 28%;
+  box-sizing : border-box;
+  margin : 0 4%;
+}
+.thirdCard {
+  float : right;
+  width: 28%;
+  box-sizing : border-box;
+  margin-right : 4%;
+}

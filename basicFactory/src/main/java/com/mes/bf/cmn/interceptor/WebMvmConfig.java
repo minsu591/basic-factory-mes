@@ -10,7 +10,7 @@ public class WebMvmConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new LoginInterceptor())
-				.addPathPatterns("/prod/**","/cmn/**","/eqp/**","/rsc/**","/sls/**")
+				.addPathPatterns("/prod/**","/cmn/**","/eqp/**","/rsc/**","/sls/**","/common/**")
 				.excludePathPatterns("/cmn/login","/cmn/login/check","/cmn/login/reset","/cmn/login/reset/**");
 		//		.excludePathPatterns("/css/**","/fonts/**","/plugin/**");
 	}
