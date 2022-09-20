@@ -25,7 +25,16 @@ $("document").ready(function () {
     e.stopPropagation();
   });
 
-
+  //초기화 버튼
+  $("#resetBtn").click(function () {
+    $("#fltyPrcstbody tr").remove();
+    $("#allCheck").prop("checked", false);
+    $("#processPerfomNo").val('');
+    $("#productname").val('');
+    $("#productcode").val('');
+    $("#proccdname").val('');
+    $("#mchnname").val('');
+  })
 
   //수정이 되는 list 정의
   let hdModifyList = [];
@@ -34,15 +43,15 @@ $("document").ready(function () {
   //수정할 테이블
   let table = $("#fltyPrcsTable");
   //td 수정을 적용할 인덱스(모달창, input 빼고 오직 td에서 이루워 지는 수정만)
-  let avArr = [3, 6];
+  let avArr = [4, 7];
   //notNull인 td
-  let notNullList = [2, 3, 5];
+  let notNullList = [2,4,5,6];
   //primary키인 index
   let fltyPrcsPriKeyIdx = 1;
 
   //수정 이벤트
   table.find("tbody").on("click", "td", function (e) {
-    let col = $(this).index() - 1;
+    let col = $(this).index();
     let flag = false;
     let tdInfo = $(this);
     let defaultVal;
@@ -96,7 +105,7 @@ $("document").ready(function () {
       } else {
         if (col == 4) {
           let txt = tdInfo.text();
-          let parseIntVol = parseInt(txt);    //parseInt 문자열을 정수로 반환
+          let parseIntVol = parseInt(txt);      //parseInt 문자열을 정수로 반환
           if (!$.isNumeric(parseIntVol)) {      //isNumeric 숫자로 인식되는 경우 IsNumeric은 True를 반환합니다. 그렇지 않으면 False 를 반환
             //txt가 숫자가 아니면
             tdInfo.text('');
@@ -125,7 +134,7 @@ $("document").ready(function () {
     let updCol = table.find("thead").find("th:eq(" + col + ")").attr("name");        //th의 col번째 th name값 갖고 옴(수정될 column)
     let updCont = $(this).text();                                               //해당 td의 text값을 저장(수정될 content);
 
-    if (col == 4) {                                                               //수정하고 싶은 td를 클릭하면 td text만 가져오게 되어있는데 
+    if (col == 5) {                                                               //수정하고 싶은 td를 클릭하면 td text만 가져오게 되어있는데 
       updCont = $(this).find("input[type='date']").val();                       //예외적으로 체크박스나 날짜 데이터는 td안에 input이니까 td안에 input value도 가져오겠다
     }
     if (priKey != null && priKey != '') {                                        //priKey가 null이면 modifyList에 담기지 않도록 하는 if문
@@ -149,28 +158,6 @@ $("document").ready(function () {
   //저장 버튼 이벤트
   $("#saveBtn").on("click", function () {
     let trs = table.find("tbody tr");
-    //null 검사
-    // for(tr of trs){
-    //   for(idx of notNullList) {   //tr돌면서 notNullList index가 null인지 검사
-    //     let content;
-    //     if(idx == 5) {
-    //       content = $(tr).find("input[type='date']").val();
-    //     } else {
-    //       content = $(tr).find("td:eq("+idx+")").text();
-    //     }
-    //     if(content == null || content == '') {
-    //       alert('공백인 칸이 존재합니다. 확인 후 다시 저장해주세요');
-    //       return;
-    //     }
-    //   }
-    // }
-
-    let td = table.find("#mchntbody td");
-    if (td.length == 0 && modifyList.length == 0 && delList.length == 0) {
-      requiredWarning();
-      return false;
-    }
-
     let nullFlag = false;
     Swal.fire({
       icon: "question",
@@ -183,10 +170,15 @@ $("document").ready(function () {
       closeOnClickOutside: false,
     }).then((result) => {
       if (result.isConfirmed) {
+        if($(""))
         //null 검사
         for (tr of trs) {
           for (idx of notNullList) {
             let content = $(tr).find("td:eq(" + idx + ")").text();
+            if(idx == 5) {
+              content = $(tr).find("input[type='date']").val();
+            }
+
             if (content == null || content == '') {
               $(tr).find("td:eq(" + idx + ")").addClass("nullTd");
               nullFlag = true;
@@ -202,17 +194,28 @@ $("document").ready(function () {
           return false;
         }
 
+        //바로 저장버튼 눌렀을때 경고창 띄우기
+        if(trs.length == 0 && modifyList.length == 0) {
+          requiredWarning();
+          return false;
+        }
+
+        //헤더 항목 미기재시
+        // if(exNull() || ) {
+
+        // }
+
         //수정용
         for (obj of modifyList) {
           modifySaveAjax(obj);
         }
 
         //추가용
-        let trs = $("#fltyPrcstbody").find("tr[name='addTr']");
+        addList = $("#fltyPrcstbody").find("tr[name='addTr']");
         let fltyPrcsNo;
-        for (tr of trs) {
+        for (tr of addList) {
           fltyPrcsNo = $(tr).find("td:eq(1)").text();
-          console.log("신규 주문 추가등록!!");
+          console.log("신규 추가등록!!");
           addSaveAjax(tr);
         }
 
@@ -279,7 +282,7 @@ $("document").ready(function () {
         console.log("추가 성공");
       },
       error: function (err) {
-        //console.log(err);
+        console.log(err);
       }
     })
   }
@@ -327,6 +330,7 @@ $("document").ready(function () {
     let mchnName = $(this).find("td:eq(6)").text();
 
     $("#processPerfomNo").val(procPerfomNo);
+    $("#processPerfomNo").prop("disabled", false);
     $("#productcode").val(finCode);
     $("#productname").val(finCdName);
     $("#proccdname").val(procName);
