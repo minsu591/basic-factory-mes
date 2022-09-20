@@ -49,10 +49,10 @@
 		AND eqp.mchn_code = nonophistory.mchn_code AND
 		nonophistory.non_op_code = nonop.non_op_code
 		<if test="sDate != null and sDate !=''">
-			<![CDATA[ AND nonophistory.input_date >= #{sDate} ]]>
+			<![CDATA[ AND to_char(nonophistory.input_date, 'yyyy-MM-dd') >= #{sDate} ]]>
 		</if>
 		<if test="eDate != null and eDate !=''">
-			<![CDATA[ AND nonophistory.input_date <= #{eDate} ]]>
+			<![CDATA[ AND to_char(nonophistory.input_date, 'yyyy-MM-dd') <= #{eDate} ]]>
 		</if>
 		
 		<if test="mchnName != null and mchnName !=''">
