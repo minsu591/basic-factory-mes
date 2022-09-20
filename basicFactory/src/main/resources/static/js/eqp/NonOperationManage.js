@@ -67,7 +67,7 @@ $(document).ready(function () {
         error: function (error, status, msg) {
           alert("상태코드 " + status + "에러메시지" + msg);
         },
-        success: function (data) {},
+        success: function (data) { },
       });
       $.ajax({
         url: `findinputno`,

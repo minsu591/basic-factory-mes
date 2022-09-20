@@ -208,8 +208,8 @@
 			#{processNo},
 			#{prodVol},
 			#{fltyVol},
-			to_timestamp(#{workStartTime}, 'yyyy-MM-dd HH24:mi:ss.ff'),
-			to_timestamp(#{workEndTime}, 'yyyy-MM-dd HH24:mi:ss.ff'),
+			to_char(#{workStartTime}, 'yyyy-MM-dd HH24:mi:ss.ff1'),
+			to_char(#{workEndTime}, 'yyyy-MM-dd HH24:mi:ss.ff1'),
 			#{workerName},
 			#{prodDate}
 			)
