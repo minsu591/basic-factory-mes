@@ -154,7 +154,6 @@
 	      ON RTNHD.EMP_ID = EMP.EMP_ID
           
 		WHERE RTNHD.SLS_RTN_HD_NO = #{slsRtnHdNo}
-        AND OUTDTL.FNS_PRD_STK_LOT_NO = RTNDTL.FNS_PRD_STK_LOT_NO
 	</select>
 	
 	<!-- 완제품 반품관리에서 헤더 등록 -->
