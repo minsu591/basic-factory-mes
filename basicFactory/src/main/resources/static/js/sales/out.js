@@ -8,6 +8,8 @@ $(document).ready(function () {
     let vendorName = $("#vendorName").val();
     let vendorCode = $("#vendor").val();
 
+    console.log(typeof (outSdate));
+    console.log(typeof (outEdate));
     if (outSdate != null && outSdate != '' && outEdate != null && outEdate != '') {
       if (outSdate > outEdate) {
         if (outDateChecked()) {

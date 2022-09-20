@@ -50,24 +50,31 @@ $(document).ready(function () {
 
   //조건에 맞는 주문내역 조회
   $("#rtnBtn").click(function () {
+    console.log('클릭');
     let rtnSdate = $("#rtnSdate").val();
     let rtnEdate = $("#rtnEdate").val();
     let vendorName = $("#vendorName").val();
     let prcCls = $("#prcCls option:selected").val();
     
-    console.log(prcCls);
+    console.log(typeof (rtnSdate));
+    console.log(rtnSdate);
+    console.log(typeof (rtnEdate));
+    console.log(rtnEdate);
     if (rtnSdate != null && rtnSdate != '' && rtnEdate != null && rtnEdate != '') {
       if (rtnSdate > rtnEdate) {
         if (rtnDateChecked()) {
           return false;
         }
       } 
+      findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
     } else{
       findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
     }
   });
 
   function findReturn(rtnSdate, rtnEdate, vendorName, prcCls) {
+    console.log(rtnSdate);
+    console.log(rtnEdate);
     $.ajax({
       url: "findReturn",
       method: "GET",
@@ -93,13 +100,6 @@ $(document).ready(function () {
         page();
       }
     });
-  }
-  function selectChecked() {
-    Swal.fire({
-      icon: "warning",
-      title: "조회 조건을 입력해주세요."
-    });
-    return true;
   }
 
   function rtnDateChecked() {
