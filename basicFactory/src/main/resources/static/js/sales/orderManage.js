@@ -569,7 +569,7 @@ function insertHeaderWarning() {
     Swal.fire({
         icon: "warning",
         title: "필수 항목 미입력",
-        html: "주문일자, 담당자, 거래처는 <br/> 기본 입력사항입니다."
+        html: "주문일자, 거래처는 <br/> 기본 입력사항입니다."
     });
 }
     

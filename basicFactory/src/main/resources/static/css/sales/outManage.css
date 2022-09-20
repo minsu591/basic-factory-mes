@@ -6,12 +6,8 @@ h1 {
 	margin-bottom : 2%;
 }
 
-.btn {
+#findOutMngBtn, #resetBtn {
 	margin-top: 1rem;
-}
-
-#findOutBtn, #NotOutBtn {
-	margin-bottom: 1rem;
 }
 
 #findVendorBtn {

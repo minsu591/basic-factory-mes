@@ -39,7 +39,7 @@ $("document").ready(function () {
         $("#outTotalPrice").text('');
     })
 
-    //모달 td 수정 이벤트
+    //lot별 완제품 재고 모달 td 수정 이벤트
     ModalTable.find("tbody").on("click", "td", function (e) {
         let col = $(this).index();
         let tdInfo = $(this);
@@ -444,7 +444,8 @@ $("document").ready(function () {
             dataType: "json",
             data: {
                 prdName : finPrdCdName,
-                lotNo : null
+                lotNo : null,
+                stockClfy : '1'
             },
             success: function (data) {
                 console.log(data);
@@ -464,8 +465,8 @@ $("document").ready(function () {
                     <td>${obj.slsInDtlDate}</td>
                     <td>${obj.finPrdCdCode}</td>
                     <td>${obj.finPrdCdName}</td>
-                    <td>${obj.fnsPrdStkLotNo}</td>
-                    <td>${obj.fnsPrdStkVol}</td>`;
+                    <td>${obj.fnsPrdStkLotNo}</td>`;
+        
         if(outTableTrInfo.hasClass("notOut")){
             let sdVol='';
             for(out of outLotList){
@@ -474,8 +475,9 @@ $("document").ready(function () {
                     break;
                 }
             }
-            node += `<td class="stockOutVol canModifyTd">${sdVol}</td>
-            </tr>`;
+            node += `<td>${obj.fnsPrdStkVol}</td>
+                     <td class="stockOutVol canModifyTd">${sdVol}</td>
+                    </tr>`;
         }else{
             //priKey, finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol, slsOutHdNo
             let sdVol= obj.slsOutDtlVol;
@@ -486,8 +488,9 @@ $("document").ready(function () {
                 }
             }
             
-            node += `<td class="stockOutVol canModifyTd">${sdVol}</td>
-                </tr>`
+            node += `<td>${obj.fnsPrdStkVol + sdVol}</td>
+                     <td class="stockOutVol canModifyTd">${sdVol}</td>
+                 </tr>`
         }
         console.log(modifyList);
                     
