@@ -433,39 +433,53 @@ $("document").ready(function(){
 
 
     //선택 삭제 이벤트
-    $("#lineDeleteBtn").on("click",deleteBtnFunc);
-    $("#procDeleteBtn").on("click",deleteBtnFunc);
-    
-    function deleteBtnFunc(){
-        $("tbody").find("input:checkbox").each(function(idx,el){
-            let type = $(this).attr("name");
-            let modifyList;
+    $("#lineDeleteBtn").on("click",function(){
+        lineTable.find("tbody").find("input:checkbox").each(function(idx,el){
             let priKey;
-            let delList;
-
             if($(el).is(":checked")){
                 let tr = $(el).closest('tr');
                 tr.remove();
                 if(!$(tr).hasClass("addTr")){
-                    if(type == 'lineCb'){
-                        modifyList = lineModifyList;
-                        priKey = tr.find("td:eq("+linePriKeyIdx+")").text();
-                        delList = lineDelList;
-                    }else if(type == 'procCb'){
-                        modifyList = procModifyList;
-                        priKey = tr.find("input[type='hidden']").val();
-                        delList = procDelList;
-                    }
-                    delList.push(priKey);
-                    for(let i = 0; i< modifyList.length; i++){
-                        if(modifyList[i][0]== priKey){
-                            modifyList.splice(i,1);
+                    priKey = tr.find("td:eq("+linePriKeyIdx+")").text();
+                    lineDelList.push(priKey);
+                    for(let i = 0; i< lineModifyList.length; i++){
+                        if(lineModifyList[i][0]== priKey){
+                            lineModifyList.splice(i,1);
                         }
                     }
                 }
             }
         });
-    }
+        //내부에 내용이 없으면 allCheck 해제
+        if(lineTable.find("tbody tr").length==0){
+            $("#lineAllCheck").prop("checked",false);
+        }
+    });
+
+    $("#procDeleteBtn").on("click",function(){
+        procTable.find("tbody").find("input:checkbox").each(function(idx,el){
+            let priKey;
+            if($(el).is(":checked")){
+                let tr = $(el).closest('tr');
+                tr.remove();
+                if(!$(tr).hasClass("addTr")){
+                    priKey = tr.find("input[type='hidden']").val();
+                    procDelList.push(priKey);
+                    for(let i = 0; i< procModifyList.length; i++){
+                        if(procModifyList[i][0]== priKey){
+                            procModifyList.splice(i,1);
+                        }
+                    }
+                }
+            }
+        });
+        
+        //내부에 내용이 없으면 allCheck 해제
+        if(procTable.find("tbody tr").length==0){
+            $("#procAllCheck").prop("checked",false);
+        }
+    });
+    
     function lineDeleteSaveAjax(lineDelList){
         console.log(lineDelList);
         $.ajax({

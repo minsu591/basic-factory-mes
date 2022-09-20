@@ -140,8 +140,15 @@ $("document").ready(function(){
                     //txt가 숫자와 문자가 섞여있으면
                     tdInfo.text(parseIntVol);
                 }
-
-                if(notPlanVol != null && notPlanVol != '' && parseInt(notPlanVol) < parseInt(tdInfo.text())){
+                if(parseInt(tdInfo.text()) <= 0){
+                    Swal.fire({
+                        icon: "error",
+                        title: "입력한 값이 1보다 작습니다",
+                        text: "다시 입력해주세요"
+                    });
+                    tdInfo.text(defaultVal);
+                    return false;
+                }else if(notPlanVol != null && notPlanVol != '' && parseInt(notPlanVol) < parseInt(tdInfo.text())){
                     Swal.fire({
                         icon: "error",
                         title: "미계획량보다 계획량이 큽니다",
