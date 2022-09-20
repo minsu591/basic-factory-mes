@@ -219,8 +219,7 @@ $("#resetBtn").click(function () {
       }
 
     //반품관리 테이블 tr 돌면서 출고량 총 합계 계산
-
-      console.log(addList); //제품코드, lot번호, 기반품량, 반품량, 금액, 처리구분, 반품사유
+      totalPrice();
       e.stopPropagation();
     });
     
