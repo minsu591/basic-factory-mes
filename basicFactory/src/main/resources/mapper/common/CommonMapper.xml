@@ -54,16 +54,15 @@
 		즉, 0~10까지 출력됨
 	 -->
 	<select id="findOutFinForMain" resultType="com.mes.bf.sales.vo.SlsOutDtlForMainVO">
-		SELECT X.*, ROWNUM AS RANK
-		        FROM (select od.fin_prd_cd_code, f.fin_prd_cd_name, sum(od.sls_out_dtl_vol) as sls_out_dtl_vol
-		        from bf_sales_out_hd oh
-		        join bf_sales_out_dtl od
-		        on oh.sls_out_hd_no = od.sls_out_hd_no
-		        left outer join bf_cmn_finish_product_code f
-		        on f.fin_prd_cd_code = od.fin_prd_cd_code
-		        WHERE oh.SLS_OUT_HD_DATE BETWEEN SYSDATE-13 AND SYSDATE
-		        group by od.fin_prd_cd_code, f.fin_prd_cd_name
-		        order by sls_out_dtl_vol desc) X
+		SELECT OH.SLS_OUT_HD_DATE AS SLS_OUT_HD_DATE, SUM(OD.SLS_OUT_DTL_VOL) AS SLS_OUT_DTL_VOL
+	            FROM BF_SALES_OUT_HD OH
+	            	JOIN BF_SALES_OUT_DTL OD
+	            	  ON OH.SLS_OUT_HD_NO = OD.SLS_OUT_HD_NO
+	            LEFT OUTER JOIN BF_CMN_FINISH_PRODUCT_CODE F
+	            	  ON F.FIN_PRD_CD_CODE = OD.FIN_PRD_CD_CODE
+	            WHERE OH.SLS_OUT_HD_DATE BETWEEN SYSDATE-13 AND SYSDATE
+	            	GROUP BY OH.SLS_OUT_HD_DATE
+	            ORDER BY SLS_OUT_HD_DATE
         <!-- <![CDATA[ WHERE ROWNUM <=4 ]]> -->
 		
 	</select>
