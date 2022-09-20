@@ -16,7 +16,7 @@ public class FindNonOpHIstoryVO {
 	private String nonOpName;
 	private String nonOpRsn;
 	private int nonOpMin;
-	private Date nonOpStartTime;
-	private Date nonOpEndTime;
+	private String nonOpStartTime;
+	private String nonOpEndTime;
 	private String nonOpRemk;
 }
