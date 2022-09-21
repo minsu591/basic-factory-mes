@@ -18,7 +18,7 @@ $(document).ready(function(){
    if ($("#modalAllCheck").is(":checked")) {
      $("#findRscOutTable tbody input:checkbox").prop("checked", true);
    } else {
-     $("#findRscOutTable tbodddy input:checkbox").prop("checked", false);
+     $("#findRscOutTable tbody input:checkbox").prop("checked", false);
    }
  })
 
@@ -79,11 +79,11 @@ $(document).ready(function(){
    $("#findRscOuttbody").append(node);
  }
 
+ //이미 출력되어있는 행의 출고코드 목록
+ let outCodeList = [];
  
  //출고목록 등록버튼 체크박스에 체크된것만
  $("#addBtn").click(function () {
-   //이미 출력되어있는 행의 출고코드 목록
-   let outCodeList = [];
    let outCodeListTemp = [];
    let checked = $("input[name='chkModal']:checked").length;
    if (checked == 0) {

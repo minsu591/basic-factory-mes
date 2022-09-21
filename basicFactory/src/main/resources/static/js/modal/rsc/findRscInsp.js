@@ -20,7 +20,7 @@ $(document).ready(function(){
   if ($("#modalAllCheck").is(":checked")) {
     $("#findRscInspTable tbody input:checkbox").prop("checked", true);
   } else {
-    $("#findRscInspTable tbodddy input:checkbox").prop("checked", false);
+    $("#findRscInspTable tbody input:checkbox").prop("checked", false);
   }
 })
 

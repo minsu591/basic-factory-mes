@@ -42,3 +42,7 @@ h1 {
 .buttonSet-top{
 	float : right;
 }
+
+.modal-search-fm{
+    padding: 0 1.25rem;
+}
