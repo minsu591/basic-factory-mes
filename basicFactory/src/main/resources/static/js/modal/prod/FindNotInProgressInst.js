@@ -272,6 +272,10 @@ function planDetailTableMakeRow(obj, finInfoList) {
               </tr>`;
 
   $("#planDetailTable tbody").append(node);
+
+  if(obj.planHdCode != null) {
+    $("#planDetailTable tbody tr").find("td:eq(1) input").prop("disabled",true);
+  }
 }
 
 function modifyDataWarn() {
