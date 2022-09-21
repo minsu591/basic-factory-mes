@@ -173,37 +173,52 @@ function workinsertTableLastChildMakeRow(obj, index) {
 
   if (index == 1) {
     if (compstts == "y") {
-      let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
+      let node = `<td><button type="button" class="btn btn-secondary">진행완료</button></td>`;
       $("#workInsertTable tbody tr:eq(0)").append(node);
     } else {
       let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
-      let tr = $("#workInsertTable tbody tr:eq(0)").append(node);
+      $("#workInsertTable tbody tr:eq(0)").append(node);
+      if (obj.mchnStts == '비가동') {
+        $("#workInsertTable tbody tr").find("td:eq(8) button").addClass("btn-danger")
+      }
+
     }
   } else if (index == 2) {
     if (compstts == "y") {
-      let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
+      let node = `<td><button type="button" class="btn btn-secondary">진행완료</button></td>`;
       $("#workInsertTable tbody tr:eq(1)").append(node);
     } else {
       let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
-      let tr = $("#workInsertTable tbody tr:eq(1)").append(node);
+      $("#workInsertTable tbody tr:eq(1)").append(node);
+      if (obj.mchnStts == '비가동') {
+        $("#workInsertTable tbody tr").find("td:eq(8) button").addClass("btn-danger")
+      }
     }
   } else if (index == 3) {
     if (compstts == "y") {
-      let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
+      let node = `<td><button type="button" class="btn btn-secondary">진행완료</button></td>`;
       $("#workInsertTable tbody tr:eq(2)").append(node);
     } else {
       let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
-      let tr = $("#workInsertTable tbody tr:eq(2)").append(node);
+      $("#workInsertTable tbody tr:eq(2)").append(node);
+      if (obj.mchnStts == '비가동') {
+        $("#workInsertTable tbody tr").find("td:eq(8) button").addClass("btn-danger")
+      }
     }
   } else if (index == 4) {
     if (compstts == "y") {
-      let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
+      let node = `<td><button type="button" class="btn btn-secondary">진행완료</button></td>`;
       $("#workInsertTable tbody tr:eq(3)").append(node);
     } else {
       let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
-      let tr = $("#workInsertTable tbody tr:eq(3)").append(node);
+      $("#workInsertTable tbody tr:eq(3)").append(node);
+      if (obj.mchnStts == '비가동') {
+        $("#workInsertTable tbody tr").find("td:eq(8) button").addClass("btn-danger")
+      }
     }
   }
+
+
 }
 
 //모달창 데이터 입력

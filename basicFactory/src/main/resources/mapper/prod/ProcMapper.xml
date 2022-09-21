@@ -86,6 +86,7 @@
 				AND to_char(workDate,'yyyy-mm-dd') = #{workDate}
 			</if>
 		</where>
+		ORDER BY workdate DESC
 	</select>
 
 	<!-- 공정테이블 조회 -->
