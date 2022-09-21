@@ -131,3 +131,7 @@ tfoot {
 	background-color: rgba(241, 196, 15, 0.1);
 	
 }
+
+#searchOut{
+	margin-top : 1rem !important;
+}

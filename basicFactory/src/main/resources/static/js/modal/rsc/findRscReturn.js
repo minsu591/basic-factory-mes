@@ -18,7 +18,7 @@ $("#modalAllCheck").click("change", function () {
   if ($("#modalAllCheck").is(":checked")) {
     $("#findRscReturnTable tbody input:checkbox").prop("checked", true);
   } else {
-    $("#findRscReturnTable tbodddy input:checkbox").prop("checked", false);
+    $("#findRscReturnTable tbody input:checkbox").prop("checked", false);
   }
 })
 

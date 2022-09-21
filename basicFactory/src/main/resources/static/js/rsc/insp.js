@@ -221,6 +221,7 @@ $(document).ready(function () {
           if (inspList.length == result) {
             submitComplete();
             $("#outTable tr").remove();
+            $("#allCheck").prop("checked", false);
           }
         }
   
