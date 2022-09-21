@@ -46,3 +46,7 @@ h1 {
 .modal-search-fm{
     padding: 0 1.25rem;
 }
+
+.modal-pointer{
+	cursor : pointer;
+}
