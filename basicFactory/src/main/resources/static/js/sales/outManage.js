@@ -10,22 +10,9 @@ $("document").ready(function () {
     let outLotList = [];                 //출고시킬 LOT정보 담기(제품코드, lot번호, 출고량)
     let avArr = [6];
     let ModalTable = $("#findLotTable"); //완제품 재고 테이블 정보
-    let outDtlVol = 0;                   //출고량 총 합계
     let defaultVal;
-    //모달창 열 때 임시로 값을 담아두는 곳 (저장 눌렀을 경우에만 outLotList, modifyList에 담길 수 있음)
-    let tempOutLotList = [];            
+    //모달창 열 때 임시로 값을 담아두는 곳 (저장 눌렀을 경우에만 modifyList에 담길 수 있음)    
     let modTempList = [];
-
-
-    $("#outMngTable").on("change", "input[name=chk]", function () {
-        let total = $("input[name=chk]").length;
-        let checked = $("input[name=chk]:checked").length;
-        if (total != checked) {
-            $("#allCheck").prop("checked", false);
-        } else {
-            $("#allCheck").prop("checked", true);
-        }
-    });
 
     //초기화 버튼
     $("#resetBtn").click(function () {
@@ -97,18 +84,8 @@ $("document").ready(function () {
         e.preventDefault();
         let modalTd = $(this);
         let modalTrInfo = $(this).closest("tr");
-        let fnsPrdStkVol = parseInt(modalTrInfo.find("td:eq(4)").text()); //모달 클릭 tr의 재고수량
         let slsOutDtlVol = parseInt(modalTrInfo.find("td:eq(5)").text()); //모달 클릭 tr의 입력한 출고수량
 
-        //출고량이 재고량보다 클 때
-        if (fnsPrdStkVol != 0 && fnsPrdStkVol < slsOutDtlVol){ 
-            outVolWarn();
-            modalTrInfo.find("td:eq(5)").text(defaultVal);
-            return false;
-        } else if (fnsPrdStkVol == 0 && fnsPrdStkVol < slsOutDtlVol) {
-            stockVolWarn();
-            modalTrInfo.find("td:eq(5)").text(defaultVal);
-        }
         //0의 값이 입력 됐을 때
         if (slsOutDtlVol <= 0) {
             minusWarning();
@@ -116,14 +93,15 @@ $("document").ready(function () {
             return false;
         }
 
-        if(slsOutDtlVol != null && slsOutDtlVol != ''){
-            checkNewOutLotList(modalTrInfo);
+        if (slsOutDtlVol != null && slsOutDtlVol != '') {
+            let outVolTd = $(this);
+            checkNewOutLotList(modalTrInfo,outVolTd);
         }
 
         e.stopPropagation();
     });
 
-    function checkNewOutLotList(modalTrInfo) {
+    function checkNewOutLotList(modalTrInfo,outVolTd) {
         //변경될 때의 값들
         let slsOutHdNo = $("#slsOutHdNo").val();
         let finPrdCdCode = modalTrInfo.find("td:eq(1)").text();
@@ -137,66 +115,47 @@ $("document").ready(function () {
         if(slsOutDtlVol == null || slsOutDtlVol == ''){
             slsOutDtlVol = 0;
             volNullFlag = true;
-            //slsOutDtlVol 빈값이면 outLotList에서 지우기, 추가 X
-            //modifyList 중 빈값인 td면 modifyList에서 지우기, 추가 X
         }else{
             slsOutDtlVol = parseInt(slsOutDtlVol);
         }
 
         //미출고 주문조회로 값을 등록할 때(신규 등록)
-        if(outTableTrInfo.hasClass("notOut")){
-            if(tempOutLotList.length == 0 && volNullFlag){
-                return true;
-            }
-            //중복검사
-            for (let i =0; i<tempOutLotList.length; i++) {
-                //outLotList[addList[제품코드, lot, 출고량], addList[]]
-                lot = tempOutLotList[i];
-                if (lot[0] == finPrdCdCode && lot[1] == fnsPrdStkLotNo && !volNullFlag) {
-                    flag = false;
-                    outDtlVol -= lot[2];
-                    lot[2] = slsOutDtlVol;
-                    break;
-                }else if(volNullFlag){
-                    if(lot[0] == finPrdCdCode && lot[1] == fnsPrdStkLotNo){
-                        tempOutLotList.splice(i,1);
-                    }
-                    return false;
-                }
-            }
+        if (outTableTrInfo.hasClass("notOut")) {
 
-            outDtlVol += slsOutDtlVol;         //출고량 합
-            let prvsVol = parseInt(outTableTrInfo.find("td:eq(4)").text());        //기출고량
-            if (orderVol < outDtlVol + prvsVol) { //출고량 + 기출고량이 주문량보다 크면 X
-                excsWarning();
-                modalTrInfo.find("td:eq(5)").text(''); //초기화
-                return false;
-            }
-
-            if (flag) {
-                let addList = [finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol];
-                tempOutLotList.push(addList);
-            }
-            console.log(tempOutLotList);
-
-            //완제품 재고 모달창의 tr 돌면서 총 출고량 계산
-            let trs = ModalTable.find("tbody tr");
-            let totalOutVol = 0;
-            for(tr of trs){
-                let outVol = Number($(tr).find("td:eq(5)").text());
-                if(outVol == null || outVol == ''){
-                    totalOutVol += 0;
-                } else {
-                    totalOutVol += outVol;
-                }
-            }
-
-            //모달창 아래 기출고량+출고량 합계
-            $("#outTotalSum").text((prvsVol + totalOutVol) + "/" + orderVol);
-
-            //입력된 출고량의 합 대입 (모달 안에서 확인 안 누르고 다시 수정했을 때 출고량 안 맞아서)
-            outDtlVol = totalOutVol;
+            //td클릭할 때 밖 데이터 합치기 
+            let preVol = parseInt(outTableTrInfo.find("td:eq(4)").text());
+            let slsOutDtlVol = parseInt(outTableTrInfo.find("td:eq(5)").text());
+            let orderVol = parseInt(outTableTrInfo.find("td:eq(3)").text());
             console.log(outLotList);
+            $("#outTotalSum").text((preVol + slsOutDtlVol) + "/" + orderVol);   //모달창 띄울 때 기본 데이터
+
+            //숫자만 들어가게, 문자 안들어가게
+            let myOutTotal = parseInt($(outVolTd).text());        //클릭한 td (출고량)
+            if (myOutTotal > parseInt($(outVolTd).parents().find("td:eq(4)").text())) { //재고량보다 클 때 
+                //재고량보다 출고량이 크면
+                outVolWarn();
+            }
+            
+
+            //기출고량 합계 비교하려고 tr돌림
+            $("#findLotTable tbody tr").each(function (idx,el) {    
+                let outVol = $(el).find("td:eq(5)").text();  //입력한 출고량
+                if (outVol == null || outVol == '') {
+                    outVol = 0;
+                } else if (parseInt(outVol) == NaN) {        //빈값이나 이상한 값이면 0으로 
+                    outVol = 0;
+                } else {                                    
+                    preVol += parseInt(outVol);              //출고관리 테이블의 기출고량 + 출고량
+                }
+            });
+
+            //주문량 보다 출고량이 많을 때
+            if (orderVol < preVol) {             //preVol = 기출고량 + 출고량 (다 더한 거)
+                excsWarning();
+                $(outVolTd).text('');            //입력값 초기화
+                preVol -= parseInt(myOutTotal);  //입력한 출고량만큼 빼주기
+            }
+            $("#outTotalSum").text(preVol + "/" + orderVol);
 
         //출고량 수정일 때
         } else { 
@@ -269,41 +228,40 @@ $("document").ready(function () {
         //outLotList[addList[제품코드, lot, 출고량], addList[]]
         let sum = 0;
         let lotInfo;
-        let flag =false;
+        let flag = false;
+        
+
         if (outTableTrInfo.hasClass("notOut")) { //미출고 주문조회 / 클래스 주고 조건 변경
-            for(temp of tempOutLotList){
-                let tempFlag = true;
-                for(out of outLotList){
-                    if(temp[0] == out[0] && temp[1] == out[1]){
-                        out[2] = temp[2];
-                        tempFlag = false;
-                        break;
+            //모달 위에서 부터 빈값 확인
+            $("#findLotTable tbody tr").each(function (idx, el) {
+                let finPrdCdCode = $(el).find("td:eq(1)").text();
+                let fnsPrdStkLotNo = $(el).find("td:eq(3)").text();
+                let slsOutDtlVol = $(el).find("td:eq(5)").text();
+
+                if (slsOutDtlVol == null || slsOutDtlVol == '') {
+                    //빈값이면 무시하기 위함
+                } else if (parseInt(slsOutDtlVol) == NaN) {
+                    //빈값이면 무시하기 위함
+                } else {
+                    //총 출고량 구하기
+                    let tempFlag = true;
+                    for (out of outLotList) {
+                        if (finPrdCdCode == out[0] && fnsPrdStkLotNo == out[1]){
+                            out[2] = slsOutDtlVol;
+                            tempFlag = false;
+                            break;
+                        }
                     }
-                }
-                if(tempFlag){
-                    outLotList.push(temp);
-                }
-
-            }
-            if(outLotList.length == 0){
-                outLotList = tempOutLotList;
-            }
-
-
-            //미출고 주문조회
-            $("#findLotTable tbody tr").each(function(idx,el){
-                let outVolCheck = $(el).find("td:eq(5)").text();
-    
-                if(outVolCheck != null && outVolCheck != ''){
-                    flag = true;
-                    return false;
+                    if (tempFlag) {
+                        let out = [finPrdCdCode, fnsPrdStkLotNo, parseInt(slsOutDtlVol)];
+                        outLotList.push(out);
+                    }
+                    //출고량 for문 돌면서 더하기
+                    okOutDtlVol += parseInt(slsOutDtlVol);
                 }
             });
-            if(!flag){ //입력된 출고량 없으면
-                $("#findLotModal").modal("hide");
-                return false;
-            }
-            console.log(outLotList);
+
+
             for (let i = 0; i < outLotList.length; i++) {
                 if (outLotList[i][0] == finPrdCdCode) {
                     sum += 1;
@@ -315,9 +273,55 @@ $("document").ready(function () {
             } else {
                 lotTdInfo.text(lotInfo + "외 " + (sum - 1));
             }
-            okOutDtlVol = outDtlVol;
+
+            console.log(outLotList);
+            // for(temp of tempOutLotList){
+            //     let tempFlag = true;
+            //     for(out of outLotList){
+            //         if(temp[0] == out[0] && temp[1] == out[1]){
+            //             out[2] = temp[2];
+            //             tempFlag = false;
+            //             break;
+            //         }
+            //     }
+            //     if(tempFlag){
+            //         outLotList.push(temp);
+            //     }
+
+            // }
+            // if(outLotList.length == 0){
+            //     outLotList = tempOutLotList;
+            // }
+
+
+            // //미출고 주문조회
+            // $("#findLotTable tbody tr").each(function(idx,el){
+            //     let outVolCheck = $(el).find("td:eq(5)").text();
+    
+            //     if(outVolCheck != null && outVolCheck != ''){
+            //         flag = true;
+            //         return false;
+            //     }
+            // });
+            // if(!flag){ //입력된 출고량 없으면
+            //     $("#findLotModal").modal("hide");
+            //     return false;
+            // }
+            // console.log(outLotList);
+            // for (let i = 0; i < outLotList.length; i++) {
+            //     if (outLotList[i][0] == finPrdCdCode) {
+            //         sum += 1;
+            //         lotInfo = outLotList[i][1];
+            //     }
+            // }
+            // if (sum == 1) {
+            //     lotTdInfo.text(lotInfo);  //동일 제품이 1개일 경우 lotInfo에 lot정보 들어있음 있음
+            // } else {
+            //     lotTdInfo.text(lotInfo + "외 " + (sum - 1));
+            // }
+            // okOutDtlVol = outDtlVol;
             
-            outDtlVol = 0;          //총 출고량 초기화
+            // outDtlVol = 0;          //총 출고량 초기화
             
         }else{
             // priKey, finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol, slsOutHdNo
@@ -367,7 +371,9 @@ $("document").ready(function () {
 
 
         //출고관리 테이블 tr 돌면서 출고량 총 합계 계산
-        totalPrice();
+        if (okOutDtlVol != null) {
+            totalPrice();
+        }
     });
 
     //완제품 출고 관리에서 lot별 완제품 재고 모달창
@@ -665,11 +671,8 @@ $("document").ready(function () {
                 tr.remove();
                 let priKey = $("#slsOutHdNo").val();
                 let finPrdCdCode = tr.find("td:eq(1)").text();
-                console.log("출고번호 = " + priKey + "제품코드 = " + finPrdCdCode);
                 let delTr = [priKey, finPrdCdCode];
                 delList.push(delTr);
-                console.log("delList!");
-                console.log(delList);
 
                 for (let i = 0; i < modifyList.length; i++) {//수정하고 삭제할 수도 있어서. 검사.
                     if (modifyList[i][4] == priKey) {
@@ -679,6 +682,11 @@ $("document").ready(function () {
             }
             console.log(delList);
         });
+        //내부에 내용이 없으면 allCheck 해제
+        if (table.find("tbody tr").length == 0) {
+            $("#allCheck").prop("checked", false);
+        }
+        
         //출고관리 테이블 tr 돌면서 출고량 총 합계 계산
         totalPrice();
     });
@@ -696,7 +704,12 @@ $("document").ready(function () {
             }
             priceSum += totalPrice;
         }
-        $("#outTotalPrice").text(priceSum.toLocaleString("ko-KR"));
+
+        if (table.find("tbody tr").length == 0) {
+            $("#outTotalPrice").text('');
+        } else {
+            $("#outTotalPrice").text(priceSum.toLocaleString("ko-KR"));
+        }
     }
 
     function deleteHdSaveAjax(slsOutHdNo){

@@ -2,7 +2,6 @@ $("document").ready(function(){
 
     //반품관리에서 출고조회 시 출고내역 모달창
     $("#findOutModalBtn").on("click", function (e) {
-        $("#slsRtnHdNo").val('');
         $("#allCheck").prop("checked", false);
         $("#findOutModal").modal("show");
         findOutClick();
@@ -11,10 +10,8 @@ $("document").ready(function(){
     $("#findOutBtn").on("click", findOutClick); //모달창에서 조회 눌렀을 때
 
     function findOutClick() {
-        console.log('클릭');
         let outSdate = $("#outSdate").val();
         let outEdate = $("#outEdate").val();
-        let div = 'toReturn';
 
         $.ajax({
             url: 'outView/hd/return',
@@ -23,7 +20,6 @@ $("document").ready(function(){
             data : {
                 outSdate,
                 outEdate,
-                div
             },
             success: function (data) {
                 console.log(data);
@@ -96,6 +92,8 @@ $("document").ready(function(){
                     for(out of result){
                         rtnMngMakeRow(out);
                     }
+                    $("#rtnTotalPrice").text('');
+                    $("#slsRtnHdNo").val('');
                 }else{
                     return;
                 }
@@ -106,6 +104,7 @@ $("document").ready(function(){
             }
             $("#findOutModal").modal("hide");
         }
+
     }
     
     //출고내역 조회 모달을 통한 데이터 출력

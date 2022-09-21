@@ -43,8 +43,6 @@ public class SlsRtnController {
 	//완제품 반품내역 단건 조회
 	@GetMapping("/findReturn")
 	public List<SlsRtnHdDtlVO> findReturn(@RequestParam Map<String, String> param) {
-		System.out.println("들어옴");
-		System.out.println(param);
 		List<SlsRtnHdDtlVO> list = service.findReturn(param.get("rtnSdate"),
 													  param.get("rtnEdate"),
 													  param.get("prcCls"),

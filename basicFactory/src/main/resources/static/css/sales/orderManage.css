@@ -72,3 +72,7 @@ h1 {
 	height: 43vh;
 	overflow : auto;
 }
+
+.modal-search-fm{
+    padding: 0 1.25rem;
+}

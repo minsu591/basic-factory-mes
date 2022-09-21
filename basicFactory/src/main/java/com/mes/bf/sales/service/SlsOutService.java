@@ -47,7 +47,7 @@ public interface SlsOutService {
 	void callProcOutDtlDel(String slsOutDtlNo);	
 	
 	//반품 관리에서 출고조회 모달
-	List<SlsOutHdVO> outHdViewToReturn(String outSdate, String outEdate, String div);
+	List<SlsOutHdVO> outHdViewToReturn(String outSdate, String outEdate);
 	
 	//반품관리에서 출고내역 상세조회(중복 제품 모두)
 	List<SlsOutDtlVO> outDtlViewToReturn(String slsOutHdNo);

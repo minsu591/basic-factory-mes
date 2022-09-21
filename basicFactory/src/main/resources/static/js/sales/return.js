@@ -56,25 +56,30 @@ $(document).ready(function () {
     let vendorName = $("#vendorName").val();
     let prcCls = $("#prcCls option:selected").val();
     
-    console.log(typeof (rtnSdate));
-    console.log(rtnSdate);
-    console.log(typeof (rtnEdate));
-    console.log(rtnEdate);
     if (rtnSdate != null && rtnSdate != '' && rtnEdate != null && rtnEdate != '') {
       if (rtnSdate > rtnEdate) {
         if (rtnDateChecked()) {
+          dateReset();
           return false;
         }
-      } 
-      findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
-    } else{
-      findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
+      }
+    } else if (rtnSdate != null && rtnSdate != '') {
+      if (rtnEdate == null || rtnEdate == '') {
+        dateWarning();
+        dateReset();
+        return false;
+      }
+    } else if (rtnEdate != null && rtnEdate != '') {
+      if (rtnSdate == null || rtnSdate == '') {
+        dateWarning();
+        dateReset();
+        return false;
+      }
     }
+    findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
   });
 
   function findReturn(rtnSdate, rtnEdate, vendorName, prcCls) {
-    console.log(rtnSdate);
-    console.log(rtnEdate);
     $.ajax({
       url: "findReturn",
       method: "GET",
@@ -107,8 +112,20 @@ $(document).ready(function () {
       icon: "warning",
       title: "잘못된 검색 조건입니다."
     });
+    return true;
+  }
+
+  function dateWarning() {
+    Swal.fire({
+      icon: "warning",
+      title: "일자 검색값 확인",
+      text: "입력값이 부족합니다.",
+      confirmButtonText: "확인",
+    })
+  }
+
+  function dateReset() {
     $("#rtnSdate").val('');
     $("#rtnEdate").val('');
-    return true;
   }
 });
