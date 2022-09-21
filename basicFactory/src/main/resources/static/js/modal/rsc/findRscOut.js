@@ -51,7 +51,12 @@ $(document).ready(function(){
        rscOutDate: rscOutDate
      },
      error: function (error, status, msg) {
-       alert("상태코드 " + status + "에러메시지" + msg);
+      Swal.fire({
+        icon: "warning", 
+        title: "에러 발생",
+        text : `상태코드 ${status}, 에러메시지 ${msg}`,
+        confirmButtonText: "확인"
+      })
      },
      success: function (data) {
        console.log(data);
@@ -81,13 +86,15 @@ $(document).ready(function(){
 
  
  //이미 출력되어있는 행의 출고코드 목록
- let outCodeList = [];
-
+ 
  //출고목록 등록버튼 체크박스에 체크된것만
  $("#addBtn").click(function () {
-  // $("#InsertTable tbody tr").each(function(idx,el){
-  //   $(el).find("td:eq(1)").find("input").val();
-  // });
+   let outCodeList = [];
+  $("#InsertTable tbody tr").each(function(idx,el){
+    let outTableCode = $(el).find("td:eq(1)").find("input").val();
+    outCodeList.push(outTableCode);
+  });
+  console.log(outCodeList);
    let outCodeListTemp = [];
    let checked = $("input[name='chkModal']:checked").length;
    if (checked == 0) {
@@ -136,7 +143,6 @@ $(document).ready(function(){
      return;
    }
    //...연산자 : 값을 풀어넣음
-   outCodeList.push(...outCodeListTemp);
 
    console.log(param);
 

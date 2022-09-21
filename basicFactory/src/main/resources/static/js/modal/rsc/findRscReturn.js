@@ -79,10 +79,14 @@ function makeRscReturnRow(obj, index) {
 }
 
 //이미 출력되어있는 행의 출고코드 목록
-let codeList = [];
 
 //출고목록 등록버튼 체크박스에 체크된것만
 $("#addBtn").click(function () {
+  let codeList = [];
+  $("#InsertTable tbody tr").each(function(idx,el){
+    let outTableCode = $(el).find("td:eq(1)").find("input").val();
+    codeList.push(outTableCode);
+  });
   let codeListTemp = [];
   let checked = $("input[name='chkModal']:checked").length;
   if (checked == 0) {
@@ -142,7 +146,12 @@ $("#addBtn").click(function () {
     data: JSON.stringify(param),
     dataType: "json",
     error: function (error, status, msg) {
-      alert("상태코드 " + status + "에러메시지" + msg);
+      Swal.fire({
+        icon: "warning", 
+        title: "에러 발생",
+        text : `상태코드 ${status}, 에러메시지 ${msg}`,
+        confirmButtonText: "확인"
+      })
     },
     success: function (data) {
       for (obj of data) {
