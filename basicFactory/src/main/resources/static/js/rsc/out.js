@@ -41,16 +41,6 @@ $("document").ready(function () {
     $("input[name='chk']:checked").each(function (k, val) {
       $(this).parent().parent().remove();
       $("#allCheck").prop("checked", false);
-      console.log(outCodeList)
-      let checkbox = $("input[name='chkModal']:checked");
-      checkbox.each( function(i){
-        let tr = checkbox.parent().parent().eq(i);
-        let td = tr.children();
-        let rscOutCode = td.eq(1).val();
-        console.log(rscOutcode);
-        outCodeList.pop(rscOutCode);
-      }
-      )
     });
 
   });
