@@ -66,24 +66,24 @@ public class InspcController {
 	
 	//설비점검대상조회(모달창)
 	@GetMapping(value = "/findNxtDate", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<InspcVO>> findNxtDate(){
-		List<InspcVO> list = service.findNxtDate();
+	public ResponseEntity<List<MchnVO>> findNxtDate(){
+		List<MchnVO> list = service.findNxtDate();
 		System.out.println(list);
-		return new ResponseEntity<List<InspcVO>>(list, HttpStatus.OK);
+		return new ResponseEntity<List<MchnVO>>(list, HttpStatus.OK);
 	}
 	//tr 눌러 outTable로 출력
-//	@RequestMapping(value="/findRscInspToTable", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-//	@ResponseBody
-//	public ResponseEntity<List<RscInspVO>> findRscInspToTable(@RequestBody List<RscInspVO> list) {
-//		RscInspVO result = new RscInspVO();
-//		List<RscInspVO> inspList = new ArrayList<RscInspVO>();
-//		for (int i = 0; i <list.size() ; i++) {
-//			result = rscInspService.inspVoLoad(list.get(i).getRscInspCode());
-//			inspList.add(i,result);
-//		}
-//		System.out.println(inspList);
-//		return new ResponseEntity<List<RscInspVO>>(inspList, HttpStatus.OK);
-//	}
+	@RequestMapping(value="/findNxtDateToTable", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<List<MchnVO>> findNxtDate(@RequestBody List<MchnVO> list) {
+		MchnVO result = new MchnVO();
+		List<MchnVO> NxtdLlist = new ArrayList<MchnVO>();
+		for (int i = 0; i <list.size() ; i++) {
+			result = service.findNxtDate(list.get(i).getMchnCode());
+			NxtdLlist.add(i,result);
+		}
+		System.out.println(NxtdLlist);
+		return new ResponseEntity<List<MchnVO>>(NxtdLlist, HttpStatus.OK);
+	}
 	
 	//점검조회
 	@RequestMapping("/inspcList")
