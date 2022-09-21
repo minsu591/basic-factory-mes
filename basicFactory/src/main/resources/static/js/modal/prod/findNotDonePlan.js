@@ -75,6 +75,8 @@ $(document).ready(function () {
   });
   function findplanNotDoneView(planHdCode) {
     $("#planDetailTable thead tr").find("input:hidden").remove();
+    $("#instname").val("");
+    $("#instremk").val("");
     $.ajax({
       url: "planNotDoneView/dtl",
       type: "GET",

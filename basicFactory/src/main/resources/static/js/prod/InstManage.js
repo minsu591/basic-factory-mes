@@ -458,9 +458,20 @@ $(document).ready(function () {
               <td>${obj.lineCdOrd}</td>
               <td>${obj.procCdName}</td>
               <td>${obj.mchnName}</td>
-              <td>${obj.mchnStts}</td>
+              <td><span>${obj.mchnStts}<span></td>
               </tr>`;
     $("#procStatusTable tbody").append(node);
+
+    if (obj.mchnStts == '비가동') {
+      $("#procStatusTable tbody tr").last().find("td:eq(3) span").addClass("badge badge-danger")
+    } else if (obj.mchnStts == '진행전') {
+      $("#procStatusTable tbody tr").last().find("td:eq(3) span").addClass("badge badge-primary")
+    } else if (obj.mchnStts == '진행중') {
+      $("#procStatusTable tbody tr").last().find("td:eq(3) span").addClass("badge badge-warning")
+    } else {
+      $("#procStatusTable tbody tr").last().find("td:eq(3) span").addClass("badge badge-secondary")
+    }
+
   }
 
   function rscStockMakeRow(obj, index) {
