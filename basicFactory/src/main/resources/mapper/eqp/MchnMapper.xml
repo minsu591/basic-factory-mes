@@ -37,7 +37,7 @@
 				#{mchnMnfctDate},
 				#{mchnStts},
 				#{mchnInsertDate},
-				(select to_date(INSPC_EDATE + #{mchnInspcCycle},'yy/MM/dd') from BF_EQP_INSPC where mchn_code = #{mchnCode}),
+				#{mchnInspcNxtDate},
 				#{mchnInspcCycle},
 				#{mchnRemk})
 	</insert>

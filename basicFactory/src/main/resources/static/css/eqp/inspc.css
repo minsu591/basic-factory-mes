@@ -6,6 +6,11 @@ h1 {
 	margin-bottom : 2%;
 }
 
+.modal .table-responsive{
+   height: 43vh;
+   overflow : auto;
+}
+
 .btn {
 	margin-top: 1rem;
 }
@@ -33,13 +38,10 @@ h1 {
 	background: rgba(241, 196, 15, 0.1);
 }
 
-.modal table tbody tr {
-	cursor:pointer;
-}
-
 .curPo {
 	cursor:pointer;
 }
+
 
 select {
 	width : 100%;

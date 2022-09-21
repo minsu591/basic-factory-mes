@@ -41,8 +41,8 @@ $("document").ready(function () {
               <td class="vendor curPo">${obj.vendCdCode}</td>
               <td class="cantModifyTd">${obj.vendCdNm}</td>
               <td>${obj.mchnPrice}</td>
-              <td><input type="date" value="${obj.mchnPrchsDate}"></td>
               <td><input type="date" value="${obj.mchnMnfctDate}"></td>
+              <td><input type="date" value="${obj.mchnPrchsDate}"></td>
               <td><input type="date" value="${obj.mchnInsertDate}"></td>
               <td>${obj.mchnInspcCycle}</td>
               <td><input type="date" value="${obj.mchnInspcNxtDate}"></td>
@@ -122,6 +122,28 @@ $("document").ready(function () {
       tdInfo.removeClass("nullTd");
     }
 
+    //구매일자, 차기점검일 비교
+    if(tdInfo.children("input").length == 1){
+      let inputInfo = tdInfo.find("input");
+      //구매일자
+      if(tdInfo.next().children("input").length == 1){
+        let mnfctDate = tdInfo.prev().find("input").val();      //mnfctDate 제작일자
+          if(mnfctDate != null && mnfctDate != ''){
+            inputInfo.attr("min",mnfctDate);
+          }else{
+            inputInfo.attr("min",'');
+          }
+      //차기점검일
+      }else if(tdInfo.parent().children().eq(11).find("input").length == 1){
+        let prchsDate = tdInfo.parent().children().eq(8).find("input").val();      //prchsDate 구매일자
+        if(prchsDate != null && prchsDate != ''){
+          inputInfo.attr("min",prchsDate);
+        }else{
+          inputInfo.attr("min",today);
+        }
+      }
+    }
+
     //수정 적용할 인덱스인지 확인
     for (let i = 0; i < avArr.length; i++) {
       if (col == avArr[i]) {
@@ -137,12 +159,10 @@ $("document").ready(function () {
 
     //td에 입력할 수 있도록 설정(contenteditable)
     tdInfo.attr("contenteditable", "true");
-
     //td에 focus가 되면
-    tdInfo.unbind("focus").bind("focus", function () {  //아직도 일어나고 있는 포커스를 죽이고 다시 포커스
-      defaultVal = tdInfo.text();
-      tdInfo.addClass("tdBorder");
-    });
+    defaultVal = tdInfo.text();
+    tdInfo.addClass("tdBorder");
+    tdInfo.focus(); //아직도 일어나고 있는 포커스를 죽이고 다시 포커스
 
     //enter나 esc 누르면 블러 되도록
     tdInfo.on("keyup", function (key) {
@@ -176,6 +196,7 @@ $("document").ready(function () {
             //txt가 숫자와 문자가 섞여있으면
             tdInfo.text(parseIntVol);
           }
+          
           if (col == 6) {
             tdInfo.text(parseIntVol.toLocaleString("ko-KR"));
           }
@@ -189,6 +210,14 @@ $("document").ready(function () {
       e.stopPropagation();
     });
   });
+
+  //콤마 없애기
+  function commaSubtract(){
+    let mchnPrice = $("#mchntbody tr").find("td:eq(6)");
+    mchnPrice = mchnPrice.split(",").join(""); //콤마 제거
+    mchnPrice = Number(mchnPrice);
+    console.log(mchnPrice);
+  }
 
   //기존에 있는 값들 중에 td변경될 때(체인지이벤트 일어나는 거 갖고 옴)
   table.find("tbody").on("change", "td:not(:first-child)", function (e) {         //조회해온 tbody에 change 이벤트가 발생했을 때, td 첫번째 자식요소를 제외한 나머지 td들이 적용됨

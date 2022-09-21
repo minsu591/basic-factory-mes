@@ -30,6 +30,9 @@ $(document).ready(function () {
   }
 
   function mchnMakeRow(obj) {
+    if(obj.mchnMnfctDate == null || obj.mchnMnfctDate == ''){
+      obj.mchnMnfctDate = '';
+    }
     let node = `<tr>
                   <td>${obj.mchnCode}</td>
                   <td>${obj.mchnName}</td>

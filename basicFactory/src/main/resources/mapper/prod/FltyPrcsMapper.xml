@@ -77,7 +77,8 @@
         	ON FPD.EMP_ID = EMP.EMP_ID
 		WHERE 1=1
 		<if test="(fltyPrcsSdate != null and fltyPrcsSdate != '') and (fltyPrcsEdate != null and fltyPrcsEdate != '')">
-			AND FPD.FLTY_PRCS_DATE BETWEEN #{fltyPrcsSdate} AND #{fltyPrcsEdate}
+			<![CDATA[AND TO_CHAR(FPD.FLTY_PRCS_DATE, 'yyyy-MM-dd') >= #{fltyPrcsSdate} 
+					AND TO_CHAR(FPD.FLTY_PRCS_DATE, 'yyyy-MM-dd') <= #{fltyPrcsEdate}]]>
 		</if>
 		ORDER BY FLTY_PRCS_DATE
 	</select>
@@ -91,7 +92,6 @@
 		<if test="faultyCode != null and faultyCode != ''">
 			WHERE FAULTY_CD_CODE = #{faultyCode}
 		</if>
-		+-
 	</select>
 	
 	
@@ -154,7 +154,8 @@
 		</if>
 		<!-- DATE타입은 TO_DATE로  -->
 		<if test="(fltyPrcsSdate != null and fltyPrcsSdate != '') and (fltyPrcsEdate != null and fltyPrcsEdate != '')">
-			AND FPD.FLTY_PRCS_DATE BETWEEN  #{fltyPrcsSdate} AND #{fltyPrcsEdate}
+			<![CDATA[AND TO_CHAR(FPD.FLTY_PRCS_DATE, 'yyyy-MM-dd') >= #{fltyPrcsSdate} 
+					AND TO_CHAR(FPD.FLTY_PRCS_DATE, 'yyyy-MM-dd') <= #{fltyPrcsEdate}]]>
 		</if>
 		ORDER BY FLTY_PRCS_DATE
 	</select>
