@@ -121,7 +121,7 @@ public class LoginController {
 					+ "<button type=\"button\" style=\"cursor : pointer; color : #fff; background-color : #1abc9c; border-color : #1abc9c; display: block; width: 30%; margin : 0 auto; padding : 2%; font-weight : bold; vertical-align : middle; border-radius : 10px; justify-content : flex-start; height : 20%;\">비밀번호 설정</button></a>\r\n"
 					+ "</div>";
 					
-					
+			//email 수정
 			MailVO mailInfo = new MailVO();
 			mailInfo.setToAddress(empEmail);
 			mailInfo.setSubject("Basic Factory 비밀번호 재설정 메일입니다");
