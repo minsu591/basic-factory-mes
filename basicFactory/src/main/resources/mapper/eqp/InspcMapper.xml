@@ -36,17 +36,18 @@
 			    ON I.MCHN_CODE = M.MCHN_CODE
 			JOIN BF_CMN_EMP E
 			    ON E.EMP_ID = I.EMP_ID
-		<![CDATA[ WHERE I.INSPC_EDATE > TO_DATE(SYSDATE) ]]>
+		<![CDATA[ WHERE TO_CHAR(I.INSPC_EDATE, 'yyyy/MM/dd') > TO_CHAR(CURRENT_TIMESTAMP,'yyyy/MM/dd') ]]>
 		<if test="(inspcSdate != null and inspcSdate != '') and (inspcEdate != null and inspcEdate != '')">
-			AND I.INSPC_EDATE BETWEEN TO_DATE(#{inspcSdate}, 'YY/MM/DD') AND TO_DATE(#{inspcEdate}, 'YY/MM/DD')
+			<![CDATA[AND TO_CHAR(I.INSPC_EDATE, 'yyyy-MM-dd') >= #{inspcSdate} 
+					AND TO_CHAR(I.INSPC_EDATE, 'yyyy-MM-dd') <= #{inspcEdate}]]>
 		</if>
 	</select>
 	
 	<!-- 설비점검대상조회(모달창) -->
-	<select id="findNxtDate" resultType="inspc">
-		SELECT MCHN_CODE, MCHN_NAME, MCHN_INSPC_NXT_DATE
+	<select id="findNxtDate" resultType="MchnVO">
+		SELECT MCHN_CODE, MCHN_NAME, MCHN_INSPC_NXT_DATE, MCHN_STTS
 		FROM BF_EQP_MCHN
-		<![CDATA[ WHERE MCHN_INSPC_NXT_DATE < TO_DATE(SYSDATE+7) ]]>
+		<![CDATA[ WHERE TO_CHAR(MCHN_INSPC_NXT_DATE, 'yyyy/MM/dd') < TO_CHAR(CURRENT_TIMESTAMP + 7,'yyyy/MM/dd') ]]>
     	ORDER BY MCHN_INSPC_NXT_DATE
 	</select>
 
@@ -71,7 +72,8 @@
 	<!-- 검색조건 SQL -->
 	<sql id="criteria">
 		<if test="keyword != null and keyword != '' and keyword2 != null and keyword2 != ''">
-			AND INP.INSPC_EDATE BETWEEN TO_DATE(#{inspcSdate}, 'YY/MM/DD') AND TO_DATE(#{inspcEdate}, 'YY/MM/DD')
+			<![CDATA[AND TO_CHAR(INP.INSPC_EDATE, 'yyyy-MM-dd') >= #{keyword}
+					AND TO_CHAR(INP.INSPC_EDATE, 'yyyy-MM-dd') <= #{keyword2}]]>
 		</if>
 		<if test="keyword3 != null and keyword3 != ''">
 			AND INP.MCHN_CODE = #{keyword3}

@@ -120,10 +120,9 @@
 		  ON VEND.VEND_CD_CODE = RTNHD.VEND_CD_CODE
 		JOIN BF_CMN_EMP EMP
 		  ON EMP.EMP_ID = RTNHD.EMP_ID
-		
 		<where>
 			<if test="(rtnSdate != null and rtnSdate != '') and (rtnEdate != null and rtnEdate !='')">
-				AND SLS_RTN_HD_DATE BETWEEN  TO_DATE(#{rtnSdate}, 'YY/MM/DD') AND TO_DATE(#{rtnEdate}, 'YY/MM/DD') + 0.9999
+				AND SLS_RTN_HD_DATE BETWEEN  TO_DATE(#{rtnSdate}, 'YY/MM/DD') AND TO_DATE(#{rtnEdate}, 'YY/MM/DD')
 			</if>
 		</where>
 		ORDER BY SLS_RTN_HD_NO DESC
@@ -151,7 +150,7 @@
         JOIN BF_SALES_OUT_DTL OUTDTL
           ON OUTDTL.SLS_OUT_HD_NO = OUTHD.SLS_OUT_HD_NO
          AND OUTDTL.FIN_PRD_CD_CODE = RTNDTL.FIN_PRD_CD_CODE
-         AND OUTDTL.fns_prd_stk_lot_no = RTNDTL.fns_prd_stk_lot_no
+         AND OUTDTL.FNS_PRD_STK_LOT_NO = RTNDTL.FNS_PRD_STK_LOT_NO
         JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
 		  ON FNSPRD.FIN_PRD_CD_CODE = RTNDTL.FIN_PRD_CD_CODE
 	    JOIN BF_CMN_EMP EMP

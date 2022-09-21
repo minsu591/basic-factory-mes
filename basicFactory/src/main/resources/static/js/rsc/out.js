@@ -1,6 +1,8 @@
 $("document").ready(function () {
   let tdinfo;
 
+  // let outCodeList = [];
+
     //기본 날짜 오늘 지정
     let date = new Date();
     date = date.toISOString().slice(0, 10);
@@ -40,6 +42,7 @@ $("document").ready(function () {
       $(this).parent().parent().remove();
       $("#allCheck").prop("checked", false);
     });
+
   });
 
 
@@ -64,7 +67,7 @@ $("document").ready(function () {
  <td><input type="text" class="vendor"></td>
  <td><input type="text" class="vendName" disabled></td>
  <td><input type="text" class="outResn"></td>
- <td><input type="text" class="empId" value="${id}"></td>
+ <td><input type="text" class="empId" value="${id}" disabled></td>
  </tr>`;
     $("#InsertTable tbody").append(node);
   }
@@ -121,7 +124,6 @@ $("document").ready(function () {
     })
     
 
-    let outCodeList =[];
     //등록버튼
     $("#subBtn").click(function () {
       let checked = $("input[name='chk']:checked").length;

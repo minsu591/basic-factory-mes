@@ -257,7 +257,7 @@
 		<choose>
 			<when
 				test="(ordSdate != null and ordSdate != '') and (ordEdate != null and ordEdate != '')">
-				AND OH.SLS_ORD_HD_DATE BETWEEN TO_DATE(#{ordSdate}, 'YY/MM/DD') AND TO_DATE(#{ordEdate}, 'YY/MM/DD') + 0.9999
+				AND OH.SLS_ORD_HD_DATE BETWEEN TO_DATE(#{ordSdate}, 'YY/MM/DD') AND TO_DATE(#{ordEdate}, 'YY/MM/DD')
 			</when>
 			<when test="ordSdate != null and ordSdate != ''">
 				AND OH.SLS_ORD_HD_DATE = #{ordSdate}

@@ -9,6 +9,7 @@ import com.mes.bf.common.Criteria;
 import com.mes.bf.eqp.mapper.InspcMapper;
 import com.mes.bf.eqp.service.InspcService;
 import com.mes.bf.eqp.vo.InspcVO;
+import com.mes.bf.eqp.vo.MchnVO;
 
 @Service
 public class InspcServiceImpl implements InspcService{
@@ -21,8 +22,13 @@ public class InspcServiceImpl implements InspcService{
 	}
 	
 	@Override
-	public List<InspcVO> findNxtDate() {
+	public List<MchnVO> findNxtDate() {
 		return mapper.findNxtDate();
+	}
+	
+	@Override
+	public MchnVO findNxtDate(String mchnCode) {
+		return mapper.findNxtDate(mchnCode);
 	}
 	
 	@Override
@@ -49,7 +55,5 @@ public class InspcServiceImpl implements InspcService{
 	public Integer findListInspcCount(Criteria cri) {
 		return mapper.findListInspcCount(cri);
 	}
-
-
 
 }

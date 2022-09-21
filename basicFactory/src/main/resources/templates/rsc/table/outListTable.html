@@ -83,6 +83,7 @@
 								<th th:text="출고수량"></th>
 								<th th:text="담당자"></th>
 								<th th:text="분류"></th>
+								<th th:text="출고사유"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -96,6 +97,7 @@
 								<td th:text="${eList.empName}"></td>
 								<td><span th:if="${eList.rscOutCls == 2}" th:text="정상외출고"  class="badge badge-light-primary"/>
 								</td>
+								<td th:text="${eList.rscOutResn}"></td>
 							</tr>
 						</tbody>
 					</table>
