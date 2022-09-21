@@ -438,7 +438,7 @@ function addDtlSaveAjax(obj, slsOrdHdNo) {
 
     $.ajax({
         url: 'ordManage/dtlInsert',
-        type : 'POST',
+        type: 'POST',
         contentType: "application/json;charset=utf-8",
         data: JSON.stringify({
             slsOrdHdNo,
@@ -446,11 +446,10 @@ function addDtlSaveAjax(obj, slsOrdHdNo) {
             slsOrdDtlDlvDate,
             slsOrdDtlVol
         }),
-        success : function(result) {
+        success: function (result) {
             console.log("orderDtl 추가 성공");
         }
-
-    })
+    });
 }
 //추가 끝
 

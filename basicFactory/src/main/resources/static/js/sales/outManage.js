@@ -548,7 +548,8 @@ $("document").ready(function () {
                     //디테일 삭제
                     console.log(delList.length);
                     if(delList.length != 0){
-                        for(obj of delList){
+                        for (obj of delList) {
+                            console.log(obj);
                             deleteSaveAjax(obj);
                         }
                     }   
@@ -667,6 +668,9 @@ $("document").ready(function () {
                 console.log("출고번호 = " + priKey + "제품코드 = " + finPrdCdCode);
                 let delTr = [priKey, finPrdCdCode];
                 delList.push(delTr);
+                console.log("delList!");
+                console.log(delList);
+
                 for (let i = 0; i < modifyList.length; i++) {//수정하고 삭제할 수도 있어서. 검사.
                     if (modifyList[i][4] == priKey) {
                         modifyList.splice(i, 1);

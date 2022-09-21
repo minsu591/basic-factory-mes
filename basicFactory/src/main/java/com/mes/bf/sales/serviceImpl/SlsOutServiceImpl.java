@@ -97,4 +97,10 @@ public class SlsOutServiceImpl implements SlsOutService {
 	}
 
 
+	@Override
+	public List<SlsOutHdVO> outHdViewToReturn(String outSdate, String outEdate, String div) {
+		return mapper.outHdViewToReturn(outSdate, outEdate, div);
+	}
+
+
 }
