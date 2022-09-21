@@ -76,7 +76,7 @@ function mchnMakeRow(obj, index) {
                  <td>${obj.mchnCode}</td>
                  <td>${obj.mchnName}</td>
                  <td>${obj.procCdName}</td>
-                 <td>${obj.mchnStts}</td>
+                 
                 </tr>`;
   $("#findMchnTable").append(node);
 }
