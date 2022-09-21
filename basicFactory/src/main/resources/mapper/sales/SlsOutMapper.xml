@@ -318,22 +318,36 @@
    	<!-- 반품관리에서 출고 헤더 조회 -->
    	<select id="outHdViewToReturn" resultType="slsOutHdVO">
    		SELECT DISTINCT OUTHD.SLS_OUT_HD_NO,
-   			   OUTHD.SLS_OUT_HD_DATE,
-   			   OUTHD.SLS_ORD_HD_NO,
-   			   VEND.VEND_CD_CODE,
-   			   VEND.VEND_CD_NM,
-   			   EMP.EMP_ID,
-   			   EMP.EMP_NAME,
-   			   NVL(OUTHD.SLS_OUT_HD_REMK, ' ') AS SLS_OUT_HD_REMK
+                   OUTHD.SLS_OUT_HD_DATE,
+                   OUTHD.SLS_ORD_HD_NO,
+                   VEND.VEND_CD_CODE,
+                   VEND.VEND_CD_NM,
+                   EMP.EMP_ID,
+                   EMP.EMP_NAME,
+                   NVL(OUTHD.SLS_OUT_HD_REMK, ' ') AS SLS_OUT_HD_REMK
    		FROM BF_SALES_OUT_HD OUTHD
+        JOIN BF_SALES_OUT_DTL OUTDTL
+          ON OUTDTL.SLS_OUT_HD_NO = OUTHD.SLS_OUT_HD_NO
    		JOIN BF_CMN_VENDOR_CODE VEND
    		  ON VEND.VEND_CD_CODE = OUTHD.VEND_CD_CODE
    		JOIN BF_CMN_EMP EMP
    		  ON OUTHD.EMP_ID = EMP.EMP_ID
-   		  
-   		<if test="(outSdate != null and outSdate != '') and (outEdate != null and outEdate != '')">
-   			WHERE TO_CHAR(SLS_OUT_HD_DATE, 'yyyy-MM-dd') BETWEEN  #{outSdate} AND #{outEdate}
+		LEFT JOIN (SELECT *
+                         FROM BF_SALES_RTN_DTL RD
+                         JOIN BF_SALES_RTN_HD RH
+                         ON RD.SLS_RTN_HD_NO = RH.SLS_RTN_HD_NO) RTN
+        ON RTN.SLS_OUT_HD_NO = OUTHD.SLS_OUT_HD_NO
+        AND OUTDTL.FIN_PRD_CD_CODE = RTN.FIN_PRD_CD_CODE
+        AND OUTDTL.FNS_PRD_STK_LOT_NO = RTN.FNS_PRD_STK_LOT_NO
+        
+        		
+   		<where>
+        <![CDATA[SLS_OUT_DTL_VOL <> SLS_RTN_DTL_VOL or SLS_RTN_DTL_VOL is null]]>
+		<if test="(outSdate != null and outSdate != '') and (outEdate != null and outEdate != '')">
+   			AND TO_CHAR(SLS_OUT_HD_DATE, 'yyyy-MM-dd') BETWEEN  #{outSdate} AND #{outEdate}
         </if>
+   		</where>
+
 		ORDER BY SLS_OUT_HD_DATE DESC, SLS_OUT_HD_NO DESC
    	</select>
    	
@@ -369,6 +383,7 @@
                  OUTDTL.FNS_PRD_STK_LOT_NO,
                  OUTDTL.SLS_OUT_DTL_VOL
    	</select>
+   	
    	<!-- 주문관리에서 -->
    	<select id="checkOrder" resultType="Integer">
    		SELECT COUNT(SLS_ORD_HD_NO) AS CHECK_ORD_COUNT

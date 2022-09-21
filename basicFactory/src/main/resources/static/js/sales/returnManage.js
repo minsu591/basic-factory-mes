@@ -426,10 +426,14 @@ $("#resetBtn").click(function () {
               }
           }
       });
-      
-    //반품관리 테이블 tr 돌면서 출고량 총 합계 계산
+        
+      //내부에 내용이 없으면 allCheck 해제
+      if (table.find("tbody tr").length == 0) {
+          $("#allCheck").prop("checked", false);
+      }
+        
+     //반품관리 테이블 tr 돌면서 출고량 총 합계 계산
       totalPrice();
-      console.log(addList); //제품코드, lot번호, 기반품량, 반품량, 금액, 처리구분, 반품사유
       e.stopPropagation();
     });
 
@@ -478,7 +482,11 @@ function totalPrice() {
         }
         priceSum += totalPrice;
     }
-    $("#rtnTotalPrice").text(priceSum.toLocaleString("ko-KR"));
+    if (table.find("tbody tr").length == 0) {
+        $("#rtnTotalPrice").text('');
+    } else {
+        $("#rtnTotalPrice").text(priceSum.toLocaleString("ko-KR"));
+    }
 }
     
 //alert

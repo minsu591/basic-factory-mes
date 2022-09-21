@@ -135,8 +135,7 @@ public class SlsOutController {
 	public List<SlsOutHdVO> outHdViewToReturn(@RequestParam Map<String, String> param){
 		System.out.println("들어옴");
 		List<SlsOutHdVO> list = service.outHdViewToReturn(param.get("outSdate"),
-														  param.get("outSdate"),
-														  param.get("div"));
+														  param.get("outSdate"));
 		return list;
 	}
 
