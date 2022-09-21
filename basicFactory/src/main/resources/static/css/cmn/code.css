@@ -142,10 +142,11 @@ select {
   box-sizing : border-box;
   margin-right : 4%;
 }
-
+/*
 table tbody td < input[type="checkbox"]{
-	line-height: 100%;
+	line-height: 80%;
 }
+*/
 
 .twoTableBtn h1 {
 	width : 60%;

@@ -4,11 +4,11 @@ $("document").ready(function(){
         let empName = $("#empName").val();
         let empEmail = $("#empEmail").val();
         
-        // Swal.fire({
-        //         icon: "success",
-        //         title: "비밀번호 재설정 메일이 <br>성공적으로 발송되었습니다",
-        //         text: "메일 전송까지 최대 1분이 소요될 수 있습니다. <br> 10분 내에 확인하고 비밀번호를 재설정해주세요"
-        //   });
+        Swal.fire({
+                icon: "success",
+                title: "비밀번호 재설정 메일이 <br>성공적으로 발송되었습니다",
+                text: "메일 전송까지 최대 1분이 소요될 수 있습니다. <br> 10분 내에 확인하고 비밀번호를 재설정해주세요"
+          });
 
         $.ajax({
             url : 'reset/empId',
@@ -52,8 +52,8 @@ $("document").ready(function(){
                         text: "메일 전송까지 최대 1분이 소요될 수 있습니다. <br> 10분 내에 확인하고 비밀번호를 재설정해주세요"
                     });
                 }
-
             }
+            
         })
     });
     

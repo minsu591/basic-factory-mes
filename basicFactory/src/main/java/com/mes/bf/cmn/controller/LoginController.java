@@ -108,17 +108,20 @@ public class LoginController {
 		    String ipAddr = path.substring(0,pathIdx);
 		    
 			//성공
-			String cont = "<div style=\"width:70%; margin : 0 auto;\">\r\n"
-					+ "<div style=\"background-color : #1abc9c; margin : 0; color : white; text-align :center;\">\r\n"
-					+ "		<h2>Basic Factory</h2>\r\n"
+			String cont = "<div style=\"width:70%; margin : 0 auto; height : 70%;\">\r\n"
+					+ "  <div style=\"background-color : #1abc9c; margin : 0; color : white; text-align :center; padding: 1px;\">\r\n"
+					+ "          <h2>Basic Factory</h2>\r\n"
+					+ "      </div>\r\n"
+					+ "	<div style=\"background-color : #e1e3e3; margin : 0; text-align :center; padding : 2%; margin-bottom : 1%; height : 100%;\">\r\n"
+					+ "		<h3>\"empId\"님 비밀번호를 재설정해주세요.</h3>\r\n"
+					+ "		<p>아래의 비밀번호 재설정 버튼을 클릭하여<br>비밀번호를 재설정하는 페이지로 이동할 수 있습니다.<br>		<br>본인이 새로운 비밀번호를 요청하지 않았다면 이 메일을 무시해주세요.</p>\r\n"
+					+ "        <p>\r\n"
 					+ "	</div>\r\n"
-					+ "	<div style=\"background-color : #e1e3e3; margin : 0; text-align :center; padding : 2%; margin-bottom : 1%\">\r\n"
-					+ "		<h3>\""+empName+"\"님 비밀번호를 재설정해주세요.</h3>\r\n"
-					+ "		<p>아래의 비밀번호 재설정 버튼을 클릭하여<br>비밀번호를 재설정하는 페이지로 이동할 수 있습니다.</p>\r\n"
-					+ "		<p>본인이 새로운 비밀번호를 요청하지 않았다면 이 메일을 무시해주세요.</p>\r\n"
-					+ "	</div>\r\n"
-					+ "    <button onclick=\"location.href='"+ipAddr+"/cmn/login/reset/"+token+"'\" style=\"cursor : pointer; color : #fff; background-color : #1abc9c; border-color : #1abc9c; display: block; width: 30%; margin : 0 auto; padding : 1%; font-weight : bold; vertical-align : middle; border-radius : 10px;\">비밀번호 재설정</button>\r\n"
+					+ "    <button type=\"button\" onclick=\"location.href='"
+					+ ipAddr+"/cmn/login/reset/"+token+"'\" style=\"cursor : pointer; color : #fff; background-color : #1abc9c; border-color : #1abc9c; display: block; width: 30%; margin : 0 auto; padding : 2%; font-weight : bold; vertical-align : middle; border-radius : 10px; justify-content : flex-start; height : 20%;\">비밀번호 재설정</button>\r\n"
 					+ "</div>";
+					
+				
 			MailVO mailInfo = new MailVO();
 			mailInfo.setToAddress(empEmail);
 			mailInfo.setSubject("Basic Factory 비밀번호 재설정 메일입니다");
