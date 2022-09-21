@@ -409,6 +409,7 @@ $("document").ready(function(){
     }
 
     function rscModifySaveAjax(obj){
+        console.log(obj);
         let priKey = obj[0];
         let updCol = obj[1];
         let updCont = obj[2];

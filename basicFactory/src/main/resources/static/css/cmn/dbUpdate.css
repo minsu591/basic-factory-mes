@@ -1,6 +1,7 @@
-.tdBorder {
-            border : 1px solid #444444;
-        }
-        td {
-            margin : 0px;
-        }
+.tdBorder
+{
+    border : 1px solid #444444 !important;
+}
+td {
+    margin : 0px;
+}

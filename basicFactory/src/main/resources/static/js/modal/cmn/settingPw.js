@@ -49,7 +49,7 @@ $("document").ready(function(){
             //정규식만 충족, 비밀번호랑 비밀번호 확인 동일 X
             Swal.fire({
                 icon: "warning",
-                title: "비밀번호 확인란에서 <br/>비밀번호를 동일하게 작성해주세요",
+                title: "비밀번호 확인란에<br/>동일한 비밀번호를 작성해주세요",
                 text: "수정 후 다시 저장해주세요"
             });
             return false;
@@ -57,14 +57,15 @@ $("document").ready(function(){
             //비밀번호랑 비밀번호 확인만 동일, 정규식 충족 X
             Swal.fire({
                 icon: "warning",
-                title: "비밀번호를 <br/>올바르게 설정해주세요",
-                text: "비밀번호는 영문, 숫자, 특수문자를 <br/> 최소 한가지씩 포함하는 8 ~ 16자이어야 합니다"
+                title: "비밀번호를 <br>올바르게 설정해주세요",
+                html: "비밀번호는 영문, 숫자, 특수문자를 <br/> 최소 한가지씩 포함하는 8 ~ 16자이어야 합니다"
             });
             return false;
         }else{
             Swal.fire({
                 icon: "warning",
-                title: "비밀번호를 <br/>올바르게 설정해주세요"
+                title: "비밀번호를 <br/>올바르게 설정해주세요",
+                html: "비밀번호는 영문, 숫자, 특수문자를 <br/> 최소 한가지씩 포함하는 8 ~ 16자이어야 합니다"
             });
             return false;
         }

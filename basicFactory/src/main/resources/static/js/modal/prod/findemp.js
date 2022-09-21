@@ -45,7 +45,10 @@ function findEmp() {
   if (pathName == '/prod/procManage') {
     let deptNo = 3;
     findInstEmp(deptNo);
-  } else {
+  } else if(pathName == '/prod/packing'){
+    let deptNo = 3;
+    findInstEmp(deptNo);
+  }else {
     deptNo = '';
     findInstEmp(deptNo);
   }
