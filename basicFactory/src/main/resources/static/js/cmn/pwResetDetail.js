@@ -13,7 +13,7 @@ $("document").ready(function(){
         }else if($("#confirmPw").hasClass("border-danger")){
             Swal.fire({
                 icon: "error",
-                title: "비밀번호와 확인 비밀번호를 동일하게 써주세요",
+                title: "비밀번호와 확인 비밀번호를<br> 동일하게 써주세요",
                 text: "확인하고 다시 저장해주세요"
               });
             return false;
@@ -33,7 +33,7 @@ $("document").ready(function(){
                     console.log("성공!");
                     Swal.fire({
                         icon: "success",
-                        title: "비밀번호가 성공적으로 변경되었습니다"
+                        title: "비밀번호가<br> 성공적으로 변경되었습니다"
                       }).then((result) => {
                         if(result.isConfirmed){
                             location.replace("/cmn/login");

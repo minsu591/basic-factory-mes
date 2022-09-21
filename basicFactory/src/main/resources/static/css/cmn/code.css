@@ -142,10 +142,12 @@ select {
   margin-right : 4%;
 }
 
+/*
 table tbody td < input[type="checkbox"],
 table tbody td < select {
 	line-height: 80%;
 }
+*/
 
 
 .twoTableBtn h1 {
