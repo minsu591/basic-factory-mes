@@ -179,10 +179,10 @@ function workinsertTableLastChildMakeRow(obj, index) {
       let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
       $("#workInsertTable tbody tr:eq(0)").append(node);
       if (obj.mchnStts == '비가동') {
-        $("#workInsertTable tbody tr").find("td:eq(8) button").addClass("btn-danger")
+        $("#workInsertTable tbody tr:eq(0)").find("td:eq(8) button").addClass("btn-danger")
       }
-
     }
+
   } else if (index == 2) {
     if (compstts == "y") {
       let node = `<td><button type="button" class="btn btn-secondary">진행완료</button></td>`;
