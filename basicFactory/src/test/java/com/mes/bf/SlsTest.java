@@ -76,7 +76,7 @@ public class SlsTest {
 		}
 	}
 	
-	@Test
+	//@Test
 	void findStock() {
 		List<SlsStockVO> list = stockService.findStock("FIN002", "", "1");
 		for(int i = 0; i < list.size(); i++) {
