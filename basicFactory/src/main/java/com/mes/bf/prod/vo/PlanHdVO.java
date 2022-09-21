@@ -13,6 +13,6 @@ public class PlanHdVO {
 	private String planHdName;
 	private String slsOrdHdNo;
 	private String empId;
-	private Date planHdDate;
+	private String planHdDate;
 	private String planHdRemk;
 }

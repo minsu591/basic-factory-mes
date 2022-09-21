@@ -133,6 +133,7 @@ $(document).ready(function () {
     $.ajax({
       url: "insertprocperform",
       method: "POST",
+      async: false,
       contentType: "application/json;charset=utf-8",
       dataType: "json",
       data: JSON.stringify(procPerform),
@@ -623,6 +624,7 @@ function insertInDtl(processNo, workDate, prodVol, finPrdCdCode) {
   console.log(workDate);
   console.log(prodVol);
   console.log(finPrdCdCode);
+  console.log("insert 돈다~");
   $.ajax({
     url: "insertindtl",
     method: "POST",
