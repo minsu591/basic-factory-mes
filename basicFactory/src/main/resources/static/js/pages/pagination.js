@@ -87,7 +87,7 @@ function page() {
       if(currentPage != 0){
        
         $(
-          '<br /><span class="page-number page-item firstSpan" cursor: "pointer">[처음]</span>'
+          '<br /><span class="page-number page-item firstSpan" cursor: "pointer">처음</span>'
         )
           .bind("click", { newPage: page }, function (event) {
             currentPage = 0;
@@ -102,7 +102,7 @@ function page() {
           .addClass("clickable");
 
         // [이전]
-        $('<span class="page-number page-item prevSpan" cursor: "pointer">[이전]</span>')
+        $('<span class="page-number page-item prevSpan" cursor: "pointer">이전</span>')
           .bind("click", { newPage: page }, function (event) {
             if (currentPage == 0) return;
             currentPage = currentPage - 1;
@@ -134,7 +134,7 @@ function page() {
       }
        if(currentPage != (endp-1)){
       // [다음]
-      $('<span class="page-number page-item nextSpan" cursor: "pointer">[다음]</span>')
+      $('<span class="page-number page-item nextSpan" cursor: "pointer">다음</span>')
         .bind("click", { newPage: page }, function (event) {
           if (currentPage == numPages - 1) return;
           currentPage = currentPage + 1;
@@ -148,7 +148,7 @@ function page() {
         .addClass("clickable");
 
       // [끝]
-      $('<span class="page-number page-item endSpan" cursor: "pointer">[끝]</span>')
+      $('<span class="page-number page-item endSpan" cursor: "pointer">끝</span>')
         .bind("click", { newPage: page }, function (event) {
           currentPage = numPages - 1;
           $table.trigger("repaginate");
