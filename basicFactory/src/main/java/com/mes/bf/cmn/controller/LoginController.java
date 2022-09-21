@@ -101,6 +101,7 @@ public class LoginController {
 		}else if(!empInfo.getEmpEmail().equals(empEmail)) {
 			result = -3;
 		}else {
+			result = 1;
 			String token = jwt.createToken(empId);
 			//현재 경로 넣기
 		    String path = request.getRequestURL().toString();
@@ -127,9 +128,10 @@ public class LoginController {
 			mailInfo.setSubject("Basic Factory 비밀번호 재설정 메일입니다");
 			mailInfo.setContent(cont);
 			mail.sendMail(mailInfo);
-			
 		}
+		
 		return new ResponseEntity<Integer>(result,HttpStatus.OK);
+		
 	}
 	
 	@GetMapping(value = "/login/reset/{token}")
