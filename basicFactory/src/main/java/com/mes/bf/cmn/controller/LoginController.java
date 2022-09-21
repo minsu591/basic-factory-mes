@@ -105,7 +105,7 @@ public class LoginController {
 			//현재 경로 넣기
 		    String path = request.getRequestURL().toString();
 		    int pathIdx = path.indexOf("/", 8);
-		    String ipAddr = path.substring(0,pathIdx);
+		    String ipAddr = path.substring(0, pathIdx);
 		    
 			//성공
 			String cont = "<div style=\"width:70%; margin : 0 auto; height : 70%;\">\r\n"
