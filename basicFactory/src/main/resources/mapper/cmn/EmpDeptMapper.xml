@@ -103,15 +103,10 @@
 	</delete>
 	
 	<update id="empUpdate" parameterType = "String">
-		<selectKey keyProperty="deptNo" resultType="String" order="BEFORE">
-			select dept_no
-			from bf_cmn_dept
-			where dept_name = #{updCont}
-		</selectKey>
 		UPDATE BF_CMN_EMP
 		<choose>
-			<when test="deptNo != null and updCol eq 'dept_name'">
-				SET dept_no = #{deptNo}
+			<when test="updCol eq 'dept_name'">
+				SET dept_no = (select dept_no from bf_cmn_dept where dept_name = #{deptName})
 			</when>
 			<otherwise>
 				SET ${updCol} = #{updCont}
@@ -119,11 +114,5 @@
 		</choose>
 		WHERE EMP_ID = #{priKey}
 	</update>
-	
-	<update id="empPwUpdate" parameterType = "String">
-		UPDATE BF_CMN_EMP
-		SET emp_pw = #{newPw}
-		WHERE EMP_ID = #{empId}
-	</update>
-	
+		
 </mapper>

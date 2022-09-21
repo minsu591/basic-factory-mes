@@ -4,11 +4,11 @@ $("document").ready(function(){
         let empName = $("#empName").val();
         let empEmail = $("#empEmail").val();
         
-            Swal.fire({
-                icon: "success",
-                title: "비밀번호 재설정 메일이 성공적으로 발송되었습니다",
-                text: "메일 전송까지 최대 1분이 소요될 수 있습니다. 10분 내에 확인하고 비밀번호를 재설정해주세요"
-              });
+        // Swal.fire({
+        //         icon: "success",
+        //         title: "비밀번호 재설정 메일이 <br>성공적으로 발송되었습니다",
+        //         text: "메일 전송까지 최대 1분이 소요될 수 있습니다. <br> 10분 내에 확인하고 비밀번호를 재설정해주세요"
+        //   });
 
         $.ajax({
             url : 'reset/empId',
@@ -41,16 +41,16 @@ $("document").ready(function(){
                 }else if(result == -3){
                     Swal.fire({
                         icon: "error",
-                        title: "아이디와 이메일이 일치하지 않습니다"
+                        title: "아이디와 이메일이<br> 일치하지 않습니다"
                       });
                     return false;
                 }else if(result == 1){
                     //다 일치했을 때
                     Swal.fire({
                         icon: "success",
-                        title: "비밀번호 재설정 메일이 성공적으로 발송되었습니다",
-                        text: "메일 전송까지 최대 1분이 소요될 수 있습니다. 10분 내에 확인하고 비밀번호를 재설정해주세요"
-                      });
+                        title: "비밀번호 재설정 메일이 <br>성공적으로 발송되었습니다",
+                        text: "메일 전송까지 최대 1분이 소요될 수 있습니다. <br> 10분 내에 확인하고 비밀번호를 재설정해주세요"
+                    });
                 }
 
             }

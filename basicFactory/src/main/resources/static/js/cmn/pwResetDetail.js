@@ -7,7 +7,7 @@ $("document").ready(function(){
             Swal.fire({
                 icon: "error",
                 title: "비밀번호를 올바르게 입력해주세요",
-                text: "영어 소문자, 숫자, 특수문자를 하나 이상 포함한 8~16자의 비밀번호를 입력해야합니다"
+                text: "영어 소문자, 숫자, 특수문자를 하나 이상 포함한<br> 8~16자의 비밀번호를 입력해야합니다"
               });
             return false;
         }else if($("#confirmPw").hasClass("border-danger")){
@@ -36,7 +36,7 @@ $("document").ready(function(){
                         title: "비밀번호가 성공적으로 변경되었습니다"
                       }).then((result) => {
                         if(result.isConfirmed){
-                            location.replace("http://localhost/cmn/login");
+                            location.replace("/cmn/login");
                         }
                       });
                       

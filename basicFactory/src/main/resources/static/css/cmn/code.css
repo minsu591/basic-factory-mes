@@ -79,6 +79,7 @@ select {
 	overflow : auto;
 }
 
+.checkbox
 
 #empTable tbody td,
 #planManageTable tbody td,
@@ -140,4 +141,22 @@ select {
   width: 28%;
   box-sizing : border-box;
   margin-right : 4%;
+}
+
+table tbody td < input[type="checkbox"]{
+	line-height: 100%;
+}
+
+.twoTableBtn h1 {
+	width : 60%;
+	float : left;
+	height : 40%;
+}
+.twoTableBtn div {
+	height : 40%;
+}
+.twoTableBtn div button {
+	float : right;
+	margin : 4% 1% 1% 0 !important;
+	height : 60%;
 }

@@ -6,11 +6,15 @@ $("document").ready(function () {
     e.preventDefault();
     //공정명 검색
     let lineCode;
-    href =window.location.href;
-    if(href == "http://localhost/cmn/lineCode"){
+    let hrefLink =window.location.href;
+    let hrefArr = hrefLink.split("/");
+    href = hrefArr[hrefArr.length-1];
+
+    console.log(href);
+    if(href == "lineCode"){
       modalId = $("#findProcCdNameModal");
       findAllProcCode();
-    }else if(href == "http://localhost/cmn/bomCode"){
+    }else if(href == "bomCode"){
       lineCode = $("#lineCode").val();
       modalId = $("#findProcForLineModal");
       findAllProcCodeWithMchn(lineCode);
@@ -28,14 +32,14 @@ $("document").ready(function () {
     let procCdCode = $(this).find("td:eq(1)").text();
     let procCdName = $(this).find("td:eq(2)").text();
 
-    if(href == "http://localhost/cmn/bomCode"){
+    if(href == "bomCode"){
       let mchnCode = $(this).find("td:eq(3)").text();
       let mchnName = $(this).find("td:eq(4)").text();
       let lineCdCode = $(this).find("input[class='lineCdCode']").val();
       tdInfo.next().next().text(mchnCode);
       tdInfo.next().next().next().text(mchnName);
       tdInfo.parent().find("input[class='lineCdCode']").val(lineCdCode);
-    }else if(href == "http://localhost/cmn/lineCode"){
+    }else if(href == "lineCode"){
       let trs = tdInfo.closest('tbody').find("tr");
       for(tr of trs){
         if($(tr).find("td:eq(2)").text() == procCdCode){
@@ -93,6 +97,7 @@ function findAllProcCodeWithMchn(lineCode) {
     },
     success: function (data) {
       $("#findProcForLineTable tbody tr").remove();
+      console.log(data);
       let index = 0;
       for (obj of data) {
         index += 1;
@@ -103,7 +108,7 @@ function findAllProcCodeWithMchn(lineCode) {
 }
 function makeProcCodeRow(obj,index) {
   let node;
-  if(href == "http://localhost/cmn/bomCode"){
+  if(href == "bomCode"){
         node = `<tr>
         <input type="hidden" value="${obj.lineCdCode}" class="lineCdCode">
         <td>${index}</td>
@@ -114,7 +119,7 @@ function makeProcCodeRow(obj,index) {
       </tr>`;
     //BOM 공정 td 클릭
     $("#findProcForLineTable").append(node);
-  }else{
+  }else if(href == "lineCode"){
     node = `<tr>
     <td>${index}</td>
     <td>${obj.procCdCode}</td>

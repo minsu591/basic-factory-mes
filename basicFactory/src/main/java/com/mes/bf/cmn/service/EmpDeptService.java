@@ -19,5 +19,4 @@ public interface EmpDeptService {
 	int empInsert(EmpVO emp);
 	int empDelete(List<String> delList);
 	
-	int empPwUpdate(String empId, String newPw);
 }

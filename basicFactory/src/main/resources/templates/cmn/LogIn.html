@@ -2,40 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Login Test</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-<link rel="stylesheet" href="/css/style.css">
-<script th:src="@{https://cdn.jsdelivr.net/npm/sweetalert2@10}"></script>
+	<title>Login Test</title>
 </head>
 <body>
-<script type="text/javascript" th:src="@{/js/cmn/login.js}"></script>
-<div class="auth-wrapper">
-		<div class="auth-content text-center">
-			<img src="/images/BFlogoLogin.png" alt="" class="img-fluid  mb-4">
-			<div class="card borderless">
-				<div class="row align-items-center ">
-					<div class="col-md-12">
-						<div class="card-body">
-							<h4 class="mb-3 f-w-400">로그인</h4>
-							<hr>
-							<div class="form-group mb-3">
-								<input type="text" class="form-control" id="empId" placeholder="아이디" required>
-							</div>
-							<div class="form-group mb-4">
-								<input type="password" class="form-control" id="empPw" placeholder="비밀번호" required>
-							</div>
-							<!-- <div class="custom-control custom-checkbox text-left mb-4 mt-2">
-								<input type="checkbox" class="custom-control-input" id="customCheck1">
-								<label class="custom-control-label" for="customCheck1">Save credentials.</label>
-							</div> -->
-							<button class="btn btn-block btn-primary mb-4" id="signInBtn">로그인</button>
-							<hr>
-							<p class="mb-2 text-muted">비밀번호를 잊으셨나요?&nbsp;<a th:href="@{/cmn/login/reset}" class="f-w-400">재설정</a></p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+	<div style="background-color : #f3f6ff">
+		<h2>Basic Factory</h2>
+	</div>
+	<div style="background-color : f3f6ff">
+		<h4>"empId"님 비밀번호를 재설정해주세요.</h4>
+
+		<p>아래의 비밀번호 재설정 버튼을 클릭하여 <br> 비밀번호를 재설정하는 페이지로 이동할 수 있습니다.</p>
+		<p>본인이 새로운 비밀번호를 요청하지 않았다면 이 메일을 무시해주세요</p>
 	</div>
 
 
