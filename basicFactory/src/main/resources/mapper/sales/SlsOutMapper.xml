@@ -315,7 +315,29 @@
 		}
 	</select>
    	
-   	<!-- 반품관리에서 출고조회 모달 -->
+   	<!-- 반품관리에서 출고 헤더 조회 -->
+   	<select id="outHdViewToReturn" resultType="slsOutHdVO">
+   		SELECT DISTINCT OUTHD.SLS_OUT_HD_NO,
+   			   OUTHD.SLS_OUT_HD_DATE,
+   			   OUTHD.SLS_ORD_HD_NO,
+   			   VEND.VEND_CD_CODE,
+   			   VEND.VEND_CD_NM,
+   			   EMP.EMP_ID,
+   			   EMP.EMP_NAME,
+   			   NVL(OUTHD.SLS_OUT_HD_REMK, ' ') AS SLS_OUT_HD_REMK
+   		FROM BF_SALES_OUT_HD OUTHD
+   		JOIN BF_CMN_VENDOR_CODE VEND
+   		  ON VEND.VEND_CD_CODE = OUTHD.VEND_CD_CODE
+   		JOIN BF_CMN_EMP EMP
+   		  ON OUTHD.EMP_ID = EMP.EMP_ID
+   		  
+   		<if test="(outSdate != null and outSdate != '') and (outEdate != null and outEdate != '')">
+   			WHERE TO_CHAR(SLS_OUT_HD_DATE, 'yyyy-MM-dd') BETWEEN  #{outSdate} AND #{outEdate}
+        </if>
+		ORDER BY SLS_OUT_HD_DATE DESC, SLS_OUT_HD_NO DESC
+   	</select>
+   	
+   	<!-- 반품관리에서 출고 디테일 조회 모달 -->
    	<select id="outDtlViewToReturn" resultType="slsOutDtlVO">
 		SELECT FNSPRD.FIN_PRD_CD_CODE,
                FNSPRD.FIN_PRD_CD_NAME,
@@ -337,8 +359,9 @@
         AND OUTDTL.FIN_PRD_CD_CODE = RTN.FIN_PRD_CD_CODE
         AND OUTDTL.FNS_PRD_STK_LOT_NO = RTN.FNS_PRD_STK_LOT_NO
 
-		WHERE OUTDTL.SLS_OUT_HD_NO = #{slsOutHdNo}
-
+		WHERE OUTDTL.SLS_OUT_HD_NO = #{slsOutHdNo} 
+ 		<![CDATA[ AND (SLS_OUT_DTL_VOL <> SLS_RTN_DTL_VOL or SLS_RTN_DTL_VOL is null) ]]>
+ 		
 		GROUP BY FNSPRD.FIN_PRD_CD_CODE,
 				 FNSPRD.FIN_PRD_CD_PRICE,
                  FNSPRD.FIN_PRD_CD_NAME,

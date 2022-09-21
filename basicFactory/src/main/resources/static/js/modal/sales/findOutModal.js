@@ -10,17 +10,20 @@ $("document").ready(function(){
 
     $("#findOutBtn").on("click", findOutClick); //모달창에서 조회 눌렀을 때
 
-    function findOutClick(){
+    function findOutClick() {
+        console.log('클릭');
         let outSdate = $("#outSdate").val();
         let outEdate = $("#outEdate").val();
+        let div = 'toReturn';
 
         $.ajax({
-            url : 'outView',
+            url: 'outView/hd/return',
             method : "GET",
             dataType : "json",
             data : {
-                outSdate: outSdate,
-                outEdate: outEdate,
+                outSdate,
+                outEdate,
+                div
             },
             success: function (data) {
                 console.log(data);
