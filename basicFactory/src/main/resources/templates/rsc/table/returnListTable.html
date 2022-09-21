@@ -28,8 +28,16 @@
 				<td th:text="${rList.vendCdNm}"></td>
 				<td th:text="${rList.rscReturnVol}"></td>
 				<td th:text="${rList.rscCdUnit}"></td>
-				<td th:text="${rList.rscReturnPrc}"></td>
-				<td th:text="${rList.rscReturnPrc * rList.rscReturnVol}"></td>
+				<td>
+					<span th:if="${rList.rscReturnPrc > 99}" th:text="${#numbers.formatInteger(rList.rscReturnPrc, 3, 'COMMA')}"></span>
+					<span th:if="${rList.rscReturnPrc < 100}" th:text="${rList.rscReturnPrc}"></span>
+				</td>
+				<td>
+					<span th:if="${(rList.rscReturnPrc * rList.rscReturnVol) > 99}" 
+					th:text="${#numbers.formatInteger(rList.rscReturnPrc * rList.rscReturnVol, 3, 'COMMA')}"></span>
+					<span th:if="${(rList.rscReturnPrc * rList.rscReturnVol) < 100}" 
+					th:text="${rList.rscReturnPrc * rList.rscReturnVol}"></span>
+				</td>
 				<td th:text="${rList.empName}"></td>
 				<td th:text="${rList.rscReturnRemk}"></td>
 			</tr>

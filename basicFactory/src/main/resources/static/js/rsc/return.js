@@ -81,7 +81,7 @@ $("document").ready(function () {
 <td><input type="text" class="outVol" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
 <td><input type="text" class="price" disabled></td>
 <td><input type="text" class="sumPrice" disabled></td>
-<td><input type="text" class="empId" value="${id}"></td>
+<td><input type="text" class="empId" value="${id}" disabled></td>
 <td><input type="text" class="remk"></td>
 </tr>`;
    $("#InsertTable tbody").append(node);
@@ -137,6 +137,7 @@ $("document").ready(function () {
    let rowData = new Array();
    let checkbox = $("input[name='chk']:checked");
    let notnull = [2,3,7,9,12];
+   let runAjax = true;
    console.log(checkbox)
    // 체크된 체크박스 값을 가져온다
    checkbox.each(function (i) {
@@ -169,6 +170,7 @@ $("document").ready(function () {
          html: "반품일자, 거래처코드, 자재LOT번호,<br/> 반품수량, 금액, 담당자는<br/>기본 입력사항입니다.",
          confirmButtonText: "확인"
        })
+       runAjax = false;
      } else if (rscReturnVol < 0) {
        Swal.fire({
          icon: "warning", // Alert 타입
@@ -176,6 +178,7 @@ $("document").ready(function () {
          html: "반품수량은 0 이상만 입력 가능합니다.",
          confirmButtonText: "확인"
        })
+       runAjax = false;
      } else {
        if (!rscReturnCode) {
         rscReturnCode = null;
@@ -200,6 +203,8 @@ $("document").ready(function () {
        console.log(param);
 
 
+      }
+      if (runAjax){
        $.ajax({
          url: "ReturnInAndUp",
          method: "POST",
@@ -224,7 +229,6 @@ $("document").ready(function () {
          }
        })
      }
-
    });
 
 

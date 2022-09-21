@@ -82,7 +82,7 @@
                RSCOUT.RSC_LOT_NO,
                RSCOUT.RSC_OUT_VOL,
                RSCOUT.RSC_OUT_CLS,
-               RSCOUT.RSC_OUT_RESN,
+               NVL(RSCOUT.RSC_OUT_RESN,' '),
                
                RSCCODE.RSC_CD_NAME, 
 			   
@@ -117,7 +117,7 @@
                RSCOUT.RSC_LOT_NO,
                RSCOUT.RSC_OUT_VOL,
                RSCOUT.RSC_OUT_CLS,
-               RSCOUT.RSC_OUT_RESN,
+               NVL(RSCOUT.RSC_OUT_RESN,' '),
                
                RSCCODE.RSC_CD_NAME, 
 			   
