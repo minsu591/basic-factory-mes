@@ -107,7 +107,6 @@ public class SlsOrdController {
 	public List<SlsOrdHdVO> orderView(@RequestParam Map<String, String> param) {
 		List<SlsOrdHdVO> list = service.findOrderModal(param.get("ordSdate"),
 				 								  	   param.get("ordEdate"));
-		System.out.println(list);
 		return list;
 	}
 	
