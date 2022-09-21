@@ -56,7 +56,7 @@
 		<choose>
 			<when
 				test="(startDate != null and startDate != '') and (endDate != null and endDate != '')">
-				AND PH.plan_hd_date BETWEEN TO_DATE(#{startDate}, 'YY/MM/DD') AND TO_DATE(#{endDate}, 'YY/MM/DD') + 0.9999
+				AND PH.plan_hd_date BETWEEN TO_CHAR(#{startDate}, 'YY/MM/DD') AND TO_CHAR(#{endDate}, 'YY/MM/DD') + 0.9999
 			</when>
 			<when test="startDate != null and startDate != ''">
 				AND PH.plan_hd_date = #{startDate}
@@ -121,7 +121,7 @@
 			<![CDATA[ and plan_hd_date >=  #{keyword} ]]>
 		</if>
 		<if test="keyword2 != null and keyword2 != ''">
-			<![CDATA[ and plan_hd_date <= TO_DATE(#{keyword2}, 'YY/MM/DD') + 0.9999 ]]>
+			<![CDATA[ and plan_hd_date <= TO_CHAR(#{keyword2}, 'YY/MM/DD') + 0.9999 ]]>
 		</if>
 		<if test="keyword3 != null and keyword3 != ''">
 			<![CDATA[ and oh.VEND_CD_CODE = #{keyword3} ]]>
