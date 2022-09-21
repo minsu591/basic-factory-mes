@@ -169,13 +169,13 @@ $(document).ready(function () {
               finPrdCdCode: prodCode,
               workDate: workDate,
             };
+            check = true;
             dataArray.push(instobjdetail);
           } else if ($(this).children().children().is(":checked") == false) {
-            check = true;
           }
         });
 
-        if (check) {
+        if (!check) {
           notChecked();
           return;
         }
@@ -553,6 +553,7 @@ function insertInstAndDetail(instobjheader, dataArray) {
 }
 
 function requiredCheck(instobjheader, dataArray, command) {
+  let check = false;
   for (let i = 0; i < dataArray.length; i++) {
     if (
       dataArray[i].finPrdCdCode == "" ||
@@ -566,31 +567,41 @@ function requiredCheck(instobjheader, dataArray, command) {
           .eq(i)
           .find("td:eq(1)")
           .addClass("inputRequired");
+          check = true;
       }
       if (dataArray[i].instProdIndicaVol == "") {
         $("#planDetailTable tbody tr")
           .eq(i)
           .find("td:eq(10)")
           .addClass("inputRequired");
+          check = true;
       }
       if (dataArray[i].workDate == "") {
         $("#planDetailTable tbody tr")
           .eq(i)
           .find("td:eq(12)")
           .addClass("inputRequired");
+          check = true;
       }
       if ($("#instname").val() == "") {
         $("#instname").addClass("required");
+        check = true;
       }
       if ($("#empid").val() == "") {
         $("#empid").addClass("required");
+        check = true;
       }
-      requiredWarn();
-      return;
+      
+      
     } else {
     }
+   
   }
 
+  if(check == true) {
+    requiredWarn();
+    return;
+  }
   if (command == "save") {
     insertInstAndDetail(instobjheader, dataArray);
     //console.log("저장일 떄 ->" + instobjheader, dataArray);
