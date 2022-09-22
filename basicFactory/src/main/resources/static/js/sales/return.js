@@ -23,7 +23,7 @@ $(document).ready(function () {
   }
   
   function returnMakeRow(obj) {
-    let slsRtnDtlPrcCls = obj.slsRtnDtlVO.slsRtnDtlPrcCls;
+      let slsRtnDtlPrcCls = obj.slsRtnDtlVO.slsRtnDtlPrcCls;
     let node = `<tr>
                     <td>${obj.slsRtnHdVO.slsRtnHdDate}</td>
                     <td>${obj.slsRtnHdVO.slsRtnHdNo}</td>
@@ -33,7 +33,7 @@ $(document).ready(function () {
                     <td>${obj.slsRtnHdVO.slsOutHdNo}</td>
                     <td>${obj.slsRtnDtlVO.slsRtnDtlVol}</td>
                     <td>${obj.slsRtnDtlVO.finPrdCdPrice}</td>
-                    <td>${obj.slsRtnDtlVO.slsRtnDtlPrice}</td>`
+                    <td>${(obj.slsRtnDtlVO.slsRtnDtlPrice).toLocaleString("ko-KR") }</td>`
         if(slsRtnDtlPrcCls == 0) {
           node += `<td>폐기</td>`;
         } else if(slsRtnDtlPrcCls == 1) {
