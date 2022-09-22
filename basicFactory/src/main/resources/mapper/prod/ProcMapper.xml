@@ -59,8 +59,8 @@
 			<if test="procCdName != null and procCdName != ''">
 				AND proc_cd_name LIKE '%'||#{procCdName}||'%'
 			</if>
-
 		</where>
+		ORDER BY PROC_CD_CODE
 	</select>
 
 	<!-- 공정실적관리테이블 조회 -->

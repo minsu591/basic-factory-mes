@@ -53,17 +53,14 @@ select {
 	box-shadow : none;
 }
 
-.modal table tbody tr {
+.modal table tbody tr,
+.curPo,
+#empid,
+#deptName,
+#vendor {
 	cursor:pointer;
 }
 
-.curPo {
-	cursor:pointer;
-}
-
-#empid, #deptName, #vendor {
-	cursor : pointer;
-}
 
 #planManageTable input[type="date"] {
   height: 100%;

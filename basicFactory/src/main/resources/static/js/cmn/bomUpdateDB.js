@@ -91,18 +91,6 @@ $("document").ready(function(){
                     }
                 }
             }
-            if(col== 7){
-                let txt = tdInfo.text();
-                let parseTxt = parseInt(txt);
-                if(!$.isNumeric(parseTxt)){
-                    //txt가 숫자가 아니면
-                    tdInfo.text('');
-                    return false;
-                }else if($.isNumeric(parseTxt) && txt != parseTxt){
-                    //txt가 숫자와 문자가 섞여있으면
-                    tdInfo.text(parseTxt);
-                }
-            }
             
             if(!tdInfo.hasClass("bomAddTr") && !tdInfo.hasClass("rscAddTr")){
                 tdInfo.trigger("change");
