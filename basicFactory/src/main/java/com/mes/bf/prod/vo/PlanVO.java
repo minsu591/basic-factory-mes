@@ -14,8 +14,8 @@ public class PlanVO {
 	private String finPrdCdCode;
 	private String finPrdCdName;
 	private int planProdVol;
-	private String planSdate;
-	private String planEdate;
+	private Date planSdate;
+	private Date planEdate;
 	private String planRemk;
 	private Integer instProdIndicaVol;
 	private Integer planPreVol;
