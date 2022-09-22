@@ -193,6 +193,7 @@ $("document").ready(function(){
                         title: "사업자 등록번호를 올바르게 지정해주세요",
                         text: "000-00-00000의 10자리로 저장해주세요"
                     });
+                    return false;
                 }
 
 
