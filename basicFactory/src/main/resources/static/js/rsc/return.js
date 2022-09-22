@@ -78,7 +78,7 @@ $("document").ready(function () {
 <td><input type="text" class="rscname" disabled></td>
 <td><input type="text" class="rsclotno"></td>
 <td><input type="text" disabled></td>
-<td><input type="text" class="outVol" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
+<td><input type="text" class="outVol" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
 <td><input type="text" class="price" disabled></td>
 <td><input type="text" class="sumPrice" disabled></td>
 <td><input type="text" class="empId" value="${id}" disabled></td>

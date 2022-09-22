@@ -72,6 +72,7 @@ $("document").ready(function(){
             //시작일자
             if(tdInfo.next().children("input").length == 1){
                 let edate = tdInfo.next().find("input").val();
+                console.log(edate);
                 if(edate != null && edate != ''){
                     inputInfo.attr("max",edate);
                 }else{
