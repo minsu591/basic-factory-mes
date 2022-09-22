@@ -21,7 +21,6 @@ public class MchnVO {
 	private Date mchnPrchsDate;	//구매일자
 	private Date mchnMnfctDate;	//제작일자
 	private String mchnStts;	//설비상태
-	private Date mchnInsertDate;	//설비입력일
 	private Date inspcEdate;	//점검종료일(최근 점검 날짜)
 	private int mchnInspcCycle;	//점검주기
 	private String mchnRemk;	//비고

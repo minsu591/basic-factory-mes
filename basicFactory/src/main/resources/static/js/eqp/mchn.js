@@ -35,7 +35,7 @@ function mchnMakeRow(obj) {
     obj.mchnMnfctDate = '';
   }
   if (obj.inspcEdate == null || obj.inspcEdate == '') {
-    obj.inspcEdate == '';
+    obj.inspcEdate = '';
   }
   let node = `<tr>
                   <td>${obj.mchnCode}</td>
