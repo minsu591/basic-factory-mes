@@ -35,8 +35,8 @@ $(document).ready(function () {
     // 월은 0부터 1월이기때문에 +1일을 해주고
 
     // 시간 분 초는 한자리수이면 시계가 어색해보일까봐 10보다 작으면 앞에0을 붙혀주는 작업을 3항연산으로 했습니다.
-    //!!모니터링 잠시 막아둠
-    // Monitoring();
+   
+    Monitoring();
   }
 
   function init() {
@@ -51,7 +51,6 @@ $(document).ready(function () {
   }
 
   init();
-  Monitoring();
 });
 
 //모니터링 잠시 막아둠
@@ -72,12 +71,16 @@ function Monitoring() {
     dataType: "json",
     success: function (data) {
       console.log(data);
-      $("#MonitoringTable tbody tr").remove();
-      
+      //$("#MonitoringTable tbody tr").remove();\
+      $(".pcoded-main-container .card").not(":first").remove();
+      console.log($(".pcoded-main-container .col-xl-12").not(":first"));
+      // $(".pcoded-main-container .col-xl-12").slice(2).remove();
+      // console.log($(".pcoded-main-container .col-xl-12").slice(2));
       let count = 0;
       let objCount = 0;
       let cardCount = 1;
       let processBar = 0;
+      
       for (let i = 0; i< data.length; i++) {
         let obj = data[i];
         objCount += 1;
@@ -121,6 +124,8 @@ function Monitoring() {
         }
         // CreateCards(obj, dataLength, count, objCount);
       }
+      //카드가 없는 div 날리기
+      $(".col-xl-12:not(:has(.card))").remove();
     },
     error: function (error, status, msg) {},
   });
@@ -203,6 +208,5 @@ function makeProcessBar(processBar) {
 			<div class="progress-bar" role="progressbar" style="width: ${processBar/5}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">${processBar/5 == 0 ? "" : processBar/5+'%'}</div>
 		</div>`;
   $(".card-footer").last().append(node);
-
 
 }
