@@ -62,10 +62,11 @@
 	      
 			    ORDER BY SLS_RTN_HD_DATE DESC, SLS_RTN_HD_NO DESC)
 			    
-	    WHERE <![CDATA[ROWNUM < 10]]>
+	    WHERE <![CDATA[ROWNUM <= 10]]>
 	    
 	</select>
 	
+	<!-- 반품 조건 조회 -->
 	<select id="findReturn" resultMap="rtnHdDtlMap">
 		SELECT RTNHD.SLS_RTN_HD_DATE,
 		       RTNHD.SLS_RTN_HD_NO,
