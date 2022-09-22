@@ -73,33 +73,46 @@ function Monitoring() {
     success: function (data) {
       console.log(data);
       $("#MonitoringTable tbody tr").remove();
-
-      let dataLength = data.length / 5;
-      console.log("data 길이->" + dataLength);
+      
       let count = 0;
       let objCount = 0;
       let cardCount = 1;
-      for (obj of data) {
+      let processBar = 0;
+      for (let i = 0; i< data.length; i++) {
+        let obj = data[i];
         objCount += 1;
         //MonitoringTableMakeRow(obj);
         if (count < 3) {
           if (objCount <= 5) {
             console.log("objCount->" + objCount);
+            console.log(obj);
             //col-xl-12.last().에 카드생성 어펜드 테이블에 5개씩 어펜드
             if (cardCount == 1) {
+              let prodName = obj.prodName;
               //카드생성
-              makeCard();
+              makeCard(prodName);
               console.log("카드생성 몇번?");
               cardCount += 1;
             }
             //데이터입력
+            processBar += obj.achieRate;
             dataInsert(obj);
+            if(i == (data.length-1)){
+              makeProcessBar(processBar);
+            }
+
+            //달성률
           } else if (objCount >= 6) {
+            makeProcessBar(processBar);
+            //div추가
+            processBar = 0;
             console.log("objCount가 5보다 큼");
             objCount = 0;
             count += 1;
             cardCount = 1;
+            i--;
           }
+
         } else if (count >= 3) {
           console.log("count 3보다 큼");
           //col-xl-12 생성
@@ -121,17 +134,19 @@ function makeDiv() {
   $(".pcoded-main-container").append(node);
 }
 
-function makeCard() {
+function makeCard(prodName) {
   let node = `<div class="card">
+              <div class="card-header">
+              <h3>${prodName}</h3>
+              </div>
 							<div class="card-body table-border-style">
 							<div class="table-responsive">
 
 							<table class="table table-striped">
 											<thead>
 													<tr>
+                              <th>공정명</th>
 															<th>설비명</th>
-															<th>공정명</th>
-															<th>제품명</th>
 															<th>금일계획</th>
 															<th>입고량</th>
 															<th>현재실적</th>
@@ -146,7 +161,7 @@ function makeCard() {
 							</div>
 							</div>
 							<div class="card-footer">
-								<small class="text-muted">Last updated 3 mins ago</small>
+							
 							</div>
 						</div>`;
   $(".card-group").last().append(node);
@@ -154,9 +169,8 @@ function makeCard() {
 
 function dataInsert(obj) {
   let node = `<tr>
+                <td>${obj.procCdName}</td>
 								<td>${obj.mchnName}</td>
-								<td>${obj.procCdName}</td>
-								<td>${obj.prodName}</td>
 								<td>${obj.indicaVol}EA</td>
 								<td>${obj.inDtlVol}</td>
 								<td>${obj.totalVol}</td>
@@ -179,4 +193,16 @@ function MonitoringTableMakeRow(obj) {
 							</tr>`;
 
   $("#MonitoringTable tbody").append(node);
+}
+
+
+function makeProcessBar(processBar) {
+
+  let node = `
+  <div class="progress mb-4" style="height: 20px;">
+			<div class="progress-bar" role="progressbar" style="width: ${processBar/5}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">${processBar/5 == 0 ? "" : processBar/5+'%'}</div>
+		</div>`;
+  $(".card-footer").last().append(node);
+
+
 }
