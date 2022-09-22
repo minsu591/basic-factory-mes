@@ -122,26 +122,38 @@ $("document").ready(function () {
     }
 
     //구매일자, 차기점검일 비교
-    if(tdInfo.children("input").length == 1){
-      let inputInfo = tdInfo.find("input");
-      //구매일자
-      if(tdInfo.next().children("input").length == 1){
-        let mnfctDate = tdInfo.prev().find("input").val();      //mnfctDate 제작일자
-          if(mnfctDate != null && mnfctDate != ''){
-            inputInfo.attr("min",mnfctDate);
-          }else{
-            inputInfo.attr("min",'');
-          }
+    // if(tdInfo.children("input").length == 1){
+    //   let inputInfo = tdInfo.find("input");
+    //   //구매일자
+    //   if(tdInfo.parent().children().eq(8).find("input").length == 1){          //if(tdInfo.next().children("input").length == 1){ 
+    //     let mnfctDate = tdInfo.parent().children().eq(7).find("input").val();       //mnfctDate 제작일자    //let mnfctDate = tdInfo.prev().find("input").val(); 
+    //       if(mnfctDate != null && mnfctDate != ''){
+    //         inputInfo.attr("min",mnfctDate);
+    //       }else{
+    //         inputInfo.attr("min",'');
+    //       }
       //차기점검일
-      }else if(tdInfo.parent().children().eq(10).find("input").length == 1){
-        let prchsDate = tdInfo.parent().children().eq(8).find("input").val();      //prchsDate 구매일자
-        if(prchsDate != null && prchsDate != ''){
-          inputInfo.attr("min",prchsDate);
-        }else{
-          inputInfo.attr("min",today);
-        }
-      }
-    }
+      // }else if(tdInfo.parent().children().eq(10).find("input").length == 1){
+      //   let prchsDate = tdInfo.parent().children().eq(8).find("input").val();      //prchsDate 구매일자
+      //   console.log('구매일자?????'+prchsDate)
+      //   if(prchsDate != null && prchsDate != ''){
+      //     inputInfo.attr("min",prchsDate);
+      //   }else{
+      //     inputInfo.attr("min",'');
+      //   }
+      // }
+    //}
+    //구매일자, 차기점검일 비교
+    //구매일자
+    tdInfo.parent().children().eq(7).find("input").change(function() {
+      let minDate = $(this).val()
+      tdInfo.parent().children().eq(8).find("input").attr("min",minDate);
+    });
+    //차기점검일
+    tdInfo.parent().children().eq(8).find("input").change(function() {
+      let minDate = $(this).val()
+      tdInfo.parent().children().eq(10).find("input").attr("min",minDate);
+    });
 
     //수정 적용할 인덱스인지 확인
     for (let i = 0; i < avArr.length; i++) {
