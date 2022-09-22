@@ -79,7 +79,10 @@
                                     <td th:text="${(obj.slsOutDtlVO.slsOrdDtlVol - obj.slsOutDtlVO.slsOutDtlPrvsVol) - obj.slsOutDtlVO.slsOutDtlVol}"></td>
                                     <td th:text="${obj.slsOutDtlVO.fnsPrdStkLotNo}"></td>
                                     <td th:text="${obj.slsOutDtlVO.finPrdCdPrice}"></td>
-                                    <td th:text="${obj.slsOutDtlVO.slsOutDtlPrice}"></td>
+                                    <td>
+                                        <span th:if="${obj.slsOutDtlVO.slsOutDtlPrice > 99}" th:text="${#numbers.formatInteger(obj.slsOutDtlVO.slsOutDtlPrice, 3, 'COMMA')}"></span>
+                                        <span th:if="${obj.slsOutDtlVO.slsOutDtlPrice < 100}" th:text="${obj.slsOutDtlVO.slsOutDtlPrice}"></span>
+                                    </td>
                                     <td th:text="${obj.slsOutHdVO.empName}"></td>
                                     <td th:text="${obj.slsOutHdVO.slsOutHdRemk}"></td>
                                 </tr>
