@@ -6,12 +6,8 @@ h1 {
 	margin-bottom : 2%;
 }
 
-.btn {
+#findRtnMngBtn, #resetBtn {
 	margin-top: 1rem;
-}
-
-#findRtnBtn, #findOutBtn {
-	margin-bottom: 1rem;
 }
 
 #findVendorBtn {
@@ -75,6 +71,15 @@ select {
 }
 
 #vendor{
-	width:153px;
+	width:162px;
 	margin-left:20px;
+}
+
+.modal .table-responsive{
+	height: 43vh;
+	overflow : auto;
+}
+
+.modal-search-fm{
+    padding: 0 1.25rem;
 }

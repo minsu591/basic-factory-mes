@@ -18,7 +18,7 @@ $("#modalAllCheck").click("change", function () {
   if ($("#modalAllCheck").is(":checked")) {
     $("#findRscReturnTable tbody input:checkbox").prop("checked", true);
   } else {
-    $("#findRscReturnTable tbodddy input:checkbox").prop("checked", false);
+    $("#findRscReturnTable tbody input:checkbox").prop("checked", false);
   }
 })
 
@@ -68,7 +68,7 @@ function findRscReturnList() {
 //반품목록 행생성
 function makeRscReturnRow(obj, index) {
   let node = `<tr>
-            <td id="chk-css"><input type="checkbox" name="chkModal"></td>
+            <td><input type="checkbox" name="chkModal"></td>
             <td>${obj.rscReturnCode}</td>
             <td>${obj.rscReturnDate}</td>
             <td>${obj.vendCdNm}</td>
@@ -79,10 +79,14 @@ function makeRscReturnRow(obj, index) {
 }
 
 //이미 출력되어있는 행의 출고코드 목록
-let codeList = [];
 
 //출고목록 등록버튼 체크박스에 체크된것만
 $("#addBtn").click(function () {
+  let codeList = [];
+  $("#InsertTable tbody tr").each(function(idx,el){
+    let outTableCode = $(el).find("td:eq(1)").find("input").val();
+    codeList.push(outTableCode);
+  });
   let codeListTemp = [];
   let checked = $("input[name='chkModal']:checked").length;
   if (checked == 0) {
@@ -142,7 +146,12 @@ $("#addBtn").click(function () {
     data: JSON.stringify(param),
     dataType: "json",
     error: function (error, status, msg) {
-      alert("상태코드 " + status + "에러메시지" + msg);
+      Swal.fire({
+        icon: "warning", 
+        title: "에러 발생",
+        text : `상태코드 ${status}, 에러메시지 ${msg}`,
+        confirmButtonText: "확인"
+      })
     },
     success: function (data) {
       for (obj of data) {
@@ -156,6 +165,8 @@ $("#addBtn").click(function () {
 
 function returnListInsert(obj) {
   let multiplePrc = (obj.rscReturnPrc) * (obj.rscReturnVol);
+  let stock = obj.rscStock + obj.rscReturnVol;
+  let remk = obj.rscReturnRemk==null?'':obj.rscReturnRemk;
   let node = `<tr>
 <td id="chk-css"><input type="checkbox" name="chk"></td>
 <td><input type="text" value="${obj.rscReturnCode}" name="returncode" disabled></td>
@@ -165,12 +176,12 @@ function returnListInsert(obj) {
 <td><input type="text" class="rsccode" value="${obj.rscCdCode}" disabled></td>
 <td><input type="text" class="rscname" value="${obj.rscCdName}" disabled></td>
 <td><input type="text" class="rsclotno" value="${obj.rscLotNo}"></td>
-<td><input type="text" value="${obj.rscStock}" disabled></td>
+<td><input type="text" value="${stock}" disabled></td>
 <td><input type="text" class="outVol" value="${obj.rscReturnVol}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
 <td><input type="text" class="price" value="${obj.rscReturnPrc}" disabled></td>
 <td><input type="text" class="sumPrice" value="${multiplePrc}" disabled></td>
 <td><input type="text" class="empId" value="${obj.empId}" disabled></td>
-<td><input type="text" class="returnRemk"value="${obj.rscReturnRemk}"></td>
+<td><input type="text" class="returnRemk"value="${remk}"></td>
 </tr>`;
   $("#InsertTable tbody").append(node);
 }

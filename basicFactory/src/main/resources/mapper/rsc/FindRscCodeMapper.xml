@@ -124,7 +124,7 @@
 				AND RSC_ORDER_TITLE LIKE '%'|| #{rscOrderTitle} ||'%'
 			</if>
 			<if test="rscOrderDate != null and rscOrderDate != ''">
-				AND RSC_ORDER_DATE = TO_DATE(#{rscOrderDate})
+				AND TO_CHAR(RSC_ORDER_DATE, 'yyyy-MM-dd') = #{rscOrderDate}
 			</if>
 		</where>
 		ORDER  BY 1 DESC
@@ -151,7 +151,7 @@
 				AND OD.RSC_ORDER_TITLE LIKE '%'|| #{rscOrderTitle} ||'%'
 			</if>
 			<if test="rscOrderDate != null and rscOrderDate != ''">
-				AND OD.RSC_ORDER_DATE = TO_DATE(#{rscOrderDate})
+				AND TO_CHAR(OD.RSC_ORDER_DATE, 'yyyy-MM-dd') = #{rscOrderDate}
 			</if>
 		</where>
 		ORDER  BY 1 DESC
@@ -180,8 +180,8 @@
 			 	AND RSC.RSC_CD_NAME LIKE '%' || #{rscCdName} || '%'
 			 </if>
 			 <if test="rscInspDate != null and rscInspDate != ''">
-			 	<![CDATA[AND INSP.RSC_INSP_DATE >= TO_DATE(#{rscInspDate}) 
-		 			AND INSP.RSC_INSP_DATE <= TO_DATE(#{rscInspDate}) +1 ]]>
+			 	<![CDATA[AND TO_CHAR(INSP.RSC_INSP_DATE, 'yyyy-MM-dd') >= #{rscInspDate}
+		 			AND TO_CHAR(INSP.RSC_INSP_DATE, 'yyyy-MM-dd') <= #{rscInspDate} ]]>
 			 </if>
 		 </where>
 		 ORDER BY RSC_INSP_CODE DESC
@@ -194,6 +194,7 @@
 			   NVL(RSCOUT.VEND_CD_CODE,''),
 			   RSCOUT.RSC_CD_CODE,
 			   RSCOUT.RSC_OUT_VOL,
+			   NVL(RSCOUT.RSC_OUT_RESN,''),
 
 			   RSCCODE.RSC_CD_NAME,
 
@@ -204,7 +205,7 @@
 		  FROM (
 		  		SELECT * 
 		  		  FROM BF_RSC_OUT 
-		  		 WHERE RSC_OUT_DATE BETWEEN (TO_DATE(SYSDATE)-7) AND TO_DATE(SYSDATE) 
+		  		 WHERE RSC_OUT_DATE BETWEEN (TO_DATE(SYSDATE)-6) AND TO_DATE(SYSDATE+1) 
 		  		) RSCOUT
 		  LEFT JOIN BF_CMN_RSC_CODE RSCCODE
 		    ON RSCOUT.RSC_CD_CODE = RSCCODE.RSC_CD_CODE
@@ -218,8 +219,7 @@
 			AND RSCOUT.RSC_OUT_CODE LIKE '%'||#{rscOutCode}||'%'
 		</if>
 		<if test="rscOutDate != null and rscOutDate != ''">
-		 		<![CDATA[AND RSCOUT.RSC_OUT_DATE >= TO_DATE(#{rscOutDate}) 
-		 			 AND RSCOUT.RSC_OUT_DATE <= TO_DATE(#{rscOutDate}) +1 ]]>
+		 	AND TO_CHAR(RSCOUT.RSC_OUT_DATE,'yyyy-mm-dd') = #{rscOutDate}
 		</if>
 
 		 ORDER BY 1 DESC
@@ -239,7 +239,7 @@
 		  FROM (
 		  		SELECT * 
 		  		  FROM BF_RSC_RETURN 
-		  		 WHERE RSC_RETURN_DATE BETWEEN (TO_DATE(SYSDATE)-7) AND TO_DATE(SYSDATE) 
+		  		 WHERE RSC_RETURN_DATE BETWEEN (TO_DATE(SYSDATE)-6) AND TO_DATE(SYSDATE+1) 
 		  		) RTN
 		  LEFT JOIN BF_CMN_VENDOR_CODE VEND
 		    ON RTN.VEND_CD_CODE = VEND.VEND_CD_CODE
@@ -250,12 +250,11 @@
 				AND RTN.RSC_RETURN_CODE LIKE '%'||#{rscReturnCode}||'%'
 			</if>
 			<if test="rscReturnDate != null and rscReturnDate != ''">
-		 		<![CDATA[AND RTN.RSC_RETURN_DATE >= TO_DATE(#{rscReturnDate}) 
-		 			 AND RTN.RSC_RETURN_DATE <= TO_DATE(#{rscReturnDate}) +1 ]]>
+		 		AND TO_CHAR(RTN.RSC_RETURN_DATE,'yyyy-mm-dd') = #{rscReturnDate}
 			</if>
 		</where>
 
-		 ORDER BY 1
+		 ORDER BY 1 DESC
 	</select>
 
 

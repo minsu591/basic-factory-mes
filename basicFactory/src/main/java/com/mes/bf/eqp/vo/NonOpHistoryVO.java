@@ -19,12 +19,8 @@ public class NonOpHistoryVO {
 	private String empId;
 	private Date inputDate;
 	private int nonOpMin;
-	@DateTimeFormat(pattern = "yyyy-MM-ddHH:mm")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-	private Date nonOpStartTime;
-	@DateTimeFormat(pattern = "yyyy-MM-ddHH:mm")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-	private Date nonOpEndTime;
+	private String nonOpStartTime;
+	private String nonOpEndTime;
 	private String nonOpRemk;
 	private String nonOpRsn;
 	

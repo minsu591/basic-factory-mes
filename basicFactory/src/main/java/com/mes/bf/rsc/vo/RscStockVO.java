@@ -10,6 +10,7 @@ public class RscStockVO {
 	private String rscLotNo;
 	private int rscInVol;
 	private int rscOutVol;
+	private int rscReturnVol;
 	private int rscStock;
 	private String rscCdUnit;
 	private int rscStockSt;

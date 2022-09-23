@@ -2,7 +2,7 @@ $("document").ready(function () {
   $("#closeBtn").click(function () {
     $("#workInsertModal").modal("hide");
   });
-  let saveCheck = false;
+ 
   $("#emergencyBtn").hide();
 
   $("#empid").click(function () {
@@ -22,11 +22,13 @@ $("document").ready(function () {
   reStart();
   //설비상태 클릭 이벤트
   $("#mchnStatus").on("click", "button", function () {
-    if (saveCheck == false) {
-      alert("저장을 누르세여");
+    console.log($("#saveCheck").val());
+    if($("#saveCheck").val() == 0) { //저장하세요
+      saveCheck();
       return;
-    }
-
+    } else if ($("#saveCheck").val() == undefined) { //이동가능 
+       
+    
     if ($("#saveBtn").prop("disabled") == true) {
       console.log("true");
       let instProdNo;
@@ -43,6 +45,7 @@ $("document").ready(function () {
       //모달 시간과 날짜 입력을 위해 조회
       getprocPerform(processNo, inputDate);
     }
+  }
   });
 
   $("#workInsertTable").on("click", "button", function () {
@@ -78,7 +81,7 @@ $("document").ready(function () {
 
   //저장버튼
   $("#saveBtn").click(function () {
-    saveCheck = true;
+  
     $("#saveBtn").prop("disabled", true);
     let processOrder;
     let instProdNo;
@@ -148,6 +151,10 @@ $("document").ready(function () {
       //공정실적 테이블 업데이트
       console.log("실적 테이블 업데이트 -> 데이터 " + updatePerform);
       updateprocperform(updatePerform);
+
+      //저장체크 지우기
+      $("#saveCheck").remove();
+
       saveSucess();
     } else {
       //포장일 경우?
@@ -204,7 +211,7 @@ function findProcess(instProdNo, MchnName) {
     dataType: "json",
     success: function (data) {
       console.log(data);
-      saveCheck = false;
+    
       $("#workStateTable tbody td").remove();
       for (obj of data) {
         if (`${obj.mchnName}` == MchnName) {
@@ -399,7 +406,7 @@ function startinterval() {
     Math.ceil(
       ((totalProdVol + parseInt(virResult.text())) /
         parseInt(inDtlVol.text())) *
-        100
+      100
     ) + "%"
   );
   prodVol.html(num);
@@ -476,8 +483,8 @@ function insertRscOut(rscLotNo, rscCdCode, needQty) {
       rscOutCls: rscOutCls,
       empName: empName,
     }),
-    error: function (error, status, msg) {},
-    success: function (data) {},
+    error: function (error, status, msg) { },
+    success: function (data) { },
   });
 }
 
@@ -768,6 +775,10 @@ function startWork() {
     //작업 돌리기
     work = setInterval(startinterval, 100);
 
+    //save Check를 위해 어팬드
+    $("#closeBtn").append(`<input type='hidden' id='saveCheck' value=0>`);
+
+
     //설비상태 다시 리로드
     let prodCode;
     $("#procManageTable tbody tr").each(function () {
@@ -781,7 +792,6 @@ function startWork() {
     warning();
   }
 
-  //공정실적테이블 등록
 }
 
 //작업종료 시간 입력
@@ -884,4 +894,13 @@ function nonOpIng() {
     icon: "warning",
     title: "설비 비가동상태입니다.",
   });
+}
+
+
+function saveCheck() {
+  Swal.fire({
+    icon: "warning",
+    title: "기록이 저장되지 않았습니다.",
+    text:"저장버튼을 누르세요."
+  })
 }

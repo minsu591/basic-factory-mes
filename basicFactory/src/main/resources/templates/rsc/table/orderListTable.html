@@ -27,10 +27,19 @@
 				<td th:text="${olist.rscOrderTitle}"></td>
 				<td th:text="${olist.rscCdName}"></td>
 				<td th:text="${olist.vendCdNm}"></td>
-				<td th:text="${olist.rscOrderVol}"></td>
-				<td th:text="${olist.rscOrderArv}"></td>
+				<td>
+					<span th:if="${olist.rscOrderVol > 99 }" th:text="${#numbers.formatInteger(olist.rscOrderVol, 3, 'COMMA')}"></span>
+					<span th:if="${olist.rscOrderVol < 100 }" th:text="${olist.rscOrderVol}"></span>
+				</td>
+				<td>
+					<span th:if="${olist.rscOrderArv > 99 }" th:text="${#numbers.formatInteger(olist.rscOrderArv, 3, 'COMMA')}"></span>
+					<span th:if="${olist.rscOrderArv < 100 }" th:text="${olist.rscOrderArv}"></span>
+				</td>
 				<td th:text="${olist.rscCdUnit}"></td>
-				<td th:text="${olist.rscOrderPrc}"></td>
+				<td>
+					<span th:if="${olist.rscOrderPrc > 99}" th:text="${#numbers.formatInteger(olist.rscOrderPrc, 3, 'COMMA')}"></span>
+					<span th:if="${olist.rscOrderPrc < 100}" th:text="${olist.rscOrderPrc}"></span>
+				</td>
 				<td><span th:if="${olist.rscOrderSt == 0}" th:text="발주완료"  class="badge badge-light-primary"/>
 					<span th:if="${olist.rscOrderSt == 1}" th:text="부분입고완료"  class="badge badge-light-primary"/>
 					<span th:if="${olist.rscOrderSt == 2}" th:text="입고완료"  class="badge badge-light-secondary"/></td>

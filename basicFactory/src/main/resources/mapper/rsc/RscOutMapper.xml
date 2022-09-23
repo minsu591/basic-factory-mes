@@ -8,7 +8,8 @@
 			AND RSCOUT.RSC_OUT_CODE LIKE '%' || #{keyword} || '%'
 		</if>
 		<if test="keyword2 != null and keyword2 != '' and keyword3 != null and keyword3 != ''">
-			AND TRUNC(RSCOUT.RSC_OUT_DATE) BETWEEN #{keyword2} AND #{keyword3}
+			<![CDATA[AND TO_CHAR(RSCOUT.RSC_OUT_DATE, 'yyyy-MM-dd') >= #{keyword2} 
+					AND TO_CHAR(RSCOUT.RSC_OUT_DATE, 'yyyy-MM-dd') <= #{keyword3}]]>
 		</if>
 		<if test="keyword4 != null and keyword4 != ''">
 			AND RSCOUT.RSC_CD_CODE = #{keyword4}
@@ -76,12 +77,12 @@
 			SELECT Y.*, ROWNUM AS RNUM FROM (
 		SELECT RSCOUT.RSC_OUT_CODE, 
 			   RSCOUT.RSC_OUT_DATE, 
-			   NVL(RSCOUT.VEND_CD_CODE,''), 
+			   NVL(RSCOUT.VEND_CD_CODE,' '), 
                RSCOUT.RSC_CD_CODE,
                RSCOUT.RSC_LOT_NO,
                RSCOUT.RSC_OUT_VOL,
                RSCOUT.RSC_OUT_CLS,
-               RSCOUT.RSC_OUT_RESN,
+               NVL(RSCOUT.RSC_OUT_RESN,' '),
                
                RSCCODE.RSC_CD_NAME, 
 			   
@@ -116,7 +117,7 @@
                RSCOUT.RSC_LOT_NO,
                RSCOUT.RSC_OUT_VOL,
                RSCOUT.RSC_OUT_CLS,
-               RSCOUT.RSC_OUT_RESN,
+               NVL(RSCOUT.RSC_OUT_RESN,' '),
                
                RSCCODE.RSC_CD_NAME, 
 			   

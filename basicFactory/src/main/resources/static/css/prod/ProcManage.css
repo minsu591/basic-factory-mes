@@ -81,3 +81,9 @@ input[type="number"]::-webkit-inner-spin-button {
 .inputRequired {
   border: 1px solid #e74c3c;
 }
+
+.vertical-align {
+    vertical-align: inherit !important;
+}
+
+

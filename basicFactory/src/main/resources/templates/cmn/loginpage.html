@@ -4,13 +4,14 @@
 <meta charset="UTF-8">
 <title>LoginPage Test</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-	<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/style.css">
+<script th:src="@{https://cdn.jsdelivr.net/npm/sweetalert2@10}"></script>
 </head>
 <body>
 <script type="text/javascript" th:src="@{/js/cmn/login.js}"></script>
 <div class="auth-wrapper">
 		<div class="auth-content text-center">
-			<img src="/images/BFlogoLogin.png" alt="" class="img-fluid  mb-4">
+			<img src="/images/BF-Logo.png" alt="" class="img-fluid  mb-4">
 			<div class="card borderless">
 				<div class="row align-items-center ">
 					<div class="col-md-12">
@@ -30,7 +31,7 @@
 							<button class="btn btn-block btn-primary mb-4" id="signInBtn">로그인</button>
 							<hr>
 							<p class="mb-2 text-muted">비밀번호를 잊으셨나요?&nbsp;<a th:href="@{/cmn/login/reset}" class="f-w-400">재설정</a></p>
-							<p class="mb-2 text-muted"><a th:href="@{/common/main}" class="f-w-400">비회원 로그인</a></p>
+							<!-- <p class="mb-2 text-muted"><a th:href="@{/common/main}" class="f-w-400">비회원 로그인</a></p> -->
 						</div>
 					</div>
 				</div>

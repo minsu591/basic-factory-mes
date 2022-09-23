@@ -20,8 +20,8 @@ public class SlsStockServiceImpl implements SlsStockService{
 	}
 
 	@Override
-	public List<SlsStockVO> findStock(String prdName, String lotNo) {
-		return mapper.findStock(prdName, lotNo);
+	public List<SlsStockVO> findStock(String prdName, String lotNo, String stockClfy) {
+		return mapper.findStock(prdName, lotNo, stockClfy);
 	}
 
 	@Override

@@ -13,7 +13,7 @@
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h3 class="modal-title" id="findNxtDateModalLabel">점검 내역</h3>
+						<h3 class="modal-title" id="findNxtDateModalLabel">설비 정기점검 대상</h3>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -22,8 +22,8 @@
 						<!-- <div class="form-inline">
 							<div class="form-group mt-3">
 								<label for="inspcDate" th:text="설비점검일"></label>
-                <input type="date" id="inspcSdate" class="form-control mx-sm-3" /> ~
-                <input type="date" id="inspcEdate" class="form-control mx-sm-3" />
+								<input type="date" id="inspcSdate" class="form-control mx-sm-3" /> ~
+								<input type="date" id="inspcEdate" class="form-control mx-sm-3" />
 								<button type="button" class="btn  btn-primary" id="selectBtn" th:text="조회"></button>
 							</div>
 						</div>
@@ -36,22 +36,20 @@
 											<th><input type="checkbox" id="allCheck"></th>
 											<th th:text="설비코드"></th>
 											<th th:text="설비명"></th>
-                      <th th:text="정기점검일"></th>
+											<th th:text="정기점검일"></th>
+											<th th:text="설비상태"></th>
 										</tr>
 									</thead>
-									<tbody id="findNxtDateTbody">
+									<tbody id="findNxtDateTbody" >
 
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-					<!-- <div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal" th:text="취소"></button>
-						<button type="button" class="btn btn-primary" th:text="선택"
-							id="selectbtn"></button>
-					</div> -->
+					<div class="modal-footer">
+						<button type="button" class="btn  btn-primary" id="nxtDaddBtn">선택 추가</button>
+					</div>
 				</div>
 			</div>
 		</div>

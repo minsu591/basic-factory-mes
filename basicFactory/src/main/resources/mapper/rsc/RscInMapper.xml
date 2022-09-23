@@ -8,7 +8,8 @@
 			AND RSCIN.RSC_IN_CODE LIKE '%'||#{keyword}||'%'
 		</if>
 		<if test="keyword3 != null and keyword3 != '' and keyword4 != null and keyword4 != ''">
-			AND TRUNC(RSCIN.RSC_IN_DATE) BETWEEN #{keyword3} AND #{keyword4}
+			<![CDATA[AND TO_CHAR(RSCIN.RSC_IN_DATE, 'yyyy-MM-dd') >= #{keyword3} 
+					AND TO_CHAR(RSCIN.RSC_IN_DATE, 'yyyy-MM-dd') <= #{keyword4}]]>
 		</if>
 		<if test="keyword2 != null and keyword2 != ''">
 			AND RSCIN.RSC_CD_CODE = #{keyword2}
@@ -68,7 +69,7 @@
 			AND INSP.RSC_CD_CODE = #{keyword}
 		</if>
 		<if test="keyword2 != null and keyword2 != ''">
-			AND TO_CHAR(INSP.RSC_INSP_DATE,'yyyy-mm-dd') = #{keyword2}
+			AND TO_CHAR(INSP.RSC_INSP_DATE,'yyyy-MM-dd') = SUBSTR(#{keyword2},0,10)
 		</if>
 	</sql>
 	

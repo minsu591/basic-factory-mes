@@ -10,7 +10,8 @@
 			AND RTN.VEND_CD_CODE = #{keyword2}
 		</if>
 		<if test="keyword3 != null and keyword3 != '' and keyword4 != null and keyword4 != ''">
-			AND TRUNC(RTN.RSC_RETURN_DATE) BETWEEN #{keyword3} AND #{keyword4}
+			<![CDATA[AND TO_CHAR(RTN.RSC_RETURN_DATE, 'yyyy-MM-dd') >= #{keyword3} 
+					AND TO_CHAR(RTN.RSC_RETURN_DATE, 'yyyy-MM-dd') <= #{keyword4}]]>
 		</if>
 		
 	</sql>
@@ -39,7 +40,6 @@
 							       RTN.RSC_CD_CODE, 
 					               RTN.RSC_RETURN_VOL, 
 					               RTN.RSC_RETURN_PRC, 
-					               RTN.RSC_RETURN_RESN, 
 					               RTN.RSC_RETURN_REMK,
 					               
 							       RSCCODE.RSC_CD_NAME, 
@@ -73,7 +73,6 @@
 		       RTN.RSC_CD_CODE, 
                RTN.RSC_RETURN_VOL, 
                RTN.RSC_RETURN_PRC, 
-               RTN.RSC_RETURN_RESN, 
                RTN.RSC_RETURN_REMK,
                RTN.RSC_LOT_NO,
                RTN.VEND_CD_CODE,
@@ -110,7 +109,6 @@
 				#{rscLotNo},
 				#{rscReturnDate},
 				#{rscReturnVol},
-				'처리고민',
 				#{rscReturnPrc},
 				#{rscReturnRemk},
 				#{empId},

@@ -1,6 +1,8 @@
 $("document").ready(function () {
   let tdinfo;
 
+  // let outCodeList = [];
+
     //기본 날짜 오늘 지정
     let date = new Date();
     date = date.toISOString().slice(0, 10);
@@ -32,7 +34,7 @@ $("document").ready(function () {
 
   //삭제 버튼
   $("#delRowBtn").click(function () {
-    if ($("input[type='checkbox']:checked").length === 0) {
+    if ($("input[name='chk']:checked").length === 0) {
       deleteWarning();
       return;
     }
@@ -40,7 +42,16 @@ $("document").ready(function () {
       $(this).parent().parent().remove();
       $("#allCheck").prop("checked", false);
     });
+
   });
+
+
+    //초기화버튼
+    $("#resetBtn").click(function () {
+      $("#outTable tr").remove();
+      $("#allCheck").prop("checked", false);
+    })
+  
 
   function detailTableMakeRow() {
     let id = $("#sideBarEmpId").val();
@@ -56,7 +67,7 @@ $("document").ready(function () {
  <td><input type="text" class="vendor"></td>
  <td><input type="text" class="vendName" disabled></td>
  <td><input type="text" class="outResn"></td>
- <td><input type="text" class="empId" value="${id}"></td>
+ <td><input type="text" class="empId" value="${id}" disabled></td>
  </tr>`;
     $("#InsertTable tbody").append(node);
   }
@@ -113,15 +124,13 @@ $("document").ready(function () {
     })
     
 
-
-  //등록버튼
-
-  $("#subBtn").click(function () {
-    let checked = $("input[name='chk']:checked").length;
-    if (checked == 0) {
-      submitWarning();
-      return;
-    }
+    //등록버튼
+    $("#subBtn").click(function () {
+      let checked = $("input[name='chk']:checked").length;
+      if (checked == 0) {
+        submitWarning();
+        return;
+      }
     let param = [];
     let info = [];
     let rowData = new Array();

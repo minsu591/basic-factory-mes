@@ -18,11 +18,11 @@ $("document").ready(function () {
                 empPw
             }),
             success: function (result) {
+                console.log(result);
                 //-1 : 존재하는 아이디가 아님
                 //-2 : 유효한 아이디가 아님
                 // 0 : 비밀번호 오류
                 // 1 : 로그인
-                console.log("result");
                 if (result == -1) {
                     Swal.fire({
                         icon: "warning",

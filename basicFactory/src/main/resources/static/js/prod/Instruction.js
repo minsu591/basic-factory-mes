@@ -103,8 +103,14 @@ function instMakeRow(obj) {
   <td>${slsOrdDtlDlvDate == " " ? "-" : obj.slsOrdDtlDlvDate}</td>
   <td>${slsOrdDtlVol == " " ? "-" : obj.slsOrdDtlVol}</td>
   <td>${obj.instProdIndicaVol}</td>
-  <td>${obj.workScope}</td>
+  <td><span>${obj.workScope}</span></td>
   <td>${obj.workDate}</td>
 </tr>`;
   $("#instTable tbody").append(node);
+
+  if (obj.workScope == '진행중') {
+    $("#instTable tbody tr").last().find("td:eq(9) span").addClass("badge badge-light-primary");
+  } else {
+    $("#instTable tbody tr").last().find("td:eq(9) span").addClass("badge badge-light-secondary");
+  }
 }

@@ -15,8 +15,6 @@ public interface SlsOutMapper {
 	List<SlsOutHdDtlVO> findAllOut();
 	List<SlsOutHdDtlVO> findOut(Criteria cri);
 	Integer findOutCount(Criteria cri);
-	
-	
 	List<SlsOrdHdDtlVO> findNotOut(String ordSdate, String ordEdate);
 	List<SlsOutHdDtlVO> findNotOutDtl(String slsOrdHdNo);
 	List<SlsOutHdVO> outView(String outSdate, String outEdate);
@@ -27,6 +25,7 @@ public interface SlsOutMapper {
 	void outHdDelete(SlsOutHdVO vo);
 	List<SlsOutDtlVO> outDtlNoSelect(SlsOutDtlVO vo);
 	void callProcOutDtlDel(String slsOutDtlNo);
+	List<SlsOutHdVO> outHdViewToReturn(String outSdate, String outEdate);
 	List<SlsOutDtlVO> outDtlViewToReturn(String slsOutHdNo);
 	int checkOrder(String slsOrdHdNo);
 }

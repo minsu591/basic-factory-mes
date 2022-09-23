@@ -66,5 +66,27 @@
         <!-- <![CDATA[ WHERE ROWNUM <=4 ]]> -->
 		
 	</select>
-
+	
+	<select id="findInstOrd" resultType="int">
+		SELECT COUNT(*)
+		FROM BF_PROD_INSTRUCTION I
+		JOIN BF_PROD_INST_DETAIL ID
+		ON I.INST_NO = ID.INST_NO
+		WHERE TO_CHAR(I.INST_DATE,'YY/MM/DD') = TO_CHAR(CURRENT_TIMESTAMP,'YY/MM/DD')
+	</select>
+	<select id="findProcPerf" resultType="int">
+		SELECT COUNT(*)
+		FROM BF_PROD_PROCESS_PERFORMANCE P
+		JOIN BF_PROD_PROCESS PP
+		ON P.PROCESS_NO = PP.PROCESS_NO
+		WHERE PP.PROC_CD_NAME = '포장'
+		AND TO_CHAR(CURRENT_TIMESTAMP,'YYYY-MM-DD') = SUBSTR(WORK_END_TIME,0,10)
+	</select>
+	<select id="findFinOut" resultType="int">
+		SELECT COUNT(*)
+        FROM BF_SALES_OUT_HD OH
+            JOIN BF_SALES_OUT_DTL OD
+              ON OH.SLS_OUT_HD_NO = OD.SLS_OUT_HD_NO
+		WHERE TO_CHAR(OH.SLS_OUT_HD_DATE,'YY/MM/DD') = TO_CHAR(CURRENT_TIMESTAMP,'YY/MM/DD')
+	</select>
 </mapper>

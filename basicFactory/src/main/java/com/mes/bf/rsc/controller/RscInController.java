@@ -31,7 +31,6 @@ public class RscInController {
 	//입고
 	@RequestMapping("/in")
 	public void in(Model model, @ModelAttribute("cri") Criteria cri) {
-		System.out.println(cri);
 		int total = rscInService.inspCompListCount(cri);
 		cri.setAmount(10);
 		PageDTO page = new PageDTO(cri, total);
@@ -40,14 +39,6 @@ public class RscInController {
 		System.out.println(rscInService.inspCompList(cri));
 	}
 	
-	//입고테이블 replace
-//	@RequestMapping(value ="/inTable", produces = { MediaType.APPLICATION_JSON_VALUE })
-//	public String inTable(@RequestParam Map<String, String> QueryParameters, Model model) {
-//		List<RscInspVO> inspCompList = rscInService.inspCompList(QueryParameters.get("rscCdCode"),QueryParameters.get("rscInspDate"));
-//		System.out.println(QueryParameters.get("rscInspDate"));
-//		model.addAttribute("inspCompList",inspCompList);
-//		return "rsc/table/inTable";
-//	}
 	
 	@RequestMapping(value = "/inInsert", method = RequestMethod.POST)
 	@ResponseBody
@@ -69,14 +60,6 @@ public class RscInController {
 		model.addAttribute("inList", rscInService.inList(cri));
 	}
 	
-//	@RequestMapping(value = "/inListTable", produces = { MediaType.APPLICATION_JSON_VALUE })
-//	public String inListTable(@ModelAttribute("cri") Criteria cri, Model model) {
-//		int total = rscInService.inListCount(cri);
-//		cri.setAmount(10); // 한페이지당 10개씩 설정
-//		PageDTO page = new PageDTO(cri, total);
-//		model.addAttribute("pageMaker", page);
-//		model.addAttribute("inList", rscInService.inList(cri));
-//		return "rsc/table/inListTable";
-//	}
+
 
 }

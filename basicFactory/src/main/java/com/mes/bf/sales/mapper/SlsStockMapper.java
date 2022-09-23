@@ -9,6 +9,6 @@ import com.mes.bf.sales.vo.SlsStockVO;
 @Mapper
 public interface SlsStockMapper {
 	List<SlsStockVO> findAllStock();
-	List<SlsStockVO> findStock(String prdName, String lotNo);
+	List<SlsStockVO> findStock(String prdName, String lotNo, String stockClfy);
 	List<SlsStockVO>findOutUpdateStock(String slsOutHdNo, String finPrdCdCode);
 }

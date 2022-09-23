@@ -51,7 +51,6 @@ $("document").ready(function () {
   //불량처리내역 조회 모달 내에 데이터 출력
   function modalMakeRow(obj) {
     let node = `<tr>
-                  <td><input type="checkbox"></td>
                   <td>${obj.inspcNo}</td>
                   <td>${obj.mchnCode}</td>
                   <td>${obj.mchnName}</td>
@@ -68,14 +67,14 @@ $("document").ready(function () {
   //tr 클릭 이벤트
   $("#findInspcListTbody").on("click", "tr", function () {
     //테이블 상단 공통 요소 삽입
-    let inspcNo = $(this).find("td:eq(1)").text();
-    let mchnCode = $(this).find("td:eq(2)").text();
-    let mchnName = $(this).find("td:eq(3)").text();
-    let inspcSdate = $(this).find("td:eq(4)").text();
-    let inspcEdate = $(this).find("td:eq(5)").text();
-    let inspcActnPnt = $(this).find("td:eq(6)").text();
-    let inspcActnRsn = $(this).find("td:eq(7)").text();
-    let empId = $(this).find("td:eq(8)").text();
+    let inspcNo = $(this).find("td:first").text();
+    let mchnCode = $(this).find("td:eq(1)").text();
+    let mchnName = $(this).find("td:eq(2)").text();
+    let inspcSdate = $(this).find("td:eq(3)").text();
+    let inspcEdate = $(this).find("td:eq(4)").text();
+    let inspcActnPnt = $(this).find("td:eq(5)").text();
+    let inspcActnRsn = $(this).find("td:eq(6)").text();
+    let empId = $(this).find("td:eq(7)").text();
     let inspcRemk = $(this).find("td:last").text();
 
     let node = `<tr>

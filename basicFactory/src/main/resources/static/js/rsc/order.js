@@ -5,6 +5,7 @@ $("document").ready(function () {
   //기본 날짜 오늘 지정
   let date = new Date();
   date = date.toISOString().slice(0, 10);
+  $("#rscOrderDate").val(date);
 
   //체크박스 체크유무
   $("#allCheck").click("change", function () {
@@ -171,7 +172,8 @@ $("document").ready(function () {
     }
 
     let notnull = [0,2,4,6];
-
+    let runAjax = true;
+    
     //발주코드가 없는경우
     if (rscOrderCode == null) {
       let orders = [];
@@ -184,21 +186,15 @@ $("document").ready(function () {
         let rscOrderVol = $(obj).children().eq(4).find("input").val();
         let rscOrderPrc = $(obj).children().eq(6).find("input").val();
         let rscOrderDtlRemk = $(obj).children().eq(8).find("input").val();
-
-
+        
+        
         if (!vendCdCode || !rscCdCode || !rscOrderVol || !rscOrderPrc) {
           for (idx of notnull){
             if (!($(obj).children().eq(idx).find("input").val())) {
               $(obj).children().eq(idx).addClass("nullpoint");
             }
           }
-          Swal.fire({
-            icon: "warning", // Alert 타입
-            title: "입력되지 않은 값이 있습니다.", // Alert 제목
-            html: "거래처코드, 자재코드, <br/>발주수량, 단가는<br/>기본 입력사항입니다.",
-            confirmButtonText: "확인",
-          });
-          return;
+          runAjax=false;
         } else {
           //디테일 리스트 저장
           let order = {
@@ -213,22 +209,31 @@ $("document").ready(function () {
 
         }
       }
-      $.ajax({
-        url: "orderInsert",
-        type: "POST",
-        dataType: "text",
-        data: JSON.stringify({
-          rscOrderVO,
-          orders,
-        }),
-        contentType: "application/json; charset=UTF-8",
-        success: function (result) {
-          console.log(result);
-          if (orders.length == result) {
-            submitComplete();
-          }
-        },
-      });
+      if(runAjax){
+        $.ajax({
+          url: "orderInsert",
+          type: "POST",
+          dataType: "text",
+          data: JSON.stringify({
+            rscOrderVO,
+            orders,
+          }),
+          contentType: "application/json; charset=UTF-8",
+          success: function (result) {
+            console.log(result);
+            if (orders.length == result) {
+              submitComplete();
+            }
+          },
+        });
+      } else {
+        Swal.fire({
+          icon: "warning", // Alert 타입
+          title: "입력되지 않은 값이 있습니다.", // Alert 제목
+          html: "거래처코드, 자재코드, <br/>발주수량, 단가는<br/>기본 입력사항입니다.",
+          confirmButtonText: "확인",
+        });
+      }
     //발주코드가 있는경우
     } else {
       // 수정 - 세부내역 전부 delete 후 insert
@@ -250,13 +255,7 @@ $("document").ready(function () {
               $(obj).children().eq(idx).addClass("nullpoint");
             }
           }
-          Swal.fire({
-            icon: "warning", // Alert 타입
-            title: "입력되지 않은 값이 있습니다.", // Alert 제목
-            html: "거래처코드, 자재코드, <br/>발주수량, 단가는<br/>기본 입력사항입니다.",
-            confirmButtonText: "확인",
-          });
-          return;
+          runAjax = false;
         } else {
           //디테일 리스트 저장
           let order = {
@@ -270,22 +269,31 @@ $("document").ready(function () {
         }
       }
       console.log(orders)
-      $.ajax({
-        url: "orderUpdate",
-        type: "POST",
-        dataType: "text",
-        data: JSON.stringify({
-          rscOrderVO,
-          orders,
-        }),
-        contentType: "application/json; charset=UTF-8",
-        success: function (result) {
-          console.log(result);
-          if (orders.length == result) {
-            submitComplete();
-          }
-        },
-      });
+      if (runAjax){
+        $.ajax({
+          url: "orderUpdate",
+          type: "POST",
+          dataType: "text",
+          data: JSON.stringify({
+            rscOrderVO,
+            orders,
+          }),
+          contentType: "application/json; charset=UTF-8",
+          success: function (result) {
+            console.log(result);
+            if (orders.length == result) {
+              submitComplete();
+            }
+          },
+        });
+      }else if(!runAjax){
+          Swal.fire({
+            icon: "warning", // Alert 타입
+            title: "입력되지 않은 값이 있습니다.", // Alert 제목
+            html: "거래처코드, 자재코드, <br/>발주수량, 단가는<br/>기본 입력사항입니다.",
+            confirmButtonText: "확인",
+          });
+      }
     }
   });
 

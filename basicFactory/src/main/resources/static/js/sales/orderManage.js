@@ -438,7 +438,7 @@ function addDtlSaveAjax(obj, slsOrdHdNo) {
 
     $.ajax({
         url: 'ordManage/dtlInsert',
-        type : 'POST',
+        type: 'POST',
         contentType: "application/json;charset=utf-8",
         data: JSON.stringify({
             slsOrdHdNo,
@@ -446,11 +446,10 @@ function addDtlSaveAjax(obj, slsOrdHdNo) {
             slsOrdDtlDlvDate,
             slsOrdDtlVol
         }),
-        success : function(result) {
+        success: function (result) {
             console.log("orderDtl 추가 성공");
         }
-
-    })
+    });
 }
 //추가 끝
 
@@ -483,6 +482,10 @@ $("#deleteBtn").on("click", function () {
             }
         }
     });
+    //내부에 내용이 없으면 allCheck 해제
+    if (table.find("tbody tr").length == 0) {
+        $("#allCheck").prop("checked", false);
+    }
 });
 
 function deleteHdSaveAjax(slsOrdHdNo){
@@ -569,7 +572,7 @@ function insertHeaderWarning() {
     Swal.fire({
         icon: "warning",
         title: "필수 항목 미입력",
-        html: "주문일자, 담당자, 거래처는 <br/> 기본 입력사항입니다."
+        html: "주문일자, 거래처는 <br/> 기본 입력사항입니다."
     });
 }
     

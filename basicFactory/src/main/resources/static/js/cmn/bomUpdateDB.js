@@ -91,18 +91,6 @@ $("document").ready(function(){
                     }
                 }
             }
-            if(col== 7){
-                let txt = tdInfo.text();
-                let parseTxt = parseInt(txt);
-                if(!$.isNumeric(parseTxt)){
-                    //txt가 숫자가 아니면
-                    tdInfo.text('');
-                    return false;
-                }else if($.isNumeric(parseTxt) && txt != parseTxt){
-                    //txt가 숫자와 문자가 섞여있으면
-                    tdInfo.text(parseTxt);
-                }
-            }
             
             if(!tdInfo.hasClass("bomAddTr") && !tdInfo.hasClass("rscAddTr")){
                 tdInfo.trigger("change");
@@ -409,6 +397,7 @@ $("document").ready(function(){
     }
 
     function rscModifySaveAjax(obj){
+        console.log(obj);
         let priKey = obj[0];
         let updCol = obj[1];
         let updCont = obj[2];
@@ -609,6 +598,10 @@ $("document").ready(function(){
                 }
             }
         });
+        //내부에 내용이 없으면 allCheck 해제
+        if(bomTable.find("tbody tr").length==0){
+            $("#bomAllCheck").prop("checked",false);
+        }
     });
 
 
@@ -629,6 +622,10 @@ $("document").ready(function(){
                 }
             }
         });
+        //내부에 내용이 없으면 allCheck 해제
+        if(rscTable.find("tbody tr").length==0){
+            $("#rscAllCheck").prop("checked",false);
+        }
     });
     
 

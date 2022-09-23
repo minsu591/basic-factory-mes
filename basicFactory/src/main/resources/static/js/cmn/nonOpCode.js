@@ -288,6 +288,10 @@ $("document").ready(function () {
         }
       }
     });
+    //내부에 내용이 없으면 allCheck 해제
+    if (table.find("tbody tr").length == 0) {
+      $("#allCheck").prop("checked", false);
+    }
   });
 
   function deleteSaveAjax(delList) {

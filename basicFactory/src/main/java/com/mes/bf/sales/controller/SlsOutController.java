@@ -130,6 +130,15 @@ public class SlsOutController {
 		}
 	}
 	
+	//완제품 반품관리에서 출고 조회 모달
+	@GetMapping("/outView/hd/return")
+	public List<SlsOutHdVO> outHdViewToReturn(@RequestParam Map<String, String> param){
+		System.out.println("들어옴");
+		List<SlsOutHdVO> list = service.outHdViewToReturn(param.get("outSdate"),
+														  param.get("outSdate"));
+		return list;
+	}
+
 	//완제품 반품 관리에서 출고 상세조회
 	@GetMapping("/outView/dtl/return")
 	public List<SlsOutDtlVO> outDtlViewToReturn(@RequestParam Map<String, String> param) {

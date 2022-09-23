@@ -7,6 +7,16 @@ $(document).ready(function () {
   $("#PDFBtn").click(function () {
     console.log("instNo->" + $("#instNo").val());
     let instNo = $("#instNo").val();
+
+    if (instNo == undefined) {
+      Swal.fire({
+        icon: "warning",
+        title: "조건에 해당하는 데이터가 없습니다.",
+        text: "기존 생산지시를 조회하세요."
+      })
+      return;
+    }
+
     $.ajax({
       url: `report.do`,
       method: "GET",
@@ -17,7 +27,7 @@ $(document).ready(function () {
         window.open("/prod/report.do?instNo=" + instNo);
         console.log("호출성공");
       },
-      error: function (error, status, msg) {},
+      error: function (error, status, msg) { },
     });
   });
 
@@ -159,13 +169,13 @@ $(document).ready(function () {
               finPrdCdCode: prodCode,
               workDate: workDate,
             };
+            check = true;
             dataArray.push(instobjdetail);
           } else if ($(this).children().children().is(":checked") == false) {
-            check = true;
           }
         });
 
-        if (check) {
+        if (!check) {
           notChecked();
           return;
         }
@@ -448,9 +458,20 @@ $(document).ready(function () {
               <td>${obj.lineCdOrd}</td>
               <td>${obj.procCdName}</td>
               <td>${obj.mchnName}</td>
-              <td>${obj.mchnStts}</td>
+              <td><span>${obj.mchnStts}<span></td>
               </tr>`;
     $("#procStatusTable tbody").append(node);
+
+    if (obj.mchnStts == '비가동') {
+      $("#procStatusTable tbody tr").last().find("td:eq(3) span").addClass("badge badge-danger")
+    } else if (obj.mchnStts == '진행전') {
+      $("#procStatusTable tbody tr").last().find("td:eq(3) span").addClass("badge badge-primary")
+    } else if (obj.mchnStts == '진행중') {
+      $("#procStatusTable tbody tr").last().find("td:eq(3) span").addClass("badge badge-warning")
+    } else {
+      $("#procStatusTable tbody tr").last().find("td:eq(3) span").addClass("badge badge-secondary")
+    }
+
   }
 
   function rscStockMakeRow(obj, index) {
@@ -532,6 +553,7 @@ function insertInstAndDetail(instobjheader, dataArray) {
 }
 
 function requiredCheck(instobjheader, dataArray, command) {
+  let check = false;
   for (let i = 0; i < dataArray.length; i++) {
     if (
       dataArray[i].finPrdCdCode == "" ||
@@ -545,31 +567,41 @@ function requiredCheck(instobjheader, dataArray, command) {
           .eq(i)
           .find("td:eq(1)")
           .addClass("inputRequired");
+          check = true;
       }
       if (dataArray[i].instProdIndicaVol == "") {
         $("#planDetailTable tbody tr")
           .eq(i)
           .find("td:eq(10)")
           .addClass("inputRequired");
+          check = true;
       }
       if (dataArray[i].workDate == "") {
         $("#planDetailTable tbody tr")
           .eq(i)
           .find("td:eq(12)")
           .addClass("inputRequired");
+          check = true;
       }
       if ($("#instname").val() == "") {
         $("#instname").addClass("required");
+        check = true;
       }
       if ($("#empid").val() == "") {
         $("#empid").addClass("required");
+        check = true;
       }
-      requiredWarn();
-      return;
+      
+      
     } else {
     }
+   
   }
 
+  if(check == true) {
+    requiredWarn();
+    return;
+  }
   if (command == "save") {
     insertInstAndDetail(instobjheader, dataArray);
     //console.log("저장일 떄 ->" + instobjheader, dataArray);

@@ -38,3 +38,15 @@ h1 {
 .overflow {
 	height: 56vh;
 }
+
+.buttonSet-top{
+	float : right;
+}
+
+.modal-search-fm{
+    padding: 0 1.25rem;
+}
+
+.modal-pointer{
+	cursor : pointer;
+}

@@ -15,6 +15,7 @@ $("document").ready(function(){
         else $("#allCheck").prop("checked", true);
         e.stopPropagation();
     })
+    
     $("#planManageTable tbody").on("click","input:checkbox",function(e){
         e.stopPropagation();
     })

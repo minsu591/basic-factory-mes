@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.mes.bf.sales.vo.SlsOutDtlVO;
 import com.mes.bf.sales.vo.SlsRtnDtlVO;
 import com.mes.bf.sales.vo.SlsRtnHdDtlVO;
 import com.mes.bf.sales.vo.SlsRtnHdVO;

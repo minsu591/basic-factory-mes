@@ -21,7 +21,7 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<div class="form-inline">
+						<div class="form-inline modal-search-fm">
 							<div class="form-group mt-3">
 								<label for="lotrsccode" th:text="자재코드"></label> 
 								<input type="text" id="lotrsccode" name="lotrsccode"
@@ -47,7 +47,7 @@
 											<th th:text="가용여부"></th>
 										</tr>
 									</thead>
-									<tbody id="findRscLottbody">
+									<tbody id="findRscLottbody" class="modal-pointer">
 									
 									</tbody>
 								</table>
@@ -55,8 +55,6 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">Close</button>
 					</div>
 				</div>
 			</div>

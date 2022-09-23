@@ -38,18 +38,19 @@ $(document).ready(function () {
   });
   //작업시작시간 입력
   $("#workStartBtn").click(function () {
-    //설비테이블 클릭이벤트 제거
-    $("#equipTable").off("click");
 
     let mchnCode = $("#mchnCode").val();
     let mchnStatus = $("#mchnStatus").val();
 
     if (mchnStatus == "비가동") {
-      alert("비가동중입니다.");
+      nonOpWarn();
+      return;
     } else if (mchnCode == "") {
       selectMchn();
     } else {
       findMchnName();
+      //설비테이블 클릭이벤트 제거
+      $("#equipTable").off("click");
       let date = new Date();
 
       let hours = ("0" + date.getHours()).slice(-2);
@@ -67,7 +68,7 @@ $(document).ready(function () {
         error: function (error, status, msg) {
           alert("상태코드 " + status + "에러메시지" + msg);
         },
-        success: function (data) {},
+        success: function (data) { },
       });
       $.ajax({
         url: `findinputno`,
@@ -172,8 +173,8 @@ $(document).ready(function () {
     let nonOpName = $("#nonOpTable tbody tr").find("td:eq(1)").children().val();
     let empId = $("#empid").val();
     let inputDate = $("#inputDate").val();
-    let startTime = inputDate + " " + sHours + ":" + sMinutes;
-    let endTime = inputDate + " " + eHours + ":" + eMinutes;
+    let startTime = sHours + ":" + sMinutes;
+    let endTime = eHours + ":" + eMinutes;
     let nonOpRsn = $("#nonOpTable tbody tr").find("td:eq(2)").children().val();
     let remk = $("#nonOpTable tbody tr").find("td:eq(3)").children().val();
     let nonOpMin = eMinutes - sMinutes;
@@ -293,9 +294,19 @@ function mchnMakeRow(obj) {
                    <td>${obj.mchnCode}</td>
                    <td>${obj.mchnName}</td>
                    <td>${obj.procCdName}</td>
-                   <td>${obj.mchnStts}</td>
+                   <td><span>${obj.mchnStts}</span></td>
                   </tr>`;
   $("#equiptbody").append(node);
+
+  if (obj.mchnStts == '비가동') {
+    $("#equiptbody tr").last().find("td:eq(3) span").addClass("badge badge-danger")
+  } else if (obj.mchnStts == '진행전') {
+    $("#equiptbody tr").last().find("td:eq(3) span").addClass("badge badge-primary")
+  } else if (obj.mchnStts == '진행중') {
+    $("#equiptbody tr").last().find("td:eq(3) span").addClass("badge badge-warning")
+  } else {
+    $("#equiptbody tr").last().find("td:eq(3) span").addClass("badge badge-secondary")
+  }
 }
 //비가동 입력 테이블 행 추가
 function nonOpTableMakeRow() {
@@ -326,5 +337,11 @@ function inputDataWarn() {
   Swal.fire({
     icon: "warning",
     title: "입력되지 않은 값이 있습니다.",
+  });
+}
+function nonOpWarn() {
+  Swal.fire({
+    icon: "warning",
+    title: "비가동중입니다."
   });
 }

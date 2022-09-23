@@ -128,11 +128,6 @@ $(document).ready(function () {
 
   //등록버튼
   $("#subBtn").click(function () {
-    let checked = $("input[name='chk']:checked").length;
-    if (checked == 0) {
-      submitWarning();
-      return;
-    }
 
     let inspList = [];
     let notnull = [1,3,4,8,9,11];
@@ -221,6 +216,7 @@ $(document).ready(function () {
           if (inspList.length == result) {
             submitComplete();
             $("#outTable tr").remove();
+            $("#allCheck").prop("checked", false);
           }
         }
   

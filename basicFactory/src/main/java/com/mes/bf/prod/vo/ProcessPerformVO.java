@@ -17,12 +17,8 @@ public class ProcessPerformVO {
 	private Integer processNo;
 	private Integer prodVol;
 	private Integer fltyVol;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-	private Date workStartTime;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-	private Date workEndTime;
+	private String workStartTime;
+	private String workEndTime;
 	private String perpormRemk;
 	private String workerName;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

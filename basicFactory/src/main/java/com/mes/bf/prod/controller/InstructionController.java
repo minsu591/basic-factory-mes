@@ -79,7 +79,7 @@ public class InstructionController {
 	// 조회 => Get
 	@GetMapping(value = "/findemp", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<FindEmpVO>> findEmp(@RequestParam Map<String, String> QueryParameters) {
-		List<FindEmpVO> list = service.findEmp(QueryParameters.get("empName"));
+		List<FindEmpVO> list = service.findEmp(QueryParameters.get("empName"),QueryParameters.get("deptNo"));
 		return new ResponseEntity<List<FindEmpVO>>(list, HttpStatus.OK);// 결과값,상태값 OK = 200, NOTFOUND = 404
 	}
 
@@ -202,22 +202,16 @@ public class InstructionController {
 	// 소스 컴파일 jrxml -> jasper
 	InputStream stream1 = getClass().getResourceAsStream("/reports/Instruction.jrxml");
 	InputStream stream2 = getClass().getResourceAsStream("/reports/subreports.jrxml");
-	
-	//파라미터 맵
-	System.out.println("====================================================");
-	System.out.println(request.getParameter("instNo"));
-	System.out.println("====================================================");
+
 	HashMap<String,Object> map = new HashMap<>();
 	map.put("instNo", request.getParameter("instNo"));
 	JasperReport jasperReport = JasperCompileManager.compileReport(stream1);
 	JasperReport subReport = JasperCompileManager.compileReport(stream2);
 	map.put("subReport",subReport);
 	
-	
 	JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
 	
 	JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
-
 	
 	}
 	

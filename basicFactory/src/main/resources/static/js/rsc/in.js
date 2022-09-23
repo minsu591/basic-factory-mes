@@ -3,7 +3,6 @@ $("document").ready(function(){
     //기본 날짜 오늘 지정
     let date = new Date();
     date = date.toISOString().slice(0, 10);
-    $("#rscInspDate").val(date);
 
 	//체크박스 체크유무
 	 let allCheck = $("#allCheck");
@@ -30,25 +29,12 @@ $("document").ready(function(){
 $("#search").click(function(){
 	let rscCdCode = $("#rsccode").val();
 	let rscInspDate = $("#rscInspDate").val();
-
-	$("input:hidden[name=keyword]").val($(rscCdCode));
+	$("input:hidden[name=keyword]").val(rscCdCode);
     //발주일자
     $("input:hidden[name=keyword2]").val(rscInspDate);
     $("input:hidden[name=amount]").val(10);
 
     $("#searchForm").submit();
-	// $.ajax({
-	// 	url : "inTable",
-	// 	method : "GET",
-	// 	dataType: "text",
-	// 	data: {
-	// 			rscCdCode: rscCdCode,
-	// 			rscInspDate: rscInspDate
-	// 	},
-	// 	success: function(data){
-	// 		$("#intable").replaceWith(data);
-	// 	}
-	// })
 })
 
 $("#subBtn").click(function(){

@@ -59,8 +59,8 @@
 			<if test="procCdName != null and procCdName != ''">
 				AND proc_cd_name LIKE '%'||#{procCdName}||'%'
 			</if>
-
 		</where>
+		ORDER BY PROC_CD_CODE
 	</select>
 
 	<!-- 공정실적관리테이블 조회 -->
@@ -86,6 +86,7 @@
 				AND to_char(workDate,'yyyy-mm-dd') = #{workDate}
 			</if>
 		</where>
+		ORDER BY workdate DESC
 	</select>
 
 	<!-- 공정테이블 조회 -->
@@ -208,8 +209,8 @@
 			#{processNo},
 			#{prodVol},
 			#{fltyVol},
-			to_timestamp(#{workStartTime}, 'yyyy-MM-dd HH24:mi:ss.ff'),
-			to_timestamp(#{workEndTime}, 'yyyy-MM-dd HH24:mi:ss.ff'),
+			#{workStartTime},
+			#{workEndTime},
 			#{workerName},
 			#{prodDate}
 			)
@@ -314,7 +315,7 @@
 		SET 
 		    prod_vol = #{prodVol},
 		    flty_vol = #{fltyVol},
-		    work_end_time = to_timestamp(#{workEndTime}, 'yyyy-MM-dd HH24:mi:ss.ff')
+		    work_end_time = #{workEndTime}
 		WHERE 
 			process_no = #{processNo}
 	

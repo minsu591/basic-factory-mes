@@ -1,5 +1,6 @@
 package com.mes.bf.eqp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.cmn.service.LineService;
@@ -23,6 +26,7 @@ import com.mes.bf.common.PageDTO;
 import com.mes.bf.eqp.service.InspcService;
 import com.mes.bf.eqp.vo.InspcVO;
 import com.mes.bf.eqp.vo.MchnVO;
+import com.mes.bf.rsc.vo.RscInspVO;
 
 @Controller
 @RequestMapping("/eqp")
@@ -62,9 +66,23 @@ public class InspcController {
 	
 	//설비점검대상조회(모달창)
 	@GetMapping(value = "/findNxtDate", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<InspcVO>> findNxtDate(){
-		List<InspcVO> list = service.findNxtDate();
-		return new ResponseEntity<List<InspcVO>>(list, HttpStatus.OK);
+	public ResponseEntity<List<MchnVO>> findNxtDate(){
+		List<MchnVO> list = service.findNxtDate();
+		System.out.println(list);
+		return new ResponseEntity<List<MchnVO>>(list, HttpStatus.OK);
+	}
+	//tr 눌러 outTable로 출력
+	@RequestMapping(value="/findNxtDateToTable", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<List<MchnVO>> findNxtDate(@RequestBody List<MchnVO> list) {
+		MchnVO result = new MchnVO();
+		List<MchnVO> NxtdLlist = new ArrayList<MchnVO>();
+		for (int i = 0; i <list.size() ; i++) {
+			result = service.findNxtDate(list.get(i).getMchnCode());
+			NxtdLlist.add(i,result);
+		}
+		System.out.println(NxtdLlist);
+		return new ResponseEntity<List<MchnVO>>(NxtdLlist, HttpStatus.OK);
 	}
 	
 	//점검조회

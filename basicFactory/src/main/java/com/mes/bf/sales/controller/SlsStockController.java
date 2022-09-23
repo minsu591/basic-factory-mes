@@ -44,8 +44,8 @@ public class SlsStockController {
 	
 	//완제품재고 단건 조회
 	@GetMapping("/findStock")
-	public List<SlsStockVO> findStock(@RequestParam String prdName, String lotNo){
-		List<SlsStockVO> list = service.findStock(prdName, lotNo);
+	public List<SlsStockVO> findStock(@RequestParam String prdName, String lotNo, String stockClfy){
+		List<SlsStockVO> list = service.findStock(prdName, lotNo, stockClfy);
 		System.out.println(list);
 		return list;
 	}

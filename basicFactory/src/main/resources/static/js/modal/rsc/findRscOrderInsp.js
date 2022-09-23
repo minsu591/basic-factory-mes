@@ -131,7 +131,7 @@ $(document).ready(function(){
   <td><input type="text" class="inspVol" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
   <td><input type="text" class="inferVol" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
   <td><input type="text" class="passVol" disabled></td>
-  <td><input type="text" class="empId" value="${id}"></td>
+  <td><input type="text" class="empId" value="${id}" disabled></td>
   <td><input type="text" class="remk"></td>
   <input type="hidden" class="rscOrderDtlNo" value="${obj.rscOrderDtlNo}">
   <input type="hidden" class="rscOrderVol" value="${obj.rscOrderVol}">

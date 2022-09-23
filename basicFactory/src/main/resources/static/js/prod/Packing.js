@@ -1,4 +1,4 @@
-//지시작업구분 진행완료로 업데이트 해야함
+
 $(document).ready(function () {
   findPacking();
 
@@ -12,6 +12,8 @@ $(document).ready(function () {
     $("#workInsertModal").modal("hide");
   });
 
+
+
   $("#packingTable").on("click", "tr", function () {
     let instDate = $(this).find("td:eq(7)").text();
     console.log(instDate);
@@ -21,6 +23,7 @@ $(document).ready(function () {
 
       getprocPerform(processNo);
     } else {
+
       console.log("else문 인스트데이트->" + instDate);
       $("#empid").prop("readonly", false);
       $("#sHours").val("");
@@ -31,6 +34,7 @@ $(document).ready(function () {
       insertModalData($(this));
     }
     $("#workInsertModal").modal("show");
+
   });
   function getprocPerform(processNo) {
     $.ajax({
@@ -49,7 +53,7 @@ $(document).ready(function () {
         $("#eMinutes").val(endTime.substring(14, 16));
         $("#empid").val(data.workerName).prop("readonly", true);
       },
-      error: function () {},
+      error: function () { },
     });
   }
 
@@ -88,9 +92,9 @@ $(document).ready(function () {
       let result = parseInt(prodVol.text()) - parseInt($("#fltyCnt").val());
       console.log(
         "실적량 ->" +
-          prodVol.text() +
-          "불량량->" +
-          parseInt($("#fltyCnt").val())
+        prodVol.text() +
+        "불량량->" +
+        parseInt($("#fltyCnt").val())
       );
       console.log("결과->" + result);
       prodVol.html(result);
@@ -133,6 +137,7 @@ $(document).ready(function () {
     $.ajax({
       url: "insertprocperform",
       method: "POST",
+      async: false,
       contentType: "application/json;charset=utf-8",
       dataType: "json",
       data: JSON.stringify(procPerform),
@@ -309,6 +314,12 @@ let work;
 function startWork() {
   //완료여부
 
+  if ($("#mchnStatus div:eq(1)").text() == '비가동') {
+    console.log("비가동!!")
+    nonOpWarn();
+    return;
+  }
+
   if ($("#empid").val() == "") {
     noEmpId();
     return;
@@ -316,6 +327,9 @@ function startWork() {
     $("#empid").prop("readonly", true);
     $("#instDate").prop("readonly", true);
   }
+
+
+
   let inDtlVol = $("#workStateTable tbody tr:eq(1) td").text(); //입고량
   let virResult = $("#workStateTable tbody tr:eq(2) td").text(); //기실적량
   let prodVol = $("#workStateTable tbody tr:eq(3) td").text(); //실적량
@@ -363,7 +377,7 @@ function updateMchnStts(mchnCode, mchnStts) {
       mchnStts: mchnStts,
       mchnCode: mchnCode,
     }),
-    success: function (data) {},
+    success: function (data) { },
   });
 }
 
@@ -384,7 +398,7 @@ function startinterval() {
     Math.ceil(
       ((totalProdVol + parseInt(virResult.text())) /
         parseInt(inDtlVol.text())) *
-        100
+      100
     ) + "%"
   );
   prodVol.html(num);
@@ -623,6 +637,7 @@ function insertInDtl(processNo, workDate, prodVol, finPrdCdCode) {
   console.log(workDate);
   console.log(prodVol);
   console.log(finPrdCdCode);
+  console.log("insert 돈다~");
   $.ajax({
     url: "insertindtl",
     method: "POST",
@@ -634,8 +649,8 @@ function insertInDtl(processNo, workDate, prodVol, finPrdCdCode) {
       finPrdCdCode: finPrdCdCode,
       slsInDtlVol: prodVol,
     }),
-    error: function (error, status, msg) {},
-    success: function (data) {},
+    error: function (error, status, msg) { },
+    success: function (data) { },
   });
 }
 
@@ -664,4 +679,11 @@ function noEmpId() {
     icon: "warning", // Alert 타입
     title: "작업자가 입력되지 않았습니다.", // Alert 제목
   });
+}
+
+function nonOpWarn() {
+  Swal.fire({
+    icon: "warning",
+    title: "비가동상태입니다."
+  })
 }

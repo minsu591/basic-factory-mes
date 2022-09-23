@@ -34,23 +34,22 @@
 								type="text" id="rsclotno" class="form-control mx-sm-3">
 						</div>
 						<div class="input-group-prepend selectOp">
-							<label class="input-group-text hei-45 wid-50 p-0" for="rscCdClfy">분류</label>
+							<label class="input-group-text hei-45 wid-50 p-0" for="stockOption">분류</label>
 						</div>
-						<select class="custom-select hei-45 m-r-10 selectOp" id="rscCdClfy">
-							<option th:value="전체" th:text="전체"></option>
-							<option th:value="출고가능재고" th:text="출고가능재고" selected></option>
-							<option th:value="소진완료재고" th:text="소진완료재고"></option>
+						<select class="custom-select hei-45 m-r-10 selectOp" id="stockOption">
+							<option th:value="all" th:text="전체"></option>
+							<option th:value="outAble" th:text="출고가능재고"></option>
+							<option th:value="used" th:text="소진완료재고"></option>
 						</select>
 						<button type="button" class="btn  btn-primary" id="search">조회</button>
 					</form>
 					<form name="searchForm" id="searchForm">
-						<input type='hidden' id='type' name="type"
-							th:value="${pageMaker.cri.type}"> <input type='hidden'
-							name='keyword' th:value='${pageMaker.cri.keyword}' /> <input
-							type='hidden' name='keyword2'
-							th:value='${pageMaker.cri.keyword2}' /> <input type='hidden'
-							name='pageNum' value='1'> <input type='hidden'
-							name='amount' value='${pageMaker.cri.amount}'>
+						<input type='hidden' id='type' name="type" th:value="${pageMaker.cri.type}"> 
+						<input type='hidden' name='keyword' th:value='${pageMaker.cri.keyword}' /> 
+						<input type='hidden' name='keyword2' th:value='${pageMaker.cri.keyword2}' /> 
+						<input type='hidden' name='keyword3' th:value='${pageMaker.cri.keyword3}'/>
+						<input type='hidden' name='pageNum' value='1'> 
+						<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 					</form>
 				</div>
 				<div class="card-body table-border-style">

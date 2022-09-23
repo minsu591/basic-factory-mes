@@ -9,5 +9,6 @@ import lombok.Data;
 public class DeptVO {
 	private int deptNo;
 	private String deptName;
+	private String deptLinkCode;
 	
 }

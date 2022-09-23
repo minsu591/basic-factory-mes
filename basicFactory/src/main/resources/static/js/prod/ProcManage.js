@@ -127,27 +127,37 @@ function procManageMakeRow(obj, index) {
                 <td>${obj.finPrdCdCode}</td>
                 <td>${obj.finPrdCdName}</td>
                 <td>${obj.instProdIndicaVol}</td>
-                <td>${obj.workScope}</td>
+                <td><span>${obj.workScope}</span></td>
                 <input type="hidden" name="instProdNo" value="${obj.instProdNo}">
               </tr>`;
 
+
+
   $("#procManageTable tbody").append(node);
+  if (obj.workScope == '진행중') {
+    $("#procManageTable tbody tr").last().find("td:eq(7) span").addClass("badge badge-light-primary");
+  } else {
+    $("#procManageTable tbody tr").last().find("td:eq(7) span").addClass("badge badge-light-secondary");
+  }
 }
 
 function workinsertTableMakeRow(obj) {
   let node = `<tr> 
-              <td>${obj.processOrder}</td>
-              <td>${obj.procCdName}</td>
-              <td>${obj.mchnName}</td>
-              <td>${obj.inDtlVol}</td>
-              <td>${obj.virResult}</td>
-              <td>${obj.nonResult}</td>
-              <td>${obj.totalProdVol}</td>
-              <td>${obj.fltyVol}</td>
+              <td class="vertical-align">${obj.processOrder}</td>
+              <td class="vertical-align">${obj.procCdName}</td>
+              <td class="vertical-align">${obj.mchnName}</td>
+              <td class="vertical-align">${obj.inDtlVol}</td>
+              <td class="vertical-align">${obj.virResult}</td>
+              <td class="vertical-align">${obj.nonResult}</td>
+              <td class="vertical-align">${obj.totalProdVol}</td>
+              <td class="vertical-align">${obj.fltyVol}</td>
               <input type="hidden" name="processNo" value="${obj.processNo}">
               <input type="hidden" name="mchnCode" value="${obj.mchnCode}">
               <input type="hidden" name="completionStatus" value="${obj.completionStatus}">
               </tr>`;
+
+
+
   $("#workInsertTable tbody").append(node);
 }
 
@@ -163,37 +173,52 @@ function workinsertTableLastChildMakeRow(obj, index) {
 
   if (index == 1) {
     if (compstts == "y") {
-      let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
+      let node = `<td><button type="button" class="btn btn-secondary">진행완료</button></td>`;
       $("#workInsertTable tbody tr:eq(0)").append(node);
     } else {
       let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
-      let tr = $("#workInsertTable tbody tr:eq(0)").append(node);
+      $("#workInsertTable tbody tr:eq(0)").append(node);
+      if (obj.mchnStts == '비가동') {
+        $("#workInsertTable tbody tr:eq(0)").find("td:eq(8) button").addClass("btn-danger")
+      }
     }
+
   } else if (index == 2) {
     if (compstts == "y") {
-      let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
+      let node = `<td><button type="button" class="btn btn-secondary">진행완료</button></td>`;
       $("#workInsertTable tbody tr:eq(1)").append(node);
     } else {
       let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
-      let tr = $("#workInsertTable tbody tr:eq(1)").append(node);
+      $("#workInsertTable tbody tr:eq(1)").append(node);
+      if (obj.mchnStts == '비가동') {
+        $("#workInsertTable tbody tr").find("td:eq(8) button").addClass("btn-danger")
+      }
     }
   } else if (index == 3) {
     if (compstts == "y") {
-      let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
+      let node = `<td><button type="button" class="btn btn-secondary">진행완료</button></td>`;
       $("#workInsertTable tbody tr:eq(2)").append(node);
     } else {
       let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
-      let tr = $("#workInsertTable tbody tr:eq(2)").append(node);
+      $("#workInsertTable tbody tr:eq(2)").append(node);
+      if (obj.mchnStts == '비가동') {
+        $("#workInsertTable tbody tr").find("td:eq(8) button").addClass("btn-danger")
+      }
     }
   } else if (index == 4) {
     if (compstts == "y") {
-      let node = `<td><button type="button" class="btn btn-primary">진행완료</button></td>`;
+      let node = `<td><button type="button" class="btn btn-secondary">진행완료</button></td>`;
       $("#workInsertTable tbody tr:eq(3)").append(node);
     } else {
       let node = `<td><button type="button" class="btn btn-primary">${obj.mchnStts}</button></td>`;
-      let tr = $("#workInsertTable tbody tr:eq(3)").append(node);
+      $("#workInsertTable tbody tr:eq(3)").append(node);
+      if (obj.mchnStts == '비가동') {
+        $("#workInsertTable tbody tr").find("td:eq(8) button").addClass("btn-danger")
+      }
     }
   }
+
+
 }
 
 //모달창 데이터 입력

@@ -6,13 +6,10 @@ h1 {
 	margin-bottom : 2%;
 }
 
-.btn {
+#findOrderBtn, #resetBtn {
 	margin-top: 1rem;
 }
 
-#findOrdBtn{
-	margin-bottom: 1rem;
-}
 #findVendorBtn {
 	margin-top: 0;
 }
@@ -67,6 +64,15 @@ h1 {
 }
 
 #vendor{
-	width:153px;
+	width:162px;
 	margin-left:20px;
+}
+
+.modal .table-responsive{
+	height: 43vh;
+	overflow : auto;
+}
+
+.modal-search-fm{
+    padding: 0 1.25rem;
 }

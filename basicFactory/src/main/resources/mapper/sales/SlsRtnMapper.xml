@@ -62,10 +62,11 @@
 	      
 			    ORDER BY SLS_RTN_HD_DATE DESC, SLS_RTN_HD_NO DESC)
 			    
-	    WHERE <![CDATA[ROWNUM < 10]]>
+	    WHERE <![CDATA[ROWNUM <= 10]]>
 	    
 	</select>
 	
+	<!-- 반품 조건 조회 -->
 	<select id="findReturn" resultMap="rtnHdDtlMap">
 		SELECT RTNHD.SLS_RTN_HD_DATE,
 		       RTNHD.SLS_RTN_HD_NO,
@@ -94,7 +95,7 @@
 	      ON OUTHD.EMP_ID = EMP.EMP_ID
 	    <where>
 	    	<if test="rtnSdate != null and rtnSdate != ''">
-	    		AND TRUNC(OUTHD.SLS_OUT_HD_DATE) BETWEEN  #{rtnSdate} AND #{rtnEdate}
+	    		AND TO_CHAR(RTNHD.SLS_RTN_HD_DATE, 'yyyy-MM-dd') BETWEEN  #{rtnSdate} AND #{rtnEdate}
 	    	</if>
 	    	<if test="vendorName != null and vendorName != ''">
 	    		AND VEND.VEND_CD_NM = #{vendorName}
@@ -120,10 +121,9 @@
 		  ON VEND.VEND_CD_CODE = RTNHD.VEND_CD_CODE
 		JOIN BF_CMN_EMP EMP
 		  ON EMP.EMP_ID = RTNHD.EMP_ID
-		
 		<where>
 			<if test="(rtnSdate != null and rtnSdate != '') and (rtnEdate != null and rtnEdate !='')">
-				AND SLS_RTN_HD_DATE BETWEEN  TO_DATE(#{rtnSdate}, 'YY/MM/DD') AND TO_DATE(#{rtnEdate}, 'YY/MM/DD') + 0.9999
+				AND SLS_RTN_HD_DATE BETWEEN  TO_DATE(#{rtnSdate}, 'YY/MM/DD') AND TO_DATE(#{rtnEdate}, 'YY/MM/DD')
 			</if>
 		</where>
 		ORDER BY SLS_RTN_HD_NO DESC
@@ -146,15 +146,18 @@
 		FROM BF_SALES_RTN_HD RTNHD
 		JOIN BF_SALES_RTN_DTL RTNDTL
 		  ON RTNDTL.SLS_RTN_HD_NO = RTNHD.SLS_RTN_HD_NO
-		JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
-		  ON FNSPRD.FIN_PRD_CD_CODE = RTNDTL.FIN_PRD_CD_CODE
+        JOIN BF_SALES_OUT_HD OUTHD
+          ON OUTHD.SLS_OUT_HD_NO = RTNHD.SLS_OUT_HD_NO
         JOIN BF_SALES_OUT_DTL OUTDTL
-          ON OUTDTL.SLS_OUT_HD_NO = RTNHD.SLS_OUT_HD_NO
+          ON OUTDTL.SLS_OUT_HD_NO = OUTHD.SLS_OUT_HD_NO
+         AND OUTDTL.FIN_PRD_CD_CODE = RTNDTL.FIN_PRD_CD_CODE
+         AND OUTDTL.FNS_PRD_STK_LOT_NO = RTNDTL.FNS_PRD_STK_LOT_NO
+        JOIN BF_CMN_FINISH_PRODUCT_CODE FNSPRD
+		  ON FNSPRD.FIN_PRD_CD_CODE = RTNDTL.FIN_PRD_CD_CODE
 	    JOIN BF_CMN_EMP EMP
 	      ON RTNHD.EMP_ID = EMP.EMP_ID
           
 		WHERE RTNHD.SLS_RTN_HD_NO = #{slsRtnHdNo}
-        AND OUTDTL.FNS_PRD_STK_LOT_NO = RTNDTL.FNS_PRD_STK_LOT_NO
 	</select>
 	
 	<!-- 완제품 반품관리에서 헤더 등록 -->

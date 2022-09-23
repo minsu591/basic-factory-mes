@@ -42,7 +42,6 @@ h3 {
 
 select {
 	width : 100%;
-	height : 100%;
 	border : none;
 	border-radius : 0;
 	background-color: rgba( 255, 255, 255, 0 );
@@ -54,17 +53,14 @@ select {
 	box-shadow : none;
 }
 
-.modal table tbody tr {
+.modal table tbody tr,
+.curPo,
+#empid,
+#deptName,
+#vendor {
 	cursor:pointer;
 }
 
-.curPo {
-	cursor:pointer;
-}
-
-#empid, #deptName, #vendor {
-	cursor : pointer;
-}
 
 #planManageTable input[type="date"] {
   height: 100%;
@@ -116,4 +112,51 @@ select {
 #rscTable thead th:first-child
 {
 	width : 5%;
+}
+
+<!--Chart-->
+.parentsCard {
+  width: 100%;
+  margin : auto;
+}
+.firstCard {
+  float : left;
+  width: 28%;
+  box-sizing : border-box;
+  margin-left : 4%;
+}
+.secondCard {
+  float : left;
+  width: 28%;
+  box-sizing : border-box;
+  margin : 0 4%;
+}
+.thirdCard {
+  float : right;
+  width: 28%;
+  box-sizing : border-box;
+  margin-right : 4%;
+}
+
+
+table tbody td < input[type="checkbox"],
+table tbody td < select {
+	line-height: 100%;
+	vertical-align : middle;
+}
+
+
+
+.twoTableBtn h1 {
+	width : 60%;
+	float : left;
+	height : 40%;
+}
+.twoTableBtn div {
+	height : 40%;
+}
+.twoTableBtn div button {
+	float : right;
+	margin : 4% 1% 1% 0 !important;
+	height : 60%;
 }

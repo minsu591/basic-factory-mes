@@ -38,6 +38,7 @@
 			</if>
 			<![CDATA[AND ROWNUM < 10]]>
 		</where>
+		ORDER BY MCHN_CODE
 	</select>
 	
 	<!-- line header insert, update, delete -->

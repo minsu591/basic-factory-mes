@@ -15,7 +15,6 @@
 				<th th:text="단위"></th>
 				<th th:text="금액"></th>
 				<th th:text="금액합계"></th>
-				<th th:text="반품사유"></th>
 				<th th:text="담당자"></th>
 				<th th:text="비고"></th>
 			</tr>
@@ -29,9 +28,16 @@
 				<td th:text="${rList.vendCdNm}"></td>
 				<td th:text="${rList.rscReturnVol}"></td>
 				<td th:text="${rList.rscCdUnit}"></td>
-				<td th:text="${rList.rscReturnPrc}"></td>
-				<td th:text="${rList.rscReturnPrc * rList.rscReturnVol}"></td>
-				<td th:text="${rList.rscReturnResn}"></td>
+				<td>
+					<span th:if="${rList.rscReturnPrc > 99}" th:text="${#numbers.formatInteger(rList.rscReturnPrc, 3, 'COMMA')}"></span>
+					<span th:if="${rList.rscReturnPrc < 100}" th:text="${rList.rscReturnPrc}"></span>
+				</td>
+				<td>
+					<span th:if="${(rList.rscReturnPrc * rList.rscReturnVol) > 99}" 
+					th:text="${#numbers.formatInteger(rList.rscReturnPrc * rList.rscReturnVol, 3, 'COMMA')}"></span>
+					<span th:if="${(rList.rscReturnPrc * rList.rscReturnVol) < 100}" 
+					th:text="${rList.rscReturnPrc * rList.rscReturnVol}"></span>
+				</td>
 				<td th:text="${rList.empName}"></td>
 				<td th:text="${rList.rscReturnRemk}"></td>
 			</tr>

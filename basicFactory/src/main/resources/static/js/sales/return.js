@@ -23,7 +23,7 @@ $(document).ready(function () {
   }
   
   function returnMakeRow(obj) {
-    let slsRtnDtlPrcCls = obj.slsRtnDtlVO.slsRtnDtlPrcCls;
+      let slsRtnDtlPrcCls = obj.slsRtnDtlVO.slsRtnDtlPrcCls;
     let node = `<tr>
                     <td>${obj.slsRtnHdVO.slsRtnHdDate}</td>
                     <td>${obj.slsRtnHdVO.slsRtnHdNo}</td>
@@ -33,7 +33,7 @@ $(document).ready(function () {
                     <td>${obj.slsRtnHdVO.slsOutHdNo}</td>
                     <td>${obj.slsRtnDtlVO.slsRtnDtlVol}</td>
                     <td>${obj.slsRtnDtlVO.finPrdCdPrice}</td>
-                    <td>${obj.slsRtnDtlVO.slsRtnDtlPrice}</td>`
+                    <td>${(obj.slsRtnDtlVO.slsRtnDtlPrice).toLocaleString("ko-KR") }</td>`
         if(slsRtnDtlPrcCls == 0) {
           node += `<td>폐기</td>`;
         } else if(slsRtnDtlPrcCls == 1) {
@@ -50,21 +50,33 @@ $(document).ready(function () {
 
   //조건에 맞는 주문내역 조회
   $("#rtnBtn").click(function () {
+    console.log('클릭');
     let rtnSdate = $("#rtnSdate").val();
     let rtnEdate = $("#rtnEdate").val();
     let vendorName = $("#vendorName").val();
     let prcCls = $("#prcCls option:selected").val();
     
-    console.log(prcCls);
     if (rtnSdate != null && rtnSdate != '' && rtnEdate != null && rtnEdate != '') {
       if (rtnSdate > rtnEdate) {
         if (rtnDateChecked()) {
+          dateReset();
           return false;
         }
-      } 
-    } else{
-      findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
+      }
+    } else if (rtnSdate != null && rtnSdate != '') {
+      if (rtnEdate == null || rtnEdate == '') {
+        dateWarning();
+        dateReset();
+        return false;
+      }
+    } else if (rtnEdate != null && rtnEdate != '') {
+      if (rtnSdate == null || rtnSdate == '') {
+        dateWarning();
+        dateReset();
+        return false;
+      }
     }
+    findReturn(rtnSdate, rtnEdate, vendorName, prcCls);
   });
 
   function findReturn(rtnSdate, rtnEdate, vendorName, prcCls) {
@@ -94,21 +106,26 @@ $(document).ready(function () {
       }
     });
   }
-  function selectChecked() {
-    Swal.fire({
-      icon: "warning",
-      title: "조회 조건을 입력해주세요."
-    });
-    return true;
-  }
 
   function rtnDateChecked() {
     Swal.fire({
       icon: "warning",
       title: "잘못된 검색 조건입니다."
     });
+    return true;
+  }
+
+  function dateWarning() {
+    Swal.fire({
+      icon: "warning",
+      title: "일자 검색값 확인",
+      text: "입력값이 부족합니다.",
+      confirmButtonText: "확인",
+    })
+  }
+
+  function dateReset() {
     $("#rtnSdate").val('');
     $("#rtnEdate").val('');
-    return true;
   }
 });
