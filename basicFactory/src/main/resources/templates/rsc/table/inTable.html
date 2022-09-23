@@ -27,7 +27,7 @@
 					<span th:if="${CL.rscPassVol > 99 }" th:text="${#numbers.formatInteger(CL.rscPassVol, 3, 'COMMA')}"></span>
 					<span th:if="${CL.rscPassVol < 100 }" th:text="${CL.rscPassVol}"></span>
 				</td>
-				<td><span th:if="${CL.rscInspSt == 0}">입고대기</span></td>
+				<td><span th:if="${CL.rscInspSt == 0}"  class="badge badge-light-primary">입고대기</span></td>
 				<td th:text="${CL.rscInspRemk}"></td>
 			</tr>
 		</tbody>
