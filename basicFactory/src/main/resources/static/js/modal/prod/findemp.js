@@ -43,12 +43,12 @@ function findEmp() {
   let pathName = $(location).attr('pathname');
   console.log(pathName);
   if (pathName == '/prod/procManage') {
-    let deptNo = 3;
+    let deptNo = 1;
     findInstEmp(deptNo);
-  } else if(pathName == '/prod/packing'){
-    let deptNo = 3;
+  } else if (pathName == '/prod/packing') {
+    let deptNo = 1;
     findInstEmp(deptNo);
-  }else {
+  } else {
     deptNo = '';
     findInstEmp(deptNo);
   }
