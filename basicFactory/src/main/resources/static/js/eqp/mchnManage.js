@@ -43,7 +43,6 @@ $("document").ready(function () {
               <td>${obj.mchnPrice}</td>
               <td><input type="date" value="${obj.mchnMnfctDate}"></td>
               <td><input type="date" value="${obj.mchnPrchsDate}"></td>
-              <td><input type="date" value="${obj.mchnInsertDate}"></td>
               <td>${obj.mchnInspcCycle}</td>
               <td><input type="date" value="${obj.mchnInspcNxtDate}"></td>
               <td class="cantModifyTd">${obj.mchnStts}</td>
@@ -87,7 +86,6 @@ $("document").ready(function () {
             <td></td>
             <td><input type="date"></td>
             <td><input type="date"></td>
-            <td><input type="date"></td>
             <td></td>
             <td><input type="date"></td>
             <td class="cantModifyTd">진행전</td>
@@ -105,9 +103,9 @@ $("document").ready(function () {
   //수정할 테이블
   let table = $("#mchnTable");
   //td 수정을 적용할 인덱스(모달창, input 빼고 오직 td에서 이루워 지는 수정만)
-  let avArr = [2, 3, 6, 10, 13];
+  let avArr = [2, 3, 6, 9, 12];
   //notNull인 td
-  let notNullList = [2, 4, 10];
+  let notNullList = [2, 4, 9, 10];
   //primary키인 index
   let priKeyIdx = 1;
 
@@ -123,26 +121,38 @@ $("document").ready(function () {
     }
 
     //구매일자, 차기점검일 비교
-    if(tdInfo.children("input").length == 1){
-      let inputInfo = tdInfo.find("input");
-      //구매일자
-      if(tdInfo.next().children("input").length == 1){
-        let mnfctDate = tdInfo.prev().find("input").val();      //mnfctDate 제작일자
-          if(mnfctDate != null && mnfctDate != ''){
-            inputInfo.attr("min",mnfctDate);
-          }else{
-            inputInfo.attr("min",'');
-          }
-      //차기점검일
-      }else if(tdInfo.parent().children().eq(11).find("input").length == 1){
-        let prchsDate = tdInfo.parent().children().eq(8).find("input").val();      //prchsDate 구매일자
-        if(prchsDate != null && prchsDate != ''){
-          inputInfo.attr("min",prchsDate);
-        }else{
-          inputInfo.attr("min",today);
-        }
-      }
-    }
+    // if(tdInfo.children("input").length == 1){
+    //   let inputInfo = tdInfo.find("input");
+    //   //구매일자
+    //   if(tdInfo.parent().children().eq(8).find("input").length == 1){          //if(tdInfo.next().children("input").length == 1){ 
+    //     let mnfctDate = tdInfo.parent().children().eq(7).find("input").val();       //mnfctDate 제작일자    //let mnfctDate = tdInfo.prev().find("input").val(); 
+    //       if(mnfctDate != null && mnfctDate != ''){
+    //         inputInfo.attr("min",mnfctDate);
+    //       }else{
+    //         inputInfo.attr("min",'');
+    //       }
+    //차기점검일
+    // }else if(tdInfo.parent().children().eq(10).find("input").length == 1){
+    //   let prchsDate = tdInfo.parent().children().eq(8).find("input").val();      //prchsDate 구매일자
+    //   console.log('구매일자?????'+prchsDate)
+    //   if(prchsDate != null && prchsDate != ''){
+    //     inputInfo.attr("min",prchsDate);
+    //   }else{
+    //     inputInfo.attr("min",'');
+    //   }
+    // }
+    //}
+    //구매일자, 차기점검일 비교
+    //구매일자
+    tdInfo.parent().children().eq(7).find("input").change(function () {
+      let minDate = $(this).val()
+      tdInfo.parent().children().eq(8).find("input").attr("min", minDate);
+    });
+    //차기점검일
+    tdInfo.parent().children().eq(8).find("input").change(function () {
+      let minDate = $(this).val()
+      tdInfo.parent().children().eq(10).find("input").attr("min", minDate);
+    });
 
     //수정 적용할 인덱스인지 확인
     for (let i = 0; i < avArr.length; i++) {
@@ -185,9 +195,25 @@ $("document").ready(function () {
           }
         }
       } else {
-        if (col == 6 || col == 10) {
-          let txt = tdInfo.text();
-          let parseIntVol = parseInt(txt);    //parseInt 문자열을 정수로 반환
+        // if (col == 6 || col == 10) {
+        //   let txt = tdInfo.text();
+        //   let parseIntVol = parseInt(txt);    //parseInt 문자열을 정수로 반환
+        //   if (!$.isNumeric(parseIntVol)) {      //isNumeric 숫자로 인식되는 경우 IsNumeric은 True를 반환합니다. 그렇지 않으면 False 를 반환
+        //     //txt가 숫자가 아니면
+        //     tdInfo.text('');
+        //     return false;
+        //   } else if ($.isNumeric(parseIntVol) && txt != parseIntVol) {
+        //     //txt가 숫자와 문자가 섞여있으면
+        //     tdInfo.text(parseIntVol);
+        //   }
+
+        //   if (col == 6) {
+        //     tdInfo.text(parseIntVol.toLocaleString("ko-KR"));
+        //   }
+        // }
+        let txt = tdInfo.text();
+        let parseIntVol = parseInt(txt);    //parseInt 문자열을 정수로 반환
+        if (col == 9) {
           if (!$.isNumeric(parseIntVol)) {      //isNumeric 숫자로 인식되는 경우 IsNumeric은 True를 반환합니다. 그렇지 않으면 False 를 반환
             //txt가 숫자가 아니면
             tdInfo.text('');
@@ -196,10 +222,23 @@ $("document").ready(function () {
             //txt가 숫자와 문자가 섞여있으면
             tdInfo.text(parseIntVol);
           }
-          
-          if (col == 6) {
+        }
+        if (col == 6) {
+          // let txt = tdInfo.text();
+          // let parseIntVol = parseInt(txt);
+
+          if (txt.match(",")) {
+            let num = txt.split(",").join("");
+            parseIntVol = parseInt(num);
+            tdInfo.text(parseIntVol.toLocaleString("ko-KR"));
+          } else {
             tdInfo.text(parseIntVol.toLocaleString("ko-KR"));
           }
+
+          // //민서~
+          // let txt = tdInfo.text(); //879879 || 879,879
+          // let parseIntVol = commaSubtract(txt);
+          // tdInfo.text(parseIntVol.toLocaleString("ko-KR"));
         }
       }
       //추가된 행이면 modifyList에 추가되지 않게
@@ -212,11 +251,10 @@ $("document").ready(function () {
   });
 
   //콤마 없애기
-  function commaSubtract(){
-    let mchnPrice = $("#mchntbody tr").find("td:eq(6)");
-    mchnPrice = mchnPrice.split(",").join(""); //콤마 제거
+  function commaSubtract(updCont) {
+    mchnPrice = updCont.split(",").join(""); //콤마 제거
     mchnPrice = Number(mchnPrice);
-    console.log(mchnPrice);
+    return mchnPrice;
   }
 
   //기존에 있는 값들 중에 td변경될 때(체인지이벤트 일어나는 거 갖고 옴)
@@ -232,15 +270,16 @@ $("document").ready(function () {
       updCont = $(this).find("input[type='date']").val();                       //예외적으로 체크박스나 날짜 데이터는 td안에 input이니까 td안에 input value도 가져오겠다
     } else if (col == 8) {
       updCont = $(this).find("input[type='date']").val();
-    } else if (col == 9) {
+    } else if (col == 10) {
       updCont = $(this).find("input[type='date']").val();
-    } else if (col == 11) {
-      updCont = $(this).find("input[type='date']").val();
+    } else if (col == 6) {
+      //숫자 있을 때
+      updCont = commaSubtract(updCont);
     }
+
     if (priKey != null && priKey != '') {                                        //priKey가 null이면 modifyList에 담기지 않도록 하는 if문
       checkNewModify(priKey, updCol, updCont);
     }
-
     e.stopPropagation();
   });
 
@@ -279,8 +318,9 @@ $("document").ready(function () {
           for (idx of notNullList) {
             let td = $(tr).find("td:eq(" + idx + ")");
             let content;
-            if (idx == 9) {
-              content = $(tr).find("td:eq(9) input[type='date']").val();
+            if (idx == 10) {
+              content = $(tr).find("td:eq(10) input[type='date']").val();
+              console.log(content);
             } else {
               content = td.text();
             }
@@ -305,7 +345,6 @@ $("document").ready(function () {
         }
         //추가용
         let trs = $("#mchntbody").find("tr[name='addTr']");
-        let mchnCode;
         for (tr of trs) {
           mchnCode = $(tr).find("td:eq(1)").text();
           console.log("신규 추가등록!!");
@@ -361,14 +400,13 @@ $("document").ready(function () {
     let mchnName = $(tr).find("td:eq(2)").text();
     let mchnModel = $(tr).find("td:eq(3)").text();
     let vendCdCode = $(tr).find("td:eq(4)").text();
-    let mchnPrice = $(tr).find("td:eq(6)").text();
+    let mchnPrice = commaSubtract($(tr).find("td:eq(6)").text());
     let mchnPrchsDate = $(tr).find("td:eq(7) input[type='date']").val()
     let mchnMnfctDate = $(tr).find("td:eq(8) input[type='date']").val()
-    let mchnInsertDate = $(tr).find("td:eq(9) input[type='date']").val()
-    let mchnInspcCycle = $(tr).find("td:eq(10)").text();
-    let mchnInspcNxtDate = $(tr).find("td:eq(11) input[type='date']").val()
-    let mchnStts = $(tr).find("td:eq(12)").text();
-    let mchnRemk = $(tr).find("td:eq(13)").text();
+    let mchnInspcCycle = $(tr).find("td:eq(9)").text();
+    let mchnInspcNxtDate = $(tr).find("td:eq(10) input[type='date']").val()
+    let mchnStts = $(tr).find("td:eq(11)").text();
+    let mchnRemk = $(tr).find("td:last").text();
 
     console.log(mchnPrice);
     $.ajax({
@@ -382,7 +420,6 @@ $("document").ready(function () {
         mchnPrice,
         mchnPrchsDate,
         mchnMnfctDate,
-        mchnInsertDate,
         mchnInspcCycle,
         mchnInspcNxtDate,
         mchnStts,

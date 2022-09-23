@@ -52,7 +52,7 @@ $("document").ready(function(){
     //생산계획 조회 모달 내에 데이터 출력 make row
     function myPlanMakeRow(obj){
         let node = `<tr>
-            <td>${obj.planHdDate}</td>
+            <td>${obj.planHdDate.split(' ')[0]}</td>
             <td>${obj.planHdCode}</td>
             <td>${obj.planHdName}</td>
             <td>${obj.empId}</td>

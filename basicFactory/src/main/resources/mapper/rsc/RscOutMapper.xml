@@ -55,7 +55,8 @@
 		               RSCOUT.RSC_OUT_VOL, 
 		               RSCOUT.RSC_OUT_CLS,
 		               
-					   RSCCODE.RSC_CD_NAME
+					   RSCCODE.RSC_CD_NAME,
+					   RSCCODE.RSC_CD_UNIT
 		            
 				 FROM  BF_RSC_OUT RSCOUT 
 				 LEFT  JOIN BF_CMN_RSC_CODE RSCCODE
@@ -84,7 +85,8 @@
                RSCOUT.RSC_OUT_CLS,
                NVL(RSCOUT.RSC_OUT_RESN,' '),
                
-               RSCCODE.RSC_CD_NAME, 
+               RSCCODE.RSC_CD_NAME,
+               RSCCODE.RSC_CD_UNIT, 
 			   
 			   VEND.VEND_CD_NM, 
                
@@ -119,7 +121,8 @@
                RSCOUT.RSC_OUT_CLS,
                NVL(RSCOUT.RSC_OUT_RESN,' '),
                
-               RSCCODE.RSC_CD_NAME, 
+               RSCCODE.RSC_CD_NAME,
+               RSCCODE.RSC_CD_UNIT, 
 			   
 			   VEND.VEND_CD_NM, 
                

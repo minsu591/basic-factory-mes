@@ -11,8 +11,8 @@
 				M.MCHN_PRICE,
 				M.MCHN_PRCHS_DATE,
 				M.MCHN_MNFCT_DATE,
-				M.MCHN_INSERT_DATE,
 				M.MCHN_INSPC_CYCLE,
+				M.MCHN_INSPC_NXT_DATE,
 				M.MCHN_STTS,
 				NVL(M.MCHN_REMK, ' ') AS MCHN_REMK
 		FROM BF_EQP_MCHN M
@@ -36,7 +36,6 @@
 				#{mchnPrchsDate},
 				#{mchnMnfctDate},
 				#{mchnStts},
-				#{mchnInsertDate},
 				#{mchnInspcNxtDate},
 				#{mchnInspcCycle},
 				#{mchnRemk})

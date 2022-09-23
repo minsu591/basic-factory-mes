@@ -72,6 +72,7 @@ $("document").ready(function(){
             //시작일자
             if(tdInfo.next().children("input").length == 1){
                 let edate = tdInfo.next().find("input").val();
+                console.log(edate);
                 if(edate != null && edate != ''){
                     inputInfo.attr("max",edate);
                 }else{
@@ -229,7 +230,7 @@ $("document").ready(function(){
                 if(trs.length == 0 && !modifyAddFlag){
                     Swal.fire({
                         icon: "warning",
-                        title: "저장할 생산계획내역이 존재하지 않습니다",
+                        title: "저장할 생산계획내역이<br>존재하지 않습니다",
                         text: "확인 후 다시 저장해주세요"
                     });
                     return false;
@@ -414,7 +415,7 @@ $("document").ready(function(){
                     <td><input type="checkbox" name="chk" checked></td>`
         }
         node += `<td></td>
-                <td class="finPrdCdCode canModifyTd"></td>
+                <td class="finPrdCdCode canModifyTd curPo"></td>
                 <td></td>
                 <td></td>
                 <td></td>

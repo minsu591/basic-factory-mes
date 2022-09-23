@@ -1,5 +1,8 @@
 package com.mes.bf;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -27,9 +30,25 @@ public class PlanTest {
 //		System.out.println(plans2);
 	}
 	
-	@Test
+	//@Test
 	void resetPwToken() {
 		String token = jwt.createToken("mia");
 		System.out.println(token);
+	}
+	
+	@Test
+	void test() {
+		//비밀번호 암호화 작업 SHA-256
+				String rawPw = "admin";
+				String hex = "";
+				MessageDigest md;
+				try {
+					md = MessageDigest.getInstance("SHA-256");
+					md.update(rawPw.getBytes());
+					hex = String.format("%064x", new BigInteger(1,md.digest()));
+					System.out.println(hex);
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				}
 	}
 }

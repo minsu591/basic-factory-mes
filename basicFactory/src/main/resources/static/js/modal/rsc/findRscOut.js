@@ -85,10 +85,10 @@ $(document).ready(function(){
  }
 
  
- //이미 출력되어있는 행의 출고코드 목록
  
  //출고목록 등록버튼 체크박스에 체크된것만
  $("#addBtn").click(function () {
+   //이미 출력되어있는 행의 출고코드 목록
    let outCodeList = [];
   $("#InsertTable tbody tr").each(function(idx,el){
     let outTableCode = $(el).find("td:eq(1)").find("input").val();

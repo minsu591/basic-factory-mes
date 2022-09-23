@@ -93,10 +93,6 @@ function page() {
             currentPage = 0;
             $table.trigger("repaginate");
 
-              // $($(".page-number")[2])
-              // .addClass("pagingactive")
-              // .siblings()
-              // .removeClass("pagingactive");
           })
           .appendTo($pager)
           .addClass("clickable");
@@ -107,10 +103,7 @@ function page() {
             if (currentPage == 0) return;
             currentPage = currentPage - 1;
             $table.trigger("repaginate");
-            // $($(".page-number")[currentPage - nowp + 2])
-            //   .addClass("pagingactive")
-            //   .siblings()
-            //   .removeClass("pagingactive");
+          
           })
           .appendTo($pager)
           .addClass("clickable");
@@ -124,10 +117,7 @@ function page() {
           .bind("click", { newPage: page }, function (event) {
             currentPage = event.data["newPage"];
             $table.trigger("repaginate");
-          //   $($(".page-number")[currentPage - nowp + 2])
-          //     .addClass("pagingactive")
-          //     .siblings()
-          //     .removeClass("pagingactive");
+ 
           })
           .appendTo($pager)
           .addClass("clickable");
@@ -139,10 +129,7 @@ function page() {
           if (currentPage == numPages - 1) return;
           currentPage = currentPage + 1;
           $table.trigger("repaginate");
-          // $($(".page-number")[currentPage - nowp + 2])
-          //   .addClass("pagingactive")
-          //   .siblings()
-          //   .removeClass("pagingactive");
+ 
         })
         .appendTo($pager)
         .addClass("clickable");
@@ -152,10 +139,7 @@ function page() {
         .bind("click", { newPage: page }, function (event) {
           currentPage = numPages - 1;
           $table.trigger("repaginate");
-          // $($(".page-number")[endp - nowp + 1])
-          //   .addClass("pagingactive")
-          //   .siblings()
-          //   .removeClass("pagingactive");
+  
         })
         .appendTo($pager)
         .addClass("clickable");
@@ -171,10 +155,6 @@ function page() {
     });
     
         $pager.insertAfter($table)
-        // .find("span.page-number:first")
-        // .next()
-        // .next()
-        // .addClass("pagingactive");
       $pager.appendTo($table);
       $table.trigger("repaginate");
 

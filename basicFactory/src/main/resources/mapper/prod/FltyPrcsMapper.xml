@@ -23,11 +23,12 @@
 		left outer join (SELECT PROCESS_PERFOM_NO, SUM(flty_prcs_vol) AS flty_prcs_vol
 		                    from bf_prod_flty_prcs_details
 		                    group by PROCESS_PERFOM_NO) fpd
-			on fpd.process_perfom_no = pp.process_perfom_no
+		on fpd.process_perfom_no = pp.process_perfom_no
 		where (pp.flty_vol > fpd.flty_prcs_vol
 			and fpd.flty_prcs_vol is not null)
 		or fpd.flty_prcs_vol is null
 		and PP.FLTY_VOL > 0
+		ORDER BY PROCESS_PERFOM_NO
 	</select>
 	
 	<!-- 불량처리 등록 -->
