@@ -50,6 +50,7 @@ function mchnMakeRow(obj) {
                 </tr>`;
   $("#mchnTable tbody").append(node);
 
+  //badge처리
   if (obj.mchnStts == '비가동') {
     $("#mchnTable tbody tr").last().find("td:eq(7) span").addClass("badge badge-danger")
   } else if (obj.mchnStts == '진행전') {
