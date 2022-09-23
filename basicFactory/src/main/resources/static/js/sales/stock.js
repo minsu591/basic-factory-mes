@@ -41,7 +41,6 @@ $(document).ready(function () {
     let lotNo = $('#fnsPrdStkLotNo').val();
     let stockClfy = $('#stockClfy option:selected').val();
 
-    console.log(stockClfy);
     findStock(prdName, lotNo, stockClfy);
   });
 
@@ -65,9 +64,12 @@ $(document).ready(function () {
         for (obj of data) {
           stockMakeRow(obj);
         }
+        
         $("#remo").remove();
         page();
       }
     });
   }
 });
+
+

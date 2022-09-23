@@ -192,9 +192,12 @@ $("#resetBtn").click(function () {
         return false;
       }
 
-      if(col == 7){ //반품량 입력했을 때 금액 계산되도록 Nan방지
+      //반품량 입력했을 때 금액 계산되도록
+      if(col == 7){
         tr.find("td:eq(9)").text(Number(slsRtnDtlVol * danga).toLocaleString("ko-KR"));
       }
+    
+      //등록 / 수정 구분
       if (priKey != null && priKey != '') {
           checkNewModify(priKey, updCol, updCont);
       } else {
@@ -212,21 +215,23 @@ $("#resetBtn").click(function () {
           }
         }
 
+        //addList에 추가
         if(flag && col == 7){
           addTr = [finPrdCdCode, fnsPrdStkLotNo, slsRtnDtlBaseVol, slsRtnDtlVol, slsRtnDtlVol * danga , slsRtnDtlPrcCls, slsRtnDtlResn];
           addList.push(addTr);
         }
       }
 
-    //반품관리 테이블 tr 돌면서 출고량 총 합계 계산
+      //반품관리 테이블 tr 돌면서 출고량 총 합계 계산
       totalPrice();
       e.stopPropagation();
     });
-    
+
+  //modifyList의 한 건에 대해 같은 값을 수정하는 것이라면 (새로 추가가 아닌 기존 배열에 수정)
   function checkNewModify(priKey, updCol, updCont) {
       for(p of modifyList){
-          if (p[0] == priKey && p[1] == updCol) { //modifyList의 한 건에 대해 같은 값을 수정하는 것이라면 
-              p[2] = updCont                      //새로 추가가 아닌 기존 배열에 수정
+          if (p[0] == priKey && p[1] == updCol) { 
+              p[2] = updCont                      
               return;
           }
       }
@@ -358,7 +363,6 @@ $("#resetBtn").click(function () {
       let slsRtnHdRemk = $("#remk").val();
       let slsRtnDtlVO = [];
       //addList(제품코드, lot번호, 기반품량, 반품량, 금액, 처리구분, 반품사유)
-
       for (obj of addList) {
         let finPrdCdCode = obj[0];
         let fnsPrdStkLotNo = obj[1];
@@ -378,6 +382,7 @@ $("#resetBtn").click(function () {
           }
           slsRtnDtlVO.push(addDtl);
       }
+
       let slsOutHdNo = $("#slsOutHdNo").val();
       console.log(slsOutHdNo);
       $.ajax({
@@ -397,7 +402,7 @@ $("#resetBtn").click(function () {
           success: function (result) {
               console.log("rtnHdDtl 추가 성공")
           }
-      })
+      });
   }
   //추가 끝
 
