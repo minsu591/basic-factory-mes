@@ -50,8 +50,13 @@ $(document).ready(function () {
     //div 내 input 클릭 시 border지우기
     $(".card").on("click", "td.nullpoint", function(){
         $(this).removeClass("nullpoint");
-    })
+    }
+    )
     
+    function comma(str) {
+      str = String(str);
+      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+  }
 
   //추가버튼 행만들기
   function detailTableMakeRow() {

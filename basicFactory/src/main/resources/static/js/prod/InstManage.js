@@ -567,21 +567,21 @@ function requiredCheck(instobjheader, dataArray, command) {
           .eq(i)
           .find("td:eq(1)")
           .addClass("inputRequired");
-          check = true;
+        check = true;
       }
       if (dataArray[i].instProdIndicaVol == "") {
         $("#planDetailTable tbody tr")
           .eq(i)
           .find("td:eq(10)")
           .addClass("inputRequired");
-          check = true;
+        check = true;
       }
       if (dataArray[i].workDate == "") {
         $("#planDetailTable tbody tr")
           .eq(i)
           .find("td:eq(12)")
           .addClass("inputRequired");
-          check = true;
+        check = true;
       }
       if ($("#instname").val() == "") {
         $("#instname").addClass("required");
@@ -591,14 +591,14 @@ function requiredCheck(instobjheader, dataArray, command) {
         $("#empid").addClass("required");
         check = true;
       }
-      
-      
+
+
     } else {
     }
-   
+
   }
 
-  if(check == true) {
+  if (check == true) {
     requiredWarn();
     return;
   }
@@ -685,9 +685,6 @@ function moveOrderPage() {
   });
 
   localStorage.setItem("instOrder", JSON.stringify(orderArray));
-  //let instOrder = JSON.parse(localStorage.getItem("instOrder"));
-  //localStorage.clear();
-  //console.log(instOrder);
   window.location = `/rsc/order`;
 }
 

@@ -24,10 +24,22 @@
 				<td th:text="${stock.rscCdName}"></td>
 				<td th:text="${stock.rscCdClfy}"></td>
 				<td th:text="${stock.rscLotNo}"></td>
-				<td th:text="${stock.rscInVol}"></td>
-				<td th:text="${stock.rscOutVol}"></td>
-				<td th:text="${stock.rscReturnVol}"></td>
-				<td th:text="${stock.rscStock}"></td>
+				<td>
+					<span th:if="${stock.rscInVol > 99 }" th:text="${#numbers.formatInteger(stock.rscInVol, 3, 'COMMA')}"></span>
+					<span th:if="${stock.rscInVol < 100 }" th:text="${stock.rscInVol}"></span>
+				</td>
+				<td>
+					<span th:if="${stock.rscOutVol > 99 }" th:text="${#numbers.formatInteger(stock.rscOutVol, 3, 'COMMA')}"></span>
+					<span th:if="${stock.rscOutVol < 100 }" th:text="${stock.rscOutVol}"></span>
+				</td>
+				<td>
+					<span th:if="${stock.rscReturnVol > 99 }" th:text="${#numbers.formatInteger(stock.rscReturnVol, 3, 'COMMA')}"></span>
+					<span th:if="${stock.rscReturnVol < 100 }" th:text="${stock.rscReturnVol}"></span>
+				</td>
+				<td>
+					<span th:if="${stock.rscStock > 99 }" th:text="${#numbers.formatInteger(stock.rscStock, 3, 'COMMA')}"></span>
+					<span th:if="${stock.rscStock < 100 }" th:text="${stock.rscStock}"></span>
+				</td>
 				<td th:text="${stock.rscCdUnit}"></td>
 				<td><input type="checkbox"
 					th:checked="#{stock.rscStockUse eq '1'}" checked

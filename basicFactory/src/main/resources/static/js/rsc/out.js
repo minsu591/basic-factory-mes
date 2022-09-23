@@ -136,6 +136,7 @@ $("document").ready(function () {
     let rowData = new Array();
     let checkbox = $("input[name='chk']:checked");
     let notnull = [2,5,7,11];
+    let runAjax = true;
     console.log(checkbox)
     // 체크된 체크박스 값을 가져온다
     checkbox.each(function (i) {
@@ -167,6 +168,7 @@ $("document").ready(function () {
           html: "출고일자, 자재코드, <br/>자재LOT번호, 출고수량, 담당자는<br/>기본 입력사항입니다.",
           confirmButtonText: "확인"
         })
+        runAjax = false;
       } else if (rscOutVol < 0) {
         Swal.fire({
           icon: "warning", 
@@ -174,6 +176,7 @@ $("document").ready(function () {
           html: "출고수량은 0 이상만 입력 가능합니다.",
           confirmButtonText: "확인"
         })
+        runAjax = false;
       } else {
         if (!rscOutCode) {
           rscOutCode = null;
@@ -199,6 +202,9 @@ $("document").ready(function () {
         console.log(param);
 
 
+        
+      }
+      if(runAjax){
         $.ajax({
           url: "outInAndUp",
           method: "POST",
@@ -222,8 +228,8 @@ $("document").ready(function () {
             });
           }
         })
-      }
 
+      }
     });
 
 

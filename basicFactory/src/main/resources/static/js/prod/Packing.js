@@ -209,7 +209,7 @@ function reStart() {
     console.log("작업 재시작 버튼 클릭");
     $("#workStartBtn").prop("disalbed", true);
     $("#reStartBtn").hide();
-    work = setInterval(startinterval, 100);
+    work = setInterval(startinterval, 1);
   });
 }
 

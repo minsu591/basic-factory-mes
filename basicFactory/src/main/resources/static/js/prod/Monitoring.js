@@ -28,14 +28,13 @@ $(document).ready(function () {
     // 초까지 받아온후
     clockTarget.innerText =
       `${month + 1}월 ${clockDate}일 ${week[day]}요일 ` +
-      `${hours < 10 ? `0${hours}` : hours}:${
-        minutes < 10 ? `0${minutes}` : minutes
+      `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes
       }:${seconds < 10 ? `0${seconds}` : seconds}`;
 
     // 월은 0부터 1월이기때문에 +1일을 해주고
 
     // 시간 분 초는 한자리수이면 시계가 어색해보일까봐 10보다 작으면 앞에0을 붙혀주는 작업을 3항연산으로 했습니다.
-   
+
     Monitoring();
   }
 
@@ -70,64 +69,49 @@ function Monitoring() {
     contentType: "application/json;charset=utf-8",
     dataType: "json",
     success: function (data) {
-      console.log(data);
-      //$("#MonitoringTable tbody tr").remove();\
       $(".pcoded-main-container .card").not(":first").remove();
       console.log($(".pcoded-main-container .col-xl-12").not(":first"));
-      // $(".pcoded-main-container .col-xl-12").slice(2).remove();
-      // console.log($(".pcoded-main-container .col-xl-12").slice(2));
       let count = 0;
       let objCount = 0;
       let cardCount = 1;
       let processBar = 0;
-      
-      for (let i = 0; i< data.length; i++) {
+      for (let i = 0; i < data.length; i++) {
         let obj = data[i];
         objCount += 1;
-        //MonitoringTableMakeRow(obj);
+        //cardGroup 3개씩
         if (count < 3) {
+          //각각 카드에 5개씩 어펜드
           if (objCount <= 5) {
-            console.log("objCount->" + objCount);
-            console.log(obj);
-            //col-xl-12.last().에 카드생성 어펜드 테이블에 5개씩 어펜드
+            //카드가 없다면 카드 생성
             if (cardCount == 1) {
               let prodName = obj.prodName;
-              //카드생성
               makeCard(prodName);
-              console.log("카드생성 몇번?");
               cardCount += 1;
             }
             //데이터입력
             processBar += obj.achieRate;
             dataInsert(obj);
-            if(i == (data.length-1)){
+            if (i == (data.length - 1)) {
               makeProcessBar(processBar);
             }
-
-            //달성률
           } else if (objCount >= 6) {
             makeProcessBar(processBar);
-            //div추가
             processBar = 0;
-            console.log("objCount가 5보다 큼");
             objCount = 0;
             count += 1;
             cardCount = 1;
             i--;
           }
-
         } else if (count >= 3) {
-          console.log("count 3보다 큼");
           //col-xl-12 생성
           makeDiv();
           count = 0;
         }
-        // CreateCards(obj, dataLength, count, objCount);
       }
       //카드가 없는 div 날리기
       $(".col-xl-12:not(:has(.card))").remove();
     },
-    error: function (error, status, msg) {},
+    error: function (error, status, msg) { },
   });
 }
 
@@ -205,7 +189,7 @@ function makeProcessBar(processBar) {
 
   let node = `
   <div class="progress mb-4" style="height: 20px;">
-			<div class="progress-bar" role="progressbar" style="width: ${processBar/5}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">${processBar/5 == 0 ? "" : processBar/5+'%'}</div>
+			<div class="progress-bar" role="progressbar" style="width: ${processBar / 5}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">${processBar / 5 == 0 ? "" : processBar / 5 + '%'}</div>
 		</div>`;
   $(".card-footer").last().append(node);
 
