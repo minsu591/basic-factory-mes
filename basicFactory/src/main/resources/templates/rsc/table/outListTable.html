@@ -32,6 +32,7 @@
 								<th th:text="자재명"></th>
 								<th th:text="자재LOT번호"></th>
 								<th th:text="출고수량"></th>
+								<th th:text="단위"></th>
 								<th th:text="분류"></th>
 							</tr>
 						</thead>
@@ -43,7 +44,11 @@
 								<td th:text="${nList.rscCdCode}"></td>
 								<td th:text="${nList.rscCdName}"></td>
 								<td th:text="${nList.rscLotNo}"></td>
-								<td th:text="${nList.rscOutVol}"></td>
+								<td th:text="${nList.rscOutVol}">
+									<span th:if="${nList.rscOutVol > 99 }" th:text="${#numbers.formatInteger(nList.rscOutVol, 3, 'COMMA')}"></span>
+									<span th:if="${nList.rscOutVol < 100 }" th:text="${nList.rscOutVol}"></span>
+								</td>
+								<td th:text="${nList.rscCdUnit}"></td>
 								<td><span th:if="${nList.rscOutCls == 1}" th:text="정상출고"  class="badge badge-light-primary"/>
 								</td>
 							</tr>
@@ -81,6 +86,7 @@
 								<th th:text="자재코드"></th>
 								<th th:text="자재명"></th>
 								<th th:text="출고수량"></th>
+								<th th:text="단위"></th>
 								<th th:text="담당자"></th>
 								<th th:text="분류"></th>
 								<th th:text="출고사유"></th>
@@ -93,7 +99,11 @@
 								<td th:text="${eList.vendCdNm}"></td>
 								<td th:text="${eList.rscCdCode}"></td>
 								<td th:text="${eList.rscCdName}"></td>
-								<td th:text="${eList.rscOutVol}"></td>
+								<td th:text="${eList.rscOutVol}">
+									<span th:if="${eList.rscOutVol > 99 }" th:text="${#numbers.formatInteger(eList.rscOutVol, 3, 'COMMA')}"></span>
+									<span th:if="${eList.rscOutVol < 100 }" th:text="${eList.rscOutVol}"></span>
+								</td>
+								<td th:text="${eList.rscCdUnit}"></td>
 								<td th:text="${eList.empName}"></td>
 								<td><span th:if="${eList.rscOutCls == 2}" th:text="정상외출고"  class="badge badge-light-primary"/>
 								</td>
