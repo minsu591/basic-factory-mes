@@ -255,7 +255,7 @@ $("document").ready(function () {
             <td class="mchnCode curPo"></td>
             <td class="cantModifyTd"></td>
             <td><input type="date"></td>
-            <td><input type="date" min="${today}"></td>`;
+            <td><input type="date"></td>`;
     node += makeSelectForClfy('');
     node += `<td></td>
             <td class="empId curPo">${empId}</td>

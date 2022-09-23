@@ -25,6 +25,10 @@ h1 {
 	margin-right: 0;
 }
 
+.fltyListBtn {
+	margin-top: 1rem;
+}
+
 .nullTd {
 	border : 2px solid red !important;
 }
