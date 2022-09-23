@@ -23,7 +23,10 @@
 				<td th:text="${inList.rscInspDate}"></td>
 				<td th:text="${inList.rscCdCode}"></td>
 				<td th:text="${inList.rscCdName}"></td>
-				<td th:text="${inList.rscInVol}"></td>
+				<td>
+					<span th:if="${inList.rscInVol > 99 }" th:text="${#numbers.formatInteger(inList.rscInVol, 3, 'COMMA')}"></span>
+					<span th:if="${inList.rscInVol < 100 }" th:text="${inList.rscInVol}"></span>
+				</td>
 				<td th:text="${inList.rscLotNo}"></td>
 				<td><span th:if="${inList.rscInspSt == 0}" class="badge badge-light-primary">입고대기</span> <span
 					th:if="${inList.rscInspSt == 1}" class="badge badge-light-secondary">입고완료</span></td>

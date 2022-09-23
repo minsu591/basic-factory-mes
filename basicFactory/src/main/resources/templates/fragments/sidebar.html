@@ -67,18 +67,18 @@
 								th:text="'거래처관리'"></a></li>
 							<li><a th:href="@{/cmn/finProdCode}" class="f-20"
 								th:text="'완제품관리'"></a></li>
+							<li><a th:href="@{/cmn/lineCode}" class="f-20"
+								th:text="'라인 및 공정관리'"></a></li>
+							<li><a th:href="@{/cmn/bomCode}" class="f-20"
+								th:text="'BOM 관리'"></a></li>
+							<li><a th:href="@{/cmn/procCode}" class="f-20"
+								th:text="'공정코드 관리'"></a></li>
 							<li><a th:href="@{/cmn/faultyCode}" class="f-20"
 								th:text="'불량 코드 관리'"></a></li>
 							<li><a th:href="@{/cmn/nonOpCode}" class="f-20"
 								th:text="'비가동 코드 관리'"></a></li>
 							<li><a th:href="@{/cmn/rscCode}" class="f-20"
 								th:text="'자재 코드 관리'"></a></li>
-							<li><a th:href="@{/cmn/bomCode}" class="f-20"
-								th:text="'BOM 관리'"></a></li>
-							<li><a th:href="@{/cmn/procCode}" class="f-20"
-								th:text="'공정코드 관리'"></a></li>
-							<li><a th:href="@{/cmn/lineCode}" class="f-20"
-								th:text="'라인 및 공정관리'"></a></li>
 						</ul></li>
 
 					<li class="nav-item pcoded-hasmenu" th:if="${session.emp.empPos} == '직원' and ${session.emp.deptName} == '설비' or ${session.emp.empPos} == '관리자'">

@@ -2,7 +2,7 @@ $("document").ready(function () {
   $("#closeBtn").click(function () {
     $("#workInsertModal").modal("hide");
   });
- 
+
   $("#emergencyBtn").hide();
 
   $("#empid").click(function () {
@@ -23,29 +23,29 @@ $("document").ready(function () {
   //설비상태 클릭 이벤트
   $("#mchnStatus").on("click", "button", function () {
     console.log($("#saveCheck").val());
-    if($("#saveCheck").val() == 0) { //저장하세요
+    if ($("#saveCheck").val() == 0) { //저장하세요
       saveCheck();
       return;
     } else if ($("#saveCheck").val() == undefined) { //이동가능 
-       
-    
-    if ($("#saveBtn").prop("disabled") == true) {
-      console.log("true");
-      let instProdNo;
-      let inputDate;
-      $("#procManageTable tbody tr").each(function () {
-        if ($(this).find("td:eq(0)").children().prop("checked")) {
-          instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
-          inputDate = $(this).find("td:eq(2)").text();
-        }
-      });
-      let statusMchnName = $(this).text();
-      findProcess(instProdNo, statusMchnName);
-      let processNo = $("#processNo").val();
-      //모달 시간과 날짜 입력을 위해 조회
-      getprocPerform(processNo, inputDate);
+
+
+      if ($("#saveBtn").prop("disabled") == true) {
+        console.log("true");
+        let instProdNo;
+        let inputDate;
+        $("#procManageTable tbody tr").each(function () {
+          if ($(this).find("td:eq(0)").children().prop("checked")) {
+            instProdNo = $(this).find("input:hidden[name=instProdNo]").val();
+            inputDate = $(this).find("td:eq(2)").text();
+          }
+        });
+        let statusMchnName = $(this).text();
+        findProcess(instProdNo, statusMchnName);
+        let processNo = $("#processNo").val();
+        //모달 시간과 날짜 입력을 위해 조회
+        getprocPerform(processNo, inputDate);
+      }
     }
-  }
   });
 
   $("#workInsertTable").on("click", "button", function () {
@@ -81,7 +81,7 @@ $("document").ready(function () {
 
   //저장버튼
   $("#saveBtn").click(function () {
-  
+
     $("#saveBtn").prop("disabled", true);
     let processOrder;
     let instProdNo;
@@ -211,7 +211,7 @@ function findProcess(instProdNo, MchnName) {
     dataType: "json",
     success: function (data) {
       console.log(data);
-    
+
       $("#workStateTable tbody td").remove();
       for (obj of data) {
         if (`${obj.mchnName}` == MchnName) {
@@ -773,7 +773,7 @@ function startWork() {
     updateMchnStts(mchnCode, mchnStts);
 
     //작업 돌리기
-    work = setInterval(startinterval, 100);
+    work = setInterval(startinterval, 1);
 
     //save Check를 위해 어팬드
     $("#closeBtn").append(`<input type='hidden' id='saveCheck' value=0>`);
@@ -901,6 +901,6 @@ function saveCheck() {
   Swal.fire({
     icon: "warning",
     title: "기록이 저장되지 않았습니다.",
-    text:"저장버튼을 누르세요."
+    text: "저장버튼을 누르세요."
   })
 }

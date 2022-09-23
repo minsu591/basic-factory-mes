@@ -248,12 +248,13 @@ $("document").ready(function(){
                     tdInfo.addClass("nullTd");
                     bomNullFlag = true;
                 
-                }else if(idx == 2){
+                }else if(bomUseCheck && idx == 2){
                     let bomName = $(tr).find("td:eq(2)").text();
                     let bomNameSameFlag = true;
                     if(bomNameList.length == 0){
                         bomNameList.push(bomName);
                     }else{
+                        //BOM명 중복검사
                         for(let i = 0; i<bomNameList.length;i++){
                             if(bomNameList[i] == bomName){
                                 if(!$(bomTrs[i]).find("td:eq("+idx+")").hasClass("sameTd")){

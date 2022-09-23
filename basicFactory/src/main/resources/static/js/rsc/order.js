@@ -27,14 +27,14 @@ $("document").ready(function () {
   });
 
   //div 내 input 클릭 시 border지우기
-  $(".card").on("click", "input.nullpoint", function(){
-      $(this).removeClass("nullpoint");
+  $(".card").on("click", "input.nullpoint", function () {
+    $(this).removeClass("nullpoint");
   })
 
-  $(".card").on("click", "td.nullpoint", function(){
+  $(".card").on("click", "td.nullpoint", function () {
     $(this).removeClass("nullpoint");
-})
-  
+  })
+
   //초기화버튼
   $("#resetBtn").click(function () {
     $("#outTable tr").remove();
@@ -109,10 +109,10 @@ $("document").ready(function () {
   });
 
   //삭제버튼
-  $("#outTable").on("click", ".delete", function(){
+  $("#outTable").on("click", ".delete", function () {
     tdinfo = $(this);
     tdinfo.parent().parent().remove();
-    if($("#outTable").children().length < 1){
+    if ($("#outTable").children().length < 1) {
       $("#totalSum").text('');
     }
     totalprice();
@@ -137,7 +137,7 @@ $("document").ready(function () {
   //등록버튼
   $("#subBtn").click(function () {
     let tr = $("#outTable").children();
-    if (!(tr.length)){
+    if (!(tr.length)) {
       submitWarning();
       return;
     }
@@ -159,42 +159,42 @@ $("document").ready(function () {
     //필수항목 미기재시 리턴
     if (!rscOrderDate || !empId || !rscOrderTitle) {
       insertHeaderWarning();
-      if(!rscOrderDate){
+      if (!rscOrderDate) {
         $("#rscOrderDate").addClass("nullpoint");
       }
-      if(!empId){
+      if (!empId) {
         $("#empId").addClass("nullpoint");
       }
-      if(!rscOrderTitle){
+      if (!rscOrderTitle) {
         $("#rscOrderTitle").addClass("nullpoint");
       }
       return;
     }
 
-    let notnull = [0,2,4,6];
+    let notnull = [0, 2, 4, 6];
     let runAjax = true;
-    
+
     //발주코드가 없는경우
     if (rscOrderCode == null) {
       let orders = [];
       // 새로 등록
       let outTable = $("#InsertTable").find("tbody tr");
       for (obj of outTable) {
-        
+
         let vendCdCode = $(obj).children().eq(0).find("input").val();
         let rscCdCode = $(obj).children().eq(2).find("input").val();
         let rscOrderVol = $(obj).children().eq(4).find("input").val();
         let rscOrderPrc = $(obj).children().eq(6).find("input").val();
         let rscOrderDtlRemk = $(obj).children().eq(8).find("input").val();
-        
-        
+
+
         if (!vendCdCode || !rscCdCode || !rscOrderVol || !rscOrderPrc) {
-          for (idx of notnull){
+          for (idx of notnull) {
             if (!($(obj).children().eq(idx).find("input").val())) {
               $(obj).children().eq(idx).addClass("nullpoint");
             }
           }
-          runAjax=false;
+          runAjax = false;
         } else {
           //디테일 리스트 저장
           let order = {
@@ -209,7 +209,7 @@ $("document").ready(function () {
 
         }
       }
-      if(runAjax){
+      if (runAjax) {
         $.ajax({
           url: "orderInsert",
           type: "POST",
@@ -234,7 +234,7 @@ $("document").ready(function () {
           confirmButtonText: "확인",
         });
       }
-    //발주코드가 있는경우
+      //발주코드가 있는경우
     } else {
       // 수정 - 세부내역 전부 delete 후 insert
       //해당 발주코드를 가진 dt테이블의 내용을 모두 삭제
@@ -247,10 +247,10 @@ $("document").ready(function () {
         let rscOrderVol = $(obj).children().eq(4).find("input").val();
         let rscOrderPrc = $(obj).children().eq(6).find("input").val();
         let rscOrderDtlRemk = $(obj).children().eq(8).find("input").val();
-        
+
         //필수사항 공백일 경우 리턴
         if (!vendCdCode || !rscCdCode || !rscOrderVol || !rscOrderPrc) {
-          for (idx of notnull){
+          for (idx of notnull) {
             if (!($(obj).children().eq(idx).find("input").val())) {
               $(obj).children().eq(idx).addClass("nullpoint");
             }
@@ -269,7 +269,7 @@ $("document").ready(function () {
         }
       }
       console.log(orders)
-      if (runAjax){
+      if (runAjax) {
         $.ajax({
           url: "orderUpdate",
           type: "POST",
@@ -286,13 +286,13 @@ $("document").ready(function () {
             }
           },
         });
-      }else if(!runAjax){
-          Swal.fire({
-            icon: "warning", // Alert 타입
-            title: "입력되지 않은 값이 있습니다.", // Alert 제목
-            html: "거래처코드, 자재코드, <br/>발주수량, 단가는<br/>기본 입력사항입니다.",
-            confirmButtonText: "확인",
-          });
+      } else if (!runAjax) {
+        Swal.fire({
+          icon: "warning", // Alert 타입
+          title: "입력되지 않은 값이 있습니다.", // Alert 제목
+          html: "거래처코드, 자재코드, <br/>발주수량, 단가는<br/>기본 입력사항입니다.",
+          confirmButtonText: "확인",
+        });
       }
     }
   });
@@ -308,15 +308,15 @@ $("document").ready(function () {
 
   function deleteWarning() {
     Swal.fire({
-      icon: "warning", 
-      title: "삭제할 항목을 선택하세요.", 
+      icon: "warning",
+      title: "삭제할 항목을 선택하세요.",
       confirmButtonText: "확인",
     });
   }
 
   function submitWarning() {
     Swal.fire({
-      icon: "warning", 
+      icon: "warning",
       title: "입력된 항목이 없습니다.",
       confirmButtonText: "확인",
     })
@@ -325,7 +325,7 @@ $("document").ready(function () {
   function minusWarning() {
     Swal.fire({
       icon: "warning",
-      title: "0이상의 숫자만 입력할 수 있습니다.", 
+      title: "0이상의 숫자만 입력할 수 있습니다.",
       confirmButtonText: "확인",
     });
   }
@@ -334,40 +334,33 @@ $("document").ready(function () {
     Swal.fire({
       title: "필수 항목 미입력",
       html: "발주일자, 담당자ID, 발주명은 <br/> 기본 입력사항입니다.",
-      icon: "warning", 
+      icon: "warning",
 
-      confirmButtonText: "확인", 
+      confirmButtonText: "확인",
     });
   }
-  
+
   function submitComplete() {
     Swal.fire({
       title: "저장 되었습니다.",
-      icon: "success", 
+      icon: "success",
       confirmButtonText: "확인",
-    }).then((result)=>{
-      if(result.isConfirmed){
+    }).then((result) => {
+      if (result.isConfirmed) {
         location.reload();
       }
     })
   }
 });
-
+//로컬스토리지 데이터 가져오기
 function findLocalStorage() {
   let instOrder = JSON.parse(localStorage.getItem("instOrder"));
 
   if (instOrder != "" && instOrder != null) {
-    console.log(instOrder);
-    console.log("길이->" + instOrder.length);
     for (order of instOrder) {
-      console.log(order.rscCdCode);
-      console.log(order.rscOrderVol);
-
       detailTableMakeRow(order.rscCdCode, order.rscOrderVol);
     }
     localStorage.clear();
-  } else {
-    console.log("아무일도 없없다");
   }
 }
 
@@ -406,9 +399,9 @@ function findRscName(rscCdCode) {
     },
     error: function (error, status, msg) {
       Swal.fire({
-        icon: "warning", 
+        icon: "warning",
         title: "에러 발생",
-        text : `상태코드 ${status}, 에러메시지 ${msg}`,
+        text: `상태코드 ${status}, 에러메시지 ${msg}`,
         confirmButtonText: "확인"
       })
     },
