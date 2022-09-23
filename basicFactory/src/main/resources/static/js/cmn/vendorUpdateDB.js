@@ -133,6 +133,7 @@ $("document").ready(function(){
         let trs = table.find("tbody tr");
         let nullFlag = false;
         let regExpFlag = false;
+        let regExpNoFlag = false;
         Swal.fire({
             icon: "question",
             title: "저장하시겠습니까?",
@@ -164,10 +165,10 @@ $("document").ready(function(){
                             }
                         }else if(idx == 5){
                             //content가 null이 아니고 사업자 등록번호 칸이라면
-                            var regExp = /^\d{3}-\d{2}-\d{4}-\d{2}$/;
+                            var regExp = /^\d{3}-\d{2}-\d{5}$/;
                             if(!regExp.test(content)){
                                 $(tr).find("td:eq(5)").addClass("sameTd");
-                                regExpFlag = true;
+                                regExpNoFlag = true;
                             }
                         }
                     }
@@ -183,7 +184,14 @@ $("document").ready(function(){
                     Swal.fire({
                         icon: "error",
                         title: "거래처 연락처를 올바르게 지정해주세요",
-                        text: "확인하고 다시 저장해주세요"
+                        text: "000-0000-0000, 00-000-0000, 000-000-0000의 형식으로 저장해주세요"
+                    });
+                    return false;
+                }else if(regExpNoFlag){
+                    Swal.fire({
+                        icon: "error",
+                        title: "사업자 등록번호를 올바르게 지정해주세요",
+                        text: "000-00-00000의 10자리로 저장해주세요"
                     });
                     return false;
                 }

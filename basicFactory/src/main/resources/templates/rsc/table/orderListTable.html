@@ -31,7 +31,7 @@
 					<span th:if="${olist.rscOrderVol > 99 }" th:text="${#numbers.formatInteger(olist.rscOrderVol, 3, 'COMMA')}"></span>
 					<span th:if="${olist.rscOrderVol < 100 }" th:text="${olist.rscOrderVol}"></span>
 				</td>
-				<td th:text="${olist.rscOrderArv}">
+				<td>
 					<span th:if="${olist.rscOrderArv > 99 }" th:text="${#numbers.formatInteger(olist.rscOrderArv, 3, 'COMMA')}"></span>
 					<span th:if="${olist.rscOrderArv < 100 }" th:text="${olist.rscOrderArv}"></span>
 				</td>
