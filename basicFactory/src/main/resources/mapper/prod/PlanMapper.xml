@@ -56,13 +56,13 @@
 		<choose>
 			<when
 				test="(startDate != null and startDate != '') and (endDate != null and endDate != '')">
-				AND TO_CHAR(PH.plan_hd_date,'yyyy/MM/dd') BETWEEN #{startDate} AND #{endDate}
+				AND TO_CHAR(PH.plan_hd_date,'yyyy-MM-dd') BETWEEN #{startDate} AND #{endDate}
 			</when>
 			<when test="startDate != null and startDate != ''">
-				AND PH.plan_hd_date = #{startDate}
+				AND TO_CHAR(PH.plan_hd_date,'yyyy-MM-dd') = #{startDate}
 			</when>
 			<when test="endDate != null and endDate != ''">
-				AND PH.plan_hd_date = #{endDate}
+				AND TO_CHAR(PH.plan_hd_date,'yyyy-MM-dd') = #{endDate}
 			</when>
 		</choose>
 	</sql>
@@ -118,10 +118,10 @@
 	<!-- 검색조건 SQL -->
 	<sql id="criteria">
 		<if test="keyword != null and keyword != ''">
-			<![CDATA[ and plan_hd_date >=  #{keyword} ]]>
+			<![CDATA[ and TO_CHAR(plan_hd_date,'yyyy-MM-dd') >=  #{keyword} ]]>
 		</if>
 		<if test="keyword2 != null and keyword2 != ''">
-			<![CDATA[ and TO_CHAR(plan_hd_date, 'yyyy/MM/dd') <= #{keyword2} ]]>
+			<![CDATA[ and TO_CHAR(plan_hd_date, 'yyyy-MM-dd') <= #{keyword2} ]]>
 		</if>
 		<if test="keyword3 != null and keyword3 != ''">
 			<![CDATA[ and oh.VEND_CD_CODE = #{keyword3} ]]>

@@ -26,6 +26,7 @@ $("document").ready(function () {
 function findMchnName() {
   let mchnCode = $("#mchnCode").val();
   let mchnName = $("#mchnName").val();
+  console.log("잉");
   $.ajax({
     url: "findmchn",
     method: "POST",

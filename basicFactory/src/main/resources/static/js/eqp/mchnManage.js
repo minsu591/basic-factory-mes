@@ -29,7 +29,6 @@ $("document").ready(function () {
   });
 
   function mchnMakeRow(obj) {
-    console.log(obj.mchnInspcNxtDate);
     let node = `<tr>`;
     if ($("#allCheck").is(":checked")) {
       node += `<td class="cantModifyTd"><input type="checkbox" name="chk" checked></td>`;
@@ -132,27 +131,27 @@ $("document").ready(function () {
     //       }else{
     //         inputInfo.attr("min",'');
     //       }
-      //차기점검일
-      // }else if(tdInfo.parent().children().eq(10).find("input").length == 1){
-      //   let prchsDate = tdInfo.parent().children().eq(8).find("input").val();      //prchsDate 구매일자
-      //   console.log('구매일자?????'+prchsDate)
-      //   if(prchsDate != null && prchsDate != ''){
-      //     inputInfo.attr("min",prchsDate);
-      //   }else{
-      //     inputInfo.attr("min",'');
-      //   }
-      // }
+    //차기점검일
+    // }else if(tdInfo.parent().children().eq(10).find("input").length == 1){
+    //   let prchsDate = tdInfo.parent().children().eq(8).find("input").val();      //prchsDate 구매일자
+    //   console.log('구매일자?????'+prchsDate)
+    //   if(prchsDate != null && prchsDate != ''){
+    //     inputInfo.attr("min",prchsDate);
+    //   }else{
+    //     inputInfo.attr("min",'');
+    //   }
+    // }
     //}
     //구매일자, 차기점검일 비교
     //구매일자
-    tdInfo.parent().children().eq(7).find("input").change(function() {
+    tdInfo.parent().children().eq(7).find("input").change(function () {
       let minDate = $(this).val()
-      tdInfo.parent().children().eq(8).find("input").attr("min",minDate);
+      tdInfo.parent().children().eq(8).find("input").attr("min", minDate);
     });
     //차기점검일
-    tdInfo.parent().children().eq(8).find("input").change(function() {
+    tdInfo.parent().children().eq(8).find("input").change(function () {
       let minDate = $(this).val()
-      tdInfo.parent().children().eq(10).find("input").attr("min",minDate);
+      tdInfo.parent().children().eq(10).find("input").attr("min", minDate);
     });
 
     //수정 적용할 인덱스인지 확인
@@ -196,9 +195,25 @@ $("document").ready(function () {
           }
         }
       } else {
-        if (col == 6 || col == 10) {
-          let txt = tdInfo.text();
-          let parseIntVol = parseInt(txt);    //parseInt 문자열을 정수로 반환
+        // if (col == 6 || col == 10) {
+        //   let txt = tdInfo.text();
+        //   let parseIntVol = parseInt(txt);    //parseInt 문자열을 정수로 반환
+        //   if (!$.isNumeric(parseIntVol)) {      //isNumeric 숫자로 인식되는 경우 IsNumeric은 True를 반환합니다. 그렇지 않으면 False 를 반환
+        //     //txt가 숫자가 아니면
+        //     tdInfo.text('');
+        //     return false;
+        //   } else if ($.isNumeric(parseIntVol) && txt != parseIntVol) {
+        //     //txt가 숫자와 문자가 섞여있으면
+        //     tdInfo.text(parseIntVol);
+        //   }
+
+        //   if (col == 6) {
+        //     tdInfo.text(parseIntVol.toLocaleString("ko-KR"));
+        //   }
+        // }
+        let txt = tdInfo.text();
+        let parseIntVol = parseInt(txt);    //parseInt 문자열을 정수로 반환
+        if (col == 9) {
           if (!$.isNumeric(parseIntVol)) {      //isNumeric 숫자로 인식되는 경우 IsNumeric은 True를 반환합니다. 그렇지 않으면 False 를 반환
             //txt가 숫자가 아니면
             tdInfo.text('');
@@ -207,10 +222,23 @@ $("document").ready(function () {
             //txt가 숫자와 문자가 섞여있으면
             tdInfo.text(parseIntVol);
           }
-          
-          if (col == 6) {
+        }
+        if (col == 6) {
+          // let txt = tdInfo.text();
+          // let parseIntVol = parseInt(txt);
+
+          if (txt.match(",")) {
+            let num = txt.split(",").join("");
+            parseIntVol = parseInt(num);
+            tdInfo.text(parseIntVol.toLocaleString("ko-KR"));
+          } else {
             tdInfo.text(parseIntVol.toLocaleString("ko-KR"));
           }
+
+          // //민서~
+          // let txt = tdInfo.text(); //879879 || 879,879
+          // let parseIntVol = commaSubtract(txt);
+          // tdInfo.text(parseIntVol.toLocaleString("ko-KR"));
         }
       }
       //추가된 행이면 modifyList에 추가되지 않게
@@ -223,7 +251,7 @@ $("document").ready(function () {
   });
 
   //콤마 없애기
-  function commaSubtract(updCont){
+  function commaSubtract(updCont) {
     mchnPrice = updCont.split(",").join(""); //콤마 제거
     mchnPrice = Number(mchnPrice);
     return mchnPrice;
@@ -244,7 +272,7 @@ $("document").ready(function () {
       updCont = $(this).find("input[type='date']").val();
     } else if (col == 10) {
       updCont = $(this).find("input[type='date']").val();
-    }else if (col == 6){
+    } else if (col == 6) {
       //숫자 있을 때
       updCont = commaSubtract(updCont);
     }
