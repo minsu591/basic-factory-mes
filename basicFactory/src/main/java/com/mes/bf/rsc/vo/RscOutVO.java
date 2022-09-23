@@ -18,6 +18,7 @@ public class RscOutVO {
 	private String processPerfomNo;
 	private String rscCdCode;
 	private String rscCdName;
+	private String rscCdUnit;
 	private String rscLotNo;
 	private int rscOutVol;
 	private int rscOutCls;

@@ -115,7 +115,6 @@ $(document).ready(function(){
   $("#findRscOrderInspModal").modal("hide");
  });
 
- 
  function outListInsert(obj) {
   let id = $("#sideBarEmpId").val();
   let unarvVol = obj.rscOrderVol - obj.rscOrderArv;
