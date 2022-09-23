@@ -37,8 +37,7 @@ $("document").ready(function(){
 
     $("#idOkBtn").off("click").on("click",function(){
         var id = $("#idStaticId").val();
-        let empId = $("#idStaticId").val();
-        let idByte = empId.replace(pattern, "$&$1$2").length;
+        let idByte = id.replace(pattern, "$&$1$2").length;
 
         //아이디를 입력색할 수 있다면
         if($("#idStaticId").hasClass("notConfirmId") || (saveId != '' && saveId != id)){
