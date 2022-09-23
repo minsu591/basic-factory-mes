@@ -25,9 +25,18 @@
 				<td th:text="${insp.rscInspDate}"></td>
 				<td th:text="${insp.rscCdCode}"></td>
 				<td th:text="${insp.rscCdName}"></td>
-				<td th:text="${insp.rscInspVol}"></td>
-				<td th:text="${insp.rscInferVol}"></td>
-				<td th:text="${insp.rscPassVol}"></td>
+				<td>
+					<span th:if="${insp.rscInspVol > 99 }" th:text="${#numbers.formatInteger(insp.rscInspVol, 3, 'COMMA')}"></span>
+					<span th:if="${insp.rscInspVol < 100 }" th:text="${insp.rscInspVol}"></span>
+				</td>
+				<td>
+					<span th:if="${insp.rscInferVol > 99 }" th:text="${#numbers.formatInteger(insp.rscInferVol, 3, 'COMMA')}"></span>
+					<span th:if="${insp.rscInferVol < 100 }" th:text="${insp.rscInferVol}"></span>
+				</td>
+				<td>
+					<span th:if="${insp.rscPassVol > 99 }" th:text="${#numbers.formatInteger(insp.rscPassVol, 3, 'COMMA')}"></span>
+					<span th:if="${insp.rscPassVol < 100 }" th:text="${insp.rscPassVol}"></span>
+				</td>
 				<td th:text="${insp.rscCdUnit}"></td>
 				<td><span th:if="${insp.rscInspSt == 0}" class="badge badge-light-primary">입고대기</span> <span
 					th:if="${insp.rscInspSt == 1}" class="badge badge-light-secondary">입고완료</span></td>
