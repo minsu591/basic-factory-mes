@@ -61,16 +61,12 @@ public class RscReturnController {
 	public String outInAndUp(@RequestBody List<RscReturnVO> list) {
 		int insert = 0;
 		int update = 0;
-		int result = 0;
-		System.out.println(list);
-		System.out.println(list.get(0));
-		for(int i = 0; i < list.size() ; i++) {
-			if(list.get(i).getRscReturnCode() == null) {
-				rscReturnService.returnInsert(list.get(i));	
+		for(RscReturnVO rtn:list) {
+			if(rtn.getRscReturnCode() == null) {
+				rscReturnService.returnInsert(rtn);
 				insert++;
 			}else {
-				rscReturnService.returnUpdate(list.get(i));
-				result = rscReturnService.returnUpdate(list.get(i));
+				rscReturnService.returnUpdate(rtn);
 				update++;
 			}
 		}

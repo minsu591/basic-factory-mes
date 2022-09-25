@@ -126,17 +126,16 @@ $("document").ready(function () {
             let preVol = parseInt(outTableTrInfo.find("td:eq(4)").text());
             let slsOutDtlVol = parseInt(outTableTrInfo.find("td:eq(5)").text());
             let orderVol = parseInt(outTableTrInfo.find("td:eq(3)").text());
-            console.log(outLotList);
-            $("#outTotalSum").text((preVol + slsOutDtlVol) + "/" + orderVol);   //모달창 띄울 때 기본 데이터
 
-            //숫자만 들어가게, 문자 안들어가게
-            let myOutTotal = parseInt($(outVolTd).text());        //클릭한 td (출고량)
+            //모달창 띄울 때 기본 데이터
+            $("#outTotalSum").text((preVol + slsOutDtlVol) + "/" + orderVol);   
+
+            let myOutTotal = parseInt($(outVolTd).text());                              //클릭한 td (출고량)
             if (myOutTotal > parseInt($(outVolTd).parents().find("td:eq(4)").text())) { //재고량보다 클 때 
-                //재고량보다 출고량이 크면
+                //재고량보다 출고량이 크다면
                 outVolWarn();
             }
             
-
             //기출고량 합계 비교하려고 tr돌림
             $("#findLotTable tbody tr").each(function (idx,el) {    
                 let outVol = $(el).find("td:eq(5)").text();  //입력한 출고량
@@ -155,6 +154,7 @@ $("document").ready(function () {
                 $(outVolTd).text('');            //입력값 초기화
                 preVol -= parseInt(myOutTotal);  //입력한 출고량만큼 빼주기
             }
+            
             $("#outTotalSum").text(preVol + "/" + orderVol);
 
         //출고량 수정일 때
@@ -222,7 +222,7 @@ $("document").ready(function () {
         let orderVol = outTableTrInfo.find("td:eq(3)").text();
         let danga = outTableTrInfo.find("td:eq(8)").text();
         
-        //출고조회
+        //출고량
         let okOutDtlVol = 0;
         
         //outLotList[addList[제품코드, lot, 출고량], addList[]]
@@ -231,100 +231,54 @@ $("document").ready(function () {
         let flag = false;
         
 
-        if (outTableTrInfo.hasClass("notOut")) { //미출고 주문조회 / 클래스 주고 조건 변경
+        //미출고 주문조회
+        if (outTableTrInfo.hasClass("notOut")) { 
             //모달 위에서 부터 빈값 확인
             $("#findLotTable tbody tr").each(function (idx, el) {
                 let finPrdCdCode = $(el).find("td:eq(1)").text();
                 let fnsPrdStkLotNo = $(el).find("td:eq(3)").text();
                 let slsOutDtlVol = $(el).find("td:eq(5)").text();
 
+                //총 출고량 구하기
                 if (slsOutDtlVol == null || slsOutDtlVol == '') {
-                    //빈값이면 무시하기 위함
+                    //빈값 무시
                 } else if (parseInt(slsOutDtlVol) == NaN) {
-                    //빈값이면 무시하기 위함
+                    //빈값 무시
                 } else {
-                    //총 출고량 구하기
                     let tempFlag = true;
                     for (out of outLotList) {
+                        //동일 제품이 존재한다면 List에 담지 않기
                         if (finPrdCdCode == out[0] && fnsPrdStkLotNo == out[1]){
                             out[2] = slsOutDtlVol;
                             tempFlag = false;
                             break;
                         }
                     }
+
                     if (tempFlag) {
                         let out = [finPrdCdCode, fnsPrdStkLotNo, parseInt(slsOutDtlVol)];
                         outLotList.push(out);
                     }
-                    //출고량 for문 돌면서 더하기
+                    //출고량 더하기
                     okOutDtlVol += parseInt(slsOutDtlVol);
                 }
             });
 
-
+            //동일 제품이 여러개의 lot로 출고 됐을 경우
             for (let i = 0; i < outLotList.length; i++) {
                 if (outLotList[i][0] == finPrdCdCode) {
                     sum += 1;
                     lotInfo = outLotList[i][1];
                 }
             }
+
             if (sum == 1) {
-                lotTdInfo.text(lotInfo);  //동일 제품이 1개일 경우 lotInfo에 lot정보 들어있음 있음
+                lotTdInfo.text(lotInfo);
             } else {
                 lotTdInfo.text(lotInfo + "외 " + (sum - 1));
             }
 
-            console.log(outLotList);
-            // for(temp of tempOutLotList){
-            //     let tempFlag = true;
-            //     for(out of outLotList){
-            //         if(temp[0] == out[0] && temp[1] == out[1]){
-            //             out[2] = temp[2];
-            //             tempFlag = false;
-            //             break;
-            //         }
-            //     }
-            //     if(tempFlag){
-            //         outLotList.push(temp);
-            //     }
-
-            // }
-            // if(outLotList.length == 0){
-            //     outLotList = tempOutLotList;
-            // }
-
-
-            // //미출고 주문조회
-            // $("#findLotTable tbody tr").each(function(idx,el){
-            //     let outVolCheck = $(el).find("td:eq(5)").text();
-    
-            //     if(outVolCheck != null && outVolCheck != ''){
-            //         flag = true;
-            //         return false;
-            //     }
-            // });
-            // if(!flag){ //입력된 출고량 없으면
-            //     $("#findLotModal").modal("hide");
-            //     return false;
-            // }
-            // console.log(outLotList);
-            // for (let i = 0; i < outLotList.length; i++) {
-            //     if (outLotList[i][0] == finPrdCdCode) {
-            //         sum += 1;
-            //         lotInfo = outLotList[i][1];
-            //     }
-            // }
-            // if (sum == 1) {
-            //     lotTdInfo.text(lotInfo);  //동일 제품이 1개일 경우 lotInfo에 lot정보 들어있음 있음
-            // } else {
-            //     lotTdInfo.text(lotInfo + "외 " + (sum - 1));
-            // }
-            // okOutDtlVol = outDtlVol;
-            
-            // outDtlVol = 0;          //총 출고량 초기화
-            
         }else{
-            // priKey, finPrdCdCode, fnsPrdStkLotNo, slsOutDtlVol, slsOutHdNo
             for(temp of modTempList){
                 let tempFlag = true;
                 for(mod of modifyList){
@@ -338,6 +292,7 @@ $("document").ready(function () {
                     modifyList.push(temp);
                 }
             }
+            
             if(modifyList.length == 0){
                 modifyList = modTempList;
             }
@@ -367,8 +322,8 @@ $("document").ready(function () {
         notOutVol.text(orderVol - preVol - okOutDtlVol);
         //금액 콤마찍기
         outTableTrInfo.find("td:eq(9)").text(Number(okOutDtlVol * danga).toLocaleString("ko-KR")); 
-        outVolTd.text(okOutDtlVol);
 
+        outVolTd.text(okOutDtlVol);
 
         //출고관리 테이블 tr 돌면서 출고량 총 합계 계산
         if (okOutDtlVol != null) {

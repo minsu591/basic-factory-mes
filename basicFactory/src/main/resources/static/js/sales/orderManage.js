@@ -209,9 +209,9 @@ function exNull(st){
 
             //출고된 내역이 있는 주문인지 확인
             let checkOrderFlag = checkOrder(slsOrdHdNo);
+
             //중복되는 제품코드를 저장못하게 하기
             let trs = table.find("tr[name='addTr']");
-            console.log(trs);
             let finPrdCodeList = [];
             for (tr of trs) {
                 finPrdCodeList.push($(tr).find("td:eq(1)").text());
@@ -223,7 +223,7 @@ function exNull(st){
                     return false;
                 }
 
-                //추가 등록 (있는 헤더 가져다가 인서트)
+                //추가 등록 (있는 헤더에 등록)
                 if (slsOrdHdNo != null && slsOrdHdNo != '') {
                     for (obj of addList) {
                         addDtlSaveAjax(obj, slsOrdHdNo);
@@ -256,7 +256,7 @@ function exNull(st){
                     }
                 }
             } else {
-                //추가용
+                //신규 등록
                 let vendCdCode = $("#vendor").val();
                 let empName = $("#empName").val();
                 
@@ -391,7 +391,7 @@ $("#addBtn").on("click",function(){
 });
 
 
-//주문헤더 insert
+//주문 insert
 function addHdSaveAjax(addList) {
     let slsOrdHdDate = $("#slsOrdHdDate").val();
     let vendCdCode = $("#vendor").val();

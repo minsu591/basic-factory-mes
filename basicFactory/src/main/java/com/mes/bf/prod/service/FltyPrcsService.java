@@ -3,6 +3,7 @@ package com.mes.bf.prod.service;
 import java.util.List;
 
 import com.mes.bf.cmn.vo.FaultyCodeVO;
+import com.mes.bf.common.Criteria;
 import com.mes.bf.prod.vo.FindProcFltyVO;
 import com.mes.bf.prod.vo.FltyPrcsVO;
 
@@ -22,8 +23,8 @@ public interface FltyPrcsService {
 	
 	
 	//불량처리조회
-	List<FltyPrcsVO> listFltyPrcs();
+//	List<FltyPrcsVO> listFltyPrcs();
 	//불량처리상세조회
-	List<FltyPrcsVO> findFltyPrcs(String fltyPrcsSdate, String fltyPrcsEdate, String finPrdCdName);
-
+	List<FltyPrcsVO> findFltyPrcs(Criteria cri);
+	Integer findFltyPrcsCount(Criteria cri);
 }

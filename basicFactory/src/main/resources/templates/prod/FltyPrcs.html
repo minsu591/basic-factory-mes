@@ -6,6 +6,8 @@
 </head>
 <body>
   <link th:href="@{/css/prod/FltyPrcs.css}" rel="stylesheet" />
+  <link th:href="@{/css/pagination2.css}" rel="stylesheet" />
+	<script type="text/javascript" th:src="@{/js/pages/pagination2.js}"></script>
   <script type="text/javascript" th:src="@{/js/prod/FltyPrcs.js}"></script>
   <script type="text/javascript" th:src="@{/js/modal/prod/findproduct.js}"></script>
 
@@ -18,16 +20,24 @@
           <form class="form-inline">
             <div class="form-group mt-3">
               <label for="fltyPrcsDate" th:text="불량처리일"></label>
-              <input type="date" id="fltyPrcsSdate" class="form-control mx-sm-3" /> ~
-              <input type="date" id="fltyPrcsEdate" class="form-control mx-sm-3" />
+              <input type="date" id="fltyPrcsSdate" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword}"/> ~
+              <input type="date" id="fltyPrcsEdate" class="form-control mx-sm-3" th:value="${pageMaker.cri.keyword2}"/>
             </div>
             <br />
             <div class="form-group mt-3">
               <label for="productname" th:text="제품명"></label>
-              <input type="text" id="productname" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" />
+              <input type="text" id="productname" class="form-control mx-sm-3" data-toggle="modal" data-target=".bd-example-modal-lg" th:value="${pageMaker.cri.keyword3}" />
             </div>
 
-            <button type="button" class="btn btn-primary" id="selectBtn">조회</button>
+            <button type="button" class="btn btn-primary fltyListBtn" id="selectBtn">조회</button>
+          </form>
+          <form name="searchForm" id="searchForm">
+            <input type='hidden' id ='type' name="type" th:value="${pageMaker.cri.type}">
+            <input type='hidden' name='keyword' th:value='${pageMaker.cri.keyword}' />
+            <input type='hidden' name='keyword2' th:value='${pageMaker.cri.keyword2}' />
+            <input type='hidden' name='keyword3' th:value='${pageMaker.cri.keyword3}' />
+            <input type='hidden' name='pageNum' value='1'>
+            <input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
           </form>
         </div>
         <div class="card-body table-border-style">
@@ -64,6 +74,7 @@
                 </tr>
               </tbody>
             </table>
+            <th:block th:replace="~{fragments/pagination :: pagination-nav}"></th:block>
           </div>
         </div>
       </div>

@@ -36,26 +36,6 @@
 				</div>
 
 				<ul class="nav pcoded-inner-navbar">
-					<li class="nav-item pcoded-hasmenu" th:if="${session.emp.empPos} == '직원' and ${session.emp.deptName} == '생산' or ${session.emp.empPos} == '관리자'">
-						<a href="#!" class="nav-link "> <span class="pcoded-mtext f-30">생산</span></a>
-						<ul class="pcoded-submenu" style="display: none;">
-							<li><a th:href="@{/prod/planView}" class="f-20"
-								th:text="생산계획조회"></a></li>
-							<li><a th:href="@{/prod/planManage}" class="f-20"
-								th:text="생산계획관리"></a></li>
-							<li><a th:href="@{/prod/inst}" class="f-20" th:text="생산지시조회"></a></li>
-							<li><a th:href="@{/prod/instmanagement}" class="f-20"
-								th:text="생산지시관리"></a></li>
-							<li><a th:href="@{/prod/proc}" class="f-20" th:text="공정실적조회"></a></li>
-							<li><a th:href="@{/prod/procManage}" class="f-20"
-								th:text="공정실적관리"></a></li>
-							<li><a th:href="@{/prod/monitoring}" class="f-20"
-								th:text="공정모니터링"></a></li>
-							<li><a th:href="@{/prod/packing}" class="f-20"
-								th:text="포장관리"></a></li>
-							<li><a th:href="@{/prod/fltyPrcs}" class="f-20" th:text="불량처리조회"></a></li>
-								<li><a th:href="@{/prod/fltyPrcsManage}" class="f-20" th:text="불량처리관리"></a></li>
-						</ul></li>
 
 					<li class="nav-item pcoded-hasmenu" th:if="${session.emp.empPos} == '직원' and ${session.emp.deptName} == '공통' or ${session.emp.empPos} == '관리자'">
 						<a href="#!" class="nav-link "> <span class="pcoded-mtext f-30">공통</span></a>
@@ -63,23 +43,44 @@
 							<li><a th:href="@{/cmn/empView}" class="f-20"
 								th:text="'직원관리'"></a></li>
 							<li><a th:href="@{/cmn/dept}" class="f-20" th:text="'부서관리'"></a></li>
-							<li><a th:href="@{/cmn/vendorCode}" class="f-20"
-								th:text="'거래처관리'"></a></li>
-							<li><a th:href="@{/cmn/finProdCode}" class="f-20"
-								th:text="'완제품관리'"></a></li>
+							<li><a th:href="@{/cmn/procCode}" class="f-20"
+								th:text="'공정코드 관리'"></a></li>
 							<li><a th:href="@{/cmn/faultyCode}" class="f-20"
 								th:text="'불량 코드 관리'"></a></li>
 							<li><a th:href="@{/cmn/nonOpCode}" class="f-20"
 								th:text="'비가동 코드 관리'"></a></li>
 							<li><a th:href="@{/cmn/rscCode}" class="f-20"
 								th:text="'자재 코드 관리'"></a></li>
-							<li><a th:href="@{/cmn/bomCode}" class="f-20"
-								th:text="'BOM 관리'"></a></li>
-							<li><a th:href="@{/cmn/procCode}" class="f-20"
-								th:text="'공정코드 관리'"></a></li>
+							<li><a th:href="@{/cmn/vendorCode}" class="f-20"
+								th:text="'거래처관리'"></a></li>
+							<li><a th:href="@{/cmn/finProdCode}" class="f-20"
+								th:text="'완제품관리'"></a></li>
 							<li><a th:href="@{/cmn/lineCode}" class="f-20"
 								th:text="'라인 및 공정관리'"></a></li>
+							<li><a th:href="@{/cmn/bomCode}" class="f-20"
+								th:text="'BOM 관리'"></a></li>
 						</ul></li>
+
+						<li class="nav-item pcoded-hasmenu" th:if="${session.emp.empPos} == '직원' and ${session.emp.deptName} == '생산' or ${session.emp.empPos} == '관리자'">
+							<a href="#!" class="nav-link "> <span class="pcoded-mtext f-30">생산</span></a>
+							<ul class="pcoded-submenu" style="display: none;">
+								<li><a th:href="@{/prod/planView}" class="f-20"
+									th:text="생산계획조회"></a></li>
+								<li><a th:href="@{/prod/planManage}" class="f-20"
+									th:text="생산계획관리"></a></li>
+								<li><a th:href="@{/prod/inst}" class="f-20" th:text="생산지시조회"></a></li>
+								<li><a th:href="@{/prod/instmanagement}" class="f-20"
+									th:text="생산지시관리"></a></li>
+								<li><a th:href="@{/prod/proc}" class="f-20" th:text="공정실적조회"></a></li>
+								<li><a th:href="@{/prod/procManage}" class="f-20"
+									th:text="공정실적관리"></a></li>
+								<li><a th:href="@{/prod/monitoring}" class="f-20"
+									th:text="공정모니터링"></a></li>
+								<li><a th:href="@{/prod/packing}" class="f-20"
+									th:text="포장관리"></a></li>
+								<li><a th:href="@{/prod/fltyPrcs}" class="f-20" th:text="불량처리조회"></a></li>
+									<li><a th:href="@{/prod/fltyPrcsManage}" class="f-20" th:text="불량처리관리"></a></li>
+							</ul></li>
 
 					<li class="nav-item pcoded-hasmenu" th:if="${session.emp.empPos} == '직원' and ${session.emp.deptName} == '설비' or ${session.emp.empPos} == '관리자'">
 						<a href="#!" class="nav-link "> <span class="pcoded-mtext f-30">설비</span></a>
@@ -98,6 +99,21 @@
 								th:text="설비점검관리"></a></li>
 						</ul></li>
 
+					<li class="nav-item pcoded-hasmenu" th:if="${session.emp.empPos} == '직원' and ${session.emp.deptName} == '영업' or ${session.emp.empPos} == '관리자'">
+						<a href="#!" class="nav-link "> <span class="pcoded-mtext f-30">영업</span></a>
+						<ul class="pcoded-submenu" style="display: none;">
+							<li><a th:href="@{/sls/ord}" class="f-20" th:text="주문조회"></a></li>
+							<li><a th:href="@{/sls/ordManage}" class="f-20"
+								th:text="주문관리"></a></li>
+							<li><a th:href="@{/sls/out}" class="f-20" th:text="완제품출고조회"></a></li>
+							<li><a th:href="@{/sls/outManage}" class="f-20"
+								th:text="완제품출고관리"></a></li>
+							<li><a th:href="@{/sls/rtn}" class="f-20" th:text="완제품반품조회"></a></li>
+							<li><a th:href="@{/sls/rtnManage}" class="f-20"
+								th:text="완제품반품관리"></a></li>
+							<li><a th:href="@{/sls/stock}" class="f-20"
+								th:text="완제품재고조회"></a></li>
+						</ul></li>
 					<li class="nav-item pcoded-hasmenu" th:if="${session.emp.empPos} == '직원' and ${session.emp.deptName} == '자재' or ${session.emp.empPos} == '관리자'">
 						<a href="#!" class="nav-link "> <span class="pcoded-mtext f-30">자재</span></a>
 						<ul class="pcoded-submenu" style="display: none;">
@@ -121,21 +137,7 @@
 								th:text="자재재고조회"></a></li>
 						</ul></li>
 
-					<li class="nav-item pcoded-hasmenu" th:if="${session.emp.empPos} == '직원' and ${session.emp.deptName} == '영업' or ${session.emp.empPos} == '관리자'">
-						<a href="#!" class="nav-link "> <span class="pcoded-mtext f-30">영업</span></a>
-						<ul class="pcoded-submenu" style="display: none;">
-							<li><a th:href="@{/sls/ord}" class="f-20" th:text="주문조회"></a></li>
-							<li><a th:href="@{/sls/ordManage}" class="f-20"
-								th:text="주문관리"></a></li>
-							<li><a th:href="@{/sls/out}" class="f-20" th:text="완제품출고조회"></a></li>
-							<li><a th:href="@{/sls/outManage}" class="f-20"
-								th:text="완제품출고관리"></a></li>
-							<li><a th:href="@{/sls/rtn}" class="f-20" th:text="완제품반품조회"></a></li>
-							<li><a th:href="@{/sls/rtnManage}" class="f-20"
-								th:text="완제품반품관리"></a></li>
-							<li><a th:href="@{/sls/stock}" class="f-20"
-								th:text="완제품재고조회"></a></li>
-						</ul></li>
+					
 
 				</ul>
 			</div>

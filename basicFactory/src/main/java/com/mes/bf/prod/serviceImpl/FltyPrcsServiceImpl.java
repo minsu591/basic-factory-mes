@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mes.bf.cmn.vo.FaultyCodeVO;
+import com.mes.bf.common.Criteria;
 import com.mes.bf.prod.mapper.FltyPrcsMapper;
 import com.mes.bf.prod.service.FltyPrcsService;
 import com.mes.bf.prod.vo.FindProcFltyVO;
@@ -41,15 +42,13 @@ public class FltyPrcsServiceImpl implements FltyPrcsService{
 	}
 	
 	
-	//불량처리조회
 	@Override
-	public List<FltyPrcsVO> listFltyPrcs() {
-		return mapper.listFltyPrcs();
+	public List<FltyPrcsVO> findFltyPrcs(Criteria cri) {
+		return mapper.findFltyPrcs(cri);
 	}
-	//불량처리상세조회
 	@Override
-	public List<FltyPrcsVO> findFltyPrcs(String fltyPrcsSdate, String fltyPrcsEdate, String finPrdCdName) {
-		return mapper.findFltyPrcs(fltyPrcsSdate, fltyPrcsEdate, finPrdCdName);
+	public Integer findFltyPrcsCount(Criteria cri) {
+		return mapper.findFltyPrcsCount(cri);
 	}
 	
 }

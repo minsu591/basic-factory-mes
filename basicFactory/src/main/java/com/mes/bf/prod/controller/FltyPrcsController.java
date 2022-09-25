@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mes.bf.cmn.vo.FaultyCodeVO;
+import com.mes.bf.common.Criteria;
+import com.mes.bf.common.PageDTO;
 import com.mes.bf.prod.service.FltyPrcsService;
 import com.mes.bf.prod.vo.FindProcFltyVO;
 import com.mes.bf.prod.vo.FltyPrcsVO;
@@ -74,17 +77,29 @@ public class FltyPrcsController {
 	}
 	
 	//불량처리조회
-	@RequestMapping("/fltyPrcs")
-	public String fltyPrcsListPage(Model model) {
-		List<FltyPrcsVO> fltyPrcs = service.listFltyPrcs();
-		model.addAttribute("fltyPrcs", fltyPrcs);
-		return "prod/FltyPrcs";
-	}
-	//불량처리상세조회
-	@GetMapping(value = "/fltyPrcsList/find", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<FltyPrcsVO>> fltyPrcsFindPage(@RequestParam Map<String, String> queryParameters) {
-		List<FltyPrcsVO> list = service.findFltyPrcs(queryParameters.get("fltyPrcsSdate"), queryParameters.get("fltyPrcsEdate"), queryParameters.get("finPrdCdName"));
-		return new ResponseEntity<List<FltyPrcsVO>>(list, HttpStatus.OK);
-	}
+		@RequestMapping("/fltyPrcs")
+		public String fltyPrcsListPage(Model model, @ModelAttribute("cri") Criteria cri) {
+			int total = service.findFltyPrcsCount(cri);
+			cri.setAmount(10); // 한페이지당 10개씩 설정
+			PageDTO page = new PageDTO(cri, total);
+			model.addAttribute("pageMaker", page);
+			model.addAttribute("fltyPrcs", service.findFltyPrcs(cri));
+			
+			return "prod/FltyPrcs";
+		}
+//	
+//	//불량처리조회
+//	@RequestMapping("/fltyPrcs")
+//	public String fltyPrcsListPage(Model model) {
+//		List<FltyPrcsVO> fltyPrcs = service.listFltyPrcs();
+//		model.addAttribute("fltyPrcs", fltyPrcs);
+//		return "prod/FltyPrcs";
+//	}
+//	//불량처리상세조회
+//	@GetMapping(value = "/fltyPrcsList/find", produces = { MediaType.APPLICATION_JSON_VALUE })
+//	public ResponseEntity<List<FltyPrcsVO>> fltyPrcsFindPage(@RequestParam Map<String, String> queryParameters) {
+//		List<FltyPrcsVO> list = service.findFltyPrcs(queryParameters.get("fltyPrcsSdate"), queryParameters.get("fltyPrcsEdate"), queryParameters.get("finPrdCdName"));
+//		return new ResponseEntity<List<FltyPrcsVO>>(list, HttpStatus.OK);
+//	}
 	
 }

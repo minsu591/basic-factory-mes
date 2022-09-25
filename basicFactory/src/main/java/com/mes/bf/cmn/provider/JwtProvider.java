@@ -34,7 +34,7 @@ public class JwtProvider {
         payloads.put("data", empId);
 
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + Duration.ofMinutes(5).toMillis()); // 만료기간 5분
+        Date expiration = new Date(now.getTime() + Duration.ofMinutes(10).toMillis()); // 만료기간 10분
      
         // 토큰 Builder
         String jwt = Jwts.builder()

@@ -57,6 +57,7 @@ public class SlsOrdController {
 		return mav;
 	}
 	
+	
 	//주문관리 등록(신규 주문등록)
 	@PostMapping("/ordManage/hdDtlInsert")
 	public void orderHdDtlInsert(@RequestBody SlsOrdInsertVO vo) {
@@ -69,11 +70,13 @@ public class SlsOrdController {
 		}
 	}
 	
+
 	//주문관리 등록(기존 주문내역에 추가 등록할 경우)
 	@PostMapping("/ordManage/dtlInsert")
 	public void orderDtlInsert(@RequestBody SlsOrdDtlVO vo) {
 		service.orderDtlAddInsert(vo);
 	}
+	
 	
 	//주문관리 헤더 수정
 	@PutMapping("/outManage/hd/update")
@@ -94,8 +97,8 @@ public class SlsOrdController {
 	@DeleteMapping("/ordManage/hd/delete")
 	public void orderHdDelete(@RequestBody SlsOrdHdVO vo) {
 		service.orderHdDelete(vo.getSlsOrdHdNo());
-		System.out.println(vo.getSlsOrdHdNo());
 	}
+	
 	//주문관리 디테일 삭제
 	@DeleteMapping("/ordManage/delete")
 	public void orderDelete(@RequestParam(value="delList[]") List<String> delList) {

@@ -204,32 +204,32 @@ $("document").ready(function () {
 
 
       }
-      if (runAjax){
-       $.ajax({
-         url: "ReturnInAndUp",
-         method: "POST",
-         headers: { "content-type": "application/json" },
-         data: JSON.stringify(param),
-         dataType: "text",
-         error: function (error, status, msg) {
-          Swal.fire({
-            icon: "warning", 
-            title: "에러 발생",
-            text : `상태코드 ${status}, 에러메시지 ${msg}`,
-            confirmButtonText: "확인"
-          })
-         },
-         success: function () {
-          submitComplete();
-           //완료된 행 삭제
-           $("input[name='chk']:checked").each(function (k, val) {
-             $(this).parent().parent().remove();
-           });
-           $("#allCheck").prop("checked", false);
-         }
-       })
-     }
-   });
+    });
+    if (runAjax){
+     $.ajax({
+       url: "ReturnInAndUp",
+       method: "POST",
+       headers: { "content-type": "application/json" },
+       data: JSON.stringify(param),
+       dataType: "text",
+       error: function (error, status, msg) {
+        Swal.fire({
+          icon: "warning", 
+          title: "에러 발생",
+          text : `상태코드 ${status}, 에러메시지 ${msg}`,
+          confirmButtonText: "확인"
+        })
+       },
+       success: function () {
+        submitComplete();
+         //완료된 행 삭제
+         $("input[name='chk']:checked").each(function (k, val) {
+           $(this).parent().parent().remove();
+         });
+         $("#allCheck").prop("checked", false);
+       }
+     })
+   }
 
 
  })

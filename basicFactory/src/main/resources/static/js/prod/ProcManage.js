@@ -84,7 +84,7 @@ $(document).ready(function () {
           dataType: "json",
           success: function (data) {
             let index = 0;
-
+            console.log("출력 데이터 ->" + JSON.stringify(data))
             for (obj of data) {
               index += 1;
               workinsertTableLastChildMakeRow(obj, index);
