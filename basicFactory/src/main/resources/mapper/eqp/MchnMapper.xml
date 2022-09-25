@@ -42,9 +42,9 @@
 	</insert>
 	
 	<update id="mchnUpdate">
-		UPDATE FROM BF_EQP_MCHN 
+		UPDATE BF_EQP_MCHN
 		SET ${updCol} = #{updCont}
-		WHERE MCHN_CODE = #{prikey}
+		WHERE MCHN_CODE = #{priKey}
 	</update>
 	
 	<delete id="mchnDelete">
