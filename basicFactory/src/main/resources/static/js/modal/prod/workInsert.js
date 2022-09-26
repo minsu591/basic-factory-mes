@@ -773,7 +773,7 @@ function startWork() {
     updateMchnStts(mchnCode, mchnStts);
 
     //작업 돌리기
-    work = setInterval(startinterval, 1);
+    work = setInterval(startinterval, 50);
 
     //save Check를 위해 어팬드
     $("#closeBtn").append(`<input type='hidden' id='saveCheck' value=0>`);
