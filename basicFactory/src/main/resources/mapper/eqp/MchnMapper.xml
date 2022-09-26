@@ -44,7 +44,7 @@
 	<update id="mchnUpdate">
 		UPDATE BF_EQP_MCHN
 		SET ${updCol} = #{updCont}
-		WHERE MCHN_CODE = #{priKey}
+		WHERE MCHN_CODE = #{prikey}
 	</update>
 	
 	<delete id="mchnDelete">

@@ -206,8 +206,7 @@ $("document").ready(function () {
         let inspcNo;
         for (obj of addList) {
           inspcNo = $(tr).find("td:eq(1)").text();
-          console.log("신규 추가등록!!");
-          addSaveAjax(tr);
+          addSaveAjax(obj);
         }
         //삭제용
         if (delList.length != 0) {
