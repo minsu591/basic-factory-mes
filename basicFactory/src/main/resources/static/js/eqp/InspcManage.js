@@ -58,6 +58,12 @@ $("document").ready(function () {
       }
     }
 
+    //
+    tdInfo.parent().children().eq(4).find("input").change(function () {
+      let minDate = $(this).val()
+      tdInfo.parent().children().eq(5).find("input").attr("min", minDate);
+    });
+
     //해당사항 없으면 return
     if (!flag) {
       return;
@@ -196,10 +202,15 @@ $("document").ready(function () {
           modifySaveAjax(obj);
         }
         //추가용
-        addList = table.find("tr[name='addTr']");
+        addList = $("#inspctbody").find("tr[name='addTr']");
+        let inspcNo;
         for (obj of addList) {
-          console.log("신규 추가등록!!");
-          addSaveAjax(tr);
+          inspcNo = $(tr).find("td:eq(1)").text();
+          addSaveAjax(obj);
+        }
+        //삭제용
+        if (delList.length != 0) {
+          deleteSaveAjax(delList);
         }
 
         Swal.fire({
@@ -283,7 +294,6 @@ $("document").ready(function () {
     let inspcSdate = $(tr).find("td:eq(4) input[type='date']").val();
     let inspcEdate = $(tr).find("td:eq(5) input[type='date']").val();
     let inspcActnPnt = $(tr).find("td:eq(6) option:selected").val();
-    console.log(inspcActnPnt);
     let inspcActnRsn = $(tr).find("td:eq(7)").text();
     let empId = $(tr).find("td:eq(8)").text();
     let inspcRemk = $(tr).find("td:eq(9)").text();

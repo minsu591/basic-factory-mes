@@ -49,7 +49,6 @@ $("document").ready(function () {
   //불량처리내역 조회 모달 내에 데이터 출력
   function modalMakeRow(obj) {
     let node = `<tr>
-                  <td><input type="checkbox"></td>
                   <td>${obj.fltyPrcsNo}</td>
                   <td>${obj.processPerfomNo}</td>
                   <td>${obj.finPrdCdCode}</td>
@@ -69,17 +68,17 @@ $("document").ready(function () {
   //tr 클릭 이벤트
   $("#findListFltyPrcstbody").on("click", "tr", function () {
     //테이블 상단 공통 요소 삽입
-    let fltyPrcsNo = $(this).find("td:eq(1)").text();
-    let processPerfomNo = $(this).find("td:eq(2)").text();
-    let finPrdCdCode = $(this).find("td:eq(3)").text();
-    let finPrdCdName = $(this).find("td:eq(4)").text();
-    let fltyPrcsVol = $(this).find("td:eq(5)").text();
-    let procCdName = $(this).find("td:eq(6)").text();
-    let mchnName = $(this).find("td:eq(7)").text();
-    let faultyCdCode = $(this).find("td:eq(8)").text();
-    let faultyName = $(this).find("td:eq(9)").text();
-    let fltyPrcsDate = $(this).find("td:eq(10)").text();
-    let empId = $(this).find("td:eq(11)").text();
+    let fltyPrcsNo = $(this).find("td:first").text();
+    let processPerfomNo = $(this).find("td:eq(1)").text();
+    let finPrdCdCode = $(this).find("td:eq(2)").text();
+    let finPrdCdName = $(this).find("td:eq(3)").text();
+    let fltyPrcsVol = $(this).find("td:eq(4)").text();
+    let procCdName = $(this).find("td:eq(5)").text();
+    let mchnName = $(this).find("td:eq(6)").text();
+    let faultyCdCode = $(this).find("td:eq(7)").text();
+    let faultyName = $(this).find("td:eq(8)").text();
+    let fltyPrcsDate = $(this).find("td:eq(9)").text();
+    let empId = $(this).find("td:eq(10)").text();
     let fltyPrcsRemk = $(this).find("td:last").text();
 
     $("#processPerfomNo").val(processPerfomNo);
@@ -99,16 +98,16 @@ $("document").ready(function () {
                     <td>${fltyPrcsRemk}</td>
                 </tr>`;
 
-  if ($("#fltyPrcstbody tr").length != 0) {
-    if (confirm("현재 수정한 내용이 모두 삭제됩니다") == true) {
-      $("#fltyPrcstbody tr").remove();
+    if ($("#fltyPrcstbody tr").length != 0) {
+      if (confirm("현재 수정한 내용이 모두 삭제됩니다") == true) {
+        $("#fltyPrcstbody tr").remove();
+        $("#fltyPrcstbody").append(node);
+        $("#findListFltyPrcsModal").modal("hide");
+      }
+    } else {
       $("#fltyPrcstbody").append(node);
       $("#findListFltyPrcsModal").modal("hide");
     }
-  } else {
-    $("#fltyPrcstbody").append(node);
-    $("#findListFltyPrcsModal").modal("hide");
-  }
 
 
 

@@ -357,7 +357,7 @@ function startWork() {
     //진행중으로 업데이트 실행
     updateMchnStts(mchnCode, mchnStts);
 
-    work = setInterval(startinterval, 100);
+    work = setInterval(startinterval, 50);
     //설비상태 다시 불러오기
     findMchnStts(finPrdCdCode);
   } else {
